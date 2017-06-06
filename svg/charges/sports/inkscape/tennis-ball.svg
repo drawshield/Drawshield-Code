@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="105" height="105" viewBox="0, 0, 35, 35">
+<metadata id="metadata3071">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <dc:title/>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>http://commons.wikimedia.org/wiki/User:Domaina</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g id="body">
+    <g>
+      <path d="M104.88,56.03 C102.94,84.955 77.886,106.781 48.952,104.885 C20.018,102.945 -1.86,77.9 0.125,48.931 C2.066,20.05 27.119,-1.82 56.009,0.12 C84.944,2.06 106.821,27.105 104.88,56.03" fill="#FFFF00"/>
+      <path d="M59.437,1.219 C54.104,1.486 49.753,4.535 47.437,7.312 C44.791,10.487 33.099,37.106 30.937,42.75 C28.732,48.394 23.436,58.299 16.687,64.031 C9.366,70.381 1.687,63.656 1.687,63.656 C3.143,70.623 10.005,72.257 17.062,68.906 C24.076,65.511 32.791,49.855 35.437,43.594 C38.084,37.333 46.738,17.681 50.531,9.656 C54.28,1.675 61.781,1.312 61.781,1.312 C60.982,1.23 60.199,1.181 59.437,1.219 z M104.625,46.5 C104.625,46.5 97.611,67.045 76.219,82.125 C54.915,97.249 45.094,104.438 45.094,104.438 L49.875,104.906 L78,85.312 C80.646,83.372 107.801,65.681 104.625,46.5 z" fill="#FFFFFF"/>
+    </g>
+  </g>
+</svg>

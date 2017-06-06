@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                xmlns:cc="http://creativecommons.org/ns#"
+                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                xmlns:svg="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="450"
+                height="360"
+                version="1.1" >
+  <metadata>
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource=""/>
+        <dc:title/>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>commons.wikimedia.org by Moktoipas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+<g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body">
+      <path fill="none" fill-rule="evenodd" stroke="inherit" stroke-width="2.79999995" d="M 242,56.33333 C 318.19047,242.84126 318.19047,242.84126 318.19047,242.84126 M 245.96825,79.3492 C 299.93651,252.36507 299.93651,252.36507 299.93651,252.36507 M 427.71428,184.90475 C 427.71428,184.90475 427.71428,184.90475 380.09524,61.09523 C 409.46032,185.69841 409.46032,185.69841 409.46032,185.69841 M 95.1746,52.36507 C 148.3492,261.09523 148.3492,261.09523 148.3492,261.09523 M 117.39682,240.46031 C 117.39682,240.46031 117.39682,240.46031 95.1746,143.63491 C 109.46031,236.49206 109.46031,236.49206 109.46031,236.49206 M 282.47619,257.92063 C 282.47619,257.92063 282.47619,257.92063 233.26984,168.23809 C 267.39682,256.33333 267.39682,256.33333 267.39682,256.33333" />
+      <path fill="none" fill-rule="evenodd" stroke="inherit" stroke-width="2.79999995" d="M 92,53.15872 C 132.47619,253.15872 132.47619,253.15872 132.47619,253.15872" />
+      <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 89.22733,8.1087 L 89.22733,268.83301 L 98.94082,268.83301 L 98.94082,8.1087 L 89.22733,8.1087 z " />
+      <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 228.09349,8.6699 L 228.09349,269.39421 L 237.80698,269.39421 L 237.80698,8.6699 L 228.09349,8.6699 z " />
+      <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 376.55961,9.7923 L 376.55961,270.51661 L 386.2731,270.51661 L 386.2731,9.7923 L 376.55961,9.7923 z " />
+      <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 18.516649,113.61353 L 120.0931,165.01178 L 125.87822,158.27743 L 23.740572,105.19559 L 18.516649,113.61353 z M 41.525687,32.62817 L 143.10214,78.02642 L 148.88726,71.29207 L 46.749611,24.21023 L 41.525687,32.62817 z M 184.06944,32.31175 L 291.64589,79.71 L 299.43101,72.97565 L 189.29336,23.89381 L 184.06944,32.31175 z M 149.83649,119.78668 L 275.58609,172.30732 L 281.37121,165.57297 L 156.74399,113.61352 L 149.83649,119.78668 z M 327.17438,43.53567 L 430.75083,90.93392 L 438.53595,84.19957 L 332.3983,35.11773 L 327.17438,43.53567 z " />
+      <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 71.180252,283.66997 C 148.07204,360.60309 304.60236,372.61227 396.2122,292.13845 L 396.2122,266.60233 C 288.47536,330.23008 197.05917,355.99325 71.180252,271.41954 L 71.180252,283.66997 z " />
+      <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 71.239422,279.89221 C 148.13121,356.82533 304.67679,348.83451 396.28663,268.36069 L 396.28663,242.82457 C 288.54979,306.45232 197.11834,352.21549 71.239422,267.64178 L 71.239422,279.89221 z " />
+      <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 71.304712,265.31408 C 148.1965,342.2472 304.70803,325.52203 396.31787,245.04821 L 396.31787,217.13698 C 290.82581,289.74386 197.18363,337.63736 71.304712,253.06365 L 71.304712,265.31408 z " />
+      <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 71.272072,250.7165 C 148.16386,327.64962 302.68418,320.60803 394.85521,216.00279 L 375.21336,216.00279 C 269.7213,288.60967 197.15099,323.03978 71.272072,238.46607 L 71.272072,250.7165 z " />
+      <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 70.543702,236.13837 C 156.97582,310.82671 271.09003,310.23717 377.29097,216.29465 L 353.72074,216.29465 C 245.9839,283.85077 188.56588,283.76903 97.4811,236.79544 L 70.543702,236.13837 z " />
+      <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 69.785492,240.59257 C 90.55173,242.14819 89.57235,241.97519 110.4705,243.73759 C 122.58061,258.1087 172.3255,275.82312 196.80546,278.05351 C 245.76537,282.5143 302.66804,263.23055 355.76851,216.25929 L 332.19828,216.25929 C 278.32986,250.03735 242.09191,272.5179 190.39809,265.38965 C 164.55118,261.82553 137.08509,250.29801 125.47007,234.13014 C 93.0908,231.43098 38.962482,227.45863 11.421118,227.78095 L 69.785492,240.59257 z " />
+      <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 409.89607,291.45504 L 409.89607,189.86243 L 395.50076,189.86243 L 395.50076,291.45504 L 409.89607,291.45504 z " />
+      <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 424.38019,291.25661 L 424.38019,189.664 L 409.98488,189.664 L 409.98488,291.25661 L 424.38019,291.25661 z " />
+      <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 429.26274,208.89967 L 327.95857,201.24972 L 326.8746,215.60416 L 428.17877,223.25411 L 429.26274,208.89967 z " />
+      <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 430.09883,196.46522 L 328.79466,188.81527 L 327.71069,203.16971 L 429.01486,210.81966 L 430.09883,196.46522 z " />
+      <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 431.09089,184.33029 L 329.78672,176.68034 L 328.70275,191.03478 L 430.00692,198.68473 L 431.09089,184.33029 z " />
+      </g>
+<g  style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="sails">
+        <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 23.2,111 C -0.975,144 28.7,232 93.5,240 81.3,206 71.5,190 120,157 L 23.2,111 z M 49.7,25.9 C 24.1,58 49.8,147 114,158 104,124 94.4,107 144,76.6 L 49.7,25.9 z M 194,27.4 C 170,60.6 162,142 236,153 223,119 243,107 291,73.8 L 194,27.4 z M 158,121 c -58.2,41 0,149 65,157 -12,-34 1,-75 49,-107 L 158,121 z M 335,40.2 C 311,73.4 324,179 389,188 377,154 383,119 431,86.6 L 335,40.2 z" />
+      </g><g  style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="pennants">
+        <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="M 37.4,15 C 58.5,13.2 80.4,13.9 93.8,11.2 97.2,12.8 95.6,27 95,30.1 92.8,32.6 62.5,23.7 37.4,15 z" />
+        <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="m 174,13.3 c 21,-1.8 45,1.2 59,-1.5 3,1.6 -1,13.5 -1,16.6 -3,2.4 -33,-6.5 -58,-15.1 z" />
+        <path  fill-rule="evenodd" stroke="inherit" stroke-width="3" d="m 326,16.5 c 21,-1.8 44,-1.2 58,-3.9 3,1.6 0,15.8 -1,19 -2,2.4 -32,-6.5 -57,-15.1 z" />
+      </g></svg>

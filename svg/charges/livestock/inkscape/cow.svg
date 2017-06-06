@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                xmlns:cc="http://creativecommons.org/ns#"
+                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                xmlns:svg="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="511.35797"
+                height="361.78601"
+                version="1.1" >
+  <metadata>
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource=""/>
+        <dc:title/>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>commons.wikimedia.org by Peter17</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+<g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body">
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="M 37.8,61.6 C 25.4,53.4 33.6,45.1 21.2,49.2 c 0,12.4 4.2,20.7 12.4,29 4.2,4.1 4.2,-12.4 4.2,-16.6 l 0,0 z" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.12999999999999990pt" d="m 463,194 c 29,-13 29,-46 -12,-66 -42,-21 12,66 12,66 l 0,0 z m 4,16 c 9,21 13,17 21,21 8,4 8,16 8,29 0,25 8,62 13,74 0,8 -13,13 -13,0 -4,-4 -4,-4 -8,4 0,13 -8,17 -21,17 -8,0 4,-13 -8,-4 l -4,0 c -4,-4 8,-13 16,-21 9,-12 9,-37 5,-45 -9,-9 -13,-17 -13,-25 0,-8 -8,-8 -16,-17 -13,-8 -17,-8 -21,0 -4,13 4,21 4,33 -4,13 -16,9 -25,21 -8,12 -45,45 -45,45 0,0 -8,-4 -12,0 0,9 -17,17 -25,17 l 0,-8 -13,0 c 0,-4 4,-9 9,-17 8,-8 16,-4 24,-12 9,-4 21,-17 29,-33 9,-13 9,-25 4,-29 -4,-8 -8,-17 -8,-17 0,0 -12,0 -12,-8 0,-8 -54,17 -62,21 -8,4 -29,8 -29,8 0,0 4,45 8,54 0,12 4,20 -8,16 0,-8 -8,-4 -8,4 0,13 -9,21 -9,21 l -20,0 0,-12 -9,4 c -4,0 0,-9 9,-13 8,-12 16,-37 16,-49 0,-13 -8,-25 -8,-25 0,0 -41,0 -45,-4 -5,-8 -5,0 -13,8 -8,4 -20,8 -33,8 -8,0 -25,17 -33,17 -12.3,0 -12.3,4 -12.3,16 0,9 4.3,42 -8.2,29 -8.3,-4 8.2,21 -12.4,21 -12.4,0 -20.7,-4 -16.6,-8 l -8.2,0 c 0,-9 0,-13 4.1,-17 4.1,-16 24.8,-29 24.8,-37 0,-8 4.1,-16 16.5,-29 12.3,-8 29.3,-25 37.3,-33 12,-4 8,-12 4,-16 -4,-9 -45.4,-46 -49.5,-50 -4.2,-8 -12.4,0 -20.7,0 -8.3,0 -12.4,12 -24.8,17 -8.2,4 -20.6,0 -28.9,0 C 13,181 13,173 4.73,169 0.6,161 0.6,161 8.86,152 17.1,148 29.5,124 25.4,119 c -4.2,-4 -4.2,-12 0,-16 4.1,-4.2 8.2,-16.6 8.2,-24.8 0,-4.2 4.2,-16.6 12.4,-16.6 4.2,0 37.2,-4.1 45.5,4.2 8.2,4.1 66.5,28.9 82.5,28.9 21,0 70,-4.2 79,-4.2 8,4.2 95,4.2 107,4.2 12,-4.2 37,-12.4 54,-8.3 20,4.1 29,4.1 37,16.6 8,12 20,21 33,25 33,24 25,70 -17,82 l 0,0 0,0 0,0 0,0 0,0 0,0 0,0 z" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 240,90.5 c -12,12.5 -21,20.5 -4,28.5 4,0 4,0 4,5" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 418,86.4 c 0,4.1 12,16.6 16,20.6" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 414,115 c 0,13 0,21 0,29 4,13 4,21 0,29 -5,4 -5,4 -5,8" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 178,198 c 0,12 13,25 21,33 4,4 8,8 16,12 0,0 17,9 17,9 4,4 0,8 4,12" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 145,227 c 8,8 21,12 29,20 4,0 8,5 17,9" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 376,198 c 9,8 17,16 25,25 8,4 21,16 29,16" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 352,231 c 12,0 24,0 33,-4 4,0 16,-4 12,-8" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 364,231 c 8,4 17,12 25,16 8,0 16,-4 20,0 0,0 9,5 9,5 4,0 8,0 8,0" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 385,243 c 0,4 4,9 4,13" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 401,247 c 0,5 4,9 4,13" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 418,252 c 0,0 0,4 0,4" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 162,119 c 0,9 4,17 0,25 0,8 -4,13 -4,21 0,4 -9,29 -9,33 -4,4 0,8 0,8" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 104,144 c 0,13 -12.5,17 -20.8,21" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 91.5,107 c -12.4,21 -37.2,0 -37.2,17 0,4 20.6,4 20.6,-5" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 70.8,124 c 0,8 -8.3,8 -12.4,12" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 46,78.2 c 4.2,0 12.4,0 16.5,0 0,4.1 4.2,8.2 4.2,4.1" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 25.4,119 c 4.1,0 8.2,0 8.2,0" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 46,186 c 16.5,0 8.3,-25 8.3,-25" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 29.5,161 c -4.1,8 -16.5,12 0,12 0,0 4.1,-4 4.1,-4" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 265,260 0,-62" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 463,194 c -29,4 -70,0 -87,-13 -20,-16 -49,-49 -70,-45 -20,4 -49,4 -37,12 12,9 25,17 37,13 8,-4 -53,-4 -33,4 21,8 37,8 46,4 8,-4 12,-8 29,4 16,13 41,33 57,37 17,0 62,0 62,0 l 4,0" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 265,144 c 16,8 33,4 49,4" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 463,338 c 8,0 17,0 25,0" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 319,347 c 4,0 8,-9 12,-9" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 319,334 c 4,0 33,4 33,8" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 228,338 c 12,9 20,4 29,-4" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 58.4,334 c 12.4,4 20.7,4 28.9,4" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 66.7,338 c 0,4 -4.2,4 0,13" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 99.7,198 16.3,4" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 112,231 a 4.3,7.85 0 1 1 -8,0 4.3,7.85 0 1 1 8,0 z" />
+      <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 124,82.3 c 13,8.2 34,4.1 50,0 17,-4.1 -25,32.7 -66,8.2 -45.5,-28.9 16,-8.2 16,-8.2 l 0,0 z" />
+      <path fill="none" stroke="inherit" stroke-width="4.13pt" d="m 62.5,119 c 0,5 4.2,5 4.2,5" />
+      </g>
+<g  style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="horned">
+        <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 158,3.82 c -21,0 -29,0 -34,12.38 -4,12.4 -4,41.3 -12,41.3 -12.3,4.1 -16.4,4.1 -16.4,8.3 0,8.2 12.4,8.2 16.4,12.4 8,-4.2 17,-8.3 17,-12.4 8,-4.2 8,-12.4 8,-24.8 0,-8.3 0,-16.5 4,-24.8 8,-4.1 12,-12.38 17,-12.38 l 0,0 0,0 z" />
+        <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="M 8.86,3.82 C 29.5,3.82 41.9,7.95 46,24.5 46,36.9 62.5,49.2 66.7,57.5 70.8,69.9 46,57.5 41.9,65.8 37.8,74 29.5,36.9 29.5,32.7 25.4,12.1 8.86,3.82 8.86,3.82 l 0,0 z" />
+      </g><g  style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="collared">
+        <path fill-rule="evenodd" stroke="inherit" stroke-width="4.13pt" d="m 137,98.8 c 8,41.2 -17,78.2 -25,82.2 -8,5 -16.4,-8 -16.4,-8 0,0 0,13 4.1,21 4.3,4 -8.2,25 -8.2,33 0,4 37.5,4 32.5,0 -4,-8 -8,-25 -8,-25 4,-8 54,-29 42,-103.2 -5,0 -13,0 -21,0 l 0,0 z" />
+      </g></svg>

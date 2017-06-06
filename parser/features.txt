@@ -1,0 +1,96 @@
+array ( '(flighted|feathered)', 'feathered' ), // arrow/feature
+array ( '(flowered|flowers|buds)', 'flowers' ), // columbine/feature
+array ( '(jel|jow)lopped', 'jelloped' ), // cock/feature
+array ( '(jel|jow)lopped', 'jelloped' ), // cockatrice/feature
+array ( '(of|de) # ?points', 'points' ), // mullet/modifier
+array ( '(on|with) a grie?ce of # steps?', 'mounted' ), // calvary/modifier
+array ( '(on|with) a grie?ce of # steps?', 'mounted' ), // patriarchal/modifier
+array ( '?(her|the) sails furled ?and ?shrouded', 'furledsail' ), // ship/modifier
+array ( '?(her|the) sails set', 'fullsail' ), // ship/modifier
+array ( '?holding ?a comb ?in ?(her|the|their) ?(right|left) ?hand ', 'comb' ), // mermaid/feature
+array ( '?holding ?a mirror ?in ?(her|the|their) ?(right|left) ?hand ', 'mirror' ), // mermaid/feature
+array ( '?imperially crowned', 'crowned' ), // heart/feature
+array ( '?in ?his glory', '?in ?his glory' ), // sun/modifier
+array ( '?mounted on # (degree|step|ascent|grice|griece)s?', 'mounted' ), // calvary/modifier
+array ( '?mounted on # (degree|step|ascent|grice|griece)s?', 'mounted' ), // patriarchal/modifier
+array ( '?the (point|head)s? ?steeled', 'point' ), // spear/feature
+array ( '?the ?vine stick', 'stick' ), // vine/feature
+array ( '?the eyes of ?the tail', 'taileyes' ), // peacock/feature
+array ( '?with pennants', 'pennants' ), // ship/feature
+array ( '?with sails', 'sails' ), // ship/feature
+array ( 'at anchor', 'anchored' ), // ship/modifier
+array ( 'attired', 'antlers' ), // stag/feature
+array ( 'banner', 'banner' ), // paschal-lamb/feature
+array ( 'barry wavy of # argent ?and azure', 'barry wavy of # argent ?and azure' ), // fountain/modifier
+array ( 'cadent ?dexter', 'stance' ), // lion/modifier
+array ( 'clasps?e?d?', 'clasped' ), // book/feature
+array ( 'collared ?and ?belled', 'collared' ), // cow/feature
+array ( 'cracking ?a nuts?', 'cracking ?a nuts?' ), // squirrel/modifier
+array ( 'plenitude', 'direction' ), // moon/modifier full
+array ( 'crescent', 'direction' ), // moon/modifier
+array ( 'crined', 'hair' ), // mermaid/feature
+array ( 'decrescent', 'direction' ), // moon/modifier
+array ( 'drooping', 'drooping' ), // columbine/modifier
+array ( 'ensigned with a cross', 'crossed' ), // orb/feature
+array ( 'eradicated', 'eradicated' ), // apple-tree/modifier
+array ( 'finned', 'finned' ), // salmon/modifier
+array ( 'flammant', 'flammant' ), // heart/feature
+array ( 'flutes?d?', 'fluted' ), // scallop/feature
+array ( 'garnishe?d?', 'garnished' ), // book/feature
+array ( 'gemmed', 'gemmed' ), // gem-ring/feature
+array ( 'hafted', 'hafted' ), // spear/feature
+array ( 'hauriant ', 'hauriant ' ), // salmon/modifier
+array ( 'holding a stone ?in ?the ?dexter ?foot', 'holding a stone ?in ?the ?dexter ?foot' ), // crane/modifier
+array ( 'hooped', 'hooped' ), // barrel/feature
+array ( 'horned ?and ?belled', 'horned' ), // cow/feature
+array ( 'in # places', 'places' ), // fireball/modifier
+array ( 'in (his|their) pride', 'in (his|their) pride' ), // peacock/modifier
+array ( 'in ?her piety', 'in ?her piety' ), // pelican/modifier
+array ( 'in ?their piety', 'in ?their piety' ), // pelican/modifier
+array ( 'in a (flame|fire)', 'enflamed' ), // salamander/feature
+array ( 'in flames', 'enflamed' ), // phoenix/feature
+array ( 'in full sail', 'fullsail' ), // ship/modifier
+array ( 'in her complement', 'in her complement' ), // moon/modifier
+array ( 'in increment', 'direction' ), // moon/modifier
+array ( 'in plenitude', 'in plenitude' ), // moon/modifier
+array ( 'increscent', 'direction' ), // moon/modifier
+array ( 'masoned', 'masoned' ), // mural/feature
+array ( 'nest', 'nest' ), // pelican/feature
+array ( 'of # masts', 'masted' ), // ship/modifier
+array ( 'of (st|saint) paul', 'swordtype' ), // sword/modifier
+array ( 'of pretence', 'of pretence' ), // escutcheon/modifier
+array ( 'rising', 'variant' ), // crow/modifier
+array ( 'sans wings', 'wingless' ), // griffin/modifier
+array ( 'slips crossed', 'slips crossed' ), // columbine/modifier
+array ( 'tail (fourche|forked) ?in saltire reversed', 'tail-type' ), // lion/modifier
+array ( 'tail (fourche|forked) ?in saltire', 'tail-type' ), // lion/modifier
+array ( 'tail (fourche|forked)', 'tail-type' ), // lion/modifier
+array ( 'tail nowed', 'tail-type' ), // lion/modifier
+array ( 'tailed', 'tailed' ), // griffin/modifier
+array ( 'thrust through with a sword', '' ), // crane/modifier
+array ( 'triple towered', 'triple towered' ), // castle/modifier
+array ( 'volant', 'variant' ), // crow/modifier
+array ( 'vulned', 'vulned' ), // pelican/feature
+array ( 'wings displayed', 'wings displayed' ), // pelican/modifier
+array ( 'without ?the head', '' ), // crane/modifier
+accrued // tree/modifier
+acorned // tree/feature
+a la cuisse // leg/modifier
+anchored|anchory|ancre|ancred // cross modifier
+ancient // ship or tent feature
+app?aume|appalmed // hand modifier
+armed at all points|armed cap a pie // man modifier
+at gaze // stag modifier
+attired // stag feature
+aulned // barley feature
+belled // bird feature
+blasted // tree modifier
+feathered|flighted // arrow feature
+finned // fish feature
+fluke // anchor feature ??
+foliated // plant mod
+forcene // horse mod
+gad|gadlyng // gauntlet feature
+grafted in? // unclear? is this is a modifier?
+hull // ship feature
+j(e|ow)lopped|wattled // cock modifier

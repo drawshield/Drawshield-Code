@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                xmlns:cc="http://creativecommons.org/ns#"
+                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                xmlns:svg="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="55"
+                height="88"
+                version="1.1" >
+  <metadata>
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource=""/>
+        <dc:title/>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>(Drawshield internal)</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+<g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><path d="m 26.4,84 c -2.1,-2 -2.9,-4 -2.9,-6 0,-6 4.4,-10 9.5,-10 5.1,0 9.5,4 9.5,10 0,5 -4.4,9 -9.5,9 -2.7,0 -4.4,-1 -6.6,-3 z m 5.3,-29 c 0.3,-2 2.4,-6 4.6,-10 4.4,-7 5.8,-12 4.8,-20 -1.4,-10 -8.8,-14 -19.3,-8 -6.5,3 -7.4,5 -2.7,6 7,1 9.9,10 4.9,15 -1.8,1 -3.5,2 -6.9,2 -3.7,0 -4.8,0 -7,-3 C 4.15,30 8.32,18 19,13 c 3.3,-2 5.7,-2 14,-2 9,0 10.6,0 15.8,2 8.2,4 11.2,9 11.2,17 0,8 -2.7,11 -13.2,17 -8.4,4 -10.9,6 -11.5,10 -0.2,1 -1.2,2 -2.2,2 -1.7,0 -1.8,0 -1.4,-4 z"/></g>
+</svg>

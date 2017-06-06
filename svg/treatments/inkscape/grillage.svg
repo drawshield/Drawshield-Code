@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="200" height="200" viewBox="0, 0, 200, 200">
+  <g id="Fill" transform="translate(0, 0)">
+    <path d="M90,-0 L110,-0 L110,86 L90,86 z M90,200 L110,200 L110,114 L90,114 z M190,186 L200,186 L200,14 L190,14 z M-0,187 L10,187 L10,15 L-0,15 z M186,90 L186,110 L14,110 L14,90 z M86,190 L86,200 L-0,200 L-0,190 z M200,190 L200,200 L114,200 L114,190 z M86,-0 L86,10 L-0,10 L-0,-0 z M200,-0 L200,10 L114,10 L114,-0 z" />
+  </g>
+</svg>

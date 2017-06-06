@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "dbmaint"
+AuthUserFile "/home/karlwilc/.htpasswds/public_html/include/db/passwd"
+require valid-user

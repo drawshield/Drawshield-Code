@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                xmlns:cc="http://creativecommons.org/ns#"
+                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                xmlns:svg="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="46"
+                height="80"
+                version="1.1" >
+  <metadata>
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource=""/>
+        <dc:title/>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>(Drawshield internal)</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+<g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><g /></g>
+<g  style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="handle"><path  stroke-width="1" d="M 35.54,9.643 C 33.4,31.61 36.07,50.36 35.54,61.61 30.36,67.5 26.43,75.53 30,79.11 33.57,82.68 44.11,76.07 45.18,70.54 46.07,42.86 43.03,29.29 44.65,10.35 40.71,4.286 38.57,7.143 35.54,9.643 z" />
+    <g stroke-width="1" fill="none" >
+    <path  d="m 42.5,10.71 c 0.18,7.68 1.79,57.5 0.72,59.64 -1.07,2.15 -5.72,5.54 -5.72,5.54"  />
+    </g></g><g  style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="blade"><path stroke-width="1" d="M 45.71,11.61 35.18,11.25 c 0,0 -25.08,0.87 -26.787,-10.7142 C 1.429,1.607 -0.8929,26.61 6.964,36.43 22.32,27.5 17.68,26.43 34.82,23.57 c 0,0 10.72,-0.89 10.72,-0.89 l 0.17,-11.07 z" />
+           <path stroke-width="1" d="m 33.93,11.43 0,12.32" /></g></svg>
