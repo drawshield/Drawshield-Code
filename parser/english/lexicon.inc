@@ -112,7 +112,7 @@ class languageDB extends lexicon {
         array ( '(seventh|7th|vii|7|seven)', 7 ),                                                 
         array ( '(eighth|8th|viii|8|eight)', 8 ),
       ),
-      self::SEMICOLON => array ( ';', '\\.' ), // need to escape '.' as this is regex special character
+      self::SEMICOLON => array ( ':', ';', '\\.' ), // need to escape '.' as this is regex special character
       self::COMMA => array ( ',' ),
       self::WORD_OF => array ( 'of' ),
       self::WORD_ON => array ( 'on' ),

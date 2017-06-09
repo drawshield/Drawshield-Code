@@ -21,7 +21,8 @@ function splitStyle ( $styles ) {
     list($setting,$value) = explode(':',$style);
     switch($setting) {
       case 'fill': // Any of the "primary" colours are just placeholders, to be replaced by the charge colour
-        if ( !in_array( $value, array ( '#ff0000', '#00ff00', '#0000ff', '#ffff00')) ) $retval .= 'fill="' . $value . '" ';
+        if ( !in_array( $value, array ( '#ff0000', '#00ff00', '#0000ff', '#ffff00',
+                                        'rgb(255,0,0)', 'rgb(255,255,0)', 'rgb(0,255,0)', 'rgb(0,0,255)')) ) $retval .= 'fill="' . $value . '" ';
         break; // any other colour is left as it is
       case 'fill-opacity':
       case 'opacity':

@@ -35,8 +35,10 @@ include "utilities.inc";
 
 
 function region ( $action, $region = null ) {
-  global $svg_region;
+  global $svg_region, $messages;
   static $stack = array();
+  
+//  $messages->addMessage('internal', 'region: ' . $action . " " . $region);
 
   switch ( $action ) {
     case 'push':
@@ -78,18 +80,39 @@ function chiefPresent() {
 
 function choose_fit( $choices ) {
   global $svg_region, $svg_chief, $messages;
+  $retval = null;
+  $found = null;
+  
+  //  $messages->addMessage('internal', "Searching for $svg_region + $svg_chief");
 
-  if ( !is_array($choices) ) return $choices;
-  // Look for chief/no chief first
-  if ( array_key_exists($svg_chief, $choices) ) return $choices[$svg_chief];
-  // Look for region alone next
-  if ( array_key_exists($svg_region, $choices) ) return $choices[$svg_region];
-  // Last resort, look for the combination
+
+  if ( !is_array($choices) ) {
+      $retval = $choices;
+      $found = "(fixed)";
+  }
+    // Most detailed, look for the combination
   $combo = $svg_region . $svg_chief;
-  if ( array_key_exists($combo, $choices) ) return $choices[$combo];
+  if ( array_key_exists($combo, $choices) ) {
+      $retval =  $choices[$combo];
+      $found = $combo;
+  }
+  // Look for chief/no chief first
+  if ( array_key_exists($svg_chief, $choices) ) {
+      $retval =  $choices[$svg_chief];
+      $found = $svg_chief;
+  }
+  // Look for region alone next
+  if ( array_key_exists($svg_region, $choices) ) {
+      $retval =  $choices[$svg_region];
+      $found = $svg_region;
+  }
+
+  if ( $retval == null ) {
+      $messages->addMessage('internal', 'Cannot find placement for region');     
+  }
+  
   // raise error
-  $messages->addMessage('internal', 'Cannot find placement for region');
-  return null;
+  return $retval;
 }
 
 

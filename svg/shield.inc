@@ -143,7 +143,7 @@ function makequartered4( DOMNodeList $children, $this_AR ) {
 
   // Default values ( for 10:12 )
   $child_ARs = array ( '10:10', '10:10', '10:14', '10:14' );
-  $child_Scales = array ( '0.5', '0.5', '0.5834', '0.5834' );
+  $child_Scales = array ( '0.5', '0.5', '0.5843', '0.5843' );
   $xShift = 0;
 
   switch ( $this_AR ) {

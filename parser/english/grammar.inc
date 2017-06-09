@@ -135,9 +135,9 @@ class englishGrammar extends grammar {
      */
     $node1 = null;
     //$node1 = builtin(); // TODO re-instate built in database
-    if ( $node1 == null ) $node1 = self::simple();
     if ( $node1 == null ) $node1 = self::quartered();
     if ( $node1 == null ) $node1 = self::halved();
+    if ( $node1 == null ) $node1 = self::simple();
     if ( $node1 == null ) {
       $node1 = $this->schema->makeNode(blazonML::E_SHIELD);
       $node1->appendChild($this->schema->makeNode(blazonML::E_MISSING));
@@ -602,6 +602,7 @@ class englishGrammar extends grammar {
   }
 
   protected function ordinary() {
+      $insideMod = null;
     $ord = $this->schema->makeNode(blazonML::E_ORDINARY);
     $state = self::save();
     $found = true;
@@ -653,6 +654,8 @@ class englishGrammar extends grammar {
       self::restore($state);
       return null;
     }
+    // Bit of a fudge, we are always "within" a bordure
+    if ($keyterm == "bordure") {$insideMod = null;}
 
 // TODO check makeMod everywhere, does it need $this->phraseMatcher->getValue() as 2nd arg?
     $foundTinc = false;
@@ -693,7 +696,7 @@ class englishGrammar extends grammar {
     }
     // Does this ordinary go "between" some charges?
     $keyterm = null;
-    if ( isset($insideMod) or ($keyterm = self::find(languageDB::BETWEEN)) ) {
+    if ( ($insideMod != null) or ($keyterm = self::find(languageDB::BETWEEN))  ) {
       if ( !isset($insideMod) ) $insideMod = $this->schema->makeMod(languageDB::BETWEEN,null,$keyterm,self::tokens());
       if ( ($obj = self::charge(false,true,true)) or ($obj = self::ordinary()) ) {
         $insideMod->appendChild($obj);
@@ -743,6 +746,7 @@ class englishGrammar extends grammar {
 
     if ( ($marshall = self::find(languageDB::QUARTERED)) != null ) {
       $quartered = $this->schema->makeNode(blazonML::E_COMPLEX, array( 'keyterm' => blazonML::V_QUARTERED), self::tokens());
+      self::ignore(languageDB::SEMICOLON);
       $foundQuarter = false;
       do { // Look for quarters
         $found = false;

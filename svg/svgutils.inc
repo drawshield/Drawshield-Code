@@ -46,10 +46,16 @@ function apply_tincture ( DOMElement $tincture, $object, $chg_size = '',
         $rot = '0', $rev = false, $inv = false ) {
   global $_SERVER, $messages, $xpath;
   $retval = '';
-	
+
 	$patTrans = '';
 	$object_type = $tincture->parentNode->nodeName;
-  $objectKeyterm = $tincture->parentNode->getAttribute('keyterm');
+        $objectKeyterm = "";
+        if ( $tincture->parentNode !== null) {
+            $objectKeyterm = $tincture->parentNode->getAttribute('keyterm'); 
+        } else {
+            return $object;
+        }
+
 	if ( $object_type == 'charge' and $chg_size != '' ) // We make some things a wee bit smaller if on a charge, just for looks
 	{
 	  list($chgX,$chgY) = explode(',', $chg_size);

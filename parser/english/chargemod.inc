@@ -110,7 +110,7 @@
       array ( '?charged (at|on) each ?(point|corner|limb) ?with', 'charged-with' ),
       array ( 'surmounted (by|with|of)', 'charged-with' ),
       array ( '(en)?circled (by|with|of)', 'encircled-by' ),
-      array ( 'within', 'encircled-by' ),
+      array ( 'all within', 'encircled-by' ),
       array ( 'standing (up)?on', 'standing-on' ),
       array ( 'resting (each|its|his|her) claws? (up)?on', 'standing-on' ),
       array ( 'en(toured|vironed|vironee|veloped) (by|with|of)', 'encircled-by' ),
