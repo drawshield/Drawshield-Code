@@ -11,12 +11,8 @@
  * Time: 14:47
  */
 
-// If head only, switch to appropriate SVG file
-if ( existModifierWithKeyterm($node, 'head-only' )) {
-  $file =  'inkscape/' . $chargeKey . '-head.svg';
-  if ( file_exists($folder . $file)) {
-    existModifierWithKeyterm($node,'head-only', true); // mark as used
-    $charge['file'] = $file;
-  }
-}
+
+$charge['file'] = chose_by_modifier($node, $folder, $chargeKey, array ( 
+		'head-only' => 'head'
+	));
 

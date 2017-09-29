@@ -13,6 +13,6 @@
 
 $charge['orient_to_ordinary'] = true;
 if (!array_key_exists('file',$charge)) {
-  $charge['file'] = 'inkscape/knot.svg';
+  $charge['file'] = 'knot.svg';
   $messages->addMessage('warning','generic knot substituted for ' . $chargeKey );
 }

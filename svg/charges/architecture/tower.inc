@@ -15,4 +15,4 @@
 // tower
 
   if ( existModifierWithKeyterm($node, 'triple-tower'))
-    $charge['file'] = 'inkscape/tower-triple.svg';
+    $charge['file'] = 'tower-triple.svg';

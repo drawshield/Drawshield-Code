@@ -16,5 +16,5 @@
 
   if  ( $num = getModifierValueByKeyterm($node,'on-steps') ) {
     if ($num > 9) $num = 9;
-    $charge['file'] = "inkscape/calvary-$num.svg";
+    $charge['file'] = "calvary-$num.svg";
   }

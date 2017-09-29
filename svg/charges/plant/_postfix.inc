@@ -13,6 +13,6 @@
 $charge['orient_to_ordinary'] = true;
 
 if (!array_key_exists('file',$charge)) {
-  $charge['file'] = 'inkscape/thistle.svg';
+  $charge['file'] = 'thistle.svg';
   $messages->addMessage('warning','thistle substituted for ' . $chargeKey );
 }

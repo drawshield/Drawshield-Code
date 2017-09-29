@@ -18,7 +18,7 @@
 $stance = 'rampant';
 $looking = 'normal';
 $tail = 'normal';
-$charge['file'] = 'inkscape/lion-courant.svg';
+$charge['file'] = 'lion-courant.svg';
 
 $mods = getModifiersByTypeAsArray($node,'chargemod'); // Get array of modifiers
 // Override assumptions if found
@@ -66,15 +66,15 @@ foreach ( $mods as $key => $value ) {
 if ( existModifierWithKeyterm($node,'head-only'))
   $stance = 'head-only';
 
-$filename = "inkscape/lion-$stance-$looking-$tail.svg";
+$filename = "lion-$stance-$looking-$tail.svg";
 if ( file_exists($folder . $filename) )
   $charge['file'] = $filename;
 else {
-  $filename = "inkscape/lion-$stance-$looking.svg";
+  $filename = "lion-$stance-$looking.svg";
   if ( file_exists($folder . $filename) )
     $charge['file'] = $filename;
   else {
-    $filename = "inkscape/lion-$stance.svg";
+    $filename = "lion-$stance.svg";
     if ( file_exists($folder . $filename) )
       $charge['file'] = $filename;
     else {

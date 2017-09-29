@@ -14,4 +14,4 @@
 
 $charge['orient_to_ordinary'] = true;
 
-if (existModifierWithKeyterm($node,'voided')) $charge['file'] = 'inkscape/lozenge-voided.svg';
+if (existModifierWithKeyterm($node,'voided')) $charge['file'] = 'lozenge-voided.svg';

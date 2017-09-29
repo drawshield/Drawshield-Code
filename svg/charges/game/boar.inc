@@ -12,9 +12,9 @@
  */
 
 if (existModifierWithKeyterm($node, 'head-only')) {
-    $charge['file'] = 'inkscape/boar-head.svg';
+    $charge['file'] = 'boar-head.svg';
 } else if (existModifierWithKeyterm($node, 'rampant')) {
-    $charge['file'] = 'inkscape/boar-rampant.svg';
+    $charge['file'] = 'boar-rampant.svg';
 } else {
-    $charge['file'] = 'inkscape/boar.svg';
+    $charge['file'] = 'boar.svg';
 }

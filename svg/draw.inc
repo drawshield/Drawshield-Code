@@ -92,17 +92,17 @@ function choose_fit( $choices ) {
   }
     // Most detailed, look for the combination
   $combo = $svg_region . $svg_chief;
-  if ( array_key_exists($combo, $choices) ) {
+  if ( $found == null && array_key_exists($combo, $choices) ) {
       $retval =  $choices[$combo];
       $found = $combo;
   }
   // Look for chief/no chief first
-  if ( array_key_exists($svg_chief, $choices) ) {
+  if ( $found == null && array_key_exists($svg_chief, $choices) ) {
       $retval =  $choices[$svg_chief];
       $found = $svg_chief;
   }
   // Look for region alone next
-  if ( array_key_exists($svg_region, $choices) ) {
+  if ( $found == null && array_key_exists($svg_region, $choices) ) {
       $retval =  $choices[$svg_region];
       $found = $svg_region;
   }
@@ -147,10 +147,11 @@ function draw() {
   global $version;
   global $messages;
 
+  $outline = "m 0,0 v 800 c -2.5063876,43.11115 1.2341419,84.33503 21.489586,125.13639 20.255443,40.80137 53.477613,79.98631 98.039434,115.63581 44.56181,35.6494 100.44867,67.7517 164.92346,94.7345 64.47479,26.9828 137.51639,48.8374 215.54752,64.4933 78.03113,-15.6559 151.07273,-37.5105 215.54752,-64.4933 64.47479,-26.9828 120.36165,-59.0851 164.92346,-94.7345 44.56182,-35.6495 77.78399,-74.83444 98.03943,-115.63581 C 998.76586,884.33503 1000.1453,841.93063 1000,800 V 0 Z";
+
 
   $infobox = new infobox();
   $messages = new messageStore($dom);
-
   // Apply heraldic knowledge!
   // rewrite();
 
@@ -177,12 +178,12 @@ function draw() {
       // other elements for future expansion
     }
   }
-  $clipShield = add_def('mask', '<path fill="#FFFFFF" d="m 0,0 0,800 c -6.0479349,41.93063 1.2341419,84.33503 21.489586,125.13639 20.255443,40.80137 53.477613,79.98631 98.039434,115.63581 44.56181,35.6494 100.44867,67.7517 164.92346,94.7345 64.47479,26.9828 137.51639,48.8374 215.54752,64.4933 78.03113,-15.6559 151.07273,-37.5105 215.54752,-64.4933 64.47479,-26.9828 120.36165,-59.0851 164.92346,-94.7345 44.56182,-35.6495 77.78399,-74.83444 98.03943,-115.63581 C 998.76586,884.33503 1006.0479,841.93063 1000,800 l 0,-800 z" />' );
+  $clipShield = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />' );
   // Add effects (if any) and Clip to shield shape
   if ( ($options['asFile'] and $options['saveFormat'] != 'svg') or (!$options['asFile'] and $options['outputFormat'] != 'svg')) {
     $bodyfill = add_def('pattern width="100%" height="100%" patternUnits="objectBoundingBox"', $body . getEffect('above') );
     $body = add_def(); // Note, we reset body here
-    $body .= '<path fill="url(#' . $bodyfill . ')" ' . getEffect('filter') . ' d="m 0,0 0,800 c -6.0479349,41.93063 1.2341419,84.33503 21.489586,125.13639 20.255443,40.80137 53.477613,79.98631 98.039434,115.63581 44.56181,35.6494 100.44867,67.7517 164.92346,94.7345 64.47479,26.9828 137.51639,48.8374 215.54752,64.4933 78.03113,-15.6559 151.07273,-37.5105 215.54752,-64.4933 64.47479,-26.9828 120.36165,-59.0851 164.92346,-94.7345 44.56182,-35.6495 77.78399,-74.83444 98.03943,-115.63581 C 998.76586,884.33503 1006.0479,841.93063 1000,800 l 0,-800 z" />';
+    $body .= '<path fill="url(#' . $bodyfill . ')" ' . getEffect('filter') . ' d="' . $outline . '" />';
 
     /* $body .= add_def();
     $body = getEffect('below') . '<g ' . getEffect('filter') . '><g mask="url(#' . $clipShield . ')">' . $body . getEffect('above') . '</g></g>';
@@ -193,7 +194,7 @@ function draw() {
   }
   // Add outline of shield shape, only if required
   if ( $options['palette'] == 'nocolour')
-    $body .=  '<path fill="none" stroke="' . rgb('division-stroke') . '" stroke-width="4" d="m 0,0 0,800 c -6.0479349,41.93063 1.2341419,84.33503 21.489586,125.13639 20.255443,40.80137 53.477613,79.98631 98.039434,115.63581 44.56181,35.6494 100.44867,67.7517 164.92346,94.7345 64.47479,26.9828 137.51639,48.8374 215.54752,64.4933 78.03113,-15.6559 151.07273,-37.5105 215.54752,-64.4933 64.47479,-26.9828 120.36165,-59.0851 164.92346,-94.7345 44.56182,-35.6495 77.78399,-74.83444 98.03943,-115.63581 C 998.76586,884.33503 1006.0479,841.93063 1000,800 l 0,-800 z" />';
+    $body .=  '<path fill="none" stroke="' . rgb('division-stroke') . '" stroke-width="4" d="' . $outline . '" />';
   // Rest depends on output format
   if ( $options['asFile'] or $options['printable'] ) { // minimal decoration, no infobox
       $body .= '<text id="test1" x="10" y="1160" font-size="30" >' . $version['name'] . ' ' . $version['release'] . '</text><text x="10" y="1190" font-size="30" >' . $version['website'] . '</text>';

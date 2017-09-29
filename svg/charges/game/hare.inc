@@ -12,12 +12,12 @@
  */
 
 if ( existModifierWithKeyterm($node,'courant'))
-  $charge['file'] = 'inkscape/hare-courant.svg';
+  $charge['file'] = 'hare-courant.svg';
   elseif ( existModifierWithKeyterm($node,'sejant'))
-    $charge['file'] = 'inkscape/hare-sejant.svg';
+    $charge['file'] = 'hare-sejant.svg';
 elseif ( existModifierWithKeyterm($node,'salient'))
-  $charge['file'] = 'inkscape/hare-salient.svg';
+  $charge['file'] = 'hare-salient.svg';
 else {
-  $charge['file'] = 'inkscape/hare-statant.svg';
+  $charge['file'] = 'hare-statant.svg';
   existModifierWithKeyterm($node, 'statant'); // Set as used
 }

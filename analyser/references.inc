@@ -101,6 +101,19 @@ class references {
         $sourceNode->setAttribute('IDREF',$targetID);
       } // else leave as pending, to be found later (in svgutils)
     }
+
+    // Rearrange "charge within ordinary" as "within ordinary charge"
+    $nodeList = $this->xpath->query('//modifier[@keyterm="within" and parent::ordinary and child::missing]');
+    foreach ($nodeList as $modifierNode) {
+      $ordinaryNode = $modifierNode->parentNode;
+      $prevCharges = $this->xpath->query('preceding-sibling::charge',$ordinaryNode);
+      if ($prevCharges->length) {
+        $adjacentCharge = $prevCharges->item($prevCharges->length - 1);
+        $modifierNode->replaceChild($adjacentCharge,$modifierNode->firstChild); 
+      } else {
+            $messages->appendChild($this->dom->createElement('message',"Expected charge for within/inside"));
+      }
+    }
     return $this->dom;
   }
 }

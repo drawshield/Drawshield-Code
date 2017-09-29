@@ -12,9 +12,9 @@
  */
 
 if ( existModifierWithKeyterm($node,'head-only'))
-  $charge['file'] = 'inkscape/stag-head.svg';
+  $charge['file'] = 'stag-head.svg';
 else {
-  $charge['file'] = 'inkscape/stag-trippant.svg';
+  $charge['file'] = 'stag-trippant.svg';
   existModifierWithKeyterm($node, 'trippant'); // Set as used
   // TODO stags in different poses!
 }

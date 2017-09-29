@@ -33,10 +33,10 @@ function makeFur ( $name ) {
     'counter-potent' => array ( 'width' => 333, 'height' => 200, 'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,200 333,200 333,0" fill="' . rgb('argent') . '"/>
         <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 209,0 209,50 292,50 292,98 42,98 42,50 125,50" fill="' . rgb('azure') . '" />
         <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="scale(1,-1) translate(0,-200)" points="125,0 209,0 209,50 292,50 292,98 42,98 42,50 125,50" fill="' . rgb('azure') . '" />' ),
-    'counter-vair' => array (  'link' => 'http://karlwilcox.com/parker/c/counter-vair', 'width' => 250, 'height' => 480, 'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,480 250,480 250,0" fill="' . rgb('argent') . '"/>
+    'counter-vair' => array (  'link' => 'http://drawshield.net/reference/parker/c/counter-vair.html', 'width' => 250, 'height' => 480, 'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,480 250,480 250,0" fill="' . rgb('argent') . '"/>
         <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 193,40 193,200 250,238 0,238 66,200 66,40" fill="' . rgb('azure') . '"/>
         <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="scale(1,-1) translate(0,-480)" points="125,0 193,40 193,200 250,238 0,238 66,200 66,40" fill="' . rgb('azure') . '"/>' ),
-    'ermine' => array (  'link' => 'http://karlwilcox.com/parker/e/ermine', 'width' => 222, 'height' => 400, 'body' => '        <polygon points="0,0 222,0 222,400 0,400" fill="' . rgb('argent') . '"/>
+    'ermine' => array (  'link' => 'http://drawshield.net/reference/parker/e/ermine.html', 'width' => 222, 'height' => 400, 'body' => '        <polygon points="0,0 222,0 222,400 0,400" fill="' . rgb('argent') . '"/>
         <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" fill="' . rgb('sable') . '">
             <circle r="10" cx="55" cy="30"/>
             <circle r="10" cx="36" cy="55"/>
@@ -49,7 +49,7 @@ function makeFur ( $name ) {
             <circle r="10" cx="74" cy="55"/>
             <path d="M 53 60 A 50 210 0 0,1 10,180 A 60 40 0 0,0 45,170 A 30 40 0, 0,0 55 200 A 30 40 0, 0,0 62,170 A 60 40 0 0,0 101, 180 A 50 210 0 0,1 57 60 Z"/>
         </g>' ),
-    'erminites' => array (  'link' => 'http://karlwilcox.com/parker/e/ermine', 'width' => 222, 'height' => 400, 'body' => '        <polygon points="0,0 222,0 222,400 0,400" fill="' . rgb('argent') . '"/>
+    'erminites' => array (  'link' => 'http://drawshield.net/reference/parker/e/ermine.html', 'width' => 222, 'height' => 400, 'body' => '        <polygon points="0,0 222,0 222,400 0,400" fill="' . rgb('argent') . '"/>
         <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" fill="' . rgb('sable') . '">
             <circle r="10" cx="55" cy="30" fill="' . rgb('gules') . '"/>
             <circle r="10" cx="36" cy="55" fill="' . rgb('gules') . '"/>
@@ -62,7 +62,7 @@ function makeFur ( $name ) {
             <circle r="10" cx="74" cy="55" fill="' . rgb('gules') . '"/>
             <path d="M 53 60 A 50 210 0 0,1 10,180 A 60 40 0 0,0 45,170 A 30 40 0, 0,0 55 200 A 30 40 0, 0,0 62,170 A 60 40 0 0,0 101, 180 A 50 210 0 0,1 57 60 Z"/>
         </g>' ),
-    'erminois' => array (  'link' => 'http://karlwilcox.com/parker/e/ermine', 'width' => 222, 'height' => 400, 'body' => '<polygon points="0,0 222,0 222,400 0,400" fill="' . rgb('or') . '"/>
+    'erminois' => array (  'link' => 'http://drawshield.net/reference/parker/e/ermine.html', 'width' => 222, 'height' => 400, 'body' => '<polygon points="0,0 222,0 222,400 0,400" fill="' . rgb('or') . '"/>
         <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" fill="' . rgb('sable') . '">
             <circle r="10" cx="55" cy="30"/>
             <circle r="10" cx="36" cy="55"/>
@@ -75,7 +75,7 @@ function makeFur ( $name ) {
             <circle r="10" cx="74" cy="55"/>
             <path d="M 53 60 A 50 210 0 0,1 10,180 A 60 40 0 0,0 45,170 A 30 40 0, 0,0 55 200 A 30 40 0, 0,0 62,170 A 60 40 0 0,0 101, 180 A 50 210 0 0,1 57 60 Z"/>
         </g>' ),
-    'pean' => array (  'link' => 'http://karlwilcox.com/parker/p/pean', 'width' => 222, 'height' => 400, 'body' => '<polygon points="0,0 222,0 222,400 0,400" fill="' . rgb('sable') . '"/>
+    'pean' => array (  'link' => 'http://drawshield.net/reference/parker/p/pean.html', 'width' => 222, 'height' => 400, 'body' => '<polygon points="0,0 222,0 222,400 0,400" fill="' . rgb('sable') . '"/>
         <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" fill="' . rgb('or') . '">
             <circle r="10" cx="55" cy="30"/>
             <circle r="10" cx="36" cy="55"/>

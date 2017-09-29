@@ -28,6 +28,24 @@
        $chg->appendChild(createModifierNode(languageDB::CHARGE_MODS, 'chg_data', $chg_ref ));
      }
    }
+
+function chose_by_modifier($node, $folder, $basename, $modifiers) {
+  foreach ($modifiers as $mod => $suffix) {
+    if (is_null($suffix) || $suffix == '') {
+      $suffix = $mod;
+    }
+    if (existModifierWithKeyterm($node, $mod, false)) {
+      $try = $basename . '-' . $suffix . '.svg';
+      if (file_exists($folder . '/' . $try)) {
+        // mark as used
+        existModifierWithKeyterm($node, $mod);
+        return $try;
+      }
+    }
+  }
+  // either no mod needed, or not found
+  return $basename . '.svg';
+}
    
 function read_chg_file(DOMElement $node) {
   global $messages;
@@ -36,6 +54,8 @@ function read_chg_file(DOMElement $node) {
   $chg_data = array();
   if ( is_null($node) or $node->nodeName == 'missing' ) {
     $title = 'missing';
+    $chg_data['svgCode'] = '<svg height="100" width="100"><g stroke="none"><path fill-rule="evenodd" d="M0,0h100v100h-100zM10,10h80v80h-80z" />' .
+        '<text x="50" y="55" font-size="15" text-anchor="middle">' . $title . '</text></g></svg>';
   } else {
     $splitArray = preg_split(':/:', $node->getAttribute('keyterm'));
     if (count($splitArray) != 2) {
@@ -62,7 +82,7 @@ function read_chg_file(DOMElement $node) {
     list($folder,$chargeKey) = preg_split(':/:', $node->getAttribute('keyterm'));
     $folder = "svg/charges/$folder/";
     // Another chance to set file, is it a simple name match?
-    $file =  'inkscape/' . $chargeKey . '.svg';
+    $file =   $chargeKey . '.svg';
     if ( !array_key_exists('file',$chg_data) and file_exists( $folder . $file ) )
       $chg_data['file'] = $file;
     // And for another common file last, applies to all in this category
@@ -185,7 +205,7 @@ function getCharge( DOMElement $node ) {
           $featureTinc = resolveReference($featureTinc);
           $featureName = $child->getAttribute('keyterm');
           if (!$featureTinc->hasChildNodes())
-            $messages->addMessage('internal',"Malformed tincture on $featureName");
+            $messages->addMessage('Warning',"No tincture for $featureName");
           else {
             $tinctureType = $featureTinc->firstChild;
             switch ($tinctureType->nodeName) {
@@ -230,7 +250,7 @@ function getCharge( DOMElement $node ) {
   // Special handling for charges "crowned"
   if ( $crown = getModifierNodeWithKeyterm($node, 'crowned', false) ) {
     $crownType = $crown->getAttribute('value');
-    $extras['crowned'] = getSvgFragment(file_get_contents('svg/charges/crown-as-worn/inkscape/' . $crownType . '.svg'), array(), 'crown', $crownType, array());
+    $extras['crowned'] = getSvgFragment(file_get_contents('svg/charges/crown-as-worn/",' . $crownType . '.svg'), array(), 'crown', $crownType, array());
     if ($crown->hasChildNodes()) {
       $feat_cols['crowned'] = get_rgb(getTinctureNode($crown));
     }
@@ -327,7 +347,7 @@ function getCharge( DOMElement $node ) {
 
   // Special handling for charges "en soleil"
   if ( existModifierWithKeyterm($node, 'ensoleil') ) {
-    $sunArray = getSvgFragment(file_get_contents('svg/charges/celestial/inkscape/sun-outline.svg'),array(),'celestial','sun-outline', array());
+    $sunArray = getSvgFragment(file_get_contents('svg/charges/celestial/",sun-outline.svg'),array(),'celestial','sun-outline', array());
     $enlargement = 1.4;
     $scale = (max($width,$height) / $sunArray['height']) * $enlargement;  // assume sun is square (!)
     $newSize = (max($width,$height)) * $enlargement;

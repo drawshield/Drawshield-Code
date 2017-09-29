@@ -53,12 +53,14 @@ function division_to_modifier(DOMElement &$node, $type) {
    */
   $item = null;
 	// See if there is a division of the required type
-	foreach ( $node->childNodes as $child ) {
-		if ( $child->nodeName == 'tincture' and resolveReference($child)->firstChild->nodeName == 'division' and $child->firstChild->getAttribute('keyterm') == $type ) {
-		  $item = $child;
-			break;
-		}
-	}
+  if ($node != null) {
+  	foreach ( $node->childNodes as $child ) {
+  		if ( $child->nodeName == 'tincture' and resolveReference($child)->firstChild->nodeName == 'division' and $child->firstChild->getAttribute('keyterm') == $type ) {
+  		  $item = $child;
+  			break;
+  		}
+  	}
+  }
 	if ( $item == null ) return false; // not found
 
   /**

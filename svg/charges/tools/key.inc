@@ -15,6 +15,6 @@
 
 
   if ( existModifierWithKeyterm( $node, 'pair'))
-    $charge['file'] = 'inkscape/pair-of-keys.svg';
+    $charge['file'] = 'pair-of-keys.svg';
 
 

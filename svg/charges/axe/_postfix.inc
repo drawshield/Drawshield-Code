@@ -13,6 +13,6 @@
 
 $charge['orient_to_ordinary'] = true;
 if (!array_key_exists('file',$charge)) {
-  $charge['file'] = 'inkscape/common-axe.svg';
+  $charge['file'] = 'common-axe.svg';
   $messages->addMessage('warning','Common-axe substituted for ' . $chargeKey );
 }

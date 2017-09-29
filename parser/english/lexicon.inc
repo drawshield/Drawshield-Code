@@ -314,7 +314,7 @@ class languageDB extends lexicon {
          array ( 'rivett?ed', 'riveted' ),
          ),
        self::QUANTITY => array (
-          array ( '(a|an|the)', "1" ),
+          array ( '(a|an|the|some)', "1" ),
           ),
        self::NUMBER => array (
           array ( '(1|one)', "1" ),

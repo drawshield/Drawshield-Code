@@ -12,8 +12,8 @@
  */
 
 
-$charge['file'] = 'inkscape/menorah-of-7.svg';
+$charge['file'] = 'menorah-of-7.svg';
 
 if ( getModifierValueByKeyterm($node, 'of-num') == 9) {
-  $charge['file'] = 'inkscape/menorah-of-9.svg';
+  $charge['file'] = 'menorah-of-9.svg';
 }

@@ -16,6 +16,6 @@
 
 
   if ( existModifierWithKeyterm( $node, 'bundle'))  {
-    $charge['file'] = 'inkscape/tulip-bunch.svg';
+    $charge['file'] = 'tulip-bunch.svg';
   }
 

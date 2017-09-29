@@ -209,14 +209,15 @@ function getTinctureNode(DOMElement $node,$index=null) {
 
 function resolveReference(DOMElement $node) {
   global $xpath, $options;
+  $visitedNodes = [];
 
-  // TODO, check for loops by comparing nodes?
-  $counter = 0;
   while ( ($idRef = $node->getAttribute('IDREF')) != null ) {
-    if (++$counter > 6 ) {
-      error_log('Loop in IDREF - ' . $options['blazon']);
+    $currentNodeID = $node->getAttribute('ID');
+    if (in_array($currentNodeID, $visitedNodes)) {
+      // Not an coding error, probably a missing tincture in the blazon
       break;
     }
+    $visitedNodes[] = $currentNodeID;
     $node = $xpath->query('//*[@ID="' . $idRef . '"]')->item(0);
   }
   return $node;

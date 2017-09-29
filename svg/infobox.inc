@@ -73,11 +73,12 @@ class infobox {
     if ( $num > 0 and $num <= self::NUMTABS ) $this->tabs[$num] = $tab;
   }
 
-  public function addText($num,$text) {
+  public function addText($num,$text,$class='') {
+    if ($class != '') $class = ' class="' . $class . '"';
     $lines = self::format($text);
     foreach ($lines as $line) {
       if ( $this->ypos[$num] >= self::PAGEEND ) break; // reached end of page...
-      $this->texts[$num] .= '<text x="'. self::INSET . '" y="' . ($this->ypos[$num] += self::LINEHEIGHT) . '" text-decoration="none" font-size="30" fill="black" >' . $line . '</text>';
+      $this->texts[$num] .= '<text' . $class . ' x="'. self::INSET . '" y="' . ($this->ypos[$num] += self::LINEHEIGHT) . '" text-decoration="none" font-size="30" fill="black" >' . $line . '</text>';
     }
   }
 
@@ -245,12 +246,12 @@ function populateInfoBox(infobox $infoBox) {
   if (count($items)) {
     $options['notify'] = true;
     $infoBox->addHeader(1,'Errors:','red');
-    foreach($items as $item) $infoBox->addText(1,$item);
+    foreach($items as $item) $infoBox->addText(1,$item,'error-message');
   }
   if (count($items = $messages->getMessages('warning'))) {
     $options['notify'] = true;
     $infoBox->addHeader(1,'Warnings:','orange');
-    foreach($items as $item) $infoBox->addText(1,$item);
+    foreach($items as $item) $infoBox->addText(1,$item,'warning-message');
   }
   if (count($items = $messages->getMessages('other'))) {
     $infoBox->addHeader(1,'Other Notices:','orange');

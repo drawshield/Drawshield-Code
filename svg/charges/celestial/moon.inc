@@ -15,12 +15,12 @@
 // moon
 
 if ( existModifierWithKeyterm($node,'crescent'))
-  $charge['file'] = 'inkscape/moon-tochief.svg';
+  $charge['file'] = 'moon-tochief.svg';
 elseif ( existModifierWithKeyterm($node,'increscent'))
-  $charge['file'] = 'inkscape/moon-todexter.svg';
+  $charge['file'] = 'moon-todexter.svg';
 elseif( existModifierWithKeyterm($node,'decrescent'))
-  $charge['file'] = 'inkscape/moon-tosinister.svg';
+  $charge['file'] = 'moon-tosinister.svg';
 elseif( existModifierWithKeyterm($node,'pendent'))
-  $charge['file'] = 'inkscape/moon-tobase.svg';
+  $charge['file'] = 'moon-tobase.svg';
 else
-  $charge['file'] = 'inkscape/moon-full.svg';
+  $charge['file'] = 'moon-full.svg';

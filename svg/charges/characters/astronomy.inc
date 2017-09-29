@@ -12,9 +12,9 @@
  */
 
 $planet = getModifierValueByKeyterm($node,'value');
-if ( file_exists( $folder . 'inkscape/astron-' . $planet . '.svg'))
-  $charge['file'] = "inkscape/astron-$planet.svg";
+if ( file_exists( $folder . 'astron-' . $planet . '.svg'))
+  $charge['file'] = "astron-$planet.svg";
 else {
-  $charge['file'] = "inkscape/astron-sun.svg";
+  $charge['file'] = "astron-sun.svg";
   $messages->addMessage('warning','Symbol for sun substituted for ' . $planet);
 }

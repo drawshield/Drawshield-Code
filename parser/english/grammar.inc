@@ -702,7 +702,8 @@ class englishGrammar extends grammar {
         $insideMod->appendChild($obj);
       } else {
         $insideMod->appendChild($this->schema->makeNode(blazonML::E_MISSING));
-        self::raiseError(self::ERROR_ORIGIN,"Expected charge for within/inside", true);
+        // Not necessarily an error - maybe need to rearrange previous charge?
+        // self::raiseError(self::ERROR_ORIGIN,"Expected charge for within/inside", true);
       }
       // keep looking for more of the same
       while ( !self::semicolon() and self::find(languageDB::ANDD) and (($obj = self::charge()) != null ) ) {

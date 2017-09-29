@@ -12,6 +12,6 @@
  */
 
 if (!array_key_exists('file',$charge)) {
-  $charge['file'] = 'inkscape/knight.svg';
+  $charge['file'] = 'knight.svg';
   $messages->addMessage('warning','Knights helm substituted for ' . $chargeKey);
 }

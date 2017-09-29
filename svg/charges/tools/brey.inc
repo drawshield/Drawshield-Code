@@ -14,5 +14,5 @@
 
 
   if ( existModifierWithKeyterm( $node, 'expanded'))
-    $charge['file'] = 'inkscape/brey-open.svg';
+    $charge['file'] = 'brey-open.svg';
 

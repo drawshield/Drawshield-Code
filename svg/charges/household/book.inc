@@ -16,15 +16,15 @@
 
 if ( existModifierWithKeyterm($node,'modern')) {
   if (existModifierWithKeyterm($node, 'closed')) {
-    $charge['file'] = 'inkscape/modern-book-closed.svg';
+    $charge['file'] = 'modern-book-closed.svg';
   } else {
-    $charge['file'] = 'inkscape/modern-book-open.svg';
+    $charge['file'] = 'modern-book-open.svg';
   }
 } else {
   if (existModifierWithKeyterm($node, 'closed')) {
-    $charge['file'] = 'inkscape/book-closed.svg';
+    $charge['file'] = 'book-closed.svg';
   } else {
-    $charge['file'] = 'inkscape/book-open.svg';
+    $charge['file'] = 'book-open.svg';
   }
 }
 existModifierWithKeyterm($node,'open'); // mark used

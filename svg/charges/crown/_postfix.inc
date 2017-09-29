@@ -13,6 +13,6 @@
    limitations under the License. */
 
 if (!array_key_exists('file',$charge)) {
-  $charge['file'] = 'inkscape/antique.svg';
+  $charge['file'] = 'antique.svg';
   $messages->addMessage('warning','Antique Crown substituted for ' . $chargeKey);
 }
