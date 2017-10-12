@@ -12,39 +12,124 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-   $chg_data_cache = array();
+ $chg_data_cache = array();
+ 
+ function get_chg_data() {
+   global $xpath;
+   global $chg_data_cache;
    
-   function get_chg_data() {
-     global $xpath;
-     global $chg_data_cache;
-     
-     /**
-      * @var DOMElement $chg
-      */
-     foreach ( $xpath->query("//charge") as $chg ) { // TODO change this to use the ID as key
-       $chg_ref = unique('chg');
-       $chg_data_cache[$chg_ref] = read_chg_file($chg);
-       // Add a modifier to link to the cached charge data
-       $chg->appendChild(createModifierNode(languageDB::CHARGE_MODS, 'chg_data', $chg_ref ));
-     }
+   /**
+    * @var DOMElement $chg
+    */
+   foreach ( $xpath->query("//charge") as $chg ) { // TODO change this to use the ID as key
+     $chg_ref = unique('chg');
+     $chg_data_cache[$chg_ref] = read_chg_file($chg);
+     // Add a modifier to link to the cached charge data
+     $chg->appendChild(createModifierNode(languageDB::CHARGE_MODS, 'chg_data', $chg_ref ));
    }
+ }
 
-function chose_by_modifier($node, $folder, $basename, $modifiers) {
-  foreach ($modifiers as $mod => $suffix) {
-    if (is_null($suffix) || $suffix == '') {
-      $suffix = $mod;
+function getBestMatchFilename($folder, $base, $mods) {
+  global $messages;
+  $lowestPenalty = 9999;
+  $bestFilename = '';
+  $bestMissing = '';
+  $bestExtra = '';
+  $presentNotRequiredPenalty = 20;
+  $requiredNotPresentPenalty = 10;
+  $positionWeight = 2;
+
+  $dh = opendir($folder);
+  if ($dh === false) {
+    $messages->addMessage('internal',"Cannot open charge folder - $folder");
+    $messages->addMessage('internal',"Current working dir - " . getcwd());
+    return null;
+  }
+ 
+  if ($mods != '') {
+    $base .= '-' . $mods;
+  }
+  // error_log("Testing for $base");
+  $requiredParts = explode('-', $base);
+  $numRequiredParts = count($requiredParts);
+
+  while (false !== ($entry = readdir($dh))) {
+    $penalty = 0;
+    $currentPNRPenalty = $presentNotRequiredPenalty;
+    $missing = '';
+    $extra = '';
+    if (substr($entry,-4) != '.svg') { continue; } // ignore non-svg files
+    $filenameParts = preg_split('/(\.|-)/', $entry);
+    $numFilenameParts = count($filenameParts) - 1; // last entry is 'svg', so ignore it
+    // Base name of the item MUST match
+    if ($requiredParts[0] != $filenameParts[0]) { continue; }
+
+    // check for required, not present
+    for ($i = 1; $i < $numRequiredParts; $i++) {
+      $found = false;
+      for ($j = 1; $j < $numFilenameParts; $j++) {
+        if ($requiredParts[$i] == $filenameParts[$j]) {
+          $found = true;
+          break;
+        }
+      }
+      if (!$found) {
+        $penalty += $currentPNRPenalty;
+        $missing .= $requiredParts[$i] . ' ';
+      }
+      $currentPNRPenalty += $positionWeight;
     }
-    if (existModifierWithKeyterm($node, $mod, false)) {
-      $try = $basename . '-' . $suffix . '.svg';
-      if (file_exists($folder . '/' . $try)) {
-        // mark as used
-        existModifierWithKeyterm($node, $mod);
-        return $try;
+
+    // check for present, not required
+    for ( $j = 1; $j < $numFilenameParts; $j++) {
+      $found = false;
+      for ( $i = 1; $i < $numRequiredParts; $i++) {
+        if ($requiredParts[$i] == $filenameParts[$j]) {
+          $found = true;
+          break;
+        }
+      }
+      if (!$found) {
+        $penalty += $presentNotRequiredPenalty;
+        $missing .= $filenameParts[$j] . ' ';
       }
     }
+     //error_log("$entry scores $penalty");
+    // compare to previous best fit
+    if ( $penalty < $lowestPenalty ) {
+      $lowestPenalty = $penalty;
+      $bestFilename = $entry;
+      $bestMissing = $missing;
+      $bestExtra = $extra;
+    }
+    if ($penalty == 0 ) { // perfect match, skip out
+      break;
+    }
   }
-  // either no mod needed, or not found
-  return $basename . '.svg';
+  closedir($dh);
+  return $bestFilename;
+}
+
+function featuresThatAreAlsoMods($node) {
+  $retval = '';
+  static $features = array (
+    'head',
+    'jessant'
+  );
+
+  foreach ($features as $feature) {
+    if (has_feature($node, $feature)) {
+      if ($retval != '') $retval .= '-';
+      $retval .= $feature;
+    }
+  }
+
+  $bundle = getModifierNodeWithKeyterm($node, 'bundle');
+  if ($bundle) {
+      if ($retval != '') $retval .= '-';
+      $retval .=  $bundle->getAttribute('keyterm') . "-" . $bundle->getAttribute('value');
+  }
+  return $retval;
 }
    
 function read_chg_file(DOMElement $node) {
@@ -64,39 +149,41 @@ function read_chg_file(DOMElement $node) {
         '<text x="50" y="55" font-size="15" text-anchor="middle">' . $title . '</text></g></svg>';
       return $chg_data;
     }
-    list($folder,$chargeKey) = $splitArray;
-    $folder = "svg/charges/$folder/";
+    list($group,$chargeKey) = $splitArray;
+    $folder = "svg/charges/$group/";
     if ( ($title = $node->getAttribute('tokens')) == null ) $title = $chargeKey;
-    // Look for a common file first, applies to all in this category
-    // TODO This can set a default 'file' - and add a warning?
-    $file = $folder . '_prefix.inc';
-    if ( file_exists( $file )) {
-      $chg_data = includeCharge( $node, $file, $chg_data, $folder, $chargeKey );
-    }
-    // Then look for .inc file
+
+    // look for .inc file
     $file = $folder . $chargeKey . '.inc';
     if ( file_exists( $file )) {
       $chg_data = includeCharge( $node, $file, $chg_data, $folder, $chargeKey );
     }
+    // TODO check if this still happens???
       // It is possible that some node attributes have been changed, so re-read them
-    list($folder,$chargeKey) = preg_split(':/:', $node->getAttribute('keyterm'));
-    $folder = "svg/charges/$folder/";
-    // Another chance to set file, is it a simple name match?
-    $file =   $chargeKey . '.svg';
-    if ( !array_key_exists('file',$chg_data) and file_exists( $folder . $file ) )
-      $chg_data['file'] = $file;
-    // And for another common file last, applies to all in this category
-    $file = $folder . '_postfix.inc';
-    if ( file_exists( $file )) {
-      $chg_data = includeCharge( $node, $file, $chg_data, $folder, $chargeKey );
+    list($group,$chargeKey) = preg_split(':/:', $node->getAttribute('keyterm'));
+    $folder = "svg/charges/$group/";
+
+    if ( !array_key_exists('svgCode',$chg_data) and !array_key_exists('file',$chg_data) ) {
+      $modList = implode('-',array_keys(getModifiersByTypeAsArray($node,'chargemod')));
+      // Have to treat head feature as a mod as well sometimes, + other things
+      $modList .= featuresThatAreAlsoMods($node);
+      $file = getBestMatchFilename($folder, $chargeKey, $modList);
+      if ($file != '')
+        $chg_data['file'] = $file;
     }
     // if we have a file, read it in, or leave existing code
-    if ( array_key_exists('file', $chg_data) and file_exists( $folder . $chg_data['file']))
-      $chg_data['svgCode'] = file_get_contents($folder . $chg_data['file']);
+    if ( !array_key_exists('svgCode',$chg_data) and array_key_exists('file', $chg_data) and file_exists( $folder . $chg_data['file'])) {
+        $chg_data['svgCode'] = file_get_contents($folder . $chg_data['file']);
+    }
+
     if ( !array_key_exists('svgCode',$chg_data)) {
       $messages->addMessage('warning',"Cannot draw $title");
       $chg_data['svgCode'] = '<svg height="100" width="100"><g stroke="none"><path fill-rule="evenodd" d="M0,0h100v100h-100zM10,10h80v80h-80z" />' .
               '<text x="50" y="55" font-size="15" text-anchor="middle">' . $title . '</text></g></svg>';
+    }
+    $chg_data = array_merge($chg_data, getExtraInfo($group, $chargeKey));
+    foreach ( getExtraInfo($group, $chargeKey) as $item => $value) {
+      error_log("$item => $value");
     }
   }
   $chg_data['title'] = $title;
@@ -141,6 +228,17 @@ function getProper ( $group, $charge, $feature = null, $errorIfNone = true ) {
   }
 
   return $proper->getProper($group, $charge, $feature, $errorIfNone );
+}
+
+function getExtraInfo ( $group, $charge ) {
+  static $extraInfo = null;
+
+  if ( !$extraInfo ) {
+    include 'svg/extrainfo.inc';
+    $extraInfo = new extraInfoMap();
+  }
+
+  return $extraInfo->getExtra($group, $charge);
 }
 
 function getFlex ( $group, $charge ) {
@@ -250,7 +348,7 @@ function getCharge( DOMElement $node ) {
   // Special handling for charges "crowned"
   if ( $crown = getModifierNodeWithKeyterm($node, 'crowned', false) ) {
     $crownType = $crown->getAttribute('value');
-    $extras['crowned'] = getSvgFragment(file_get_contents('svg/charges/crown-as-worn/",' . $crownType . '.svg'), array(), 'crown', $crownType, array());
+    $extras['crowned'] = getSvgFragment(file_get_contents('svg/charges/crown-as-worn/' . $crownType . '.svg'), array(), 'crown', $crownType, array());
     if ($crown->hasChildNodes()) {
       $feat_cols['crowned'] = get_rgb(getTinctureNode($crown));
     }
@@ -347,7 +445,7 @@ function getCharge( DOMElement $node ) {
 
   // Special handling for charges "en soleil"
   if ( existModifierWithKeyterm($node, 'ensoleil') ) {
-    $sunArray = getSvgFragment(file_get_contents('svg/charges/celestial/",sun-outline.svg'),array(),'celestial','sun-outline', array());
+    $sunArray = getSvgFragment(file_get_contents('svg/charges/celestial/sun-outline.svg'),array(),'celestial','sun-outline', array());
     $enlargement = 1.4;
     $scale = (max($width,$height) / $sunArray['height']) * $enlargement;  // assume sun is square (!)
     $newSize = (max($width,$height)) * $enlargement;

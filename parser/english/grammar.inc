@@ -744,9 +744,14 @@ class englishGrammar extends grammar {
 
     $state = self::save();
     $node = null;
+    $numberStated = null;
+    $highest = false;
 
     if ( ($marshall = self::find(languageDB::QUARTERED)) != null ) {
       $quartered = $this->schema->makeNode(blazonML::E_COMPLEX, array( 'keyterm' => blazonML::V_QUARTERED), self::tokens());
+      if (self::find(languageDB::WORD_OF)) { // like "quarterly of 4"
+        $numberStated = self::find(languageDB::NUMBER); // But ignore it and count the quarters we are given
+      }
       self::ignore(languageDB::SEMICOLON);
       $foundQuarter = false;
       do { // Look for quarters
@@ -781,7 +786,6 @@ class englishGrammar extends grammar {
         self::restore($state); // backtrack, assume this is quarterly division
         return null;
       }
-      $highest = false;
       for ( $i = 8; $i > 0; $i-- ) {
         if ( $subshields[$i] == null ) {
           if ( !$highest )
@@ -800,6 +804,9 @@ class englishGrammar extends grammar {
         $quartered->appendChild($subshields[$i]);
       $node = $this->schema->makeNode(blazonML::E_SHIELD, array ( blazonML::A_INDEX => '0' ));
       $node->appendChild($quartered);
+    }
+    if ($numberStated != null && $numberStated != $highest) {
+      self::raiseError(self::ERROR_ORIGIN,'Quartering mismatch (' . $numberStated . ' stated, ' . $highest  . ' found)', false);
     }
     return $node;
   }

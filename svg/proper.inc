@@ -53,8 +53,6 @@ class properColour {
       'badger' => self::$grey,
     'sun' => self::$yellow,
     'moon' => self::$white,
-    'moon-todexter' => self::$white,
-    'moon-tosinister' => self::$white,
             'moor' => self::$black,
             'acorn' => self::$brown,
       'boar' => self::$brown,
@@ -72,7 +70,7 @@ class properColour {
       'laurel-wreath' => self::$green,
       'dolphin' => self::$green,
       'dolphin-natural' => self::$gray,
-      //'rocket' => self::$gray,
+      'rocket' => self::$gray,
       'dove' => self::$white,
       'clove' => self::$darkBrown,
       'elephant' => self::$gray,
@@ -89,6 +87,8 @@ class properColour {
         'baseball-glove' => self::$brown,
         'baseball' => self::$white,
         'pelican' => self::$white,
+        'mitre' => self::$yellow,
+        'reddit-alien' => self::$white,
     );
     self::$features = array(
       'with-stone' => self::$gray,
@@ -111,6 +111,7 @@ class properColour {
       'pickaxe/shafted' => self::$brown,
       'stems' => self::$brown, // or is this    stemmed?
       'pomegranate/seeded' => self::$red,
+      'birch/trunked' => self::$white,
       'hilt' => self::$gold,
       'pomell' => self::$gold,
       'blade' => self::$silver,
@@ -124,6 +125,7 @@ class properColour {
       'planet-earth/land' => self::$green,
       'planet-earth/water' => self::$blue,
       'rocket/inflamed' => self::$red,
+      'reddit-alien/eyes' => self::$red,
         'vulning' => self::$red,
         'nest' => self::$brown,
     );

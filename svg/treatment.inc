@@ -39,7 +39,7 @@ function getSvgTreatment ($filename) {
 
 function makeTreatment ( $node ) {
   global $messages;
-  $folder = 'svg/treatments/",';
+  $folder = 'svg/treatments/';
 
   $name = $node->getAttribute('keyterm');
   $tinctures = array();

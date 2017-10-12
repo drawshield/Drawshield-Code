@@ -232,7 +232,11 @@ function PlaceCharge ( DOMElement $node,  // images
         break;
       case 'bendwise':
       case 'bendsinwise':
-			  $angle = ($orientation == 'bendwise') ? "-45" : "45";
+        if ( array_key_exists('horizontal', $charge)  ) {
+          $angle = ($orientation == 'bendwise') ? "45" : "-45";
+        } else {
+          $angle = ($orientation == 'bendwise') ? "-45" : "45";
+        }
 			  $X2 = $chargeX / 2; $Y2 = $chargeY / 2;
 				$chargeX = ($chargeX + $chargeY) * 0.707;
 				$XY2 = $chargeX / 2;
@@ -241,8 +245,7 @@ function PlaceCharge ( DOMElement $node,  // images
         break;
       case 'palewise':
         $do_turn = $chargeX >= $chargeY;
-        if ( array_key_exists('turn_palewise', $charge) ) { $do_turn = $charge['turn_palewise']; }
-        if ( $do_turn  ) {
+        if ( array_key_exists('horizontal', $charge)  ) {
           $retval = "<g transform=\"translate(0,$chargeX) rotate(-90)\"><desc>palewise charge</desc>$retval</g>\n";
           $temp = $chargeX; $chargeX = $chargeY; $chargeY = $temp;
           $temp = $Xflex; $Xflex = $Yflex; $Yflex = $temp;

@@ -105,6 +105,17 @@ if ( $options['blazon'] == '' ) { // TODO "your shield here" message?
 
   // Read in the drawing code  ( All formats start out as SVG )
   $xpath = new DOMXPath($dom);
+  include "analyser/utilities.inc";
+  include "analyser/rewriter.inc";
+  // some fudges / heraldic knowledge
+  rewrite();
+  if ( $options['stage'] == 'rewrite') { 
+      $note = $dom->createComment("Debug information - rewrite stage.\n(Did you do SHIFT + 'Save as File' by accident?)");
+      $dom->insertBefore($note,$dom->firstChild);
+      header('Content-Type: text/xml; charset=utf-8');
+      echo $dom->saveXML(); 
+      exit; 
+  }
   include "svg/draw.inc";
   $output = draw();
 }

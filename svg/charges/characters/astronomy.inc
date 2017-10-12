@@ -18,3 +18,4 @@ else {
   $charge['file'] = "astron-sun.svg";
   $messages->addMessage('warning','Symbol for sun substituted for ' . $planet);
 }
+

@@ -73,6 +73,8 @@ function rewriteAttributes($attributes, $class = '') {
         // $messages->addMessage('warning',"Transform in element $myId " );
         $retval = ' transform="' . $data . '" ';
         break;
+      case 'stroke-width':
+       break; // ignore this for now
       default:
         if (( strpos($key,'sodipodi:') === false ) and (strpos($key,'inkscape:') === false ))
           $retval .= $key . '="' . $data . '" ';

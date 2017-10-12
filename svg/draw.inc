@@ -31,7 +31,6 @@ include "rgb.inc";
 include "shield.inc";
 include "svgutils.inc";
 include "treatment.inc";
-include "utilities.inc";
 
 
 function region ( $action, $region = null ) {

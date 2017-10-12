@@ -49,12 +49,12 @@ function apply_tincture ( DOMElement $tincture, $object, $chg_size = '',
 
 	$patTrans = '';
 	$object_type = $tincture->parentNode->nodeName;
-        $objectKeyterm = "";
-        if ( $tincture->parentNode !== null) {
-            $objectKeyterm = $tincture->parentNode->getAttribute('keyterm'); 
-        } else {
-            return $object;
-        }
+  $objectKeyterm = "";
+  if ( $tincture->parentNode !== null) {
+      $objectKeyterm = $tincture->parentNode->getAttribute('keyterm'); 
+  } else {
+      return $object;
+  }
 
 	if ( $object_type == 'charge' and $chg_size != '' ) // We make some things a wee bit smaller if on a charge, just for looks
 	{
