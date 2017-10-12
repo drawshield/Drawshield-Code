@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                xmlns:cc="http://creativecommons.org/ns#"
+                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                xmlns:svg="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="150"
+                height="400"
+                version="1.1" >
+  <metadata>
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource=""/>
+        <dc:title/>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>(Drawshield internal)</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+<g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><path  stroke-width="4" d="M 80,2.1 C 80,2.1 45,54 48,82 c 3,28 14,68 6,148 -3,20 -29,40 -40,60 -16,30 -19.7,100 36,110 60,10 100,-30 100,-60 C 170,240 110,220 100,200 92,140 70,69 83,42 87,33 82,4.3 80,2.1 z" />
+             <path stroke="none" opacity="0.6" fill="#4D4D4D" d="M 80,2.1 C 80,2.1 66,48 65,79 c -1,31 5,81 15,111 9,30 60,50 40,140 -35,70 -125.7,60 -70,70 60,10 100,-40 100,-60 C 180,240 110,230 100,200 85,140 83,90 83,42 83,32 82,4.3 80,2.1 z" /></g>
+</svg>

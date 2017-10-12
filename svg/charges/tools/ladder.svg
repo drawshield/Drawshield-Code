@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.0"
+   id="svg6475"
+   height="260"
+   width="100">
+  <defs
+     id="defs6477" />
+  <metadata
+     id="metadata6480">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Bruno Vallette</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1">
+    <g
+       transform="translate(-378.2604,-14.27926)"
+       id="g6466"
+       style="opacity:1;display:inline">
+      <rect
+         style="color:black;fill:#ffff00;fill-opacity:1;fill-rule:nonzero;stroke:#808080;stroke-width:3.00000024;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
+         id="rect4662"
+         width="16.989548"
+         height="253.00676"
+         x="381.76041"
+         y="17.772505"
+         rx="5.433712"
+         ry="16.343752" />
+      <rect
+         style="color:black;fill:#ffff00;fill-opacity:1;fill-rule:nonzero;stroke:#808080;stroke-width:3.00000024;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
+         id="rect5551"
+         width="16.989548"
+         height="253.00676"
+         x="456.85889"
+         y="17.772505"
+         rx="5.433712"
+         ry="16.343752" />
+      <rect
+         style="color:black;fill:#ffff00;fill-opacity:1;fill-rule:nonzero;stroke:#808080;stroke-width:2.99999952;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
+         id="rect5553"
+         width="72.64962"
+         height="12.244315"
+         x="391.47961"
+         y="220.83708"
+         rx="5.433712"
+         ry="16.343746" />
+      <rect
+         style="color:black;fill:#ffff00;fill-opacity:1;fill-rule:nonzero;stroke:#808080;stroke-width:2.99999952;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
+         id="rect5559"
+         width="72.64962"
+         height="12.244315"
+         x="391.47961"
+         y="180.7215"
+         rx="5.433712"
+         ry="16.343746" />
+      <rect
+         style="color:black;fill:#ffff00;fill-opacity:1;fill-rule:nonzero;stroke:#808080;stroke-width:2.99999952;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
+         id="rect5561"
+         width="72.64962"
+         height="12.244315"
+         x="391.47961"
+         y="140.60591"
+         rx="5.433712"
+         ry="16.343746" />
+      <rect
+         style="color:black;fill:#ffff00;fill-opacity:1;fill-rule:nonzero;stroke:#808080;stroke-width:2.99999952;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
+         id="rect5563"
+         width="72.64962"
+         height="12.244315"
+         x="391.47961"
+         y="100.49032"
+         rx="5.433712"
+         ry="16.343746" />
+      <rect
+         style="color:black;fill:#ffff00;fill-opacity:1;fill-rule:nonzero;stroke:#808080;stroke-width:2.99999952;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
+         id="rect5565"
+         width="72.64962"
+         height="12.244315"
+         x="391.47961"
+         y="60.374733"
+         rx="5.433712"
+         ry="16.343746" />
+    </g>
+  </g>
+</svg>

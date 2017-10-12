@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="150" height="400" id="svg2">
+  <defs id="defs13"/>
+  <metadata id="metadata4">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource=""/>
+        <dc:title/>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>(Drawshield internal)</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g id="body" style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+    <path d="M79.09,401.6   C79.09,401.6 114.1,349.7 111.1,321.7   c-3,-28 -14,-68 -6,-148 3,-20 29,-40 40,-60 16,-30 19.7,-100 -36,-110 -60,-10 -100,30 -100,60   C-10.91,163.7 49.09,183.7 59.09,203.7 67.09,263.7 89.09,334.7 76.09,361.7 72.09,370.7 77.09,399.4 79.09,401.6   z " id="path7" style="stroke-width:4"/>
+    <path d="M79.09,401.6   C79.09,401.6 93.09,355.7 94.09,324.7   c1,-31 -5,-81 -15,-111 -9,-30 -60,-50 -40,-140 35,-70 125.7,-60 70,-70 -60,-10 -100,40 -100,60   C-20.91,163.7 49.09,173.7 59.09,203.7 74.09,263.7 76.09,313.7 76.09,361.7 76.09,371.7 77.09,399.4 79.09,401.6   z " id="path9" style="opacity:0.6;fill:#4d4d4d;stroke:none"/>
+  </g>
+</svg>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                xmlns:cc="http://creativecommons.org/ns#"
+                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                xmlns:svg="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="500"
+                height="500"
+                version="1.1" >
+  <metadata>
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource=""/>
+        <dc:title/>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>(Drawshield internal)</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+<g  style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><path d="M 0,250 a 250,250 0,0,1 500,0 a 250,250 0,0,1 -500,0 z M 17.5,250 a 232.5,232.5 0,0,1 465,0 a 232.5,232.5 0,0,1 -465,0 z" fill-rule="evenodd" />
+<path d="M 25,250 a 225,225 0,0,1 450,0 a 225,225 0,0,1 -450,0 z M 42.5,250 a 207.5,207.5 0,0,1 415,0 a 207.5,207.5 0,0,1 -415,0 z" fill-rule="evenodd" />
+<path d="M 50,250 a 200,200 0,0,1 400,0 a 200,200 0,0,1 -400,0 z M 67.5,250 a 182.5,182.5 0,0,1 365,0 a 182.5,182.5 0,0,1 -365,0 z" fill-rule="evenodd" />
+<path d="M 75,250 a 175,175 0,0,1 350,0 a 175,175 0,0,1 -350,0 z M 92.5,250 a 157.5,157.5 0,0,1 315,0 a 157.5,157.5 0,0,1 -315,0 z" fill-rule="evenodd" />
+<path d="M 100,250 a 150,150 0,0,1 300,0 a 150,150 0,0,1 -300,0 z M 117.5,250 a 132.5,132.5 0,0,1 265,0 a 132.5,132.5 0,0,1 -265,0 z" fill-rule="evenodd" />
+<path d="M 125,250 a 125,125 0,0,1 250,0 a 125,125 0,0,1 -250,0 z M 142.5,250 a 107.5,107.5 0,0,1 215,0 a 107.5,107.5 0,0,1 -215,0 z" fill-rule="evenodd" />
+<path d="M 150,250 a 100,100 0,0,1 200,0 a 100,100 0,0,1 -200,0 z M 167.5,250 a 82.5,82.5 0,0,1 165,0 a 82.5,82.5 0,0,1 -165,0 z" fill-rule="evenodd" />
+<path d="M 175,250 a 75,75 0,0,1 150,0 a 75,75 0,0,1 -150,0 z M 192.5,250 a 57.5,57.5 0,0,1 115,0 a 57.5,57.5 0,0,1 -115,0 z" fill-rule="evenodd" />
+<path d="M 200,250 a 50,50 0,0,1 100,0 a 50,50 0,0,1 -100,0 z M 217.5,250 a 32.5,32.5 0,0,1 65,0 a 32.5,32.5 0,0,1 -65,0 z" fill-rule="evenodd" />
+</g>
+</svg>

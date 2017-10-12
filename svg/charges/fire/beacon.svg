@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="251"
+   height="304.20001"
+   id="svg4166"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="beacon.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1574"
+     inkscape:window-height="1028"
+     id="namedview3017"
+     showgrid="false"
+     inkscape:zoom="0.77580536"
+     inkscape:cx="125.5"
+     inkscape:cy="152.10001"
+     inkscape:window-x="98"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4166" />
+  <defs
+     id="defs4168" />
+  <metadata
+     id="metadata1880">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>Huddinge kommunvapen</dc:title>
+        <dc:date>06-11-2007</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Lokal_Profil</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-sa/2.5/" />
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>cc-by-sa-2.5</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-sa/2.5/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Attribution" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="flamed"
+     inkscape:label="#g3019">
+    <path
+       id="Eld"
+       style="fill:#ff0000;stroke:none"
+       d="m 86.868127,83.425209 c -1.077462,-8.508268 3.105552,-12.004821 -0.126755,-20.221685 2.725274,1.223785 5.070312,3.554818 6.274459,5.536211 1.837979,-8.857906 2.978812,-18.298565 2.091515,-26.690232 4.056235,0.932381 6.844934,7.459258 8.556134,10.54788 4.56328,-12.587558 5.76747,-23.951304 2.53515,-30.711295 4.11964,0.407958 6.52805,4.836881 9.3167,9.848586 2.7253,-3.321711 2.28167,-10.198218 2.28167,-17.307883 0.44363,-3.379984 1.07741,-7.1678969 3.35906,-8.9744276 2.21824,15.9092406 10.71103,14.5689116 15.46443,32.2847106 1.71123,-3.496531 2.02815,-7.284455 1.58448,-12.063043 5.57736,2.972048 10.45751,14.102699 13.05604,30.011956 2.47178,-1.165512 3.6126,-5.652756 4.5633,-10.722705 5.38718,7.051333 7.28855,15.850976 4.56328,26.34058 -1.39433,2.972048 -2.28166,6.002376 -1.83799,9.382374 2.28161,-1.282057 3.04218,-4.370652 4.37314,-6.934817 0.95065,3.78794 1.90136,8.275138 1.07746,11.53859 -2.72533,18.881311 -26.25033,22.079001 -41.11348,21.983601 -8.32183,-0.0556 -33.028579,-4.32663 -36.018593,-23.848401 z"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     id="body"
+     inkscape:label="#Beacon"
+     style="fill:#ffff00">
+    <path
+       id="Branch-4"
+       style="fill:#ffff00;stroke:#ffcd50;stroke-width:1"
+       d="m 110.0992,85.42 -0.4,0.53 c -2.2,3.06 -2.5,9.65 -0.7,14.75 l 46.14,130.9 c 1.81,5.2 5.04,6.8 7.24,3.8 l 0.38,-0.6 c 2.2,-3 2.52,-9.6 0.71,-14.7 l -46.17,-130.94 c -1.8,-5.13 -5,-6.79 -7.2,-3.74 z"
+       inkscape:connector-curvature="0" />
+    <path
+       d="M140.9,85.42   L141.3,85.95   C143.5,89.01 143.8,95.6 142,100.7   L95.86,231.6   C94.05,236.8 90.82,238.4 88.62,235.4   L88.24,234.8   C86.04,231.8 85.72,225.2 87.53,220.1   L133.7,89.16   C135.5,84.03 138.7,82.37 140.9,85.42   z "
+       style="fill:#ffff00;stroke:#ffcd50;stroke-width:1"
+       id="Branch" />
+    <path
+       id="Branch-2"
+       style="fill:#ffff00;stroke:#ffcd50;stroke-width:1"
+       d="m 174.42,85.42 0.4,0.53 c 2.2,3.06 2.5,9.65 0.7,14.75 l -46.14,130.9 c -1.81,5.2 -5.04,6.8 -7.24,3.8 l -0.38,-0.6 c -2.2,-3 -2.52,-9.6 -0.71,-14.7 L 167.22,89.16 c 1.8,-5.13 5,-6.79 7.2,-3.74 z"
+       inkscape:connector-curvature="0" />
+    <path
+       id="Branch-5"
+       style="fill:#ffff00;stroke:#ffcd50;stroke-width:1"
+       d="m 143.57628,85.42 -0.4,0.53 c -2.2,3.06 -2.5,9.65 -0.7,14.75 l 46.14,130.9 c 1.81,5.2 5.04,6.8 7.24,3.8 l 0.38,-0.6 c 2.2,-3 2.52,-9.6 0.71,-14.7 l -46.17,-130.94 c -1.8,-5.13 -5,-6.79 -7.2,-3.74 z"
+       inkscape:connector-curvature="0" />
+    <path
+       id="Branch-6"
+       style="fill:#ffff00;stroke:#ffcd50;stroke-width:1"
+       d="m 76.53655,85.42 -0.4,0.53 c -2.2,3.06 -2.5,9.65 -0.7,14.75 l 46.14,130.9 c 1.81,5.2 5.04,6.8 7.24,3.8 l 0.38,-0.6 c 2.2,-3 2.52,-9.6 0.71,-14.7 l -46.17,-130.94 c -1.8,-5.13 -5,-6.79 -7.2,-3.74 z"
+       inkscape:connector-curvature="0" />
+    <path
+       id="Branch-3"
+       style="fill:#ffff00;stroke:#ffcd50;stroke-width:1"
+       d="m 107.38,85.42 0.4,0.53 c 2.2,3.06 2.5,9.65 0.7,14.75 L 62.34,231.6 c -1.81,5.2 -5.04,6.8 -7.24,3.8 l -0.38,-0.6 c -2.2,-3 -2.52,-9.6 -0.71,-14.7 L 100.18,89.16 c 1.8,-5.13 5,-6.79 7.2,-3.74 z"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

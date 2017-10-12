@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   height="61.286095"
+   width="61.04665"
+   id="svg11939"
+   version="1.1"
+   enable-background="new 0 0 64 64"
+   viewBox="0 0 61.04665 61.286095">
+  <metadata
+     id="metadata11945">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>https://github.com/emojione/emojione/graphs/contributors</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs11943" />
+  <g
+     transform="translate(-1.4924834,0.75384938)"
+     id="body">
+    <path
+       d="m 9,7.9 c -0.4,0 -0.5,1.5 -0.1,1.5 6.4,1.4 9,6.1 9.2,7 0.3,1.2 2.1,-0.1 1.5,-1.6 C 19.4,14.6 15.7,8.7 9,7.9"
+       id="path11929"
+       style="fill:#808080" />
+    <path
+       d="m 57.8,57.8 c 0.3,0.3 1.5,0.6 2.1,0 0.6,-0.6 0.3,-1.9 0,-2.2 -0.3,-0.3 -1,0 -1.5,0.6 -0.6,0.7 -0.8,1.4 -0.6,1.6"
+       id="path11931"
+       style="fill:#808080" />
+    <path
+       d="m 17.3,19.1 c -0.5,-0.7 0.1,-2.3 1.5,-3.8 1.4,-1.4 3,-2.1 3.7,-1.6 8.4,-5.4 21.2,-2.9 30.4,6.6 8.2,8.5 11.1,20 7.8,28.6 1.6,2.1 1.1,5.7 -1.4,8.3 -2.5,2.6 -6,3.2 -8,1.5 C 43,62 31.9,59.1 23.7,50.6 14.5,41 12,27.8 17.3,19.1"
+       id="path11933"
+       style="fill:#ffff00;stroke:#999999" />
+  </g>
+  <g
+     transform="translate(-1.4924834,0.75384938)"
+     id="leaved">
+    <path
+       d="M 28.2,4.6 C 21,1.3 16,11.5 16,11.5 c 0,0 1.01127,2.055492 3.416619,3.3 2.713085,-1.214661 9.271609,-5.1428367 18.452722,-3.327042 C 43.321029,12.551166 42.716619,5.2 42.716619,5.2 42.716619,5.2 35.3,7.9 28.2,4.6"
+       id="path11927"
+       style="fill:#00ff00;stroke:#999999" />
+    <path
+       d="M 18.7,16.1 C 17.2,11.9 11,9.5 11,9.5 11,9.5 -1.6,16.6 3,25.8 7.5,34.9 4.6,45 4.6,45 4.6,45 23.8,31 18.7,16.1 Z"
+       id="path11935"
+       style="fill:#00ff00;stroke:#999999" />
+  </g>
+  <path
+     style="fill:#999999"
+     id="path11937"
+     d="m 9.5075166,10.253849 c -0.9,1.2 -1.7,2.5 -2.3,3.9 -0.6,1.4 -1,3 -1.2,4.6 -0.4,3.2 0,6.3 0.2,9.4 0.3,3 0.3,6.1 -0.2,9.1 -0.5,3 -1.6,5.9 -2.9,8.6 0.8,-1.2 1.5,-2.6 2.2,-4 0.6,-1.4 1.1,-2.9 1.5,-4.4 0.7,-3.2 0.7,-6.4 0.4,-9.5 -0.3,-3.1 -0.7,-6.2 -0.4,-9.2 0.2,-3 1.3,-5.9 2.7,-8.5" />
+</svg>

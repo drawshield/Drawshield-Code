@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                xmlns:cc="http://creativecommons.org/ns#"
+                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                xmlns:svg="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="200"
+                height="200"
+                version="1.1" >
+  <metadata>
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource=""/>
+        <dc:title/>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>(Drawshield internal)</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+<g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><path  d="m100,0c5,0 5.1986022,9.128465 5.0040496,14.84831 0,0 13.8459214,-14.57455382 22.0887234,-3.317465 c-19.4022209,-0.180137 -15.113051,12.769767 -12.092773,13.469155 l30,30 l30,30   c0.7,3.02 13.65,7.31 13.47,-12.09   c11.25,8.24 -3.317,22.09 -3.317,22.09 5.722,-0.195 14.85,0.004 14.85,5.004    c-0,5 -9.128,5.199 -14.85,5.004 -0,0 14.57,13.85 3.317,22.09   c0.1801,-19.4 -12.77,-15.11 -13.47,-12.09   l-30,30    l-30,30   c-3.02,0.7 -7.31,13.65 12.09,13.47   c-8.24,11.25 -22.09,-3.317 -22.09,-3.317 0.195,5.722 -0.004,14.85 -5.004,14.85    c-5,-0 -5.199,-9.128 -5.004,-14.85 -0,-0 -13.85,14.57 -22.09,3.317   c19.4,0.1801 15.11,-12.77 12.09,-13.47   l-30,-30    l-30,-30   c-0.7,-3.02 -13.65,-7.31 -13.47,12.09   c-11.25,-8.24 3.317,-22.09 3.317,-22.09 -5.722,0.195 -14.85,-0.004 -14.85,-5.004    c0,-5 9.128,-5.199 14.85,-5.004 0,-0 -14.57,-13.85 -3.317,-22.09   c-0.1801,19.4 12.77,15.11 13.47,12.09   l30,-30   l30,-30 c3.02,-0.7 7.31,-13.65 -12.09,-13.47 c8.24,-11.25 22.09,3.317 22.09,3.317 -0.195,-5.722 0.004,-14.85 5.004,-14.85        z" /></g>
+</svg>
