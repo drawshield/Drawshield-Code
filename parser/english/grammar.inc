@@ -1,16 +1,4 @@
-<?php /* Copyright 2014 Karl R. Wilcox
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License. */
+<?php 
 
 class englishGrammar extends grammar {
 
@@ -20,6 +8,7 @@ class englishGrammar extends grammar {
   public function getShield() {
 
     self::clearErrors(); // in case we are called multiple times
+    $this->stateStore->flush();
     $this->phraseMatcher->getMatchedTokens(true);
     $count = 0;
     $node = null;
@@ -37,6 +26,7 @@ class englishGrammar extends grammar {
       self::semicolon();
       if ( ($overall = self::overall(true)) != null )
         $node->appendChild($overall);
+      self::drawn(); // get any options appended to the blazon
       // If last word is ignored, can't go further
       if ( $this->tokenList->words[$this->tokenList->num_tokens-1]{0} == '[')
         break;
@@ -89,6 +79,24 @@ class englishGrammar extends grammar {
     return $node;
   }
 
+  protected function drawn() {
+    global $options;
+
+    while ($option = self::find(LanguageDB::DRAWN_MODS)) {
+      switch ($option) {
+        case 'scheme':
+          $options['palette'] = $this->phraseMatcher->getValue();
+          break;
+        case 'style':
+          $options['effect'] = $this->phraseMatcher->getValue();
+          break;
+        default:
+          break;
+      }
+      self::ignore(LanguageDB::ANDD);
+    }
+  }
+
   /**
    * @return DOMElement
    */
@@ -133,9 +141,13 @@ class englishGrammar extends grammar {
     /**
      * @var DOMElement $node1 $node2
      */
+    $checkOverAllParts = false;
     $node1 = null;
     //$node1 = builtin(); // TODO re-instate built in database
     if ( $node1 == null ) $node1 = self::quartered();
+    if ( $node1 != null ) { // found a quartering, check for over all the parts
+      $checkOverAllParts = true;
+    }
     if ( $node1 == null ) $node1 = self::halved();
     if ( $node1 == null ) $node1 = self::simple();
     if ( $node1 == null ) {
@@ -143,7 +155,9 @@ class englishGrammar extends grammar {
       $node1->appendChild($this->schema->makeNode(blazonML::E_MISSING));
       self::raiseError(self::ERROR_ORIGIN, 'Expected a shield description', true);
     }
-    if ( self::moreInput() and !self::semicolon() and ($overall = self::overall()) != null )
+    if ($checkOverAllParts && ($overall = self::overall(true)) != null) {
+      $node1->appendChild($overall);
+    } elseif ( self::moreInput() and !self::semicolon() and ($overall = self::overall()) != null )
       $node1->appendChild($overall);
     $retval = $node1;
 
@@ -404,6 +418,11 @@ class englishGrammar extends grammar {
               blazonML::A_INDEX => '1')));
         }
         $mods[] = $feature;
+        // Look for non-standard adjusments
+      } elseif ($adjustments = self::getAdjustments()) {
+        $mods = array_merge($mods, $adjustments);
+      } elseif ($keyterm = self::find(languageDB::FONT)) {
+        $mods[] = $this->schema->makeMod(languageDB::FONT,$this->phraseMatcher->getValue(),$keyterm,self::tokens());
       } else {
         self::restore($state2);
         break;
@@ -419,6 +438,35 @@ class englishGrammar extends grammar {
     foreach ( $mods as $mod )
       $charge->appendChild($mod);
     return $charge;
+  }
+
+  protected function getAdjustments() {
+    $adjustments = array();
+    $foundMuch = false;
+    $foundShown = false;
+    while ((($keyterm = self::find(languageDB::SHOWN_MODS)) != null) || 
+      ($foundShown && ($keyterm = self::find(languageDB::SHOWN_EXTRA)) != null)) {
+      switch ($keyterm) {
+        case 'than-normal':
+          break; // just ignore this (syntactic sugar)
+        case 'shown':
+          $foundShown = true;
+          break;
+        case 'much':
+          $foundMuch = true;
+          break;
+        default:
+          if ($foundMuch) $keyterm = 'much-' . $keyterm;
+          $adjustments[] = $this->schema->makeMod(languageDB::SHOWN_MODS,null,$keyterm,self::tokens());
+          $foundMuch = false;
+          $foundShown = true;
+          break;
+      }
+      self::ignore(languageDB::ANDD);
+    }
+    if (count($adjustments))
+      return $adjustments;
+    return null;
   }
 
   protected function charge($assumeNum = false, $allowArr = true, $allowPos = true) {
@@ -691,7 +739,7 @@ class englishGrammar extends grammar {
       } else break;
     }
     // Have we found a colour yet?
-    if ( !$foundTinc ) { // TODO herald knowledge, ford is implied tincture
+    if ( !$foundTinc ) { 
       $ord->appendChild($this->schema->makeNode(blazonML::E_TINCTURE,array(blazonML::A_INDEX => '1',blazonML::A_ORIGIN => 'pending')));
     }
     // Does this ordinary go "between" some charges?
@@ -740,7 +788,7 @@ class englishGrammar extends grammar {
     /**
      * @var DOMElement[] $subshields
      */
-    $subshields = array(0,null,null,null,null,null,null,null,null);
+    $subshields = array(0,null,null,null,null,null,null,null,null,null);
 
     $state = self::save();
     $node = null;
@@ -749,6 +797,7 @@ class englishGrammar extends grammar {
 
     if ( ($marshall = self::find(languageDB::QUARTERED)) != null ) {
       $quartered = $this->schema->makeNode(blazonML::E_COMPLEX, array( 'keyterm' => blazonML::V_QUARTERED), self::tokens());
+      self::comma();
       if (self::find(languageDB::WORD_OF)) { // like "quarterly of 4"
         $numberStated = self::find(languageDB::NUMBER); // But ignore it and count the quarters we are given
       }
@@ -781,12 +830,16 @@ class englishGrammar extends grammar {
               $subshields[$indices[$i]] = $reference;
           }
         } // Keep going as long as we find quarters
+        if ( self::semicolon() ) {
+          $found = false;
+          // error_log("exiting quarterly loop");
+        }
       } while ( $found );
       if ( $marshall == 'quarterly' and !$foundQuarter ) {
         self::restore($state); // backtrack, assume this is quarterly division
         return null;
       }
-      for ( $i = 8; $i > 0; $i-- ) {
+      for ( $i = 9; $i > 0; $i-- ) {
         if ( $subshields[$i] == null ) {
           if ( !$highest )
             continue;
@@ -895,7 +948,7 @@ class englishGrammar extends grammar {
       self::comma();
       // generic modifiers, including tinctures
       $maxTinc =( in_array( $keyterm, array ( 'per-pile', 'per-pall', 'tierced-in-pale',
-          'tierced-in-fess', 'tierced-in-bend', 'tierced-in-bend' ))) ? 3 : 2;
+          'tierced-in-fess', 'tierced-in-bend', 'tierced-in-bend', 'tierced-in-chevron' ))) ? 3 : 2;
       if ( $depth == 2 ) { // The tincture is implied by the previous division
         if ( !self::find(languageDB::COUNTERCHANGE) )
           self::raiseError(self::ERROR_ORIGIN,"Second division should be counterchanged");

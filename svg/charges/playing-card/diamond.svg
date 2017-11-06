@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg49526"
+   version="1.1"
+   viewBox="0 0 9.7536 11.5838"
+   height="11.5838mm"
+   width="9.7536001mm">
+  <defs
+     id="defs49520" />
+  <metadata
+     id="metadata49523">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>sourceforge yimyom</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(202.84086,30.305896)"
+     id="layer1">
+    <g
+       id="black_joker"
+       transform="matrix(0.26458333,0,0,0.26458333,-224.58259,-173.92076)">
+      <g
+         id="jack_club"
+         transform="translate(-1662.1981,898.14537)">
+        <g
+           id="queen_club"
+           transform="translate(-166.6033,-58.381306)">
+          <g
+             id="king_club"
+             transform="translate(-193.38167,-27.061581)">
+            <g
+               id="2_club"
+               transform="translate(1875.659,-59.80817)">
+              <g
+                 id="1_diamond"
+                 transform="translate(163.34193,-306.94132)">
+                <g
+                   transform="matrix(-2.4,0,0,-2.4,83.787602,121.56864)"
+                   id="use35244">
+                  <path
+                     style="fill:#e6180a"
+                     d="m 0,0 c -2.56,0 -5.12,0 -7.68,0 0.8747,0.039 1.619,0.605 2.322,1.0728 C -3.779,2.264 -2.3,3.63 -1.132,5.228 -0.587,6.032 -0.0144,6.936 0,7.94 M -7.68,0 c 1.11,-0.035 2.058,-0.7413 2.904,-1.393 1.495,-1.255 2.789,-2.748 3.881,-4.364 C -0.494,-6.426 -0.022,-7.135 0,-7.94 0,-5.293 0,-2.647 0,0 m 0,-7.94 c 0.038,1.182 0.758,2.206 1.438,3.12 1.212,1.51 2.648,2.846 4.228,3.963 C 6.28,-0.474 6.932,-0.0185 7.68,0 5.12,0 2.56,0 0,0 M 7.68,0 C 6.57,0.035 5.622,0.741 4.776,1.392 3.281,2.648 1.987,4.141 0.895,5.757 0.494,6.426 0.0225,7.135 0,7.94 0,5.293 0,2.647 0,0"
+                     id="path44742" />
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

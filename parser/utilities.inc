@@ -45,6 +45,11 @@ class persistentStore implements checkpoint {
   public function discard($state) {
     unset ($this->storage[$state]);
   }
+
+  public function flush() {
+    $this->storage = array();
+    $this->storageKey = 0;
+  }
    
 }
   

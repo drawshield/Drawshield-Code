@@ -28,10 +28,10 @@ if ( existModifierWithKeyterm($node,'couped') ) {
   $ordinary['body'] = '<path d="M0,0l83.3,150 83.3,-150 83.3,150 83.3,-150 83.3,150 83.3,-150 83.3,150 83.3,-150 83.3,150 83.3,-150 83.3,150 83.3,-150 v300 l-83.3,-150 -83.3,150 -83.3,-150 -83.3,150 -83.3,-150 -83.3,150 -83.3,-150 -83.3,150 -83.3,-150 -83.3,150 -83.3,-150 -83.3,150 " />';
   $ordinary['chargesOn'] = array ('h','100,50,800,200'); // Or an error?
 } elseif ( existModifierWithKeyterm($node, 'voided')) {
-  $ordinary['shape_spec'] = 'X-40Y300U1a1080c40E1080g40';
+  $ordinary['shape_spec'] = 'X-100Y300U1a1200c40E1200g40';
   $ordinary['chargesOn'] = array ('h','100,30,800,180');
 } else {
-  $ordinary['shape_spec'] = 'X-8Y-8U1a1016c308E1016g308';
+  $ordinary['shape_spec'] = 'X-100Y-8U1a1200c308E1200g308';
   $ordinary['chargesOn'] = array ('h','100,50,800,200');
 }
 

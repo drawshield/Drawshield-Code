@@ -74,7 +74,8 @@ function rewriteAttributes($attributes, $class = '') {
         $retval = ' transform="' . $data . '" ';
         break;
       case 'stroke-width':
-       break; // ignore this for now
+        $retval .= ' stroke-width="' . $data . '" ';
+       break; 
       default:
         if (( strpos($key,'sodipodi:') === false ) and (strpos($key,'inkscape:') === false ))
           $retval .= $key . '="' . $data . '" ';
@@ -121,7 +122,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
   }
   //-------------------------------------------------------------------------
   $item = "<$name ";
-  if ($id != null and substr($id, 0, 4) != 'path' and substr($id, 0, 5) != 'group') {
+  if ($id != null && substr($id, 0, 4) != 'path' && substr($id, 0, 5) != 'group') {
     if (array_key_exists($id, $featureColours)) { // this is a feature with a given colour
       $class = "feature $id";
       $item .= ' fill="' . $featureColours[$id] . '" ';
@@ -146,7 +147,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
   return $item;
 }
 
-function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName, $extras) {
+function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName, $extras, $addStroke = true) {
   global $messages, $options;
   $retval = array();
 
@@ -175,7 +176,9 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
   foreach( $svg->children() as $child )
     $fragment .= addChild($child, $featureTinctures, $chargeGroup, $chargeName, $extras);
   // Set the global stroke colour
-  $fragment = '<g stroke="' . rgb('charge-stroke') . '">' . $fragment . '</g>';
+  if ($addStroke){
+    $fragment = '<g stroke="' . rgb('charge-stroke') . '">' . $fragment . '</g>';
+  }
   $retval['body'] = $fragment;
   return $retval;
 }

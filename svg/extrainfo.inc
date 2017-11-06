@@ -11,19 +11,28 @@ class extraInfoMap {
     self::$groups = array(
       'sword' => array ('orient_to_ordinary' => -1),
       'axe' => array ('orient_to_ordinary' => -1),
+      'flute' => array ('orient_to_ordinary' => -1),
       'knot' => array ('orient_to_ordinary' => 1),
       'plant' => array ('orient_to_ordinary' => 1),
       'projectile' => array ('orient_to_ordinary' => -1),
       'quadrate' => array('charged-with' => 'c/c/c/500,200,200,200:200,500:800,500:500,800/c/c'),
       'crown' => array('horizontal' => true),
+      'playing-card' => array('always_proper' => true),
     );
     self::$charges = array(
+            'flail' => array ('orient_to_ordinary' => -1),
+            'pillar' => array ('orient_to_ordinary' => -1),
             'rocket' => array ('orient_to_ordinary' => -1),
             'bbox' => array ('orient_to_ordinary' => 1),
             'cartouche' => array ('orient_to_ordinary' => 1),
             'billet' => array ('orient_to_ordinary' => 1),
             'rocket-man' => array ('orient_to_ordinary' => -1),
-            'salmon' => array('horizontal' => true),
+            'salmon' => array('horizontal' => true, 'orient_to_ordinary' => 1),
+            'eel' => array('horizontal' => true, 'orient_to_ordinary' => 1),
+            'herring' => array('horizontal' => true, 'orient_to_ordinary' => 1),
+            'pike' => array('horizontal' => true, 'orient_to_ordinary' => 1),
+            'trumpet' => array('horizontal' => true, 'orient_to_ordinary' => 1),
+            'card-back' => array(), // override the always_proper of the group above
     );
   }
   

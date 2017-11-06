@@ -21,4 +21,11 @@ if (existModifierWithKeyterm($node, 'concentric')) {
     if ( $num > 10 ) $num = 10;
     $charge['file'] = "annulet-concentric-$num.svg";
   }
+} elseif (existModifierWithKeyterm($node, 'interlaced')) {
+  $num = $node->getAttribute('number');
+  if ($num > 1) {
+    $node->setAttribute('number','1');
+    if ( $num > 10 ) $num = 10;
+    $charge['file'] = "annulet-interlaced-$num.svg";
+  }
 }

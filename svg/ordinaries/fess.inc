@@ -29,9 +29,9 @@ elseif ( existModifierWithKeyterm($node,'lozengy')) {
 } elseif ( existModifierWithKeyterm($node,'dancetty')) {
   $ordinary['body'] = '<path d="M-100,450L100,250 300,450 500,250 700,450 900,250 1100,450 1100,750 900,550 700,750 500,550 300,750 100,550 -100,750Z" />';
 } elseif ( existModifierWithKeyterm($node, 'voided')) {
-  $ordinary['shape_spec'] = 'X-38Y350A1076c300E1076g300';
+  $ordinary['shape_spec'] = 'X-100Y350A1200c300E1200g300';
 } else {
-  $ordinary['shape_spec'] = 'X-8Y350A1016c300E1016g300';
+  $ordinary['shape_spec'] = 'X-100Y350A1200c300E1200g300';
 }
 
 // Add extra layer if compony

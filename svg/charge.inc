@@ -182,9 +182,6 @@ function read_chg_file(DOMElement $node) {
               '<text x="50" y="55" font-size="15" text-anchor="middle">' . $title . '</text></g></svg>';
     }
     $chg_data = array_merge($chg_data, getExtraInfo($group, $chargeKey));
-    foreach ( getExtraInfo($group, $chargeKey) as $item => $value) {
-      error_log("$item => $value");
-    }
   }
   $chg_data['title'] = $title;
   return $chg_data;
@@ -294,7 +291,11 @@ function getCharge( DOMElement $node ) {
   foreach ( $node->childNodes as $child ) { // TODO rewrite this logic?
     switch ( $child->nodeName ) {
       case 'tincture':
-        $charge_col = resolveReference($child);
+        if (array_key_exists( 'always_proper', $chg_data)) {
+          $child->setAttribute('origin','implied');
+        } else {
+          $charge_col = resolveReference($child);
+        }
         break;
       case 'modifier':
         // TODO feature without child nodes, look for sibling feature with child nodes and use those?
@@ -329,7 +330,7 @@ function getCharge( DOMElement $node ) {
   // By this point, $proper contains the proper colour code for the body (if given).
   // $feat_cols contains a array of named features => colour codes
   // We will now work out the actual colours to be used for the body and any unnamed features
-  if ( $charge_col != null and $charge_col->getAttribute('origin') != 'implied') { // fixed colour
+  if ( $charge_col != null && $charge_col->getAttribute('origin') != 'implied') { // fixed colour
     if ( !$charge_col->hasChildNodes()) {
       // $messages->addMessage('internal','Malformed tincture ID= ' . $charge_col->getAttribute('ID'));
     } else {
@@ -364,7 +365,7 @@ function getCharge( DOMElement $node ) {
   // So we now have $charge_col set to a valid tincture node and the feat_cols array set, apply this to the svg Data
   // dummy assignments
   $body = $height = $width = $licence = null;
-  extract(getSvgFragment($chg_data['svgCode'], $feat_cols, $chargeGroup, $chargeName, $extras ));
+  extract(getSvgFragment($chg_data['svgCode'], $feat_cols, $chargeGroup, $chargeName, $extras, $charge_col != null ));
   // $body now contains a valid fragment of SVG, ready for use
   // Also, $licence, $height and $width are set
   //----------------------------------------------------------

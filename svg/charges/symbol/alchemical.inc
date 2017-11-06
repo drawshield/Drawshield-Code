@@ -12,10 +12,10 @@
  */
 
 $planet = getModifierValueByKeyterm($node,'value');
-if ( file_exists( $folder . 'astron-' . $planet . '.svg'))
-  $charge['file'] = "astron-$planet.svg";
+if ( file_exists( $folder . '/alchemical/' . $planet . '.svg'))
+  $charge['file'] = "alchemical/$planet.svg";
 else {
-  $charge['file'] = "astron-sun.svg";
-  $messages->addMessage('warning','Symbol for sun substituted for ' . $planet);
+  $charge['file'] = "alchemical/fire.svg";
+  $messages->addMessage('warning',"No symbol for $planet (using fire)");
 }
 

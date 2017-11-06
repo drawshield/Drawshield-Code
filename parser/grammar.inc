@@ -86,6 +86,10 @@ abstract class grammar  {
   public function save() {
     return ( $this->stateStore->store($this->tokenList->cur_word) );
   }
+
+  public function atWord() {
+    return ( $this->tokenList->cur_word );
+  }
   
   public function restore($state) {
     global $trace;
@@ -139,9 +143,9 @@ abstract class grammar  {
   protected function semicolon($lookback = true) {
   
     $retval = false;
-    if ( self::find(languageDB::SEMICOLON) ) 
+    if ( self::find(languageDB::SEMICOLON) ) {
       $retval = true;
-    if ( $lookback ) {
+    } elseif ( $lookback ) {
       $state = self::save();
       if ( self::lookAhead(-1) && self::find(languageDB::SEMICOLON) != null ) $retval = true;
       self::restore($state);

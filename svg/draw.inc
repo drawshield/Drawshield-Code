@@ -177,35 +177,37 @@ function draw() {
       // other elements for future expansion
     }
   }
-  $clipShield = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />' );
-  // Add effects (if any) and Clip to shield shape
-  if ( ($options['asFile'] and $options['saveFormat'] != 'svg') or (!$options['asFile'] and $options['outputFormat'] != 'svg')) {
-    $bodyfill = add_def('pattern width="100%" height="100%" patternUnits="objectBoundingBox"', $body . getEffect('above') );
-    $body = add_def(); // Note, we reset body here
-    $body .= '<path fill="url(#' . $bodyfill . ')" ' . getEffect('filter') . ' d="' . $outline . '" />';
+  if (!array_key_exists('nomask', $options)) {
+    $clipShield = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />' );
+    // Add effects (if any) and Clip to shield shape
+    if ( ($options['asFile'] and $options['saveFormat'] != 'svg') or (!$options['asFile'] and $options['outputFormat'] != 'svg')) {
+      $bodyfill = add_def('pattern width="100%" height="100%" patternUnits="objectBoundingBox"', $body . getEffect('above') );
+      $body = add_def(); // Note, we reset body here
+      $body .= '<path fill="url(#' . $bodyfill . ')" ' . getEffect('filter') . ' d="' . $outline . '" />';
 
-    /* $body .= add_def();
-    $body = getEffect('below') . '<g ' . getEffect('filter') . '><g mask="url(#' . $clipShield . ')">' . $body . getEffect('above') . '</g></g>';
-    */
-  } else  {
-    $body .= add_def();
-    $body = getEffect('below') . '<g ' . getEffect('filter') . '><g mask="url(#' . $clipShield . ')">' . $body . getEffect('above') . '</g></g>';
-  }
-  // Add outline of shield shape, only if required
-  if ( $options['palette'] == 'nocolour')
-    $body .=  '<path fill="none" stroke="' . rgb('division-stroke') . '" stroke-width="4" d="' . $outline . '" />';
-  // Rest depends on output format
-  if ( $options['asFile'] or $options['printable'] ) { // minimal decoration, no infobox
+      /* $body .= add_def();
+      $body = getEffect('below') . '<g ' . getEffect('filter') . '><g mask="url(#' . $clipShield . ')">' . $body . getEffect('above') . '</g></g>';
+      */
+    } else  {
+      $body .= add_def();
+      $body = getEffect('below') . '<g ' . getEffect('filter') . '><g mask="url(#' . $clipShield . ')">' . $body . getEffect('above') . '</g></g>';
+    }
+    // Add outline of shield shape, only if required
+    if ( $options['palette'] == 'nocolour')
+      $body .=  '<path fill="none" stroke="' . rgb('division-stroke') . '" stroke-width="4" d="' . $outline . '" />';
+    // Rest depends on output format
+    if ( $options['asFile'] or $options['printable'] ) { // minimal decoration, no infobox
+        $body .= '<text id="test1" x="10" y="1160" font-size="30" >' . $version['name'] . ' ' . $version['release'] . '</text><text x="10" y="1190" font-size="30" >' . $version['website'] . '</text>';
+    } else { // in line version, all the bells and whistles
       $body .= '<text id="test1" x="10" y="1160" font-size="30" >' . $version['name'] . ' ' . $version['release'] . '</text><text x="10" y="1190" font-size="30" >' . $version['website'] . '</text>';
-  } else { // in line version, all the bells and whistles
-    $body .= '<text id="test1" x="10" y="1160" font-size="30" >' . $version['name'] . ' ' . $version['release'] . '</text><text x="10" y="1190" font-size="30" >' . $version['website'] . '</text>';
-    if ( $options['outputFormat'] == 'svg') {
-      $body .= '<g onclick="document.getElementById(\'infobox\').setAttribute(\'visibility\',\'visible\');document.getElementById(\'text1\').setAttribute(\'visibility\',\'visible\');" >';
-      populateInfoBox($infobox); // Side effect, sets 'notify' option
-      if ($options['notify']) $body .= '<text fill="red" text-anchor="end" x="990" y="1160" font-size="30">Error reported</text>';
-      $body .= '<text fill="black" text-anchor="end" x="990" y="1190" font-size="30">Click for information</text>';
-      $body .= '</g>';
-      $body .= $infobox->getInfobox();
+      if ( $options['outputFormat'] == 'svg') {
+        $body .= '<g onclick="document.getElementById(\'infobox\').setAttribute(\'visibility\',\'visible\');document.getElementById(\'text1\').setAttribute(\'visibility\',\'visible\');" >';
+        populateInfoBox($infobox); // Side effect, sets 'notify' option
+        if ($options['notify']) $body .= '<text fill="red" text-anchor="end" x="990" y="1160" font-size="30">Error reported</text>';
+        $body .= '<text fill="black" text-anchor="end" x="990" y="1190" font-size="30">Click for information</text>';
+        $body .= '</g>';
+        $body .= $infobox->getInfobox();
+      }
     }
   }
   return $header . $body . $trailer;

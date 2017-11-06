@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg899"
+   viewBox="0 0 488 453.58072"
+   height="453.58072"
+   width="488"
+   version="1.0"
+   sodipodi:docname="chess-queen.svg"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview2325"
+     showgrid="false"
+     inkscape:zoom="1.7008197"
+     inkscape:cx="244"
+     inkscape:cy="226.79036"
+     inkscape:current-layer="svg899" />
+  <metadata
+     id="metadata905">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>https://commons.wikimedia.org/wiki/User:Dbenbenn</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs903" />
+  <path
+     id="path880"
+     style="fill:#ffff00;stroke:#808080;stroke-width:7.55905512"
+     d="m 42,114 16,170 62,93 -23,47 c 37,28 216,31 297,0 L 371,377 433,284 449,114 371,261 355,75 285,253 245,59 206,253 136,75 120,261 Z" />
+  <circle
+     id="circle"
+     style="fill:#ffff00;stroke:#808080;stroke-width:7.55905512"
+     r="26"
+     cy="92"
+     cx="34" />
+  <circle
+     cx="132"
+     cy="55"
+     r="26"
+     style="fill:#ffff00;stroke:#808080;stroke-width:7.55905533"
+     id="use883" />
+  <circle
+     cx="244"
+     cy="34"
+     r="26"
+     style="fill:#ffff00;stroke:#808080;stroke-width:7.55905533"
+     id="use885" />
+  <circle
+     cx="356"
+     cy="54"
+     r="26"
+     style="fill:#ffff00;stroke:#808080;stroke-width:7.55905533"
+     id="use887" />
+  <circle
+     cx="454"
+     cy="91"
+     r="26"
+     style="fill:#ffff00;stroke:#808080;stroke-width:7.55905533"
+     id="use889" />
+  <path
+     id="path891"
+     style="fill:#ffff00;stroke:#808080;stroke-width:7.55905512"
+     d="m 97,424 c 99,-42 191,-45 289,0" />
+  <path
+     id="path893"
+     style="fill:#ffff00;stroke:#808080;stroke-width:7.55905512"
+     d="m 120,377 c 93,-30 148,-36 251,0" />
+  <path
+     id="path895"
+     style="fill:#ffff00;stroke:#808080;stroke-width:7.55905512"
+     d="m 89,331 c 99,-42 208,-45 306,0" />
+  <path
+     id="path897"
+     style="fill:none;stroke:#808080;stroke-width:7.55905533"
+     d="m 65.412048,290.46747 22,-19 c 22.000002,9 60.000002,-3 75.000002,-18 20,13 52,19 83,-13 31,33 57,27 86,16 25,20 50,23 76,16 l 19,21" />
+</svg>

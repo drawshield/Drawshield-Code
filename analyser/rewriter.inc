@@ -22,7 +22,7 @@ function rewrite() {
   }
 
   // A charge/within/ordinary becomes ordinary/between/charge
-  foreach ( $xpath->query("//charge/modifier[@name='within']/ordinary") as $ordinary ) {
+ /* foreach ( $xpath->query("//charge/modifier[@name='within']/ordinary") as $ordinary ) {
     $charge = $ordinary->parentNode->parentNode;
     $parent = $charge->parentNode;
     $new_mod = createModifierNode('between');
@@ -33,7 +33,7 @@ function rewrite() {
     $new_mod->appendChild($new_charge);
     $ordinary->appendChild($new_mod);
     $parent->replaceChild($ordinary,$charge);
-  }
+  } */
 
 // counter passant is passant reversed
   foreach ( $xpath->query("//charge/modifier[@keyterm='counterpassant']") as $mod1 ) {
