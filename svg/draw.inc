@@ -31,12 +31,13 @@ include "rgb.inc";
 include "shield.inc";
 include "svgutils.inc";
 include "treatment.inc";
-include "utilities.inc";
 
 
 function region ( $action, $region = null ) {
-  global $svg_region;
+  global $svg_region, $messages;
   static $stack = array();
+  
+//  $messages->addMessage('internal', 'region: ' . $action . " " . $region);
 
   switch ( $action ) {
     case 'push':
@@ -78,18 +79,39 @@ function chiefPresent() {
 
 function choose_fit( $choices ) {
   global $svg_region, $svg_chief, $messages;
+  $retval = null;
+  $found = null;
+  
+  //  $messages->addMessage('internal', "Searching for $svg_region + $svg_chief");
 
-  if ( !is_array($choices) ) return $choices;
-  // Look for chief/no chief first
-  if ( array_key_exists($svg_chief, $choices) ) return $choices[$svg_chief];
-  // Look for region alone next
-  if ( array_key_exists($svg_region, $choices) ) return $choices[$svg_region];
-  // Last resort, look for the combination
+
+  if ( !is_array($choices) ) {
+      $retval = $choices;
+      $found = "(fixed)";
+  }
+    // Most detailed, look for the combination
   $combo = $svg_region . $svg_chief;
-  if ( array_key_exists($combo, $choices) ) return $choices[$combo];
+  if ( $found == null && array_key_exists($combo, $choices) ) {
+      $retval =  $choices[$combo];
+      $found = $combo;
+  }
+  // Look for chief/no chief first
+  if ( $found == null && array_key_exists($svg_chief, $choices) ) {
+      $retval =  $choices[$svg_chief];
+      $found = $svg_chief;
+  }
+  // Look for region alone next
+  if ( $found == null && array_key_exists($svg_region, $choices) ) {
+      $retval =  $choices[$svg_region];
+      $found = $svg_region;
+  }
+
+  if ( $retval == null ) {
+      $messages->addMessage('internal', 'Cannot find placement for region');     
+  }
+  
   // raise error
-  $messages->addMessage('internal', 'Cannot find placement for region');
-  return null;
+  return $retval;
 }
 
 
@@ -124,10 +146,11 @@ function draw() {
   global $version;
   global $messages;
 
+  $outline = "m 0,0 v 800 c -2.5063876,43.11115 1.2341419,84.33503 21.489586,125.13639 20.255443,40.80137 53.477613,79.98631 98.039434,115.63581 44.56181,35.6494 100.44867,67.7517 164.92346,94.7345 64.47479,26.9828 137.51639,48.8374 215.54752,64.4933 78.03113,-15.6559 151.07273,-37.5105 215.54752,-64.4933 64.47479,-26.9828 120.36165,-59.0851 164.92346,-94.7345 44.56182,-35.6495 77.78399,-74.83444 98.03943,-115.63581 C 998.76586,884.33503 1000.1453,841.93063 1000,800 V 0 Z";
+
 
   $infobox = new infobox();
   $messages = new messageStore($dom);
-
   // Apply heraldic knowledge!
   // rewrite();
 
@@ -154,35 +177,37 @@ function draw() {
       // other elements for future expansion
     }
   }
-  $clipShield = add_def('mask', '<path fill="#FFFFFF" d="m 0,0 0,800 c -6.0479349,41.93063 1.2341419,84.33503 21.489586,125.13639 20.255443,40.80137 53.477613,79.98631 98.039434,115.63581 44.56181,35.6494 100.44867,67.7517 164.92346,94.7345 64.47479,26.9828 137.51639,48.8374 215.54752,64.4933 78.03113,-15.6559 151.07273,-37.5105 215.54752,-64.4933 64.47479,-26.9828 120.36165,-59.0851 164.92346,-94.7345 44.56182,-35.6495 77.78399,-74.83444 98.03943,-115.63581 C 998.76586,884.33503 1006.0479,841.93063 1000,800 l 0,-800 z" />' );
-  // Add effects (if any) and Clip to shield shape
-  if ( ($options['asFile'] and $options['saveFormat'] != 'svg') or (!$options['asFile'] and $options['outputFormat'] != 'svg')) {
-    $bodyfill = add_def('pattern width="100%" height="100%" patternUnits="objectBoundingBox"', $body . getEffect('above') );
-    $body = add_def(); // Note, we reset body here
-    $body .= '<path fill="url(#' . $bodyfill . ')" ' . getEffect('filter') . ' d="m 0,0 0,800 c -6.0479349,41.93063 1.2341419,84.33503 21.489586,125.13639 20.255443,40.80137 53.477613,79.98631 98.039434,115.63581 44.56181,35.6494 100.44867,67.7517 164.92346,94.7345 64.47479,26.9828 137.51639,48.8374 215.54752,64.4933 78.03113,-15.6559 151.07273,-37.5105 215.54752,-64.4933 64.47479,-26.9828 120.36165,-59.0851 164.92346,-94.7345 44.56182,-35.6495 77.78399,-74.83444 98.03943,-115.63581 C 998.76586,884.33503 1006.0479,841.93063 1000,800 l 0,-800 z" />';
+  if (!array_key_exists('nomask', $options)) {
+    $clipShield = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />' );
+    // Add effects (if any) and Clip to shield shape
+    if ( ($options['asFile'] and $options['saveFormat'] != 'svg') or (!$options['asFile'] and $options['outputFormat'] != 'svg')) {
+      $bodyfill = add_def('pattern width="100%" height="100%" patternUnits="objectBoundingBox"', $body . getEffect('above') );
+      $body = add_def(); // Note, we reset body here
+      $body .= '<path fill="url(#' . $bodyfill . ')" ' . getEffect('filter') . ' d="' . $outline . '" />';
 
-    /* $body .= add_def();
-    $body = getEffect('below') . '<g ' . getEffect('filter') . '><g mask="url(#' . $clipShield . ')">' . $body . getEffect('above') . '</g></g>';
-    */
-  } else  {
-    $body .= add_def();
-    $body = getEffect('below') . '<g ' . getEffect('filter') . '><g mask="url(#' . $clipShield . ')">' . $body . getEffect('above') . '</g></g>';
-  }
-  // Add outline of shield shape, only if required
-  if ( $options['palette'] == 'nocolour')
-    $body .=  '<path fill="none" stroke="' . rgb('division-stroke') . '" stroke-width="4" d="m 0,0 0,800 c -6.0479349,41.93063 1.2341419,84.33503 21.489586,125.13639 20.255443,40.80137 53.477613,79.98631 98.039434,115.63581 44.56181,35.6494 100.44867,67.7517 164.92346,94.7345 64.47479,26.9828 137.51639,48.8374 215.54752,64.4933 78.03113,-15.6559 151.07273,-37.5105 215.54752,-64.4933 64.47479,-26.9828 120.36165,-59.0851 164.92346,-94.7345 44.56182,-35.6495 77.78399,-74.83444 98.03943,-115.63581 C 998.76586,884.33503 1006.0479,841.93063 1000,800 l 0,-800 z" />';
-  // Rest depends on output format
-  if ( $options['asFile'] or $options['printable'] ) { // minimal decoration, no infobox
+      /* $body .= add_def();
+      $body = getEffect('below') . '<g ' . getEffect('filter') . '><g mask="url(#' . $clipShield . ')">' . $body . getEffect('above') . '</g></g>';
+      */
+    } else  {
+      $body .= add_def();
+      $body = getEffect('below') . '<g ' . getEffect('filter') . '><g mask="url(#' . $clipShield . ')">' . $body . getEffect('above') . '</g></g>';
+    }
+    // Add outline of shield shape, only if required
+    if ( $options['palette'] == 'nocolour')
+      $body .=  '<path fill="none" stroke="' . rgb('division-stroke') . '" stroke-width="4" d="' . $outline . '" />';
+    // Rest depends on output format
+    if ( $options['asFile'] or $options['printable'] ) { // minimal decoration, no infobox
+        $body .= '<text id="test1" x="10" y="1160" font-size="30" >' . $version['name'] . ' ' . $version['release'] . '</text><text x="10" y="1190" font-size="30" >' . $version['website'] . '</text>';
+    } else { // in line version, all the bells and whistles
       $body .= '<text id="test1" x="10" y="1160" font-size="30" >' . $version['name'] . ' ' . $version['release'] . '</text><text x="10" y="1190" font-size="30" >' . $version['website'] . '</text>';
-  } else { // in line version, all the bells and whistles
-    $body .= '<text id="test1" x="10" y="1160" font-size="30" >' . $version['name'] . ' ' . $version['release'] . '</text><text x="10" y="1190" font-size="30" >' . $version['website'] . '</text>';
-    if ( $options['outputFormat'] == 'svg') {
-      $body .= '<g onclick="document.getElementById(\'infobox\').setAttribute(\'visibility\',\'visible\');document.getElementById(\'text1\').setAttribute(\'visibility\',\'visible\');" >';
-      populateInfoBox($infobox); // Side effect, sets 'notify' option
-      if ($options['notify']) $body .= '<text fill="red" text-anchor="end" x="990" y="1160" font-size="30">Error reported</text>';
-      $body .= '<text fill="black" text-anchor="end" x="990" y="1190" font-size="30">Click for information</text>';
-      $body .= '</g>';
-      $body .= $infobox->getInfobox();
+      if ( $options['outputFormat'] == 'svg') {
+        $body .= '<g onclick="document.getElementById(\'infobox\').setAttribute(\'visibility\',\'visible\');document.getElementById(\'text1\').setAttribute(\'visibility\',\'visible\');" >';
+        populateInfoBox($infobox); // Side effect, sets 'notify' option
+        if ($options['notify']) $body .= '<text fill="red" text-anchor="end" x="990" y="1160" font-size="30">Error reported</text>';
+        $body .= '<text fill="black" text-anchor="end" x="990" y="1190" font-size="30">Click for information</text>';
+        $body .= '</g>';
+        $body .= $infobox->getInfobox();
+      }
     }
   }
   return $header . $body . $trailer;

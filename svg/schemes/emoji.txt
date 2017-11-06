@@ -1,0 +1,12 @@
+# Emoji, as supplied by https://www.reddit.com/user/UncivilizedEngie
+or=#fdca58
+azure=#3a88c4
+vert=#39a173
+gules=#e12e48
+argent=#ffffff
+sable=#292f33
+purpure=#7551a1
+brunatre=#652113
+tenne=#f4911e
+celestial-azure=#5ea9dd
+cendree=#8a9ba5

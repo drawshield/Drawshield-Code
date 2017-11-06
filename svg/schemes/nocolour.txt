@@ -1,0 +1,33 @@
+# For colouring books...
+or=#ffffff
+azure=#ffffff
+vert=#ffffff
+gules=#ffffff
+argent=#ffffff
+sable=#f0f0f0
+purpure=#ffffff
+murrey=#ffffff
+sanguine=#ffffff
+carnation=#ffffff
+brunatre=#ffffff
+cendree=#ffffff
+rose=#ffffff
+bis=#ffffff
+celestial-azure=#ffffff
+senois=#ffffff
+tenne=#ffffff
+orange=#ffffff
+iron=#ffffff
+bronze=#ffffff
+copper=#ffffff
+lead=#ffffff
+steel=#ffffff
+white=#ffffff
+charge-stroke=#848484
+ordinary-stroke=#848484', ),
+pattern-stroke='#848484', ),
+division-stroke='#848484', ),
+white-line' => array ( 'drawshield' => '#FFFFFF', 'nocolour' => '#848484', ),
+    
+
+ 

@@ -68,8 +68,12 @@ class languageDB extends lexicon {
   const CHARGE_FEATURES = 'chargefeat';
   const CHARGE_MODS = 'chargemod';
   const POSITION = 'position';
-    const POINTS = 'points';
+  const POINTS = 'points';
   const SUPPLEMENTARY = 'supplementary';
+  const SHOWN_EXTRA = 'shownextra';
+  const SHOWN_MODS = 'shown';
+  const DRAWN_MODS = 'drawn';
+  const FONT = 'font';
   
   public function __construct() {
     $this->language = 'english';
@@ -90,6 +94,7 @@ class languageDB extends lexicon {
         array ('lambrequin', 'mantling'),
         array ('supporters', 'supporters'),
         array ('motto', 'motto'),
+        array ('devi[sc]e', 'motto'),
       ),
       self::SPLITS => array (
         array ( 'impaled with', 'impaled' ),
@@ -103,16 +108,17 @@ class languageDB extends lexicon {
         array ( 'quarterly', 'quarterly' ), // Could be a marshalling or a division
       ),
       self::QUARTERS => array (
-        array ( '(first|1st|i|1|one)', 1 ),
-        array ( '(second|2nd|ii|2|two)', 2 ),
-        array ( '(third|3rd|iii|3|three)', 3 ),
-        array ( '(fourth|4th|iv|iiii|4|four)', 4 ),
-        array ( '(fifth|5th|v|5|five)', 5 ),
-        array ( '(sixth|6th|vi|6|six)', 6 ),
-        array ( '(seventh|7th|vii|7|seven)', 7 ),                                                 
-        array ( '(eighth|8th|viii|8|eight)', 8 ),
+        array ( '?the (first|1st|i|1|one)', 1 ),
+        array ( '?the (second|2nd|ii|2|two)', 2 ),
+        array ( '?the (third|3rd|iii|3|three)', 3 ),
+        array ( '?the (fourth|4th|iv|iiii|4|four)', 4 ),
+        array ( '?the (fifth|5th|v|5|five)', 5 ),
+        array ( '?the (sixth|6th|vi|6|six)', 6 ),
+        array ( '?the (seventh|7th|vii|7|seven)', 7 ),                                                 
+        array ( '?the (eighth|8th|viii|8|eight)', 8 ),
+        array ( '?the (ninth|9th|ix|9|nine)', 9 ),
       ),
-      self::SEMICOLON => array ( ';', '\\.' ), // need to escape '.' as this is regex special character
+      self::SEMICOLON => array ( ':', ';', '\\.' ), // need to escape '.' as this is regex special character
       self::COMMA => array ( ',' ),
       self::WORD_OF => array ( 'of' ),
       self::WORD_ON => array ( 'on' ),
@@ -132,10 +138,15 @@ class languageDB extends lexicon {
           array ( 'sa(ble)?', 'sable' ),
           array ( 'purp(le|ure)', 'purpure' ),
           // additional tinctures
-          'murrey',  'sanguine',  'carnation', 'brunatre', 'cendree',  'rose',  
+          'murrey',  'sanguine',  'carnation', 'brunatre',  'rose', 
+          'buff' 
+          array (  'cei?ndree', 'cendree' ),
           array ( 'bis(que)?', 'bis' ),
           array ( 'celestial azure', 'celestial-azure'  ),
           array ( 'bleu celeste', 'celestial-azure'  ),
+          array ( 'horizon blue', 'celestial-azure'  ),
+          array ( 'red ochre', 'red-ochre'  ),
+          array ( 'yellow ochre', 'yellow-ochre'  ),
           array ( 'senois', 'senois' ),
           array ( '(tanned|tenne|tawny)', 'tenne' ),
           'orange',
@@ -154,6 +165,11 @@ class languageDB extends lexicon {
           'jacinth', 'luna', 'mars', 'pearl', 'ruby', 'sol', 'topaz', 'venus',
           End comment here */
           // English names
+          array ( 'iron', 'iron'),
+          array ( 'bronze', 'bronze'),
+          array ( 'copper', 'copper'),
+          array ( 'lead', 'lead'),
+          array ( 'steel', 'steel'),
         array ( 'gold',  'or'    ),
         array ( 'blue',  'azure'   ),
         array ( 'green', 'vert' ),
@@ -163,43 +179,8 @@ class languageDB extends lexicon {
         array ( 'brown', 'brunatre' ),
         array ( 'gr[ae]y', 'cendree' ),
         array ( 'pink', 'rose' ),
-          // Named web colors
-          /* comment out from here to disable web colours 
-         'alice blue', 'antique white', 'aqua', 'aquamarine', 'beige', 'black', 'blanched almond',  
-         'blue', 'blue violet', 'brown', 'burly wood', 'cadet blue', 'chartreuse', 'chocolate',
-         'coral', 'cornflower blue', 'cornsilk', 'crimson', 'cyan', 'dark blue', 'dark cyan',
-         'dark goldenrod',                                                                  
-          array ( 'dark gr(a|e)y', 'dark gray'),
-          'dark green',     'dark khaki', 'dark magenta', 'dark olive green', 'dark orange',
-          'dark orchid', 'dark red', 'dark salmon', 'dark sea green', 'dark slate blue',  
-          array ( 'dark slate gr(a|e)y', 'dark slate gray'),
-          'dark turquoise',  'dark violet', 'deep pink', 'deep sky blue',   
-          array ( 'dim gr(a|e)y', 'dim gray'),                             
-          'dodger blue',  'fire brick', 'floral white', 'forest green', 'fuchsia',
-          'gainsboro', 'ghost white', 'gold', 'goldenrod',      
-          array ( 'gr(a|e)y', 'gray' ),
-          'green', 'green yellow', 'honeydew', 'hot pink', 'indian red', 'indigo',
-          'ivory', 'khaki', 'lavender', 'lavender blush', 'lawn green', 'lemon chiffon',
-          'light blue', 'light coral', 'light cyan', 'light goldenrod yellow',
-          array ( 'light gr(a|e)y', 'light gray' ),
-          'light green', 'light pink', 'light salmon', 'light sea green',
-          'light sky blue',                     
-          array ( 'light slate gr(a|e)y', 'light slate gray'),
-          'light steel blue',   'light yellow', 'lime', 'lime green', 'linen', 'magenta',
-          'maroon', 'medium aquamarine', 'medium blue', 'medium orchid', 'medium purple',
-          'medium sea green', 'medium slate blue', 'medium spring green', 'medium turquoise',
-          'medium violet red', 'midnight blue', 'mint cream', 'misty rose', 'moccasin',
-          'navajo white', 'navy', 'old lace', 'olive', 'olive drab',                    
-          'orange red', 'orchid', 'pale goldenrod', 'pale green', 'pale turquoise',
-          'pale violet red', 'papaya whip', 'peach puff', 'peru', 'pink', 'plum',
-          'powder blue', 'purple', 'red', 'rosy brown', 'royal blue', 'saddle brown',
-          'salmon', 'sandy brown', 'sea green', 'sea shell', 'sienna', 'silver',
-          'sky blue', 'slate blue',        
-          array ( 'slate gr(a|e)y', 'slate gray'),                 
-          'snow', 'spring green', 'steel blue', 'tan', 'teal', 'thistle', 'tomato',
-          'turquoise', 'violet', 'wheat', 'white', 'white smoke', 'yellow', 'yellow green',                          
-            End comment here */
-          ),
+        array ( 'white', 'white' ),
+        ),
         self::BACKREF => array (
             array ( '(like|of|as) the same', 'ofsame'),
             array ( '(like|of|as) the last', 'oflast'),
@@ -237,7 +218,7 @@ class languageDB extends lexicon {
             array ( 'potent(e|y)',    'potenty',  ),
             array ( 'ai?[qg]ui?lated', 'aquilated' ), // TODO draw this
             array ( 'ferrated', 'ferrated' ), // TODO and this
-            array ( 'trefle', 'trefle' ), // TODO and this
+            //array ( 'trefle', 'trefle' ), // TODO and this
             array ( 'verd(e|oy)', 'verdy' ), // TODO and this
             array ( 'barruly wavy', 'barruly-wavy' ), // TODO and this
         ),
@@ -263,7 +244,7 @@ class languageDB extends lexicon {
         self::SEMY => array ( '(seme|semy) (de|with|of)', '(aspersed|strewn) with', '(poudre|powdered) with' ),
         self::GROUP => array ( '(both|all|the|his|her|its)',  ),
         self::PROPER => array ( '(proper|ppr)' ),
-        self::COUNTERCHANGE => array ( 'interchanged?', 'transmuted', 'counterchanged?', 'countercoloured', 'de l un en l autre' ),
+        self::COUNTERCHANGE => array ( 'interchanged?', 'transmuted', 'countercha[nr]ged?', 'countercoloured', 'de l un en l autre' ),
         self::DIVISION => array (
           array ( 'pily',                  'pily',               ),
           array ( 'quarterly',             'quarterly',          ),
@@ -289,7 +270,7 @@ class languageDB extends lexicon {
           array ( '?party per pile' ,      'per-pile',           ),
           array ( 'parted pilewise' ,      'per-pile',           ),
           array ( '?party per pall' ,      'per-pall',           ),
-          array ( 'tierced in pairle' ,    'per-pall',           ),
+          array ( 'tierced? (in|per) pairle' ,    'per-pall',           ),
           array ( '?party per chevron' ,   'per-chevron',        ),
           array ( 'parted chevronwise' ,   'per-chevron',        ),
           array ( 'enty' ,   'enty',        ),
@@ -297,10 +278,10 @@ class languageDB extends lexicon {
           array ( 'parted bendwise',       'per-bend',           ),
           array ( '?party per saltire' ,   'per-saltire',        ),
           array ( 'parted saltirewise' ,   'per-saltire',        ),
-          array ( 'tierced in pale' ,      'tierced-in-pale',    ),
-          array ( 'tierced in fesse?' ,      'tierced-in-fess',    ),
-          array ( 'tierced in bend' ,      'tierced-in-bend',    ),
-          array ( 'tierced in chevron',    'tierced-in-chevron', ),
+          array ( 'tierced? (in|per) pale' ,      'tierced-in-pale',    ),
+          array ( 'tierced? (in|per) fesse?' ,      'tierced-in-fess',    ),
+          array ( 'tierced? (in|per) bend' ,      'tierced-in-bend',    ),
+          array ( 'tierced? (in|per) chevron',    'tierced-in-chevron', ),
           array ( 'fusill?y',              'fusily',             ),
           array ( 'fusill?y bendy ?dexter','fusily-bendy',       ),                                     
           array ( 'fusill?y in bend',      'fusily-bendy',       ),
@@ -314,7 +295,7 @@ class languageDB extends lexicon {
          array ( 'rivett?ed', 'riveted' ),
          ),
        self::QUANTITY => array (
-          array ( '(a|an|the)', "1" ),
+          array ( '(a|an|the|some)', "1" ),
           ),
        self::NUMBER => array (
           array ( '(1|one)', "1" ),
@@ -338,32 +319,6 @@ class languageDB extends lexicon {
           array ( '(19|nineteen)', "19" ),
           array ( '(20|twenty)', "20" ),
           array ( '(as|so) many', 'asmany' ),
-          ),
-       self::LINETYPE => array (
-         'angled',  'dovetailed',  'escartelly',  'indented',   
-         'invected', 'nowy', 'plain', 'potenty', 'raguly',     
-          array ('(battled|double) (e?m?battled|crenn?ell?e?y?)',                       'battled-embattled' ),  // two levels of battlements, on upper surface only
-          array ('(em)?battled grady',                                                  'battled-embattled' ),
-          array ('(em)?battled brett?ess?e?y?',                                         'battled-brettesse' ),                // both sides, same pattern
-          array ('(e?m?battled|crenn?ell?e?y?) counter (e?m?battled|crenn?ell?e?y?)',   'battled-counter'  ), // both sides, opposite pattern
-          array ('?super (e?m?battled|crenn?ell?e?y?)',                                 'embattled'     ),        // top only
-          array ('?super crenellated',                                 'embattled'     ),        // top only
-          array ('(e?m?battled|crenn?ell?e?y?) arrondi',                                'embattled-arrondi'     ),           // top only, round crenelles
-          array ('(en)?arch(y|ed)',                         'arched'  ),
-          array ('concave',                         'arched'  ),
-          array ('bevill?ed',                           'bevilled'     ),
-          array ('bevill?y',                            'bevilled'     ),
-          array ('dau?ncett[ey]) fl(o|eu)r(y|etty)',         'dancetty-floretty' , ),
-          array ('dau?ncetty',                          'dancetty'         ),
-          array ('(nebul[ey]|nuance)',                           'nebuly'         ),
-          array ('dantelle',                          'dancetty'         ),
-          array ('[ie]ngr(ele|ailed)',                          'engrailed'         ),
-          array ('double (en)?arched',                  'double-arched'  ),
-          array ('(en)?arched double',                  'double-arched'  ),
-          array ('(rayonny|radiant)',                   'rayonny'        ),
-          array ('(wavy|[ou]nd[ey]|aiguise)',                 'wavy'      ),
-          array ('(urdy|urde|champaine|champion)',      'urdy' ,  ),
-          array ('fir twiggy?e?d?',                     'twigged' , ),
           ),
         self::ORIENTATION => array ( 
            'sinister', 'reversed','dexter', 'inverted', 'enhanced', 
@@ -402,6 +357,8 @@ class languageDB extends lexicon {
             array( 'tierce', 'tierce' ),
             array( '(gorge|whirlpool|gurges)', 'gorge' ),
             array( 'grid', 'grid' ),
+            array( 'trimount', 'trimount' ),
+            array( 'mount of (3|three) peaks', 'trimount' ),
             array( 'dexter (bas?ton|battoon|batune) ?couped', 'baton-dexter' ),
             array( '(bas?ton|battoon|batune) dexter ?couped', 'baton-dexter' ),
             array( '(bas?ton|battoon|batune) ?sinister ?couped', 'baton' ),
@@ -409,6 +366,7 @@ class languageDB extends lexicon {
             array( 'cantons?', 'canton' ),
             array( 'double trea?s?sure', 'double-tressure' ),
             array( 'fillet', 'fillet' ),
+            array( 'fillet saltire', 'fillet-saltire' ),
             array( 'flau?nche?s?', 'flaunch' ),
             array( '(voider|flank|flanque|flasque)s?', 'flaunch' ),
             array( 'grafts?', 'graft' ),
@@ -425,6 +383,7 @@ class languageDB extends lexicon {
             array( '?royal trea?s?sure', 'tressure' ),
             array( 'lozenge throughout', 'vetu' ),
             array( 'lozenge in point', 'vetu' ),
+            array( 'ent[ey] ?[ie]n ?point', 'enty'),
           ),
         self::ORDINARY_PREFIX => array ( // can be before (and after) ordinary
             'sinister', 'reversed', 'dexter', 'inverted', 
@@ -475,14 +434,18 @@ class languageDB extends lexicon {
            ),
         self::COTTICE_MODS => array ( 
            array ( '(cott?ised|cott?iced|endorsed|addorsed|cost)', '1',  ),
-           array ( 'double cott?i[sc]ed', '2',  ),
-           array ( '(triple|treble) cott?i[sc]ed', '3',  ),
+           array ( 'doubl[ey] cott?i[sc]ed', '2',  ),
+           array ( '(triple|treble|triply) cott?i[sc]ed', '3',  ),
            ),
         self::COTTICE => array ( array ( 'cott?ices?', 'cottice') ),
         self::VOIDED => array ( 'voided' ),
         self::LINETYPE => array ( 
           'angled', 'indented', 'nebuly', 'nowy', 'plain', 'potenty',
-          'raguly', 'dovetailed', 'engrailed', 'escartelly',
+          'raguly', 'dovetailed', 'engrailed', 'escartelly', 'erable',
+          'thorny', 'ristikoro', 'hakulikoro', 'vallikoro',
+          'liljakoro',
+          array ('(em)?battled ghibell?ine', 'battled-ghibelline' ),
+          array ('(em)?battled ?in ?the ?form ?of mine dumps', 'battled-mine-dumps' ),
           array ( '(battled|double) (e?m?battled|crenn?ell?e?y?)', 'battled-embattled' ),  // two levels of battlements, on upper surface only
           array ( '(em)?battled grady', 'battled-embattled'  ),
           array ( '(em)?battled brett?ess?e?y?', 'battled-brettesse'  ),                // both sides, same pattern
@@ -497,10 +460,17 @@ class languageDB extends lexicon {
           array ( 'dau?ncetty', 'dancetty' ),
           array ( 'double (en)?arched', 'double-arched' ),
           array ( '(en)?arched double', 'double-arched' ),
-          array ( '(rayonny|rayonated|radiant)', 'rayonny' ),
-          array ( '(wavy|undy)', 'wavy' ),
+          array ( '(rayonated|radiant)', 'rayonny' ),
+          array ( 'rayonn(e|y)', 'rayonny' ),
+          array ( '(wavy|undy|serpentine)', 'wavy' ),
           array ( '(urdy|urde|champaine|champion)','urdy' ),
           array ( 'fir twiggy?e?d?', 'twigged' ),
+          array ( 'sapinagy', 'twigged' ),
+          array ( '?(embattled) cupolae?d', 'cupolaed' ),
+          array ( '?(embattled) gable?d?y?', 'gabled' ),
+          array ( 'indented pommette?y?', 'indented-pommetty' ),
+          array ( 'fir tree topped', 'fir-tree-topped' ),
+          array ( 'trefl[ey] counter trefl[ey]', 'trefle'),
           ),
       self::ORDINARY_OR_CHARGE => array ( // can distinguish by number (perhaps!)
           array( '?(plain|holy) cross(es)? ?passant', 'cross/plain-cross' ),
@@ -581,6 +551,31 @@ class languageDB extends lexicon {
           array ( 'above ?(them|it)',  'above' ),
           array ( 'below ?(them|it)',  'below' ),  
           array ( 'with ?(them|it)',   'below' ),
+          ),
+        self::SHOWN_EXTRA => array (
+          array ( 'to ?the dexter', 'to-dexter'),
+          array ( 'to ?the sinister', 'to-sinister'),
+          array ( 'likewise', 'likewise'),
+          array ( '?in the same (way|fashion|manner)', 'likewise'),
+          ),
+        self::SHOWN_MODS => array (
+          array ( '(shown|shewn|moved) ?somewhat', 'shown'),
+          array ( 'somewhat', 'shown'),
+          array ( '?(from|to|of|than) ?the (normal|usual) ?(position|location|place)s?', 'than-normal'),
+          array ( 'much', 'much'),
+          array ( 'a lot', 'much'),
+          array ( '(larger|bigger)', 'larger' ),
+          array ( 'smaller', 'smaller' ),
+          array ( '(above|raised|lifted|higher)', 'raised'),
+          array ( '(below|lowere?d?|dropped)', 'lowered'),
+          ),
+        self::DRAWN_MODS => array (
+          array ( 'drawn', 'drawn' ),
+          array ( '(with|in|using) * (tinctures|colou?rs)', 'scheme'),
+          array ( '(with|in|using) ?(a|the) * (appearance|style)', 'style'),
+        ),
+        self::FONT => array ( 
+          array ( 'in (a|the) * (font|face|style)', 'font' ),
           ),
       );
     include "charge.inc";

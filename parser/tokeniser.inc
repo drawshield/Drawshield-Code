@@ -96,7 +96,6 @@ class tokeniser {
           break;
         case '#':
         case '/':
-        case ':':
           if ( $incAll ) {
             $part_word .= $blazon[$i];
             break;
@@ -125,6 +124,7 @@ class tokeniser {
           break;
         case ';':
         case ',':
+        case ':':
         case '.':
           if ( $part_word != '' ) {
             if ( !$comment ) { $this->words[] = $part_word; }

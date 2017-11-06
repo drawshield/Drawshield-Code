@@ -180,6 +180,47 @@ function PlaceCharge ( DOMElement $node,  // images
         case 'entire':
           $Xflex = $Yflex = 9999;
           break;
+        // the "shown" mods
+        case 'smaller':
+          $boundX *= 0.8;
+          $boundY *= 0.8;
+          break;
+        case 'larger':
+          $boundX *= 1.2;
+          $boundY *= 1.2;
+          break;
+        case 'raised':
+          $centreY -= 60;
+          break;
+        case 'lowered':
+          $centreY += 60;
+          break;
+        case 'to-dexter':
+          $centreX -= 50;
+          break;
+        case 'to-sinister':
+          $centreX += 50;
+          break;
+        case 'much-smaller':
+          $boundX *= 0.6;
+          $boundY *= 0.6;
+          break;
+        case 'much-larger':
+          $boundX *= 1.4;
+          $boundY *= 1.4;
+          break;
+        case 'much-raised':
+          $centreY -= 120;
+          break;
+        case 'much-lowered':
+          $centreY += 120;
+          break;
+        case 'much-to-dexter':
+          $centreX -= 100;
+          break;
+        case 'much-to-sinister':
+          $centreX += 100;
+          break;
       }
     } elseif ( $child->nodeName == 'tincture' ) {
       $tincture = $child;
@@ -232,7 +273,11 @@ function PlaceCharge ( DOMElement $node,  // images
         break;
       case 'bendwise':
       case 'bendsinwise':
-			  $angle = ($orientation == 'bendwise') ? "-45" : "45";
+        if ( array_key_exists('horizontal', $charge)  ) {
+          $angle = ($orientation == 'bendwise') ? "45" : "-45";
+        } else {
+          $angle = ($orientation == 'bendwise') ? "-45" : "45";
+        }
 			  $X2 = $chargeX / 2; $Y2 = $chargeY / 2;
 				$chargeX = ($chargeX + $chargeY) * 0.707;
 				$XY2 = $chargeX / 2;
@@ -241,8 +286,7 @@ function PlaceCharge ( DOMElement $node,  // images
         break;
       case 'palewise':
         $do_turn = $chargeX >= $chargeY;
-        if ( array_key_exists('turn_palewise', $charge) ) { $do_turn = $charge['turn_palewise']; }
-        if ( $do_turn  ) {
+        if ( array_key_exists('horizontal', $charge)  ) {
           $retval = "<g transform=\"translate(0,$chargeX) rotate(-90)\"><desc>palewise charge</desc>$retval</g>\n";
           $temp = $chargeX; $chargeX = $chargeY; $chargeY = $temp;
           $temp = $Xflex; $Xflex = $Yflex; $Yflex = $temp;
@@ -256,31 +300,44 @@ function PlaceCharge ( DOMElement $node,  // images
     }
   }
   // Fix some older charges that had orient_to_ordinary as a boolean
-  if ( array_key_exists('orient_to_ordinary', $charge) ) {
+  /* if ( array_key_exists('orient_to_ordinary', $charge) ) {
     if ( $charge['orient_to_ordinary'] === false )
       unset( $charge['orient_to_ordinary'] );
     elseif ( $charge['orient_to_ordinary'] === true )
       $charge['orient_to_ordinary'] = 1;
+  } */
+  if ($rotation != 0) {
+    if ( array_key_exists('horizontal', $charge)) {
+      // Swap over bounding box sizes
+      $temp = $boundX;
+      $boundX = $boundY;
+      $boundY = $temp;
+    }
   }
 
   // If rotation is set this is because we need to turn to fit onto an ordinary
   // If we CANNOT turn then assume that the bounding box is square. This makes sure we fit even if not turned
-  if ( $rotation != 0 ) { // TODO apply this logic only if the item really is on an ordinary!
-    if ( ! array_key_exists('orient_to_ordinary', $charge) ) {
-      $boundX = min( $boundX, $boundY );
-      $boundY = $boundX;
-      $rotation = 0 ;
-    }
-    // If we CAN turn then set the appropriate direction (depends on charge)
-    else  { // Set to 1 for normal, -1 if needs to turn other way
-      $rotation *= $charge['orient_to_ordinary'];
+  if ( $node->parentNode->getAttribute('keyterm') == 'on' ) {
+    if ( $rotation != 0 ) { 
+      if ( ! array_key_exists('orient_to_ordinary', $charge) ) {
+        $boundX = min( $boundX, $boundY );
+        $boundY = $boundX;
+        $rotation = 0 ;
+      }
+      // If we CAN turn then set the appropriate direction (depends on charge)
+      else  { // Set to 1 for normal, -1 if needs to turn other way
+        if ( $charge['orient_to_ordinary'] == -1) {
+          $rotation *= -1;
+        }
+        // $rotation *= $charge['orient_to_ordinary'];
+      }
     }
   }
 
   // Calculate the size of the image to fit into the bounding box,
   $Xscale = $boundX / $chargeX;
   $Yscale = $boundY / $chargeY;
-  if ( $Xflex <= 1 and $Yflex <=1 ) { // no flexing, fixed AR
+  if ( $Xflex <= 1 && $Yflex <=1 ) { // no flexing, fixed AR
     $Xscale = $Yscale = min ( $Xscale, $Yscale );
   } else {
     $chargeAR = $chargeX / $chargeY;

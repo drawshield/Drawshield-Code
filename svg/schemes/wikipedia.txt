@@ -1,0 +1,23 @@
+# Provided by https://www.reddit.com/user/Mysterious_Italy
+or=#fcdd07
+azure=#0f47af
+vert=#088930
+gules=#da1219
+argent=#ffffff
+sable=#000000
+purpure=#9116a1
+murrey=#7f0042
+sanguine=#bf3237
+carnation=#f2a772
+brunatre=#78331e
+cendree=#999999
+rose=#f2a772
+celestial-azure=#89c5e2
+tenne=#9d5333
+orange=#fdbf27
+iron=#bcbcbc
+bronze=#c28039
+copper=#ba702f
+lead=#6b949e
+steel=#bdbdbd
+white=#ffffff

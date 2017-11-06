@@ -101,6 +101,37 @@ class references {
         $sourceNode->setAttribute('IDREF',$targetID);
       } // else leave as pending, to be found later (in svgutils)
     }
+
+    // Resolve likewise charge adjustments
+    $nodeList = $this->xpath->query('//charge/modifier[@keyterm="likewise"]');
+    foreach ($nodeList as $sourceNode ) {
+      error_log("found likewise");
+      $refNodes = $this->xpath->query('preceding::modifier[@type="shown"]',$sourceNode);
+      if ( $refNodes->length ) {
+      error_log("found previous");
+        /**
+         * @var DOMElement $target
+         */
+        foreach ($refNodes as $refNode) {
+          $sourceNode->parentNode->appendChild($refNode->cloneNode());
+        }
+      }  else { // else leave as likewise, it will be ignored
+        $messages->appendChild($this->dom->createElement('message',"No previous adjustments for likewise"));
+      }
+    }
+
+    // Rearrange "charge within ordinary" as "within ordinary charge"
+    $nodeList = $this->xpath->query('//modifier[@keyterm="within" and parent::ordinary and child::missing]');
+    foreach ($nodeList as $modifierNode) {
+      $ordinaryNode = $modifierNode->parentNode;
+      $prevCharges = $this->xpath->query('preceding-sibling::charge',$ordinaryNode);
+      if ($prevCharges->length) {
+        $adjacentCharge = $prevCharges->item($prevCharges->length - 1);
+        $modifierNode->replaceChild($adjacentCharge,$modifierNode->firstChild); 
+      } else {
+            $messages->appendChild($this->dom->createElement('message',"Expected charge for within/inside"));
+      }
+    }
     return $this->dom;
   }
 }

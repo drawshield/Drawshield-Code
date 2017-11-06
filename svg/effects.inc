@@ -253,6 +253,27 @@ function getEffect($item) {
   );
 
   $effect = $options['effect'];
+  // Some synonyms
+  switch ($effect) {
+    case "plain": 
+    case "flat": 
+      $effect = 'none';
+      break;
+    case "stone":
+    case "stony":
+    case "stonelike":
+      $effect = 'stonework';
+      break;
+     case "plasterwork":
+      $effect = 'plaster';
+      break;
+     case "leather":
+      $effect = 'vellum';
+      break;
+     case "metal":
+      $effect = 'shiny';
+      break;
+  }
   if ( ! array_key_exists($effect,$effectData) )
     $effect = 'none';
   $data = $effectData[$effect];

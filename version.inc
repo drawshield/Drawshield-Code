@@ -12,8 +12,8 @@
  */
 
 $version = array (
-  'release' => '2.6d',
-  'date' => '24 Aug 2015',
+  'release' => '2.6k',
+  'date' => '17 Oct 2017',
   'name' => 'Drawshield',
   'website' => 'drawshield.net',
   'author' => 'Karl R. Wilcox',

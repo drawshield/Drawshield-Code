@@ -12,5 +12,5 @@
  */
 
 if ( existModifierWithKeyterm($node, 'charged-with'))
-  $charge['file'] = 'inkscape/sun-outline.svg';
+  $charge['file'] = 'sun-outline.svg';
 existModifierWithKeyterm($node,'in-glory'); // mark used

@@ -46,10 +46,16 @@ function apply_tincture ( DOMElement $tincture, $object, $chg_size = '',
         $rot = '0', $rev = false, $inv = false ) {
   global $_SERVER, $messages, $xpath;
   $retval = '';
-	
+
 	$patTrans = '';
 	$object_type = $tincture->parentNode->nodeName;
-  $objectKeyterm = $tincture->parentNode->getAttribute('keyterm');
+  $objectKeyterm = "";
+  if ( $tincture->parentNode !== null) {
+      $objectKeyterm = $tincture->parentNode->getAttribute('keyterm'); 
+  } else {
+      return $object;
+  }
+
 	if ( $object_type == 'charge' and $chg_size != '' ) // We make some things a wee bit smaller if on a charge, just for looks
 	{
 	  list($chgX,$chgY) = explode(',', $chg_size);
@@ -163,11 +169,11 @@ function apply_tincture ( DOMElement $tincture, $object, $chg_size = '',
       break;
     case 'counterchanged': // Never change anything, just fill with this pattern
       // Try to find a field division
-      $division = $xpath->query('ancestor::field/tincture/division|preceding::field/tincture/division',$tincture);
+      $division = $xpath->query('preceding::field/tincture/division|ancestor::field/tincture/division',$tincture);
       if ( !$division->length )
 			  return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $object . '</g>';
 			// else go ahead
-      $div_data = makeDivision( $division->item(0), true );
+      $div_data = makeDivision( $division->item(($division->length)-1), true );
       if ( $object_type == 'charge' )
         $messages->addMessage ('warning','Browser bug may not render counterchanged charge correctly, try save file as PNG.' );
       $patt_id = add_def ( 'clipPath', $object );

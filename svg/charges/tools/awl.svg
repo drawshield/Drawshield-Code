@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg1720"
+   viewBox="0 0 33.979301 178.87433"
+   version="1.1"
+   height="178.87433"
+   width="33.979301">
+  <metadata
+     id="metadata1726">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Wappen der ehemaligen Gemeinde Evingsen</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>https://commons.wikimedia.org/wiki/User:SteveK</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1724" />
+  <title
+     id="title1690">Wappen der ehemaligen Gemeinde Evingsen</title>
+  <g
+     id="g1718"
+     transform="translate(401.09261,182.11098)">
+    <g
+       id="handle">
+      <path
+         d="m -392.32,-102.89 c -2.7834,4.4281 -3.538,11.906 -2.2886,19.053 1.7416,9.9622 0.21783,20.544 -2.5371,29.24 -5.6613,17.871 -6.1645,51.248 12.739,50.857 18.476,-0.37986 18.265,-25.963 15.282,-38.268 -2.7054,-11.159 -5.2821,-24.613 -4.1779,-35.783 0.68471,-6.9257 0.8786,-17.645 -2.9169,-25.363 -5.3668,2.1464 -10.734,2.1653 -16.1,0.26334 z"
+         id="path1706"
+         style="fill:#ff0000;fill-rule:evenodd;stroke:#000000" />
+    </g>
+    <g
+       style="fill:#ffff00;stroke:#000000;stroke-linecap:round;stroke-linejoin:round"
+       id="body">
+      <path
+         style="fill:#ffff00"
+         id="path1708"
+         d="m -376.57,-103.68 c 0.2521,1.0542 -4.5814,2.162 -8.1888,2.162 -3.6074,0 -7.1742,-0.95142 -7.0644,-2.0298 l 0.66146,-6.4939 c 0,-1.0839 2.9278,-1.9636 6.5352,-1.9636 3.6074,0 6.5352,0.87969 6.5352,1.9636 z" />
+      <path
+         style="fill:#ffff00"
+         id="path1710"
+         d="m -391.14,-109.93 c 0,1.0839 2.9278,1.9636 6.5352,1.9636 3.6074,0 6.5352,-0.87969 6.5352,-1.9636" />
+      <path
+         style="fill:#ffff00;fill-rule:evenodd"
+         id="path1712"
+         d="m -384.85,-181.61 c -0.6827,0.0318 -2.3855,7.5072 -2.3855,8.8966 v 61.702 c 0,1.718 5.5374,1.4482 5.5374,0.12523 v -60.842 c 0,-1.3739 -2.5322,-9.9113 -3.1519,-9.8824 z" />
+    </g>
+  </g>
+</svg>

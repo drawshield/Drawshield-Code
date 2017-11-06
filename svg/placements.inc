@@ -399,7 +399,11 @@ function get_placement(DOMElement $item) {
       $placement = adjustplacement($placement,'400,400,200,200');
     } elseif ( $overall ) { // like cadency, but a bit bigger
       $placement = calcPlace($item,'w',$boundingBox);
-      $placement = adjustplacement($placement,'300,300,400,400');
+       if ( strpos($item->getAttribute("keyterm"), "quadrate/") === 0) {
+          $placement = adjustplacement($placement,'100,66,800,800');
+       } else {
+          $placement = adjustplacement($placement,'300,300,400,400');
+      }
     }
     
     // If we don't have a placement yet the default is just to arrange in wide rows

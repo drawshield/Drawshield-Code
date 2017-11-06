@@ -13,12 +13,5 @@
 
 if ( existModifierWithKeyterm($node,'encircled')) {  // i.e. encircled
   $node->setAttribute('number','1'); // Always 3 in a single charge
-  $charge['file'] = 'inkscape/squirrel-circle.svg';
-}
-elseif ( existModifierWithKeyterm($node,'courant'))
-  $charge['file'] = 'inkscape/squirrel-courant.svg';
-else {
-  $charge['file'] = 'inkscape/squirrel-sejant.svg';
-  existModifierWithKeyterm($node,'sejant'); // mark as read
-  existModifierWithKeyterm($node,'nut-cracking'); // mark as read
+  $charge['file'] = 'squirrel-circle.svg';
 }

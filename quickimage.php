@@ -35,6 +35,7 @@ if (isset($_GET['blazon'])) $options['blazon'] = html_entity_decode(strip_tags(t
 if (isset($_GET['outputformat'])) $options['outputFormat'] = strip_tags ($_GET['outputformat']); else $options['outputFormat'] = 'png';
 if (isset($_GET['palette'])) $options['palette'] = strip_tags($_GET['palette']);
 if (isset($_GET['effect'])) $options['effect'] = strip_tags($_GET['effect']);
+if (isset($_GET['nomask'])) $options['nomask'] = true;
 if (isset($_GET['size'])) {
   $size = strip_tags ($_GET['size']);
   if ( $size < 100 ) $size = 100;
@@ -46,6 +47,7 @@ if (isset($_GET['size'])) {
   $dom = $p->parse($options['blazon'],'dom');
   $p = null; // destroy parser
   // Resolve references
+  include "analyser/utilities.inc";
   include "analyser/references.inc";
   $references = new references($dom);
   $dom = $references->setReferences();
@@ -53,6 +55,9 @@ if (isset($_GET['size'])) {
 
   // Read in the drawing code  ( All formats start out as SVG )
   $xpath = new DOMXPath($dom);
+  include "analyser/rewriter.inc";
+  // some fudges / heraldic knowledge
+  rewrite();
   include "svg/draw.inc";
   $output = draw();
   switch ($options['outputFormat']) {

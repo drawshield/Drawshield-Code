@@ -72,21 +72,50 @@ if ( $options['blazon'] == '' ) { // TODO "your shield here" message?
   $dom = $p->parse($options['blazon'],'dom');
   $p = null; // destroy parser
   // Resolve references
-  if ( $options['stage'] == 'parser') { echo $dom->saveXML(); exit; }
+  if ( $options['stage'] == 'parser') { 
+      $note = $dom->createComment("Debug information - parser stage.\n(Did you do SHIFT + 'Save as File' by accident?)");
+      $dom->insertBefore($note,$dom->firstChild);
+      header('Content-Type: text/xml; charset=utf-8');
+      echo $dom->saveXML(); 
+      exit; 
+  }
   include "analyser/references.inc";
   $references = new references($dom);
   $dom = $references->setReferences();
   $references = null; // destroy references
-  if ( $options['stage'] == 'references') { echo $dom->saveXML(); exit; }
+  if ( $options['stage'] == 'references') { 
+      $note = $dom->createComment("Debug information - references stage.\n(Did you do SHIFT + 'Save as File' by accident?)");
+      $dom->insertBefore($note,$dom->firstChild);
+      header('Content-Type: text/xml; charset=utf-8');
+      echo $dom->saveXML(); 
+      exit; 
+  }
   // Add dictionary references
   include "analyser/addlinks.inc";
   $adder = new linkAdder($dom);
   $dom = $adder->addLinks();
   $adder = null; // destroy adder
-  if ( $options['stage'] == 'links') { echo $dom->saveXML(); exit; }
+  if ( $options['stage'] == 'links') { 
+      $note = $dom->createComment("Debug information - links stage.\n(Did you do SHIFT + 'Save as File' by accident?)");
+      $dom->insertBefore($note,$dom->firstChild);
+      header('Content-Type: text/xml; charset=utf-8');
+      echo $dom->saveXML(); 
+      exit; 
+  }
 
   // Read in the drawing code  ( All formats start out as SVG )
   $xpath = new DOMXPath($dom);
+  include "analyser/utilities.inc";
+  include "analyser/rewriter.inc";
+  // some fudges / heraldic knowledge
+  rewrite();
+  if ( $options['stage'] == 'rewrite') { 
+      $note = $dom->createComment("Debug information - rewrite stage.\n(Did you do SHIFT + 'Save as File' by accident?)");
+      $dom->insertBefore($note,$dom->firstChild);
+      header('Content-Type: text/xml; charset=utf-8');
+      echo $dom->saveXML(); 
+      exit; 
+  }
   include "svg/draw.inc";
   $output = draw();
 }

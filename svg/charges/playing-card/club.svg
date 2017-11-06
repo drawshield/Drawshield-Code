@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg49526"
+   version="1.1"
+   viewBox="0 0 9.7916993 11.5838"
+   height="11.5838mm"
+   width="9.7916994mm">
+  <defs
+     id="defs49520" />
+  <metadata
+     id="metadata49523">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>sourceforge yimyom</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(201.74018,33.781812)"
+     id="layer1">
+    <g
+       id="black_joker"
+       transform="matrix(0.26458333,0,0,0.26458333,-224.58259,-173.92076)">
+      <g
+         id="jack_club"
+         transform="translate(-1662.1981,898.14537)">
+        <g
+           id="queen_club"
+           transform="translate(-166.6033,-58.381306)">
+          <g
+             id="king_club"
+             transform="translate(-193.38167,-27.061581)">
+            <g
+               id="2_club"
+               transform="translate(1875.659,-59.80817)">
+              <g
+                 transform="matrix(-2.4,0,0,-2.4,251.3616,-198.51)"
+                 id="use34618">
+                <path
+                   d="m 3.35,4.66 c 0,-1.81 -1.51,-3.28 -3.38,-3.28 -1.87,0 -3.38,1.47 -3.38,3.28 0,1.81 1.51,3.28 3.38,3.28 1.87,0 3.38,-1.47 3.38,-3.28 z"
+                   id="path43198" />
+                <path
+                   d="m 7.71,-1.55 c 0,-1.81 -1.51,-3.28 -3.38,-3.28 -1.87,0 -3.38,1.47 -3.38,3.28 0,1.81 1.51,3.28 3.38,3.28 1.87,0 3.38,-1.47 3.38,-3.28 z"
+                   id="path43200" />
+                <path
+                   d="m -0.95,-1.57 c 0,-0.66 -0.2,-1.28 -0.55,-1.8 -0.6,-0.89 -1.65,-1.48 -2.83,-1.48 -1.87,0 -3.38,1.47 -3.38,3.28 0,1.81 1.51,3.28 3.38,3.28 1.87,0 3.38,-1.47 3.38,-3.28 z"
+                   id="path43202" />
+                <path
+                   d="m 3.94,-7.94 c -1.67,0 -2.55,1.36 -3.01,2.72 -0.46,1.36 -0.5,2.72 -0.5,2.72 h -0.86 c 0,0 -0.16,-5.43 -3.5,-5.44 z"
+                   id="path43204" />
+                <path
+                   d="m -2.32,2.25 c 1.9,-1.9 1.9,-4.75 1.9,-4.75 l 0.85,-0.01 c 0,0 0,2.91 1.85,4.76"
+                   id="path43206" />
+                <path
+                   d="m -1.94,-3.85 c 1.9,1.9 4.75,1.9 4.75,1.9 v 0.85 c 0,0 -2.91,0 -4.76,1.85"
+                   id="path43208" />
+                <path
+                   d="m 1.87,-3.86 c -1.9,1.9 -4.75,1.9 -4.75,1.9 v 0.85 c 0,0 2.91,0 4.76,1.85"
+                   id="path43210" />
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

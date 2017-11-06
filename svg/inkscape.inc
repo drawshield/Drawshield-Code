@@ -21,7 +21,8 @@ function splitStyle ( $styles ) {
     list($setting,$value) = explode(':',$style);
     switch($setting) {
       case 'fill': // Any of the "primary" colours are just placeholders, to be replaced by the charge colour
-        if ( !in_array( $value, array ( '#ff0000', '#00ff00', '#0000ff', '#ffff00')) ) $retval .= 'fill="' . $value . '" ';
+        if ( !in_array( $value, array ( '#ff0000', '#00ff00', '#0000ff', '#ffff00',
+                                        'rgb(255,0,0)', 'rgb(255,255,0)', 'rgb(0,255,0)', 'rgb(0,0,255)')) ) $retval .= 'fill="' . $value . '" ';
         break; // any other colour is left as it is
       case 'fill-opacity':
       case 'opacity':
@@ -72,6 +73,9 @@ function rewriteAttributes($attributes, $class = '') {
         // $messages->addMessage('warning',"Transform in element $myId " );
         $retval = ' transform="' . $data . '" ';
         break;
+      case 'stroke-width':
+        $retval .= ' stroke-width="' . $data . '" ';
+       break; 
       default:
         if (( strpos($key,'sodipodi:') === false ) and (strpos($key,'inkscape:') === false ))
           $retval .= $key . '="' . $data . '" ';
@@ -118,7 +122,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
   }
   //-------------------------------------------------------------------------
   $item = "<$name ";
-  if ($id != null and substr($id, 0, 4) != 'path' and substr($id, 0, 5) != 'group') {
+  if ($id != null && substr($id, 0, 4) != 'path' && substr($id, 0, 5) != 'group') {
     if (array_key_exists($id, $featureColours)) { // this is a feature with a given colour
       $class = "feature $id";
       $item .= ' fill="' . $featureColours[$id] . '" ';
@@ -143,13 +147,13 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
   return $item;
 }
 
-function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName, $extras) {
+function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName, $extras, $addStroke = true) {
   global $messages, $options;
   $retval = array();
 
   if ( ($svg = simplexml_load_string($svgCode)) == null ) {
     $messages->addMessage('internal',"XML error reading charge data");
-    error_log("charge data error - " . $options['blazon']);
+    error_log("XML error reading charge data - " . $chargeGroup . '/' . $chargeName);
     // Fallback item
     $svg = simplexml_load_string('<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                 <svg
@@ -172,7 +176,9 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
   foreach( $svg->children() as $child )
     $fragment .= addChild($child, $featureTinctures, $chargeGroup, $chargeName, $extras);
   // Set the global stroke colour
-  $fragment = '<g stroke="' . rgb('charge-stroke') . '">' . $fragment . '</g>';
+  if ($addStroke){
+    $fragment = '<g stroke="' . rgb('charge-stroke') . '">' . $fragment . '</g>';
+  }
   $retval['body'] = $fragment;
   return $retval;
 }

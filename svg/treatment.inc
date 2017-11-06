@@ -39,7 +39,7 @@ function getSvgTreatment ($filename) {
 
 function makeTreatment ( $node ) {
   global $messages;
-  $folder = 'svg/treatments/inkscape/';
+  $folder = 'svg/treatments/';
 
   $name = $node->getAttribute('keyterm');
   $tinctures = array();
@@ -89,6 +89,6 @@ function makeSemy( $node ) {
     $semy .= PlaceCharge($charge, 100, 100, 0, 200);
     $semy .= PlaceCharge($charge, 100, 100, 200, 200);
     $base = apply_tincture ( $background, '<rect x="0" y="0" width="200" height="200" />' );
-    return array (  'link' => 'http://karlwilcox.com/parker/s/seme', 'width' => 200, 'height' => 200, 'body' => $base . $semy );
+    return array (  'link' => 'http://drawshield.net/reference/parker/s/seme.html', 'width' => 200, 'height' => 200, 'body' => $base . $semy );
  }
 }
