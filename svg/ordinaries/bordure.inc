@@ -1,17 +1,4 @@
-<?php /* Copyright 2010 Karl R. Wilcox 
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License. */
-
+<?php
 
 $ordinary['body'] = array (
         'PLNC' => '<path fill-rule="evenodd" d="M-100,-100 L 1100,-100 1100,1300 -100,1300 Z M 68.69,64.58 C 68.69,64.58 74.47,824.24 74.75,826.24 C 96.97,988.24 389.91,1092.92 496.99,1123.22 C 593.96,1094.94 914.82,998.29 925.29,826.24 C 925.50,822.90 927.32,64.58 927.32,64.58 L 68.69,64.58 z" />',

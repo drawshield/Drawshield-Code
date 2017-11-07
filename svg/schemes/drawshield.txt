@@ -1,0 +1,40 @@
+or=#EFD807 
+azure=#1E7FCB 
+vert=#149414 
+gules=#E21313 
+argent=#F0F0F0 
+sable=#050505
+purpure=#965578
+// additional tinctures    
+murrey=#8C004B
+sanguine=#850606
+carnation=#FEC3AC
+brunatre=#7E0001
+cendree=#848484
+rose=#FF006E
+bis=#F1E2BE
+celestial-azure=#96C8F9
+senois=#8D4024
+tenne=#A75502
+orange=#FAA401
+//Other decorative parts
+charge-stroke=#696969
+ordinary-stroke=none
+pattern-stroke=none
+division-stroke=none
+// For sports fields
+white-line=#FFFFFF
+// Error colour
+gray=#888888
+// Additions by https://www.reddit.com/user/Mysterious_Italy
+iron=#bcbcbc
+bronze=#c28039
+copper=#ba702f
+lead=#6b949e
+steel=#bdbdbd
+white=#ffffff
+// other heraldic authorities
+buff=#f0dc82
+red-ochre=#890520
+yellow-ochre=#ccaa2b
+crimson=#850606 //same as sanguine

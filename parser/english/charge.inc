@@ -774,8 +774,8 @@
       array ( '(monogram|cypher)s? *', 'characters/letter' ),
       array ( 'question marks?', 'characters/question' ),
       // symbols
-      array ( 'astronomical (character|symbol)s? ?(of|for) ?the ?planet *', 'symbol/astronomy' ),
-      array ( 'alchemical (character|symbol)s? ?(of|for) ?the ?element *', 'symbol/alchemical' ),
+      array ( 'astronomical (character|symbol)s? ?(of|for) ?the ?planet *', 'astronomical/symbol' ),
+      array ( 'alchemical (character|symbol)s? ?(of|for) ?the ?element *', 'alchemical/symbol' ),
       array ( '(character|symbol)s? ?(of|for) *', 'symbol/any' ),
       // farming
       array ( 'shepherds crooks?', 'farming/shepherds-crook' ),
@@ -805,7 +805,7 @@
       array ( 'wake knots?', 'knot/wake' ),
       array ( 'cords?', 'knot/cord' ),
       array ( 'celtic knots?', 'knot/celtic-knot' ),
-      array ( 'de lacy knots?', 'knot/de-lacyƒgsat-knot' ),
+      array ( 'de lacy knots?', 'knot/de-lacy-knot' ),
       array ( 'bowen knots?', 'knot/bowen-knot' ),
       array ( 'lovers? knots?', 'knot/lovers-knot' ),
       array ( '(trinity|trefoil)? knots?', 'knot/trinity-knot' ),

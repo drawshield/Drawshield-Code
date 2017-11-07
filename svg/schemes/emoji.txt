@@ -1,4 +1,4 @@
-# Emoji, as supplied by https://www.reddit.com/user/UncivilizedEngie
+// Emoji, as supplied by https://www.reddit.com/user/UncivilizedEngie
 or=#fdca58
 azure=#3a88c4
 vert=#39a173

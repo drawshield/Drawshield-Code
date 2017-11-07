@@ -1,4 +1,4 @@
-# Provided by https://www.reddit.com/user/Mysterious_Italy
+// Provided by https://www.reddit.com/user/Mysterious_Italy
 or=#fcdd07
 azure=#0f47af
 vert=#088930
