@@ -115,7 +115,7 @@
           <td style="text-align:center;"><input type="radio" name="scheme" value="pastel" /></td>
           <td style="text-align:center;"><input type="radio" name="scheme" value="vibrant" /></td>
           <td style="text-align:center;"><input type="radio" name="scheme" value="copic" /></td>
-          <td style="text-align:center;border-right:1px solid #000000;"><input type="radio" name="scheme" value="nocolour" /></td>
+          <td style="text-align:center;border-right:1px solid #000000;"><input type="radio" name="scheme" value="outline" /></td>
         </tr>
         <tr>
           <th colspan="3" style="border-top:1px solid #000000;border-left:1px solid #000000;border-right:1px solid #000000;border-bottom:0px none;">&quot;Save to file&quot; Format</th>

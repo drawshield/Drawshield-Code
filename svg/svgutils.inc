@@ -88,7 +88,11 @@ function apply_tincture ( DOMElement $tincture, $object, $chg_size = '',
       } else {
         $spec = rgb($child->getAttribute('keyterm'));
       }
-      $retval = '<g fill="' . $spec . '">' . $object . '</g>';
+      if ($spec !== false) { // set if we are to use the fill found
+        $retval = '<g fill="' . $spec . '">' . $object . '</g>';
+      } else {
+        $retval =  $object;
+      }
       break;
     case 'fur':
       $fur_name = $child->getAttribute('keyterm');

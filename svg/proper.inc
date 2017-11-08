@@ -17,6 +17,7 @@ class properColour {
   static $silver;
   static $caucasian;
   static $orange;
+  static $rose;
   static $groups = array();
   static $charges = array();
   static $features = array();
@@ -39,6 +40,7 @@ class properColour {
     self::$blue = rgb('azure');
     self::$caucasian = rgb('carnation');
     self::$orange = rgb('orange');
+    self::$rose = rgb('rose');
     // etc...
     self::$groups = array(
       'human' => self::$caucasian,
@@ -48,6 +50,7 @@ class properColour {
       'tree' => self::$green,
       'sword' => self::$white,
       'characters' => self::$black,
+      'playing-card' => false, // use whatever you find
     );
     self::$charges = array(
       'skull' => self::$white,
@@ -96,6 +99,11 @@ class properColour {
       'pelican' => self::$white,
       'mitre' => self::$yellow,
       'reddit-alien' => self::$white,
+      'rose-tudor' => self::$red,
+      'rose-york' => self::$white,
+      'rose-lancaster' => self::$red,
+      'rose-natural' => self::$rose,
+      'zebra' => self::$white,
     );
     self::$features = array(
       'with-stone' => self::$gray,
@@ -133,8 +141,12 @@ class properColour {
       'planet-earth/water' => self::$blue,
       'rocket/inflamed' => self::$red,
       'reddit-alien/eyes' => self::$red,
+      'zebra/striped' => self::$black,
+      'zebra/unguled' => self::$black,
       'vulning' => self::$red,
       'nest' => self::$brown,
+      'rose-lancaster/seeded' => self::$white,
+      'rose-tudor/inner' => self::$white,
     );
   }
   

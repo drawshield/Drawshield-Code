@@ -193,7 +193,7 @@ function draw() {
       $body = getEffect('below') . '<g ' . getEffect('filter') . '><g mask="url(#' . $clipShield . ')">' . $body . getEffect('above') . '</g></g>';
     }
     // Add outline of shield shape, only if required
-    if ( $options['palette'] == 'nocolour')
+    if ( $options['palette'] == 'outline')
       $body .=  '<path fill="none" stroke="' . rgb('division-stroke') . '" stroke-width="4" d="' . $outline . '" />';
     // Rest depends on output format
     if ( $options['asFile'] or $options['printable'] ) { // minimal decoration, no infobox

@@ -204,7 +204,7 @@ function makePath2 ( $shapeSpec, $lineType, $size = 60 ) {
 
   $lineSpecs = array (
     'angled' => '0:100:i:o:h50v-{S}h50:O1',
-    'arched' => '1:{D}:i:i:q {D/2},-{S*2} {D},0:R1',
+    'arched' => '1:{D}:i:i:c {D/2},-{S*2} {D/2},-{S*2} {D},0:R1',
     'battled-ghibelline' => '*:{S*4}:i:i:h{S} v-{S*2} c0,0 {S},{S*0.37} {S},{S*0.9} 0,-{S*0.58} {S},-{S*0.90} {S},-{S*0.9} v{S*2} h{S}:U1',
     'embattled-arrondi' => '*:{S*4}:i:i:h{S} v-{S} c0,-{S} {S*2},-{S} {S*2},0 v{S} h{S}:U1',
     'cupolaed' => '*:{S*4}:i:i:h{S} v-{S} h{S/2} c0,-{S/2} {S},-{S/2} {S},0 h{S/2} v{S} h{S}:U1',

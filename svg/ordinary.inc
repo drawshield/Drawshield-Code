@@ -343,7 +343,7 @@ function makeOrdinary( DOMElement &$node ) {
 	// And finally...
   $retval = '<g><title>' . $subtype . '</title>' . $retval . '</g>';
 
-  if ( $options['palette'] == 'nocolour' )
+  if ( $options['palette'] == 'outline' )
     $retval = '<g stroke-width="3" stroke="' . rgb('ordinary-stroke') . '" >' . $retval . '</g>';
 
 	return $retval;

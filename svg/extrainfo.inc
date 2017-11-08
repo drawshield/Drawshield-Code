@@ -17,7 +17,6 @@ class extraInfoMap {
       'projectile' => array ('orient_to_ordinary' => -1),
       'quadrate' => array('charged-with' => 'c/c/c/500,200,200,200:200,500:800,500:500,800/c/c'),
       'crown' => array('horizontal' => true),
-      'playing-card' => array('always_proper' => true),
     );
     self::$charges = array(
             'flail' => array ('orient_to_ordinary' => -1),
@@ -32,7 +31,6 @@ class extraInfoMap {
             'herring' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'pike' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'trumpet' => array('horizontal' => true, 'orient_to_ordinary' => 1),
-            'card-back' => array(), // override the always_proper of the group above
     );
   }
   

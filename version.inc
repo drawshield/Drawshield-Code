@@ -1,23 +1,12 @@
 <?php
-/**
- * Drawshield PHP Source File
- *
- * Description...
- *
- * @author Karl R. Wilcox <karl@karlwilcox.com>
- * @copyright Karl R. Wilcox 2014
- * @license http://www.apache.org/licenses/LICENSE-2.0
- * Date: 12/08/14
- * Time: 18:39
- */
 
 $version = array (
-  'release' => '2.6k',
-  'date' => '17 Oct 2017',
-  'name' => 'Drawshield',
+  'release' => '2.6m',
+  'date' => '06 Nov 2017',
+  'name' => 'Version ',
   'website' => 'drawshield.net',
   'author' => 'Karl R. Wilcox',
-  'email' => 'karl@karlwilcox.com',
+  'email' => 'karlwilcox36@gmail.com',
 );
 
 // Set default values for arguments

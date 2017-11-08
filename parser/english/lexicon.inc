@@ -139,7 +139,7 @@ class languageDB extends lexicon {
           array ( 'purp(le|ure)', 'purpure' ),
           // additional tinctures
           'murrey',  'sanguine',  'carnation', 'brunatre',  'rose', 
-          'buff' 
+          'buff' ,
           array (  'cei?ndree', 'cendree' ),
           array ( 'bis(que)?', 'bis' ),
           array ( 'celestial azure', 'celestial-azure'  ),
@@ -329,6 +329,8 @@ class languageDB extends lexicon {
             'another', // special term, means "voided of" (should only be used after "on" or "charged with"
             array( 'bars?', 'bar' ),
             array( 'barrulets?', 'barrulet' ),
+            array( 'crancelin', 'crancelin' ),
+            array( 'bend archy coronett[ey]', 'crancelin' ),
             array( 'bendlets?', 'bendlet' ),
             array( 'e?sca[rf]pes?', 'bendlet' ),
             array( 'chevronels?', 'chevronel' ),
@@ -572,7 +574,7 @@ class languageDB extends lexicon {
         self::DRAWN_MODS => array (
           array ( 'drawn', 'drawn' ),
           array ( '(with|in|using) * (tinctures|colou?rs)', 'scheme'),
-          array ( '(with|in|using) ?(a|the) * (appearance|style)', 'style'),
+          array ( '(with|in|using) ?(a|the) * (appearance|style|effect)', 'style'),
         ),
         self::FONT => array ( 
           array ( 'in (a|the) * (font|face|style)', 'font' ),
