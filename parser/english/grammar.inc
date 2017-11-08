@@ -356,13 +356,16 @@ class englishGrammar extends grammar {
     // Now look for actual charges
     // TODO in herald knowledge replace special/same
     if( ($keyterm = self::find(languageDB::CHARGE_NOT_ORDINARY)) or (($keyterm = self::find(languageDB::ORDINARY_OR_CHARGE)) and $chgNum > 1) or ($keyterm = self::find(languageDB::CHARGE)) ) {
+      // don't care if no flags
+      @list($keyterm, $flags) = explode('?', $keyterm);
       $charge->setAttribute(blazonML::A_KEYTERM,$keyterm);
       $charge->setAttribute(blazonML::A_TOKENS, $charge->getAttribute(blazonML::A_TOKENS) . ' ' . self::tokens() );
     } else { // Nothing found
       self::restore($state);
       return null;
     }
-    // $chargeType = $keyterm;
+    // Set any flags
+    $always_proper = strpos($flags,'P') !== false;
     // In some cases we want the next input token as a "value" (e.g. "the word Karl" matches "words? *")
     if ( $asterisk = $this->phraseMatcher->getValue() )
       $mods[] = $this->schema->makeMod('value',$asterisk,'value',self::tokens());
@@ -407,8 +410,12 @@ class englishGrammar extends grammar {
           self::discard($state2);
         }
       } elseif ( $tinc = self::tincture() ) {
-        $mods[] = $tinc;
-        $foundTinc = true;
+        if ($always_proper && $tinc->firstChild->nodeName != 'proper') {
+          self::raiseError(self::ERROR_ORIGIN,'Charge is always proper',true);
+        } else {
+          $mods[] = $tinc;
+          $foundTinc = true;
+        }
       } elseif ( $keyterm = self::find(languageDB::CHARGE_FEATURES) ) {
         $feature = $this->schema->makeMod(blazonML::V_FEATURE,null,$keyterm,self::tokens());
         if ( $foundTinc and ($tinc = self::tincture() ))
@@ -432,9 +439,17 @@ class englishGrammar extends grammar {
     // TODO charge.inc lines 170 - 190 to put into heralds knowledge
 
     self::discard($state);
-    if ( !$foundTinc )
+    if ( $always_proper ) {
+      if (!$foundTinc) {
+        $tinc = $this->schema->makeNode(blazonML::E_TINCTURE, array ( blazonML::A_ORIGIN => 'given',
+          blazonML::A_INDEX => '1') );
+        $tinc->appendChild($this->schema->makeNode(blazonML::E_PROPER));
+        $mods[] = $tinc;
+      }
+    } elseif ( !$foundTinc ) {
       $mods[] = $this->schema->makeNode(blazonML::E_TINCTURE, array ( blazonML::A_ORIGIN => 'pending',
           blazonML::A_INDEX => '1') );
+    }
     foreach ( $mods as $mod )
       $charge->appendChild($mod);
     return $charge;
