@@ -375,7 +375,10 @@ class englishGrammar extends grammar {
     // Now look for postfix stuff, including tinctures and arrangements
     $foundTinc = false;
     while ( self::moreInput() ) {
-      if ( self::semicolon()) break;
+      if ( self::semicolon()) {
+        self::lookAhead(-1);
+        break;
+      } 
       $state2 = self::save();
       self::comma();
       self::ignore(languageDB::ANDD);
@@ -538,6 +541,7 @@ class englishGrammar extends grammar {
       //  break;
     }
     self::discard($state);
+    $state = self::save();
     if ( !self::semicolon() ) {
       // Look for adjacent charges
       if ( $keyterm = self::find(languageDB::CHARGE_ADJACENT) ) {
@@ -563,7 +567,9 @@ class englishGrammar extends grammar {
            } */
 
         self::discard($state);
-      }
+      } 
+    } else {
+      self::restore($state); // put the semi-colon back
     }
     // Add anything found earlier
     foreach ( $mods as $mod )

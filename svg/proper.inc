@@ -47,7 +47,7 @@ class properColour {
       'crown' => self::$yellow,
       'plant' => self::$green,
       'flower' => self::$green,
-      'tree' => self::$green,
+      'tree-fruit' => self::$green,
       'sword' => self::$white,
       'characters' => self::$black,
       'playing-card' => false, // use whatever you find
@@ -56,6 +56,7 @@ class properColour {
       'skull' => self::$white,
       'badger' => self::$grey,
       'sun' => self::$yellow,
+      'sun-rays' => self::$yellow,
       'moon' => self::$white,
       'moor' => self::$black,
       'bat' => self::$black,
@@ -104,6 +105,8 @@ class properColour {
       'rose-lancaster' => self::$red,
       'rose-natural' => self::$rose,
       'zebra' => self::$white,
+      'banana-stem' => self::$yellow,
+      'magpie' => self::$white,
     );
     self::$features = array(
       'with-stone' => self::$gray,
@@ -147,6 +150,10 @@ class properColour {
       'nest' => self::$brown,
       'rose-lancaster/seeded' => self::$white,
       'rose-tudor/inner' => self::$white,
+      'banana-stem/stemmed' => self::$green,
+      'banana-stem/flowers' => self::$red,
+      'magpie/winged' => self::$black,
+      'magpie/legged' => self::$black,
     );
   }
   

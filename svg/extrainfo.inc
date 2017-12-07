@@ -31,6 +31,7 @@ class extraInfoMap {
             'herring' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'pike' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'trumpet' => array('horizontal' => true, 'orient_to_ordinary' => 1),
+            'cross/long' => array('orient_to_ordinary' => -1),
     );
   }
   

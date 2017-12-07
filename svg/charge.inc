@@ -35,8 +35,8 @@ function getBestMatchFilename($folder, $base, $mods) {
   $bestFilename = '';
   $bestMissing = '';
   $bestExtra = '';
-  $presentNotRequiredPenalty = 20;
-  $requiredNotPresentPenalty = 10;
+  $presentNotRequiredPenalty = 10;
+  $requiredNotPresentPenalty = 20;
   $positionWeight = 2;
 
   $dh = opendir($folder);
@@ -55,7 +55,7 @@ function getBestMatchFilename($folder, $base, $mods) {
 
   while (false !== ($entry = readdir($dh))) {
     $penalty = 0;
-    $currentPNRPenalty = $presentNotRequiredPenalty;
+    $currentRNPPenalty = $requiredNotPresentPenalty;
     $missing = '';
     $extra = '';
     if (substr($entry,-4) != '.svg') { continue; } // ignore non-svg files
@@ -74,10 +74,10 @@ function getBestMatchFilename($folder, $base, $mods) {
         }
       }
       if (!$found) {
-        $penalty += $currentPNRPenalty;
+        $penalty += $currentRNPPenalty;
         $missing .= $requiredParts[$i] . ' ';
       }
-      $currentPNRPenalty += $positionWeight;
+      $currentRNPPenalty += $positionWeight;
     }
 
     // check for present, not required
@@ -91,7 +91,7 @@ function getBestMatchFilename($folder, $base, $mods) {
       }
       if (!$found) {
         $penalty += $presentNotRequiredPenalty;
-        $missing .= $filenameParts[$j] . ' ';
+        $extra .= $filenameParts[$j] . ' ';
       }
     }
      //error_log("$entry scores $penalty");
@@ -107,6 +107,8 @@ function getBestMatchFilename($folder, $base, $mods) {
     }
   }
   closedir($dh);
+  if ($bestMissing) $messages('warning','Charge not drawn with ' . $bestMissing);
+  if ($bestExtra) $messages('warning','Charge is also ' . $bestMissing);
   return $bestFilename;
 }
 
@@ -114,7 +116,8 @@ function featuresThatAreAlsoMods($node) {
   $retval = '';
   static $features = array (
     'head',
-    'jessant'
+    'jessant',
+    'voided'
   );
 
   foreach ($features as $feature) {
@@ -440,7 +443,30 @@ function getCharge( DOMElement $node ) {
 
   // Special handling for charges "en soleil"
   if ( existModifierWithKeyterm($node, 'ensoleil') ) {
-    $sunArray = getSvgFragment(file_get_contents('svg/charges/celestial/sun-outline.svg'),array(),'celestial','sun-outline', array());
+    $sunOutline = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="400"
+   width="400"
+   version="1.0"
+   id="svg2">
+
+  <g
+     id="g5158"
+     style="fill:#ffff00">
+    <path
+       id="path4200-1"
+       d="m 203,2 15,121 C 251,94.7 266,45.4 265,12.1 303,45.4 253,111 239,129 236,134 340,64.6 340,64.6 L 274,158 c 23,-13 69,-11 102,-47 -8,61 -78,41 -88,80 l 112,14 -116,19 c 48,15 61,47 102,46 -27,30 -88,-27 -108,-23 l 63,96 -89,-71 c -5,20 3,59 42,108 -81,-28 -44,-91 -69,-94 -1,12 -21,115 -21,115 L 186,286 c -29,29 -36,51 -43,104 -26,-69 25,-102 12,-119 L 60.6,346 127,257 C 74.5,271 68.7,253 21.2,290 42.5,243 95.8,249 112,232 L -4.04,207 112,182 C 61.5,165 60.6,137 8.08,140 38.4,111 72.6,136 121,162 134,169 58.6,58.6 58.6,58.6 L 154,130 C 155,68 141,37.9 112,23.2 155,2.03 177,88.7 181,121 187,122 203,2 203,2 z"
+       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:1.2478801;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline" />
+  </g>
+</svg>';
+    $sunArray = getSvgFragment($sunOutline,array(),'celestial','sun-outline', array());
     $enlargement = 1.4;
     $scale = (max($width,$height) / $sunArray['height']) * $enlargement;  // assume sun is square (!)
     $newSize = (max($width,$height)) * $enlargement;

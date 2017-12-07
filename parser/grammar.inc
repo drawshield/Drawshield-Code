@@ -135,7 +135,7 @@ abstract class grammar  {
   public function getMessages () {
     // Was there any unknown input?
     if ( $this->tokenList->badWords )
-      self::raiseError('blazon',"Don't understand words in brackets - \"", implode(' ',$this->tokenList->getTokens()) . '"');
+      self::raiseError('blazon',"Don't understand:", implode(' ',$this->tokenList->getTokens()));
     // include any messages from the lexical analyser
     return array_merge($this->messages, $this->phraseMatcher->getMatcherErrors());
   }

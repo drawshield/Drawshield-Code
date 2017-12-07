@@ -17,17 +17,10 @@ if (existModifierWithKeyterm($node,'pierced')) {
 }
 
 $num_of = getModifierValueByKeyterm($node, 'of-num', true);
-if ( $num_of < 5 )
-  $num_of = 5;
+if ( $num_of < 4 )
+  $num_of = 4;
 elseif ( $num_of > 10 )
   $num_of = 10;
 
 $charge['file'] = 'mullet-' . $num_of . $suffix . '.svg';
 
-/* if ( $points = getModifierValueByKeyterm($node, 'of-num')) {
-  $messages->addMessage('internal',$folder . 'mullet-' . $points . '.svg' );
-  if ( file_exists( $folder . 'mullet-' . $points . '.svg'))
-    $charge['file'] = 'mullet-' . $points . '.svg';
-}
-$messages->addMessage('internal',$folder . 'mullet-' . $points . '.svg' );
-*/

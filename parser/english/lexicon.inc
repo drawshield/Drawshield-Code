@@ -350,6 +350,7 @@ class languageDB extends lexicon {
             array( 'dance', 'dance' ),
             array( 'ford', 'ford' ),
             array( 'gore', 'gore' ),
+            array( 'pallium', 'pallium' ),
             array( 'pale', 'pale' ),
             array ( '(file|lam?bel)', 'label'),
             array( 'point', 'point' ), // TODO draw this - see meaning 2 parker/point
