@@ -1,8 +1,8 @@
 <?php
 
 $version = array (
-  'release' => '2.6m',
-  'date' => '06 Nov 2017',
+  'release' => '2.6n',
+  'date' => '07 Dec 2017',
   'name' => 'Version ',
   'website' => 'drawshield.net',
   'author' => 'Karl R. Wilcox',

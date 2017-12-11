@@ -22,6 +22,7 @@ class flexAmount {
     self::$charges = array(
       'book' => array(1.4,1.2),
       'billet' => array(2,1.5),
+      'fusil' => array(1.5,2),
       'cartouche' => array(2,1.5),
       'crescent' => array(1.6,1.6),
       'lozenge' => array(1.6,1.6),

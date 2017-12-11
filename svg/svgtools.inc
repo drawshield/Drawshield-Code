@@ -1,24 +1,43 @@
-<?php /* Copyright 2010 Karl R. Wilcox
+<?php 
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+function add_def($element = '', $content = '', $name = '', $title = '', $desc = ''){
+  static $defs;
 
-       http://www.apache.org/licenses/LICENSE-2.0
+  if ( $element == '' ) { // If no arguments then return a complete <defs> section
+    if ( $defs == '' ) { // Unless nothing has been defined yet
+      $retval = '';
+    } else {
+      $retval = '<defs>' . $defs . '</defs>';
+      $defs = ''; // Clear defs, ready for some more
+    }
+    return $retval;
+  } // else if we given some arguments, then create an approprate definition
+  $element_words = explode(' ', $element);
+  $type = $element_words[0];
+  if ( $name == '' ) { $name = $type; }
+  $myid = unique($name);
+  $def = '<' . $element . ' id="' . $myid . '" >' . "\n";
+  if ($title != '' ) {
+    $def .= '<title>' . $title . "</title>\n";
+  }
+  if ($desc != '') {
+    $def .= '<desc>' . $desc . "</desc>\n";
+  }
+  $def .= $content;
+  $def .= "\n</" . $type . ">\n";
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License. */
+  $defs .= $def;
+  return $myid; // and return an id unique to this SVG file
+}
 
 
-function splitStyle ( $styles ) {
+function splitStyle ( $styles, $attributeKeys ) {
   $retval = '';
   $styles = explode(';', $styles . ';');
   foreach ($styles as $style) {
     if ( $style == null ) continue;
     list($setting,$value) = explode(':',$style);
+    if (in_array($setting, $attributeKeys)) continue; // actual attributes take priority
     switch($setting) {
       case 'fill': // Any of the "primary" colours are just placeholders, to be replaced by the charge colour
         if ( !in_array( $value, array ( '#ff0000', '#00ff00', '#0000ff', '#ffff00',
@@ -42,10 +61,16 @@ function splitStyle ( $styles ) {
 }
 
 
-function rewriteAttributes($attributes, $class = '') {
+function rewriteAttributes($attributes, $class = '', $fillSet = false) {
 //  global $messages;
   $retval = '';
   // $myId = '';
+  // Collect names of all the attributes
+  $existingAttributes = array();
+  foreach ($attributes as $key => $data ) {
+    $existingAttributes[] = $key;
+  }
+  if ($fillSet) $existingAttributes[] = 'fill';
   foreach ($attributes as $key => $data ) {
     switch ($key) {
       case 'id':
@@ -56,7 +81,7 @@ function rewriteAttributes($attributes, $class = '') {
         $class .= " $data ";
         break;
       case 'style':
-        $retval .= splitStyle( $data );
+        $retval .= splitStyle( $data, $existingAttributes);
         break;
       case 'href':
         $retval .= 'xlink:href="' . $data . '" ';
@@ -121,19 +146,26 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
     return $item;
   }
   //-------------------------------------------------------------------------
+  $fillSet = false;
   $item = "<$name ";
   if ($id != null && substr($id, 0, 4) != 'path' && substr($id, 0, 5) != 'group') {
+    // We allow multiple features with numeric flags at the end
+    $len = strlen($id);
+    if ($id[$len-2] == '-' && ctype_digit($id[$len-1])) $id = substr($id, 0, $len - 2);
     if (array_key_exists($id, $featureColours)) { // this is a feature with a given colour
       $class = "feature $id";
       $item .= ' fill="' . $featureColours[$id] . '" ';
+      $fillSet = true;
     } elseif (array_key_exists('proper', $featureColours)) { // use proper for features not otherwise coloured
       if ($foundProper = getProper($chargeGroup, $chargeName, $id, false))
         $item .= ' fill="' . $foundProper . '" '; // only set colour if known, otherwise inherit parent colour
+      $fillSet = true;
     } elseif ($id == 'outline') { // This is a path that is actually a stroke
       $item .= ' fill="' . rgb('charge-stroke') . '" ';
+      $fillSet = true;
     }
   }
-  $item .= rewriteAttributes($element->attributes(), $class);
+  $item .= rewriteAttributes($element->attributes(), $class, $fillSet);
   $subitem = '';
   if ( $name == 'text' or $name == 'tspan' or $name == 'textPath' ) // We need the element content as well
     $subitem = htmlentities((string)$element);

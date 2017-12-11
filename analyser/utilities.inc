@@ -211,7 +211,7 @@ function resolveReference(DOMElement $node) {
   global $xpath, $options;
   $visitedNodes = [];
 
-  while ( ($idRef = $node->getAttribute('IDREF')) != null ) {
+  while ( $node != null && ($idRef = $node->getAttribute('IDREF')) != null ) {
     $currentNodeID = $node->getAttribute('ID');
     if (in_array($currentNodeID, $visitedNodes)) {
       // Not an coding error, probably a missing tincture in the blazon
