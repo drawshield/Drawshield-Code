@@ -153,7 +153,7 @@ class englishGrammar extends grammar {
     if ( $node1 == null ) {
       $node1 = $this->schema->makeNode(blazonML::E_SHIELD);
       $node1->appendChild($this->schema->makeNode(blazonML::E_MISSING));
-      self::raiseError(self::ERROR_ORIGIN, 'Expected a shield description', true);
+      self::raiseError(self::ERROR_ORIGIN, 'Expected a shield description (replaced by blank)', true);
     }
     if ($checkOverAllParts && ($overall = self::overall(true)) != null) {
       $node1->appendChild($overall);
@@ -171,7 +171,7 @@ class englishGrammar extends grammar {
       if ( $node2 == null ) {
         $node2 = $this->schema->makeNode(blazonML::E_SHIELD);
         $node2->appendChild($this->schema->makeNode(blazonML::E_MISSING));
-        self::raiseError(self::ERROR_ORIGIN, 'Expected a shield description', true);
+        self::raiseError(self::ERROR_ORIGIN, 'Expected a shield description (replaced by blank)', true);
       }
       if ( !self::semicolon() and ($overall = self::overall()) != null )
         $node2->appendChild($overall);
@@ -891,7 +891,7 @@ class englishGrammar extends grammar {
     if ( ($keyterm = self::find(languageDB::SPLITS)) != null ) {
       $half = $this->schema->makeNode(blazonML::E_COMPLEX, array( 'keyterm' => $keyterm), self::tokens());
       if ( ($shield1 = self::shield()) == null ) {
-        self::raiseError(self::ERROR_ORIGIN, 'Expected 1st shield description', true);
+        self::raiseError(self::ERROR_ORIGIN, 'Expected 1st shield description (replaced by blank)', true);
         $shield1 = $this->schema->makeNode(blazonML::E_MISSING);
       }
       $shield1->setAttribute('index','1');
@@ -901,7 +901,7 @@ class englishGrammar extends grammar {
         //      return $shield1;
       }
       if ( ($shield2 = self::shield()) == null ) {
-        self::raiseError(self::ERROR_ORIGIN, 'Expected 2nd shield description', true);
+        self::raiseError(self::ERROR_ORIGIN, 'Expected 2nd shield description (replaced by blank)', true);
         $shield2 = $this->schema->makeNode(blazonML::E_MISSING);
       }
       $shield2->setAttribute('index','2');

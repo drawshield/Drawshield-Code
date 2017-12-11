@@ -46,9 +46,7 @@ function getBestMatchFilename($folder, $base, $mods) {
     return null;
   }
  
-  if ($mods != '') {
-    $base .= '-' . $mods;
-  }
+  $base .= $mods;
   // error_log("Testing for $base");
   $requiredParts = explode('-', $base);
   $numRequiredParts = count($requiredParts);
@@ -107,8 +105,8 @@ function getBestMatchFilename($folder, $base, $mods) {
     }
   }
   closedir($dh);
-  if ($bestMissing) $messages('warning','Charge not drawn with ' . $bestMissing);
-  if ($bestExtra) $messages('warning','Charge is also ' . $bestMissing);
+  if ($bestMissing) $messages->addMessage('warning', $base . ' not drawn with ' . $bestMissing);
+  if ($bestExtra) $messages->addMessage('other', $base . ' is also ' . $bestExtra);
   return $bestFilename;
 }
 
@@ -122,15 +120,13 @@ function featuresThatAreAlsoMods($node) {
 
   foreach ($features as $feature) {
     if (has_feature($node, $feature)) {
-      if ($retval != '') $retval .= '-';
-      $retval .= $feature;
+      $retval .= '-' . $feature;
     }
   }
 
   $bundle = getModifierNodeWithKeyterm($node, 'bundle');
   if ($bundle) {
-      if ($retval != '') $retval .= '-';
-      $retval .=  $bundle->getAttribute('keyterm') . "-" . $bundle->getAttribute('value');
+      $retval .= '-' . $bundle->getAttribute('keyterm') . "-" . $bundle->getAttribute('value');
   }
   return $retval;
 }
@@ -167,9 +163,10 @@ function read_chg_file(DOMElement $node) {
     $folder = "svg/charges/$group/";
 
     if ( !array_key_exists('svgCode',$chg_data) and !array_key_exists('file',$chg_data) ) {
-      $modList = implode('-',array_keys(getModifiersByTypeAsArray($node,'chargemod')));
       // Have to treat head feature as a mod as well sometimes, + other things
-      $modList .= featuresThatAreAlsoMods($node);
+      $modList = featuresThatAreAlsoMods($node);
+      $otherMods = implode('-',array_keys(getModifiersByTypeAsArray($node,'chargemod')));
+      if ($otherMods) $modList .= '-' . $otherMods;
       $file = getBestMatchFilename($folder, $chargeKey, $modList);
       if ($file != '')
         $chg_data['file'] = $file;
@@ -346,7 +343,7 @@ function getCharge( DOMElement $node ) {
   // Special handling for charges "crowned"
   if ( $crown = getModifierNodeWithKeyterm($node, 'crowned', false) ) {
     $crownType = $crown->getAttribute('value');
-    $extras['crowned'] = getSvgFragment(file_get_contents('svg/charges/crown-as-worn/' . $crownType . '.svg'), array(), 'crown', $crownType, array());
+    $extras['crowned'] = getSvgFragment(file_get_contents('svg/components/crown-as-worn/' . $crownType . '.svg'), array(), 'crown', $crownType, array());
     if ($crown->hasChildNodes()) {
       $feat_cols['crowned'] = get_rgb(getTinctureNode($crown));
     }

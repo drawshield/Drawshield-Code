@@ -16,20 +16,20 @@
 $svg_region = 'PL';
 $svg_chief = 'NC';
 
-include 'charge.inc';
+include 'getcharge.inc';
 include 'division.inc';
 include 'effects.inc';
 include "messages.inc";
 include "furs.inc";
 include "infobox.inc";
-include "inkscape.inc";
-include "layout.inc";
+include "svgtools.inc";
+include "placecharge.inc";
 include "linetypes.inc";
+include "tinctures.inc";
 include "ordinary.inc";
-include "placements.inc";
-include "rgb.inc";
+include "arrangements.inc";
 include "shield.inc";
-include "svgutils.inc";
+include "pathtools.inc";
 include "treatment.inc";
 
 

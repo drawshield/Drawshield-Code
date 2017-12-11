@@ -20,7 +20,19 @@ function rewrite() {
       $prev->appendChild($inbend);
     }
   }
-
+  foreach ( $xpath->query("//missing[parent::shield]") as $item ) {
+    $simple = $dom->createElement(blazonML::E_PLAIN);
+    $simple->setAttribute('ID',unique('N1-'));
+    $field = $dom->createElement(blazonML::E_FIELD);
+    $field->setAttribute('ID',unique('N1-'));
+    $colour = createColourNode('cendree');
+    $tincture = createTinctureNode();
+    $tincture->appendChild($colour);
+    $field->appendChild($tincture);
+    $simple->appendChild($field);
+    $parent = $item->parentNode;
+    $parent->replaceChild($simple,$item);
+  }
   // A charge/within/ordinary becomes ordinary/between/charge
  /* foreach ( $xpath->query("//charge/modifier[@name='within']/ordinary") as $ordinary ) {
     $charge = $ordinary->parentNode->parentNode;

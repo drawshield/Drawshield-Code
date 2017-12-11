@@ -105,10 +105,8 @@ class references {
     // Resolve likewise charge adjustments
     $nodeList = $this->xpath->query('//charge/modifier[@keyterm="likewise"]');
     foreach ($nodeList as $sourceNode ) {
-      error_log("found likewise");
       $refNodes = $this->xpath->query('preceding::modifier[@type="shown"]',$sourceNode);
       if ( $refNodes->length ) {
-      error_log("found previous");
         /**
          * @var DOMElement $target
          */

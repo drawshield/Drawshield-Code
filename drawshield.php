@@ -30,6 +30,8 @@ $xpath = null;
  */
 $messages = null;
 
+$spareRoom = str_repeat('*', 1024 * 1024);
+
 //
 // Argument processing
 //
@@ -66,6 +68,16 @@ if ( $options['blazon'] == '' ) { // TODO "your shield here" message?
 } else {
   // Otherwise log the blazon for research... (unless told not too)
   if ( $options['logBlazon']) error_log($options['blazon']);
+
+ register_shutdown_function(function()
+    {
+        global $options, $spareRoom;
+        $spareRoom = null;
+        if ((!is_null($err = error_get_last())) && (!in_array($err['type'], array (E_NOTICE, E_WARNING))))
+        {
+           error_log($options['blazon']);
+        }
+    });
 
   include "parser/parser.inc";
   $p = new parser('english');
