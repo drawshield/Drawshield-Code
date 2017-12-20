@@ -73,12 +73,32 @@ class infobox {
     if ( $num > 0 and $num <= self::NUMTABS ) $this->tabs[$num] = $tab;
   }
 
+  private function setLinks($text) {
+    $newText = '';
+    $words = explode(' ', $text);
+    foreach ($words as $word) {
+      if (strpos ( $word, 'http') === 0) { // looks like a URL
+        $newText .= '<a href="' . $word . '">' . $word . '</a>';
+      } else {
+        $newText .= $word . ' ';
+      }
+    }
+    return $newText;
+  }
+
   public function addText($num,$text,$class='') {
-    if ($class != '') $class = ' class="' . $class . '"';
+    $start = "";
+    $end = "";
+    if ($class != '') {
+      $start = '<g><desc class="' . $class . '">' . $this->setLinks($text) . '</desc>';
+      $end = '</g>';
+    }
     $lines = self::format($text);
     foreach ($lines as $line) {
       if ( $this->ypos[$num] >= self::PAGEEND ) break; // reached end of page...
-      $this->texts[$num] .= '<text' . $class . ' x="'. self::INSET . '" y="' . ($this->ypos[$num] += self::LINEHEIGHT) . '" text-decoration="none" font-size="30" fill="black" >' . $line . '</text>';
+      $this->texts[$num] .= $start . '<text x="'. self::INSET . '" y="' . ($this->ypos[$num] += self::LINEHEIGHT) . '" text-decoration="none" font-size="30" fill="black" >' . $line . '</text>' . $end;
+      $start = ''; // only do this for the first one
+      $end = '';
     }
   }
 
@@ -232,7 +252,7 @@ function populateInfoBox(infobox $infoBox) {
   $infoBox->addHeader(4,'Disclaimer:');
   $infoBox->addText(4,'Provided for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.');
   $infoBox->AddHeader(4,'Program Code Credits:');
-  $infoBox->addText(4,'(c) Karl R. Wilcox 2010-2014' );
+  $infoBox->addText(4,'(c) Karl R. Wilcox 2010-2017' );
   $infoBox->addText(4,'Apache 2.0 License karl@karlwilcox.com');
 
   $infoBox->setTab(1,'Blazon');
@@ -259,13 +279,13 @@ function populateInfoBox(infobox $infoBox) {
   }
   if (count($items = $messages->getMessages('licence'))) {
     $infoBox->addHeader(4,'Image Component Credits:');
-    foreach($items as $item) $infoBox->addText(4,$item);
+    foreach($items as $item) $infoBox->addText(4,$item,'credits');
   }
   $infoBox->setTab(2,'Links');
   /**
    * @var DOMElement $element
    */
   foreach ( $xpath->query('//*[@link]') as $element ) { // Get every node with a link
-    $infoBox->addText(2, $element->getAttribute('tokens') . ' - ' . $element->getAttribute('link'));
+    $infoBox->addText(2, $element->getAttribute('tokens') . ' - ' . $element->getAttribute('link'),'links');
   }
 }

@@ -1,7 +1,7 @@
 <?php
 
 $version = array (
-  'release' => '2.6n',
+  'release' => '2.6o',
   'date' => '07 Dec 2017',
   'name' => 'Version ',
   'website' => 'drawshield.net',

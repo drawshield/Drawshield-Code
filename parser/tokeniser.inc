@@ -84,15 +84,19 @@ class tokeniser {
           break;
         case ')':
         case ']':
-        if ( $incAll ) {
-          $part_word .= $blazon[$i];
-          break;
-        }
-        if ( $part_word != '' ) {
-            if ( !$comment ) { $this->words[] = $part_word; }
+          if ( $incAll ) {
+            $part_word .= $blazon[$i];
+            break;
+          }
+          if ($comment) {
+            $comment = false;
+          } else {
+            if ( $part_word != '' ) {
+              if ( $part_word != '' ) { $this->words[] = $part_word; }
+            }
+            $this->words[] = ')';
             $part_word = '';
           }
-          $comment = false;
           break;
         case '#':
         case '/':

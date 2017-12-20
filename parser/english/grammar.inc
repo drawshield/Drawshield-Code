@@ -805,16 +805,42 @@ class englishGrammar extends grammar {
     return $ord;
   }
 
+  protected function quartermarker() {
+    $state = self::save();
+    self::ignore(laguageDB::WORD_THE);
+    // Look for an obvious quartering
+    $keyterm =self::find(languageDB::QUARTERS);
+    self::ignore(languageDB::QUARTERMARK);
+    if ($keyterm !== null) {
+      self::discard($state);
+      return $keyterm;
+    }
+    // Look for a number, but it MUST be followed by a quartermarker
+    $keyterm = self::find(languageDB::NUMBER);
+    if (self::find(languageDB::QUARTERMARK)) {
+      self::discard($state);
+      return $keyterm;
+    }
+    // Look for a letter, but it MUST be followed by a quartermarker
+    $keyterm = self::find(languageDB::LETTERS);
+    if (self::find(languageDB::QUARTERMARK)) {
+      self::discard($state);
+      return $keyterm;
+    }
+    self::restore($state);
+    return null;
+  }
+
   protected function quartered() {
     /**
      * @var DOMElement[] $subshields
      */
-    $subshields = array(0,null,null,null,null,null,null,null,null,null);
+    $subshields = array_fill(1,64,null);
 
     $state = self::save();
     $node = null;
-    $numberStated = null;
-    $highest = false;
+    $numberStated = 0;
+    $highest = 0;
 
     if ( ($marshall = self::find(languageDB::QUARTERED)) != null ) {
       $quartered = $this->schema->makeNode(blazonML::E_COMPLEX, array( 'keyterm' => blazonML::V_QUARTERED), self::tokens());
@@ -827,8 +853,9 @@ class englishGrammar extends grammar {
       do { // Look for quarters
         $found = false;
         $indices = array();
-        while ( ($keyterm =self::find(languageDB::QUARTERS)) != null ) {
+        while ( ($keyterm =self::quartermarker()) != null ) {
           $indices[] = $keyterm; // make a list of quarter numbers
+          if ($keyterm > $highest) $highest = $keyterm;
           self::comma();
           self::ignore(languageDB::ANDD);
           $found = $foundQuarter = true;
@@ -860,27 +887,31 @@ class englishGrammar extends grammar {
         self::restore($state); // backtrack, assume this is quarterly division
         return null;
       }
-      for ( $i = 9; $i > 0; $i-- ) {
+      $order = $highest;
+      if ($numberStated > 0) {
+        $order = $numberStated;
+        if ($numberStated >= $highest) {
+          $highest = $numberStated;
+        } else {
+          self::raiseError(self::ERROR_ORIGIN,"Quarter given higher than stated", true );
+        }
+      }
+      for ( $i = 1; $i <= $highest; $i++ ) {
         if ( $subshields[$i] == null ) {
-          if ( !$highest )
-            continue;
-          else { // highest already been found
-            $subshields[$i] = $this->schema->makeNode(blazonML::E_MISSING);
-            self::raiseError(self::ERROR_ORIGIN,'Missing quarter (' . $i . ')', true);
-          }
-        } else { // NOT null
-          if ( !$highest ) $highest = $i;
+          $pendingShield = $this->schema->makeNode(blazonML::E_SHIELD);
+          $pendingShield->setAttribute('index',$i);
+          $pendingShield->appendChild($this->schema->makeNode(blazonML::E_PENDING));
+          $subshields[$i] = $pendingShield;
+          // self::raiseError(self::ERROR_ORIGIN,'Missing quarter (' . $i . ')', true);
+        } else { 
           $subshields[$i]-> setAttribute(blazonML::A_INDEX,"$i");
         }
       }
-      $quartered->setAttribute('order',$highest);
+      $quartered->setAttribute('order',$order);
       for ( $i = 1; $i <= $highest; $i++ )
         $quartered->appendChild($subshields[$i]);
       $node = $this->schema->makeNode(blazonML::E_SHIELD, array ( blazonML::A_INDEX => '0' ));
       $node->appendChild($quartered);
-    }
-    if ($numberStated != null && $numberStated != $highest) {
-      self::raiseError(self::ERROR_ORIGIN,'Quartering mismatch (' . $numberStated . ' stated, ' . $highest  . ' found)', false);
     }
     return $node;
   }
@@ -956,6 +987,9 @@ class englishGrammar extends grammar {
       $ofNum = 10;
     if ( $keyterm == 'mulletty')
       $keyterm .= '-' . $ofNum;
+    if ($keyterm == 'checky' && $ofNum == 9) {
+      $keyterm = 'checky9';
+    }
     self::discard($state);
     return $this->schema->makeNode(blazonML::E_TREATMENT, array ( blazonML::A_KEYTERM => $keyterm ), self::tokens());
 
