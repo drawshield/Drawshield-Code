@@ -20,6 +20,8 @@ function rewrite() {
       $prev->appendChild($inbend);
     }
   }
+
+  // Replace missing shields with plain grey
   foreach ( $xpath->query("//missing[parent::shield]") as $item ) {
     $simple = $dom->createElement(blazonML::E_PLAIN);
     $simple->setAttribute('ID',unique('N1-'));
@@ -33,19 +35,8 @@ function rewrite() {
     $parent = $item->parentNode;
     $parent->replaceChild($simple,$item);
   }
-  // A charge/within/ordinary becomes ordinary/between/charge
- /* foreach ( $xpath->query("//charge/modifier[@name='within']/ordinary") as $ordinary ) {
-    $charge = $ordinary->parentNode->parentNode;
-    $parent = $charge->parentNode;
-    $new_mod = createModifierNode('between');
-    $new_charge = deep_copy($charge);
-    foreach ( $new_charge->childNodes as $child )
-      if ( $child->nodeName == 'modifier' and $child->getAttribute('name') == 'within' )
-        $new_charge->removeChild($child);
-    $new_mod->appendChild($new_charge);
-    $ordinary->appendChild($new_mod);
-    $parent->replaceChild($ordinary,$charge);
-  } */
+
+
 
 // counter passant is passant reversed
   foreach ( $xpath->query("//charge/modifier[@keyterm='counterpassant']") as $mod1 ) {

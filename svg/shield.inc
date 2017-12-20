@@ -45,6 +45,16 @@ $halfHeights = array (
     '10:6' => 300,  
 );
 
+$quarterHeights = array (
+    '10:12' => 250,
+    '10:10' => 250,
+    '10:14' => 300,
+    '10:24' => 300,
+    '10:20' => 250,
+    '10:28' => 250,
+    '10:6' => 150, 
+);
+
 $thirdHeights = array (
     '10:12' => 400,
     '10:10' => 400,
@@ -242,6 +252,90 @@ function makequartered4( DOMNodeList $children, $this_AR ) {
 
   return makequarters( $children, $child_ARs, $child_Scales, $translates );
 }
+
+function makequartered16( DOMNodeList $children, $this_AR ) {
+  global $quarterHeights, $messages;
+
+  // Default values ( for 10:12 )
+  $child_ARs = array ( '10:10', '10:10', '10:10', '10:10',
+                       '10:10', '10:10', '10:10', '10:10',
+                       '10:14', '10:14', '10:14', '10:14',
+                       '10:14', '10:14', '10:14', '10:14');
+  $child_Scales = array ( '0.25', '0.25', '0.25', '0.25',
+                          '0.25', '0.25', '0.25', '0.25', 
+                          '0.29215', '0.29215', '0.29215', '0.29215',
+                          '0.29215', '0.29215', '0.29215', '0.29215', 
+                        );
+  $xShift = 0;
+  $row2Height = 250;
+  $row3Height = 500;
+  $row4Height = 850;
+
+  switch ( $this_AR ) {
+  case '10:12':
+    // same as default
+    break;
+  case '10:10':
+    $child_ARs = array ( '10:10', '10:10', '10:10', '10:10',
+                        '10:10', '10:10', '10:10', '10:10',
+                        '10:10', '10:10', '10:10', '10:10',
+                        '10:10', '10:10', '10:10', '10:10',
+                      );
+    $child_Scales = array ( '0.5', '0.5', '0.5', '0.5',
+                             '0.5', '0.5', '0.5', '0.5',
+                             '0.5', '0.5', '0.5', '0.5',
+                             '0.5', '0.5', '0.5', '0.5',
+     );
+    $xShift = 0;
+    $row2Height = 250;
+    $row3Height = 500;
+    $row4Height = 750;
+    break;         
+  case '10:14':
+    $child_ARs = array ( '10:14', '10:14', '10:14', '10:14' );
+    $child_Scales = array ( '0.5834', '0.5834', '0.5834', '0.5834' );
+    $xShift = 35;
+    break;  
+  case '10:20':
+    $child_ARs = array ( '10:20', '10:20', '10:20', '10:20' );
+    $child_Scales = array ( '0.5', '0.5', '0.5', '0.5' );
+    $xShift = 125;
+    break;
+  case '10:24':
+    $child_ARs = array ( '10:24', '10:24', '10:24', '10:24' );
+    $child_Scales = array ( '0.5', '0.5', '0.5', '0.5' );
+    $xShift = 125;
+    break;         
+  case '10:28':
+    $child_ARs = array ( '10:28', '10:28', '10:28', '10:28' );
+    $child_Scales = array ( '0.5', '0.5', '0.5834', '0.5834' );
+    $xShift = 142;
+    break; 
+  default:
+    $messages->addMessage ( 'internal', 'Unknown aspect ratio for quartered ' . $this_AR );
+  }
+  $translates = array (
+    " translate($xShift,0) ",
+    " translate(250,0) ",
+    " translate(500,0) ",
+    " translate(750,0) ",
+    " translate($xShift,$row2Height) ",
+    " translate(250,$row2Height) ",
+    " translate(500,$row2Height) ",
+    " translate(750,$row2Height) ",
+    " translate($xShift,$row3Height) ",
+    " translate(250,$row3Height) ",
+    " translate(500,$row3Height) ",
+    " translate(750,$row3Height) ",
+    " translate($xShift,$row4Height) ",
+    " translate(250,$row4Height) ",
+    " translate(500,$row4Height) ",
+    " translate(750,$row4Height) ",
+  );
+
+  return makequarters( $children, $child_ARs, $child_Scales, $translates );
+}
+
 
 function makequartered6( $children, $this_AR ) {
   global $halfHeights, $messages;
@@ -557,6 +651,9 @@ function makeshield( DOMElement &$node, $this_AR ) {
                 break;
               case 9:
                 $retval .= makeQuartered9($children, $this_AR);
+                break;
+              case 16:
+                $retval .= makeQuartered16($children, $this_AR);
                 break;
               default:
                 $messages->addMessage('internal', 'No code to draw ' . $children->length . ' quarters yet');

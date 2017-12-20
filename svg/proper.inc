@@ -107,6 +107,7 @@ class properColour {
       'zebra' => self::$white,
       'banana-stem' => self::$yellow,
       'magpie' => self::$white,
+      'starling' => self::$black,
     );
     self::$features = array(
       'with-stone' => self::$gray,
@@ -120,6 +121,8 @@ class properColour {
       'chough/beaked' => self::$red,
       'dove/legged' => self::$red,
       'dove/beaked' => self::$red,
+      'starling/legged' => self::$red,
+      'starling/beaked' => self::$red,
       'fructed' => self::$red,
       'dolphin/finned' => self::$red,
       'hammer/head' => self::$black,

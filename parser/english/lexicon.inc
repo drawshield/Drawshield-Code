@@ -21,6 +21,7 @@ class languageDB extends lexicon {
   const ONFIELDOF = 'onfieldof';
   const SEMICOLON = 'semicolon';
   const COMMA = 'comma';
+  const WORD_THE = 'wordthe';
   const WORD_OF = 'wordof';
   const WORD_ON = 'wordon';
   const WORD_IN = 'wordin';
@@ -74,6 +75,8 @@ class languageDB extends lexicon {
   const SHOWN_MODS = 'shown';
   const DRAWN_MODS = 'drawn';
   const FONT = 'font';
+  const QUARTERMARK = 'quartermark';
+  const LETTERS = 'letters';
   
   public function __construct() {
     $this->language = 'english';
@@ -86,6 +89,7 @@ class languageDB extends lexicon {
     // category, and if found, the specific key term is returned.
  
     $this->patterns = array(
+      self::WORD_THE => array ( 'the' ),
       self::OVERALL => array ( 'overall', 'sur le tout', 'all with(in)?', ),
       self::METAOVERALL => array ( 'over ?all ?the ?# (quarters|quarterings|halves|parts|sections)', ),
       self::SUPPLEMENTARY => array (
@@ -107,16 +111,63 @@ class languageDB extends lexicon {
         array ( 'quartered', 'quartered' ), // Always a marshalling
         array ( 'quarterly', 'quarterly' ), // Could be a marshalling or a division
       ),
+      self::QUARTERMARK => array ( '\\)' ),
+      self::LETTERS => array (
+        array ('a', 1),
+        array ('b', 2),
+        array ('c', 3),
+        array ('d', 4),
+        array ('e', 5),
+        array ('f', 6),
+        array ('g', 7),
+        array ('h', 8),
+        array ('i', 9),
+        array ('j', 10),
+        array ('k', 11),
+        array ('l', 12),
+        array ('m', 13),
+        array ('n', 14),
+        array ('o', 15),
+        array ('p', 16),
+        array ('q', 17),
+        array ('r', 18),
+        array ('s', 19),
+        array ('t', 20),
+        array ('u', 21),
+        array ('v', 22),
+        array ('w', 23),
+        array ('x', 24),
+        array ('y', 25),
+        array ('z', 26),
+      ),
       self::QUARTERS => array (
-        array ( '?the (first|1st|i|1|one)', 1 ),
-        array ( '?the (second|2nd|ii|2|two)', 2 ),
-        array ( '?the (third|3rd|iii|3|three)', 3 ),
-        array ( '?the (fourth|4th|iv|iiii|4|four)', 4 ),
-        array ( '?the (fifth|5th|v|5|five)', 5 ),
-        array ( '?the (sixth|6th|vi|6|six)', 6 ),
-        array ( '?the (seventh|7th|vii|7|seven)', 7 ),                                                 
-        array ( '?the (eighth|8th|viii|8|eight)', 8 ),
-        array ( '?the (ninth|9th|ix|9|nine)', 9 ),
+        array ( '(first|1st|i)', 1 ),
+        array ( '(second|2nd|ii)', 2 ),
+        array ( '(third|3rd|iii)', 3 ),
+        array ( '(fourth|4th|iv|iiii)', 4 ),
+        array ( '(fifth|5th|v)', 5 ),
+        array ( '(sixth|6th|vi)', 6 ),
+        array ( '(seventh|7th|vii)', 7 ),                                                 
+        array ( '(eighth|8th|viii)', 8 ),
+        array ( '(tenth|10th|x)', 10 ),
+        array ( '(eleventh|11th|xi)', 11 ),
+        array ( '(twelth|12th|xii)', 12 ),
+        array ( '(thirteenth|13th|xiii)', 13 ),
+        array ( '(fourteenth|14th|xiv)', 14 ),
+        array ( '(fifteenth|15th|xv)', 15 ),
+        array ( '(sixtenth|16th|xvi)', 16 ),
+        array ( '(seventeenth|17th|xvii)', 17 ),
+        array ( '(eigtheenth|18th|xviii)', 18 ),
+        array ( '(nineteenth|19th|xix)', 19 ),
+        array ( '(twentieth|20th|xx)', 20 ),
+        array ( 'twenty first', 21 ),
+        array ( '(21st|xxi)', 21 ),
+        array ( 'twenty second', 22 ),
+        array ( '(22nd|xxii)', 22 ),
+        array ( 'twenty third', 23 ),
+        array ( '(23rd|xxiii)', 23 ),
+        array ( 'twenty fourth', 24 ),
+        array ( '(24th|xxiv|xxiiii)', 24 ),
       ),
       self::SEMICOLON => array ( ':', ';', '\\.' ), // need to escape '.' as this is regex special character
       self::COMMA => array ( ',' ),
@@ -221,6 +272,8 @@ class languageDB extends lexicon {
             //array ( 'trefle', 'trefle' ), // TODO and this
             array ( 'verd(e|oy)', 'verdy' ), // TODO and this
             array ( 'barruly wavy', 'barruly-wavy' ), // TODO and this
+            array ( 'pied ?at ?random', 'pied' ),
+            array ( 'piebald', 'pied' ),
         ),
         self::FUR => array (
           'ermine',   'erminois', 'erminites', 'pean', 'potent', 'vair',
@@ -318,12 +371,20 @@ class languageDB extends lexicon {
           array ( '(18|eighteen)', "18" ),
           array ( '(19|nineteen)', "19" ),
           array ( '(20|twenty)', "20" ),
+          array ( '21', "21" ),
+          array ( 'twenty one', "21" ),
+          array ( '22', "22" ),
+          array ( 'twenty two', "22" ),
+          array ( '23', "23" ),
+          array ( 'twenty three', "23" ),
+          array ( '24', "24" ),
+          array ( 'twenty four', "24" ),
           array ( '(as|so) many', 'asmany' ),
           ),
         self::ORIENTATION => array ( 
            'sinister', 'reversed','dexter', 'inverted', 'enhanced', 
            array ( '(abased|abaisse)', 'abased', ),
-           array ( '(rompu|fracted)', 'fracted' ),
+           array ( '(rompu|burst|broken|fracted)', 'fracted' ),
           ),
         self::ORDINARY => array (
             'another', // special term, means "voided of" (should only be used after "on" or "charged with"
@@ -392,7 +453,7 @@ class languageDB extends lexicon {
             'sinister', 'reversed', 'dexter', 'inverted', 
             array ( '(hause|enhanced)', 'enhanced' ),     
             array ( '(abased|abaisse)', 'abased', ),
-            array ( '(rompu|fracted)', 'fracted' ),
+            array ( '(rompu|burst|broken|fracted)', 'fracted' ),
             array ( '(debrui|depres|oppres)sed (with|by|of)', 'depressed' ),
             array ( 'false', 'voided' ),
           ),

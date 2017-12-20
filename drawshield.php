@@ -83,7 +83,6 @@ if ( $options['blazon'] == '' ) { // TODO "your shield here" message?
   $p = new parser('english');
   $dom = $p->parse($options['blazon'],'dom');
   $p = null; // destroy parser
-  // Resolve references
   if ( $options['stage'] == 'parser') { 
       $note = $dom->createComment("Debug information - parser stage.\n(Did you do SHIFT + 'Save as File' by accident?)");
       $dom->insertBefore($note,$dom->firstChild);
@@ -91,6 +90,8 @@ if ( $options['blazon'] == '' ) { // TODO "your shield here" message?
       echo $dom->saveXML(); 
       exit; 
   }
+  // Resolve references
+  include "analyser/utilities.inc";
   include "analyser/references.inc";
   $references = new references($dom);
   $dom = $references->setReferences();
@@ -117,17 +118,16 @@ if ( $options['blazon'] == '' ) { // TODO "your shield here" message?
 
   // Read in the drawing code  ( All formats start out as SVG )
   $xpath = new DOMXPath($dom);
-  include "analyser/utilities.inc";
-  include "analyser/rewriter.inc";
+  //include "analyser/rewriter.inc";
   // some fudges / heraldic knowledge
-  rewrite();
-  if ( $options['stage'] == 'rewrite') { 
-      $note = $dom->createComment("Debug information - rewrite stage.\n(Did you do SHIFT + 'Save as File' by accident?)");
-      $dom->insertBefore($note,$dom->firstChild);
-      header('Content-Type: text/xml; charset=utf-8');
-      echo $dom->saveXML(); 
-      exit; 
-  }
+  // rewrite();
+  // if ( $options['stage'] == 'rewrite') { 
+  //     $note = $dom->createComment("Debug information - rewrite stage.\n(Did you do SHIFT + 'Save as File' by accident?)");
+  //     $dom->insertBefore($note,$dom->firstChild);
+  //     header('Content-Type: text/xml; charset=utf-8');
+  //     echo $dom->saveXML(); 
+  //     exit; 
+  // }
   include "svg/draw.inc";
   $output = draw();
 }

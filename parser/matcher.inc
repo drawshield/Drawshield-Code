@@ -96,7 +96,7 @@ class matcher {
       }
       if ( $res === false ) {
         $this->errors[] = 'Bad regex - ' . $regex;
-        continue;
+        return 0;
       }
       // else $res === 1
       if ( $negative ) { // Got a match, but didn't want it

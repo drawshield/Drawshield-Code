@@ -103,6 +103,14 @@
                         </xs:complexType>
                     </xs:element>
                     <xs:element ref="missing"/>
+                    <xs:element name="pending">
+                        <xs:annotation>
+                            <xs:documentation>This represents a quartering that is required but not been provided. It is up the implementor how this is handled.</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                            <xs:attributeGroup ref="common"/>
+                        </xs:complexType>
+                    </xs:element>
                 </xs:choice>
                 <xs:element minOccurs="0" ref="overall"/>
             </xs:sequence>
