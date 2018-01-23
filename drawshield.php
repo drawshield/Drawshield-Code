@@ -42,38 +42,65 @@ if ( isset($argc) and  $argc > 1 ) { // run in debug mode, probably
 }
 
 // Process arguments
-if (isset($_GET['blazon'])) $options['blazon'] = html_entity_decode(strip_tags(trim($_GET['blazon'])));
-if (isset($_GET['saveformat'])) $options['saveFormat'] = strip_tags ($_GET['saveformat']);;
-if (isset($_GET['outputformat'])) $options['outputFormat'] = strip_tags ($_GET['outputformat']);;
-if (isset($_GET['asfile'])) $options['asFile'] = true;
-if (isset($_GET['palette'])) $options['palette'] = strip_tags($_GET['palette']);
-if (isset($_GET['stage'])) $options['stage'] = strip_tags($_GET['stage']);
-if (isset($_GET['printable'])) $options['printable'] = true;
-if (isset($_GET['effect'])) $options['effect'] = strip_tags($_GET['effect']);
-if (isset($_GET['size'])) {
-  $size = strip_tags ($_GET['size']);
-  if ( $size < 100 ) $size = 100;
-  $options['size'] = $size;
+// For backwards compatibility we support argument in GET, but prefer POST
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (isset($_FILES['blazonFile']) && ($_FILES['blazonFile']['name'] != "")) {
+    $fileName = $_FILES['blazonFile']['name'];
+    $fileSize = $_FILES['blazonFile']['size'];
+    $fileTmpName  = $_FILES['blazonFile']['tmp_name'];
+    $fileType = $_FILES['blazonFile']['type'];
+    if (preg_match('/.txt$/i', $fileName) && $fileSize < 1000000) {
+      $options['blazon'] = file_get_contents($fileTmpName);
+    } 
+  } else {    
+      if (isset($_POST['blazon'])) $options['blazon'] = html_entity_decode(strip_tags(trim($_POST['blazon'])));
+  }
+  if (isset($_POST['outputformat'])) $options['outputFormat'] = strip_tags ($_POST['outputformat']);;
+  if (isset($_POST['saveformat'])) $options['saveFormat'] = strip_tags ($_POST['saveformat']);;
+  if (isset($_POST['asfile'])) $options['asFile'] = ($_POST['asfile'] == "1");
+  if (isset($_POST['palette'])) $options['palette'] = strip_tags($_POST['palette']);
+  if (isset($_POST['shape'])) $options['shape'] = strip_tags($_POST['shape']);
+  if (isset($_POST['stage'])) $options['stage'] = strip_tags($_POST['stage']);
+  if (isset($_POST['printable'])) $options['printable'] = ($_POST['printable'] == "1");
+  if (isset($_POST['effect'])) $options['effect'] = strip_tags($_POST['effect']);
+  if (isset($_POST['size'])) $size = strip_tags ($_POST['size']);
+} else { // for old API
+  if (isset($_GET['blazon'])) $options['blazon'] = html_entity_decode(strip_tags(trim($_GET['blazon'])));
+  if (isset($_GET['saveformat'])) $options['saveFormat'] = strip_tags ($_GET['saveformat']);;
+  if (isset($_GET['outputformat'])) $options['outputFormat'] = strip_tags ($_GET['outputformat']);;
+  if (isset($_GET['asfile'])) $options['asFile'] = ($_GET['asfile'] == "1");
+  if (isset($_GET['palette'])) $options['palette'] = strip_tags($_GET['palette']);
+  if (isset($_GET['shape'])) $options['shape'] = strip_tags($_GET['shape']);
+  if (isset($_GET['stage'])) $options['stage'] = strip_tags($_GET['stage']);
+  if (isset($_GET['printable'])) $options['printable'] = ($_GET['printable'] == "1");
+  if (isset($_GET['effect'])) $options['effect'] = strip_tags($_GET['effect']);
+  if (isset($_GET['size'])) $size = strip_tags ($_GET['size']);
 }
+if ( $size < 100 ) $size = 100;
+$options['size'] = $size;
+
 // Quick response for empty blazon
-if ( $options['blazon'] == '' ) { // TODO "your shield here" message?
+if ( $options['blazon'] == '' ) {
+  include "svg/shapes.inc";
+  $outline = getShape($options['shape']);
   header('Content-Type: text/xml; charset=utf-8');
   $output = '<?xml version="1.0" encoding="utf-8" ?><svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" height="' .
     ( $options['size'] * 1.2) . '" width="' .  $options['size'] . '" viewBox="0 0 1000 1200" >
     <g clip-path="url(#clipPath1)"><desc>argent</desc><g><title>Shield</title><g fill="#F0F0F0">
     <rect x="0" y="0" width="1000" height="1200" ><title>Field</title></rect></g></g></g>
-    <defs><clipPath id="clipPath1" > <path d="M 0 0 L 0 800 A 800 400 0 0,0 500 1200 A 800 400 0 0,0 1000 800 L 1000 0 Z" /> </clipPath></defs>
+    <defs><clipPath id="clipPath1" > <path d="' . $outline . '" /> </clipPath></defs>
     <text x="10" y="1160" font-size="30" >'
    . $version['name'] . ' ' . $version['release'] . '</text><text x="10" y="1190" font-size="30" >' . $version['website'] . '</text></svg>';
 } else {
   // Otherwise log the blazon for research... (unless told not too)
-  if ( $options['logBlazon']) error_log($options['blazon']);
+ if ( $options['logBlazon']) error_log($options['blazon']);
 
  register_shutdown_function(function()
     {
         global $options, $spareRoom;
         $spareRoom = null;
-        if ((!is_null($err = error_get_last())) && (!in_array($err['type'], array (E_NOTICE, E_WARNING))))
+        // if ((!is_null($err = error_get_last())) && (!in_array($err['type'], array (E_NOTICE, E_WARNING))))
+        if (!is_null($err = error_get_last()))
         {
            error_log($options['blazon']);
         }

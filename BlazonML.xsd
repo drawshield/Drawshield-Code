@@ -320,6 +320,7 @@
     </xs:element>
     <xs:attributeGroup name="common">
         <xs:attribute ref="tokens"/>
+        <xs:attribute name="linenumber" type="xs:nonNegativeInteger"/>
         <xs:attribute name="keyterm" type="xs:Name"/>
         <xs:attribute ref="IDREF"/>
         <xs:attribute name="link" type="xs:anyURI"/>

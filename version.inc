@@ -1,8 +1,8 @@
 <?php
 
 $version = array (
-  'release' => '2.6o',
-  'date' => '07 Dec 2017',
+  'release' => '2.6q',
+  'date' => '22 Jan 2018',
   'name' => 'Version ',
   'website' => 'drawshield.net',
   'author' => 'Karl R. Wilcox',
@@ -21,6 +21,7 @@ $options = array(
   'asFile' => false,
   'effect' => 'shiny',
   'stage' => 'render',
+  'shape' => 'default',
   // These options can only be set here, or are set later by the program
   'logBlazon' => false,
   'notify' => false,

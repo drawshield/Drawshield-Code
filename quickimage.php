@@ -55,9 +55,6 @@ if (isset($_GET['size'])) {
 
   // Read in the drawing code  ( All formats start out as SVG )
   $xpath = new DOMXPath($dom);
-  include "analyser/rewriter.inc";
-  // some fudges / heraldic knowledge
-  rewrite();
   include "svg/draw.inc";
   $output = draw();
   switch ($options['outputFormat']) {
