@@ -69,7 +69,7 @@ class englishGrammar extends grammar {
       $lookFor = languageDB::OVERALL;
 
     while (self::moreInput() and self::find($lookFor) != null) {
-      if ($node == null) $node = $this->schema->makeNode(blazonML::E_OVERALL, array ( 'keyterm' => 'overall' ), self::tokens());
+      if ($node == null) $node = $this->schema->makeNode(blazonML::E_OVERALL, array ( 'keyterm' => 'overall' ), self::tokens(), self::lineNo());
       if (($over = self::objects()) == null) {
         self::raiseError(self::ERROR_ORIGIN, 'Nothing to go "overall"', true);
         return null;
@@ -85,10 +85,13 @@ class englishGrammar extends grammar {
     while ($option = self::find(LanguageDB::DRAWN_MODS)) {
       switch ($option) {
         case 'scheme':
-          $options['palette'] = $this->phraseMatcher->getValue();
+          $options['palette'] = strtolower($this->phraseMatcher->getValue());
           break;
         case 'style':
-          $options['effect'] = $this->phraseMatcher->getValue();
+          $options['effect'] = strtolower($this->phraseMatcher->getValue());
+          break;
+        case 'shape':
+          $options['shape'] = strtolower($this->phraseMatcher->getValue());
           break;
         default:
           break;
@@ -177,7 +180,7 @@ class englishGrammar extends grammar {
         $node2->appendChild($overall);
       // Got two nodes, now create a mother node
       $motherNode = $this->schema->makeNode(blazonML::E_SHIELD, array ( blazonML::A_INDEX => '0' ));
-      $daughterNode = $this->schema->makeNode(blazonML::E_COMPLEX, array( 'keyterm' => $keyterm), self::tokens());
+      $daughterNode = $this->schema->makeNode(blazonML::E_COMPLEX, array( 'keyterm' => $keyterm), self::tokens(), self::lineNo());
       $node1->setAttribute(blazonML::A_INDEX,'1');
       $node2->setAttribute(blazonML::A_INDEX,'2');
       $daughterNode->appendChild($node1);
@@ -289,7 +292,7 @@ class englishGrammar extends grammar {
     if ( count($positions) > 0 ) {
       $posArray = array();
       foreach ( $positions as $position )
-        $posArray[] = $this->schema->makeMod(languageDB::POSITION,null,$position,self::tokens());
+        $posArray[] = $this->schema->makeMod(languageDB::POSITION,null,$position,self::tokens(), self::lineNo());
       return $posArray;
     } else
       return null;
@@ -316,7 +319,7 @@ class englishGrammar extends grammar {
       self::restore($state);
       return null;
     }
-    $modifier =  $this->schema->makeMod(languageDB::CROWN_MODS,$crownType,$modifierType,self::tokens());
+    $modifier =  $this->schema->makeMod(languageDB::CROWN_MODS,$crownType,$modifierType,self::tokens(), self::lineNo());
     //$modifier = createModifierNode(languageDB::CROWN_MODS,$modifierType,$crownType);
     if ( $foundTinc and ($tinc = self::tincture() ))
       $modifier->appendChild($tinc);
@@ -337,17 +340,17 @@ class englishGrammar extends grammar {
         return null;
       }
     }
-    $charge = $this->schema->makeNode(blazonML::E_CHARGE, array (blazonML::A_NUMBER => "$chgNum"),self::tokens());
+    $charge = $this->schema->makeNode(blazonML::E_CHARGE, array (blazonML::A_NUMBER => "$chgNum"),self::tokens(), self::lineNo());
     // Look for words indicating a multiple charge (e.g. "2 bundles of arrows")
     if ( $keyterm = self::find(languageDB::BUNDLE) ) {
       // Is the number made explicit?
       $num = self::find(languageDB::NUMBER);
       if (!$num) $num = ($keyterm == 'pair')?'2':'3';
-      $mods[] = $this->schema->makeMod(languageDB::BUNDLE,$num,$keyterm,self::tokens());
+      $mods[] = $this->schema->makeMod(languageDB::BUNDLE,$num,$keyterm,self::tokens(), self::lineNo());
     }
     // Look for prefixes, (e.g. "a demi-lion")
     while ( self::moreInput() and ($keyterm = self::find(languageDB::CHARGE_PREFIX)) )
-      $mods[] = $this->schema->makeMod(languageDB::CHARGE_MODS,null,$keyterm,self::tokens());
+      $mods[] = $this->schema->makeMod(languageDB::CHARGE_MODS,null,$keyterm,self::tokens(), self::lineNo());
     // Look for ordinaries that we might confuse with charges
     if ( self::find(languageDB::ORDINARY_NOT_CHARGE) ) {
       self::restore($state);
@@ -360,6 +363,7 @@ class englishGrammar extends grammar {
       @list($keyterm, $flags) = explode('?', $keyterm);
       $charge->setAttribute(blazonML::A_KEYTERM,$keyterm);
       $charge->setAttribute(blazonML::A_TOKENS, $charge->getAttribute(blazonML::A_TOKENS) . ' ' . self::tokens() );
+      $charge->setAttribute(blazonML::A_LINENUMBER, self::lineNo() );
     } else { // Nothing found
       self::restore($state);
       return null;
@@ -368,10 +372,10 @@ class englishGrammar extends grammar {
     $always_proper = strpos($flags,'P') !== false;
     // In some cases we want the next input token as a "value" (e.g. "the word Karl" matches "words? *")
     if ( $asterisk = $this->phraseMatcher->getValue() )
-      $mods[] = $this->schema->makeMod('value',$asterisk,'value',self::tokens());
+      $mods[] = $this->schema->makeMod('value',$asterisk,'value',self::tokens(), self::lineNo());
     // Look for bundle again (e.g. "two arrow bundles"
     if ( $keyterm = self::find(languageDB::BUNDLE) )
-      $mods[] = $this->schema->makeMod(languageDB::BUNDLE,null,$keyterm,self::tokens());
+      $mods[] = $this->schema->makeMod(languageDB::BUNDLE,null,$keyterm,self::tokens(), self::lineNo());
     // Now look for postfix stuff, including tinctures and arrangements
     $foundTinc = false;
     while ( self::moreInput() ) {
@@ -385,13 +389,13 @@ class englishGrammar extends grammar {
       self::ignore(languageDB::WITH);
       self::ignore(languageDB::GROUP);
       if ( $keyterm = self::find(languageDB::CHARGE_MODS) )
-        $mods[] = $this->schema->makeMod(languageDB::CHARGE_MODS,$this->phraseMatcher->getValue(),$keyterm,self::tokens());
+        $mods[] = $this->schema->makeMod(languageDB::CHARGE_MODS,$this->phraseMatcher->getValue(),$keyterm,self::tokens(), self::lineNo());
       elseif ( $crowns = self::getCrowns($foundTinc) )
         $mods[] = $crowns;
       elseif ( $allowPos and $positions = self::getPositions() )
         $mods = array_merge( $mods, $positions );
       elseif ( $allowArr and $keyterm = self::find(languageDB::ARRANGEMENT) )
-        $mods[] = $this->schema->makeMod(languageDB::ARRANGEMENT,null,$keyterm,self::tokens());
+        $mods[] = $this->schema->makeMod(languageDB::ARRANGEMENT,null,$keyterm,self::tokens(), self::lineNo());
       elseif ( $num = self::find(languageDB::NUMBER) ) {
         // This might be rows, but must be >1 number 
         self::comma();
@@ -409,7 +413,7 @@ class englishGrammar extends grammar {
           self::restore($state2);
           break;
         } elseif ( $count > 1 ) {
-          $mods[] = $this->schema->makeMod( 'rows', implode(',',$rows), 'arrange-by-rows', self::tokens() );
+          $mods[] = $this->schema->makeMod( 'rows', implode(',',$rows), 'arrange-by-rows', self::tokens(), self::lineNo() );
           self::discard($state2);
         }
       } elseif ( $tinc = self::tincture() ) {
@@ -420,7 +424,7 @@ class englishGrammar extends grammar {
           $foundTinc = true;
         }
       } elseif ( $keyterm = self::find(languageDB::CHARGE_FEATURES) ) {
-        $feature = $this->schema->makeMod(blazonML::V_FEATURE,null,$keyterm,self::tokens());
+        $feature = $this->schema->makeMod(blazonML::V_FEATURE,null,$keyterm,self::tokens(), self::lineNo());
         if ( $foundTinc and ($tinc = self::tincture() ))
           $feature->appendChild($tinc);
         else {
@@ -432,7 +436,7 @@ class englishGrammar extends grammar {
       } elseif ($adjustments = self::getAdjustments()) {
         $mods = array_merge($mods, $adjustments);
       } elseif ($keyterm = self::find(languageDB::FONT)) {
-        $mods[] = $this->schema->makeMod(languageDB::FONT,$this->phraseMatcher->getValue(),$keyterm,self::tokens());
+        $mods[] = $this->schema->makeMod(languageDB::FONT,$this->phraseMatcher->getValue(),$keyterm,self::tokens(), self::lineNo());
       } else {
         self::restore($state2);
         break;
@@ -475,7 +479,7 @@ class englishGrammar extends grammar {
           break;
         default:
           if ($foundMuch) $keyterm = 'much-' . $keyterm;
-          $adjustments[] = $this->schema->makeMod(languageDB::SHOWN_MODS,null,$keyterm,self::tokens());
+          $adjustments[] = $this->schema->makeMod(languageDB::SHOWN_MODS,null,$keyterm,self::tokens(), self::lineNo());
           $foundMuch = false;
           $foundShown = true;
           break;
@@ -494,7 +498,7 @@ class englishGrammar extends grammar {
     while ( true ) {
       // Look for arrangements (e.g "in pale, three whatever...")
       if ( $keyterm = self::find(languageDB::ARRANGEMENT) ) {
-        $mods[] = $this->schema->makeMod(languageDB::ARRANGEMENT,null,$keyterm,self::tokens());
+        $mods[] = $this->schema->makeMod(languageDB::ARRANGEMENT,null,$keyterm,self::tokens(), self::lineNo());
         $allowArr = false;
         // Look for positions - may be more than one (e.g. "in chief and in base"
       } elseif ( $positions = self::getPositions() ) {
@@ -505,7 +509,7 @@ class englishGrammar extends grammar {
         break;
     }
     // if found, remember "on" for later
-    if ($keyterm = self::find(languageDB::WORD_ON)) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,'charged-with',self::tokens());
+    if ($keyterm = self::find(languageDB::WORD_ON)) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,'charged-with',self::tokens(), self::lineNo());
     // Look for an actual charge
     if ( ($charge = self::simpleCharge( $assumeNum, $allowArr, $allowPos )) == null ) {
       self::restore($state);
@@ -516,7 +520,7 @@ class englishGrammar extends grammar {
     // Is there anything else "on" this charge?
 
     if ( isset($onMod) or ($keyterm = self::find(languageDB::CHARGE_WITH)) ) { // TODO check this logic
-      if ( !isset($onMod)) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,$this->phraseMatcher->getValue(),$keyterm,self::tokens());
+      if ( !isset($onMod)) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,$this->phraseMatcher->getValue(),$keyterm,self::tokens(), self::lineNo());
       if ( (($onCharge = self::simpleCharge( true, true, false )) == null) and (($onCharge = self::ordinary()) == null)) {
         $onCharge = $this->schema->makeNode(blazonML::E_MISSING);
         self::raiseError(self::ERROR_ORIGIN,"Expected something to go on charge", true);
@@ -532,7 +536,7 @@ class englishGrammar extends grammar {
         // The word we found belongs to something else
         self::restore($state);
       } else { // swap chargeA on chargeB to become chargeB charged with chargeA
-        $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,'on',self::tokens());
+        $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,'on',self::tokens(), self::lineNo());
         $onMod->appendChild($charge);
         $onCharge->appendChild($onMod);
         $charge = $onCharge;
@@ -545,7 +549,7 @@ class englishGrammar extends grammar {
     if ( !self::semicolon() ) {
       // Look for adjacent charges
       if ( $keyterm = self::find(languageDB::CHARGE_ADJACENT) ) {
-        $adjMod = $this->schema->makeMod(languageDB::CHARGE_ADJACENT,null,$keyterm,self::tokens());
+        $adjMod = $this->schema->makeMod(languageDB::CHARGE_ADJACENT,null,$keyterm,self::tokens(), self::lineNo());
         if ( (($adjCharge = self::charge()) == null) and (($adjCharge = self::ordinary()) == null) ) {
           $adjCharge = $this->schema->makeNode(blazonML::E_MISSING);
           self::raiseError(self::ERROR_ORIGIN,"Expected charge or ordinary for $keyterm", true);
@@ -623,14 +627,14 @@ class englishGrammar extends grammar {
       self::restore($state);
       return null;
     } // got something!
-    $mod = $this->schema->makeMod(languageDB::COTTICE_MODS,$num,'cotticing',self::tokens());
+    $mod = $this->schema->makeMod(languageDB::COTTICE_MODS,$num,'cotticing',self::tokens(), self::lineNo());
     // now look for a linetype or colour
     $found = true;
     while ( $found ) { // TODO can we use linetype function here?
       if ( $keyterm = self::find(languageDB::LINETYPE_PREFIX) ) {
-        $mod2 = $this->schema->makeMod(languageDB::LINETYPE_PREFIX,null,$keyterm,self::tokens());
+        $mod2 = $this->schema->makeMod(languageDB::LINETYPE_PREFIX,null,$keyterm,self::tokens(), self::lineNo());
         if ( $keyterm = self::find(languageDB::LINETYPE) )
-          $mod2->appendChild($this->schema->makeMod(blazonML::A_LINETYPE,$keyterm,self::tokens()));
+          $mod2->appendChild($this->schema->makeMod(blazonML::A_LINETYPE,$keyterm,self::tokens(), self::lineNo()));
         if ( $tinc = self::tincture( false ) )
           $mod2->appendChild($tinc);
         if ( !$mod2->hasChildNodes() ) {
@@ -639,7 +643,7 @@ class englishGrammar extends grammar {
         }
         $mod->appendChild($mod2);
       } elseif ( $keyterm = self::find(languageDB::LINETYPE) )
-        $mod->appendChild($this->schema->makeMod(blazonML::A_LINETYPE,$keyterm,self::tokens()));
+        $mod->appendChild($this->schema->makeMod(blazonML::A_LINETYPE,$keyterm,self::tokens(), self::lineNo()));
       elseif ( $tinc = self::tincture( false ) )
         $mod->appendChild($tinc);
       else
@@ -653,19 +657,19 @@ class englishGrammar extends grammar {
     $mod = null;
     // Look for modifiers that are followed a linetype (e.g. "the inner ones wavy")
     if ( $keyterm = self::find(languageDB::LINETYPE_PREFIX) ) {
-      $mod = $this->schema->makeMod(languageDB::LINETYPE_PREFIX,null,$keyterm,self::tokens());
+      $mod = $this->schema->makeMod(languageDB::LINETYPE_PREFIX,null,$keyterm,self::tokens(), self::lineNo());
       if ( $keyterm = self::find(languageDB::LINETYPE) )
-        $mod->appendChild($this->schema->makeMod(blazonML::A_LINETYPE,null,$keyterm,self::tokens()));
+        $mod->appendChild($this->schema->makeMod(blazonML::A_LINETYPE,null,$keyterm,self::tokens(), self::lineNo()));
       else {
         $mod->appendChild($this->schema->makeNode(blazonML::E_MISSING));
         self::raiseError(self::ERROR_ORIGIN,"Expected line type", true);
       }
       // Look for simple linetype modifiers (e.g. "dancetty")
     } elseif ( $keyterm = self::find(languageDB::LINETYPE ))
-      $mod = $this->schema->makeMod(blazonML::A_LINETYPE,null,$keyterm,self::tokens());
+      $mod = $this->schema->makeMod(blazonML::A_LINETYPE,null,$keyterm,self::tokens(), self::lineNo());
     if ( $mod )  { // also look for top/bottom modifiers
       if ( $keyterm = self::find(languageDB::LINETYPE_POSTFIX) )
-        $mod->appendChild($this->schema->makeMod(languageDB::LINETYPE_POSTFIX,null,$keyterm,self::tokens()));
+        $mod->appendChild($this->schema->makeMod(languageDB::LINETYPE_POSTFIX,null,$keyterm,self::tokens(), self::lineNo()));
     }
     return $mod;
   }
@@ -678,9 +682,9 @@ class englishGrammar extends grammar {
     //if ( self::find(languageDB::WORD_IN) and ($keyterm = self::find(languageDB::LOCATION)) )   // TODO what was thie here for?
     //   $ord->appendChild($this->schema->makeMod(languageDB::ORDINARY_PREFIX,'in' . $keyterm,self::tokens()));
 
-    if ($keyterm = self::find(languageDB::WORD_ON)) $onMod = $this->schema->makeMod(languageDB::WORD_ON,null,$keyterm,self::tokens());
+    if ($keyterm = self::find(languageDB::WORD_ON)) $onMod = $this->schema->makeMod(languageDB::WORD_ON,null,$keyterm,self::tokens(), self::lineNo());
     // if found, remember "inside" for later
-    if ($keyterm = self::find(languageDB::BETWEEN)) $insideMod = $this->schema->makeMod(languageDB::BETWEEN,null,$keyterm,self::tokens());
+    if ($keyterm = self::find(languageDB::BETWEEN)) $insideMod = $this->schema->makeMod(languageDB::BETWEEN,null,$keyterm,self::tokens(), self::lineNo());
     // Look for a number (or assume one)
     $ordNum = self::find(languageDB::QUANTITY);
     if ( !$ordNum ) $ordNum = self::find(languageDB::NUMBER);
@@ -688,7 +692,7 @@ class englishGrammar extends grammar {
     // Look for various prefix modifiers (including positions, sometimes we get "in chief" or "in base"
     while ( $found ) {
       if ( $keyterm = self::find(languageDB::ORDINARY_PREFIX) ) {
-        $ord->appendChild($this->schema->makeMod(languageDB::ORDINARY_PREFIX,$keyterm,self::tokens()));
+        $ord->appendChild($this->schema->makeMod(languageDB::ORDINARY_PREFIX,$keyterm,self::tokens(), self::lineNo()));
       } else {
         $found = false;
       }
@@ -719,6 +723,7 @@ class englishGrammar extends grammar {
       $ord->setAttribute(blazonML::A_KEYTERM,$keyterm);
       $ord->setAttribute(blazonML::A_NUMBER,"$ordNum");
       $ord->setAttribute(blazonML::A_TOKENS,self::tokens());
+      $ord->setAttribute(blazonML::A_LINENUMBER,self::lineNo());
     } else { // no ordinary found, so backtrack.
       self::restore($state);
       return null;
@@ -732,12 +737,12 @@ class englishGrammar extends grammar {
       self::comma();
       self::ignore(LanguageDB::ANDD);
       if ( $keyterm = self::find(languageDB::ORDINARY_MODS) or $keyterm = self::find(LanguageDB::ORDINARY_PREFIX) ) {
-        $ord->appendChild($this->schema->makeMod(languageDB::ORDINARY_MODS,$this->phraseMatcher->getValue(),$keyterm,self::tokens()));
+        $ord->appendChild($this->schema->makeMod(languageDB::ORDINARY_MODS,$this->phraseMatcher->getValue(),$keyterm,self::tokens(), self::lineNo()));
       } elseif ( ($keyterm = self::find(languageDB::ORIENTATION)) != null ) {
-        $ord->appendChild($this->schema->makeMod(languageDB::ORIENTATION,null,$keyterm,self::tokens()));
+        $ord->appendChild($this->schema->makeMod(languageDB::ORIENTATION,null,$keyterm,self::tokens(), self::lineNo()));
         // Look for modifiers that are normally followed by a colour (e.g. "a bend compony vert")
       } elseif ( $keyterm = self::find(languageDB::COLOUR_MODS) ) {
-        $comp = $this->schema->makeMod(languageDB::COLOUR_MODS,null,$keyterm,self::tokens());
+        $comp = $this->schema->makeMod(languageDB::COLOUR_MODS,null,$keyterm,self::tokens(), self::lineNo());
         $tinc2 = self::tincture(true); // Must have a tincture
         $tinc2->setAttribute('index','2');
         $comp->appendChild($tinc2);
@@ -750,7 +755,7 @@ class englishGrammar extends grammar {
         $ord->appendChild($mod);
         // Look for voided, (e.g. "a bend voided or")
       } elseif ( $keyterm = self::find(languageDB::VOIDED ) ) {
-        $mod = $this->schema->makeMod(languageDB::VOIDED,null,$keyterm,self::tokens());
+        $mod = $this->schema->makeMod(languageDB::VOIDED,null,$keyterm,self::tokens(), self::lineNo());
         // If ordinary already has tincture, look for a void tincture (e.g. "a bend or voided sable")
         if ( $foundTinc and ( $tinc = self::tincture( false ) )) $mod->appendChild($tinc);
         $ord->appendChild($mod);
@@ -766,7 +771,7 @@ class englishGrammar extends grammar {
     // Does this ordinary go "between" some charges?
     $keyterm = null;
     if ( ($insideMod != null) or ($keyterm = self::find(languageDB::BETWEEN))  ) {
-      if ( !isset($insideMod) ) $insideMod = $this->schema->makeMod(languageDB::BETWEEN,null,$keyterm,self::tokens());
+      if ( !isset($insideMod) ) $insideMod = $this->schema->makeMod(languageDB::BETWEEN,null,$keyterm,self::tokens(), self::lineNo());
       if ( ($obj = self::charge(false,true,true)) or ($obj = self::ordinary()) ) {
         $insideMod->appendChild($obj);
       } else {
@@ -785,7 +790,7 @@ class englishGrammar extends grammar {
     $keyterm = null;
     if ( isset($onMod) or ($keyterm = self::find(languageDB::CHARGE_WITH)) ) {
       self::comma();
-      if ( !isset( $onMod )) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,$this->phraseMatcher->getValue(),$keyterm,self::tokens());
+      if ( !isset( $onMod )) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,$this->phraseMatcher->getValue(),$keyterm,self::tokens(), self::lineNo());
       // in some cases, prefer ordinaries to charges
       if ( in_array($ord->getAttribute(blazonML::A_TYPE),array('chief','canton')) ) {
         $item = self::ordinary();
@@ -807,7 +812,7 @@ class englishGrammar extends grammar {
 
   protected function quartermarker() {
     $state = self::save();
-    self::ignore(laguageDB::WORD_THE);
+    self::ignore(languageDB::WORD_THE);
     // Look for an obvious quartering
     $keyterm =self::find(languageDB::QUARTERS);
     self::ignore(languageDB::QUARTERMARK);
@@ -843,7 +848,7 @@ class englishGrammar extends grammar {
     $highest = 0;
 
     if ( ($marshall = self::find(languageDB::QUARTERED)) != null ) {
-      $quartered = $this->schema->makeNode(blazonML::E_COMPLEX, array( 'keyterm' => blazonML::V_QUARTERED), self::tokens());
+      $quartered = $this->schema->makeNode(blazonML::E_COMPLEX, array( 'keyterm' => blazonML::V_QUARTERED), self::tokens(), self::lineNo());
       self::comma();
       if (self::find(languageDB::WORD_OF)) { // like "quarterly of 4"
         $numberStated = self::find(languageDB::NUMBER); // But ignore it and count the quarters we are given
@@ -920,7 +925,7 @@ class englishGrammar extends grammar {
 
     $node = null;
     if ( ($keyterm = self::find(languageDB::SPLITS)) != null ) {
-      $half = $this->schema->makeNode(blazonML::E_COMPLEX, array( 'keyterm' => $keyterm), self::tokens());
+      $half = $this->schema->makeNode(blazonML::E_COMPLEX, array( 'keyterm' => $keyterm), self::tokens(), self::lineNo());
       if ( ($shield1 = self::shield()) == null ) {
         self::raiseError(self::ERROR_ORIGIN, 'Expected 1st shield description (replaced by blank)', true);
         $shield1 = $this->schema->makeNode(blazonML::E_MISSING);
@@ -955,7 +960,7 @@ class englishGrammar extends grammar {
       return null;
     }
     self::discard($state);
-    return $this->schema->makeNode(blazonML::E_FUR, array ( blazonML::A_KEYTERM => $keyterm ), self::tokens());
+    return $this->schema->makeNode(blazonML::E_FUR, array ( blazonML::A_KEYTERM => $keyterm ), self::tokens(), self::lineNo());
   }
 
   protected function colour() {
@@ -968,7 +973,7 @@ class englishGrammar extends grammar {
       return null;
     }
     self::discard($state);
-    return $this->schema->makeNode(blazonML::E_COLOUR, array ( blazonML::A_KEYTERM => $keyterm ), self::tokens());
+    return $this->schema->makeNode(blazonML::E_COLOUR, array ( blazonML::A_KEYTERM => $keyterm ), self::tokens(), self::lineNo());
   }
 
   protected function treatment() {
@@ -991,7 +996,7 @@ class englishGrammar extends grammar {
       $keyterm = 'checky9';
     }
     self::discard($state);
-    return $this->schema->makeNode(blazonML::E_TREATMENT, array ( blazonML::A_KEYTERM => $keyterm ), self::tokens());
+    return $this->schema->makeNode(blazonML::E_TREATMENT, array ( blazonML::A_KEYTERM => $keyterm ), self::tokens(), self::lineNo());
 
   }
 
@@ -999,7 +1004,7 @@ class englishGrammar extends grammar {
 
     $node = null;
     if ( ($keyterm = self::find( languageDB::DIVISION )) != null ) {
-      $node = $this->schema->makeNode(blazonML::E_DIVISION,array(blazonML::A_KEYTERM => $keyterm), self::tokens());
+      $node = $this->schema->makeNode(blazonML::E_DIVISION,array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
       self::comma();
       // generic modifiers, including tinctures
       $maxTinc =( in_array( $keyterm, array ( 'per-pile', 'per-pall', 'tierced-in-pale',
@@ -1010,7 +1015,7 @@ class englishGrammar extends grammar {
         $maxTinc = 0;
         $secondTinc = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
             blazonML::A_ORIGIN => 'implied' ));
-        $secondTinc->appendChild($this->schema->makeNode(blazonML::E_COUNTERCHANGED, null, self::tokens()));
+        $secondTinc->appendChild($this->schema->makeNode(blazonML::E_COUNTERCHANGED, null, self::tokens(), self::lineNo()));
         $node->appendChild($secondTinc);
       }
       $found = true;
@@ -1019,11 +1024,11 @@ class englishGrammar extends grammar {
         self::comma();
         self::find(languageDB::ANDD);
         if ($keyterm = self::find(languageDB::LINETYPE)) {
-          $node->appendChild( $this->schema->makeMod(blazonML::A_LINETYPE, null, $keyterm, self::tokens()));
+          $node->appendChild( $this->schema->makeMod(blazonML::A_LINETYPE, null, $keyterm, self::tokens(), self::lineNo()));
         } elseif ( $keyterm = self::find(languageDB::DIVISION_MODS)) {
-          $node->appendChild($this->schema->makeMod(languageDB::DIVISION_MODS, $this->phraseMatcher->getValue(), $keyterm, self::tokens()));
+          $node->appendChild($this->schema->makeMod(languageDB::DIVISION_MODS, $this->phraseMatcher->getValue(), $keyterm, self::tokens(), self::lineNo()));
         } elseif ($keyterm = self::find(languageDB::ORIENTATION)) {
-          $node->appendChild($this->schema->makeMod(languageDB::ORIENTATION,null,$keyterm, self::tokens()));
+          $node->appendChild($this->schema->makeMod(languageDB::ORIENTATION,null,$keyterm, self::tokens(), self::lineNo()));
         } elseif ( ($tincCount < $maxTinc) and ($tinc = self::tincture()) ) {
           $tincCount++;
           $tinc->setAttribute(blazonML::A_INDEX,"$tincCount");
@@ -1078,7 +1083,7 @@ class englishGrammar extends grammar {
           $node->appendChild($treat);
           // Could also be [colour] [semyde] [charge]
         } elseif ( self::find(languageDB::SEMY) ) {
-          $semyde = $this->schema->makeNode(blazonML::E_SEMYDE,null,self::tokens());
+          $semyde = $this->schema->makeNode(blazonML::E_SEMYDE,null,self::tokens(), self::lineNo());
           $tinc1 = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
               blazonML::A_ORIGIN => 'given'));
           $tinc1->appendChild($colourOrFur);
@@ -1104,7 +1109,7 @@ class englishGrammar extends grammar {
       $node->appendChild($treat);
       // Look for counterchange
     } elseif ( self::find(languageDB::COUNTERCHANGE) ) {
-      $node->appendChild($this->schema->makeNode(blazonML::E_COUNTERCHANGED, null, self::tokens()));
+      $node->appendChild($this->schema->makeNode(blazonML::E_COUNTERCHANGED, null, self::tokens(), self::lineNo()));
       // Look for division
     } elseif ( ($div1 = self::division()) ) {
       // Look for a second (normally counterchanged) division
@@ -1114,9 +1119,10 @@ class englishGrammar extends grammar {
     } elseif ( ($keyterm = self::find(languageDB::BACKREF)) ) {
       $node->setAttribute( blazonML::A_ORIGIN, $keyterm);
       $node->setAttribute( blazonML::A_TOKENS, self::tokens());
+      $node->setAttribute( blazonML::A_LINENUMBER, self::lineNo());
       // Or a reference to proper
     } elseif ( self::find(languageDB::PROPER) ) {
-      $node->appendChild( $this->schema->makeNode(blazonML::E_PROPER,null,self::tokens()));
+      $node->appendChild( $this->schema->makeNode(blazonML::E_PROPER,null,self::tokens(), self::lineNo()));
       // Look for a colour or a fur
     } else { // Didn't find anything
       self::restore($state);

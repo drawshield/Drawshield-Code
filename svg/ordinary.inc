@@ -98,7 +98,7 @@ function division_to_modifier(DOMElement &$node, $type) {
 
 
 function includeOrdinary( DOMElement &$node ) {
-  global $messages;
+  global $messages, $options;
 
   $ordinaryType = $node->getAttribute('keyterm');
   $ordinary = array ();
@@ -106,7 +106,7 @@ function includeOrdinary( DOMElement &$node ) {
   if ( stream_resolve_include_path($file) !== false )
     include ( $file );
   else { // can't draw this ordinary
-    $messages->addMessage('warning',"Cannot draw $type, substituting bend" );
+    $messages->addMessage('warning',"Cannot draw $ordinaryType, substituting bend" . getLine($node) );
     include ( 'ordinaries/bend.inc');
   }
   return $ordinary;
@@ -182,7 +182,7 @@ function makeOrdinary( DOMElement &$node ) {
   } else { // we are given direct SVG data
     if ( $voided != null ) {
 		  if ( !array_key_exists('voided', $ord_data) ) {
-        $messages->addMessage('warning','cannot draw ' . $subtype . 'as voided');
+        $messages->addMessage('warning','cannot draw ' . $subtype . ' as voided' . getLine($node));
         $bodySVG .= choose_fit($ord_data['body']);
 		  } else {
         if ( ($void_col = $voided->firstChild ) != null ) 

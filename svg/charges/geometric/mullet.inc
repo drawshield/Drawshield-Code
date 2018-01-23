@@ -18,7 +18,7 @@ if (existModifierWithKeyterm($node,'pierced')) {
 
 $num_of = getModifierValueByKeyterm($node, 'of-num', true);
 if ( $num_of < 4 )
-  $num_of = 4;
+  $num_of = 5;
 elseif ( $num_of > 10 )
   $num_of = 10;
 

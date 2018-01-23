@@ -63,6 +63,7 @@ class blazonML extends DOMDocument {
   const E_COMPLEX = 'complex';
   const A_INDEX = 'index';
   const A_TOKENS = 'tokens';
+  const A_LINENUMBER = 'linenumber';
   const A_ID = 'ID';
   const A_IDREF = 'IDREF';
   const V_DIMIDIATED = 'dimidiated';
@@ -99,7 +100,7 @@ class blazonML extends DOMDocument {
     parent::__construct($version, $encoding);
   }
   
-  public function makeNode ( $element, $params = null, $tokens = null ) {
+  public function makeNode ( $element, $params = null, $tokens = null, $lineNo = null ) {
     $node = parent::createElement($element);
     $node->setAttribute( self::A_ID, $this->uid->getRef("N"));
     $node->setIdAttribute(self::A_ID,true); 
@@ -109,11 +110,12 @@ class blazonML extends DOMDocument {
           $node->setAttribute($attribute,$value);
     }
     if ( $tokens ) $node->setAttribute(self::A_TOKENS, $tokens);
+    if ( $lineNo ) $node->setAttribute(self::A_LINENUMBER, $lineNo);
     return $node;       
   }
   
-  public function makeMod ( $type, $value = null, $keyterm = null, $tokens = null ) {
-    $mod = self::makeNode(self::E_MODIFIER, array ( self::A_TYPE => $type, self::A_PARAM => $value, self::A_KEYTERM => $keyterm ), $tokens );
+  public function makeMod ( $type, $value = null, $keyterm = null, $tokens = null, $lineNo = null ) {
+    $mod = self::makeNode(self::E_MODIFIER, array ( self::A_TYPE => $type, self::A_PARAM => $value, self::A_KEYTERM => $keyterm ), $tokens, $lineNo );
     return $mod;   
   }
 }

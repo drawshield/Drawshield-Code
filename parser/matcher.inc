@@ -22,7 +22,8 @@ class matcher {
   protected $errors = array();
   protected $value = null;
   protected $matchedValue = null;
-  
+  protected $prevIndex = 0;
+
   // Constructor
   function __construct($tokenList, $patternDB) {
     $this->tokenList = $tokenList;
@@ -111,6 +112,18 @@ class matcher {
     return $t_word;
   }
 
+  // public function searchDigits() {
+  //   $index = $this->tokenList->cur_word;
+  //   $word = $this->tokenList->words[$index];
+  //   if (is_numeric($word)) {
+  //     $val = intval($word);
+  //     $this->value = $val;
+  //     $this->tokenList->cur_word = $index + 1;
+  //     return "$val";
+  //   }
+  //   return false;
+  // }
+  
   public function searchMatch ( $patterns ) {
     global $trace;
     $this->matchedvalue = null;
@@ -120,19 +133,19 @@ class matcher {
     $first_token = $this->tokenList->cur_word;
     if ( $first_token >= $this->tokenList->num_tokens ) return null;
     // First, check if the input has been marked for us (indicated by leading '{'
-    $first_word = $this->tokenList->words[$first_token];
-    if ( $first_word{0} == '{' ) { // See what type it is
-      if ( ($colPos = strpos( $first_word, ':' )) === false ) { // assume it is a charge
-        $given = 'charge';
-      } else { // or get what has been given
-        $given = trim(substr( $first_word, 1, $colPos - 1 ));
-      }
-      if ( $patterns == $given ) { // If this is what we are looking for
-        $this->tokenList->cur_word++; // Return the rest of it
-        return ( trim(substr( $first_word, $colPos + 1, -1)) );
-      } // Never match anything else
-      return false;
-    } // Otherwise, carry out normal search routine
+    // $first_word = $this->tokenList->words[$first_token];
+    // if ( $first_word{0} == '{' ) { // See what type it is
+    //   if ( ($colPos = strpos( $first_word, ':' )) === false ) { // assume it is a charge
+    //     $given = 'charge';
+    //   } else { // or get what has been given
+    //     $given = trim(substr( $first_word, 1, $colPos - 1 ));
+    //   }
+    //   if ( $patterns == $given ) { // If this is what we are looking for
+    //     $this->tokenList->cur_word++; // Return the rest of it
+    //     return ( trim(substr( $first_word, $colPos + 1, -1)) );
+    //   } // Never match anything else
+    //   return false;
+    // } // Otherwise, carry out normal search routine
     $max_match = 0;
     $match = null;
     $max_word = null;
@@ -162,18 +175,26 @@ class matcher {
     }
     return $match;
   }
-  
-  public function getMatchedTokens($reset = false) {
-    static $prevIndex = 0;
 
+  public function getMatchedTokens($reset = false) {
     if ( $reset ) {
-      $prevIndex = 0;
+      $this->prevIndex = 0;
       return null;
     }
-    $length = $this->tokenList->cur_word - $prevIndex;
-    $retval = implode(' ', array_slice($this->tokenList->words, $prevIndex, $length ));
-    $prevIndex = $this->tokenList->cur_word;
+    $length = $this->tokenList->cur_word - $this->prevIndex;
+    $retval = implode(' ', array_slice($this->tokenList->words, $this->prevIndex, $length ));
     $retval = preg_replace('/ ?\[.*?\] ?/', ' ', $retval );
+    return $retval;
+  }
+
+  public function getLineNo() {
+    // TODO this is a horrible, horrible fudge and MUST be called after the function above
+    // Should be rewritten as a single function (or even incorporated into the lexical analyser)
+    $retval = 0;
+    if ($this->prevIndex < count($this->tokenList->lineNos)) {
+      $retval = $this->tokenList->lineNos[$this->prevIndex];
+    }
+    $this->prevIndex = $this->tokenList->cur_word;
     return $retval;
   }
   
@@ -205,6 +226,10 @@ class matcher {
   
   public function getTokens() {
     return $this->tokenList->words;
+  }
+  
+  public function getLineNos() {
+    return $this->tokenList->lineNos;
   }
   
   public function getMatcherErrors() {

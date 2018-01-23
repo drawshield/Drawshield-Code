@@ -35,7 +35,8 @@ class parser {
   public function parse($blazon, $format = 'xml' ) {
     // set things up
     $this->tokenList = new tokeniser($blazon);
-    $topNode = $this->xmlMaker->makeNode(blazonML::E_BLAZON, array ( "blazonText" => $blazon));
+    $topNode = $this->xmlMaker->makeNode(blazonML::E_BLAZON, array ( "blazonText" => $blazon,
+          "blazonTokens" => (implode(' ', $this->tokenList->getTokens()))));
     $this->xmlMaker->appendChild($topNode);
 
     // Do the parsing

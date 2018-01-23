@@ -51,9 +51,12 @@ class properColour {
       'sword' => self::$white,
       'characters' => self::$black,
       'playing-card' => false, // use whatever you find
+      'badges' => self::$red, // dummy entry
     );
     self::$charges = array(
       'skull' => self::$white,
+      'snowflake' => self::$white,
+      'crystal' => self::$white,
       'badger' => self::$grey,
       'sun' => self::$yellow,
       'sun-rays' => self::$yellow,
@@ -125,6 +128,7 @@ class properColour {
       'starling/beaked' => self::$red,
       'fructed' => self::$red,
       'dolphin/finned' => self::$red,
+      'hands' => self::$caucasian,
       'hammer/head' => self::$black,
       'hammer/handle' => self::$brown,
       'pickaxe/head' => self::$black,
@@ -157,6 +161,7 @@ class properColour {
       'banana-stem/flowers' => self::$red,
       'magpie/winged' => self::$black,
       'magpie/legged' => self::$black,
+      'clan-ross/seeded' => self::$red,
     );
   }
   

@@ -79,6 +79,7 @@ abstract class grammar  {
   protected function ignore ( $key ) { $this->phraseMatcher->searchMatch($key); }
   protected function find ( $key ) { return $this->phraseMatcher->searchMatch($key); }
   protected function tokens () { return $this->phraseMatcher->getMatchedTokens(); }
+  protected function lineNo () { return $this->phraseMatcher->getLineNo(); }
   protected function lookAhead ( $offset ) { $this->phraseMatcher->lookahead( $offset ); }
   protected function moreInput() { return $this->tokenList->moreInput(); }
     
@@ -109,16 +110,19 @@ abstract class grammar  {
   
   protected function raiseError ( $type, $message, $getOffset = false ) {
     $context = '';
+    $lineNo = '';
     if ( $getOffset === true ) {
       $tokens = $this->tokenList->getTokens();
+      $lineNos = $this->tokenList->getLineNos();
       $offset = $this->phraseMatcher->getTokenOffset();
       $start = $offset - self::PRIORWORDS;
          $start = $start < 0 ? 0 : $start; 
          for ( $i = $start; $i < $offset; $i++ ) 
            $context .= $tokens[$i] . ' ';
+         $lineNo = " near line " . $lineNos[$offset];
     } elseif ( $getOffset !== false )
       $context = $getOffset;
-    $this->messages[] = "$type $message $context";
+    $this->messages[] = "$type $message $context $lineNo";
     // TODO suppress duplicate errors?
   }
   
@@ -134,8 +138,14 @@ abstract class grammar  {
 
   public function getMessages () {
     // Was there any unknown input?
-    if ( $this->tokenList->badWords )
-      self::raiseError('blazon',"Don't understand:", implode(' ',$this->tokenList->getTokens()));
+    if ( $this->tokenList->badWords ) {
+      $allTokens = $this->tokenList->getTokens();
+      for ($i = 0; $i < count($allTokens); $i++ ) {
+        if ($allTokens[$i][0] == '[') break;
+      }
+      $start = max(1,$i - 5);
+      self::raiseError('blazon',"Don't understand:", '...' . implode(' ', array_slice($allTokens, $start, 10)) . '...');
+    }
     // include any messages from the lexical analyser
     return array_merge($this->messages, $this->phraseMatcher->getMatcherErrors());
   }

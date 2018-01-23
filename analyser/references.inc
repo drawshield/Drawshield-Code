@@ -41,6 +41,8 @@ class references {
   }
 
   public function setReferences() {
+    global $options;
+
     // Set IDREF first, to point to appropriate node
     $refList = array (
       array ( '//charge[@keyterm="special/same"]','ancestor::charge[1]|ancestor::ordinary[1]|preceding::charge[1]|preceding::ordinary[1]', true ), // two of the same | another ...
@@ -159,6 +161,19 @@ class references {
       $parent->replaceChild($this->greyShield(),$item);
     }
 
+    // replace "another" with a copy of the most recent charge
+    $nodeList = $this->xpath->query('//charge[@keyterm="special/same"]');
+    foreach ( $nodeList as $item ) {
+      $prevCharges = $this->xpath->query('preceding-sibling::charge',$item);
+      if ($prevCharges->length) {
+        $prevCharge = $prevCharges->item($prevCharges->length - 1);
+        $item->setAttribute('keyterm', $prevCharge->getAttribute('keyterm'));
+      } else {
+        $messages->appendChild($this->dom->createElement('message','No previous charge for "another"'));  
+        $item->setAttribute('keyterm', 'characters/question');
+      }
+    }
+
     // Bit of a fudge, look for 2 single charges, the second "in saltire", make them
     // look like they are both in saltire
     $nodeList = $this->xpath->query("//charge[@number='1' and modifier/@keyterm='insaltire']");
@@ -179,8 +194,13 @@ class references {
       // Work out the preferred number of quarterings (depends on what we can draw)
       //                   0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
       $newOrders = array ( 4,4,4,4,4,5,6,8,8,9,16,16,16,16,16,16,16,20,20,20,20,
-        //               21,22,23,24
-                         24,24,24,24 );
+        //                21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,
+                          25,25,25,25,25,30,30,30,30,30,36,36,36,36,36,36,42,42,
+                      //  39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,
+                          42,42,42,42,49,49,49,49,49,49,49,56,56,56,56,56,56,56,
+                      //  57,58,59,60,61,62,63,64
+                          64,64,64,64,64,64,64,64
+                        );
       $newOrder = $newOrders[$node->getAttribute('order')];
       $node->setAttribute('order',"$newOrder");
       // get a list of the existing quartering IDs
@@ -228,6 +248,10 @@ class references {
         }
       }
     }
+
+    // If there are lots of quarterings, force a squarish shape
+    $nodeList = $this->xpath->query("//shield");
+    if ($options['shape'] == 'default' && $nodeList->length > 8) $options['shape'] = 'french';
 
     return $this->dom;
   }

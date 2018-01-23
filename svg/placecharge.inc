@@ -241,8 +241,8 @@ function PlaceCharge ( DOMElement $node,  // images
   //  $charge = $bestMatch;
   //}
   $retval = $charge['body'];
-  $chargeX = $charge['width'];
-  $chargeY = $charge['height'];
+  $chargeX = max(1,$charge['width']); // protect against zero
+  $chargeY = max(1,$charge['height']);
 
   if ( $inverted ) {
     $retval = "<g transform=\"translate(0,$chargeY) scale(1,-1)\"><desc>inverted charge</desc>$retval</g>\n";

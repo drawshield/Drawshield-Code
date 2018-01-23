@@ -32,7 +32,7 @@ function includeDivision( DOMElement &$node ) {
   if ( stream_resolve_include_path($file) !== false )
     include ( $file );
   else { // can't draw this division
-    $messages->addMessage('warning','Cannot draw $type, substituting per-bend' );
+    $messages->addMessage('warning','Cannot draw $type, substituting per-bend' . getLine($node) );
     include ( 'divisions/per-bend.inc');
   }
   return $division;
@@ -66,7 +66,7 @@ function makeDivision( DOMElement $node, $counter = false ) {
   $div2 = $division['div2'];
   if ( array_key_exists('div3', $division)) {
     if ( $counter) {
-      $messages->addMessage('blazon', 'Cannot counterchange 3 tinctures' );
+      $messages->addMessage('blazon', 'Cannot counterchange 3 tinctures' . getLine($node) );
       return '<g />';
     }
     $div3 = $division['div3'];

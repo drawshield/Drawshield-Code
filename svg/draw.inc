@@ -28,9 +28,21 @@ include "linetypes.inc";
 include "tinctures.inc";
 include "ordinary.inc";
 include "arrangements.inc";
+include "quartering.inc";
 include "shield.inc";
 include "pathtools.inc";
 include "treatment.inc";
+
+function getLine($node) {
+  $retval = '';
+  if ($node !== null) {
+    $lineNo = $node->getAttribute(BlazonML::A_LINENUMBER);
+    if ($lineNo != null) {
+      $retval = " near line $lineNo";
+    }
+  }
+  return $retval;
+}
 
 
 function region ( $action, $region = null ) {
@@ -132,6 +144,7 @@ function makeOrdChgs( $node ) {
       case 'ordinary':
         $retval .= makeOrdinary( $child );
         break;
+      case 'missing':
       case 'charge':
         $retval .= makeCharge( $child );
         break;
@@ -148,11 +161,14 @@ function draw() {
 
   $outline = "m 0,0 v 800 c -2.5063876,43.11115 1.2341419,84.33503 21.489586,125.13639 20.255443,40.80137 53.477613,79.98631 98.039434,115.63581 44.56181,35.6494 100.44867,67.7517 164.92346,94.7345 64.47479,26.9828 137.51639,48.8374 215.54752,64.4933 78.03113,-15.6559 151.07273,-37.5105 215.54752,-64.4933 64.47479,-26.9828 120.36165,-59.0851 164.92346,-94.7345 44.56182,-35.6495 77.78399,-74.83444 98.03943,-115.63581 C 998.76586,884.33503 1000.1453,841.93063 1000,800 V 0 Z";
 
+  $messages = new messageStore($dom);
+  
+  if ($options['shape'] != 'default') {
+    include "shapes.inc";
+    $outline = getShape($options['shape']);
+  } 
 
   $infobox = new infobox();
-  $messages = new messageStore($dom);
-  // Apply heraldic knowledge!
-  // rewrite();
 
   // Get all the charge data (once for each charge type)
   get_chg_data();
@@ -176,6 +192,19 @@ function draw() {
       break;
       // other elements for future expansion
     }
+  }
+  if ($options['shape'] == 'italian') { // another horrible fudge
+    $body .= '<g>
+    <path
+       d="m 344.81,3.6726 38.87,68.8004 -38.87,44.027 c 98.25,-11.08 203.99,-10.83 294.76,0 l -25.1,-43.029 25.1,-69.7984 c -91.97,12.5284 -196.51,13.0914 -294.76,0 z"
+       style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
+    <path
+       d="m 7.3198,182.27 c 153.3802,0 216.1402,-145.737 308.6002,-145.737 38.95,0 47.72,17.957 47.72,37.931 -21.32,6.107 -38.06,7.221 -62.77,-1.998 3.71,24.327 27.69,43.914 60.28,43.914 30.41,0 66.46,-18.364 66.46,-53.9 0,-29.654 -35.64,-58.8906 -97.85,-58.8906 -140.82,0 -162.71,123.0406 -322.4402,178.6806 z"
+       style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
+    <path
+       d="m 991.87,182.27 c -152.89,0 -215.82,-145.737 -308.28,-145.737 -38.95,0 -47.72,17.957 -47.72,37.931 21.33,6.107 38.06,7.221 62.77,-1.998 -3.62,24.327 -27.6,43.914 -60.19,43.914 -30.5,0 -66.55,-18.364 -66.55,-53.9 0,-29.654 35.65,-58.8906 97.85,-58.8906 141.06,0 162.79,123.0406 322.12,178.6806 z"
+       style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
+  </g>';
   }
   if (!array_key_exists('nomask', $options)) {
     $clipShield = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />' );
