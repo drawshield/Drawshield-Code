@@ -16,6 +16,8 @@ $num = $node->getAttribute('number');
 if ( $num < 1 ) $num = 1;
 if ( existModifierWithKeyterm($node, 'depressed')) {
   $ordinary['body'] = '<path d="M350,-100 500,900 650,-100z" />';
+} elseif (existModifierWithKeyterm($node,'embowed')) {
+  $ordinary['body'] = '<path d="m -150,-100 c 300,0 650,800 650,800 0,0 350,-800 650,-800 z" />';
 } else {
   switch ( $num ) {
     case 1:

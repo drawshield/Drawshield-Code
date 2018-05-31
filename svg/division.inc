@@ -23,7 +23,7 @@ function get_div_height ( DOMElement $node ) {
  }
 
 function includeDivision( DOMElement &$node ) {
-  global $messages;
+  global $messages, $options;
 
   $divisionType = $node->getAttribute('keyterm');
   $division = array ();
@@ -43,9 +43,14 @@ function makeDivision( DOMElement $node, $counter = false ) {
   /*
    * @var messageStore
    */
-  global $messages;
+  global $messages, $options;
 
   $division = includeDivision($node);
+
+  $height = 1200;
+  if ($options['drawType'] == 'flag') {
+    $height = $options['flagHeight'];
+  }
 
   // Collect the required shapes
   $children = $node->childNodes;
@@ -79,12 +84,12 @@ function makeDivision( DOMElement $node, $counter = false ) {
     $div2 = apply_tincture( $tinctures[1], $div2 );
   } else {
     if ( $counter ) {
-      $div1 = apply_tincture ( $tinctures[2], '<rect x="0" y="0" width="1000" height="1200" />',
-                                '1000,1200' );
+      $div1 = apply_tincture ( $tinctures[2], '<rect x="0" y="0" width="1000" height="' . $height . '" />',
+                                '1000,' . $height );
       $div2 = apply_tincture( $tinctures[1], $div2 );
     } else {
-      $div1 = apply_tincture ( $tinctures[1], '<rect x="-100" y="-100" width="1200" height="1400" />',
-                                '1000,1200' );
+      $div1 = apply_tincture ( $tinctures[1], '<rect x="-100" y="-100" width="1200" height="' . ($height + 200) . '" />',
+                                '1000,' . $height );
       $div2 = apply_tincture( $tinctures[2], $div2 );
       if ( $div3 != '' and isset($tinctures[3]) ) $div3 = apply_tincture( $tinctures[3], $div3 );
     }

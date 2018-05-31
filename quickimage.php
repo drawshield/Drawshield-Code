@@ -41,6 +41,7 @@ if (isset($_GET['size'])) {
   if ( $size < 100 ) $size = 100;
   $options['size'] = $size;
 }
+$options['asFile'] = "1";
 
   include "parser/parser.inc";
   $p = new parser('english');

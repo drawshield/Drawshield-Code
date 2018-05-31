@@ -106,7 +106,8 @@ class references {
     // Resolve tinctures that remain as "pending" (i.e. not given but same as previous - if there was one)
     $nodeList = $this->xpath->query('//tincture[@origin="pending"]');
     foreach ($nodeList as $sourceNode ) {
-      $refNodes = $this->xpath->query('preceding-sibling::modifier/tincture[1]|following::tincture[1]',$sourceNode);
+      // Look forwards first
+      $refNodes = $this->xpath->query('following::tincture[1]|preceding::tincture[1]',$sourceNode);
       if ( $refNodes->length ) {
         /**
          * @var DOMElement $target
@@ -114,7 +115,8 @@ class references {
         $target = $refNodes->item(0);
         $targetID = $target->getAttribute('ID');
         $sourceNode->setAttribute('IDREF',$targetID);
-      } // else leave as pending, to be found later (in svgutils)
+      }
+       // else leave as pending, to be found later (in svgutils)
     }
 
     // Resolve likewise charge adjustments

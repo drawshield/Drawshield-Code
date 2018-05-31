@@ -93,6 +93,11 @@ class englishGrammar extends grammar {
         case 'shape':
           $options['shape'] = strtolower($this->phraseMatcher->getValue());
           break;
+        case 'aspect':
+          $value = $this->phraseMatcher->getValue();
+//          error_log("Setting aspect as " . $value);
+          $options['aspectRatio'] = calculateAR($value);
+          $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
         default:
           break;
       }
@@ -208,6 +213,7 @@ class englishGrammar extends grammar {
         self::discard($state);
         break;
       }
+      self::ignore(languageDB::WORD_THE);
       while ( $keyterm = self::find(languageDB::SPECIFIER) ) {
         $specifiers[] = $keyterm;
         self::comma();
@@ -836,6 +842,12 @@ class englishGrammar extends grammar {
     return null;
   }
 
+  protected function quarteredMods() {
+    if ( ($qmod = self::find(languageDB::QUARTERMODS)) != null ) {
+       $quartered->appendChild( $this->schema->makeMod(languageDB::QUARTERMODS, null, $qmod, self::tokens(), self::lineNo()));
+    }
+  }
+
   protected function quartered() {
     /**
      * @var DOMElement[] $subshields
@@ -849,6 +861,9 @@ class englishGrammar extends grammar {
 
     if ( ($marshall = self::find(languageDB::QUARTERED)) != null ) {
       $quartered = $this->schema->makeNode(blazonML::E_COMPLEX, array( 'keyterm' => blazonML::V_QUARTERED), self::tokens(), self::lineNo());
+      if ( ($qmod = self::find(languageDB::QUARTERMODS)) != null ) {
+         $quartered->appendChild( $this->schema->makeMod(languageDB::QUARTERMODS, null, $qmod, self::tokens(), self::lineNo()));
+      }
       self::comma();
       if (self::find(languageDB::WORD_OF)) { // like "quarterly of 4"
         $numberStated = self::find(languageDB::NUMBER); // But ignore it and count the quarters we are given
@@ -1007,7 +1022,7 @@ class englishGrammar extends grammar {
       $node = $this->schema->makeNode(blazonML::E_DIVISION,array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
       self::comma();
       // generic modifiers, including tinctures
-      $maxTinc =( in_array( $keyterm, array ( 'per-pile', 'per-pall', 'tierced-in-pale',
+      $maxTinc =( in_array( $keyterm, array ( 'per-pile', 'per-pall', 'per-pall-arrondi', 'tierced-in-pale',
           'tierced-in-fess', 'tierced-in-bend', 'tierced-in-bend', 'tierced-in-chevron' ))) ? 3 : 2;
       if ( $depth == 2 ) { // The tincture is implied by the previous division
         if ( !self::find(languageDB::COUNTERCHANGE) )

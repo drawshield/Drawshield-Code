@@ -14,25 +14,28 @@
 	 
 
 function createBody($spec, $lineType, $feature_size) {
+  $spec = subPercent($spec);
   return '<path fill-rule="evenodd" d="' . makePath ( $spec, $lineType, $feature_size ) . '" />';
 } 
 
-function makeVoid ( $shapeSpec, $lineType = 'none', $featureSize = 50, $offsetSize = 30 ) {
-
+function makeVoid ( $spec, $lineType = 'none', $featureSize = 50, $offsetSize = 30 ) {
+  $spec = subPercent($spec);
   $retval = '';
   // Create the outer edge as normal
-  $retval .= makePath ( $shapeSpec, $lineType, $featureSize );
-  $innerSpec = parallelSpec ( $shapeSpec, 'i', $offsetSize );
+  $retval .= makePath ( $spec, $lineType, $featureSize );
+  $innerSpec = parallelSpec ( $spec, 'i', $offsetSize );
   $retval .= ' ' . makePath ( $innerSpec, 'none', 0 );
   return $retval;
 }
 
 function createVoid($spec, $lineType, $feature_size) {
+  $spec = subPercent($spec);
   $retval = '<path fill-rule="evenodd" d="' . makeVoid ( $spec, $lineType, $feature_size ) . '" />';
   return $retval;
 }
 
 function createCotise($spec, $num, $lineType) {
+  $spec = subPercent($spec);
   $cotiseSize = 40;
   $outerSize = $cotiseSize*($num*2);
   $innerSize = $cotiseSize*(($num*2)-1);
@@ -102,10 +105,18 @@ function includeOrdinary( DOMElement &$node ) {
 
   $ordinaryType = $node->getAttribute('keyterm');
   $ordinary = array ();
-  $file = "ordinaries/$ordinaryType.inc";
-  if ( stream_resolve_include_path($file) !== false )
+  $file = null;
+  if ($options['drawType'] == 'flag') { // look in the flag sub-directory first
+    $file ="ordinaries/flag/$ordinaryType.inc";
+    if ( stream_resolve_include_path($file) === false ) $file = null;
+  }
+  if ($file == null) {
+    $file = "ordinaries/$ordinaryType.inc";
+    if ( stream_resolve_include_path($file) === false ) $file = null;
+  }
+  if ($file != null) {
     include ( $file );
-  else { // can't draw this ordinary
+  } else { // can't draw this ordinary
     $messages->addMessage('warning',"Cannot draw $ordinaryType, substituting bend" . getLine($node) );
     include ( 'ordinaries/bend.inc');
   }
@@ -142,10 +153,13 @@ function makeOrdinary( DOMElement &$node ) {
   }
 
 	// Some defaults (either from the ordinary data or from modifiers)
-  if ( array_key_exists('feature_size', $ord_data) ) 
-	  $feature_size = $ord_data['feature_size'];
-	else
+  if ( array_key_exists('feature_size', $ord_data) ) { 
+    $feature_size = $ord_data['feature_size'];
+  } elseif ($options['drawType'] == 'flag') {
+    $feature_size = (int)($options['flagHeight'] * 0.05);
+  } else {
 	  $feature_size = 50;
+  }
   /**
    * @var DOMElement $voided
    */
@@ -183,14 +197,14 @@ function makeOrdinary( DOMElement &$node ) {
     if ( $voided != null ) {
 		  if ( !array_key_exists('voided', $ord_data) ) {
         $messages->addMessage('warning','cannot draw ' . $subtype . ' as voided' . getLine($node));
-        $bodySVG .= choose_fit($ord_data['body']);
+        $bodySVG .= subPercent(choose_fit($ord_data['body']));
 		  } else {
         if ( ($void_col = $voided->firstChild ) != null ) 
-			    $bodySVG .= apply_tincture ( $void_col, choose_fit($ord_data['body']) );
-			  $bodySVG .= choose_fit($ord_data['voided']);
+			    $bodySVG .= apply_tincture ( $void_col, subPercent(choose_fit($ord_data['body'])) );
+			  $bodySVG .= subPercent(choose_fit($ord_data['voided']));
 			}
     } else {
-      $bodySVG .= choose_fit($ord_data['body']);
+      $bodySVG .= subPercent(choose_fit($ord_data['body']));
     }
 	} // We now have $body and $cotise set.
 	
@@ -212,7 +226,7 @@ function makeOrdinary( DOMElement &$node ) {
       !array_key_exists('body2', $ord_data)) {
         $messages->addMessage('warning','Cannot apply compony to ' . $subtype);
     } else {
-      $body2_spec = choose_fit($ord_data['body2']);
+      $body2_spec = subPercent(choose_fit($ord_data['body2']));
       if ( $body2_spec{0} != '<' ) {
         $linetype = null;
         // Is there a linetype here also
@@ -235,7 +249,7 @@ function makeOrdinary( DOMElement &$node ) {
   if ( existModifierWithKeyterm($node,'depressed') )
 	  $retval .= '<g stroke="#000000" stroke-width="7">' . "$bodySVG</g>";
   if ( array_key_exists('body3',$ord_data) ) { // Other embellishments
-    $retval .= $ord_data['body3'];
+    $retval .= subPercent($ord_data['body3']);
   }
 		
 
@@ -286,7 +300,7 @@ function makeOrdinary( DOMElement &$node ) {
         if ( array_key_exists('chargesOn', $ord_data)) {
           $onPlacement = $ord_data['chargesOn'];
           if ( is_array($onPlacement )) { // Means we have to call calcPlace
-            $onPlacement = calcPlace($onObject,$onPlacement[0],$onPlacement[1]);
+            $onPlacement = calcPlace($onObject,$onPlacement[0],subPercent($onPlacement[1]));
           }
         } else {
           $onPlacement = 'n'; // error if no placement for ordinary with charges on it, but let placeCharges handle it

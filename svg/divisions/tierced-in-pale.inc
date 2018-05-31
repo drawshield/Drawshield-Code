@@ -12,8 +12,8 @@
  */
 
 $lineType = getModifierByType($node, 'linetype');
-$div2_data = array ( 'NC' => 'X333Y0a667c1200e667G1200',  'CH' => 'X333Y200a667c1100e667G1100' );
-$div3_data = array ( 'NC' => 'X666Y0a337c1200e337G1200',  'CH' => 'X666Y200a337c1100e337G1100' );
+$div2_data = array ( 'NC' => 'X333Y0a667c{%100*}e667G{%100*}',  'CH' => 'X333Y200a667c1100e667G1100' );
+$div3_data = array ( 'NC' => 'X666Y0a337c{%100*}e337G{%100*}',  'CH' => 'X666Y200a337c1100e337G1100' );
 $division['div2'] = createBody(choose_fit($div2_data), $lineType, 60);
 $division['div3'] = createBody(choose_fit($div3_data), $lineType, 60);
 

@@ -41,7 +41,7 @@
    //TODO above / below modifiers
 
 function get_placement(DOMElement $item) {
-  global $dom, $xpath, $messages;
+  global $dom, $xpath, $messages, $options;
   global $aspect_ratio;
 
   static $bounding_boxes = array (
@@ -67,6 +67,7 @@ function get_placement(DOMElement $item) {
 
     $placement = ''; // This is what we are after, keep going until we find one
     $adjustment = ''; // And we might also have an adjustment once we have found it
+    list($group,$name) = explode('/', $item->getAttribute('keyterm'));
     
     // Set up parameters for this charge
     if ($aspect_ratio == 'square')
@@ -98,10 +99,18 @@ function get_placement(DOMElement $item) {
     }
     
     // Figure out default bounding box size for this aspect ratio, chief presence and entire
-    $bounding_index = 0;
-    if ( $chief ) $bounding_index += 2;
-    if ( existModifierWithKeyterm($item,'entire') ) $bounding_index += 1;
-    $boundingBox = $bounding_boxes[$aspect_ratio][$bounding_index];
+    if ( $options['drawType'] == 'flag') {
+      if ( existModifierWithKeyterm($item,'entire') ) {
+        $boundingBox = '0,0,1000,' . $options['flagHeight'];
+      } else {
+        $boundingBox = '50,50,900,' . ($options['flagHeight'] - 100);
+      }
+    } else {
+      $bounding_index = 0;
+      if ( $chief ) $bounding_index += 2;
+      if ( existModifierWithKeyterm($item,'entire') ) $bounding_index += 1;
+      $boundingBox = $bounding_boxes[$aspect_ratio][$bounding_index];
+    }
 
     // Try various placement regimes
 
@@ -329,6 +338,7 @@ function get_placement(DOMElement $item) {
             case 'per-pile': $adjustment = '50,700,250,250'; break;
             case 'per-pall': $adjustment = '50,550,400,400'; break;
             case 'per-pall-inverted': $adjustment = '50,50,400,400'; break;
+            // case 'per-saltire': $adjustment = '300,50,400,400'; break;
             case 'quarterly':
             case 'quarterly-per-pale':
             case 'quarterly-per-fess': $adjustment = '50,50,400,400'; break;
@@ -367,10 +377,10 @@ function get_placement(DOMElement $item) {
               default: $messages->addMessage('warning','no division for "in third"'); break;
             }
             break;
-          case 'inQ1': $adjustment = '0,0,500,500'; break;
-          case 'inQ2': $adjustment = '500,0,500,500'; break;
-          case 'inQ3': $adjustment = '0,500,500,500'; break;
-          case 'inQ4': $adjustment = '500,500,500,500'; break;
+          case 'inQ1':  $adjustment = ($underlying_div == 'per-saltire') ? '350,50,300,300':'0,0,500,500'; break;
+          case 'inQ2': $adjustment = ($underlying_div == 'per-saltire') ? '650,350,300,300':'500,0,500,500'; break;
+          case 'inQ3': $adjustment = ($underlying_div == 'per-saltire') ? '350,650,300,300':'0,500,500,500'; break;
+          case 'inQ4': $adjustment = ($underlying_div == 'per-saltire') ? '50,350,300,300':'500,500,500,500'; break;
             default: break;
           }
           // If we don't have a placement yet the default is just to arrange in wide rows
@@ -387,7 +397,7 @@ function get_placement(DOMElement $item) {
       $placement = adjustplacement($placement,'400,400,200,200');
     } elseif ( $overall ) { // like cadency, but a bit bigger
       $placement = calcPlace($item,'w',$boundingBox);
-       if ( strpos($item->getAttribute("keyterm"), "quadrate/") === 0) {
+       if ( $group == "quadrate" ) {
           $placement = adjustplacement($placement,'100,66,800,800');
        } else {
           $placement = adjustplacement($placement,'300,300,400,400');
@@ -396,7 +406,16 @@ function get_placement(DOMElement $item) {
     
     // If we don't have a placement yet the default is just to arrange in wide rows
     if ( $placement == '' ) {
-      $placement = calcPlace($item,'w',$boundingBox);
+      // special case placements
+      if (($group == "quadrate" || $group = 'geometric') && $number == 1) {
+        if ($chief) {
+          $placement = '500,700,600,600';
+        } else {
+          $placement = '500,500,800,800';
+        }
+      } else {
+        $placement = calcPlace($item,'w',$boundingBox);
+      }
     }
     
     return $placement;

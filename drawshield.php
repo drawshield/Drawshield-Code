@@ -186,8 +186,9 @@ if ( $options['asFile'] ) {
     case 'png':
     default:
      $im = new Imagick();
+     $im->setBackgroundColor(new ImagickPixel('transparent'));
      $im->readimageblob($output);
-     $im->setimageformat('png');
+     $im->setimageformat('png32');
      // $im->scaleimage(1000,1200);
      header("Content-type: application/force-download");
      header('Content-Disposition: inline; filename="shield.png"');
@@ -210,11 +211,12 @@ if ( $options['asFile'] ) {
       break;
     case 'png':
       $im = new Imagick();
+      $im->setBackgroundColor(new ImagickPixel('transparent'));
       $im->readimageblob($output);
-      $im->setimageformat('png');
+      $im->setimageformat('png32');
       // $im->scaleimage(1000,1200);
       header('Content-Type: image/png');
-       echo $im->getimageblob();
+      echo $im->getimageblob();
       break;
     default:
     case 'svg':

@@ -76,9 +76,12 @@ class languageDB extends lexicon {
   const DRAWN_MODS = 'drawn';
   const FONT = 'font';
   const QUARTERMARK = 'quartermark';
+  const QUARTERMODS = 'quartermods';
   const LETTERS = 'letters';
   
   public function __construct() {
+    global $options;
+
     $this->language = 'english';
      
     // Each top level element of the patterns array is a named sub-array
@@ -439,7 +442,9 @@ class languageDB extends lexicon {
           array ( '?party per pile' ,      'per-pile',           ),
           array ( 'parted pilewise' ,      'per-pile',           ),
           array ( '?party per pall' ,      'per-pall',           ),
+          array ( '?party per pall arrondi' ,      'per-pall-arrondi',           ),
           array ( 'tierced? (in|per) pairle' ,    'per-pall',           ),
+          array ( 'tierced? (in|per) pairle arrondi' ,    'per-pall-arrondi',           ),
           array ( '?party per chevron' ,   'per-chevron',        ),
           array ( 'parted chevronwise' ,   'per-chevron',        ),
           array ( 'enty' ,   'enty',        ),
@@ -544,7 +549,7 @@ class languageDB extends lexicon {
         self::ORIENTATION => array ( 
            'sinister', 'reversed','dexter', 'inverted', 'enhanced', 
            array ( '(abased|abaisse)', 'abased', ),
-           array ( '(rompu|burst|broken|fracted)', 'fracted' ),
+           // ?? array ( '(rompu|burst|broken|fracted)', 'fracted' ),
           ),
         self::ORDINARY => array (
             'another', // special term, means "voided of" (should only be used after "on" or "charged with"
@@ -575,6 +580,7 @@ class languageDB extends lexicon {
             array( 'pale', 'pale' ),
             array ( '(file|lam?bel)', 'label'),
             array( 'point', 'point' ), // TODO draw this - see meaning 2 parker/point
+            array( 'plaine? point', 'base' ), // (plain) point and base are synonyms
             array( 'ecclesiastical pale', 'pale-ecclesiastical' ),
             array( 'canadian pale', 'pale-canadian' ),
             array( 'quarter', 'quarter' ),
@@ -608,12 +614,20 @@ class languageDB extends lexicon {
             array( 'lozenge throughout', 'vetu' ),
             array( 'lozenge in point', 'vetu' ),
             array( 'ent[ey] ?[ie]n ?point', 'enty'),
+            array( 'nordic cross', 'cross-nordic'),
+            array( 'point ?in (point|pointed|enty)', 'point-in-point'),
+            array( 'point dexter', 'point-dexter'),
+            array( 'point sinister', 'point-sinister'),
           ),
         self::ORDINARY_PREFIX => array ( // can be before (and after) ordinary
             'sinister', 'reversed', 'dexter', 'inverted', 
             array ( '(hause|enhanced)', 'enhanced' ),     
             array ( '(abased|abaisse)', 'abased', ),
-            array ( '(rompu|burst|broken|fracted)', 'fracted' ),
+            array ( '(rompu|downset)', 'rompu' ),
+            array ( 'removed', 'removed' ),
+            array ( '(debruised|fracted)', 'fracted' ),
+            array ( '(eclate|burst|split)', 'burst' ),
+            array ( '(disjoint|disjointed|brisse)', 'disjointed' ),
             array ( '(debrui|depres|oppres)sed (with|by|of)', 'depressed' ),
             array ( 'false', 'voided' ),
           ),
@@ -633,7 +647,9 @@ class languageDB extends lexicon {
           array ( '(at|on) ?the bottom', 'bottom-only' ),
            ),
         self::ORDINARY_MODS => array ( // only come after ordinary
-          'closetted',
+          'closetted', 'embowed',
+           array ( '?nowy quadrate', 'quadrate' ),
+           array ( 'nowy lozengy', 'nowy-lozengy' ),
            array ( 'rivett?ed', 'riveted'),
            array ( '[ie]narched', 'inarched' ),
            array ( '(couped|humetty|alese)', 'couped' ),
@@ -651,8 +667,9 @@ class languageDB extends lexicon {
            array ( '(gemm?ell?(s|ed)?)', 'gemel' ),
            array ( 'double dancetty', 'fracted' ),
            array ( 'bott?onn?(ee|y)', 'botonny' ), 
+           array ( 'engouled ?(into|by) ?dragons? ?heads?', 'engouled'),
            array ( 'of # points', 'points' ), // only if label is a ordinary
-           array ( '(de)?bruised|fracted|disjoint ?at ?the ?top', 'debruised' ),
+           // array ( '(de)?bruised|fracted|disjoint ?at ?the ?top', 'fracted' ),
            array ( 'en(aluron|urney|toire|toyre)', 'entire' ),
            'lozengy', 'triangular', 'throughout', 'of pretence', 'voided',
            ),
@@ -664,10 +681,12 @@ class languageDB extends lexicon {
         self::COTTICE => array ( array ( 'cott?ices?', 'cottice') ),
         self::VOIDED => array ( 'voided' ),
         self::LINETYPE => array ( 
-          'angled', 'indented', 'nebuly', 'nowy', 'plain', 'potenty',
+          'indented', 'nebuly', 'nowy', 'plain', 'potenty',
           'raguly', 'dovetailed', 'engrailed', 'escartelly', 'erable',
           'thorny', 'ristikoro', 'hakulikoro', 'vallikoro',
           'liljakoro',
+          array ( 'angled ?lower', 'angled' ),
+          array ( 'angled upper', 'angled-upper' ),
           array ('(em)?battled ghibell?ine', 'battled-ghibelline' ),
           array ('(em)?battled ?in ?the ?form ?of mine dumps', 'battled-mine-dumps' ),
           array ( '(battled|double) (e?m?battled|crenn?ell?e?y?)', 'battled-embattled' ),  // two levels of battlements, on upper surface only
@@ -678,9 +697,12 @@ class languageDB extends lexicon {
           array ( '(e?m?battled|crenn?ell?e?y?) arrondi', 'embattled-arrondi' ),           // top only, round crenelles
           array ( 'invec[kt]ed', 'invected' ),
           array ( '(en)?arched', 'arched' ),
-          array ( 'bevill?ed', 'bevilled' ),
-          array ( 'bevill?y', 'bevilled' ),
+          array ( 'bevill?ed upper', 'bevilled-upper' ),
+          array ( 'bevill?y upper', 'bevilled-upper' ),
+          array ( 'bevill?ed ?lower', 'bevilled' ),
+          array ( 'bevill?y ?lower', 'bevilled' ),
           array ( 'dau?ncett(e|y) fl(o|eu)r(y|etty)', 'dancetty-floretty' ),
+          array ( 'dau?ncett(e|y) ?the peaks ?ensigned ?with ?a fleur-de-lys', 'dancetty-floretty' ),
           array ( 'dau?ncetty', 'dancetty' ),
           array ( 'double (en)?arched', 'double-arched' ),
           array ( '(en)?arched double', 'double-arched' ),
@@ -688,7 +710,7 @@ class languageDB extends lexicon {
           array ( 'rayonn(e|y)', 'rayonny' ),
           array ( '(wavy|undy|serpentine)', 'wavy' ),
           array ( '(urdy|urde|champaine|champion)','urdy' ),
-          array ( 'fir twiggy?e?d?', 'twigged' ),
+          array ( '?fir twiggy?e?d?', 'twigged' ),
           array ( 'sapinagy', 'twigged' ),
           array ( '?(embattled) cupolae?d', 'cupolaed' ),
           array ( '?(embattled) gable?d?y?', 'gabled' ),
@@ -703,9 +725,10 @@ class languageDB extends lexicon {
         array( 'cross (formee|patt?ee?)', 'quadrate/cross-formy' ),
         array( 'cross (formy|patt?y)', 'quadrate/cross-formy' ),
         array( 'frets?', 'geometric/fret' ),
-          array( 'salta?ires?', 'geometric/saltire' ),
+          array( 'salta?ires?', 'cross/saltire' ),
         ),
       self::ORDINARY_NOT_CHARGE => array ( // ordinaries that can be confused with charges
+          array( 'salta?ire ?double parted ?and fretty', 'saltire-2fretty' ), 
           array( 'cross ?double parted ?and fretty', 'cross-2fretty' ), 
           array( 'cross tripartite ?and fretty', 'cross-3fretty' ), 
           array( 'cross quarter pierced', 'cross-pierced' ),
@@ -785,7 +808,7 @@ class languageDB extends lexicon {
         self::SHOWN_MODS => array (
           array ( '(shown|shewn|moved) ?somewhat', 'shown'),
           array ( 'somewhat', 'shown'),
-          array ( '?(from|to|of|than) ?the (normal|usual) ?(position|location|place)s?', 'than-normal'),
+          array ( '?(from|to|of|than) ?(the|is) (normal|usual) ?(position|location|place)s?', 'than-normal'),
           array ( 'much', 'much'),
           array ( 'a lot', 'much'),
           array ( '(larger|bigger)', 'larger' ),
@@ -795,15 +818,29 @@ class languageDB extends lexicon {
           ),
         self::DRAWN_MODS => array (
           array ( 'drawn', 'drawn' ),
-          array ( '(with|in|using) * (tinctures|colou?rs)', 'scheme'),
+          array ( '(with|in|using) * (palette|tinctures|colou?rs)', 'scheme'),
           array ( '(with|in|using) ?(a|an|the) * shape', 'shape'),
           array ( '(with|in|using) ?(a|an|the) * (appearance|style|effect)', 'style'),
+        ),
+        self::QUARTERMODS => array (
+          array ( 'per cross', 'per-cross'),
+          array ( 'per saltire', 'per-saltire'),
+          array ( 'per saltire', 'per-saltire'),
         ),
         self::FONT => array ( 
           array ( 'in (a|the) * (font|face|style)', 'font' ),
           ),
       );
-    include "charge.inc";
-    include "chargemod.inc";
+      include "charge.inc";
+      include "chargemod.inc";
+      if ($options['drawType'] == 'flag') {
+        include "flag-colours.inc";
+        $this->patterns[self::COLOUR] = array_merge($this->patterns[self::COLOUR],$flagColours);
+        $this->patterns[self::DRAWN_MODS] = array_merge($this->patterns[self::DRAWN_MODS],
+          array (
+            array ( '(with|in|using) ?(a|an|the) aspect ?ratio ?of *', 'aspect'),
+            array ( '(with|in|using) ?(a|an|the) * aspect ?ratio', 'aspect')
+          ));
+      }
     }
   }

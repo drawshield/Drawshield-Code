@@ -15,6 +15,6 @@
 
 $ordinary['if_ord_on'] = 'scale';
 $ordinary['feature_size'] = 40;
-$ordinary['shape_spec'] = 'X-8Y-8a308C308E308g308';
-if ( $node->getAttribute('number') == '2') $ordinary['shape_spec'] .= '    X700Y-8a308c308E308G308';
+$ordinary['shape_spec'] = 'X-{%1}Y-{%1}a{%31}C{%31}E{%31}g{%31}';
+if ( $node->getAttribute('number') == '2') $ordinary['shape_spec'] .= '    X{%70}Y-{%1}a{%31}c{%31}E{%31}G{%31}';
 $ordinary['chargesOn'] = array ('w', (chiefPresent() ? '20,20,260,260' : '10,10,280,280'));

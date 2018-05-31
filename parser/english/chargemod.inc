@@ -28,17 +28,19 @@
 
    // TODO Deal with all the stuff in _quadrate8.inc
    $this->patterns[languageDB::CHARGE_FEATURES] = array ( 
-     'crossed', 'fructed', 'beaked', 'hooped', 'ribbon',
+     'crossed', 'fructed', 'beaked', 'hooped',
      'seeded', 'barbed', 'gemmed', 'acorned', 'laced',
      'muzzled', 'allume', 'chains', 'tusked', 'spotted',
      'chausse', 'crined', 'cuff', 'nooked', 'hooded',
      'habited', 'lined', 'maned', 'nerved', 'striped',
      'penned', 'quilled', 'stringed', 'aulned', 'stemmed',
-     'belled', 'finned', 'nest', 'staff', 
+     'belled', 'finned', 'nest', 'staff', 'seamed',
      'acorns', 'towered', 'domed', 'tasselled',
      'shelled', 'tied', 'headed', // NOT heads
      'drooping', 'voided', 'beaded', 'ringed', 
+     array ( 'full faced', 'full-faced'),
      array ('jessant ?de ?l[iy]s', 'jessant'),
+     array ( 'ribbon(s|ed)?', 'ribboned' ),
      array ( 'bows?', 'bow' ),
      array ( 'hands?', 'hands' ),
      array ( 'buckle(s|d)? ?in ?the ?centre', 'buckled' ),
@@ -169,7 +171,7 @@
       'ayrant', 'baillone', 'bi corporate', 'cantoned', 'cloue',
       'developed', 'disarmed', 'disclosed', 'distilling',
       'double tete', 'flotant', 'fumant', 'braced',
-      'gradient', 'hauriant', 'increscent', 'crescent', 'unarmed',
+      'gradient', 'increscent', 'crescent', 'unarmed',
       'in lure', 'incensed', 'issuant', 'jacent', 'questing',
       'laminated', 'marined', 'mounted', 'naissant', 'nageant',
       'nimbus', 'eradicated', 'pascuant', 'pinioned', 'removed',
@@ -243,7 +245,6 @@
       array ( 'r?e?verted', 'reflexed' ),
       array ( 'radiant|rayonne|irradiated', 'radiant' ),
       array ( '(open|expanded|extended|overt)', 'open' ), // CAUTION needs to match prefix open
-      array ( 'na[it]ant?', 'naiant' ),
       array ( 'jessed?', 'jessed' ),
       array ( 'in increment', 'increscent' ),
       array ( 'guarde?d?', 'guarded' ),
@@ -291,8 +292,10 @@
       array ( 'palew(ise|ays)',          'palewise',    ),
       array ( 'lozengew(ise|ays)',          'lozengewise',    ),
       array ( 'erect in pale',           'palewise',    ),
+      array ( 'hauri[ea]nt', 'haurient' ), // of fish
+      array ( 'na[it]ant?', 'fesswise' ), // of fish
       array ( '(dispo[sn]|arrang)ed', 'arranged' ),
-      array ( 'affront(ed?|ant|y)', 'affronte' ),
+      array ( 'affront(e|ed|ant|y|ee)', 'affronte' ),
       array ( '(lying|laying)', 'laying' ),
       array ( 'for difference',  'cadency' ), 
       array ( 'annu(lated|ette|ly)', 'annulated' ),

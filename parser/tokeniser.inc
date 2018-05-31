@@ -38,6 +38,7 @@ class tokeniser {
     $given = false;
     $part_word = '';
     $end = strlen($blazon);
+    $lookBehind = '';
     while ( $i < $end ) {
       $lookAhead = '';
       if ($i + 1 < $end) {
@@ -194,11 +195,18 @@ class tokeniser {
             $i = $end;
           }
           break;
+        case '.':
         case ';':
         case ',':
         case ':':
-        case '.':
-          if ( $part_word != '' ) {
+          if ( $incAll ) {
+            $part_word .= $blazon[$i];
+            break;
+          }
+          if (ctype_digit($lookBehind) && ctype_digit($lookAhead)) {
+            $part_word .= $blazon[$i];
+            break;
+          } elseif ( $part_word != '' ) {
             if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
             $part_word = '';
           }
@@ -238,6 +246,7 @@ class tokeniser {
           $part_word .= $blazon[$i];
           break;
       }
+      $lookBehind = $blazon[$i];
       $i++;
     }
     if ( $part_word != '' ) {

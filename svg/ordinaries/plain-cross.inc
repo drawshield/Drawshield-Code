@@ -1,20 +1,13 @@
-<?php /* Copyright 2010 Karl R. Wilcox 
+<?php 
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License. */
-
-
-$ordinary['shape_spec'] = array ( 'NC' => 'X-100Y350A450G450a300C450A450c300E450C650e300G650E450g300',
+if ( existModifierWithKeyterm($node, 'nowy')) { // special handling for some linetypes
+  $ordinary['body'] = '<path d="m 350,-100 v 342.74 c -43.63,25.5 -80.8,62.09 -107.12,107.26 h -492.88 v 300 h 492.95 c 26.3,45.14 63.45,81.72 107.05,107.22 v 542.78 h 300 v -542.74 c 43.63,-25.5 80.8,-62.09 107.12,-107.26 h 492.88 v -300 h -492.95 c -26.3,-45.14 -63.45,-81.72 -107.05,-107.22 v -342.78 z" />';
+} elseif ( existModifierWithKeyterm($node, 'quadrate')) { // special handling for some linetypes
+  $ordinary['body'] = '<path d="m -243.73,411.73 v 199.97 h 415.45 v 200.02 h 200.01 v 528.58 h 199.97 v -528.58 h 200.01 v -200.01 h 484.59 v -199.97 h -484.59 v -200.01 h -200.01 v -415.45 h -199.97 v 415.45 h -200.01 v 200.01 z" />';
+} else {
+  $ordinary['shape_spec'] = array ( 'NC' => 'X-100Y350A450G450a300C450A450c300E450C650e300G650E450g300',
                                   'CH' => 'X400Y200a200C400A500c200E500C500e200G500E500g200A500G400' );
+}
 
 $ordinary['chargesOn'] = chiefPresent() ? '500,700,160,160////250,700,160,160:750,700:500,450:500,700:500,950/x' :
   '500,500,200,200//200,500,220,220:800,500:500,250/200,500,200,200:500,220:800,500:500,800//200,500,200,200:500,200:800,500:500,500:500,800:500,1050';

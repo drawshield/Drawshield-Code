@@ -13,9 +13,13 @@
    limitations under the License. */
 
 
-$ordinary['shape_spec'] = 'X-8,Y900A1016c308e1016g308';
+$ordinary['shape_spec'] = 'X-8,Y{%75}A1016c{%26}e1016g{%26}';
 
-$ordinary['chargesOn'] = '500,950,500,240/333.33,950,300,200:666.67,950/333.33,900,160,160:666.67,900:500,1050/x/x/x';
+if ($options['drawType'] == 'flag') {
+  $ordinary['chargesOn'] = array ('h','100,{%77},800,{%21}');
+} else {
+  $ordinary['chargesOn'] = '500,{%87},500,{%21}/333.33,{%87},300,{%21}:666.67,{%87}/333.33,{%87},160,{%21}:500,{%87}:666.67,{%87}/x/x/x';
+}
 
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';

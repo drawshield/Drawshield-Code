@@ -40,6 +40,9 @@ function place_charges ( DOMElement $node, $placement ) {
       $messages->addMessage('warning','Not meaningful placement' );
       return '';
   }
+//  error_log("Using placement: " . $placement);
+  $placement = subPercent($placement);
+//  error_log("Converted to: " . $placement);
   $num_of = $node->getAttribute('number');
   if ( $num_of < 1 ) $num_of = 1; // Just in case...
   $between = null;
@@ -166,6 +169,7 @@ function PlaceCharge ( DOMElement $node,  // images
         case 'bendsinwise':
         case 'fesswise':
         case 'palewise':
+        case 'haurient':
           $orientation = $child->getAttribute('keyterm');
           break;
         case 'entire':
@@ -283,7 +287,7 @@ function PlaceCharge ( DOMElement $node,  // images
           $temp = $Xflex; $Xflex = $Yflex; $Yflex = $temp;
         }
         break;
-      case 'erect': // TODO is this still used?
+      case 'haurient': 
         $retval = "<g transform=\"translate($chargeY,0) rotate(90)\"><desc>erect charge</desc>$retval</g>\n";
         $temp = $chargeX; $chargeX = $chargeY; $chargeY = $temp;
         $temp = $Xflex; $Xflex = $Yflex; $Yflex = $temp;

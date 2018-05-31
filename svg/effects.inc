@@ -11,7 +11,7 @@
  * Time: 19:07
  */
 
-function getEffect($item) {
+function getEffect($item, $width=1000, $height=1200) {
   global $options, $messages;
 
   /*
@@ -22,9 +22,9 @@ function getEffect($item) {
    * 'below' goes under the shield, AFTER it is clipped
    */
   static $effectData = array (
-    'none' => array ('viewbox' => '0 0 1000 1200', ),
+    'none' => array ('viewbox' => array(0, 0, 0, 0) ), // adjustments
     'stonework' => array (
-      'viewbox' => '0 0 1000 1200',
+      'viewbox' => array(0, 0, 0, 0),
       'credits' => 'Filters by Inkscape: emboss + roughen inside + rough paper',
       'defs' => '<filter
        id="stonework"
@@ -163,7 +163,7 @@ function getEffect($item) {
       'filter' => ' filter="url(#stonework)" ',
     ),
     'plaster' => array (
-      'viewbox' => '-20 -20 1040 1220',
+      'viewbox' => array(-20, -20, 40, 20),
       'credits' => '',
       'defs' => '<filter id="plaster" >
       <feTurbulence
@@ -182,7 +182,7 @@ function getEffect($item) {
       'filter' => ' filter="url(#plaster)" ',
     ),
     'shiny' => array (
-      'viewbox' => '0 0 1030 1230',
+      'viewbox' => array(0, 0, 30, 30),
       'defs' => '
       <filter id="shiny" x="0" y="0" width="150%" height="150%">
       <feGaussianBlur in = "SourceAlpha" stdDeviation = "4" result = "blur1"/>
@@ -198,7 +198,7 @@ function getEffect($item) {
       'filter' => ' filter="url(#shiny)" ',
     ),
     'vellum' => array (
-    'viewbox' => '-20 -20 1040 1220',
+    'viewbox' => array(-20, -20, 40, 20),
       'defs' => '<filter id="vellum"  color-interpolation-filters="sRGB">
 <feFlood flood-opacity="1" flood-color="#d3b06c"/>
          <feBlend mode="normal" in2="SourceGraphic" result="background" />
@@ -279,8 +279,13 @@ function getEffect($item) {
   $data = $effectData[$effect];
   if ( array_key_exists('credits', $data))
     $messages->addMessage('licence',$data['credits']);
-  if ( isset($data[$item]))
-    return $data[$item];
-  else
+  if ( isset($data[$item])) {
+    $retval = $data[$item];
+    if ($item == 'viewbox') {
+      $retval = $data[$item][0] . ',' . $data[$item][1] . ',' . ($width + $data[$item][2]) . ',' . ($height + $data[$item][2]);
+    } 
+    return $retval;
+  } else {
     return null;
+  }
 }

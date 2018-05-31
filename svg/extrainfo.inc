@@ -17,6 +17,7 @@ class extraInfoMap {
       'projectile' => array ('orient_to_ordinary' => -1),
       'quadrate' => array('charged-with' => 'c/c/c/500,200,200,200:200,500:800,500:500,800/c/c'),
       'crown' => array('horizontal' => true),
+      'fish' => array('horizontal' => true, 'orient_to_ordinary' => 1),
     );
     self::$charges = array(
             'flail' => array ('orient_to_ordinary' => -1),
@@ -26,10 +27,6 @@ class extraInfoMap {
             'cartouche' => array ('orient_to_ordinary' => 1),
             'billet' => array ('orient_to_ordinary' => 1),
             'rocket-man' => array ('orient_to_ordinary' => -1),
-            'salmon' => array('horizontal' => true, 'orient_to_ordinary' => 1),
-            'eel' => array('horizontal' => true, 'orient_to_ordinary' => 1),
-            'herring' => array('horizontal' => true, 'orient_to_ordinary' => 1),
-            'pike' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'trumpet' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'cross/long' => array('orient_to_ordinary' => -1),
     );

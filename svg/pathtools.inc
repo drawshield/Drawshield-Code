@@ -1,5 +1,27 @@
 <?php 
 
+function subFuncPercent( $match ) {
+	global $options;
+
+	$height = 1000;
+  $percent = substr($match[0],2,strlen($match[0])-3);
+  $len = strlen($percent);
+  // Flags
+  if ($percent[$len-1] == '*') { // On a shield, use full height
+    $height = 1200;
+    $percent = substr($percent, 0, $len - 1); // strip flag
+  }
+  // Types
+	if ($options['drawType'] == 'flag') {
+		$height = $options['flagHeight'];
+	}
+	
+	return (int)($height * $percent / 100);
+}
+
+function subPercent($str) {
+  return preg_replace_callback('/{%[0-9]+\*?}/', 'subFuncPercent', $str);
+}
 
 function rotatePoint( $x, $y, $theta ) {
   switch ( $theta ) {

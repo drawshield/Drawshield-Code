@@ -36,7 +36,7 @@ class linkAdder {
       for ( $i = 0; $i < $nodeList->length; $i++ ) {
         $keyterm = $nodeList->item($i)->getAttribute('keyterm');
         if ( array_key_exists ( $keyterm, $this->linkDB ))
-          $nodeList->item($i)->setAttribute('link','http:://' . $_SERVER['SERVER_NAME'] . $this->linkDB[$keyterm]);
+          $nodeList->item($i)->setAttribute('link','https://drawshield.net' . $this->linkDB[$keyterm]);
     }     
     return $this->dom;
   }

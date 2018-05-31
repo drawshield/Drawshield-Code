@@ -124,7 +124,7 @@ function featuresThatAreAlsoMods($node) {
     }
   }
 
-  $bundle = getModifierNodeWithKeyterm($node, 'bundle');
+  $bundle = getModifierNodeByType($node, 'bundle');
   if ($bundle) {
       $retval .= '-' . $bundle->getAttribute('keyterm') . "-" . $bundle->getAttribute('value');
   }
@@ -165,7 +165,9 @@ function read_chg_file(DOMElement $node) {
     if ( !array_key_exists('svgCode',$chg_data) and !array_key_exists('file',$chg_data) ) {
       // Have to treat head feature as a mod as well sometimes, + other things
       $modList = featuresThatAreAlsoMods($node);
-      $otherMods = implode('-',array_keys(getModifiersByTypeAsArray($node,'chargemod')));
+      $ignoreMods = array("palewise", 'fesswise', 'bendwise', 'bendsinwise', 'haurient', 'conjoined', 'ensoleil');
+      $otherArray = array_diff(array_keys(getModifiersByTypeAsArray($node,'chargemod')), $ignoreMods);
+      $otherMods = implode('-',$otherArray);
       if ($otherMods) $modList .= '-' . $otherMods;
       $file = getBestMatchFilename($folder, $chargeKey, $modList);
       if ($file != '')
