@@ -11,7 +11,7 @@
  * Time: 19:56
  */
 
-$div_data = array ( 'NC' => 'X500Y0a500c1200e500G1200', 'CH' => 'X500Y200a500c1100e500G1100' );
+$div_data = array ( 'NC' => 'X500Y0a500c1200e500G1200', 'CH' => 'X500Y0a500c1300e500G1100g200' );
 $division['div2'] = createBody(choose_fit($div_data), getModifierByType($node, 'linetype'), 60);
 
 if ( existModifierWithKeyterm($node, 'riveted')) {
