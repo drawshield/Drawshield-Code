@@ -1,1 +1,34 @@
-<svg width="200" height="200" ><g class="treatment"><path d="M0,0h100v100h-100z M100,100h100v100h-100z"  /></g></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg3781"
+   version="1.1"
+   height="333.32999"
+   width="333.32999">
+  <metadata
+     id="metadata3787">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3785" />
+  <g
+     transform="matrix(-1.6666499,0,0,1.66665,333.32999,0)"
+     id="g3779"
+     class="treatment">
+    <path
+       id="path3777"
+       d="M 0,100 H 100 V 0 H 0 Z M 100,200 H 200 V 100 H 100 Z" />
+  </g>
+</svg>
