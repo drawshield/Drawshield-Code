@@ -323,6 +323,7 @@ function get_placement(DOMElement $item) {
           case 'indexbase': $adjustment = ($cadency) ? '200,800,200,200' : '150,750,350,400'; break;
           case 'insinbase': $adjustment = ($cadency) ? '600,800,200,200' : '500,750,350,400'; break;
           case 'inmidbase': $adjustment = ($cadency) ? '400,800,200,200' : '300,750,400,400'; break;
+          case 'inabyss': $adjustment = ($cadency) ? '400,850,200,200' : '300,800,380,380'; break;
           case 'inhonpoint': $adjustment = ($cadency) ? '400,250,200,200' : '200,50,500,500'; break;
           case 'infesspoint': $adjustment = ($cadency) ? '400,400,200,200' : '200,200,600,600'; break;
           case 'innombril': $adjustment = ($cadency) ? '400,800,200,200' : '300,600,400,400'; break;

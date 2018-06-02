@@ -269,6 +269,7 @@ class englishGrammar extends grammar {
             //case 'flank': $positions[] = 'inflank'; break;
             case 'fesspoint': $positions[] = 'infesspoint'; break;
             case 'nombril': $positions[] = 'innombril'; break;
+            case 'abyss': $positions[] = 'inabyss'; break;
             case 'honpoint': $positions[] = 'inhonpoint'; break;
             case 'flank':
             case 'chief':
