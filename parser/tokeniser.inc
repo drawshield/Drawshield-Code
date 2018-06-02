@@ -188,6 +188,7 @@ class tokeniser {
             if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
             $part_word = '';
           }
+          if ($comment) break;
           if ( $i > 0 and strstr(  " \t\n\r'\",.", $blazon[$i-1])) {
             $i = $end;
           }

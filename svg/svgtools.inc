@@ -121,7 +121,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
   $class = '';
   //---------------------------------------------------
   // Handle invisible rectangles marking additional charge positions
-  if ( $name == 'rect' and array_key_exists($id, $extras)) { // Special handling for extra items, e.g. crowns
+  if ( $name == 'rect' && array_key_exists($id, $extras)) { // Special handling for extra items, e.g. crowns
     $item = '';
     if ( isset($element['transform']))
       $item .= '<g transform="' . $element['transform'] . '">'; // Apply the original transform (e.g. to tilt crown)
