@@ -80,7 +80,7 @@ class infobox {
       if (strpos ( $word, 'http') === 0) { // looks like a URL
         $newText .= '<a href="' . $word . '">' . $word . '</a>';
       } else {
-        $newText .= $word . ' ';
+        $newText .= htmlspecialchars($word) . ' ';
       }
     }
     return $newText;
@@ -96,7 +96,8 @@ class infobox {
     $lines = self::format($text);
     foreach ($lines as $line) {
       if ( $this->ypos[$num] >= self::PAGEEND ) break; // reached end of page...
-      $this->texts[$num] .= $start . '<text x="'. self::INSET . '" y="' . ($this->ypos[$num] += self::LINEHEIGHT) . '" text-decoration="none" font-size="30" fill="black" >' . $line . '</text>' . $end;
+      $this->texts[$num] .= $start . '<text x="'. self::INSET . '" y="' . ($this->ypos[$num] += self::LINEHEIGHT) . '" text-decoration="none" font-size="30" fill="black" >' .
+      htmlspecialchars($line) . '</text>' . $end;
       $start = ''; // only do this for the first one
       $end = '';
     }
