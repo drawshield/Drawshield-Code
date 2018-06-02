@@ -106,13 +106,14 @@ class references {
     // Resolve tinctures that remain as "pending" (i.e. not given but same as previous - if there was one)
     $nodeList = $this->xpath->query('//tincture[@origin="pending"]');
     foreach ($nodeList as $sourceNode ) {
-      // Look forwards first
+      // Nodes are returned in DOCUMENT order, first the preceeding (if there is one)
+      // then the following, so we chose the END of the list as we want to look forward first
       $refNodes = $this->xpath->query('following::tincture[1]|preceding::tincture[1]',$sourceNode);
       if ( $refNodes->length ) {
         /**
          * @var DOMElement $target
          */
-        $target = $refNodes->item(0);
+        $target = $refNodes->item($refNodes->length - 1);
         $targetID = $target->getAttribute('ID');
         $sourceNode->setAttribute('IDREF',$targetID);
       }
