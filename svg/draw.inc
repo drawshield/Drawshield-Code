@@ -180,7 +180,7 @@ function draw() {
        xmlns:xlink="http://www.w3.org/1999/xlink" ' .
        'preserveAspectRatio="xMidYMid meet" height="' . (int)($options['size'] * 1.2) . '" width="' . $options['size'];
   $header .= '" viewBox="'. getEffect('viewbox') . ' ">';
-  $header .= '<defs>' . getEffect('defs') . '</defs>';
+  $defs .= '<defs>' . getEffect('defs') . '</defs>';
   $trailer =  "</svg>\n";
 
   $blazonNode = $dom->documentElement;
@@ -235,6 +235,22 @@ function draw() {
       }
     }
   }
-  return $header . $body . $trailer;
+  $xpath = new DOMXPath($dom);
+  $nodes = array_reverse(
+    iterator_to_array(
+      $xpath->evaluate('//*')
+    )
+  );
+
+  foreach ($nodes as $node) {
+    $replacement = $dom->createElementNS('http://drawshield.net/blazonML', 'blazonML:'.$node->localName);
+    foreach ($xpath->evaluate('node()|@*', $node) as $childNode) {
+      $replacement->appendChild($childNode);
+    }
+    $node->parentNode->replaceChild($replacement, $node);
+  }
+
+  $meta = "\n<metadata>\n"  . preg_replace('/<\?xml version="1\.0"\?>/', '', $dom->saveXml()) . "\n</metadata>\n";
+  return $header . $meta . $defs . $body . $trailer;
 }
 
