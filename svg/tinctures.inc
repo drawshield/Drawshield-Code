@@ -8,7 +8,8 @@ function readTinctureFile($filename) {
         if (($comment = strpos($line, '//')) !== false) {
             $line = substr($line, 0, $comment);
         }
-        // Now remove spaces
+        $line = trim($line);
+        // Now remove any internal spaces
         $line = str_replace(' ', '', $line);
         $line = str_replace("\t", '', $line);
         if ($line != '') {
