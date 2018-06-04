@@ -31,7 +31,7 @@ $xpath = null;
 $messages = null;
 
 $spareRoom = str_repeat('*', 1024 * 1024);
-
+$size = 500;
 //
 // Argument processing
 //

@@ -14,13 +14,15 @@
 
 class messageStore {
   private $messages;
+  private $dom;
 
-  public function __construct () {
-    global $xpath;
+  public function __construct ($dom) {
+    $this->dom = $dom;
+    // global $xpath;
     $this->messages = array();
 
-    foreach ( $xpath->query("//messages/message") as $item )
-      self::addMessage('blazon',$item->textContent);
+    // foreach ( $xpath->query("//messages/message") as $item )
+    //   self::addMessage('blazon',$item->textContent);
   }
 
   public function addMessage( $category, $message ) {
@@ -33,11 +35,26 @@ class messageStore {
   $this->messages[$category][] = $message;
   }
 
-  public function getMessages( $category ) {
-    if ( array_key_exists($category,$this->messages)) {
-      return $this->messages[$category];
-    } else {
-      return array();
+  // public function getMessages( $category ) {
+  //   if ( array_key_exists($category,$this->messages)) {
+  //     return $this->messages[$category];
+  //   } else {
+  //     return array();
+  //   }
+  // }
+
+  public function insertMessages () {
+    global $xpath;
+
+    $messageParent = ($xpath->query('//messages'))->item(0);
+    foreach ($this->messages as $category => $messageSet) {
+      foreach ($messageSet as $message) {
+        $messageNode = $this->dom->createElement(blazonML::E_MESSAGE);
+        $messageNode->setAttribute('category', $category);
+        $messageText = $this->dom->createTextNode($message);
+        $messageNode->appendChild($messageText);
+        $messageParent->appendChild($messageNode);
+      }
     }
   }
 }

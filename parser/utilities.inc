@@ -70,6 +70,7 @@ class blazonML extends DOMDocument {
   const V_IMPALED = 'impaled';
   const V_QUARTERED = 'quartered';
   const E_MISSING = 'missing';
+  const E_MESSAGE = 'message';
   const E_OVERALL = 'overall';
   const E_TINCTURE = 'tincture';
   const A_ORIGIN = 'origin';

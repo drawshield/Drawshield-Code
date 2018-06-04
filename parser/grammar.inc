@@ -68,6 +68,7 @@ abstract class grammar  {
     $messages = $xml->appendChild($this->schema->makeNode('messages'));
     foreach ( $this->getMessages() as $message ) {
       $messageNode = $this->schema->makeNode('message');
+      $messageNode->setAttribute('category', 'blazon');
       $messageText = $this->schema->createTextNode($message);
       $messageNode->appendChild($messageText);
       $messages->appendChild($messageNode);

@@ -21,7 +21,6 @@ include 'division.inc';
 include 'effects.inc';
 include "messages.inc";
 include "furs.inc";
-include "infobox.inc";
 include "svgtools.inc";
 include "placecharge.inc";
 include "linetypes.inc";
@@ -168,8 +167,6 @@ function draw() {
     $outline = getShape($options['shape']);
   } 
 
-  $infobox = new infobox();
-
   // Get all the charge data (once for each charge type)
   get_chg_data();
 
@@ -180,7 +177,8 @@ function draw() {
        xmlns:xlink="http://www.w3.org/1999/xlink" ' .
        'preserveAspectRatio="xMidYMid meet" height="' . (int)($options['size'] * 1.2) . '" width="' . $options['size'];
   $header .= '" viewBox="'. getEffect('viewbox') . ' ">';
-  $defs .= '<defs>' . getEffect('defs') . '</defs>';
+  $meta = '';
+  $defs = '<defs>' . getEffect('defs') . '</defs>';
   $trailer =  "</svg>\n";
 
   $blazonNode = $dom->documentElement;
@@ -221,36 +219,23 @@ function draw() {
     if ( $options['palette'] == 'outline')
       $body .=  '<path fill="none" stroke="' . rgb('division-stroke') . '" stroke-width="4" d="' . $outline . '" />';
     // Rest depends on output format
-    if ( !$options['asFile'] && !$options['printable'] ) { // minimal decoration, no infobox
-//        $body .= '<text id="test1" x="10" y="1160" font-size="30" >' . $version['name'] . ' ' . $version['release'] . '</text><text x="10" y="1190" font-size="30" >' . $version['website'] . '</text>';
-//    } else { // in line version, all the bells and whistles
+    if ( !$options['asFile'] && !$options['printable'] ) { // minimal decoration, no metadata
       $body .= '<text id="test1" x="10" y="1160" font-size="30" >' . $version['name'] . ' ' . $version['release'] . '</text><text x="10" y="1190" font-size="30" >' . $version['website'] . '</text>';
       if ( $options['outputFormat'] == 'svg') {
-        $body .= '<g onclick="document.getElementById(\'infobox\').setAttribute(\'visibility\',\'visible\');document.getElementById(\'text1\').setAttribute(\'visibility\',\'visible\');" >';
-        populateInfoBox($infobox); // Side effect, sets 'notify' option
-        if ($options['notify']) $body .= '<text fill="red" text-anchor="end" x="990" y="1160" font-size="30">Error reported</text>';
-        $body .= '<text fill="black" text-anchor="end" x="990" y="1190" font-size="30">Click for information</text>';
-        $body .= '</g>';
-        $body .= $infobox->getInfobox();
+        $messages->insertMessages();
+        $xpath = new DOMXPath($dom);
+        $nodes = array_reverse(iterator_to_array($xpath->evaluate('//*') ) );
+        foreach ($nodes as $node) {
+          $replacement = $dom->createElementNS('http://drawshield.net/blazonML', 'blazonML:'.$node->localName);
+          foreach ($xpath->evaluate('node()|@*', $node) as $childNode) {
+            $replacement->appendChild($childNode);
+          }
+          $node->parentNode->replaceChild($replacement, $node);
+        }
+        $meta = "\n<metadata>\n"  . preg_replace('/<\?xml version="1\.0"\?>/', '', $dom->saveXml()) . "\n</metadata>\n";
       }
     }
   }
-  $xpath = new DOMXPath($dom);
-  $nodes = array_reverse(
-    iterator_to_array(
-      $xpath->evaluate('//*')
-    )
-  );
-
-  foreach ($nodes as $node) {
-    $replacement = $dom->createElementNS('http://drawshield.net/blazonML', 'blazonML:'.$node->localName);
-    foreach ($xpath->evaluate('node()|@*', $node) as $childNode) {
-      $replacement->appendChild($childNode);
-    }
-    $node->parentNode->replaceChild($replacement, $node);
-  }
-
-  $meta = "\n<metadata>\n"  . preg_replace('/<\?xml version="1\.0"\?>/', '', $dom->saveXml()) . "\n</metadata>\n";
   return $header . $meta . $defs . $body . $trailer;
 }
 
