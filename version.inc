@@ -1,8 +1,8 @@
 <?php
 
 $version = array (
-  'release' => '2.6r',
-  'date' => '28 May 2018',
+  'release' => '2.6r1',
+  'date' => '5 Jun 2018',
   'name' => 'Version ',
   'website' => 'drawshield.net',
   'flagsite' => 'drawflag.net',
