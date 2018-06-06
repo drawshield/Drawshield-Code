@@ -1,2 +1,5 @@
 .htaccess
 sftp-config-alt.json
+.vscode/*
+.gitignore
+
