@@ -329,7 +329,9 @@ function get_placement(DOMElement $item) {
           case 'innombril': $adjustment = ($cadency) ? '400,800,200,200' : '300,600,400,400'; break;
           case 'insinflank': $adjustment = ($cadency) ? '800,500,200,200' : '700,375,300,300'; break;
           case 'indexflank': $adjustment = ($cadency) ? '0,500,200,200' : '0,375,300,300'; break;
-          case 'infirst': 
+          case 'insinside': $adjustment = '550,50,400,900'; break;
+          case 'indexside': $adjustment = '50,50,400,900'; break;
+         case 'infirst': 
             switch ( $underlying_div ) { 
             case 'tierced-in-pale': $adjustment = '50,100,233,1000'; break;
             case 'tierced-in-fess': $adjustment = '100,100,800,200'; break;

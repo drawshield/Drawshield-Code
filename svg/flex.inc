@@ -9,6 +9,7 @@ class flexAmount {
     // Array is height then width
     self::$groups = array(
       'lion' => array(2,2),
+      'mythical' => array(2,2),
       'animal' => array(1.5,1.5),
       'axe' => array(1.4,1.2),
       'bird' => array(1.2,1.2),

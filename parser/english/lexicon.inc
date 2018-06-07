@@ -787,6 +787,7 @@ class languageDB extends lexicon {
          array ( 'nombril', 'nombril' ),
          array ( '(flanks?|flaunche?s?)', 'flank' ),
          array ( '(abisme|abyss)', 'abyss' ),
+         array ( '(side|half)', 'side' ),
           ),
         self::QUANTIFIER => array (
           array ( 'quarters?', 'quarter' ),

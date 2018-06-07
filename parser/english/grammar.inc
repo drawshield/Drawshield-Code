@@ -272,6 +272,7 @@ class englishGrammar extends grammar {
             case 'abyss': $positions[] = 'inabyss'; break;
             case 'honpoint': $positions[] = 'inhonpoint'; break;
             case 'flank':
+            case 'side':
             case 'chief':
             case 'base':
               $count = count($positions);
