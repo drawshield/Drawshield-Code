@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="svg2"
+   version="1.0"
+   width="161.72034"
+   height="485.6424">
+  <metadata
+     id="metadata49">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <dc:date>03-AUG-2006</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Jérôme BLUM (wagner51)</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <cc:license
+           rdf:resource="http://web.resource.org/cc/PublicDomain" />
+        <dc:language>fr</dc:language>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>gabarit modèle blason projet wikipédia</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://web.resource.org/cc/PublicDomain">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <desc
+     id="desc4">Flag of Canton of Valais (Wallis)</desc>
+  <defs
+     id="defs6">
+    <linearGradient
+       id="linearGradient2893">
+      <stop
+         id="stop2895"
+         offset="0"
+         style="stop-color:white;stop-opacity:0.3137255;" />
+      <stop
+         style="stop-color:white;stop-opacity:0.25098041;"
+         offset="0.19"
+         id="stop2897" />
+      <stop
+         id="stop2901"
+         offset="0.60000002"
+         style="stop-color:#6b6b6b;stop-opacity:0.1254902;" />
+      <stop
+         id="stop2899"
+         offset="1"
+         style="stop-color:black;stop-opacity:0.1254902;" />
+    </linearGradient>
+    <radialGradient
+       r="300"
+       fy="226.33101"
+       fx="221.44487"
+       cy="226.33101"
+       cx="221.44487"
+       gradientTransform="matrix(1.353218,0,0,1.348928,-77.62935,-85.74693)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient3163"
+       xlink:href="#linearGradient2893" />
+  </defs>
+  <g
+     transform="translate(-202.0998,-48.49339)"
+     id="layer4">
+    <rect
+       ry="6.3492064"
+       rx="4.7619047"
+       y="-20.158733"
+       x="793.65082"
+       height="8.7301588"
+       width="0"
+       id="rect5622"
+       style="fill:#2b5df2;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <g
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:3.00000215;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(0.999992,0.00382723,-0.00382723,0.999992,-519.9934,95.21858)"
+       id="g7400">
+      <path
+         id="head"
+         style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.00000215;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 803.47649,46.504672 c 39.9231,-0.793651 38.01859,41.375275 43.82319,60.129638 41.4359,-46.278205 52.4721,-116.947602 -1.5873,-154.772195 -3.33994,21.335276 -8.05109,55.3057974 -42.3834,56.0994572 -39.08377,0.9034994 -39.04344,-34.7642082 -42.38339,-56.0994572 -54.05937,37.824593 -44.61049,108.49399 -1.5873,154.772195 5.80465,-18.754363 4.99678,-59.33615 44.1182,-60.129638 z" />
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:3.00000215;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect5620"
+         width="21.428572"
+         height="53.174603"
+         x="792.33093"
+         y="2.8571391"
+         ry="6.3492064"
+         rx="4.7619047" />
+      <path
+         style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:3.00000215;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 802.98177,-26.476194 8.79361,16.698413 h -17.46031 z"
+         id="rect5624" />
+      <g
+         style="fill:#ff0000"
+         id="handle">
+        <path
+           id="rect5618"
+           d="m 795.62503,-8.8647473 h 14.84038 l 3.93661,413.1263173 h -22.7136 z"
+           style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:3.00000215;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <rect
+           style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:3.00000215;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect5627"
+           width="26.891476"
+           height="64.810661"
+           x="789.59949"
+           y="369.50797"
+           ry="7.7385869"
+           rx="5.975884" />
+      </g>
+    </g>
+  </g>
+</svg>

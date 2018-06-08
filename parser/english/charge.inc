@@ -752,6 +752,7 @@
       array ( 'ribbons?', 'household/ribbon' ),
       array ( '(vase|urn)s?', 'household/urn' ),
       array ( 'amphora(e|s)?', 'household/amphora' ),
+      array ( 'thimbles?', 'household/thimble' ),
       // crown
       array ( '?open (crown|coronet)s?', 'crown/open-crown' ), // default crown
       array ( 'antique crowns?', 'crown/antique' ),
