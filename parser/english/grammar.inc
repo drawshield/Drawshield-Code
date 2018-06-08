@@ -271,8 +271,13 @@ class englishGrammar extends grammar {
             case 'nombril': $positions[] = 'innombril'; break;
             case 'abyss': $positions[] = 'inabyss'; break;
             case 'honpoint': $positions[] = 'inhonpoint'; break;
-            case 'flank':
             case 'side':
+              if ( in_array ('dexter',$specifiers) ) $positions[] = 'indexside';
+              if ( in_array ('sinister',$specifiers) ) $positions[] = 'insinside';
+              if ( in_array ('upper',$specifiers) ) $positions[] = 'inupperhalf';
+              if ( in_array ('lower',$specifiers) ) $positions[] = 'inlowerhalf';
+              break;
+            case 'flank':
             case 'chief':
             case 'base':
               $count = count($positions);

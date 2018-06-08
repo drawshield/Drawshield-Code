@@ -777,6 +777,8 @@ class languageDB extends lexicon {
           array ( '?each sinister', 'sinister' ),
           array ( '(each|every|all|both) ?of ?the', 'each' ),
           array ( 'middle', 'middle' ),
+          array ( 'upper', 'upper' ),
+          array ( 'lower', 'lower' ),
           ),
       self::LOCATION => array (
          array ( 'chief ?point', 'chief' ),

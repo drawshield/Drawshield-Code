@@ -331,6 +331,8 @@ function get_placement(DOMElement $item) {
           case 'indexflank': $adjustment = ($cadency) ? '0,500,200,200' : '0,375,300,300'; break;
           case 'insinside': $adjustment = '550,50,400,900'; break;
           case 'indexside': $adjustment = '50,50,400,900'; break;
+          case 'inupperhalf': $adjustment = '50,50,900,400'; break;
+          case 'inlowerhalf': $adjustment = '50,550,900,400'; break;
          case 'infirst': 
             switch ( $underlying_div ) { 
             case 'tierced-in-pale': $adjustment = '50,100,233,1000'; break;
