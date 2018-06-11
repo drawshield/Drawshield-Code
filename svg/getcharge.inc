@@ -411,9 +411,9 @@ function getCharge( DOMElement $node ) {
         $charges = makeSquareCharge($chargeToAdd);
         // $charges contains 1000x1000 text circle
         // scale existing charge to fit inside
-        $scale = min ( 600/$width, 600/$height);
-        $xAdjust = 200 + (600 - ($width*$scale))/2;
-        $yAdjust = 200 + (600 - ($height*$scale))/2;
+        $scale = min ( 500/$width, 500/$height);
+        $xAdjust = 250 + (500 - ($width*$scale))/2;
+        $yAdjust = 250 + (500 - ($height*$scale))/2;
         // and move to the centre
         if ( $chargeOnTop )
           $body = $charges . '<g transform="translate(' . $xAdjust . ',' . $yAdjust . ') scale(' . $scale . ')">' . $body . '</g>';
