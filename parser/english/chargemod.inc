@@ -16,7 +16,7 @@
       // possibly duplicated in CHARGE_MODS, but sometimes occur first
       'covered', 'standing', 'open', 'heraldic', 'dexter', 'sinister',
       'double', 'branched', 'staved', 'single', 'modern', 'spotted',
-      'winged', 'natural', 'armoured',
+      'winged', 'natural', 
       array ( 'spread', 'displayed' ),
       array ( 'heads? of ?(a|an|the)', 'head' ),
       array ( 'closed?', 'closed' ),
@@ -28,16 +28,17 @@
 
    // TODO Deal with all the stuff in _quadrate8.inc
    $this->patterns[languageDB::CHARGE_FEATURES] = array ( 
-     'crossed', 'fructed', 'beaked', 'hooped',
+     'crossed', 'fructed', 'beaked', 'hooped', 'plumed',
      'seeded', 'barbed', 'gemmed', 'acorned', 'laced',
      'muzzled', 'allume', 'chains', 'tusked', 'spotted',
      'chausse', 'crined', 'cuff', 'nooked', 'hooded',
      'habited', 'lined', 'maned', 'nerved', 'striped',
      'penned', 'quilled', 'stringed', 'aulned', 'stemmed',
      'belled', 'finned', 'nest', 'staff', 'seamed',
-     'acorns', 'towered', 'domed', 'tasselled',
+     'acorns', 'towered', 'domed', 'tasselled', 'caparisoned',
      'shelled', 'tied', 'headed', // NOT heads
      'drooping', 'voided', 'beaded', 'ringed', 
+     array ( 'stirrup(s|ed)?', 'stirruped'),
      array ( 'full faced', 'full-faced'),
      array ('jessant ?de ?l[iy]s', 'jessant'),
      array ( 'ribbon(s|ed)?', 'ribboned' ),
@@ -76,7 +77,7 @@
       array ( '(legged|membered)', 'legged' ),
       array ( '(winged|aisle)', 'winged' ),
       array ( '(barbed|armed) ?at ?all ?points', 'armed' ),
-      array ( 'in ?full armour', 'armoured' ),
+      array ( '?in ?full armour(ed)?', 'armoured' ),
       array ( 'point(s|ed) ?steeled', 'pointed' ),
       array ( 'heads? steeled', 'pointed' ),
       array ( '(e|ai)guisc?e', 'pointed' ),
@@ -181,7 +182,7 @@
       'transposed', 'tricoporate', 'troncone', 'trussed', 'vervelled',
       'vorant', 'ancient', 'blasted', 'forcene', 'broken',
       'covered', 'uncovered', 'waved', 'vambraced', 'double',
-      'skipping', 'recursant', 'fixed', 'armoured',
+      'skipping', 'recursant', 'fixed',
       'pometty', 'floretty', 'debruised', 'increscent', 'decrescent',
       array ( 'en arriere', 'en-arriere'),
       array ( 'terra(ced|ssee?)', 'terraced'),

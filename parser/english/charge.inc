@@ -70,6 +70,7 @@
      array ( 'russian cross(es)?', 'cross/russian' ),
      array ( 'egyptian cross(es)?', 'cross/egyptian' ),
       // human
+      array ( 'mounted knights?', 'human/knight-mounted'),
       array ( 'falconers?', 'human/falconer' ),
       array ( 'wildm[ae]n?', 'human/wildman' ),
       array ( 'eyes?', 'human/eye' ),
