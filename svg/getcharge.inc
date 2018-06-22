@@ -115,7 +115,8 @@ function featuresThatAreAlsoMods($node) {
   static $features = array (
     'head',
     'jessant',
-    'voided'
+    'voided',
+    'holding-nut'
   );
 
   foreach ($features as $feature) {

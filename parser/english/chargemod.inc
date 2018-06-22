@@ -105,6 +105,7 @@
      array ( 'in ?a (flames?d?|fire)', 'inflamed' ),
      array ( 'emitting flames of fire', 'inflamed' ),
      array ( 'flames? issu(ing|ant) ?from ?each', 'inflamed' ),
+     array ( '(crack|hold)ing ?an? ?ore nuts?', 'holding-nut'),
 );
       $this->patterns[languageDB::BUNDLE] = array (
         array ( '(sheaf|sheave|bundle|bunche?)s? ?of', 'bundle' ),
@@ -326,7 +327,6 @@
       array ( 'top turned down', 'turned-down' ),
       array ( '# (to|in|on) each', 'on-each' ),
       array ( 'long handle[sd]', 'long-handled' ),
-     array ( 'cracking ?a nuts?', 'nut-cracking'),
      array ( 'holding a stone ?in ?the ?dexter ?foot','with-stone'),
      array ( 'with rays streaming', 'rays'),
      array ( 'one (within|inside) ?the other', 'concentric'),
