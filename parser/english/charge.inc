@@ -71,6 +71,9 @@
      array ( 'egyptian cross(es)?', 'cross/egyptian' ),
       // human
       array ( 'mounted knights?', 'human/knight-mounted'),
+      array ( 'knights? mounted', 'human/knight-mounted'),
+      array ( 'archers?', 'human/archer'),
+      array ( 'bowm[ae]n', 'human/archer'),
       array ( 'falconers?', 'human/falconer' ),
       array ( 'wildm[ae]n?', 'human/wildman' ),
       array ( 'eyes?', 'human/eye' ),
@@ -84,7 +87,7 @@
       array ( 'saracens?', 'human/saracen' ),
       array ( '(wild|wood|savage) m[ae]ns?', 'human/savage' ),
       array ( '?sh(in|ank) bones?', 'human/bone' ),
-      array ( 'chevaliers?', 'human/chevalier' ),
+      array ( 'chevaliers?', 'human/knight-mounted' ),
       array ( '(main|hand)s?', 'human/hand' ),
       array ( '(mort|skull)s?', 'human/skull' ),
       array ( 'deaths headss?', 'human/skull' ),

@@ -30,7 +30,7 @@
      showgrid="false"
      inkscape:zoom="1.9362261"
      inkscape:cx="61.19394"
-     inkscape:cy="119.37787"
+     inkscape:cy="119.6361"
      inkscape:window-x="327"
      inkscape:window-y="243"
      inkscape:window-maximized="0"
@@ -493,8 +493,9 @@
     <path
        d="m 323.3955,560.0496 c 6.04206,13.37399 12.08403,26.74798 15.86508,34.27305 3.78105,7.52507 5.30124,9.20123 8.35109,10.88622 3.04985,1.68499 7.62943,3.37881 10.68411,4.23015 3.05472,0.8513 4.58446,0.86013 6.1142,0.86896 l 0.0577,-10.00401 c -1.52974,-0.009 -3.05948,-0.0177 -6.11902,-0.0353 -3.05948,-0.0177 -7.64869,-0.0441 -10.69854,-1.72913 -3.04984,-1.68499 -4.56041,-5.02848 -6.83097,-9.21004 -2.27056,-4.18159 -5.30117,-9.20125 -8.33177,-14.22091"
        style="fill:#ffff00;stroke:#808080"
-       id="Horse-stirrup"
-       inkscape:connector-curvature="0" />
+       id="stirruped"
+       inkscape:connector-curvature="0"
+       inkscape:label="#Horse-stirrup" />
     <g
        style="fill:#ffff00;stroke:#808080"
        id="unguled"
