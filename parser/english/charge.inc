@@ -84,6 +84,7 @@
       array ( '?human arms?', 'human/arm' ),
       array ( 'boys?', 'human/boy' ),
       array ('(blacka)?moors?', 'human/moor'),
+      array ( 'blacksmiths?', 'human/blacksmith'),
       array ( 'saracens?', 'human/saracen' ),
       array ( '(wild|wood|savage) m[ae]ns?', 'human/savage' ),
       array ( '?sh(in|ank) bones?', 'human/bone' ),
