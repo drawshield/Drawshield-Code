@@ -889,6 +889,7 @@ class englishGrammar extends grammar {
         }
         if ( $found ) {
           $ID = null;
+          self::ignore(languageDB::QUANTIFIER);
           $quarter = self::shield(); // Look for the description of this quarter
           if ( $quarter != null and count($indices) > 1 ) {
             $ID = $quarter->getAttribute('ID');
