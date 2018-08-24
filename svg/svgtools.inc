@@ -40,7 +40,7 @@ function splitStyle ( $styles, $attributeKeys ) {
     if (in_array($setting, $attributeKeys)) continue; // actual attributes take priority
     switch($setting) {
       case 'fill': // Any of the "primary" colours are just placeholders, to be replaced by the charge colour
-        if ( !in_array( $value, array ( '#ff0000', '#00ff00', '#0000ff', '#ffff00',
+        if ( !in_array( $value, array ( '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff',
                                         'rgb(255,0,0)', 'rgb(255,255,0)', 'rgb(0,255,0)', 'rgb(0,0,255)')) ) $retval .= 'fill="' . $value . '" ';
         break; // any other colour is left as it is
       case 'fill-opacity':
