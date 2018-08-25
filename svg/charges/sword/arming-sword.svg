@@ -39,38 +39,38 @@
   <g
      id="hilt">
     <path
-       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:2.9344058;stroke-miterlimit:4;stroke-opacity:1"
+       style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:2.9344058;stroke-miterlimit:4;stroke-opacity:1"
        d="m60.79,340.2   c0,22.71 -5.354,41.13 -11.96,41.13 -6.604,0 -11.96,-18.41 -11.96,-41.13 0,-22.71 5.354,-41.13 11.96,-41.13 6.604,0 11.96,18.41 11.96,41.13   z "
        id="path3001" />
     <path
-       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:3.71841121;stroke-miterlimit:4;stroke-opacity:1"
+       style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:3.71841121;stroke-miterlimit:4;stroke-opacity:1"
        d="m1.859,288   c24.24,12.42 74.75,10.86 93.94,0   l0,37.25   c-19.19,-7.759 -69.7,-7.759 -93.94,0   z "
        id="rect2998" />
     <path
-       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        d="M38.67,324   C43.78,333.2 51.42,335.1 59.74,338.7   "
        id="path3007" />
     <path
-       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        d="m36.52,336.9   c7.034,6.792 16.86,12.14 24.29,12.14   "
        id="path3009" />
     <path
-       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        d="m36.52,348   c5.917,8.63 14.39,10.71 22.86,10.71   "
        id="path3011" />
     <path
-       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        d="m39.02,360.1   c4.217,5.373 12.41,7.143 19.29,7.143   "
        id="path3013" />
   </g>
   <g
      id="pomell">
     <path
-       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1"
        d="m62.47,382.3   c0,6.695 -5.653,12.12 -12.63,12.12 -6.974,0 -12.63,-5.427 -12.63,-12.12 0,-6.695 5.653,-12.12 12.63,-12.12 6.974,0 12.63,5.427 12.63,12.12   z "
        id="path3004" />
     <path
-       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        d="m47.59,374   c-8.832,3.557 -8.605,12.84 0,16.07   "
        id="path3015" />
   </g>
