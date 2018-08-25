@@ -38,6 +38,7 @@
      'acorns', 'towered', 'domed', 'tasselled', 
      'shelled', 'tied', 'headed', // NOT heads
      'drooping', 'voided', 'beaded', 'ringed', 
+     array ( 'in profile', 'in-profile'),
      array ( 'tool(s|ed)?', 'tools'),
      array ( 'apron(s|ed)?', 'apron'),
      array ( 'belt(s|ed)?', 'belted'),
