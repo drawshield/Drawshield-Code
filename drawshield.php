@@ -99,10 +99,9 @@ if ( $options['blazon'] == '' ) {
     {
         global $options, $spareRoom;
         $spareRoom = null;
-        // if ((!is_null($err = error_get_last())) && (!in_array($err['type'], array (E_NOTICE, E_WARNING))))
-        if (!is_null($err = error_get_last()))
+        if ((!is_null($err = error_get_last()))  /*&& (!in_array($err['type'], array (E_NOTICE, E_WARNING))) */ )
         {
-           error_log($options['blazon']);
+           error_log($err['message'] . " (" . $err['type'] . ") at " . $err['file'] . ":" . $err['line'] . ' - ' . $options['blazon']);
         }
     });
 

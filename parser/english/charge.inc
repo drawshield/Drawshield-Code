@@ -582,7 +582,7 @@
       array ( 'locks? of hair', 'geometric/icicle' ),
       array ( 'lozenges?', 'geometric/lozenge' ),
       array ( 'mascles?', 'geometric/mascle' ),
-      array ( 'm(o|u)ll?ets?', 'geometric/mullet' ),
+      array ( 'm(o|u)ll?ets?', 'mullet/mullet' ),
       array ( 'astroids?', 'mullet/mullet' ),
       array ( 'round(el|le)s?', 'geometric/roundel' ),
       array ( 'rustres?', 'geometric/rustre' ),
