@@ -22,5 +22,5 @@ if ( $num_of < 4 )
 elseif ( $num_of > 10 )
   $num_of = 10;
 
-$charge['file'] = 'mullet-' . $num_of . $suffix . '.svg';
+$charge['file'] = 'mullet-of' . $num_of . $suffix . '.svg';
 
