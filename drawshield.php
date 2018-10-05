@@ -99,7 +99,9 @@ if ( $options['blazon'] == '' ) {
     {
         global $options, $spareRoom;
         $spareRoom = null;
-        if ((!is_null($err = error_get_last()))  /*&& (!in_array($err['type'], array (E_NOTICE, E_WARNING))) */ )
+        if ((!is_null($err = error_get_last()))  
+              && (!in_array($err['type'], array (E_NOTICE, E_WARNING))) // comment this line to get all
+               )
         {
            error_log($err['message'] . " (" . $err['type'] . ") at " . $err['file'] . ":" . $err['line'] . ' - ' . $options['blazon']);
         }
