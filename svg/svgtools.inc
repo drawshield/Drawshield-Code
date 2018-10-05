@@ -40,8 +40,10 @@ function splitStyle ( $styles, $attributeKeys ) {
     if (in_array($setting, $attributeKeys)) continue; // actual attributes take priority
     switch($setting) {
       case 'fill': // Any of the "primary" colours are just placeholders, to be replaced by the charge colour
-        if ( !in_array( $value, array ( '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff',
-                                        'rgb(255,0,0)', 'rgb(255,255,0)', 'rgb(0,255,0)', 'rgb(0,0,255)')) ) $retval .= 'fill="' . $value . '" ';
+        if ( !in_array( $value, array ( '#ff0000', '#00ff00', '#0000ff', '#ffff00',
+                                        '#00ffff', '#ff00ff',
+                                        'rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(0,0,255)', 'rgb(255,255,0)',
+                                        'rgb(0,255,255)', 'rgb(255,0,255)') )) $retval .= 'fill="' . $value . '" ';
         break; // any other colour is left as it is
       case 'fill-opacity':
       case 'opacity':
@@ -197,9 +199,21 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
                  <text x="50" y="65" font-size="30" text-anchor="middle">????</text></g>
                 </svg>');
   }
-  $retval['height'] = floatval($svg['height']);
-  $retval['width'] = floatval($svg['width']);
-  $retval['licence'] = '(not known)';
+  $viewbox = $svg['viewBox'] ?? '0 0 100 100';
+  list($x0,$y0,$x1,$y1) = explode(' ',$viewbox);
+  $heightVal = $svg['height'];
+  if (substr($heightVal,-1) == '%') {
+    $retval['height'] = ($y1 - $y0) * intval($heightVal) / 100;
+  } else {
+    $retval['height'] = floatval($heightVal);
+  }
+  $widthVal = $svg['width'];
+  if (substr($widthVal,-1) == '%') {
+    $retval['width'] = ($x1 - $x0) * intval($widthVal) / 100;
+  } else {
+    $retval['width'] = floatval($widthVal);
+  }
+  $retval['licence'] = '(DrawShield Internal)';
   @$metadata = $svg->xpath('//cc:Agent/dc:title');
   if ( is_array($metadata) and count($metadata) > 0) {
     $retval['licence'] = $metadata[0];
