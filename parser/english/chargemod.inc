@@ -309,7 +309,11 @@
       array ( '(dispo[sn]|arrang)ed', 'arranged' ),
       array ( 'affront(e|ed|ant|y|ee)', 'affronte' ),
       array ( '(lying|laying)', 'laying' ),
-      array ( 'for difference',  'cadency' ), 
+      // Next 4 Mostly for labels
+      array ( 'straight', 'straight' ),
+      array ( 'patt?e(e|y)', 'pattee' ),
+      array ( 'dovetail(ed)?', 'dovetailed' ),
+      array ( 'for difference',  'difference' ), 
       array ( 'annu(lated|ette|ly)', 'annulated' ),
       array ( '(arrache|erased)', 'erased' ),
       array ( '(complexed|intertwined|interlaced)', 'interlaced' ),

@@ -149,6 +149,20 @@ class references {
       }
     }
 
+    // A single label is an ordinary (unless it is "for difference")
+    // $nodeList = $this->xpath->query('//charge[@keyterm="label/label" and @number="1" and not(modifier/@keyterm="difference")]');
+    // foreach ($nodeList as $modifierNode) {
+    //   $ord = $this->dom->createElement(blazonML::E_ORDINARY);
+    //   $ord->setAttribute('ID',$modifierNode->getAttribute('ID'));
+    //   $ord->setAttribute('keyterm','label');
+    //   $ord->setAttribute('number','1');
+    //   foreach ($modifierNode->childNodes as $child) {
+    //     $ord->appendChild($child->cloneNode(true));
+    //   }
+    //   $parent = $modifierNode->parentNode;
+    //   $parent->replaceChild($ord,$modifierNode);
+    // }
+
     // counter passant is passant reversed
     $nodeList = $this->xpath->query('//charge/modifier[@keyterm="counterpassant"]');
     foreach ($nodeList as $modifierNode) {

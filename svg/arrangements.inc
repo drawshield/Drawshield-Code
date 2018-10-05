@@ -76,7 +76,8 @@ function get_placement(DOMElement $item) {
       $chief = $xpath->evaluate("boolean(../../../ordinary[@keyterm='chief'] or ../ordinary[@keyterm='chief'])", $item);
     $pos = getModifiersByTypeAsArray($item,'position'); // THIS IS AN array, go through each one, appending * bounding_box as many times as required.
     $arr = getModifierByType($item,'arrangement');
-    $cadency = existModifierWithKeyterm($item,'cadency');
+    $cadency = existModifierWithKeyterm($item,'difference');
+    $entire = existModifierWithKeyterm($item,'entire');
     $number = $item->getAttribute('number');
     $overall = ($item->parentNode->parentNode->nodeName == 'overall');
     $apply_location = true;
@@ -108,7 +109,7 @@ function get_placement(DOMElement $item) {
     } else {
       $bounding_index = 0;
       if ( $chief ) $bounding_index += 2;
-      if ( existModifierWithKeyterm($item,'entire') ) $bounding_index += 1;
+      if ( $entire ) $bounding_index += 1;
       $boundingBox = $bounding_boxes[$aspect_ratio][$bounding_index];
     }
 
@@ -117,6 +118,11 @@ function get_placement(DOMElement $item) {
     // strewn on a field (don't need any placement)
     if ( $item->parentNode->nodeName == 'semyde' )
       $placement = 'i';
+
+    if ( $name == 'label' && $entire) {
+      $placement = '500,150,1000,200';
+      $boundingBox = 'x';
+    }
     
     // Are we around another charge?
     if ( $placement == '' && $xpath->evaluate("boolean(parent::modifier[@keyterm='between']/parent::charge)",$item) ) {
@@ -317,7 +323,7 @@ function get_placement(DOMElement $item) {
               $adjustment = '400,850,200,200';
             break;
           case 'inflank': $adjustment = '0,375,300,300*700,375,300,300'; break;
-          case 'indexchief': $adjustment = ($cadency) ? '0,0,200,200' : '0,0,350,300'; break;
+          case 'indexchief': $adjustment = ($difference) ? '0,0,200,200' : '0,0,350,300'; break;
           case 'insinchief': $adjustment = ($cadency) ? '800,0,200,200' : '650,0,350,300'; break;
           case 'inmidchief': $adjustment = ($cadency) ? '400,0,200,200' : '300,0,400,400'; break;
           case 'indexbase': $adjustment = ($cadency) ? '200,800,200,200' : '150,750,350,400'; break;
