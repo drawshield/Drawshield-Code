@@ -43,6 +43,7 @@ class properColour {
     self::$rose = rgb('rose');
     // etc...
     self::$groups = array(
+      'bear' => self::$brown,
       'human' => self::$caucasian,
       'crown' => self::$yellow,
       'plant' => self::$green,
