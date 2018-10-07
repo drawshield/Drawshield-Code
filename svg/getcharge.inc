@@ -179,6 +179,7 @@ function read_chg_file(DOMElement $node) {
         $chg_data['svgCode'] = file_get_contents($folder . $chg_data['file']);
     }
 
+
     if ( !array_key_exists('svgCode',$chg_data)) {
       $messages->addMessage('warning',"Cannot draw $title");
       $chg_data['svgCode'] = '<svg height="100" width="100"><g stroke="none"><path fill-rule="evenodd" d="M0,0h100v100h-100zM10,10h80v80h-80z" />' .
@@ -187,6 +188,8 @@ function read_chg_file(DOMElement $node) {
     $chg_data = array_merge($chg_data, getExtraInfo($group, $chargeKey));
   }
   $chg_data['title'] = $title;
+  if (array_key_exists('licence',$chg_data))
+    $messages->addMessage('licence',$node->getAttribute('keyterm') . ' - ' . $chg_data['licence']);
   return $chg_data;
 }
 
@@ -361,7 +364,7 @@ function getCharge( DOMElement $node ) {
   //---------------------------------------------------------
   // So we now have $charge_col set to a valid tincture node and the feat_cols array set, apply this to the svg Data
   // dummy assignments
-  $body = $height = $width = $licence = null;
+  $body = $height = $width = /* $licence = */ null;
   extract(getSvgFragment($chg_data['svgCode'], $feat_cols, $chargeGroup, $chargeName, $extras, $charge_col != null ));
   // $body now contains a valid fragment of SVG, ready for use
   // Also, $licence, $height and $width are set
@@ -482,7 +485,7 @@ function getCharge( DOMElement $node ) {
   }
 
 
-  $messages->addMessage('licence',$node->getAttribute('keyterm') . " $licence"); // TODO what about internal, and is this used below?
+  // $messages->addMessage('licence',$node->getAttribute('keyterm') . " $licence"); // TODO what about internal, and is this used below?
   // $chg_data['licence'] = $licence;
   $chg_data['body'] = $body;
   $chg_data['height'] = $height;

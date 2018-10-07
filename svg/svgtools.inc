@@ -30,8 +30,20 @@ function add_def($element = '', $content = '', $name = '', $title = '', $desc = 
   return $myid; // and return an id unique to this SVG file
 }
 
+$targetColours = array (
+  '#ff0000', '#00ff00', 
+  '#0000ff', '#ffff00',
+  '#00ffff', '#ff00ff',
+  'rgb(255,0,0)', 'rgb(0,255,0)', 
+  'rgb(0,0,255)', 'rgb(255,255,0)',
+  'rgb(0,255,255)', 'rgb(255,0,255)',
+  '#f00', '#0f0', 
+  '#00f', '#ff0',
+  '#0ff', '#f0f'
+);
 
 function splitStyle ( $styles, $attributeKeys ) {
+  global $targetColours;
   $retval = '';
   $styles = explode(';', $styles . ';');
   foreach ($styles as $style) {
@@ -40,10 +52,7 @@ function splitStyle ( $styles, $attributeKeys ) {
     if (in_array($setting, $attributeKeys)) continue; // actual attributes take priority
     switch($setting) {
       case 'fill': // Any of the "primary" colours are just placeholders, to be replaced by the charge colour
-        if ( !in_array( $value, array ( '#ff0000', '#00ff00', '#0000ff', '#ffff00',
-                                        '#00ffff', '#ff00ff',
-                                        'rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(0,0,255)', 'rgb(255,255,0)',
-                                        'rgb(0,255,255)', 'rgb(255,0,255)') )) $retval .= 'fill="' . $value . '" ';
+        if ( !in_array( $value, $targetColours )) $retval .= 'fill="' . $value . '" ';
         break; // any other colour is left as it is
       case 'fill-opacity':
       case 'opacity':
@@ -65,6 +74,7 @@ function splitStyle ( $styles, $attributeKeys ) {
 
 function rewriteAttributes($attributes, $class = '', $fillSet = false) {
 //  global $messages;
+  global $targetColours;
   $retval = '';
   // $myId = '';
   // Collect names of all the attributes
@@ -89,11 +99,11 @@ function rewriteAttributes($attributes, $class = '', $fillSet = false) {
         $retval .= 'xlink:href="' . $data . '" ';
         break;
       case 'fill': // Any of the "primary" colours are just placeholders, so we ignore them (will be replaced by the charge colour)
-        if ( !in_array( strtolower($data), array ( '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff')) )
+        if ( !in_array( strtolower($data), $targetColours) )
           $retval .= ' fill="' . $data . '" ';
         break; // any other colour is left as it is
       case 'stroke':
-        if ( $data == '#000000' ) $data = 'inherit';
+        if ( $data == '#000000' || $data == '#000' ) $data = 'inherit';
         $retval .= ' stroke="' . $data . '" ';
         break;
       case 'transform':
@@ -213,10 +223,10 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
   } else {
     $retval['width'] = floatval($widthVal);
   }
-  $retval['licence'] = '(DrawShield Internal)';
-  @$metadata = $svg->xpath('//cc:Agent/dc:title');
+   @$metadata = $svg->xpath('//cc:Agent/dc:title');
   if ( is_array($metadata) and count($metadata) > 0) {
-    $retval['licence'] = $metadata[0];
+    $messages->addMessage('licence', "$chargeGroup/$chargeName - $metadata[0]");
+//    $retval['licence'] = $metadata[0];
   }
   $fragment = '';
   foreach( $svg->children() as $child )
