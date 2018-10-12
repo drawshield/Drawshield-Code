@@ -44,11 +44,11 @@ if ( isset($argc) and  $argc > 1 ) { // run in debug mode, probably
 // Process arguments
 // For backwards compatibility we support argument in GET, but prefer POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (isset($_FILES['blazonFile']) && ($_FILES['blazonFile']['name'] != "")) {
-    $fileName = $_FILES['blazonFile']['name'];
-    $fileSize = $_FILES['blazonFile']['size'];
-    $fileTmpName  = $_FILES['blazonFile']['tmp_name'];
-    $fileType = $_FILES['blazonFile']['type'];
+  if (isset($_FILES['blazonfile']) && ($_FILES['blazonfile']['name'] != "")) {
+    $fileName = $_FILES['blazonfile']['name'];
+    $fileSize = $_FILES['blazonfile']['size'];
+    $fileTmpName  = $_FILES['blazonfile']['tmp_name'];
+   // $fileType = $_FILES['blazonfile']['type']; // not currently used
     if (preg_match('/.txt$/i', $fileName) && $fileSize < 1000000) {
       $options['blazon'] = file_get_contents($fileTmpName);
     } 
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_POST['palette'])) $options['palette'] = strip_tags($_POST['palette']);
   if (isset($_POST['shape'])) $options['shape'] = strip_tags($_POST['shape']);
   if (isset($_POST['stage'])) $options['stage'] = strip_tags($_POST['stage']);
-  if (isset($_POST['printable'])) $options['printable'] = ($_POST['printable'] == "1");
+//  if (isset($_POST['printable'])) $options['printable'] = ($_POST['printable'] == "1");
   if (isset($_POST['effect'])) $options['effect'] = strip_tags($_POST['effect']);
   if (isset($_POST['size'])) $size = strip_tags ($_POST['size']);
 } else { // for old API
@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_GET['palette'])) $options['palette'] = strip_tags($_GET['palette']);
   if (isset($_GET['shape'])) $options['shape'] = strip_tags($_GET['shape']);
   if (isset($_GET['stage'])) $options['stage'] = strip_tags($_GET['stage']);
-  if (isset($_GET['printable'])) $options['printable'] = ($_GET['printable'] == "1");
+//  if (isset($_GET['printable'])) $options['printable'] = ($_GET['printable'] == "1");
   if (isset($_GET['effect'])) $options['effect'] = strip_tags($_GET['effect']);
   if (isset($_GET['size'])) $size = strip_tags ($_GET['size']);
 }
