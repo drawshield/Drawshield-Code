@@ -433,7 +433,7 @@ class languageDB extends lexicon {
           array ( 'chevronn?(ell)?y',      'chevronny',          ),
           array ( 'chausse',               'chausse',            ),
           array ( 'quarterly quartered',   'gyronny',		 ),
-          array ( 'g(i|y)ronny',           'gyronny',            ),
+          array ( '?part(y|ed) ?per g(i|y)ronny',    'gyronny',            ),
           array ( 'bendy',                 'bendy',              ),
           array ( '?part(y|ed) per fesse?' ,    'per-fess',           ),
           array ( 'parted fesse?wise' ,      'per-fess',           ),
