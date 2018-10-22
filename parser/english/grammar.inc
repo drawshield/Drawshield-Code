@@ -1033,6 +1033,16 @@ class englishGrammar extends grammar {
       $maxTinc =( in_array( $keyterm, array ( 'per-pile', 'per-pall', 'per-pall-arrondi', 'tierced-in-pale',
           'tierced-in-fess', 'tierced-in-bend', 'tierced-in-bend', 'tierced-in-chevron' ))) ? 3 : 2;
       if ( $depth == 2 ) { // The tincture is implied by the previous division
+        $found = true;
+        while ($found) {
+          if ($keyterm = self::find(languageDB::LINETYPE)) {
+            $node->appendChild( $this->schema->makeMod(blazonML::A_LINETYPE, null, $keyterm, self::tokens(), self::lineNo()));
+          } elseif ($keyterm = self::find(languageDB::ORIENTATION)) {
+            $node->appendChild($this->schema->makeMod(languageDB::ORIENTATION,null,$keyterm, self::tokens(), self::lineNo()));
+          } else {
+            $found = false;
+          }
+        }    
         if ( !self::find(languageDB::COUNTERCHANGE) )
           self::raiseError(self::ERROR_ORIGIN,"Second division should be counterchanged");
         $maxTinc = 0;
