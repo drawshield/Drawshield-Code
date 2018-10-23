@@ -565,6 +565,6 @@ function calcPlace( $node, $aspect, $bb = '100,100,800,900'  ) {
       }
     }
   }
-  return $placement;
+  return rtrim($placement,':');
 }
 
