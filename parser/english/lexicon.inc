@@ -447,7 +447,6 @@ class languageDB extends lexicon {
           array ( 'tierced? (in|per) pairle arrondi' ,    'per-pall-arrondi',           ),
           array ( '?part(y|ed) per chevron' ,   'per-chevron',        ),
           array ( 'parted chevronwise' ,   'per-chevron',        ),
-          array ( 'enty' ,   'enty',        ),
           array ( '?part(y|ed) per bend',       'per-bend',           ),
           array ( 'parted bendwise',       'per-bend',           ),
           array ( '?part(y|ed) per saltire' ,   'per-saltire',        ),
