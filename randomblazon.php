@@ -39,11 +39,7 @@ $options = [
     "chg-cross" => "on",
     "chg-geom" => "on",
     "chg-bird" => "on",
-
-    /*
-    **	And some "tunable" bits that aren't settable through the web page
-    */
-    "edge-chance" => 10,
+    "loc-chance" => 10,
 
 ];
 
@@ -602,7 +598,7 @@ if ($showOrdinary) {
 
 if ($showCharge) {
     $blazon .= expand(" > # {charge-all}");
-    if (bychance(10))
+    if (bychance($options['loc-chance']))
         $blazon .= expand(" # {location}");
 }
 
