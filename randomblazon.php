@@ -12,14 +12,14 @@ $errors = [];
 /*
 **	Set up our default choices
 */
-$options = [
+$defaults = [
     "tinc-common" => "on",
     "tinc-second" => "on",
     "tinc-modern" => "off",
     "tinc-furs" => "on",
     "tinc-treatments" => "on",
 
-    "div-chance" => 50,
+    "div-chance" => 60,
     "div-2part" => "on",
     "div-3part" => "on",
     "div-bars" => "on",
@@ -27,26 +27,72 @@ $options = [
     "div-edge" => "on",
     "div-counter" => "on",
 
-    "ord-chance" => 50,
+    "ord-chance" => 60,
     "ord-common" => "on",
     "ord-multi" => "on",
     "ord-minor" => "on",
     "ord-rare" => "on",
     "ord-mods" => "on",
 
-    "chg-chance" => 50,
+    "chg-chance" => 60,
     "chg-lion" => "on",
     "chg-cross" => "on",
     "chg-geom" => "on",
     "chg-bird" => "on",
-    "loc-chance" => 10,
-
+    "chg-crown" => "on",
+    "chg-animal" => "on",
+    "chg-loc-chance" => 10,
 ];
 
+
+$options = $defaults;
+
+function setOptions($newValue,$prefix = null) {
+    global $options, $defaults;
+
+    foreach ($options as $key => $oldValue) {
+        if ($prefix != null) {
+            if (strpos($key,$prefix) !== 0) // key does not start with prefix
+                continue;
+        }
+        if (substr($key,-6) == "chance") {
+            if ($newValue == "off") {
+                $options[$key] = 0;
+            } else {
+                $options[$key] = $defaults[$key] ?? 50;
+            }
+        } else {
+            $options[$key] = $newValue;
+        }
+    }
+}
+
 /*
-**	Overwrite options with any supplied in the POST request
+** Handle the bulk options first	
+*/ 
+
+$args = array_merge( $_POST, $_GET); // don't care where they came from
+if (array_key_exists("opt-all",$args)) {
+    setOptions($args["opt-all"]);
+}
+if (array_key_exists("tinc-all",$args)) {
+    setOptions($args["tinc-all"], "tinc");
+}
+if (array_key_exists("div-all",$args)) {
+    setOptions($args["div-all"], "div");
+}
+if (array_key_exists("ord-all",$args)) {
+    setOptions($args["ord-all"], "ord");
+}
+if (array_key_exists("chg-all",$args)) {
+    setOptions($args["chg-all"], "chg");
+}
+
+
+/*
+**	Overwrite options with any supplied in the POST/GET request
 */
-$options = array_merge($options, $_POST, $_GET);
+$options = array_merge($options, $args);
 
 /******************************************************************
 **
@@ -73,6 +119,16 @@ $lexicon = [
             "latticed", "plumetty", 
             ],
     "treatment1" => [ 'hurty', 'bezanty', 'platy', ],
+    "treatment" => ["{treatment2} {base-tincture} and {base-tincture}", // prefer more common treatments
+                   "{treatment2} {base-tincture} and {base-tincture}",
+                   "{treatment2} {base-tincture} and {base-tincture}",
+                   "{treatment2} {base-tincture} and {base-tincture}",
+                   "{treatment2} {base-tincture} and {base-tincture}",
+                   "{treatment2} {base-tincture} and {base-tincture}",
+                   "{treatment2} {base-tincture} and {base-tincture}",
+                   "{treatment2} {base-tincture} and {base-tincture}",
+                   "{treatment2} {base-tincture} and {base-tincture}",
+                   "{treatment1} {base-tincture}" ],
 
 /*
 **	Divisons
@@ -95,10 +151,12 @@ $lexicon = [
     "num-gyrons" => ["6", "6", "6", "8", "10", "10", "12", "12", "12", "14", "16", "16", ],
 
     // edge types suitable for all shapes
-    "edge-simple" => [ "bevilled", "engrailed", "escartelly", "angled", "arched", "invected", 
+    "edge-simple" => ["", "", "", "", "", "", "", "", "{edge-simple1}"], // 12.5%
+    "edge-simple1" => [ "bevilled", "engrailed", "escartelly", "angled", "arched", "invected", 
         "nowy", "wavy", "rayonny", "urdy",  ],
     // edge types that work best on straight edges only
-    "edge-all" => [ "bevilled", "engrailed", "escartelly", "angled", "arched", "invected", 
+    "edge-all" => ["", "", "", "", "", "", "", "", "{edge-all1}"], // 12.5%
+    "edge-all1" => [ "bevilled", "engrailed", "escartelly", "angled", "arched", "invected", 
         "nowy", "wavy", // same set as above, with the addition of:
         "battled embattled", "dancetty", "dancetty floretty", "double arched", "dovetailed",
         "embattled", "embattled arrondi", "embattled brettessy", "embattled counter-embattled",
@@ -132,6 +190,20 @@ $lexicon = [
 
     /*
     **	Lots and lots of charges, by group
+    *
+    * As a minimum each group should define a key "chg-XXXX" where XXXX is the group name and corresponds
+    * to the option &chg-XXXX=on in the URL. The value should be an array of strings representing
+    * possible expansions. If required you can define other "internal" expansions and use keys of the
+    * form "chg-XXXXNNN" (i.e. same as the main key but followed by a number, recommended for sub-groups)
+    * or keys of the form "XXXX-YYYY" where YYYY is anything you like, (except x1 and xn : see below)
+    * You can apply any sort of modifiers and features that you like to these charges
+    *
+    * In addition, you can optionally define further keys of the form "XXXX-x1" and XXXX-xn" which
+    * might be used singly on a large ordinary (the first form) or in sets of more than one on other
+    * ordinaries (the second form). The first form should include the specifier ("a", "the" etc.)
+    * the second form should NOT, but the charge name should be plural. As above you can use any
+    * modifiers or features but should also consider that the charge is likely to be shown quite
+    * small and such things might not be readily visible.
     */
 
     // Crosses - Always do these singly
@@ -147,6 +219,8 @@ $lexicon = [
             "Crosses Potent", "Crosses Sarcelly", "Crosslets", "fylfots",],
     "cross-mod" => [ "", "", "", "pierced", "fitchy", "voided"], // 50%
     "chg-cross" => ["a {chg-cross1} {base-tincture}", "{3-6} {chg-cross2} {cross-mod} {base-tincture}"],
+    "cross-x1" => ["a {chg-cross1} {base-tincture}"], // Expansions for use on ordinaries
+    "cross-xn" => ["{chg-cross2} {cross-mod} {base-tincture}"],
 
     // Lions
     "chg-lion" => [ "a lion {lion-pose} {base-tincture} {lion-feature}", 
@@ -166,6 +240,10 @@ $lexicon = [
     "lion-head" => [ "a lion's head {arr-head} {base-tincture}",
                     "2 lion's heads {arrange2} {base-tincture}",
                     "{3-6} lion's heads {arr-head} {base-tincture}"],
+    "lion-x1" => ["a lion {lion-pose} {base-tincture} {lion-feature}",
+                    "a lion's head {arr-head} {base-tincture}" ], // Expansions for use on ordinaries
+    "lion-xn" => ["lions {lion-pose} {base-tincture} {lion-feature}",
+                    "lion's heads {arr-head} {base-tincture}" ],
 
     // simple shapes
     "chg-geom" => ["{3-6} {geom-fixed}", "a {geom-single} {base-tincture}",
@@ -179,13 +257,15 @@ $lexicon = [
             "mullets of {4-10} {pierced}"],
     "concentric" => ["", "concentric"],
     "pierced" => ["", "pierced"],
+    "geom-x1" => ["a {geom-single} {base-tincture}"],
+    "geom-xn" => ["{geom-multi} {base-tincture}", "{geom-fixed}"],
 
     // Birds
     "bird-single" => [ "heron", "dove {dove-pose}", "swan {swan-pose}",
                 "owl {displayed}", "peacock", "pair of wings", "crow {essorant}",
                 "falcon", "alerion", "eagle", "eagle {eagle-pose}" ],
     "bird-multi" => [ "auks", "bats", "blackbirds", "choughs", "ducks", "seagulls {volant}",
-                "martletts", "popinjays", "qauils", "ravens", "starlings"],
+                "martletts", "popinjays", "quails", "ravens", "starlings"],
     "dove-pose" => ["", "", "essorant", "fondant", "volant"],
     "swan-pose" => ["", "", "essorant", "displayed", "nageant", "passant"],
     "eagle-pose" => ["closed", "displayed", "double headed", "natural", "rising"],
@@ -197,6 +277,44 @@ $lexicon = [
                 "2 {bird-multi} {arrange2} {base-tincture}",
                 "3 {bird-multi} {arrange3} {base-tincture}",
                 "4 {bird-multi} {arrange4} {base-tincture}",],
+    "bird-x1" => ["a {bird-single} {base-tincture}"],
+    "bird-xn" => ["{bird-multi} {base-tincture}"],
+
+    // Crowns
+    "crown" => ["Open", "Antique", "Astral", "Eastern", "King of Arms'", "Mural", "Naval", "Royal",
+                "Saxon", "Vallary"],
+    "coronet" => ["Baron's", "Ducal", "Duke's", "Earl's", "Marquis'",  "Viscount's"],
+    "jewels" => ["crystals", "orbs", "torques"],
+    "jewel" => ["crystal", "orb", "torque"],
+    "chg-crown" => [ "a {crown} Crown {base-tincture}",
+            "a {crown} Crown proper",
+            "a {coronet} Coronet {base-tincture}",
+            "{3-6} {jewels} {base-tincture}",
+            "2 {crown} Crowns {arrange2} {base-tincture}",
+            "3 {crown} Crowns {arrange3} {base-tincture}",
+            "2 {coronet} Coronets {arrange2} {base-tincture}",
+            "3 {coronet} Coronets {arrange3} {base-tincture}", ],
+    "crown-x1" => ["a {crown} Crown {base-tincture}", "a {coronet} Coronet {base-tincture}",
+                    "a {jewel} {base-tincture}"],
+    "crown-xn" => ["{crown} Crowns {base-tincture}", "{coronet} Coronets {base-tincture}",
+                    "{jewels} {base-tincture}"],
+
+    "chg-animal1" => ["anteater", "antelope", "camel", "crocodile", "elephant", "frog", 
+            "leopard", "lynx", "reindeer", "scorpion", "serpent", "snake", "tiger", "turtle",
+            "badger", "cat", "fox", "hedgehog", "mole", "otter", "rat", "squirrel",
+            "squirrel sejant", "weasel", "wolf", "crab", "lobster", "scallop", "shrimp",
+            "whelk", "butterfly", "dragonfly", "greyhound", "talbot {talbot-pose}"],
+    "chg-animal2" => ["ape's heads", "leopard's heads", "reindeer's heads", "badger's heads",
+            "foxes' heads", "wolve's heads", "ants", "bees", "beetles", "crickets",
+            "flies", "hornets", "smails", "eels", "herrings", "salmon", "dog's heads"],
+    "talbot-pose" => ["", "", "statant", "sejant", "rampant", "passant"],
+    "chg-animal" => ["a {chg-animal1} {base-tincture}",
+            "{3-6} {chg-animal2} {base-tincture}",
+            "2 {chg-animal2} {arrange2} {base-tincture}",
+            "3 {chg-animal2} {arrange3} {base-tincture}",
+            "4 {chg-animal2} {arrange4} {base-tincture}",],
+    "animal-x1" => ["a {chg-animal1} {base-tincture}"],
+    "animal-xn" => ["{chg-animal2} {base-tincture}"],
 
     // Arrangements for various numbers
     "arrange2" => ["respecting each other", "addorsed", "in pale",
@@ -219,8 +337,6 @@ $lexicon = [
 **	Variables to keep track of what has been used
 **
 *******************************************************************/
-
-$phase = null;
 
 $componentTinctures = [ 
     "counter-ermine" => [ "sable", "argent",],
@@ -337,7 +453,7 @@ function punctuate($string) {
                 $output .= "six";
                 break;
             case 'a':
-                if (strpos(' aeiou', $words[$i +1][0])) {
+                if (strpos(' aeiou', strtolower($words[$i +1][0]))) {
                     $output .= "an";
                 } else {
                     $output .= "a";
@@ -362,7 +478,6 @@ function cleanup($string) { // remove expansions to get core value
 function expand($tokenString) {
     global $options, $lexicon, $errors;
     global $usedOrdinary;
-    global $phase;
 
     if (strpos($tokenString,'{') === false) return $tokenString;
     $tokens = preg_split("/([ ,;\"'\\.]+)/", $tokenString, -1, PREG_SPLIT_DELIM_CAPTURE );
@@ -374,43 +489,21 @@ function expand($tokenString) {
             if (ctype_digit($tokenValue[0])) {
                 list($lower,$upper) = explode('-',$tokenValue);
                 $replacement = number($lower,$upper);
-            } elseif (substr($tokenValue,0,3) == 'ord') {
-                // record the ordinary used
+            } elseif (in_array($tokenValue, array('treatment1', 'fur', 'tinc-common',
+                                    'tinc-modern', 'tinc-second'))) {
+                $replacement = randomly($lexicon[$tokenValue], true); // check re-use 
+                markAsUsed($replacement);
+            } elseif (array_key_exists($tokenValue, $lexicon) ) {
                 $replacement = randomly($lexicon[$tokenValue]);
-                $usedOrdinary = cleanup($replacement);
-            } else {
-                switch($tokenValue) {
-                     // check these haven't been used before
-                    case 'treatment1': 
-                    // treatment2 can be re-used as it will be diff. colours
-                    case 'fur':
-                    case 'tinc-common':
-                    case 'tinc-modern':
-                    case 'tinc-second':
-                        $replacement = randomly($lexicon[$tokenValue], true); // check re-use 
-                        markAsUsed($replacement);
-                        break;
-                    case 'edge-all': 
-                    case 'edge-simple':
-                        // whatever we find, need to set $replacement so that {token} is gone
-                        if ($phase == 'field' && $options["div-edge"] != "on") return '';
-                        $replacement = (byChance($options['edge-chance'])) ? 
-                                randomly($lexicon[$tokenValue]) : '';
-                        break;
-                    case 'treatment': // prefer two colours as more of them
-                            $replacement = (bychance(90)) ? 
-                                    "{treatment2} {base-tincture} and {base-tincture}" :
-                                    "{treatment1} {base-tincture}";
-                        break;
-                    default:
-                        if (array_key_exists($tokenValue, $lexicon)) {
-                            $replacement = randomly($lexicon[$tokenValue]);
-                        } else {
-                            $errors[] = "unknown key value - $token";
-                            $replacement = ''; // remove error expansion
-                        }
+            } else { // not found an expansion yet
+                if ( createLexicon($tokenValue) ) { // can we create one?
+                    $replacement = randomly($lexicon[$tokenValue]);
+                } else {
+                    $errors[] = "unknown key value - $token";
+                    $replacement = ''; // remove error expansion
                 }
             }
+            if (substr($tokenValue,0,3) == 'ord') $usedOrdinary = cleanup($replacement);
             $replacement = expand($replacement);
         }
         $newString .= $replacement ?? $token;
@@ -461,42 +554,50 @@ if ($options['tinc-treatments'] == "on") $lexicon["field-tincture"][] = "{treatm
 **	Set up lists of available charges
 */
 
-if ($showCharge) {
-    $lexicon['charge-x1'] = [];
-    $leixcon['charge-xn'] = [];
-    $lexicon['charge-all'] = [];
-    if ($options["chg-cross"] == "on") {
-        $lexicon['charge-x1'][] = "a {chg-cross1} {base-tincture}";
-        $lexicon['charge-all'] = "{chg-cross}";
-        $lexicon['charge-xn'][] = "{chg-cross2} {cross-mod} {base-tincture}";
+function createLexicon($item) {
+    global $options, $lexicon;
+
+    $created = false;
+    switch ($item) {
+        case "charge-all":
+            $lexicon[$item] = [];
+            foreach ($options as $key => $value) {
+                list($prefix,$type) = explode('-', $key, 2);
+                if ($prefix == 'chg' && $value == "on" && array_key_exists($key, $lexicon))
+                    $lexicon[$item][] = "{" . $key . "}";
+            }
+            $created = true;
+            break;
+        case "charge-x1":
+            $lexicon[$item] = [];
+            foreach ($options as $key => $value) {
+                list($prefix,$type) = explode('-', $key, 2);
+                if ($prefix == 'chg' && $value == "on" && array_key_exists("$type-x1", $lexicon))
+                    $lexicon[$item][] = "{" . $type . "-x1}";
+            }
+            $created = true;
+            break;
+        case "charge-xn":
+            $lexicon[$item] = [];
+            foreach ($options as $key => $value) {
+                list($prefix,$type) = explode('-', $key, 2);
+                if ($prefix == 'chg' && $value == "on" && array_key_exists("$type-xn", $lexicon))
+                    $lexicon[$item][] = "{" . $type . "-xn}";
+            }
+            $created = true;
+            break;
+        default:
+            break;
     }
-    if ($options["chg-lion"] == "on") {
-        $lexicon['charge-x1'][] = "a lion {lion-pose} {base-tincture} {lion-feature}";
-        $lexicon['charge-x1'][] = "a lion's head {arr-head} {base-tincture}";
-        $lexicon['charge-all'] = "{chg-lion}";
-        $lexicon['charge-xn'][] = "lions {lion-pose} {base-tincture} {lion-feature}";
-        $lexicon['charge-xn'][] = "lion's heads {arr-head} {base-tincture}";
-    }
-    if ($options["chg-geom"] == "on") {
-        $lexicon['charge-x1'][] = "a {geom-single} {base-tincture}";
-        $lexicon['charge-all'] = "{chg-geom}";
-        $lexicon['charge-xn'][] = "{geom-multi} {base-tincture}";
-        $lexicon['charge-xn'][] = "{geom-fixed}";
-    }
-    if ($options["chg-bird"] == "on") {
-        $lexicon['charge-x1'][] = "a {bird-single} {base-tincture}";
-        $lexicon['charge-all'] = "{chg-bird}";
-        $lexicon['charge-xn'][] = "{bird-multi} {base-tincture}";
-    }
+    return $created;
 }
+
 
 /******************************************************************
 **
 **	Phase 1 - the field
 **
 *******************************************************************/
-
-$phase = 'field';
 
 // Now, what types of field can we chose from?
 $fieldTypes = [ "{field-tincture}" ]; // The default
@@ -531,7 +632,6 @@ $blazon = expand(randomly($fieldTypes));
 **
 *******************************************************************/
 
-$phase = "ordinary";
 if ($showOrdinary) {
         // idiot check - prevent everything being off
     if ($options['ord-common'] == 'off' && $options['ord-multi'] == 'off' 
@@ -598,7 +698,7 @@ if ($showOrdinary) {
 
 if ($showCharge) {
     $blazon .= expand(" > # {charge-all}");
-    if (bychance($options['loc-chance']))
+    if (bychance($options['chg-loc-chance']))
         $blazon .= expand(" # {location}");
 }
 
@@ -619,7 +719,14 @@ if (count($errors)) {
         echo "$error\n";
     }
 }
+if ($options["show-opt"]) {
+    echo "\n-- Option Settings:\n";
+    foreach ($options as $key => $value) {
+        echo "$key: $value\n";
+    }
+}
 if ($options['dump']) {
+    echo "\n";
     var_dump(${$options['dump']});
 }
 
