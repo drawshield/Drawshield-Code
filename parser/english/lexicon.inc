@@ -688,6 +688,7 @@ class languageDB extends lexicon {
           'raguly', 'dovetailed', 'engrailed', 'escartelly', 'erable',
           'thorny', 'ristikoro', 'hakulikoro', 'vallikoro',
           'liljakoro',
+          array ( 'meander(ed|ing)?', 'meander' ), 
           array ( 'angled ?lower', 'angled' ),
           array ( 'angled upper', 'angled-upper' ),
           array ('(em)?battled ghibell?ine', 'battled-ghibelline' ),
