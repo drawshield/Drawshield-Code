@@ -13,12 +13,12 @@
    limitations under the License. */
 
 
-$ordinary['shape_spec'] = 'X-8,Y{%75}A1016c{%26}e1016g{%26}';
+$ordinary['shape_spec'] = 'X-8,Y{%75*}A1016c{%26*}e1016g{%26*}';
 
 if ($options['drawType'] == 'flag') {
-  $ordinary['chargesOn'] = array ('h','100,{%77},800,{%21}');
+  $ordinary['chargesOn'] = array ('h','100,{%77*},800,{%21*}');
 } else {
-  $ordinary['chargesOn'] = '500,{%87},500,{%21}/333.33,{%87},300,{%21}:666.67,{%87}/333.33,{%87},160,{%21}:500,{%87}:666.67,{%87}/x/x/x';
+  $ordinary['chargesOn'] = '500,{%87*},500,{%21*}/333.33,{%87*},300,{%21*}:666.67,{%87*}/333.33,{%87*},160,{%21*}:500,{%87*}:666.67,{%87*}/x/x/x';
 }
 
 if ( existModifierWithKeyterm($node, 'riveted')) {
