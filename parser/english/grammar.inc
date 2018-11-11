@@ -874,7 +874,9 @@ class englishGrammar extends grammar {
       self::comma();
       if (self::find(languageDB::WORD_OF)) { // like "quarterly of 4"
         $numberStated = self::find(languageDB::NUMBER); // But ignore it and count the quarters we are given
+        self::comma();
       }
+      
       self::ignore(languageDB::SEMICOLON);
       $foundQuarter = false;
       do { // Look for quarters

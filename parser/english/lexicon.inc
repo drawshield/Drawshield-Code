@@ -393,7 +393,13 @@ class languageDB extends lexicon {
             array ( 'barruly wavy', 'barruly-wavy' ), // TODO and this
             array ( 'pied ?at ?random', 'pied' ),
             array ( 'piebald', 'pied' ),
-        ),
+            array ( 'grad(ed|y) in fess', 'grady-in-fess'),
+            array ( 'grad(ed|y) in pale', 'grady-in-pale'),
+            array ( 'grad(ed|y) in bend', 'grady-in-bend'),
+            array ( 'grad(ed|y) in bend sinister', 'grady-in-bendsin'),
+            array ( 'grad(ed|y) in sinister bend', 'grady-in-bendsin'),
+            array ( 'grad(ed|y) in annull?o', 'grady-in-annulo'),
+          ),
         self::FUR => array (
           'ermine',   'erminois', 'erminites', 'pean', 'potent', 'vair',
           //array ( 'or ermined sa(ble)?', 'erminois',           ),                      

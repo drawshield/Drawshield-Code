@@ -18,7 +18,7 @@ function getSvgTreatment ($filename) {
   $retval = array();
 
   if ( ($svg = simplexml_load_file($filename)) == null ) {
-    $messages->addMessage('internal',"XML error reading charge data");
+    $messages->addMessage('internal',"XML error reading treatment data");
     return null;
   }
   $retval['height'] = floatval($svg['height']);
@@ -91,4 +91,52 @@ function makeSemy( $node ) {
     $base = apply_tincture ( $background, '<rect x="0" y="0" width="200" height="200" />' );
     return array (  'link' => 'http://drawshield.net/reference/parker/s/seme.html', 'width' => 200, 'height' => 200, 'body' => $base . $semy );
  }
+}
+
+function makeGrady( $node ) {
+  global $messages;
+  $colours = [];
+  $type = $node->getAttribute("keyterm");
+  $children = $node->childNodes;
+  $background = $charge = null;
+  foreach ( $children as $child ) {
+    if ( $child->nodeName == 'tincture' ) {
+      if ($child->firstChild->nodeName == 'colour') {
+        $colours[] = $child->firstChild->getAttribute("keyterm");
+      } else {
+        $messages->addMessage('blazon',"Grady tinctures must be colours");
+        $colours[] = 'grey';
+      }
+    }
+  }
+  $stops = [];
+  if (count($colours) < 2) $colours[] = "grey";
+  $numColours= count($colours);
+  for ($i = 0; $i < $numColours; $i++) {
+    if ($i == 0) $offset = 0;
+    elseif ($i == $numColours - 1) $offset = 100;
+    else ( $offset = 100/($i - 1));
+    if ($type == 'grady-in-annulo') $offset = 100 - $offset;
+    $offset = sprintf("%.3f", $offset);
+    $rgbCode = rgb($colours[$i]);
+    $stops[] = "<stop offset=\"$offset%\" style=\"stop-color: $rgbCode\" />";
+  }
+  if ($type == 'grady-in-annulo') $stops = array_reverse($stops);
+  $stop = implode("\n",$stops);
+
+  $gradientType = $type == "grady-in-annulo" ? "radial" : "linear";
+  $direction = '';
+  switch($type) {
+    case "grady-in-pale":
+      $direction = ' x1="0%" y1="0%" x2="0%" y2="100%"';
+      break;
+    case "grady-in-bend":
+      $direction = ' x1="0%" y1="0%" x2="100%" y2="100%"';
+      break;
+    case "grady-in-bendsin":
+      $direction = ' x1="100%" y1="0%" x2="0%" y2="100%"';
+      break;
+  }
+  $gradient = add_def("${gradientType}Gradient$direction", $stop, "gradient");
+  return $gradient;
 }
