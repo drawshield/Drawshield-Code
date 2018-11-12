@@ -106,12 +106,15 @@ function makeGrady( $node ) {
         $colours[] = $child->firstChild->getAttribute("keyterm");
       } else {
         $messages->addMessage('blazon',"Grady tinctures must be colours");
-        $colours[] = 'grey';
+        $colours[] = 'gray';
       }
     }
   }
   $stops = [];
-  if (count($colours) < 2) $colours[] = "grey";
+  if (count($colours) < 2) { // $colours[] = "grey";
+    $colours[1] = shiftRGB(rgb($colours[0]),"lighter");
+    $colours[0] = shiftRGB(rgb($colours[0]),"darker");
+  }
   $numColours= count($colours);
   for ($i = 0; $i < $numColours; $i++) {
     if ($i == 0) $offset = 0;
@@ -119,7 +122,7 @@ function makeGrady( $node ) {
     else ( $offset = 100/($i - 1));
     if ($type == 'grady-in-annulo') $offset = 100 - $offset;
     $offset = sprintf("%.3f", $offset);
-    $rgbCode = rgb($colours[$i]);
+    $rgbCode = $colours[$i][0] == '#' ? $colours[$i] : rgb($colours[$i]);
     $stops[] = "<stop offset=\"$offset%\" style=\"stop-color: $rgbCode\" />";
   }
   if ($type == 'grady-in-annulo') $stops = array_reverse($stops);

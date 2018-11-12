@@ -1136,11 +1136,15 @@ class englishGrammar extends grammar {
     } elseif ( ($treat = self::treatment()) ) {
       self::comma();
       $treat->appendChild(self::tincture(true));
+      $keyterm = $treat->getAttribute('keyterm');
+      $grady = (substr($keyterm,0,5) == 'grady');
       self::comma();
       self::ignore(languageDB::ANDD);
-      $tinc2 = self::tincture(true);
-      $tinc2->setAttribute('index',2);
-      $treat->appendChild($tinc2);
+      $tinc2 = self::tincture(!$grady); // grady might not need second tincture
+      if ($tinc2 != null) {
+        $tinc2->setAttribute('index',2);
+        $treat->appendChild($tinc2);
+      }
       $node->appendChild($treat);
       // Look for counterchange
     } elseif ( self::find(languageDB::COUNTERCHANGE) ) {

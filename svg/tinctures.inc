@@ -56,6 +56,29 @@ function rgb($name) {
 
 }
 
+function shiftRGB($hex, $direction="lighter") {
+  $factor = 0.33;
+  $prefix = '';
+  if ($hex[0] == '#') {
+    $prefix = '#';
+    $hex = substr($hex,1);
+  }
+  $red = intval('0x' . substr($hex,0,2),16);
+  $green = intval('0x' . substr($hex,2,2),16);
+  $blue = intval('0x' . substr($hex,4,2),16);
+  if ($direction == "lighter") {
+    $newRed = (int)($red * (1 - $factor));
+    $newGreen = (int)($green * (1 - $factor));
+    $newBlue = (int)($blue * (1 - $factor));
+  } else {
+    $newRed = (int)($red + (255 - $red) * $factor);
+    $newGreen = (int)($green + (255 - $green) * $factor);
+    $newBlue = (int)($blue + (255 - $blue) * $factor);
+  }
+  $retval =  sprintf("%s%02x%02x%02x",$prefix,$newRed,$newGreen,$newBlue);
+  return $retval;
+}
+
 
 
 function apply_tincture ( DOMElement $tincture, $object, $chg_size = '',
