@@ -1,3 +1,5 @@
-<svg width="125" height="240" ><g class="treatment"><polygon points="62.5,0 96.5,20 96.5,100 125,120 0,120 33,100 33,20" />
-        <polygon points="125,120 159,140 159,220 187.5,240 62.5,240 95.5,220 95.5,140" />
-        <polygon points="0,120 34,140 34,220 62.5,240 -62.5,240 -29.5,220 -29.5,140" /></g></svg>
+<svg width="250" height="480" ><g class="treatment">
+        <polygon points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" />
+        <polygon transform="translate(125,240)" points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" />
+        <polygon transform="translate(-125,240)" points="125,0 193,40 193,200 250,240 0,240 66,200 66,40"></polygon>
+        </g></svg>
