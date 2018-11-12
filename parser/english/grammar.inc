@@ -1020,9 +1020,14 @@ class englishGrammar extends grammar {
     if ($keyterm == 'checky' && $ofNum == 9) {
       $keyterm = 'checky9';
     }
+    $node = $this->schema->makeNode(blazonML::E_TREATMENT, array ( blazonML::A_KEYTERM => $keyterm ), self::tokens(), self::lineNo());
+    if (substr($keyterm,0,5) == 'grady') {
+      if (self::find(languageDB::INVERSE)) {
+        $node->appendChild($this->schema->makeMod(languageDB::INVERSE,null,languageDB::INVERSE, self::tokens(), self::lineNo()));
+      }
+    }
     self::discard($state);
-    return $this->schema->makeNode(blazonML::E_TREATMENT, array ( blazonML::A_KEYTERM => $keyterm ), self::tokens(), self::lineNo());
-
+    return $node;
   }
 
   protected function division( $depth = 1 ) {
@@ -1099,6 +1104,7 @@ class englishGrammar extends grammar {
       if ( self::moreInput() /* and !self::semicolon() */ ) {
         if ( ($treat = self::treatment()) ) {
           $keyterm = $treat->getAttribute('keyterm');
+          $grady = (substr($keyterm,0,5) == 'grady');
           $tinc1 = $this->schema->makeNode(blazonML::E_TINCTURE, array ( blazonML::A_INDEX => '1'));
           $tinc1->appendChild($colourOrFur);
           $colourOrFur = null; // used
@@ -1106,9 +1112,11 @@ class englishGrammar extends grammar {
           self::ignore(languageDB::ANDD);
           // Some treatments only require one tincture
           if ( !in_array( $keyterm, array ( 'bezanty', 'hurty', 'platy' ))) {
-            $tinc2 = self::tincture(true);
-            $tinc2->setAttribute(blazonML::A_INDEX, '2');
-            $treat->appendChild($tinc2);
+            $tinc2 = self::tincture(!$grady);
+            if ($tinc2 != null) {
+              $tinc2->setAttribute(blazonML::A_INDEX, '2');
+              $treat->appendChild($tinc2);
+            }
           }
           // and gyronny seems to have up to three (see BASSINGBOURNE)
           if ( $keyterm == 'gyronny' and ($tinc3 = self::tincture(false)) ) {

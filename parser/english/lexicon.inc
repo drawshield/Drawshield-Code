@@ -78,6 +78,7 @@ class languageDB extends lexicon {
   const QUARTERMARK = 'quartermark';
   const QUARTERMODS = 'quartermods';
   const LETTERS = 'letters';
+  const INVERSE = 'inverse';
   
   public function __construct() {
     global $options;
@@ -394,13 +395,14 @@ class languageDB extends lexicon {
             array ( 'pied ?at ?random', 'pied' ),
             array ( 'piebald', 'pied' ),
             array ( 'grad(ed|y)', 'grady'),
-            array ( 'grad(ed|y) in fess', 'grady-in-fess'),
+            array ( 'grad(ed|y) in fesse?', 'grady-in-fess'),
             array ( 'grad(ed|y) in pale', 'grady-in-pale'),
             array ( 'grad(ed|y) in bend', 'grady-in-bend'),
             array ( 'grad(ed|y) in bend sinister', 'grady-in-bendsin'),
             array ( 'grad(ed|y) in sinister bend', 'grady-in-bendsin'),
             array ( 'grad(ed|y) in annull?o', 'grady-in-annulo'),
           ),
+        self::INVERSE => array ('reversed', 'inverted'),
         self::FUR => array (
           'ermine',   'erminois', 'erminites', 'pean', 'potent', 'vair',
           //array ( 'or ermined sa(ble)?', 'erminois',           ),                      
@@ -555,7 +557,6 @@ class languageDB extends lexicon {
         self::ORIENTATION => array ( 
            'sinister', 'reversed','dexter', 'inverted', 'enhanced', 
            array ( '(abased|abaisse)', 'abased', ),
-           // ?? array ( '(rompu|burst|broken|fracted)', 'fracted' ),
           ),
         self::ORDINARY => array (
             'another', // special term, means "voided of" (should only be used after "on" or "charged with"

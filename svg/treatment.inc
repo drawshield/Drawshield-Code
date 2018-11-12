@@ -97,6 +97,7 @@ function makeGrady( $node ) {
   global $messages;
   $colours = [];
   $type = $node->getAttribute("keyterm");
+  $inverted = existModifierWithKeyterm($node, languageDB::INVERSE);
   if ($type == 'grady') $type = 'grady-in-pale'; // Default if not set by herald knowledge
   $children = $node->childNodes;
   $background = $charge = null;
@@ -112,8 +113,8 @@ function makeGrady( $node ) {
   }
   $stops = [];
   if (count($colours) < 2) { // $colours[] = "grey";
-    $colours[1] = shiftRGB(rgb($colours[0]),"lighter");
-    $colours[0] = shiftRGB(rgb($colours[0]),"darker");
+    $colours[1] = shiftRGB(rgb($colours[0]),$inverted ? "darker" : "lighter");
+    $colours[0] = shiftRGB(rgb($colours[0]),$inverted ? "lighter" : "darker");
   }
   $numColours= count($colours);
   for ($i = 0; $i < $numColours; $i++) {
