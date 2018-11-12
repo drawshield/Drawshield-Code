@@ -393,7 +393,7 @@ class languageDB extends lexicon {
             array ( 'barruly wavy', 'barruly-wavy' ), // TODO and this
             array ( 'pied ?at ?random', 'pied' ),
             array ( 'piebald', 'pied' ),
-            array ( 'grad(ed|y)', 'grady-in-fess'),
+            array ( 'grad(ed|y)', 'grady'),
             array ( 'grad(ed|y) in fess', 'grady-in-fess'),
             array ( 'grad(ed|y) in pale', 'grady-in-pale'),
             array ( 'grad(ed|y) in bend', 'grady-in-bend'),

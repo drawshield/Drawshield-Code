@@ -97,6 +97,7 @@ function makeGrady( $node ) {
   global $messages;
   $colours = [];
   $type = $node->getAttribute("keyterm");
+  if ($type == 'grady') $type = 'grady-in-pale'; // Default if not set by herald knowledge
   $children = $node->childNodes;
   $background = $charge = null;
   foreach ( $children as $child ) {

@@ -204,6 +204,43 @@ class references {
       }
     }
 
+    // If "grady" does not give a direction, use the shape of the ordinary
+    $nodeList = $this->xpath->query("//treatment[@keyterm='grady']");
+    foreach ( $nodeList as $item ) {
+      $object = $item->parentNode->parentNode;
+      if ($object->nodeName == 'ordinary') {
+        $ordinary = $object->getAttribute("keyterm");
+        switch ($ordinary) {
+          case 'fess':
+          case 'chief':
+          case 'base':
+          case 'bar':
+            $item->setAttribute("keyterm","grady-in-fess");
+            break;
+          case 'pale':
+          case 'pall':
+          case 'tierce':
+          case 'palet':
+          case 'pile':
+            $item->setAttribute("keyterm","grady-in-pale");
+            break;
+          case 'bend':
+          case 'bendlet':
+            $item->setAttribute("keyterm","grady-in-bend");
+            break;
+          default:
+            break;
+        }
+      }
+      if ( ($prev = $item->previousSibling) != null and $prev->nodeName == 'charge' and $prev->getAttribute('number') == '1' ) {
+        $mod = getModifierNodeWithKeyterm($item,"insaltire");
+        $mod->setAttribute("keyterm","bendsinwise");
+        $mod->setAttribute('type','chargemod');
+        $inbend = createModifierNode('chargemod', 'bendwise' );
+        $prev->appendChild($inbend);
+      }
+    }
+
     // Fixup quarterings to the nearest known number
     $nodeList = $this->xpath->query("//complex[@keyterm='quartered']");
     foreach ($nodeList as $node) {
