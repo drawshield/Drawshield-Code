@@ -600,6 +600,9 @@ class englishGrammar extends grammar {
     $assume_num = false;
     $found = false;
 
+    $state = self::save();
+    self::ignore(languageDB::WITH);
+
     while ( self::moreInput() ) {
       if ($item = self::ordinary()  or  $item = self::charge($assume_num)) {
         $found = true;
@@ -611,7 +614,13 @@ class englishGrammar extends grammar {
         break;
       }
     }
-    if ( !$found ) $node = null;
+    if ( !$found ) {
+      $node = null;
+      self::restore($state);
+    } else {
+      self::discard($state);
+    }
+      
     return $node;
   }
   // TODO put the comented code below into heralds knowledge
