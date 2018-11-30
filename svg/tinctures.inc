@@ -111,13 +111,13 @@ function apply_tincture ( DOMElement $tincture, $object, $chg_size = '',
   if ( $tincture->getAttribute('origin') == 'implied' ) return $object; // Nothing to do
   $tincture = resolveReference($tincture);
   if ( ! $tincture->hasChildNodes() ) {
-    if ($tincture->getAttribute('origin') == 'pending') {
-      $messages->addMessage ('blazon','Missing tincture? Gray substituted.' );
+    if ($tincture->getAttribute('origin') == 'pending' || $tincture->getAttribute('origin') == 'missing') {
+      $messages->addMessage ('blazon','Gray substituted.' );
       $tincture = createColourNode('gray','1');
-    } else {
+    } /* else {
       $messages->addMessage('internal', 'Malformed tincture ID=' . $tincture->getAttribute('ID'));
       return '';
-    }
+    } */
   }
   $child = $tincture->firstChild;
   switch ( $child->nodeName ) {

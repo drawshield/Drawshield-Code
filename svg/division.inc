@@ -69,12 +69,12 @@ function makeDivision( DOMElement $node, $counter = false ) {
       $secondDiv = $child;
   }
   $div2 = $division['div2'];
+  $div3 = '';
   if ( array_key_exists('div3', $division)) {
     if ( $counter) {
       $messages->addMessage('blazon', 'Cannot counterchange 3 tinctures' . getLine($node) );
       return '<g />';
     }
-    $div3 = $division['div3'];
   } else
     $div3 = '';
   // set the main colours
@@ -91,11 +91,13 @@ function makeDivision( DOMElement $node, $counter = false ) {
       $div1 = apply_tincture ( $tinctures[1], '<rect x="-100" y="-100" width="1200" height="' . ($height + 200) . '" />',
                                 '1000,' . $height );
       $div2 = apply_tincture( $tinctures[2], $div2 );
-      if ( $div3 != '' and isset($tinctures[3]) ) $div3 = apply_tincture( $tinctures[3], $div3 );
+      if ( isset($division['div3']) && isset($tinctures[3]) ) {
+        $div3 = apply_tincture( $tinctures[3], $division['div3'] );
+      }
     }
   }
   $retval = "$div1\n$div2\n$div3\n";
-  if ( !$counter and $secondDiv ) {
+  if ( !$counter && $secondDiv ) {
     $retval .= makeDivision( $secondDiv );
   }
   if ( array_key_exists('div4',$division) ) { // Add any extra embellishment

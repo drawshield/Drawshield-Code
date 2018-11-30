@@ -1040,14 +1040,23 @@ class englishGrammar extends grammar {
   }
 
   protected function division( $depth = 1 ) {
+    $need3Tinc = array ( 'per-pall', 'per-pall-arrondi', 'tierced-in-pale',
+    'tierced-in-fess', 'tierced-in-bend', 'tierced-in-bend', 'tierced-in-chevron' );
+    $opt3Tinc = array ( 'per-pile', );
 
     $node = null;
     if ( ($keyterm = self::find( languageDB::DIVISION )) != null ) {
       $node = $this->schema->makeNode(blazonML::E_DIVISION,array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
       self::comma();
       // generic modifiers, including tinctures
-      $maxTinc =( in_array( $keyterm, array ( 'per-pile', 'per-pall', 'per-pall-arrondi', 'tierced-in-pale',
-          'tierced-in-fess', 'tierced-in-bend', 'tierced-in-bend', 'tierced-in-chevron' ))) ? 3 : 2;
+      $maxTinc = 2;
+      $minTinc = 2;
+      if (in_array( $keyterm, $need3Tinc)) {
+        $maxTinc = 3;
+        $minTinc = 3;  
+      } elseif (in_array($keyterm, $opt3Tinc)) {
+        $maxTinc = 3;
+      }
       if ( $depth == 2 ) { // The tincture is implied by the previous division
         $found = true;
         while ($found) {
@@ -1078,18 +1087,21 @@ class englishGrammar extends grammar {
           $node->appendChild($this->schema->makeMod(languageDB::DIVISION_MODS, $this->phraseMatcher->getValue(), $keyterm, self::tokens(), self::lineNo()));
         } elseif ($keyterm = self::find(languageDB::ORIENTATION)) {
           $node->appendChild($this->schema->makeMod(languageDB::ORIENTATION,null,$keyterm, self::tokens(), self::lineNo()));
-        } elseif ( ($tincCount < $maxTinc) and ($tinc = self::tincture()) ) {
+        } elseif ( /* ($tincCount < $maxTinc) && */ ($tinc = self::tincture(false)) ) {
           $tincCount++;
           $tinc->setAttribute(blazonML::A_INDEX,"$tincCount");
           $node->appendChild($tinc);
         } else
           $found = false;
       }
-      // How many tinctures did we find?
-      while ( $tincCount < $maxTinc ) {
+      // Did we find all the tinctures that we need?
+      while ( $tincCount < $minTinc ) {
         $node->appendChild($this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => ++$tincCount,
             blazonML::A_ORIGIN => 'missing' )));
         self::raiseError(self::ERROR_ORIGIN,"Missing tincture(s) on division", true);
+      }
+      if ($tincCount > $maxTinc) {
+        self::raiseError(self::ERROR_ORIGIN,"Too many tinctures on division", true);
       }
     }
     return $node;

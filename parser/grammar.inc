@@ -116,6 +116,7 @@ abstract class grammar  {
       $tokens = $this->tokenList->getTokens();
       $lineNos = $this->tokenList->getLineNos();
       $offset = $this->phraseMatcher->getTokenOffset();
+      if ($offset >= count($tokens)) $offset = count($tokens) - 1;
       $start = $offset - self::PRIORWORDS;
          $start = $start < 0 ? 0 : $start; 
          for ( $i = $start; $i < $offset; $i++ ) 

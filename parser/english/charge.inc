@@ -212,6 +212,7 @@
       // bird
       array ( '?birds nests?', 'bird/bird-nest' ),
       array ( 'wings?', 'bird/wing' ),
+      array ( 'vols?', 'bird/wing-pair-2' ),
       array ( 'feathers?', 'bird/feather' ),
       array ( 'starlings?', 'bird/starling' ),
       array ( 'larks?', 'bird/lark' ),
