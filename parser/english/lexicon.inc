@@ -825,6 +825,8 @@ class languageDB extends lexicon {
           array ( '(shown|shewn|moved) ?somewhat', 'shown'),
           array ( 'somewhat', 'shown'),
           array ( '?(from|to|of|than) ?(the|is) (normal|usual) ?(position|location|place)s?', 'than-normal'),
+          array ( 'very much', 'very-much'),
+          array ( 'a great deal', 'very-much'),
           array ( 'much', 'much'),
           array ( 'a lot', 'much'),
           array ( '(larger|bigger)', 'larger' ),

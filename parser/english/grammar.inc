@@ -488,10 +488,11 @@ class englishGrammar extends grammar {
           $foundShown = true;
           break;
         case 'much':
-          $foundMuch = true;
+        case 'very-much':
+          $foundMuch = $keyterm;
           break;
         default:
-          if ($foundMuch) $keyterm = 'much-' . $keyterm;
+          if ($foundMuch) $keyterm = "$foundMuch-$keyterm";
           $adjustments[] = $this->schema->makeMod(languageDB::SHOWN_MODS,null,$keyterm,self::tokens(), self::lineNo());
           $foundMuch = false;
           $foundShown = true;

@@ -216,6 +216,26 @@ function PlaceCharge ( DOMElement $node,  // images
         case 'much-to-sinister':
           $centreX += 100;
           break;
+        case 'very-much-smaller':
+          $boundX *= 0.4;
+          $boundY *= 0.4;
+          break;
+        case 'very-much-larger':
+          $boundX *= 1.6;
+          $boundY *= 1.6;
+          break;
+        case 'very-much-raised':
+          $centreY -= 180;
+          break;
+        case 'very-much-lowered':
+          $centreY += 180;
+          break;
+        case 'very-much-to-dexter':
+          $centreX -= 150;
+          break;
+        case 'very-much-to-sinister':
+          $centreX += 150;
+          break;
       }
     } elseif ( $child->nodeName == 'tincture' ) {
       $tincture = $child;

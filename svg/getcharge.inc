@@ -22,6 +22,7 @@
     * @var DOMElement $chg
     */
    foreach ( $xpath->query("//charge") as $chg ) { // TODO change this to use the ID as key
+    if (substr($chg->getAttribute('keyterm'), 0, 8) == 'special/') continue;
      $chg_ref = unique('chg');
      $chg_data_cache[$chg_ref] = read_chg_file($chg);
      // Add a modifier to link to the cached charge data
@@ -268,25 +269,18 @@ function makeSquareCharge(DOMElement $node ) {
 function getCharge( DOMElement $node ) {
   global $chg_data_cache, $messages;
 
-  $chg_ref = getModifierValueByKeyterm($node, 'chg_data');
-  if ( !array_key_exists($chg_ref, $chg_data_cache) )
-    $chg_data = read_chg_file($node);
-  else
-    $chg_data = $chg_data_cache[$chg_ref];
-
-
-  //-------------------------------------------------------------
-  // Set Flex amounts
   list($chargeGroup, $chargeName ) = explode('/',$node->getAttribute('keyterm'));
-  $flex = getFlex($chargeGroup, $chargeName);
-  $chg_data['hflex'] = $flex[0];
-  $chg_data['wflex'] = $flex[1];
-  //-------------------------------------------------------------
+
 
     //-------------------------------------------------------------
   // Special handling for escutcheons
   if ($chargeName == 'escutcheon') {
+    $chg_data = array();
     $shield = null;
+    $crown = false;
+    $chg_data['hflex'] = 0;
+    $chg_data['wflex'] = 0;
+    $chg_data['title'] = $chargeName;
     $shape = 'heater';
     if ( $node->hasChildNodes()) {
       foreach ( $node->childNodes as $child ) {
@@ -306,101 +300,115 @@ function getCharge( DOMElement $node ) {
     } else {
       $clipPath = getShape($shape);
       $clip = add_def( 'clipPath', '<path d="' . $clipPath . '" />' );
-      $chg_data['body'] = '<g clip-path="url(#' . $clip . ')" >' . makeshield( $shield, '10:12' ) . "</g>\n";
-      $chg_data['width'] = 1000;
-      $chg_data['height'] = 1200;
-      return $chg_data;
+      $body = '<g clip-path="url(#' . $clip . ')" >' . makeshield( $shield, '10:12' ) . "</g>\n";
+      $width = 1000;
+      $height = 1200;
+      // return $chg_data;
     }
-  }
-  //-------------------------------------------------------------
+  } else {
+    //-------------------------------------------------------------
+    $chg_ref = getModifierValueByKeyterm($node, 'chg_data');
+    if ( !array_key_exists($chg_ref, $chg_data_cache) )
+      $chg_data = read_chg_file($node);
+    else
+      $chg_data = $chg_data_cache[$chg_ref];
 
+    //-------------------------------------------------------------
+    // Set Flex amounts
+    $flex = getFlex($chargeGroup, $chargeName);
+    $chg_data['hflex'] = $flex[0];
+    $chg_data['wflex'] = $flex[1];
+    //-------------------------------------------------------------
 
-  //------------------------------------------------------------
-  // Get all tincture related information
-  /**
-   * @var DOMElement $charge_col
-   */
-  $charge_col = null;
-  $feat_cols = array();
-  $bodyTincture = null;
-  /**
-   * @var DOMElement $child
-   */
-  foreach ( $node->childNodes as $child ) { // TODO rewrite this logic?
-    switch ( $child->nodeName ) {
-      case 'tincture':
-        $charge_col = resolveReference($child);
-        break;
-      case 'modifier':
-        // TODO feature without child nodes, look for sibling feature with child nodes and use those?
-        if (($child->getAttribute('type') == 'feature') and $child->hasChildNodes()){
-          $featureTinc = $child->firstChild;
-          $featureTinc = resolveReference($featureTinc);
-          $featureName = $child->getAttribute('keyterm');
-          if (!$featureTinc->hasChildNodes())
-            $messages->addMessage('Warning',"No tincture for $featureName");
-          else {
-            $tinctureType = $featureTinc->firstChild;
-            switch ($tinctureType->nodeName) {
-              case 'colour':
-                $feat_cols[$featureName] = rgb($tinctureType->getAttribute('keyterm'));
-                break;
-              case 'proper':
-                $feat_cols[$featureName] = getProper($chargeGroup, $chargeName, $featureName);
-                break;
-              default: // treatment or something
-                $messages->addMessage('Warning', "Features can only be plain colours");
-                break;
+  
+
+    //------------------------------------------------------------
+    // Get all tincture related information
+    /**
+     * @var DOMElement $charge_col
+     */
+    $charge_col = null;
+    $feat_cols = array();
+    $bodyTincture = null;
+    /**
+     * @var DOMElement $child
+     */
+    foreach ( $node->childNodes as $child ) { // TODO rewrite this logic?
+      switch ( $child->nodeName ) {
+        case 'tincture':
+          $charge_col = resolveReference($child);
+          break;
+        case 'modifier':
+          // TODO feature without child nodes, look for sibling feature with child nodes and use those?
+          if (($child->getAttribute('type') == 'feature') and $child->hasChildNodes()){
+            $featureTinc = $child->firstChild;
+            $featureTinc = resolveReference($featureTinc);
+            $featureName = $child->getAttribute('keyterm');
+            if (!$featureTinc->hasChildNodes())
+              $messages->addMessage('Warning',"No tincture for $featureName");
+            else {
+              $tinctureType = $featureTinc->firstChild;
+              switch ($tinctureType->nodeName) {
+                case 'colour':
+                  $feat_cols[$featureName] = rgb($tinctureType->getAttribute('keyterm'));
+                  break;
+                case 'proper':
+                  $feat_cols[$featureName] = getProper($chargeGroup, $chargeName, $featureName);
+                  break;
+                default: // treatment or something
+                  $messages->addMessage('Warning', "Features can only be plain colours");
+                  break;
+              }
             }
           }
-        }
-        break;
-    }
-  }
-  //--------------------------------------------------------------------------
-
-  //--------------------------------------------------------------------------
-  // Proper handling for body
-  // By this point, $proper contains the proper colour code for the body (if given).
-  // $feat_cols contains a array of named features => colour codes
-  // We will now work out the actual colours to be used for the body and any unnamed features
-  if ( $charge_col != null ) { 
-    if ( $charge_col->hasChildNodes()) {
-      $col_type = $charge_col->firstChild;
-      if ( $col_type->nodeName == 'proper' ) {
-        $col_type->setAttribute('spec', getProper($chargeGroup, $chargeName ));
-        $feat_cols['proper'] = true; // Also use proper for any features not coloured explicitly
+          break;
       }
     }
-  }
-  //------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
-  //------------------------------------------------------------------------------
-  // Charges "internal" to this one
-  $extras = array();
-  // Special handling for charges "crowned"
-  if ( $crown = getModifierNodeWithKeyterm($node, 'crowned', false) ) {
-    $crownType = $crown->getAttribute('value');
-    $extras['crowned'] = getSvgFragment(file_get_contents('svg/components/crown-as-worn/' . $crownType . '.svg'), array(), 'crown', $crownType, array());
-    if ($crown->hasChildNodes()) {
-      $feat_cols['crowned'] = get_rgb(getTinctureNode($crown));
+    //--------------------------------------------------------------------------
+    // Proper handling for body
+    // By this point, $proper contains the proper colour code for the body (if given).
+    // $feat_cols contains a array of named features => colour codes
+    // We will now work out the actual colours to be used for the body and any unnamed features
+    if ( $charge_col != null ) { 
+      if ( $charge_col->hasChildNodes()) {
+        $col_type = $charge_col->firstChild;
+        if ( $col_type->nodeName == 'proper' ) {
+          $col_type->setAttribute('spec', getProper($chargeGroup, $chargeName ));
+          $feat_cols['proper'] = true; // Also use proper for any features not coloured explicitly
+        }
+      }
     }
-  }
-  if ( $inscribe = getModifierNodeWithKeyterm($node, 'inscribed' ) ) {
-    $extras['inscribed']['body'] = makeSquareCharge($inscribe->firstChild);
-    $extras['inscribed']['width'] = 1000;
-    $extras['inscribed']['height'] = 1000;
-    $node->removeChild($inscribe);
-  }
+    //------------------------------------------------------------------------------
 
-  //---------------------------------------------------------
-  // So we now have $charge_col set to a valid tincture node and the feat_cols array set, apply this to the svg Data
-  // dummy assignments
-  $body = $height = $width = /* $licence = */ null;
-  extract(getSvgFragment($chg_data['svgCode'], $feat_cols, $chargeGroup, $chargeName, $extras, $charge_col != null ));
-  // $body now contains a valid fragment of SVG, ready for use
-  // Also, $licence, $height and $width are set
-  //----------------------------------------------------------
+    //------------------------------------------------------------------------------
+    // Charges "internal" to this one
+    $extras = array();
+    // Special handling for charges "crowned"
+    if ( $crown = getModifierNodeWithKeyterm($node, 'crowned', false) ) {
+      $crownType = $crown->getAttribute('value');
+      $extras['crowned'] = getSvgFragment(file_get_contents('svg/components/crown-as-worn/' . $crownType . '.svg'), array(), 'crown', $crownType, array());
+      if ($crown->hasChildNodes()) {
+        $feat_cols['crowned'] = get_rgb(getTinctureNode($crown));
+      }
+    }
+    if ( $inscribe = getModifierNodeWithKeyterm($node, 'inscribed' ) ) {
+      $extras['inscribed']['body'] = makeSquareCharge($inscribe->firstChild);
+      $extras['inscribed']['width'] = 1000;
+      $extras['inscribed']['height'] = 1000;
+      $node->removeChild($inscribe);
+    }
+
+    //---------------------------------------------------------
+    // So we now have $charge_col set to a valid tincture node and the feat_cols array set, apply this to the svg Data
+    // dummy assignments
+    $body = $height = $width = /* $licence = */ null;
+    extract(getSvgFragment($chg_data['svgCode'], $feat_cols, $chargeGroup, $chargeName, $extras, $charge_col != null ));
+    // $body now contains a valid fragment of SVG, ready for use
+    // Also, $licence, $height and $width are set
+    //----------------------------------------------------------
+  }
 
   //----------------------------------------------------------
   // Demi handling
