@@ -225,16 +225,16 @@ function PlaceCharge ( DOMElement $node,  // images
           $boundY *= 1.6;
           break;
         case 'very-much-raised':
-          $centreY -= 180;
+          $centreY -= 240;
           break;
         case 'very-much-lowered':
-          $centreY += 180;
+          $centreY += 240;
           break;
         case 'very-much-to-dexter':
-          $centreX -= 150;
+          $centreX -= 200;
           break;
         case 'very-much-to-sinister':
-          $centreX += 150;
+          $centreX += 200;
           break;
       }
     } elseif ( $child->nodeName == 'tincture' ) {
