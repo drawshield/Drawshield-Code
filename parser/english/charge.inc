@@ -573,10 +573,8 @@
       array ( 'crescents?', 'geometric/crescent' ),
       array ( 'del(f|ves)', 'geometric/delf' ),
       array ( '?steel (block|gad|cube)s?', 'geometric/delf' ),
-      array ( 'escut?cheons? ?of ?pretence', 'geometric/escutcheon' ),
-      array ( 'socheons?', 'geometric/escutcheon' ),
 //      array ( 'fountains?', 'geometric/fountain' ),
-      array ( 'sykes?', 'geometric/fountain' ),
+//      array ( 'sykes?', 'geometric/fountain' ),
       array ( 'fusils?', 'geometric/fusil' ),
       array ( 'go?uttes?', 'geometric/goutte' ),
       array ( 'icicles?', 'geometric/icicle' ),
@@ -861,8 +859,10 @@
       array ( 'more ?of ?the ?same', 'special/same' ),
       array ( '(an)?others?', 'special/same' ),
       array ( 'one', 'special/same' ), // as in "a double one"
+      array ( 'escut?cheons? ?of ?pretence', 'special/escutcheon' ),
+      array ( 'socheons?', 'special/escutcheon' ),
       // emblem
-      array ( 'rods? of aesculapius', 'emblem/rod-aesculapius' ),
+      array ( 'rods? ?of aesculapius', 'emblem/rod-aesculapius' ),
       array ( 'ankhs?', 'emblem/ankh' ),
       array ( 'caduceus', 'emblem/caduceus' ),
       array ( 'laurel wreaths?', 'emblem/laurel-wreath' ),

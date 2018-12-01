@@ -274,12 +274,44 @@ function getCharge( DOMElement $node ) {
   else
     $chg_data = $chg_data_cache[$chg_ref];
 
+
   //-------------------------------------------------------------
   // Set Flex amounts
   list($chargeGroup, $chargeName ) = explode('/',$node->getAttribute('keyterm'));
   $flex = getFlex($chargeGroup, $chargeName);
   $chg_data['hflex'] = $flex[0];
   $chg_data['wflex'] = $flex[1];
+  //-------------------------------------------------------------
+
+    //-------------------------------------------------------------
+  // Special handling for escutcheons
+  if ($chargeName == 'escutcheon') {
+    $shield = null;
+    $shape = 'heater';
+    if ( $node->hasChildNodes()) {
+      foreach ( $node->childNodes as $child ) {
+        if ( $child->nodeName == blazonML::E_SHIELD ) {
+          $shield = $child;
+        } elseif ($child->nodeName == blazonML::E_MODIFIER) {
+          $modifier = $child->getAttribute('keyterm');
+          if (substr($modifier,0,6) == 'shape-') {
+            $shape = substr($modifier,6);
+          }
+        }
+      }
+    }
+    if ($shield == null) {
+      $messages->addMessage('Warning',"No data found for escutcheon");
+      // just carry on with a blank escutcheon
+    } else {
+      $clipPath = getShape($shape);
+      $clip = add_def( 'clipPath', '<path d="' . $clipPath . '" />' );
+      $chg_data['body'] = '<g clip-path="url(#' . $clip . ')" >' . makeshield( $shield, '10:12' ) . "</g>\n";
+      $chg_data['width'] = 1000;
+      $chg_data['height'] = 1200;
+      return $chg_data;
+    }
+  }
   //-------------------------------------------------------------
 
 

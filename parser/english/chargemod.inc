@@ -24,6 +24,17 @@
       array ( 'like', 'like' ), // not sure whether this has any real meaning, but added as mod just in case
       array ( '(tuft|stalk|limb|sprig|bough|scrog|branche?)s? of ?(a|an|the)', 'portion' ),
       array ( 'double headed', 'double-headed' ),
+      array ( 'french ?shaped?', 'shape-french'),
+      array ( 'swiss ?shaped?', 'shape-swiss'),
+      array ( 'oval shaped?', 'shape-oval'),
+      array ( 'lozenge shaped?', 'shape-lozenge'),
+      array ( 'square shaped?', 'shape-square'),
+      array ( 'english ?shaped?', 'shape-english'),
+      array ( 'italian ?shaped?', 'shape-italian'),
+      array ( 'polish ?shaped?', 'shape-polish'),
+      array ( 'spanish ?shaped?', 'shape-spanish'),
+      array ( 'german ?shaped?', 'shape-german'),
+      array ( 'heater ?shaped?', 'shape-heater'),
       );
 
    // TODO Deal with all the stuff in _quadrate8.inc

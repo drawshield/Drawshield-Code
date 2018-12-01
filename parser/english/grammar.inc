@@ -108,7 +108,7 @@ class englishGrammar extends grammar {
   /**
    * @return DOMElement
    */
-  protected function simple() {
+  protected function simple($endOnSemi = false) {
     $state = self::save();
     self::ignore(languageDB::ONFIELDOF);
 
@@ -122,17 +122,14 @@ class englishGrammar extends grammar {
       self::comma();
       $field->appendChild ( $tinc );
       $simple->appendChild ( $field );
-      // Check for a second division TODO isn't this in tincture???
-      /*      if ( ($div2 = self::division(2)) != null ) {
-              $tinc2 = $this->schema->createElement(blazonML::E_TINCTURE);
-              $tinc2->appendChild($div2);
-              $simple->appendChild($tinc2);
-            } */
-      if ( ($ordChgs = self::objects())) {
-        $simple->appendChild($ordChgs);
+      if (!($endOnSemi && self::semicolon())) {
+        if ( ($ordChgs = self::objects())) {
+          $simple->appendChild($ordChgs);
+        }
       }
       $node = $this->schema->makeNode(blazonML::E_SHIELD, array ( blazonML::A_INDEX => '0' ));
       $node->appendChild($simple);
+
     }
     if ( $node == null )
       self::restore($state);
@@ -386,8 +383,13 @@ class englishGrammar extends grammar {
     // In some cases we want the next input token as a "value" (e.g. "the word Karl" matches "words? *")
     if ( $asterisk = $this->phraseMatcher->getValue() )
       $mods[] = $this->schema->makeMod('value',$asterisk,'value',self::tokens(), self::lineNo());
-    // Look for bundle again (e.g. "two arrow bundles"
-    if ( $keyterm = self::find(languageDB::BUNDLE) )
+      if ($keyterm == 'special/escutcheon') {
+        $foundTinc = true; // don't look for a colour, let the shield take it
+        // $mods[] = self::simple(true);
+        $mods[] = self::shield();
+      }
+      // Look for bundle again (e.g. "two arrow bundles"
+      if ( $keyterm = self::find(languageDB::BUNDLE) )
       $mods[] = $this->schema->makeMod(languageDB::BUNDLE,null,$keyterm,self::tokens(), self::lineNo());
     // Now look for postfix stuff, including tinctures and arrangements
     $foundTinc = false;
@@ -429,7 +431,7 @@ class englishGrammar extends grammar {
           $mods[] = $this->schema->makeMod( 'rows', implode(',',$rows), 'arrange-by-rows', self::tokens(), self::lineNo() );
           self::discard($state2);
         }
-      } elseif ( $tinc = self::tincture() ) {
+      } elseif ( !$foundTinc && $tinc = self::tincture() ) {
         if ($always_proper && $tinc->firstChild->nodeName != 'proper') {
           self::raiseError(self::ERROR_ORIGIN,'Charge is always proper',true);
         } else {
@@ -455,8 +457,6 @@ class englishGrammar extends grammar {
         break;
       }
     }
-
-    // TODO charge.inc lines 170 - 190 to put into heralds knowledge
 
     self::discard($state);
     if ( $always_proper ) {
