@@ -223,9 +223,22 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
   } else {
     $retval['width'] = floatval($widthVal);
   }
-   @$metadata = $svg->xpath('//cc:Agent/dc:title');
+  // do we need to adapt for offset view box (e.g. traceable heraldic art)
+  $offset = false;
+  if ($x0 != 0 || $y0 != 0) {
+    $offset = "translate(-$x0,-$y0)";
+  }
+   @$metadata = $svg->xpath('//dc:title');
   if ( is_array($metadata) and count($metadata) > 0) {
-    $messages->addMessage('licence', "$chargeGroup/$chargeName - $metadata[0]");
+    $licence = 'unknown';
+    foreach($metadata as $meta) {
+      if (strlen($meta)) {
+        $licence = $meta;
+        break;
+      }
+    }
+    // var_dump($metadata);
+    $messages->addMessage('licence', "$chargeGroup/$chargeName - $licence");
 //    $retval['licence'] = $metadata[0];
   }
   $fragment = '';
@@ -234,6 +247,9 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
   // Set the global stroke colour
   if ($addStroke){
     $fragment = '<g stroke="' . rgb('charge-stroke') . '">' . $fragment . '</g>';
+  }
+  if ($offset) {
+    $fragment = "<g transform=\"$offset\">$fragment</g>\n";
   }
   $retval['body'] = $fragment;
   return $retval;

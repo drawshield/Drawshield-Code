@@ -1088,7 +1088,7 @@ class englishGrammar extends grammar {
           $node->appendChild($this->schema->makeMod(languageDB::DIVISION_MODS, $this->phraseMatcher->getValue(), $keyterm, self::tokens(), self::lineNo()));
         } elseif ($keyterm = self::find(languageDB::ORIENTATION)) {
           $node->appendChild($this->schema->makeMod(languageDB::ORIENTATION,null,$keyterm, self::tokens(), self::lineNo()));
-        } elseif ( /* ($tincCount < $maxTinc) && */ ($tinc = self::tincture(false)) ) {
+        } elseif ( ($tincCount < $maxTinc) && ($tinc = self::tincture(false)) ) {
           $tincCount++;
           $tinc->setAttribute(blazonML::A_INDEX,"$tincCount");
           $node->appendChild($tinc);

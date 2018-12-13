@@ -41,6 +41,7 @@ $defaults = [
     "chg-bird" => "on",
     "chg-crown" => "on",
     "chg-animal" => "on",
+    "chg-myth" => "on",
     "chg-loc-chance" => 10,
 ];
 
@@ -299,15 +300,20 @@ $lexicon = [
     "crown-xn" => ["{crown} Crowns {base-tincture}", "{coronet} Coronets {base-tincture}",
                     "{jewels} {base-tincture}"],
 
+    // Other Animals
     "chg-animal1" => ["anteater", "antelope", "camel", "crocodile", "elephant", "frog", 
             "leopard", "lynx", "reindeer", "scorpion", "serpent", "snake", "tiger", "turtle",
+            "boar", "deer", "hare {hare-pose}", "hind", "stag {stag-pose}",
             "badger", "cat", "fox", "hedgehog", "mole", "otter", "rat", "squirrel",
             "squirrel sejant", "weasel", "wolf", "crab", "lobster", "scallop", "shrimp",
             "whelk", "butterfly", "dragonfly", "greyhound", "talbot {talbot-pose}"],
     "chg-animal2" => ["ape's heads", "leopard's heads", "reindeer's heads", "badger's heads",
+            "stag's heads", "boar's heads",
             "foxes' heads", "wolve's heads", "ants", "bees", "beetles", "crickets",
-            "flies", "hornets", "smails", "eels", "herrings", "salmon", "dog's heads"],
+            "flies", "hornets", "snails", "eels", "herrings", "salmon", "dog's heads"],
     "talbot-pose" => ["", "", "statant", "sejant", "rampant", "passant"],
+    "stag-pose" => ["", "", "courant", "trippant", "rampant", "passant"],
+    "hare-pose" => ["", "", "courant", "sejant", "salient", "statant"],
     "chg-animal" => ["a {chg-animal1} {base-tincture}",
             "{3-6} {chg-animal2} {base-tincture}",
             "2 {chg-animal2} {arrange2} {base-tincture}",
@@ -315,6 +321,13 @@ $lexicon = [
             "4 {chg-animal2} {arrange4} {base-tincture}",],
     "animal-x1" => ["a {chg-animal1} {base-tincture}"],
     "animal-xn" => ["{chg-animal2} {base-tincture}"],
+
+    // Mythical creatures and beings
+    "chg-myth" => [ "a {mythical-plain} {base-tincture}",
+                    "a {mythical-featured}"],
+    "mythical-plain" => ["alphyn", "bagwyn", "amphiptere", "centaur"],
+    "mythical-featured" => ["griffin  {base-tincture} {lion-feature}",
+                     "dolphin {base-tincture} crowned"],
 
     // Arrangements for various numbers
     "arrange2" => ["respecting each other", "addorsed", "in pale",

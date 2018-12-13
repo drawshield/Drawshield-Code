@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="92.25 67.5 48.694036 342" width="48.694036" height="342">
+  <defs>
+    <clipPath id="artboard_clip_path">
+      <path d="M 92.25 67.5 L 140.94404 67.5 L 140.94404 409.5 L 92.25 409.5 Z"/>
+    </clipPath>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.7.1 
+    <dc:date>2018-03-13 06:46:41 +0000</dc:date><dc:title>Traceable heraldic art http://heraldicart.org/credits.html</dc:title>
+  </metadata>
+  <g id="Drumstick" fill-opacity="1" stroke-dasharray="none" stroke="none" stroke-opacity="1" fill="#ffff00">
+    <title>Drumstick</title>
+    <g id="Drumstick: Layer 2" >
+      <title>Layer 2</title>
+      <g id="Group_3">
+        <g id="Graphic_7">
+          <path d="M 96.62717 388.43467 C 96.36287 394.07926 96.85686 399.1464 102.46022 403.1168 C 110.23758 408.62773 122.84717 408.62773 130.62453 403.1168 C 136.2279 399.1464 137.0538 393.5566 136.45758 388.43467 L 123.18077 96.79703 L 109.90397 96.79703 Z" fill="#ff0000"/>
+          <path d="M 96.62717 388.43467 C 96.36287 394.07926 96.85686 399.1464 102.46022 403.1168 C 110.23758 408.62773 122.84717 408.62773 130.62453 403.1168 C 136.2279 399.1464 137.0538 393.5566 136.45758 388.43467 L 123.18077 96.79703 L 109.90397 96.79703 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_6">
+          <ellipse cx="116.59702" cy="86.23179" rx="16.5960274257876" ry="16.4818153021868" fill="#ff0000"/>
+          <ellipse cx="116.59702" cy="86.23179" rx="16.5960274257876" ry="16.4818153021868" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Line_5">
+          <line x1="118.6888" y1="115.06173" x2="131.6263" y2="401.81446" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        </g>
+        <g id="Graphic_4">
+          <path d="M 116.48726 86.12203 L 126.20426 79.36494 C 129.96196 84.69456 128.65772 92.04032 123.29118 95.77215 C 120.18072 97.93513 116.21558 98.48856 112.62529 97.26083 Z" fill="#ff0000"/>
+          <path d="M 116.48726 86.12203 L 126.20426 79.36494 C 129.96196 84.69456 128.65772 92.04032 123.29118 95.77215 C 120.18072 97.93513 116.21558 98.48856 112.62529 97.26083 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

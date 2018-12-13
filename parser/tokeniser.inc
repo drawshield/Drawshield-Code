@@ -204,7 +204,7 @@ class tokeniser {
             $part_word .= $blazon[$i];
             break;
           }
-          if (ctype_digit($lookBehind) && ctype_digit($lookAhead)) {
+          if ($blazon[$i] == ':' && ctype_digit($lookBehind) && ctype_digit($lookAhead)) {
             $part_word .= $blazon[$i];
             break;
           } elseif ( $part_word != '' ) {

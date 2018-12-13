@@ -1,26 +1,237 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:dc="http://purl.org/dc/elements/1.1/"
-                xmlns:cc="http://creativecommons.org/ns#"
-                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                xmlns:svg="http://www.w3.org/2000/svg"
-                xmlns="http://www.w3.org/2000/svg"
-                width="200"
-                height="200"
-                version="1.1" >
-  <metadata>
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <cc:license rdf:resource=""/>
-        <dc:title/>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>(Drawshield internal)</dc:title>
-          </cc:Agent>
-        </dc:creator>
-      </cc:Work>
-    </rdf:RDF>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="33.75 60.74866 297 335.25134" width="297" height="335.25134">
+  <defs>
+    <clipPath id="artboard_clip_path">
+      <path d="M 33.75 60.74866 L 330.75 60.74866 L 330.75 396 L 33.75 396 Z"/>
+    </clipPath>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.8 
+    <dc:date>2018-07-22 18:17:42 +0000</dc:date><dc:title>Traceable heraldic art http://heraldicart.org/credits.html</dc:title>
   </metadata>
-<g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><path  d="m100,0l10,80 30,-20 l-20,30 80,10    l-80,10 20,30    l-30,-20 -10,80    l-10,-80 -30,20    l20,-30 -80,-10    l80,-10 -20,-30   l30,20 10,-80    z" /></g>
+  <g id="Compass_Rose_(1)" fill-opacity="1" stroke-dasharray="none" stroke="none" stroke-opacity="1" fill="#ffff00">
+    <title>Compass Rose (1)</title>
+    <g id="Compass_Rose_(1): Layer 2" >
+      <title>Layer 2</title>
+      <g id="Group_3">
+        <title>g8</title>
+        <g id="Group_4">
+          <title>group1-1</title>
+          <g id="Group_60">
+            <title>shape2-2</title>
+            <g id="Graphic_61">
+              <title>path18</title>
+              <path d="M 57.43398 245.0406 C 57.16567 289.81066 80.89629 331.29518 119.6242 353.758 C 158.35211 376.22086 206.14445 376.22086 244.87236 353.758 C 283.60027 331.29518 307.3309 289.81066 307.0626 245.0406 C 306.65122 176.39949 250.89062 120.97206 182.24828 120.97206 C 113.60594 120.97206 57.84534 176.39949 57.43398 245.0406 Z M 80.90857 245.0406 C 80.90857 189.07015 126.28158 143.69715 182.25202 143.69715 C 238.22246 143.69715 283.59547 189.07015 283.59547 245.0406 C 283.59547 301.01104 238.22246 346.38404 182.25202 346.38404 C 126.28158 346.38404 80.90857 301.01104 80.90857 245.0406 Z" fill="#ff0000"/>
+              <path d="M 57.43398 245.0406 C 57.16567 289.81066 80.89629 331.29518 119.6242 353.758 C 158.35211 376.22086 206.14445 376.22086 244.87236 353.758 C 283.60027 331.29518 307.3309 289.81066 307.0626 245.0406 C 306.65122 176.39949 250.89062 120.97206 182.24828 120.97206 C 113.60594 120.97206 57.84534 176.39949 57.43398 245.0406 Z M 80.90857 245.0406 C 80.90857 189.07015 126.28158 143.69715 182.25202 143.69715 C 238.22246 143.69715 283.59547 189.07015 283.59547 245.0406 C 283.59547 301.01104 238.22246 346.38404 182.25202 346.38404 C 126.28158 346.38404 80.90857 301.01104 80.90857 245.0406 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            </g>
+          </g>
+          <g id="Group_15">
+            <title>group3-4</title>
+            <g id="Group_49">
+              <title>group4-5</title>
+              <g id="Group_55">
+                <title>group5-6</title>
+                <g id="Group_58">
+                  <title>shape6-7</title>
+                  <g id="Graphic_59">
+                    <title>path32</title>
+                    <path d="M 134.9788 248.17596 L 179.1126 248.17596 L 90.84499 159.90835 Z" fill="#ff0000"/>
+                    <path d="M 134.9788 248.17596 L 179.1126 248.17596 L 90.84499 159.90835 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+                <g id="Group_56">
+                  <title>shape7-9</title>
+                  <g id="Graphic_57">
+                    <title>path37</title>
+                    <path d="M 90.84541 159.90793 L 179.11302 248.17554 L 179.11302 204.04173 Z" fill="#ff0000"/>
+                    <path d="M 90.84541 159.90793 L 179.11302 248.17554 L 179.11302 204.04173 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+              </g>
+              <g id="Group_50">
+                <title>group8-11</title>
+                <g id="Group_53">
+                  <title>shape9-12</title>
+                  <g id="Graphic_54">
+                    <title>path45</title>
+                    <path d="M 179.11366 292.31082 L 179.11366 248.17702 L 267.38126 336.44463 Z" fill="#ff0000"/>
+                    <path d="M 179.11366 292.31082 L 179.11366 248.17702 L 267.38126 336.44463 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+                <g id="Group_51">
+                  <title>shape10-14</title>
+                  <g id="Graphic_52">
+                    <title>path50</title>
+                    <path d="M 267.3817 336.4442 L 179.11408 248.1766 L 223.24788 248.1766 Z" fill="#ff0000"/>
+                    <path d="M 267.3817 336.4442 L 179.11408 248.1766 L 223.24788 248.1766 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+            <g id="Group_38">
+              <title>group11-16</title>
+              <g id="Group_44">
+                <title>group12-17</title>
+                <g id="Group_47">
+                  <title>shape13-18</title>
+                  <g id="Graphic_48">
+                    <title>path61</title>
+                    <path d="M 182.25074 200.07966 L 182.25074 244.21346 L 270.51835 155.94586 Z" fill="#ff0000"/>
+                    <path d="M 182.25074 200.07966 L 182.25074 244.21346 L 270.51835 155.94586 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+                <g id="Group_45">
+                  <title>shape14-20</title>
+                  <g id="Graphic_46">
+                    <title>path66</title>
+                    <path d="M 270.51877 155.94628 L 182.25116 244.2139 L 226.38497 244.2139 Z" fill="#ff0000"/>
+                    <path d="M 270.51877 155.94628 L 182.25116 244.2139 L 226.38497 244.2139 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+              </g>
+              <g id="Group_39">
+                <title>group15-22</title>
+                <g id="Group_42">
+                  <title>shape16-23</title>
+                  <g id="Graphic_43">
+                    <title>path74</title>
+                    <path d="M 137.28996 245.8649 L 181.42377 245.8649 L 93.15616 334.1325 Z" fill="#ff0000"/>
+                    <path d="M 137.28996 245.8649 L 181.42377 245.8649 L 93.15616 334.1325 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+                <g id="Group_40">
+                  <title>shape17-25</title>
+                  <g id="Graphic_41">
+                    <title>path79</title>
+                    <path d="M 93.15658 334.1329 L 181.42419 245.8653 L 181.42419 289.9991 Z" fill="#ff0000"/>
+                    <path d="M 93.15658 334.1329 L 181.42419 245.8653 L 181.42419 289.9991 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+            <g id="Group_27">
+              <title>group18-27</title>
+              <g id="Group_33">
+                <title>group19-28</title>
+                <g id="Group_36">
+                  <title>shape20-29</title>
+                  <g id="Graphic_37">
+                    <title>path90</title>
+                    <path d="M 145.68821 208.47455 L 182.2524 245.03873 L 182.2524 98.78947 Z" fill="#ff0000"/>
+                    <path d="M 145.68821 208.47455 L 182.2524 245.03873 L 182.2524 98.78947 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+                <g id="Group_34">
+                  <title>shape21-31</title>
+                  <g id="Graphic_35">
+                    <title>path95</title>
+                    <path d="M 182.25052 98.78947 L 182.25052 245.03873 L 218.8147 208.47455 Z" fill="#ff0000"/>
+                    <path d="M 182.25052 98.78947 L 182.25052 245.03873 L 218.8147 208.47455 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+              </g>
+              <g id="Group_28">
+                <title>group22-33</title>
+                <g id="Group_31">
+                  <title>shape23-34</title>
+                  <g id="Graphic_32">
+                    <title>path103</title>
+                    <path d="M 145.68821 281.6044 L 182.2524 245.04022 L 182.2524 391.28947 Z" fill="#ff0000"/>
+                    <path d="M 145.68821 281.6044 L 182.2524 245.04022 L 182.2524 391.28947 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+                <g id="Group_29">
+                  <title>shape24-36</title>
+                  <g id="Graphic_30">
+                    <title>path108</title>
+                    <path d="M 182.25052 391.28947 L 182.25052 245.04022 L 218.8147 281.6044 Z" fill="#ff0000"/>
+                    <path d="M 182.25052 391.28947 L 182.25052 245.04022 L 218.8147 281.6044 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+            <g id="Group_16">
+              <title>group25-38</title>
+              <g id="Group_22">
+                <title>group26-39</title>
+                <g id="Group_25">
+                  <title>shape27-40</title>
+                  <g id="Graphic_26">
+                    <title>path119</title>
+                    <path d="M 145.68507 281.60216 L 182.24925 245.03798 L 36 245.03798 Z" fill="#ff0000"/>
+                    <path d="M 145.68507 281.60216 L 182.24925 245.03798 L 36 245.03798 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+                <g id="Group_23">
+                  <title>shape28-42</title>
+                  <g id="Graphic_24">
+                    <title>path124</title>
+                    <path d="M 36 245.03985 L 182.24925 245.03985 L 145.68507 208.47567 Z" fill="#ff0000"/>
+                    <path d="M 36 245.03985 L 182.24925 245.03985 L 145.68507 208.47567 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+              </g>
+              <g id="Group_17">
+                <title>group29-44</title>
+                <g id="Group_20">
+                  <title>shape30-45</title>
+                  <g id="Graphic_21">
+                    <title>path132</title>
+                    <path d="M 218.81493 281.60216 L 182.25075 245.03798 L 328.5 245.03798 Z" fill="#ff0000"/>
+                    <path d="M 218.81493 281.60216 L 182.25075 245.03798 L 328.5 245.03798 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+                <g id="Group_18">
+                  <title>shape31-47</title>
+                  <g id="Graphic_19">
+                    <title>path137</title>
+                    <path d="M 328.5 245.03985 L 182.25075 245.03985 L 218.81493 208.47567 Z" fill="#ff0000"/>
+                    <path d="M 328.5 245.03985 L 182.25075 245.03985 L 218.81493 208.47567 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g id="Group_5">
+            <title>group32-49</title>
+            <g id="Group_13">
+              <title>shape33-50</title>
+              <g id="Graphic_14">
+                <title>path145</title>
+                <path d="M 182.2476 64.348276 L 182.23267 64.33333 L 182.23267 64.36322 C 173.52482 71.49155 170.58217 81.41944 174.47753 90.52745 C 178.12431 99.82024 179.1335 109.5563 177.44361 119.14225 L 182.23267 119.14225 L 182.26255 119.14225 L 187.05908 119.14225 C 185.36918 109.5563 186.37838 99.82024 190.02516 90.52745 C 193.91853 81.41849 190.973 71.49049 182.26255 64.36322 L 182.26255 64.33333 Z" fill="#ff0000"/>
+                <path d="M 182.2476 64.348276 L 182.23267 64.33333 L 182.23267 64.36322 C 173.52482 71.49155 170.58217 81.41944 174.47753 90.52745 C 178.12431 99.82024 179.1335 109.5563 177.44361 119.14225 L 182.23267 119.14225 L 182.26255 119.14225 L 187.05908 119.14225 C 185.36918 109.5563 186.37838 99.82024 190.02516 90.52745 C 193.91853 81.41849 190.973 71.49049 182.26255 64.36322 L 182.26255 64.33333 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+              </g>
+            </g>
+            <g id="Group_8">
+              <title>group34-52</title>
+              <g id="Group_11">
+                <title>shape35-53</title>
+                <g id="Graphic_12">
+                  <title>path153</title>
+                  <path d="M 189.3517 116.49826 C 189.0514 109.19066 190.88972 101.95421 194.64133 95.67595 C 197.36968 91.1896 202.64693 88.93221 207.77574 90.05759 C 210.87415 90.72233 213.3529 93.0425 214.22076 96.09025 C 215.08861 99.13801 214.20393 102.41592 211.9205 104.61316 C 209.63705 106.81041 206.32754 107.56837 203.31542 106.58394 C 204.58492 106.25037 205.52964 105.18663 205.71092 103.88662 C 205.8922 102.5866 205.27454 101.30499 204.14473 100.63684 C 203.2304 100.08318 202.09207 100.05196 201.14877 100.55466 C 199.88237 101.18042 198.91148 102.27736 198.44418 103.61039 C 196.3994 107.61682 195.216 112.00693 194.97006 116.49826 Z" fill="#ff0000"/>
+                  <path d="M 189.3517 116.49826 C 189.0514 109.19066 190.88972 101.95421 194.64133 95.67595 C 197.36968 91.1896 202.64693 88.93221 207.77574 90.05759 C 210.87415 90.72233 213.3529 93.0425 214.22076 96.09025 C 215.08861 99.13801 214.20393 102.41592 211.9205 104.61316 C 209.63705 106.81041 206.32754 107.56837 203.31542 106.58394 C 204.58492 106.25037 205.52964 105.18663 205.71092 103.88662 C 205.8922 102.5866 205.27454 101.30499 204.14473 100.63684 C 203.2304 100.08318 202.09207 100.05196 201.14877 100.55466 C 199.88237 101.18042 198.91148 102.27736 198.44418 103.61039 C 196.3994 107.61682 195.216 112.00693 194.97006 116.49826 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                </g>
+              </g>
+              <g id="Group_9">
+                <title>shape36-55</title>
+                <g id="Graphic_10">
+                  <title>path158</title>
+                  <path d="M 175.14927 116.49826 C 175.44957 109.19066 173.61125 101.95421 169.85964 95.67595 C 167.1313 91.1896 161.85404 88.93221 156.72523 90.05759 C 153.62683 90.72233 151.14807 93.0425 150.28022 96.09025 C 149.41236 99.13801 150.29704 102.41592 152.58048 104.61316 C 154.86392 106.81041 158.17343 107.56837 161.18555 106.58394 C 159.91605 106.25037 158.97133 105.18663 158.79005 103.88662 C 158.60877 102.5866 159.22643 101.30499 160.35624 100.63684 C 161.27057 100.08318 162.4089 100.05196 163.3522 100.55466 C 164.6186 101.18042 165.58949 102.27736 166.05679 103.61039 C 168.10156 107.61682 169.28498 112.00693 169.5309 116.49826 Z" fill="#ff0000"/>
+                  <path d="M 175.14927 116.49826 C 175.44957 109.19066 173.61125 101.95421 169.85964 95.67595 C 167.1313 91.1896 161.85404 88.93221 156.72523 90.05759 C 153.62683 90.72233 151.14807 93.0425 150.28022 96.09025 C 149.41236 99.13801 150.29704 102.41592 152.58048 104.61316 C 154.86392 106.81041 158.17343 107.56837 161.18555 106.58394 C 159.91605 106.25037 158.97133 105.18663 158.79005 103.88662 C 158.60877 102.5866 159.22643 101.30499 160.35624 100.63684 C 161.27057 100.08318 162.4089 100.05196 163.3522 100.55466 C 164.6186 101.18042 165.58949 102.27736 166.05679 103.61039 C 168.10156 107.61682 169.28498 112.00693 169.5309 116.49826 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                </g>
+              </g>
+            </g>
+            <g id="Group_6">
+              <title>shape37-57</title>
+              <g id="Graphic_7">
+                <title>path163</title>
+                <path d="M 192.79997 121.34557 C 195.46065 121.34378 197.61711 119.18732 197.6189 116.52663 C 197.62003 115.24754 197.11292 114.0204 196.20916 113.11525 C 195.3054 112.2101 194.07906 111.70108 192.79997 111.70022 L 171.70123 111.70022 C 170.42213 111.70108 169.19579 112.2101 168.29203 113.11525 C 167.38828 114.0204 166.88117 115.24754 166.88229 116.52663 C 166.88408 119.18732 169.04054 121.34378 171.70123 121.34557 Z" fill="#ff0000"/>
+                <path d="M 192.79997 121.34557 C 195.46065 121.34378 197.61711 119.18732 197.6189 116.52663 C 197.62003 115.24754 197.11292 114.0204 196.20916 113.11525 C 195.3054 112.2101 194.07906 111.70108 192.79997 111.70022 L 171.70123 111.70022 C 170.42213 111.70108 169.19579 112.2101 168.29203 113.11525 C 167.38828 114.0204 166.88117 115.24754 166.88229 116.52663 C 166.88408 119.18732 169.04054 121.34378 171.70123 121.34557 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
 </svg>

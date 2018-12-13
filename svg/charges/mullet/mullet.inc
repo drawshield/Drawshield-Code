@@ -11,10 +11,8 @@
  * Time: 18:50
  */
 
-$suffix = '';
-if (existModifierWithKeyterm($node,'pierced')) {
-  $suffix = '-pierced';
-}
+$mulletMods = array('pierced', 'interlaced', 'voided',);
+
 
 $num_of = getModifierValueByKeyterm($node, 'of-num', true);
 if ( $num_of < 4 )
@@ -22,5 +20,16 @@ if ( $num_of < 4 )
 elseif ( $num_of > 10 )
   $num_of = 10;
 
-$charge['file'] = 'mullet-of' . $num_of . $suffix . '.svg';
+$suffix = '-of' . $num_of . '-';
+
+foreach($mulletMods as $aMod) {
+  if (existModifierWithKeyterm($node, $aMod)) {
+    $suffix .= $aMod . '-';
+  }   
+}
+
+$file = getBestMatchFilename("svg/charges/mullet/", 'mullet', rtrim($suffix,'-'));
+if ($file != '')
+  $charge['file'] = $file;
+//$charge['file'] = 'mullet-of' . $num_of . $suffix . '.svg';
 

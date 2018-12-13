@@ -14,18 +14,22 @@
 
 // annulet
 
-if (existModifierWithKeyterm($node, 'concentric')) {
-  $num = $node->getAttribute('number');
-  if ($num > 1) {
-    $node->setAttribute('number','1');
-    if ( $num > 10 ) $num = 10;
-    $charge['file'] = "annulet-concentric-of$num.svg";
-  }
-} elseif (existModifierWithKeyterm($node, 'interlaced')) {
-  $num = $node->getAttribute('number');
-  if ($num > 1) {
-    $node->setAttribute('number','1');
-    if ( $num > 10 ) $num = 10;
-    $charge['file'] = "annulet-interlaced-of$num.svg";
-  }
+$annuletMods = array('concentric', 'interlaced', 'braced', 'conjunct',);
+
+$modded = false;
+foreach($annuletMods as $aMod) {
+  if (existModifierWithKeyterm($node, $aMod)) {
+    if ($modded) {
+      $messages->addMessage('parser',"Can only apply one modifier to annulets");
+      break;
+    }
+    $num = $node->getAttribute('number');
+    if ($num > 1) {
+      $node->setAttribute('number','1');
+      if ( $num > 10 ) $num = 10;
+      $charge['file'] = "annulet-$aMod-of$num.svg";
+    }
+    $modded = true; // only use first mod
+  }   
 }
+

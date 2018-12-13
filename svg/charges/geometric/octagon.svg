@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="48 62 272 272" width="272" height="272">
+  <defs>
+    <clipPath id="artboard_clip_path">
+      <path d="M 48 62 L 320 62 L 320 334 L 48 334 Z"/>
+    </clipPath>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.8 
+    <dc:date>2018-07-22 18:17:42 +0000</dc:date><dc:title>Traceable heraldic art http://heraldicart.org/credits.html</dc:title>
+  </metadata>
+  <g id="Octagon" fill-opacity="1" stroke-dasharray="none" stroke="none" stroke-opacity="1" fill="#ffff00">
+    <title>Octagon</title>
+    <g id="Octagon: Layer 2" >
+      <title>Layer 2</title>
+      <g id="Graphic_16">
+        <path d="M 130.2975 63 L 238.0275 63 L 318.825 143.7975 L 318.825 251.5275 L 238.0275 332.325 L 130.2975 332.325 L 49.5 251.5275 L 49.5 143.7975 Z" fill="#ff0000"/>
+        <path d="M 130.2975 63 L 238.0275 63 L 318.825 143.7975 L 318.825 251.5275 L 238.0275 332.325 L 130.2975 332.325 L 49.5 251.5275 L 49.5 143.7975 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>

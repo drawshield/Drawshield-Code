@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="38.25 60.75 148.5 355.5" width="148.5" height="355.5">
+  <defs>
+    <clipPath id="artboard_clip_path">
+      <path d="M 38.25 60.75 L 186.75 60.75 L 186.75 416.25 L 38.25 416.25 Z"/>
+    </clipPath>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.8 
+    <dc:date>2018-07-22 18:17:42 +0000</dc:date><dc:title>Traceable heraldic art http://heraldicart.org/credits.html</dc:title>
+  </metadata>
+  <g id="Musical_Note" fill-opacity="1" stroke-dasharray="none" stroke="none" stroke-opacity="1" fill="#ffff00">
+    <title>Musical Note</title>
+    <g id="Musical_Note: Layer 2" >
+      <title>Layer 2</title>
+      <g id="Graphic_3">
+        <path d="M 108.0047 258.63544 L 42.24006 333.7505 L 112.5 414 L 182.75994 333.7505 L 116.9953 258.63544 L 116.9953 63 L 108.0047 63 Z" fill="#ff0000"/>
+        <path d="M 108.0047 258.63544 L 42.24006 333.7505 L 112.5 414 L 182.75994 333.7505 L 116.9953 258.63544 L 116.9953 63 L 108.0047 63 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+      </g>
+    </g>
+  </g>
+</svg>

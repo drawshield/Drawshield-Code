@@ -46,7 +46,6 @@ function getBestMatchFilename($folder, $base, $mods) {
     $messages->addMessage('internal',"Current working dir - " . getcwd());
     return null;
   }
- 
   $base .= $mods;
   // error_log("Testing for $base");
   $requiredParts = explode('-', $base);
@@ -93,7 +92,7 @@ function getBestMatchFilename($folder, $base, $mods) {
         $extra .= $filenameParts[$j] . ' ';
       }
     }
-     //error_log("$entry scores $penalty");
+    // error_log("$entry scores $penalty");
     // compare to previous best fit
     if ( $penalty < $lowestPenalty ) {
       $lowestPenalty = $penalty;
@@ -117,7 +116,9 @@ function featuresThatAreAlsoMods($node) {
     'head',
     'jessant',
     'voided',
-    'holding-nut'
+    'holding-nut',
+    'armoured',
+    'fructed',
   );
 
   foreach ($features as $feature) {
