@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="94.5 63 36 351" width="36" height="351">
+  <defs>
+    <clipPath id="artboard_clip_path">
+      <path d="M 94.5 63 L 130.5 63 L 130.5 414 L 94.5 414 Z"/>
+    </clipPath>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.7.1 
+    <dc:date>2018-03-13 06:46:41 +0000</dc:date><dc:title>Traceable heraldic art http://heraldicart.org/credits.html</dc:title>
+  </metadata>
+  <g id="Needle" fill-opacity="1" stroke-dasharray="none" stroke="none" stroke-opacity="1" fill="#ffff00">
+    <title>Needle</title>
+    <g id="Needle: Layer 2" >
+      <title>Layer 2</title>
+      <g id="Graphic_4">
+        <path d="M 108 123.75 L 108 123.75 C 108 132.75 108 362.25 108 371.25 C 108 380.25 109.83962 411.75 112.5 411.75 C 115.16038 411.75 117 380.25 117 371.25 C 117 362.25 117 132.75 117 123.75 C 117 114.75 126 110.25 126 92.25 C 126 74.25 117 65.25 112.5 65.25 C 108 65.25 99 74.25 99 92.25 C 99 110.25 108 114.75 108 123.75 Z M 115.68198 82.70407 C 117.43934 87.97614 117.43934 96.52386 115.68198 101.79593 C 113.92462 107.06803 111.07538 107.06803 109.31802 101.79593 C 107.56066 96.52386 107.56066 87.97614 109.31802 82.70407 C 111.07538 77.43197 113.92462 77.43197 115.68198 82.70407" fill="#ff0000"/>
+        <path d="M 108 123.75 L 108 123.75 C 108 132.75 108 362.25 108 371.25 C 108 380.25 109.83962 411.75 112.5 411.75 C 115.16038 411.75 117 380.25 117 371.25 C 117 362.25 117 132.75 117 123.75 C 117 114.75 126 110.25 126 92.25 C 126 74.25 117 65.25 112.5 65.25 C 108 65.25 99 74.25 99 92.25 C 99 110.25 108 114.75 108 123.75 Z M 115.68198 82.70407 C 117.43934 87.97614 117.43934 96.52386 115.68198 101.79593 C 113.92462 107.06803 111.07538 107.06803 109.31802 101.79593 C 107.56066 96.52386 107.56066 87.97614 109.31802 82.70407 C 111.07538 77.43197 113.92462 77.43197 115.68198 82.70407" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>

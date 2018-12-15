@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="63 63 238.5 342" width="238.5" height="342">
+  <defs>
+    <clipPath id="artboard_clip_path">
+      <path d="M 63 63 L 301.5 63 L 301.5 405 L 63 405 Z"/>
+    </clipPath>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.7.1 
+    <dc:date>2018-03-13 06:46:41 +0000</dc:date><dc:title>Traceable heraldic art http://heraldicart.org/credits.html</dc:title>
+  </metadata>
+  <g id="Mattock" fill-opacity="1" stroke-dasharray="none" stroke="none" stroke-opacity="1" fill="#ffff00">
+    <title>Mattock</title>
+    <g id="Mattock: Layer 2" >
+      <title>Layer 2</title>
+      <g id="Graphic_12">
+        <rect x="296.56953" y="398.3976" width="76.752" height="92.1024" id="path"/>
+        <clipPath id="clip_path">
+          <use xl:href="#path"/>
+        </clipPath>
+        <g clip-path="url(#clip_path)">
+          <image xl:href="image257.pdf" width="237" height="340" transform="translate(304.13553 400.2488) scale(.26)"/>
+        </g>
+      </g>
+      <g id="Group_3">
+        <g id="Graphic_5">
+          <path d="M 134.77684 65.25 L 162.22316 65.25 C 163.32773 65.25 164.22316 66.14543 164.22316 67.25 C 164.22316 67.25889 164.2231 67.26778 164.22298 67.276664 L 159.77631 400.77666 C 159.76172 401.87074 158.87066 402.75 157.77649 402.75 L 139.22351 402.75 C 138.12934 402.75 137.23828 401.87074 137.22369 400.77666 L 132.77702 67.276664 C 132.7623 66.17219 133.64571 65.264904 134.75018 65.25018 C 134.75907 65.25006 134.76796 65.25 134.77684 65.25 Z" fill="#ff0000"/>
+          <path d="M 134.77684 65.25 L 162.22316 65.25 C 163.32773 65.25 164.22316 66.14543 164.22316 67.25 C 164.22316 67.25889 164.2231 67.26778 164.22298 67.276664 L 159.77631 400.77666 C 159.76172 401.87074 158.87066 402.75 157.77649 402.75 L 139.22351 402.75 C 138.12934 402.75 137.23828 401.87074 137.22369 400.77666 L 132.77702 67.276664 C 132.7623 66.17219 133.64571 65.264904 134.75018 65.25018 C 134.75907 65.25006 134.76796 65.25 134.77684 65.25 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_4">
+          <path d="M 65.25 69.75 L 65.25 128.25 C 65.25 128.25 101.25 101.25 150.75 101.25 C 200.25 101.25 299.25 123.75 299.25 123.75 C 299.25 123.75 245.25 87.75 186.75 78.75 C 128.25 69.75 65.25 69.75 65.25 69.75 Z" fill="#ff0000"/>
+          <path d="M 65.25 69.75 L 65.25 128.25 C 65.25 128.25 101.25 101.25 150.75 101.25 C 200.25 101.25 299.25 123.75 299.25 123.75 C 299.25 123.75 245.25 87.75 186.75 78.75 C 128.25 69.75 65.25 69.75 65.25 69.75 Z" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

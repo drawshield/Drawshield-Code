@@ -106,7 +106,7 @@ if ($subtype == 'bar' and existModifierWithKeyterm($node,'sinister')) {
       $linetype_size = 20;
       $bar_width = 400;
       break;
-    case 'ribbon':
+    case 'riband':
       $bar_width = 80;
       break;
     case 'bar':
@@ -146,7 +146,7 @@ if ($subtype == 'bar' and existModifierWithKeyterm($node,'sinister')) {
         $X1 = (($i+1) * $spacing) - $H2;
         $spec = "X{$X1}Y{$palet_start}a{$H1}C{$palet_length}e{$H1}G{$palet_length}";
         break;
-      case 'ribbon':
+      case 'riband':
       case 'bendlet':
         $W2 = ($H1/0.707) / 2;
         $X1 = (($i+1) * $spacing) - 500 - $W2;

@@ -569,11 +569,10 @@ class languageDB extends lexicon {
             array( 'chevronels?', 'chevronel' ),
             array( 'couple closes?', 'couple-close' ), 
             array( 'closets?', 'closet' ),
-            array( '(baston|riband)', 'riband' ), // TODO draw this - or is a ribbon?
+            array( '(baston|riband)', 'riband' ), 
             array( '[ie]ndorses?', 'endorse' ),
             array( 'humets?', 'humet' ),
             array( 'pall?ets?', 'palet' ),
-            array( 'ribbons?', 'ribbon' ),
             array( 'piles? ?of ?(3|three) ?points ?issuing ?from ?the ?chief', 'pile' ),
             array( 'base', 'base' ),
             array( 'bends?', 'bend' ),

@@ -93,6 +93,7 @@ class properColour {
       'leaf' => self::$green,
       'lavender' => self::$purple,
       'popinjay' => self::$green,
+      'pumpkin' => self::$orange,
       'rose' => self::$red,
       'planet-earth' => self::$green,
       'tree' => self::$green,
