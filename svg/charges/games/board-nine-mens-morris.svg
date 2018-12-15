@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="63 58.5 239.5 238.5" width="239.5" height="238.5">
+  <defs>
+    <clipPath id="artboard_clip_path">
+      <path d="M 63 58.5 L 302.5 58.5 L 302.5 297 L 63 297 Z"/>
+    </clipPath>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.7.1 
+    <dc:date>2018-03-13 06:46:41 +0000</dc:date><dc:title>Traceable heraldic art http://heraldicart.org/credits.html</dc:title>
+  </metadata>
+  <g id="Board,_Nine_Men_s_Morris" fill-opacity="1" stroke-dasharray="none" stroke="none" stroke-opacity="1" fill="#ffff00">
+    <title>Board, Nine Men&apos;s Morris</title>
+    <g id="Board,_Nine_Men_s_Morris: Layer 2" >
+      <title>Layer 2</title>
+      <g id="Group_59">
+        <g id="Graphic_66">
+          <rect x="67.5" y="63" width="229.5" height="229.5" fill="#ff0000"/>
+          <rect x="67.5" y="63" width="229.5" height="229.5" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_65">
+          <rect x="81" y="76.5" width="202.5" height="202.5" fill="#ff0000"/>
+          <rect x="81" y="76.5" width="202.5" height="202.5" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_64">
+          <rect x="81" y="76.5" width="202.5" height="202.5" fill="#ff0000"/>
+          <rect x="81" y="76.5" width="202.5" height="202.5" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_63">
+          <rect x="114.75" y="110.25" width="135" height="135" fill="#ff0000"/>
+          <rect x="114.75" y="110.25" width="135" height="135" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Line_62">
+          <line x1="182.25" y1="76.5" x2="182.25" y2="279" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Line_61">
+          <line x1="81" y1="177.75" x2="283.5" y2="177.75" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_60">
+          <rect x="148.5" y="144" width="67.5" height="67.5" fill="#ff0000"/>
+          <rect x="148.5" y="144" width="67.5" height="67.5" stroke="#cccccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

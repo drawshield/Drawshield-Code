@@ -65,6 +65,10 @@ class matcher {
         $negative = true;
         $regex = substr($regex,1);
       }
+      // Check for missing regex (not fatal)
+      if (strlen($regex) < 1) {
+          continue;
+      }
       while ( ($t_word < $this->tokenList->num_tokens) and ($this->tokenList->words[$t_word]{0} == '[') ) 
         $t_word++;
       if ( $t_word >= $this->tokenList->num_tokens ) { // no more input
