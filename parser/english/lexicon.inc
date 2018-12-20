@@ -380,7 +380,7 @@ class languageDB extends lexicon {
             array ( 'maily',        'maily',        ),
             array ( '(masonn?ed?|muraille)',      'masoned',      ),
             array ( 'mullett?y',    'mulletty',   ),
-            array ( 'pap(e|i)l?lonn(y|e)', 'papelonny', ),
+            array ( 'pap(e|i)l?lonn?(y|e)', 'papelonny', ),
             array ( 'platy',        'platy',       true ),
             array ( 'scaly',        'scaly',        ),
             array ( 'sem(e|y) de l(i|y)s', 'seme-de-lys', ),

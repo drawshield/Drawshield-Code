@@ -891,6 +891,7 @@
       array ( '(vase|urn)s?', 'household/urn' ),
       array ( 'amphora(e|s)?', 'household/amphora' ),
       array ( 'leather bottles?', 'household/bottle-leather' ),
+      array ( 'rubber ducks?', 'household/rubber-duck' ),
       array ( 'butter churns?', 'household/butter-churn' ),
       array ( 'bellows?', 'household/bellow' ),
       // crown

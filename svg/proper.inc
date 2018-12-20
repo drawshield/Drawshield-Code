@@ -113,6 +113,7 @@ class properColour {
       'rose-natural' => self::$rose,
       'zebra' => self::$white,
       'banana-stem' => self::$yellow,
+      'rubber-duck' => self::$yellow,
       'magpie' => self::$white,
       'starling' => self::$black,
     );
@@ -126,6 +127,7 @@ class properColour {
       'inflamed' => self::$yellow,
       'chough/legged' => self::$red,
       'chough/beaked' => self::$red,
+      'rubber-duck/beaked' => self::$red,
       'dove/legged' => self::$red,
       'dove/beaked' => self::$red,
       'starling/legged' => self::$red,
