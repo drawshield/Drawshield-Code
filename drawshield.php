@@ -72,7 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_GET['palette'])) $options['palette'] = strip_tags($_GET['palette']);
   if (isset($_GET['shape'])) $options['shape'] = strip_tags($_GET['shape']);
   if (isset($_GET['stage'])) $options['stage'] = strip_tags($_GET['stage']);
-//  if (isset($_GET['printable'])) $options['printable'] = ($_GET['printable'] == "1");
+  if (isset($_GET['raw'])) $options['raw'] = true;
+  //  if (isset($_GET['printable'])) $options['printable'] = ($_GET['printable'] == "1");
   if (isset($_GET['effect'])) $options['effect'] = strip_tags($_GET['effect']);
   if (isset($_GET['size'])) $size = strip_tags ($_GET['size']);
 }

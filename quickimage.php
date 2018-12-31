@@ -36,6 +36,7 @@ if (isset($_GET['outputformat'])) $options['outputFormat'] = strip_tags ($_GET['
 if (isset($_GET['palette'])) $options['palette'] = strip_tags($_GET['palette']);
 if (isset($_GET['effect'])) $options['effect'] = strip_tags($_GET['effect']);
 if (isset($_GET['nomask'])) $options['nomask'] = true;
+if (isset($_GET['raw'])) $options['raw'] = true;
 if (isset($_GET['size'])) {
   $size = strip_tags ($_GET['size']);
   if ( $size < 100 ) $size = 100;
@@ -78,6 +79,9 @@ $options['asFile'] = "1";
        echo $im->getimageblob();
       break;
     default:
+    case 'svg':
+      header('Content-Type: text/xml; charset=utf-8');
+      echo $output;
       break;
 }
 

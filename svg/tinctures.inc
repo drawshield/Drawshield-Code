@@ -109,6 +109,8 @@ function apply_tincture ( DOMElement $tincture, $object, $chg_size = '',
 	  $patTrans = ' patternTransform="' . $patTrans . '" ';
 
   if ( $tincture->getAttribute('origin') == 'implied' ) return $object; // Nothing to do
+  // stage "raw" means leave charge colours as they are
+  if ( $object_type == 'charge' && array_key_exists('raw', $options)) return $object;
   $tincture = resolveReference($tincture);
   if ( ! $tincture->hasChildNodes() ) {
     if ($tincture->getAttribute('origin') == 'pending' || $tincture->getAttribute('origin') == 'missing') {

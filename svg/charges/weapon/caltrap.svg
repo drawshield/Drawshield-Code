@@ -22,7 +22,7 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-<g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><g stroke-width="4" stroke="inherit">
+<g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><g stroke-width="4" >
     <path d="M 126,2 81.8,145 4.04,239 93.9,211 128,334 177,219 269,241 179,141 z"/>
     <path d="M 127,5.03 129,171 177,141 z" fill="#000000" fill-opacity="0.651" />
     <path d="m 179,143 87,96 -136,-68 0,161 48,-111 -48,-50" fill="#000000"  fill-opacity="0.757" />

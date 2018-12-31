@@ -43,16 +43,23 @@ $targetColours = array (
 );
 
 function splitStyle ( $styles, $attributeKeys ) {
-  global $targetColours;
+  global $targetColours, $options;
   $retval = '';
   $styles = explode(';', $styles . ';');
   foreach ($styles as $style) {
     if ( $style == null ) continue;
     list($setting,$value) = explode(':',$style);
-    if (in_array($setting, $attributeKeys)) continue; // actual attributes take priority
+    if (in_array($setting, $attributeKeys)) {
+      continue; // actual attributes take priority
+    }
     switch($setting) {
-      case 'fill': // Any of the "primary" colours are just placeholders, to be replaced by the charge colour
-        if ( !in_array( $value, $targetColours )) $retval .= 'fill="' . $value . '" ';
+      case 'fill': 
+       if ( array_key_exists("raw",$options) ) {
+          $retval .= ' fill="' . $value . '" '; // leave alone
+        } else {
+          // Any of the "primary" colours are just placeholders, to be replaced by the charge colour
+            if (!in_array( $value, $targetColours )) $retval .= 'fill="' . $value . '" ';
+        }
         break; // any other colour is left as it is
       case 'fill-opacity':
       case 'opacity':
@@ -63,7 +70,7 @@ function splitStyle ( $styles, $attributeKeys ) {
         $retval .= $setting . '="' . $value . '" ';
         break;
       case 'stroke':
-        if ( $value == '#000000' ) $value = 'inherit';
+        if ( $value == '#000000' ) $value = rgb('charge-stroke');
         $retval .= 'stroke="' . $value . '" ';
         break;
     }
@@ -74,7 +81,7 @@ function splitStyle ( $styles, $attributeKeys ) {
 
 function rewriteAttributes($attributes, $class = '', $fillSet = false) {
 //  global $messages;
-  global $targetColours;
+  global $targetColours, $options;
   $retval = '';
   // $myId = '';
   // Collect names of all the attributes
@@ -98,12 +105,17 @@ function rewriteAttributes($attributes, $class = '', $fillSet = false) {
       case 'href':
         $retval .= 'xlink:href="' . $data . '" ';
         break;
-      case 'fill': // Any of the "primary" colours are just placeholders, so we ignore them (will be replaced by the charge colour)
-        if ( !in_array( strtolower($data), $targetColours) )
-          $retval .= ' fill="' . $data . '" ';
+      case 'fill': 
+        if ( array_key_exists("raw",$options) ) {
+          $retval .= ' fill="' . $data . '" '; // leave alone
+        } else {
+          // Any of the "primary" colours are just placeholders, so we ignore them (will be replaced by the charge colour)
+          if (!in_array( strtolower($data), $targetColours) )
+            $retval .= ' fill="' . $data . '" ';
+        }
         break; // any other colour is left as it is
       case 'stroke':
-        if ( $data == '#000000' || $data == '#000' ) $data = 'inherit';
+        if ( $data == '#000000' || $data == '#000' ) $data = rgb('charge-stroke');
         $retval .= ' stroke="' . $data . '" ';
         break;
       case 'transform':
@@ -170,7 +182,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
       $fillSet = true;
     } elseif (array_key_exists('proper', $featureColours)) { // use proper for features not otherwise coloured
       if ($foundProper = getProper($chargeGroup, $chargeName, $id, false))
-        $item .= ' fill="' . $foundProper . '" '; // only set colour if known, otherwise inherit parent colour
+        $item .= ' fill="' . $foundProper . '" '; // only set colour if known, otherwise use parent colour
       $fillSet = true;
     } elseif ($id == 'outline') { // This is a path that is actually a stroke
       $item .= ' fill="' . rgb('charge-stroke') . '" ';

@@ -23,9 +23,9 @@
     </rdf:RDF>
   </metadata>
 <g  style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><g>
-    <path stroke="inherit" stroke-width="4"
+    <path  stroke-width="4"
        d="M 335,52.6 C 247,-43.4 18,-12.1 0,200 22,433 268,433 335,346 46,428 42,-17.6 335,52.6 z" />
-    <path fill="none" stroke="inherit" stroke-width="4"
+    <path fill="none"  stroke-width="4"
        d="M 335,53.6 C -53,-98.9 -29,502 336,348" />
     <path fill="#000000" fill-opacity="0.413" stroke="none"
        d="M 159,37.5 C 223,13.9 331,49.1 331,49.1 227,-45.1 167,27.5 159,37.5 z" />
