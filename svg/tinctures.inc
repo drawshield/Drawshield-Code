@@ -126,7 +126,9 @@ function apply_tincture ( DOMElement $tincture, $object, $chg_size = '',
     case 'colour':
     case 'default': // don't think these two ever occur
     case 'proper':
-      if ( $child->hasAttribute('spec') )  {
+      if (array_key_exists('raw', $options)) {
+        $spec = 'none';
+      } elseif ( $child->hasAttribute('spec') )  {
         $spec = $child->getAttribute('spec');
       } else {
         $spec = rgb($child->getAttribute('keyterm'));

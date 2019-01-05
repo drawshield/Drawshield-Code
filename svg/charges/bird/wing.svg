@@ -127,18 +127,5 @@
          d="m 895.94,454.71 c 8.75,0.16 17.52,-0.54 26.13,-2.1 9.52,-1.72 18.84,-4.48 27.76,-8.22"
          id="path3902" />
     </g>
-    <flowRoot
-       style="font-style:normal;font-weight:normal;line-height:0.01%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="flowRoot4674"
-       xml:space="preserve"><flowRegion
-         style="font-family:sans-serif"
-         id="flowRegion4676"><rect
-           style="font-size:72px;font-family:sans-serif"
-           y="1251"
-           x="172.13"
-           height="132.17"
-           width="1165"
-           id="rect4678" /></flowRegion><flowPara
-         style="font-size:72px;line-height:1.25;font-family:sans-serif"
-         id="flowPara4680"> </flowPara></flowRoot>  </g>
+</g>
 </svg>
