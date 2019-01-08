@@ -119,6 +119,7 @@ function featuresThatAreAlsoMods($node) {
     'holding-nut',
     'armoured',
     'fructed',
+    'winged',
   );
 
   foreach ($features as $feature) {
