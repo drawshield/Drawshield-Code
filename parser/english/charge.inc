@@ -180,7 +180,8 @@
      array ( 'lynxe?s?', 'animal/lynx' ),
       array ( 'elephants?', 'animal/elephant' ),
       array ( 'leopards?', 'animal/leopard' ),
-      array ( 'lions? leoparde?s?', 'animal/leopard' ),
+      array ( 'spotted leopards?', 'animal/leopard-natural' ),
+      array ( 'lions? leoparde?s?', 'lion/lion-passant-guardant' ),
       array ( 'bengal t(i|y)gers?', 'animal/tiger-natural' ),
       array ( '?scaly lizards?', 'animal/lizard' ),
       array ( 'springboks?', 'animal/springbok' ),
@@ -400,6 +401,7 @@
       array ( 'whales?', 'fish/whale' ),
       array ( 'killer whales?', 'fish/killer-whale' ),
       array ( 'orcas?', 'fish/killer-whale' ),
+      array ( 'dolphins?', 'fish/dolphin' ), 
       // sea life
       array ( 'e?scallops? ?shells?', 'sealife/scallop' ),
       array ( 'clams? ?shells?', 'sealife/scallop' ),
@@ -418,7 +420,6 @@
       array ( 'sea urchins?', 'sealife/urchin-sea' ),
       array ( 'sea tortoise?', 'sealife/sea-tortoise' ),
       array ( 'turtles?', 'sealife/turtle' ),
-      array ( 'dolphins?', 'sealife/dolphin' ), // see also sealife/dolphin-natural
       // mythical sea life
       array ( 'sea dog?', 'sealife/sea-dog' ),
       array ( 'lions? poissons?', 'sealife/sea-lion' ),
@@ -491,6 +492,8 @@
       array ( 'novae?', 'quadrate/compass-rose' ),
       array ( '?plain crosslets?', 'quadrate/crosslet' ),
       array ( 'crosslets? formy', 'quadrate/cross-formy' ),
+      array ( 'saltorels?', 'quadrate/saltorel' ),
+
       // insect
       array ( 'snails?', 'insect/snail' ),
       array ( '(gad)?fl(ies|y)', 'insect/fly' ),
@@ -695,7 +698,6 @@
       array ( 'astroids?', 'mullet/mullet' ),
       array ( 'round(el|le)s?', 'geometric/roundel' ),
       array ( 'rustres?', 'geometric/rustre' ),
-      array ( 'saltorels?', 'geometric/saltorel' ),
       array ( 'triangles?', 'geometric/triangle' ),
       array ( 'squares?', 'geometric/square' ),
       array ( 'hexagons?', 'geometric/hexagon' ),
@@ -926,7 +928,7 @@
       array ( 'amphora(e|s)?', 'household/amphora' ),
       array ( 'leather bottles?', 'household/bottle-leather' ),
       array ( 'rubber ducks?', 'household/rubber-duck' ),
-      array ( 'butter churns?', 'household/butter-churn' ),
+      array ( 'butter churns?', 'farming/butter-churn' ),
       array ( 'bellows?', 'household/bellows' ),
       // crown
       array ( '?open (crown|coronet)s?', 'crown/open-crown' ), // default crown
@@ -992,6 +994,8 @@
       array ( 'question marks?', 'characters/question' ),
       // symbols
       array ( 'astronomical (character|symbol)s? ?(of|for) ?the ?planet *', 'astronomical/symbol' ),
+      array ( 'zodiac(al)? (character|symbol)s? ?(of|for) *', 'zodiac/symbol' ),
+      array ( 'astrological(al)? (character|symbol)s? ?(of|for) *', 'zodiac/symbol' ),
       array ( 'alchemical (character|symbol)s? ?(of|for) ?the ?element *', 'alchemical/symbol' ),
       array ( '(character|symbol)s? ?(of|for) *', 'symbol/any' ),
       // farming

@@ -15,7 +15,7 @@
     $this->patterns[languageDB::CHARGE_PREFIX] = array (
       // possibly duplicated in CHARGE_MODS, but sometimes occur first
       'covered', 'standing', 'open', 'heraldic', 'dexter', 'sinister',
-      'double', 'branched', 'staved', 'single', 'modern', 'spotted',
+      'double', 'branched', 'staved', 'single', 'modern', 
       'winged', 'natural', 'nude',
       array ( 'spread', 'displayed' ),
       array ( 'heads? of ?(a|an|the)', 'head' ),
@@ -46,7 +46,7 @@
      'habited', 'lined', 'maned', 'nerved', 'striped',
      'penned', 'quilled', 'stringed', 'aulned', 'stemmed',
      'belled', 'finned', 'nest', 'staff', 'seamed',
-     'acorns', 'towered', 'domed', 'tasselled',
+     'acorns', 'towered', 'domed', 'tasselled', 'mortared',
      'shelled', 'tied', 'headed', // NOT heads
      'drooping', 'voided', 'beaded', 'ringed', 
      array ( 'in profile', 'in-profile'),
@@ -188,7 +188,7 @@
      // animal positions
       'couchant', 'courant', 'coward', 'dormant', 
       'erect', 'pierced', 'passant', 'cadent', 'counterpassant',
-      'salient', 'statant', 'equipped', 'accrued',
+      'salient', 'statant', 'equipped', 'accrued', 
       'segreant', 'dexter', 'sinister', 'closed', 'accosted',
       'ambulant', 'anime', 'annodated', 'arrondie', 'ascendant', 'aversant',
       'ayrant', 'baillone', 'bi corporate', 'cantoned', 'cloue',

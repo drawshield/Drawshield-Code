@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg5828"
+   version="1.1"
+   viewBox="0 0 49.718761 32.624998"
+   height="32.625"
+   width="49.718761">
+  <defs
+     id="defs5822" />
+  <metadata
+     id="metadata5825">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(185.833,-98.143979)"
+     id="layer1">
+    <path
+       id="text2453"
+       d="m -169.05174,110.76898 -3.625,-6.25 -10.8125,6.25 -2.34376,-4.03125 14.90626,-8.593751 3.59374,6.250001 10.84376,-6.250001 3.59374,6.250001 10.84376,-6.250001 5.9375,10.281251 -4.0625,2.34375 -3.625,-6.25 -10.8125,6.25 -3.625,-6.25 -10.8125,6.25 m 0,20 -3.625,-6.25 -10.8125,6.25 -2.34376,-4.03125 14.90626,-8.59375 3.59374,6.25 10.84376,-6.25 3.59374,6.25 10.84376,-6.25 5.9375,10.28125 -4.0625,2.34375 -3.625,-6.25 -10.8125,6.25 -3.625,-6.25 -10.8125,6.25"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:64px;line-height:125%;font-family:'Arev Sans';-inkscape-font-specification:'Arev Sans';text-align:start;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#ffff00;fill-opacity:1;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  </g>
+</svg>

@@ -127,7 +127,16 @@ function apply_tincture ( DOMElement $tincture, $object, $chg_size = '',
     case 'default': // don't think these two ever occur
     case 'proper':
       if (array_key_exists('raw', $options)) {
-        $spec = 'none';
+        switch ($object_type) {
+          case 'charge':
+            $spec = 'none';
+            break;
+          case 'ordinary':
+            $spec = '#999999';
+            break;
+          default:
+            break;
+        }
       } elseif ( $child->hasAttribute('spec') )  {
         $spec = $child->getAttribute('spec');
       } else {

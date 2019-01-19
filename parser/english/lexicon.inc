@@ -623,6 +623,7 @@ class languageDB extends lexicon {
             array( '?royal trea?s?sure', 'tressure' ),
             array( 'lozenge throughout', 'vetu' ),
             array( 'lozenge in point', 'vetu' ),
+            array( 'vetu', 'vetu' ),
             array( 'ent[ey] ?[ie]n ?point', 'enty'),
             array( 'nordic cross', 'cross-nordic'),
             array( 'point ?in (point|pointed|enty)', 'point-in-point'),
