@@ -698,10 +698,10 @@ class languageDB extends lexicon {
           'liljakoro',
           array ( 'meander(ed|ing)?', 'meander' ), 
           array ( 'angled ?lower', 'angled' ),
-          array ( 'angled upper', 'angled-upper' ),
+          array ( 'angled (opposite|upper)', 'angled-upper' ),
           array ('(em)?battled ghibell?ine', 'battled-ghibelline' ),
           array ('(em)?battled ?in ?the ?form ?of mine dumps', 'battled-mine-dumps' ),
-          array ( '(battled|double) (e?m?battled|crenn?ell?e?y?)', 'battled-embattled' ),  // two levels of battlements, on upper surface only
+          array ( '(battled|double) (e?m?battled|crenn?ell?e?y?)', 'battled-embattled' ),  // two levels of battlements, on (opposite|upper) surface only
           array ( '(em)?battled grady', 'battled-embattled'  ),
           array ( '(em)?battled brett?ess?e?y?', 'battled-brettesse'  ),                // both sides, same pattern
           array ( '(e?m?battled|crenn?ell?e?y?) counter (e?m?battled|crenn?ell?e?y?)', 'battled-counter'  ), // both sides, opposite pattern
@@ -709,8 +709,8 @@ class languageDB extends lexicon {
           array ( '(e?m?battled|crenn?ell?e?y?) arrondi', 'embattled-arrondi' ),           // top only, round crenelles
           array ( 'invec[kt]ed', 'invected' ),
           array ( '(en)?arched', 'arched' ),
-          array ( 'bevill?ed upper', 'bevilled-upper' ),
-          array ( 'bevill?y upper', 'bevilled-upper' ),
+          array ( 'bevill?ed (opposite|upper)', 'bevilled-upper' ),
+          array ( 'bevill?y (opposite|upper)', 'bevilled-upper' ),
           array ( 'bevill?ed ?lower', 'bevilled' ),
           array ( 'bevill?y ?lower', 'bevilled' ),
           array ( 'dau?ncett(e|y) fl(o|eu)r(y|etty)', 'dancetty-floretty' ),
