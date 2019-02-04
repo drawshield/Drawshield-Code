@@ -362,10 +362,11 @@ class languageDB extends lexicon {
         ),
         self::TREATMENT => array (
             array ( 'ann?ulett?y',    'annuletty',    ),
+            array ( 'rou?ndell?y',    'roundelly',    ),
             array ( 'bezant(y|e)',  'bezanty', true ),
             array ( 'billett?y',     'billetty',     ),
             array ( '(checky|cheque?y|checkered)', 'checky' ),
-            array ( '?billetty counter billetty', 'counter-billetty',),
+            array ( '?billett?y counter billett?y', 'counter-billetty',),
             array ( 'crusill?[ye]',     'crusilly',     ),
             array ( 'estoill?[ye]',     'estoilly',    ),
             array ( 'fretty',       'fretty',       ),
