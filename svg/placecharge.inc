@@ -332,7 +332,7 @@ function PlaceCharge ( DOMElement $node,  // images
 
   // If rotation is set this is because we need to turn to fit onto an ordinary
   // If we CANNOT turn then assume that the bounding box is square. This makes sure we fit even if not turned
-  if ( $node->parentNode->getAttribute('keyterm') == 'on' || $inArrangement) {
+  if ( $node->parentNode->getAttribute('keyterm') == 'on' /* || $inArrangement */) {
     if ( $rotation != 0 ) { 
       if ( ! array_key_exists('orient_to_ordinary', $charge) ) {
         $boundX = min( $boundX, $boundY );
@@ -383,7 +383,7 @@ function PlaceCharge ( DOMElement $node,  // images
     $transform .= 'rotate(' . $rotation . ',' . $centreX . ',' . $centreY . ') ';
   }
   $transform .= " translate($posX,$posY) scale($Xscale, $Yscale) ";
-  $retval = "<g transform=\"$transform\" >\n<title>" . htmlentities($charge['title']) . '</title>' . $retval . "</g>\n";
+  $retval = "<g transform=\"$transform\" >\n<title>" . htmlentities(transliterate($charge['title'])) . '</title>' . $retval . "</g>\n";
 
   $retval = apply_tincture( $tincture, $retval, "$chargeX,$chargeY", $rotation, $reversed, $inverted );
   return $retval;

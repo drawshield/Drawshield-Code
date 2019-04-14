@@ -94,7 +94,7 @@ class languageDB extends lexicon {
  
     $this->patterns = array(
       self::WORD_THE => array ( 'the' ),
-      self::OVERALL => array ( 'overall', 'sur le tout', 'all with(in)?', ),
+      self::OVERALL => array ( 'overall', 'sur le tout', 'all with(in)?', "over all", "in pretence" ),
       self::METAOVERALL => array ( 'over ?all ?the ?# (quarters|quarterings|halves|parts|sections)', ),
       self::SUPPLEMENTARY => array (
         array ('crest', 'crest'),
@@ -376,6 +376,7 @@ class languageDB extends lexicon {
             array ( 'grillage',     'grillage',     ),
             array ( 'honeycombed',  'honeycombed',  ),
             array ( 'ermined',  'ermined',  ),
+            array ( 'estencell?y',  'estencely',  ),
             array ( 'hurty',        'hurty',       true ),
             array ( '(lozengy|masculy)',     'lozengy',            ),
             array ( 'maily',        'maily',        ),
@@ -426,7 +427,7 @@ class languageDB extends lexicon {
         self::SEMY => array ( '(seme|semy) (de|with|of)', '(aspersed|strewn) with', '(poudre|powdered) with' ),
         self::GROUP => array ( '(both|all|the|his|her|its)',  ),
         self::PROPER => array ( '(proper|ppr)' ),
-        self::COUNTERCHANGE => array ( 'interchanged?', 'transmuted', 'countercha[nr]ged?', 'countercoloured', 'de l un en l autre' ),
+        self::COUNTERCHANGE => array ( 'interchanged?', 'transmuted', 'counter cha[nr]ged?', 'countercha[nr]ged?', 'countercoloured', 'de l un en l autre' ),
         self::DIVISION => array (
           array ( 'pily',                  'pily',               ),
           array ( 'quarterly',             'quarterly',          ),
@@ -617,7 +618,7 @@ class languageDB extends lexicon {
             array( 'inescut?cheon', 'inescutcheon' ),
             array( 'orle', 'orle' ),
             array( 'pall', 'pall' ),
-            array( '(shake|hay)fork', 'shakefork' ),
+//            array( '(shake|hay)fork', 'shakefork' ),
             array( 'pale furche', 'shakefork' ),
             array( 'square flau?nche?s?', 'square-flaunch' ),
             array( 'square (flanks?|flanques?|flasques?)', 'square-flaunch' ),
@@ -686,11 +687,12 @@ class languageDB extends lexicon {
            'lozengy', 'triangular', 'throughout', 'of pretence', 'voided',
            ),
         self::COTTICE_MODS => array ( 
-           array ( '(cott?ised|cott?iced|endorsed|addorsed|cost)', '1',  ),
-           array ( 'doubl[ey] cott?i[sc]ed', '2',  ),
-           array ( '(triple|treble|triply) cott?i[sc]ed', '3',  ),
+          array ( 'cott?i(s|ss|c)ed', '1'),
+           array ( '(endorsed|addorsed|cost)', '1',  ),
+           array ( 'doubl[ey] cott?i(s|ss|c)ed', '2',  ),
+           array ( '(triple|treble|triply) cott?i(s|ss|c)ed', '3',  ),
            ),
-        self::COTTICE => array ( array ( 'cott?ices?', 'cottice') ),
+        self::COTTICE => array ( array ( 'cott?i(s|ss|c)es?', 'cottice') ),
         self::VOIDED => array ( 'voided' ),
         self::LINETYPE => array ( 
           'indented', 'nebuly', 'nowy', 'plain', 'potenty',
@@ -734,6 +736,7 @@ class languageDB extends lexicon {
       self::ORDINARY_OR_CHARGE => array ( // can distinguish by number (perhaps!)
           array( '?(plain|holy) cross(es)? ?passant', 'cross/plain-cross' ),
           array( 'chevrons?', 'geometric/chevron' ),
+          array( '(shake|hay)forks?', 'geometric/shakefork' ),
           array( 'chevron(el)?s? couched', 'geometric/chevron-couched' ),
         array( 'cross (formee|patt?ee?)', 'quadrate/cross-formy' ),
         array( 'cross (formy|patt?y)', 'quadrate/cross-formy' ),

@@ -90,7 +90,7 @@ class matcher {
         }
         $this->tokenList->cur_word = $state;
       } else {
-        $res = @preg_match('/^' . $regex . '$/i', $this->tokenList->words[$t_word]);
+        $res = @preg_match('/^' . $regex . '$/i', transliterate($this->tokenList->words[$t_word]));
       }
       if ( $res === 0 ) { // no match
         if ( ! ($optional || $negative)) {

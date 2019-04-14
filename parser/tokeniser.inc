@@ -22,9 +22,13 @@ class tokeniser {
   // Constructor
   // Fill the words array with words from the blazon
   // Punctuation and spaces ignored
-  function __construct($blazonText) {
+  function __construct($blazon) {
     
-    $blazon = iconv("UTF-8", "ASCII//TRANSLIT", $blazonText);
+    #$blazon = iconv("UTF-8", "ASCII//TRANSLIT", $blazonText);
+    #$blazon = preg_replace(array('/è/','/é/','/ê/','/ç/','/à/','/á/','/â/','/È/','/É/','/Ê/','/Ç/','/À/','/Á/','/Â/'),
+    #				       array('e','e','e','c','a','a','a','e','e','e','c','a','a','a'),
+    #               $blazonText);
+                   
     $this->words = array();
     $this->lineNos = array();
     $this->cur_word = 0;

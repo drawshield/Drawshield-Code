@@ -1071,14 +1071,17 @@ class englishGrammar extends grammar {
         }    
         if ( !self::find(languageDB::COUNTERCHANGE) )
           self::raiseError(self::ERROR_ORIGIN,"Second division should be counterchanged");
-        $maxTinc = 0;
+        $maxTinc = 1; // We have all the tinctures that we need
+        $minTinc = 1;
+        $tincCount = 1;
         $secondTinc = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
             blazonML::A_ORIGIN => 'implied' ));
         $secondTinc->appendChild($this->schema->makeNode(blazonML::E_COUNTERCHANGED, null, self::tokens(), self::lineNo()));
         $node->appendChild($secondTinc);
+      } else {
+        $tincCount = 0;
       }
       $found = true;
-      $tincCount = 0;
       while ( $found ) {
         self::comma();
         self::find(languageDB::ANDD);
@@ -1101,9 +1104,9 @@ class englishGrammar extends grammar {
             blazonML::A_ORIGIN => 'missing' )));
         self::raiseError(self::ERROR_ORIGIN,"Missing tincture(s) on division", true);
       }
-      if ($tincCount > $maxTinc) {
-        self::raiseError(self::ERROR_ORIGIN,"Too many tinctures on division", true);
-      }
+      // if ($tincCount == $maxTinc) {
+        // self::raiseError(self::ERROR_ORIGIN,"Too many tinctures on division", true);
+      // }
     }
     return $node;
   }

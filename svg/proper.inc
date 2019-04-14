@@ -55,6 +55,7 @@ class properColour {
       'badges' => self::$red, // dummy entry
     );
     self::$charges = array(
+      'camelopard' => self::$orange,
       'squirrel' => self::$brown,
       'auk' => self::$white,
       'skull' => self::$white,

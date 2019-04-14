@@ -134,5 +134,10 @@ class unique {
     return $prefix . $this->myInstance . '-' . $this->counter++;
   }
 }
+
+function transliterate($string) {
+  return preg_replace(array('/è/','/é/','/ê/','/ç/','/à/','/á/','/â/','/È/','/É/','/Ê/','/Ç/','/À/','/Á/','/Â/'),
+        				       array('e','e','e','c','a','a','a','e','e','e','c','a','a','a'), $string);
+}
    
 ?>
