@@ -30,6 +30,10 @@ class lexicon {
     $this->patterns[$key] = $newPatterns;
   }
 
+  public function listKeys() {
+    return array_keys($this->patterns);
+  }
+
   public function removePatterns($key) {
     if (array_key_exists($key,$this->patterns))
       unset($this->patterns[$key]);
