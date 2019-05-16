@@ -1,0 +1,39 @@
+#
+# The definition of the language of blazonry in Backas-Naur Form (BNF)
+#
+# NOTE: In this implementation ORDER IS IMPORTANT, alternatives are processed in order
+# of appearance and the FIRST match will succeed
+
+#############
+# Tinctures  
+#############
+# TODO split treatments into the different types by number
+# TODO can't remember how grady is supposed to work
+treatment 	::= t-colour t-treatment2 t-colour | \
+				t-treatment2 t-colour ?t-andd t-colour | \
+				t-treatment1 t-colour
+fur 		::= t-fur
+colour		::= t-colour
+proper		::= t-proper
+backref		::= t-backref  # expand this?
+counter		::= t-counterchanged
+semy		::= t-semy ?t-of charge
+
+tincture 	::= treatment | fur | colour | proper | backref | counter | semy
+
+#############
+# Divisions
+#############
+division	::= t-division2 tincture ?t-andd tincture | \
+				t-division3 tincture ?t-andd tincture ?t-andd tincture | \
+				t-division3x tincture ?t-andd tincture ?t-andd tincture | \
+				t-division3x tincture ?t-andd tincture
+counterdiv	::= division t-division2 t-counter
+
+
+
+
+
+    
+    
+

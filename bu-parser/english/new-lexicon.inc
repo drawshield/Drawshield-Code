@@ -27,7 +27,7 @@ class languageDB extends lexicon {
   const WORD_IN = 'wordin';
   const COLOUR = 'colour';
   const BACKREF = 'backref';
-  const TREATMENT = 'treatment';
+  const TREATMENT = 'treatment2';
   const FUR = 'fur';
   const SEMY = 'semy';
   const GROUP = 'group';
@@ -363,7 +363,6 @@ class languageDB extends lexicon {
         self::TREATMENT => array (
             array ( 'ann?ulett?y',    'annuletty',    ),
             array ( 'rou?ndell?y',    'roundelly',    ),
-            array ( 'bezant(y|e)',  'bezanty', true ),
             array ( 'billett?y',     'billetty',     ),
             array ( '(checky|cheque?y|checkered)', 'checky' ),
             array ( '?billett?y counter billett?y', 'counter-billetty',),
@@ -377,13 +376,11 @@ class languageDB extends lexicon {
             array ( 'honeycombed',  'honeycombed',  ),
             array ( 'ermined',  'ermined',  ),
             array ( 'estencell?y',  'estencely',  ),
-            array ( 'hurty',        'hurty',       true ),
             array ( '(lozengy|masculy)',     'lozengy',            ),
             array ( 'maily',        'maily',        ),
             array ( '(masonn?ed?|muraille)',      'masoned',      ),
             array ( 'mullett?y',    'mulletty',   ),
             array ( 'pap(e|i)l?lonn?(y|e)', 'papelonny', ),
-            array ( 'platy',        'platy',       true ),
             array ( 'scaly',        'scaly',        ),
             array ( 'sem(e|y) de l(i|y)s', 'seme-de-lys', ),
             array ( 'fl(o|eu)ry', 'seme-de-lys', ),
@@ -403,6 +400,11 @@ class languageDB extends lexicon {
             array ( 'grad(ed|y) in bend sinister', 'grady-in-bendsin'),
             array ( 'grad(ed|y) in sinister bend', 'grady-in-bendsin'),
             array ( 'grad(ed|y) in annull?o', 'grady-in-annulo'),
+          ),
+          'treatment1' => array ( 
+            array ( 'platy',        'platy' ),
+            array ( 'bezant(y|e)',  'bezanty' ),
+            array ( 'hurty',        'hurty',       true ),
           ),
         self::INVERSE => array ('reversed', 'inverted'),
         self::FUR => array (
