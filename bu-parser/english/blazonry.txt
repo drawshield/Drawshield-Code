@@ -7,16 +7,15 @@
 #############
 # Tinctures  
 #############
-# TODO split treatments into the different types by number
 # TODO can't remember how grady is supposed to work
-treatment 	::= t-colour t-treatment2 t-colour | \
-				t-treatment2 t-colour ?t-andd t-colour | \
+treatment 	::= t-treatment2 t-colour ?t-andd t-colour | \
+				t-colour t-treatment2 t-colour | \
 				t-treatment1 t-colour
 fur 		::= t-fur
 colour		::= t-colour
 proper		::= t-proper
 backref		::= t-backref  # expand this?
-counter		::= t-counterchanged
+counter		::= t-counterchange
 semy		::= t-semy ?t-of charge
 
 tincture 	::= treatment | fur | colour | proper | backref | counter | semy
@@ -24,11 +23,31 @@ tincture 	::= treatment | fur | colour | proper | backref | counter | semy
 #############
 # Divisions
 #############
-division	::= t-division2 tincture ?t-andd tincture | \
+div-type	::= t-division2 tincture ?t-andd tincture | \
 				t-division3 tincture ?t-andd tincture ?t-andd tincture | \
 				t-division3x tincture ?t-andd tincture ?t-andd tincture | \
 				t-division3x tincture ?t-andd tincture
-counterdiv	::= division t-division2 t-counter
+counterdiv	::= div-type t-division2 counter  # test / expand this
+
+div-mods ::= t-divmods*
+
+division ::= div-type ?div-mods
+
+##########################
+# Look for some common errors
+##########################
+# If we didn't find a legitimate reduction above, look for some common errors
+# This is not wasteful as they are only processed if there is no match above
+
+bad-division ::= t-division2 tincture } | \
+				 t-division2 | \
+				 t-division3 tincture ?t-andd tincture | \
+				 t-division3 ! Wrong number of tinctures for division
+
+bad-treatment ::= t-treatment2 t-colour | \
+				  t-colour t-treatment 2 | \
+				  t-treatment2 |\
+				  t-treatment1
 
 
 

@@ -40,7 +40,7 @@ class languageDB extends lexicon {
   const QUANTITY = 'amount';
   const NUMBER = 'number';
   const DIVISION_MODS = 'divmods';
-  const DIVISION = 'division';
+  const DIVISION = 'division2';
   const LINETYPE = 'linetype';
   const ORIENTATION = 'orientation';
   const ORDINARY = 'ordinary';
@@ -452,24 +452,13 @@ class languageDB extends lexicon {
           array ( 'parted fesse?wise' ,      'per-fess',           ),
           array ( '?part(y|ed) per pale' ,      'per-pale',           ),
           array ( 'parted palewise' ,      'per-pale',           ),
-          array ( '?part(y|ed) per pile' ,      'per-pile',           ),
-          array ( 'parted pilewise' ,      'per-pile',           ),
-          array ( '?part(y|ed) per pall' ,      'per-pall',           ),
-          array ( '?part(y|ed) per pall arrondi' ,      'per-pall-arrondi',           ),
-          array ( 'tierced? (in|per) pairle' ,    'per-pall',           ),
-          array ( 'tierced? (in|per) pairle arrondi' ,    'per-pall-arrondi',           ),
           array ( '?part(y|ed) per chevron' ,   'per-chevron',        ),
           array ( 'parted chevronwise' ,   'per-chevron',        ),
           array ( '?part(y|ed) per bend',       'per-bend',           ),
           array ( 'parted bendwise',       'per-bend',           ),
           array ( '?part(y|ed) per saltire' ,   'per-saltire',        ),
           array ( 'parted saltirewise' ,   'per-saltire',        ),
-          array ( 'tierced? (in|per) pale' ,      'tierced-in-pale',    ),
-          array ( 'tierced? (in|per) fesse?' ,      'tierced-in-fess',    ),
-          array ( 'tierced? (in|per) bend' ,      'tierced-in-bend',    ),
-          array ( 'tierced? (in|per) chevron',    'tierced-in-chevron', ),
           array ( 'fusill?y',              'fusily',             ),
-          array ( 'fusill?y bendy ?dexter','fusily-bendy',       ),                                     
           array ( 'fusill?y in bend',      'fusily-bendy',       ),
           // array ( '(lozengy|masculy)',     'lozengy',            ),
           array ( 'barry bendy ?lozengy' , 'barry-bendy',        ),
@@ -477,6 +466,20 @@ class languageDB extends lexicon {
           array ( 'barry pily' ,           'barry-pily',         ),
           array ( 'barry indented ?the (one|1) in the other', 'barry-indented-oio',  ),
        ),   
+       'division3' => array (
+        array ( 'tierced? (in|per) pale' ,      'tierced-in-pale',    ),
+        array ( 'tierced? (in|per) fesse?' ,      'tierced-in-fess',    ),
+        array ( 'tierced? (in|per) bend' ,      'tierced-in-bend',    ),
+        array ( 'tierced? (in|per) chevron',    'tierced-in-chevron', ),
+        array ( '?part(y|ed) per pall' ,      'per-pall',           ),
+        array ( '?part(y|ed) per pall arrondi' ,      'per-pall-arrondi',           ),
+        array ( 'tierced? (in|per) pairle' ,    'per-pall',           ),
+        array ( 'tierced? (in|per) pairle arrondi' ,    'per-pall-arrondi',           ),
+     ),
+       'division3x' => array (
+        array ( '?part(y|ed) per pile' ,      'per-pile',           ),
+        array ( 'parted pilewise' ,      'per-pile',           ),
+       ),
        self::DIVISION_MODS => array ( 
          array ( 'of # ?pieces?', 'ofnum' ),
          array ( 'rivett?ed', 'riveted' ),
