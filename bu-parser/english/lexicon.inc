@@ -38,12 +38,12 @@ class languageDB extends lexicon {
   const QUARTERS = 'quarters';
   const COUNTERCHANGE = 'counterchange';
   const QUANTITY = 'amount';
-  const NUMBER = 'number';
+  const NUMBER = 'numberx';
   const DIVISION_MODS = 'divmods';
   const DIVISION = 'division2';
   const LINETYPE = 'linetype';
   const ORIENTATION = 'orientation';
-  const ORDINARY = 'ordinary';
+  const ORDINARY = 'ordinary1';
   const ORDINARY_PREFIX = 'ordprefix';
   const ORDINARY_MODS = 'ordmods';
   const COLOUR_MODS = 'compony';
@@ -484,20 +484,26 @@ class languageDB extends lexicon {
          array ( 'of # ?pieces?', 'ofnum' ),
          array ( 'rivett?ed', 'riveted' ),
          ),
-       self::QUANTITY => array (
-          array ( '(a|an|the|some)', "1" ),
-          ),
+      'number1' => array (
+        array ( '(one|1)', "1" ),
+        array ( '(a|an|the|some)', "1" ),
+      ),
+      'number2' => array (
+        array ( '(two|2)', "2" ),
+        array ( 'a pair of', "2"),
+      ),
+      'number3' => array (
+        array ( '(three|3)', "3" ),
+        array ( 'a few', "3"),
+      ),
        self::NUMBER => array (
-          '1', '2', '3', '4', '5', '6', '7', '8', '9',
+          '4', '5', '6', '7', '8', '9',
           '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
           '20', '21', '22', '23', '24', '25', '26', '27', '28', '29',
           '30', '31', '32', '33', '34', '35', '36', '37', '38', '39',
           '40', '41', '42', '43', '44', '45', '46', '47', '48', '49',
           '50', '51', '52', '53', '54', '55', '56', '57', '58', '59',
           '60', '61', '62', '63', '64',
-          array ( 'one', "1" ),
-          array ( 'two', "2" ),
-          array ( 'three', "3" ),
           array ( 'four', "4" ),
           array ( 'five', "5" ),
           array ( 'six', "6"  ),
@@ -565,6 +571,12 @@ class languageDB extends lexicon {
            'sinister', 'reversed','dexter', 'inverted', 'enhanced', 
            array ( '(abased|abaisse)', 'abased', ),
           ),
+          'ordinary2' => array (
+            array( 'bends?', 'bend' ),
+          ),
+          'ordinary3' => array (
+            array ( 'chevrons?', 'chevron' ),
+          ),
         self::ORDINARY => array (
             'another', // special term, means "voided of" (should only be used after "on" or "charged with"
             array( 'bars?', 'bar' ),
@@ -582,7 +594,6 @@ class languageDB extends lexicon {
             array( 'pall?ets?', 'palet' ),
             array( 'piles? ?of ?(3|three) ?points ?issuing ?from ?the ?chief', 'pile' ),
             array( 'base', 'base' ),
-            array( 'bends?', 'bend' ),
             array( 'chief', 'chief' ),
             array( 'fesse?', 'fess' ),
             array( 'fesse? between (2|two) chevrons?', 'fess-between-chevrons' ),
@@ -636,7 +647,25 @@ class languageDB extends lexicon {
             array( 'point ?in (point|pointed|enty)', 'point-in-point'),
             array( 'point dexter', 'point-dexter'),
             array( 'point sinister', 'point-sinister'),
-          ),
+            // can distinguish by number (perhaps!)
+              array( '?(plain|holy) cross(es)? ?passant', 'plain-cross' ),
+              array( '(shake|hay)forks?', 'shakefork' ),
+              array( 'chevron(el)?s? couched', 'chevron-couched' ),
+            array( 'cross (formee|patt?ee?)', 'cross-formy' ),
+            array( 'cross (formy|patt?y)', 'cross-formy' ),
+            array( 'frets?', 'fret' ),
+              array( 'salta?ires?', 'saltire' ),
+            // ordinaries that can be confused with charges
+              array( 'salta?ire ?double parted ?and fretty', 'saltire-2fretty' ), 
+              array( 'cross ?double parted ?and fretty', 'cross-2fretty' ), 
+              array( 'cross tripartite ?and fretty', 'cross-3fretty' ), 
+              array( 'cross quarter pierced?', 'cross-pierced' ),
+              array( 'cross quarterpierced?', 'cross-pierced' ),
+              // array( 'cross formy throughout', 'cross-formy' ),
+              array( 'fillet cross', 'fillet-cross' ),
+              array( 'cross fillet', 'fillet-cross' ), 
+              array( 'frets? couped', 'fret-couped' ), 
+            ),
         self::ORDINARY_PREFIX => array ( // can be before (and after) ordinary
             'sinister', 'reversed', 'dexter', 'inverted', 
             array ( '(hause|enhanced)', 'enhanced' ),     
@@ -738,27 +767,6 @@ class languageDB extends lexicon {
           array ( 'fir tree topped', 'fir-tree-topped' ),
           array ( 'trefl[ey] counter trefl[ey]', 'trefle'),
           ),
-      self::ORDINARY_OR_CHARGE => array ( // can distinguish by number (perhaps!)
-          array( '?(plain|holy) cross(es)? ?passant', 'cross/plain-cross' ),
-          array( 'chevrons?', 'geometric/chevron' ),
-          array( '(shake|hay)forks?', 'geometric/shakefork' ),
-          array( 'chevron(el)?s? couched', 'geometric/chevron-couched' ),
-        array( 'cross (formee|patt?ee?)', 'quadrate/cross-formy' ),
-        array( 'cross (formy|patt?y)', 'quadrate/cross-formy' ),
-        array( 'frets?', 'geometric/fret' ),
-          array( 'salta?ires?', 'cross/saltire' ),
-        ),
-      self::ORDINARY_NOT_CHARGE => array ( // ordinaries that can be confused with charges
-          array( 'salta?ire ?double parted ?and fretty', 'saltire-2fretty' ), 
-          array( 'cross ?double parted ?and fretty', 'cross-2fretty' ), 
-          array( 'cross tripartite ?and fretty', 'cross-3fretty' ), 
-          array( 'cross quarter pierced?', 'cross-pierced' ),
-          array( 'cross quarterpierced?', 'cross-pierced' ),
-          // array( 'cross formy throughout', 'cross-formy' ),
-          array( 'fillet cross', 'fillet-cross' ),
-          array( 'cross fillet', 'fillet-cross' ), 
-          array( 'frets? couped', 'fret-couped' ), 
-        ),
       self::ARRANGEMENT => array (
           array ( 'in ?the pale',               'inpale',        ),
           array ( 'in ?the pale throughout',    'inpalethrough', ),

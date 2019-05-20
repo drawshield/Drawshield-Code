@@ -1,37 +1,129 @@
 #
-# The definition of the language of blazonry in Backas-Naur Form (BNF)
+# The definition of the language of blazonry in a variant Backas-Naur Form (BNF)
 #
 # NOTE: In this implementation ORDER IS IMPORTANT, alternatives are processed in order
 # of appearance and the FIRST match will succeed
+#
+# Other differences from BNF are:
+#
+# * non-terminals do not have to be surrounded by angle brackets (but can be)
+# * symbols flagged with ? are optional
+# * symbols flagged with * can appear more than once
+# * symbols flagged with ^ are discarded from the parse tree once found
+# * The symbol / can be used to separate the symbol from its flags if preferred
+#
+#
+
+#############
+# Punctuation  
+#############
+
+andd		::= t-andd t-comma | \
+				t-comma t-andd | \
+				t-andd | \
+				t-comma
+semi2		::= t-semicolon t-semicolon
+semi1		::=	t-semicolon
 
 #############
 # Tinctures  
 #############
 # TODO can't remember how grady is supposed to work
-treatment 	::= t-treatment2 t-colour ?t-andd t-colour | \
-				t-colour t-treatment2 t-colour | \
-				t-treatment1 t-colour
-fur 		::= t-fur
-colour		::= t-colour
-proper		::= t-proper
+treatment 	::= t-treatment2 colour ?andd^ colour | \
+				colour t-treatment2 colour | \
+				t-treatment1 colour
+fur 		::= t-fur^
+colour		::= t-colour^
+proper		::= t-proper^
 backref		::= t-backref  # expand this?
 counter		::= t-counterchange
-semy		::= t-semy ?t-of charge
+semy		::= t-semy ?t-wordof charge
 
 tincture 	::= treatment | fur | colour | proper | backref | counter | semy
+
 
 #############
 # Divisions
 #############
-div-type	::= t-division2 tincture ?t-andd tincture | \
-				t-division3 tincture ?t-andd tincture ?t-andd tincture | \
-				t-division3x tincture ?t-andd tincture ?t-andd tincture | \
-				t-division3x tincture ?t-andd tincture
-counterdiv	::= div-type t-division2 counter  # test / expand this
+div-type3	::=	t-division3 tincture ?andd^ tincture ?andd^ tincture | \
+				t-division3x tincture ?andd^ tincture ?andd^ tincture
+counterdiv	::= div-type2 t-division2 counter  # test / expand this
+div-type2	::= t-division2 tincture ?andd^ tincture  | \
+				t-division3x tincture ?andd^ tincture
 
-div-mods ::= t-divmods*
+div-mod 	::= t-divmods ?andd^ | t-linetype ?andd^ | t-orientation ?andd^
+div-mods 	::= div-mod*
 
-division ::= div-type ?div-mods
+division 	::= div-type2 ?div-mods | \
+			 	div-type3 ?div-mods | \
+			 	counterdiv
+
+
+#############
+# Ordinaries
+#############
+ord-mod		::= t-ord-mods ?andd^ | | t-linetype ?andd^ | t-orientation ?andd^ | \
+				t-colour-mod ?andd^ | t-voided ?andd^ | t-ordprefix ?andd^
+ord-mods	::= ord-mod*
+
+ord-type1	::= t-number1 ?ordprefix t-ordinary1 | \
+				t-number1 ?ordprefix t-ordinaryconf | \
+				t-number1 ?ordprefix t-ordorcharge 
+ord-type2	::= t-number1 ?ordprefix t-ordinary2 | \
+				t-number2 ?ordprefix t-ordinary2 
+ord-type3	::= t-number1 ?ordprefix t-ordinary3 | \
+				t-number2 ?ordprefix t-ordinary3 | \
+				t-number3 ?ordprefix t-ordinary3 
+
+ord-type	::= ord-type1 | ord-type2 | ord-type3
+ordinary	::=	ord-type tincture ?ord-mods ?semi1^ | \
+				ord-type ?ord-mods tincture ?semi1^
+
+on-ordinary	::= t-wordon ordinary charge | \
+				t-wordon ordinary ordinary
+
+#############
+# Simple Charges (for now)
+#############
+
+charge		::= t-number2 t-charge2x tincture | \
+				anynumber t-charge2x tincture | \
+				anynumber t-charge tincture
+
+anynumber	::= t-number1 | t-number2 | t-number3 | t-numberx
+
+#############
+# Objects (on the field)
+#############
+object		::= charge | ordinary | on-ordinary
+
+objects		::= object*
+
+#############
+# Field
+#############
+field		::= tincture | division
+
+#############
+# Overall (a simple shield)
+#############
+overall		::= t-overall objects
+
+
+#############
+# Simple shield
+#############
+
+simpleshield ::= field objects ?overall | \
+				 field
+
+#############
+# Quarterings
+#############
+
+quartermarker	::= ?t_wordthe^ t_quarters ?t_quartermark^ | \
+					?t_wordthe^ anynumber t_quartermark^ | \
+					?t_wordthe^ t-letters t_quartermark^
 
 ##########################
 # Look for some common errors
@@ -39,15 +131,15 @@ division ::= div-type ?div-mods
 # If we didn't find a legitimate reduction above, look for some common errors
 # This is not wasteful as they are only processed if there is no match above
 
-bad-division ::= t-division2 tincture } | \
+bad-division ::= t-division2 tincture | \
 				 t-division2 | \
-				 t-division3 tincture ?t-andd tincture | \
+				 t-division3 tincture ?andd^ tincture | \
 				 t-division3 ! Wrong number of tinctures for division
 
-bad-treatment ::= t-treatment2 t-colour | \
-				  t-colour t-treatment 2 | \
+bad-treatment ::= t-treatment2 colour | \
+				  colour t-treatment 2 | \
 				  t-treatment2 |\
-				  t-treatment1
+				  t-treatment1 ! Wrong number of colours for treatment
 
 
 

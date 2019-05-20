@@ -11,7 +11,10 @@ function transliterate($string) {
                                  array('e','e','e','c','a','a','a','e','e','e','c','a','a','a'), $string);
 }
 
-$blazon = implode(' ', array_slice($argv,1));;
+$blazon = implode(' ', array_slice($argv,1));
+if ($blazon == '') {
+    $blazon = file_get_contents("blazon.txt");
+}
 
 $tokenList = new tokeniser($blazon);
 //var_dump($tokenList);
@@ -28,6 +31,7 @@ class parseTreeItem {
     public $lineNo;
     public $matched;
     public $optional;
+    public $discard;
 
     function __construct($category, $keyword, $tokens, $lineNo) {
         $this->category = $category;
@@ -53,6 +57,11 @@ function minimiseNos($numbers) {
     return $minimised;
 }
 
+function firstAndLast($str) {
+    $nums = explode('-',$str);
+    return $nums[0] . '-' . $nums[count($nums)-1];
+}
+
 while ($tokenList->moreInput()) {
     $longestMatch = 0;
     $possibles = [];
@@ -61,7 +70,13 @@ while ($tokenList->moreInput()) {
         $match = $phraseMatcher->searchMatch($key);
         if ($match) {
             $matchLength = $tokenList->cur_word - $prev_word;
-            $tokens = implode(' ',array_slice($tokenList->words,$prev_word,$matchLength));
+            $tokens = '';
+            for ($i = 0; $i < $matchLength; $i++ ) {
+                if ($tokenList->words[$prev_word + $i]) {
+                    $tokens .= $tokenList->words[$prev_word + $i] . ' ';
+                }
+            }
+            $tokens = trim($tokens);
             $lineNos = minimiseNos(array_slice($tokenList->lineNos,$prev_word,$matchLength));
             if ($matchLength > $longestMatch) {
                 $longestMatch = $matchLength;
@@ -76,7 +91,7 @@ while ($tokenList->moreInput()) {
     switch (count($possibles)) {
         case 0:
             $tokenList->cur_word += 1;
-            $parseTree[] = new parseTreeItem('???', $tokenList->words[$tokenList->cur_word], '', $tokenList->lineNos[$tokenList->cur_word] );
+            $parseTree[] = new parseTreeItem('???', $tokenList->words[$tokenList->cur_word], '',    $tokenList->lineNos[$tokenList->cur_word] );
             break;
         case 1: 
             $parseTree[] = $possibles[0];
@@ -117,7 +132,7 @@ function testReduction($symbolList, $startPoint) {
     $treePtr = $startPoint;
     $matchedPTIs = 0;
     $symbols = preg_split('/\s+/', $symbolList, -1, PREG_SPLIT_NO_EMPTY);
-    $repeatable = false;
+    $repeatable = 0;
 
     while (true) {
         $allOptional = false;
@@ -125,7 +140,7 @@ function testReduction($symbolList, $startPoint) {
             // not an error if all remaining symbols are optional...
             $allOptional = true;
             for (; $symbolPtr < count($symbols); $symbolPtr++) {
-                if ($symbols[$symbolPtr][0] != '?') {
+                if ($symbols[$symbolPtr][0] != '?' && $repeatable < 1) {
                     $allOptional = false;
                     break;
                 }
@@ -149,20 +164,12 @@ function testReduction($symbolList, $startPoint) {
             }
             return $matchedPTIs; // only get here if all symbols match
         }
-        $optional = false;
-        $symbolToMatch = $symbols[$symbolPtr];
-        if ($symbolToMatch[0] == '?') {
-            $optional = true;
-            $symbolToMatch = substr($symbolToMatch,1);
-        }
-        if (substr($symbolToMatch,-1) == '*') {
-            if ($repeatable) {
-                $optional = true;
-            } else {
-                $repeatable = true;
-            }
-            $symbolToMatch = substr($symbolToMatch,0,-1);
-            echo $symbolToMatch . "\n";
+        if (!$repeatable) { // process flags
+            $symbolToMatch = $symbols[$symbolPtr];
+            $optional = (strpos($symbolToMatch[0],'?') !== false );
+            $repeatable = (strpos($symbolToMatch,'*') !== false ) ? 1 : 0;
+            $discard =  (strpos($symbolToMatch,'^') !== false);
+            $symbolToMatch = str_replace(array('<','>','/','?','^','*'),'',$symbolToMatch);
         }
         // echo "Comparing (" . $parseTree[$treePtr]->symbol . ') & ('. $symbolToMatch . ")\n";
         // Compare the current two symbols
@@ -175,30 +182,49 @@ function testReduction($symbolList, $startPoint) {
                     $found = true;
                 } else {
                     $altPTI->matched = false;
+                    $altPTI->discard = $discard;
+
                 }
             }
         } else {
             if ($parseTree[$treePtr]->category == $symbolToMatch) {
                 $parseTree[$treePtr]->optional = $optional;
+                $parseTree[$treePtr]->discard = $discard;
                 $found = true;
             }
         }
         $treeInc = 1;
         if (!$found) {
             //echo "No match at this location\n";
-            if ($optional) {    // This is OK, just
-                $repeatable = false;
+            if ($optional || $repeatable > 1) {    // This is OK, just
                 $treeInc = 0; // don't advance tree pointer
+                $repeatable = 0;
             } else {
                 return false; 
             }
-        }    
-        if (!$repeatable) $symbolPtr++;
+        }    // either found, or optional
+        if ($repeatable) {
+            $repeatable++; // don't advance pointer, increase count
+        } else {
+            $symbolPtr++;
+        }
         $treePtr += $treeInc; 
         $matchedPTIs += $treeInc;   
     }
     // shouldn't get here
     return false;
+}
+
+function getSubItems($pPtr, $numMatched) {
+    global $parseTree;
+
+    $subItems = array();
+    for ($i = 0; $i < $numMatched; $i++) {
+        if (!$parseTree[$pPtr]->discard)
+            $subItems[] = $parseTree[$pPtr];
+        $pPtr++;
+    }
+    return $subItems;
 }
 
 $messageList = array();
@@ -219,14 +245,16 @@ do {
                 $linkedLines = $parseTree[$pPtr]->lineNo;
                 $endLine = $parseTree[$pPtr + $numMatched -1]->lineNo;
                 if ($endLine != $linkedLines) {
-                    $linkedLines .= "-$endLine";
+                    $linkedLines = firstAndLast("$linkedLines-$endLine");
                 }
                 for ($i = $pPtr; $i < $pPtr + $numMatched; $i++) {
-                    $linkedTokens .= $parseTree[$i]->tokens . ' ';
+                    if ($parseTree[$i]->tokens) {
+                        $linkedTokens .= $parseTree[$i]->tokens . ' ';
+                    }
                 }
+                $linkedTokens = trim($linkedTokens);
                 $newPTI = new parseTreeItem($newSymbol, '', $linkedTokens, $linkedLines);
-                $subItems = array_slice($parseTree, $pPtr, $numMatched );
-                $newPTI->subItems = $subItems;
+                $newPTI->subItems =getSubItems($pPtr, $numMatched );
                 array_splice($parseTree, $pPtr, $numMatched, [$newPTI]);
                 if (count( $english->reductions[$gPtr] ) > 2) {
                     $messageList[] = $english->reductions[$gPtr][2] . ": $linkedTokens near $linkedLines";

@@ -53,6 +53,17 @@
           array ( 'cross(es)? fitch(y|ee) doubled?', 'quadrate/cross-fitchy-double' ),
           array ( 'cross(es)? fitch(y|ee)', 'quadrate/cross-fitchy' ),
         );
+   $this->patterns['charge2x'] = array ( // 2 or more are charges
+      array( '?(plain|holy) cross(es)? ?passant', 'cross/plain-cross' ),
+      array( 'chevrons?', 'geometric/chevron' ),
+      array( '(shake|hay)forks?', 'geometric/shakefork' ),
+      array( 'chevron(el)?s? couched', 'geometric/chevron-couched' ),
+    array( 'cross (formee|patt?ee?)', 'quadrate/cross-formy' ),
+    array( 'cross (formy|patt?y)', 'quadrate/cross-formy' ),
+    array( 'frets?', 'geometric/fret' ),
+      array( 'salta?ires?', 'cross/saltire' ),
+   );
+
    
    $this->patterns[languageDB::CHARGE] = array (
       // cross
