@@ -1,15 +1,11 @@
 <?php
 
+include "utilities.inc";
 include "grammar.inc";
 include "tokeniser.inc";
 include "matcher.inc";
 include "lexicon.inc";
 include "english/lexicon.inc";
-
-function transliterate($string) {
-    return preg_replace(array('/è/','/é/','/ê/','/ç/','/à/','/á/','/â/','/È/','/É/','/Ê/','/Ç/','/À/','/Á/','/Â/'),
-                                 array('e','e','e','c','a','a','a','e','e','e','c','a','a','a'), $string);
-}
 
 $blazon = implode(' ', array_slice($argv,1));
 if ($blazon == '') {
@@ -22,6 +18,8 @@ $tokenList = new tokeniser($blazon);
 $patternDB = new languageDB();
 
 $phraseMatcher = new matcher($tokenList, $patternDB);
+$xml = new blazonML();
+
 
 class parseTreeItem {
     public $category;
@@ -81,9 +79,9 @@ while ($tokenList->moreInput()) {
             if ($matchLength > $longestMatch) {
                 $longestMatch = $matchLength;
                 $possibles = [];
-                $possibles[] = new parseTreeItem('t-' . $key, $match, $tokens, $lineNos );
+                $possibles[] = $xml->makeNode('t-' . $key, [blazonML::A_KEYTERM => $match], $tokens, $lineNos );
             } elseif ($matchLength == $longestMatch) {
-                $possibles[] = new parseTreeItem('t-' . $key, $match, $tokens, $lineNos );
+                $possibles[] = $xml->makeNode('t-' . $key, [blazonML::A_KEYTERM => $match], $tokens, $lineNos );
             }
         }
         $tokenList->cur_word = $prev_word;
@@ -91,7 +89,7 @@ while ($tokenList->moreInput()) {
     switch (count($possibles)) {
         case 0:
             $tokenList->cur_word += 1;
-            $parseTree[] = new parseTreeItem('???', $tokenList->words[$tokenList->cur_word], '',    $tokenList->lineNos[$tokenList->cur_word] );
+            $parseTree[] = $xml->makeNode('t-unknown',[blazonML::A_KEYTERM => $tokenList->words[$tokenList->cur_word]], '',    $tokenList->lineNos[$tokenList->cur_word] );
             break;
         case 1: 
             $parseTree[] = $possibles[0];
@@ -109,11 +107,11 @@ $patternDB = null;
 $phraseMatcher = null;
 $english = null;
 
-
-/* echo "Terminal Symbols:\n";
+/*  echo "Terminal Symbols:\n";
 foreach($parseTree as $item) {
-    printPTI($item);
+    $xml->prettyPrint($item);
 } */
+
 
 function testReduction($symbolList, $startPoint) {
     global $parseTree;
@@ -154,7 +152,7 @@ function testReduction($symbolList, $startPoint) {
                 if (is_array($parseTree[$i])) {
                     // echo "Picking matched item from array\n";
                     foreach ( $parseTree[$i] as $array_item) {
-                        if ($array_item->matched == true) {
+                        if ($array_item->hasAttribute("matched")) {
                             $newPTI = $array_item;
                             array_splice($parseTree, $i, 1, [$newPTI]);
                             break;
@@ -176,20 +174,18 @@ function testReduction($symbolList, $startPoint) {
         $found = false;
         if (is_array($parseTree[$treePtr])) {
             foreach($parseTree[$treePtr] as $altPTI) { 
-                if ($altPTI->category == $symbolToMatch) {
-                    $altPTI->optional = $optional;
-                    $altPTI->matched = true;
+                if ($altPTI->nodeName == $symbolToMatch) {
+                    if ($optional) $altPTI->setAttribute("optional","true");
+                    $altPTI->setAttribute("matched","true");
                     $found = true;
                 } else {
-                    $altPTI->matched = false;
-                    $altPTI->discard = $discard;
-
+                    if ($discard) $altPTI->setAttribute("discard","true");
                 }
             }
         } else {
-            if ($parseTree[$treePtr]->category == $symbolToMatch) {
-                $parseTree[$treePtr]->optional = $optional;
-                $parseTree[$treePtr]->discard = $discard;
+            if ($parseTree[$treePtr]->nodeName == $symbolToMatch) {
+                if ($optional) $parseTree[$treePtr]->setAttribute("optional","true");
+                if ($discard) $parseTree[$treePtr]->setAttribute("discard","true");
                 $found = true;
             }
         }
@@ -220,7 +216,7 @@ function getSubItems($pPtr, $numMatched) {
 
     $subItems = array();
     for ($i = 0; $i < $numMatched; $i++) {
-        if (!$parseTree[$pPtr]->discard)
+        if (!$parseTree[$pPtr]->hasAttribute("discard"))
             $subItems[] = $parseTree[$pPtr];
         $pPtr++;
     }
@@ -242,19 +238,20 @@ do {
         for ($pPtr = 0; $pPtr < $parseTreeLength; $pPtr++) {
             if ($numMatched = testReduction($symbolList, $pPtr)) {
                 $linkedTokens = '';
-                $linkedLines = $parseTree[$pPtr]->lineNo;
-                $endLine = $parseTree[$pPtr + $numMatched -1]->lineNo;
+                $linkedLines = $parseTree[$pPtr]->getAttribute(blazonML::A_LINENUMBER);
+                $endLine = $parseTree[$pPtr + $numMatched -1]->getAttribute(blazonML::A_LINENUMBER);
                 if ($endLine != $linkedLines) {
                     $linkedLines = firstAndLast("$linkedLines-$endLine");
                 }
                 for ($i = $pPtr; $i < $pPtr + $numMatched; $i++) {
-                    if ($parseTree[$i]->tokens) {
-                        $linkedTokens .= $parseTree[$i]->tokens . ' ';
+                    if ($parseTree[$i]->getAttribute(blazonML::A_TOKENS)) {
+                        $linkedTokens .= $parseTree[$i]->getAttribute(blazonML::A_TOKENS) . ' ';
                     }
                 }
                 $linkedTokens = trim($linkedTokens);
-                $newPTI = new parseTreeItem($newSymbol, '', $linkedTokens, $linkedLines);
-                $newPTI->subItems =getSubItems($pPtr, $numMatched );
+                $newPTI = $xml->makeNode($newSymbol, '', $linkedTokens, $linkedLines);
+                foreach (getSubItems($pPtr, $numMatched ) as $subItem) 
+                    $newPTI->appendChild($subItem);
                 array_splice($parseTree, $pPtr, $numMatched, [$newPTI]);
                 if (count( $english->reductions[$gPtr] ) > 2) {
                     $messageList[] = $english->reductions[$gPtr][2] . ": $linkedTokens near $linkedLines";
@@ -291,7 +288,7 @@ function printPTI($PTI, $indent = 0) {
 
 echo "Final tree:\n";
 foreach($parseTree as $item) {
-     printPTI($item);
+    $xml->prettyPrint($item);
    // var_dump($item);
 }
 
