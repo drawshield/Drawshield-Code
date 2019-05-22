@@ -1,7 +1,8 @@
 <?php
 
 class grammar {
-    public $reductions;
+    public $productions;
+    public $numProductions;
     private $fileHandle;
 
     protected function getNextLine() {
@@ -31,7 +32,7 @@ class grammar {
     function __construct($filename) {
         $this->fileHandle = fopen($filename, "r");
 
-        $this->reductions = array();
+        $this->productions = array();
 
         while (($line = $this->getFullLine()) !== false) {
             $parts = preg_split('/\s*::=\s*/',$line);
@@ -48,13 +49,15 @@ class grammar {
                     $terminals = $parts[1];
                 }
                 if ($message) {
-                    $this->reductions[] = [$symbol, $terminals, $message];
+                    $this->productions[] = [$symbol, $terminals, $message];
                 } else {
-                    $this->reductions[] = [$symbol, $terminals];
+                    $this->productions[] = [$symbol, $terminals];
                 }
             } else {
                 echo "Warning - bad grammar $line";
             }
         }
+
+        $this->numProductions = count($this->productions);
     }
 }
