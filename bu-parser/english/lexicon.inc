@@ -80,10 +80,10 @@ class languageDB extends lexicon {
   const LETTERS = 'letters';
   const INVERSE = 'inverse';
   
-  public function __construct() {
+  public function __construct($language = 'english') {
     global $options;
 
-    $this->language = 'english';
+    $this->language = $language;
      
     // Each top level element of the patterns array is a named sub-array
     // Each named sub-array represents a particular word category 

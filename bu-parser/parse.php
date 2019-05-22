@@ -2,115 +2,34 @@
 
 include "utilities.inc";
 include "grammar.inc";
-include "tokeniser.inc";
-include "matcher.inc";
-include "lexicon.inc";
-include "english/lexicon.inc";
+include "terminals.inc";
 
 $blazon = implode(' ', array_slice($argv,1));
 if ($blazon == '') {
     $blazon = file_get_contents("blazon.txt");
 }
 
-$tokenList = new tokeniser($blazon);
-//var_dump($tokenList);
-//exit;
-$patternDB = new languageDB();
-
-$phraseMatcher = new matcher($tokenList, $patternDB);
 $xml = new blazonML();
 
+$terminalMaker = new terminals('english', $blazon, $xml);
 
-class parseTreeItem {
-    public $category;
-    public $keyword;
-    public $tokens;
-    public $subItems;
-    public $lineNo;
-    public $matched;
-    public $optional;
-    public $discard;
+$parseTree = $terminalMaker->getTerminals();
 
-    function __construct($category, $keyword, $tokens, $lineNo) {
-        $this->category = $category;
-        $this->keyword = $keyword;
-        $this->tokens = $tokens;
-        $this->lineNo = $lineNo;
-        $this->subItems = array();
-        $this->matched = false;
-        $this->optional = false;
-    }
-}
+$terminalMaker = null;
 
-$parseTree = array();
 
-function minimiseNos($numbers) {
-    $prevNum = $minimised = $numbers[0];
-    for ($i = 1; $i < count($numbers); $i++) {
-        if ($numbers[$i] != $prevNum) {
-            $prevNum = $numbers[$i];
-            $minimised .= ",$prevNum";
-        }
-    }
-    return $minimised;
-}
 
+echo "Terminal Symbols:\n";
+foreach($parseTree as $item) {
+    $xml->prettyPrint($item);
+} 
+
+    
 function firstAndLast($str) {
     $nums = explode('-',$str);
     return $nums[0] . '-' . $nums[count($nums)-1];
 }
 
-while ($tokenList->moreInput()) {
-    $longestMatch = 0;
-    $possibles = [];
-    foreach ($patternDB->listKeys() as $key) {
-        $prev_word = $tokenList->cur_word;
-        $match = $phraseMatcher->searchMatch($key);
-        if ($match) {
-            $matchLength = $tokenList->cur_word - $prev_word;
-            $tokens = '';
-            for ($i = 0; $i < $matchLength; $i++ ) {
-                if ($tokenList->words[$prev_word + $i]) {
-                    $tokens .= $tokenList->words[$prev_word + $i] . ' ';
-                }
-            }
-            $tokens = trim($tokens);
-            $lineNos = minimiseNos(array_slice($tokenList->lineNos,$prev_word,$matchLength));
-            if ($matchLength > $longestMatch) {
-                $longestMatch = $matchLength;
-                $possibles = [];
-                $possibles[] = $xml->makeNode('t-' . $key, [blazonML::A_KEYTERM => $match], $tokens, $lineNos );
-            } elseif ($matchLength == $longestMatch) {
-                $possibles[] = $xml->makeNode('t-' . $key, [blazonML::A_KEYTERM => $match], $tokens, $lineNos );
-            }
-        }
-        $tokenList->cur_word = $prev_word;
-    }
-    switch (count($possibles)) {
-        case 0:
-            $tokenList->cur_word += 1;
-            $parseTree[] = $xml->makeNode('t-unknown',[blazonML::A_KEYTERM => $tokenList->words[$tokenList->cur_word]], '',    $tokenList->lineNos[$tokenList->cur_word] );
-            break;
-        case 1: 
-            $parseTree[] = $possibles[0];
-            $tokenList->cur_word += $longestMatch;
-            break;
-            default: // > 1 possible
-            $parseTree[] = $possibles;
-            $tokenList->cur_word += $longestMatch;
-            break;
-    }
-}
-
-$tokenList = null;
-$patternDB = null;
-$phraseMatcher = null;
-$english = null;
-
-/*  echo "Terminal Symbols:\n";
-foreach($parseTree as $item) {
-    $xml->prettyPrint($item);
-} */
 
 
 function testReduction($symbolList, $startPoint) {
@@ -263,28 +182,6 @@ do {
     }
     //break;
 } while ($numMatched);
-
-function printPTI($PTI, $indent = 0) {
-    $prefix = str_repeat(' ', $indent);
-    if (is_array($PTI)) {
-        echo $prefix."[\n";
-        foreach($PTI as $item) {
-            printPTI($item, $indent + 2);
-        }
-        echo "$prefix]\n";
-    } else {
-        if ( $PTI->optional ) {
-            echo $prefix . '?(' . $PTI->category . '/' . $PTI->keyword . ' ' . $PTI->tokens . ' ' . $PTI->lineNo . ")?\n";
-        } else {
-             echo $prefix . $PTI->category . '/' . $PTI->keyword . ' ' . $PTI->tokens . ' ' . $PTI->lineNo . "\n";
-        }
-        if (is_array($PTI->subItems)) {
-            foreach ($PTI->subItems as $item) {
-                printPTI($item, $indent + 4);
-            }
-        }
-    }
-}
 
 echo "Final tree:\n";
 foreach($parseTree as $item) {
