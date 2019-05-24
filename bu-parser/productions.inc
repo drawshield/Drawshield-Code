@@ -7,9 +7,12 @@ class productions {
     private $ruleset;
     private $messages;
     private $xml;
+    private $fixups;
 
     public function __construct($language, $xml) {
         $this->ruleset = new grammar ("$language/blazonry.txt"); // should be called ruleset.txt?
+        include "$language/fixups.inc";
+        $this->fixups = new fixups($xml);
         $this->messages = array();
         $this->xml = $xml;
     }
@@ -50,6 +53,7 @@ class productions {
         $treePtr = $startPoint;
         $matchedPTIs = 0;
         $symbols = preg_split('/\s+/', $symbolList, -1, PREG_SPLIT_NO_EMPTY);
+        $copyToParent = false;
         $repeatable = 0;
     
         while (true) {
@@ -87,7 +91,8 @@ class productions {
                 $optional = (strpos($symbolToMatch[0],'?') !== false );
                 $repeatable = (strpos($symbolToMatch,'*') !== false ) ? 1 : 0;
                 $discard =  (strpos($symbolToMatch,'^') !== false);
-                $symbolToMatch = str_replace(array('<','>','/','?','^','*'),'',$symbolToMatch);
+                $copyToParent = (strpos($symbolToMatch,'=') !== false);
+                $symbolToMatch = str_replace(array('<','>','/','?','^','*','='),'',$symbolToMatch);
             }
             // echo "Comparing (" . $this->parseTree[$treePtr]->symbol . ') & ('. $symbolToMatch . ")\n";
             // Compare the current two symbols
@@ -97,6 +102,10 @@ class productions {
                     if ($altPTI->nodeName == $symbolToMatch) {
                         if ($optional) $altPTI->setAttribute("optional","true");
                         $altPTI->setAttribute("matched","true");
+                        if ($copyToParent) {
+                            $altPTI->setAttribute("copy","true");
+                            $altPTI->setAttribute("discard","true");
+                        }
                         $found = true;
                     } else {
                         if ($discard) $altPTI->setAttribute("discard","true");
@@ -106,6 +115,10 @@ class productions {
                 if ($this->parseTree[$treePtr]->nodeName == $symbolToMatch) {
                     if ($optional) $this->parseTree[$treePtr]->setAttribute("optional","true");
                     if ($discard) $this->parseTree[$treePtr]->setAttribute("discard","true");
+                    if ($copyToParent) {
+                        $this->parseTree[$treePtr]->setAttribute("copy","true");
+                        $this->parseTree[$treePtr]->setAttribute("discard","true");
+                    }
                     $found = true;
                 }
             }
@@ -143,6 +156,7 @@ class productions {
                 $parseTreeLength = count($this->parseTree);
                 // Starting from each item still in the parse tree
                 for ($pPtr = 0; $pPtr < $parseTreeLength; $pPtr++) {
+                    $params = [];
                     if ($numMatched = $this->testProduction($symbolList, $pPtr)) {
                         $linkedTokens = '';
                         $linkedLines = $this->parseTree[$pPtr]->getAttribute(blazonML::A_LINENUMBER);
@@ -154,21 +168,28 @@ class productions {
                             if ($this->parseTree[$i]->getAttribute(blazonML::A_TOKENS)) {
                                 $linkedTokens .= $this->parseTree[$i]->getAttribute(blazonML::A_TOKENS) . ' ';
                             }
+                            if ($this->parseTree[$i]->hasAttribute("copy")) {
+                                $params[blazonML::A_KEYTERM] = $this->parseTree[$i]->getAttribute(blazonML::A_KEYTERM);
+                                if ($this->parseTree[$i]->hasAttribute(blazonML::A_PARAM)) {
+                                    $params[blazonML::A_PARAM] = $this->parseTree[$i]->getAttribute(blazonML::A_PARAM);
+                                }
+                            }
                         }
                         $linkedTokens = trim($linkedTokens);
-                        $newPTI = $this->xml->makeNode($newSymbol, '', $linkedTokens, $linkedLines);
+                        $newPTI = $this->xml->makeNode($newSymbol,  $params, $linkedTokens, $linkedLines);
                         foreach ($this->getSubItems($pPtr, $numMatched ) as $subItem) 
                             $newPTI->appendChild($subItem);
+                        if (method_exists($this->fixups, $newSymbol)) {
+                            $newPTI = $this->fixups->$newSymbol($newPTI);
+                        }
                         array_splice($this->parseTree, $pPtr, $numMatched, [$newPTI]);
                         if (count( $this->ruleset->productions[$gPtr] ) > 2) {
                             $this->messageList[] = $this->ruleset->productions[$gPtr][2] . ": $linkedTokens near $linkedLines";
                         }
                         break 2;
                     }
-                // echo $numMatched ? "true" : "false" . " $gPtr of $grammarLength $pPtr of $parseTreeLength \n";
                 }
             }
-            //break;
         } while ($numMatched);
         return $this->parseTree;
     }

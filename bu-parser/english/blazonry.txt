@@ -1,18 +1,20 @@
 #
 # The definition of the language of blazonry in a variant Backas-Naur Form (BNF)
 #
-# NOTE: In this implementation ORDER IS IMPORTANT, alternatives are processed in order
-# of appearance and the FIRST match will succeed
-#
-# Other differences from BNF are:
+# Differences from BNF are:
 #
 # * non-terminals do not have to be surrounded by angle brackets (but can be)
+# * There are various flags available, which can appear before or after the symbol
+#   The symbol / can be used to separate the symbol from its flags if preferred
+# 
+# Flags that modify production rules
 # * symbols flagged with ? are optional
 # * symbols flagged with * can appear more than once
+# 
+# Flags that affect the parsing process but can generally be ignored
 # * symbols flagged with ^ are discarded from the parse tree once found
-# * The symbol / can be used to separate the symbol from its flags if preferred
-#
-#
+# * The flag = causes its attributes to be copied up to the parent node
+#		and the symbol is then discarded
 
 #############
 # Punctuation  
@@ -32,9 +34,9 @@ semi1		::=	t-semicolon
 treatment 	::= t-treatment2 colour ?andd^ colour | \
 				colour t-treatment2 colour | \
 				t-treatment1 colour
-fur 		::= t-fur^
-colour		::= t-colour^
-proper		::= t-proper^
+fur 		::= t-fur=
+colour		::= t-colour=
+proper		::= t-proper=
 backref		::= t-backref  # expand this?
 counter		::= t-counterchange
 semy		::= t-semy ?t-wordof charge
@@ -52,32 +54,32 @@ div-type2	::= t-division2 tincture ?andd^ tincture  | \
 				t-division3x tincture ?andd^ tincture
 
 div-mod 	::= t-divmods ?andd^ | t-linetype ?andd^ | t-orientation ?andd^
-div-mods 	::= div-mod*
 
-division 	::= div-type2 ?div-mods | \
-			 	div-type3 ?div-mods | \
+
+division 	::= div-type2 ?div-mod* | \
+			 	div-type3 ?div-mod* | \
 			 	counterdiv
 
 
 #############
 # Ordinaries
 #############
-ord-mod		::= t-ord-mods ?andd^ | | t-linetype ?andd^ | t-orientation ?andd^ | \
+ord-mod		::= t-ordmods ?andd^ | | t-linetype ?andd^ | t-orientation ?andd^ | \
 				t-colour-mod ?andd^ | t-voided ?andd^ | t-ordprefix ?andd^
-ord-mods	::= ord-mod*
 
-ord-type1	::= t-number1 ?ordprefix t-ordinary1 | \
-				t-number1 ?ordprefix t-ordinaryconf | \
-				t-number1 ?ordprefix t-ordorcharge 
-ord-type2	::= t-number1 ?ordprefix t-ordinary2 | \
-				t-number2 ?ordprefix t-ordinary2 
-ord-type3	::= t-number1 ?ordprefix t-ordinary3 | \
-				t-number2 ?ordprefix t-ordinary3 | \
-				t-number3 ?ordprefix t-ordinary3 
 
-ord-type	::= ord-type1 | ord-type2 | ord-type3
-ordinary	::=	ord-type tincture ?ord-mods ?semi1^ | \
-				ord-type ?ord-mods tincture ?semi1^
+ord-type1	::= t-number1 ?ordprefix t-ordinary1= | \
+				t-number1 ?ordprefix t-ordinaryconf= | \
+				t-number1 ?ordprefix t-ordorcharge= 
+ord-type2	::= t-number1 ?ordprefix t-ordinary2= | \
+				t-number2 ?ordprefix t-ordinary2= 
+ord-type3	::= t-number1 ?ordprefix t-ordinary3= | \
+				t-number2 ?ordprefix t-ordinary3= | \
+				t-number3 ?ordprefix t-ordinary3= 
+
+ord-type	::= ord-type1= | ord-type2= | ord-type3=
+ordinary	::=	ord-type= tincture ?ordmods ?semi1^ | \
+				ord-type= ?ordmods tincture ?semi1^
 
 on-ordinary	::= t-wordon ordinary charge | \
 				t-wordon ordinary ordinary
@@ -86,11 +88,11 @@ on-ordinary	::= t-wordon ordinary charge | \
 # Simple Charges (for now)
 #############
 
-charge		::= t-number2 t-charge2x tincture | \
-				anynumber t-charge2x tincture | \
-				anynumber t-charge tincture
+charge		::= t-number2 t-charge2x= tincture | \
+				anynumber t-charge2x= tincture | \
+				anynumber t-charge= tincture
 
-anynumber	::= t-number1 | t-number2 | t-number3 | t-numberx
+anynumber	::= t-number1= | t-number2= | t-number3= | t-numberx=
 
 #############
 # Objects (on the field)

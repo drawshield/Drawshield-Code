@@ -1,6 +1,7 @@
-checky vert and sable
-on
-a bend or
-2 stars gules
-2 escallops argent
-overall a fillet cross gules
+// checky vert and
+sable
+// on
+a bend enarched or
+// 2 stars gules
+// 2 escallops argent
+// overall a fillet cross gules

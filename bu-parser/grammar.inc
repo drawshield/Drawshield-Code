@@ -29,7 +29,7 @@ class grammar {
         return $fullLine;
     }
 
-    function __construct($filename) {
+    public function __construct($filename) {
         $this->fileHandle = fopen($filename, "r");
 
         $this->productions = array();

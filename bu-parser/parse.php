@@ -17,17 +17,19 @@ $parseTree = $terminalMaker->getTerminals();
 
 $terminalMaker = null; // discard terminal maker as no longer needed
 
-/* echo "Terminal Symbols:\n";
-foreach($parseTree as $item) {
-    $xml->prettyPrint($item);
-}  */
+echo "Terminal Symbols:\n";
+ foreach($parseTree as $item) {
+     $xml->prettyPrint($item);
+ }
 
 $ruleset = new productions("english", $xml);
 $parseTree = $ruleset->applyRules($parseTree);
 
 echo "Final tree:\n";
+$xml->formatOutput = true;
 foreach($parseTree as $item) {
-    $xml->prettyPrint($item);
+    // $xml->prettyPrint($item);
+    $xml->showXML($item);
     // var_dump($item);
 }
 
@@ -36,3 +38,4 @@ foreach($ruleset->getMessages() as $message) {
 }
 
 $ruleset = null; // discard production rules, no longer needed
+

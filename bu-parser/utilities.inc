@@ -101,6 +101,16 @@ class blazonML extends DOMDocument {
     parent::__construct($version, $encoding);
   }
   
+  public function showXML($node) {
+      if (is_array($node)) {
+        foreach ($node as $item) {
+          $this->showXML($item);
+        }
+      } else {
+        echo $this->saveXML($node);
+      }
+  }
+
   public function makeNode ( $element, $params = null, $tokens = null, $lineNo = null ) {
     $node = parent::createElement($element);
     $node->setAttribute( self::A_ID, $this->uid->getRef("N"));
@@ -129,10 +139,11 @@ class blazonML extends DOMDocument {
         }
         echo "$prefix]\n";
     } else {
+        $copy = $node->hasAttribute("copy") ? ' (copy) ' : '';
         if ( $node->hasAttribute("optional") ) {
-            echo $prefix . '?(' . $node->nodeName . '/' . $node->getAttribute(self::A_KEYTERM) . ' ' . $node->getAttribute(self::A_TOKENS) . ' ' . $node->getAttribute(self::A_LINENUMBER) . ")?\n";
+            echo $prefix . '?(' . $node->nodeName . '/' . $node->getAttribute(self::A_KEYTERM) . ' ' . $node->getAttribute(self::A_TOKENS) . ' ' . $node->getAttribute(self::A_LINENUMBER) . ")? $copy\n";
         } else {
-            echo $prefix . $node->nodeName . '/' . $node->getAttribute(self::A_KEYTERM) . ' ' . $node->getAttribute(self::A_TOKENS) . ' ' . $node->getAttribute(self::A_LINENUMBER) . "\n";
+            echo $prefix . $node->nodeName . '/' . $node->getAttribute(self::A_KEYTERM) . ' "' . $node->getAttribute(self::A_TOKENS) . '" ' . $node->getAttribute(self::A_LINENUMBER) . " $copy\n";
         }
         foreach($node->childNodes as $child)
             $this->prettyPrint($child, $indent + 4);
