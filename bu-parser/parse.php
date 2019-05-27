@@ -14,19 +14,28 @@ $xml = new blazonML();
 $terminalMaker = new terminals('english', $blazon, $xml);
 
 $parseTree = $terminalMaker->getTerminals();
+$tokens = $terminalMaker->getTokens();
 
 $terminalMaker = null; // discard terminal maker as no longer needed
 
-echo "Terminal Symbols:\n";
- foreach($parseTree as $item) {
-     $xml->prettyPrint($item);
- }
+// echo "Terminal Symbols:\n";
+//  foreach($parseTree as $item) {
+//     //  $xml->showXML($item);
+//      $xml->prettyPrint($item);
+//  }
 
 $ruleset = new productions("english", $xml);
 $parseTree = $ruleset->applyRules($parseTree);
 
-echo "Final tree:\n";
+$root = $xml->createElement('blazon');
+$root->setAttribute('blazonText', urlencode($blazon));
+$root->setAttribute('tokens', implode(' ',$tokens));
+$root->appendChild($parseTree[0]);
+$xml->appendChild($root);
+
+// echo "Final tree:\n";
 $xml->formatOutput = true;
+//$xml->showXML($root);
 foreach($parseTree as $item) {
     // $xml->prettyPrint($item);
     $xml->showXML($item);

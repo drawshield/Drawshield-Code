@@ -18,6 +18,10 @@ class terminals {
         $this->xml = $xml;
     }
 
+    public function getTokens() {
+        return $this->tokenList->getTokens();
+    }
+
     protected function minimiseNos($numbers) {
         $prevNum = $minimised = $numbers[0];
         for ($i = 1; $i < count($numbers); $i++) {
@@ -51,17 +55,17 @@ class terminals {
                     if ($matchLength > $longestMatch) {
                         $longestMatch = $matchLength;
                         $possibles = [];
-                        $possibles[] = $this->xml->makeNode('t-' . $key, [blazonML::A_KEYTERM => $match], $tokens, $lineNos );
+                        $possibles[] = $this->xml->makeNode('t_' . $key, [blazonML::A_KEYTERM => $match], $tokens, $lineNos );
                     } elseif ($matchLength == $longestMatch) {
-                        $possibles[] = $this->xml->makeNode('t-' . $key, [blazonML::A_KEYTERM => $match], $tokens, $lineNos );
+                        $possibles[] = $this->xml->makeNode('t_' . $key, [blazonML::A_KEYTERM => $match], $tokens, $lineNos );
                     }
                 }
                 $this->tokenList->cur_word = $prev_word;
             }
             switch (count($possibles)) {
                 case 0:
+                    $parseTree[] = $this->xml->makeNode('t_unknown','',$this->tokenList->words[$this->tokenList->cur_word],    $this->tokenList->lineNos[$this->tokenList->cur_word] );
                     $this->tokenList->cur_word += 1;
-                    $parseTree[] = $this->xml->makeNode('t-unknown',[blazonML::A_KEYTERM => $this->tokenList->words[$this->tokenList->cur_word]], '',    $this->tokenList->lineNos[$this->tokenList->cur_word] );
                     break;
                 case 1: 
                     $parseTree[] = $possibles[0];

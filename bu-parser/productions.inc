@@ -57,6 +57,13 @@ class productions {
         $repeatable = 0;
     
         while (true) {
+            // if ($treePtr < count($this->parseTree) && 
+            //     !(is_array($this->parseTree[$treePtr])) && 
+            //     ($this->parseTree[$treePtr]->nodeName == 't-unknown')) {
+            //     $treePtr++;
+            //     $matchedPTIs++;
+            //     continue;
+            // }
             $allOptional = false;
             if ($treePtr >= count($this->parseTree)) {
                 // not an error if all remaining symbols are optional...
@@ -75,13 +82,15 @@ class productions {
                 for ($i = $startPoint; $i < $startPoint + $matchedPTIs; $i++) {
                     if (is_array($this->parseTree[$i])) {
                         // echo "Picking matched item from array\n";
+						$types = '';
                         foreach ( $this->parseTree[$i] as $array_item) {
+							$types .= substr($array_item->nodeName,2) . ' ';
                             if ($array_item->hasAttribute("matched")) {
                                 $newPTI = $array_item;
-                                array_splice($this->parseTree, $i, 1, [$newPTI]);
-                                break;
                             }
                         }
+						$newPTI->setAttribute("types",$types);
+                        array_splice($this->parseTree, $i, 1, [$newPTI]);
                     } 
                 }
                 return $matchedPTIs; // only get here if all symbols match
@@ -100,7 +109,7 @@ class productions {
             if (is_array($this->parseTree[$treePtr])) {
                 foreach($this->parseTree[$treePtr] as $altPTI) { 
                     if ($altPTI->nodeName == $symbolToMatch) {
-                        if ($optional) $altPTI->setAttribute("optional","true");
+                        // if ($optional) $altPTI->setAttribute("optional","true");
                         $altPTI->setAttribute("matched","true");
                         if ($copyToParent) {
                             $altPTI->setAttribute("copy","true");
@@ -113,7 +122,7 @@ class productions {
                 }
             } else {
                 if ($this->parseTree[$treePtr]->nodeName == $symbolToMatch) {
-                    if ($optional) $this->parseTree[$treePtr]->setAttribute("optional","true");
+                    // if ($optional) $this->parseTree[$treePtr]->setAttribute("optional","true");
                     if ($discard) $this->parseTree[$treePtr]->setAttribute("discard","true");
                     if ($copyToParent) {
                         $this->parseTree[$treePtr]->setAttribute("copy","true");
@@ -150,7 +159,10 @@ class productions {
             $numMatched = false;
             // For each entry in the list of grammar productions
             for ($gPtr = 0; $gPtr < $this->ruleset->numProductions; $gPtr++) {
+                $matches = array();
                 $newSymbol = $this->ruleset->productions[$gPtr][0];
+                $copyAttributes = strpos($newSymbol,'@') === false;
+                $newSymbol = str_replace('@','',$newSymbol);
                 $symbolList = $this->ruleset->productions[$gPtr][1];
                 // echo "Looking for $newSymbol\n";
                 $parseTreeLength = count($this->parseTree);
@@ -159,38 +171,58 @@ class productions {
                     $params = [];
                     if ($numMatched = $this->testProduction($symbolList, $pPtr)) {
                         $linkedTokens = '';
-                        $linkedLines = $this->parseTree[$pPtr]->getAttribute(blazonML::A_LINENUMBER);
-                        $endLine = $this->parseTree[$pPtr + $numMatched -1]->getAttribute(blazonML::A_LINENUMBER);
-                        if ($endLine != $linkedLines) {
-                            $linkedLines = $this->firstAndLast("$linkedLines-$endLine");
+                        $linkedLines = '';
+                        if ($copyAttributes) {
+                            $linkedLines = $this->parseTree[$pPtr]->getAttribute(blazonML::A_LINENUMBER);
+                            $endLine = $this->parseTree[$pPtr + $numMatched -1]->getAttribute(blazonML::A_LINENUMBER);
+                            if ($endLine != $linkedLines) {
+                                $linkedLines = $this->firstAndLast("$linkedLines-$endLine");
+                            }
                         }
                         for ($i = $pPtr; $i < $pPtr + $numMatched; $i++) {
-                            if ($this->parseTree[$i]->getAttribute(blazonML::A_TOKENS)) {
-                                $linkedTokens .= $this->parseTree[$i]->getAttribute(blazonML::A_TOKENS) . ' ';
-                            }
-                            if ($this->parseTree[$i]->hasAttribute("copy")) {
-                                $params[blazonML::A_KEYTERM] = $this->parseTree[$i]->getAttribute(blazonML::A_KEYTERM);
-                                if ($this->parseTree[$i]->hasAttribute(blazonML::A_PARAM)) {
-                                    $params[blazonML::A_PARAM] = $this->parseTree[$i]->getAttribute(blazonML::A_PARAM);
+                            if ($copyAttributes) {
+                                if ($this->parseTree[$i]->getAttribute(blazonML::A_TOKENS)) {
+                                    $linkedTokens .= $this->parseTree[$i]->getAttribute(blazonML::A_TOKENS) . ' ';
+                                }
+                                if ($this->parseTree[$i]->hasAttribute("copy")) {
+                                    $params[blazonML::A_KEYTERM] = $this->parseTree[$i]->getAttribute(blazonML::A_KEYTERM);
+                                    if ($this->parseTree[$i]->hasAttribute(blazonML::A_PARAM)) {
+                                        $params[blazonML::A_PARAM] = $this->parseTree[$i]->getAttribute(blazonML::A_PARAM);
+                                    }
+                                    if ($this->parseTree[$i]->hasAttribute("types")) {
+                                        $params["types"] = $this->parseTree[$i]->getAttribute("types");
+                                    }
                                 }
                             }
                         }
                         $linkedTokens = trim($linkedTokens);
-                        $newPTI = $this->xml->makeNode($newSymbol,  $params, $linkedTokens, $linkedLines);
-                        foreach ($this->getSubItems($pPtr, $numMatched ) as $subItem) 
-                            $newPTI->appendChild($subItem);
-                        if (method_exists($this->fixups, $newSymbol)) {
-                            $newPTI = $this->fixups->$newSymbol($newPTI);
+                        if (strpos($newSymbol,'^') === false ) {
+                            $newPTI = $this->xml->makeNode($newSymbol,  $params, $linkedTokens, $linkedLines);
+                            foreach ($this->getSubItems($pPtr, $numMatched ) as $subItem) 
+                                $newPTI->appendChild($subItem);
+                            if (method_exists($this->fixups, $newSymbol)) {
+                                $newPTI = $this->fixups->$newSymbol($newPTI);
+                            }
+                            array_splice($this->parseTree, $pPtr, $numMatched, [$newPTI]);
+                        } else {
+                            array_splice($this->parseTree, $pPtr, $numMatched);
                         }
-                        array_splice($this->parseTree, $pPtr, $numMatched, [$newPTI]);
                         if (count( $this->ruleset->productions[$gPtr] ) > 2) {
-                            $this->messageList[] = $this->ruleset->productions[$gPtr][2] . ": $linkedTokens near $linkedLines";
+                            $this->messages[] =
+                                $this->ruleset->productions[$gPtr][2] . ": $linkedTokens near line $linkedLines";
                         }
                         break 2;
                     }
                 }
+				
+                // How many matches?
+                // switch (count($matches)) {
+                //     case 0: return $this->parseTree;
+                //             break;
+                //     case 1:
+                // }
             }
-        } while ($numMatched);
+        } while ($numMatched );
         return $this->parseTree;
     }
     

@@ -1,9 +1,9 @@
 #
-# The definition of the language of blazonry in a variant Backas-Naur Form (BNF)
+# The definition of the language of blazonry in a variant Backas_Naur Form (BNF)
 #
 # Differences from BNF are:
 #
-# * non-terminals do not have to be surrounded by angle brackets (but can be)
+# * non_terminals do not have to be surrounded by angle brackets (but can be)
 # * There are various flags available, which can appear before or after the symbol
 #   The symbol / can be used to separate the symbol from its flags if preferred
 # 
@@ -17,89 +17,101 @@
 #		and the symbol is then discarded
 
 #############
+# Discard error words
+#############
+
+error^		::= t_unknown ! Word not recognised
+
+#############
 # Punctuation  
 #############
 
-andd		::= t-andd t-comma | \
-				t-comma t-andd | \
-				t-andd | \
-				t-comma
-semi2		::= t-semicolon t-semicolon
-semi1		::=	t-semicolon
+andd		::= t_andd= t_comma | \
+				t_comma t_andd= | \
+				t_andd= | \
+				t_comma
+semi2		::= t_semicolon t_semicolon
+semi1		::=	t_semicolon
 
 #############
 # Tinctures  
 #############
 # TODO can't remember how grady is supposed to work
-treatment 	::= t-treatment2 colour ?andd^ colour | \
-				colour t-treatment2 colour | \
-				t-treatment1 colour
-fur 		::= t-fur=
-colour		::= t-colour=
-proper		::= t-proper=
-backref		::= t-backref  # expand this?
-counter		::= t-counterchange
-semy		::= t-semy ?t-wordof charge
+treatment 	::= t_treatment2 colour ?andd^ colour | \
+				colour t_treatment2 colour | \
+				t_treatment1 colour
+fur 		::= t_fur=
+colour		::= t_colour=
+proper		::= t_proper=
+backref		::= t_backref  # expand this?
+counter		::= t_counterchange
+semy		::= t_semy ?t_wordof charge
 
 tincture 	::= treatment | fur | colour | proper | backref | counter | semy
 
 
 #############
+# Modifiers
+#############
+
+modifier 	::= t_divmods= ?andd^ | t_orientation= ?andd^ | t_ordmods= | \
+				t_colour_mod= ?andd^ | t_voided= ?andd^ | t_ordprefix= ?andd^ | \
+				t_linetype= ?andd^ |
+
+
+#############
 # Divisions
 #############
-div-type3	::=	t-division3 tincture ?andd^ tincture ?andd^ tincture | \
-				t-division3x tincture ?andd^ tincture ?andd^ tincture
-counterdiv	::= div-type2 t-division2 counter  # test / expand this
-div-type2	::= t-division2 tincture ?andd^ tincture  | \
-				t-division3x tincture ?andd^ tincture
-
-div-mod 	::= t-divmods ?andd^ | t-linetype ?andd^ | t-orientation ?andd^
+div_type3	::=	t_division3 tincture ?andd^ tincture ?andd^ tincture | \
+				t_division3x tincture ?andd^ tincture ?andd^ tincture
+counterdiv	::= div_type2 t_division2 counter  # test / expand this
+div_type2	::= t_division2 tincture ?andd^ tincture  | \
+				t_division3x tincture ?andd^ tincture
 
 
-division 	::= div-type2 ?div-mod* | \
-			 	div-type3 ?div-mod* | \
+division 	::= div_type2 ?modifier* | \
+			 	div_type3 ?modifier* | \
 			 	counterdiv
 
 
 #############
 # Ordinaries
 #############
-ord-mod		::= t-ordmods ?andd^ | | t-linetype ?andd^ | t-orientation ?andd^ | \
-				t-colour-mod ?andd^ | t-voided ?andd^ | t-ordprefix ?andd^
 
+ord_type1	::= t_number1 ?ordprefix t_ordinary1= | \
+				t_number1 ?ordprefix t_ordinaryconf= | \
+				t_number1 ?ordprefix t_ordorcharge= 
+ord_type2	::= t_number1 ?ordprefix t_ordinary2= | \
+				t_number2 ?ordprefix t_ordinary2= 
+ord_type3	::= t_number1 ?ordprefix t_ordinary3= | \
+				t_number2 ?ordprefix t_ordinary3= | \
+				t_number3 ?ordprefix t_ordinary3= 
 
-ord-type1	::= t-number1 ?ordprefix t-ordinary1= | \
-				t-number1 ?ordprefix t-ordinaryconf= | \
-				t-number1 ?ordprefix t-ordorcharge= 
-ord-type2	::= t-number1 ?ordprefix t-ordinary2= | \
-				t-number2 ?ordprefix t-ordinary2= 
-ord-type3	::= t-number1 ?ordprefix t-ordinary3= | \
-				t-number2 ?ordprefix t-ordinary3= | \
-				t-number3 ?ordprefix t-ordinary3= 
+ord_type	::= ord_type1= | ord_type2= | ord_type3=
+ordinary	::=	ord_type= tincture ?modifier* ?semi1^ | \
+				ord_type= ?modifier* tincture ?semi1^
 
-ord-type	::= ord-type1= | ord-type2= | ord-type3=
-ordinary	::=	ord-type= tincture ?ordmods ?semi1^ | \
-				ord-type= ?ordmods tincture ?semi1^
+on_ordinary	::= t_wordon= ordinary charge | \
+				t_wordon= ordinary ordinary
 
-on-ordinary	::= t-wordon ordinary charge | \
-				t-wordon ordinary ordinary
+bare_ordinary ::= ord_type= ?modifier* ?semi1^
 
 #############
 # Simple Charges (for now)
 #############
 
-charge		::= t-number2 t-charge2x= tincture | \
-				anynumber t-charge2x= tincture | \
-				anynumber t-charge= tincture
+charge		::= t_number2 t_charge2x= tincture | \
+				anynumber t_charge2x= tincture | \
+				anynumber t_charge= tincture
 
-anynumber	::= t-number1= | t-number2= | t-number3= | t-numberx=
+anynumber	::= t_number1= | t_number2= | t_number3= | t_numberx=
 
 #############
 # Objects (on the field)
 #############
-object		::= charge | ordinary | on-ordinary
+object		::= charge ?andd^ | ordinary ?andd^ | on_ordinary  ?andd^ | bare_ordinary ?andd^
 
-objects		::= object*
+objects@		::= object*
 
 #############
 # Field
@@ -109,15 +121,16 @@ field		::= tincture | division
 #############
 # Overall (a simple shield)
 #############
-overall		::= t-overall objects
+overall		::= t_overall objects
 
 
 #############
 # Simple shield
 #############
 
-simpleshield ::= field objects ?overall | \
+simple@ ::= field objects ?overall | \
 				 field
+
 
 #############
 # Quarterings
@@ -125,7 +138,19 @@ simpleshield ::= field objects ?overall | \
 
 quartermarker	::= ?t_wordthe^ t_quarters ?t_quartermark^ | \
 					?t_wordthe^ anynumber t_quartermark^ | \
-					?t_wordthe^ t-letters t_quartermark^
+					?t_wordthe^ t_letters t_quartermark^
+
+#############
+# shield
+#############
+
+shield ::= simple
+
+#############
+# blazon
+#############
+
+blazon ::= shield
 
 ##########################
 # Look for some common errors
@@ -133,15 +158,15 @@ quartermarker	::= ?t_wordthe^ t_quarters ?t_quartermark^ | \
 # If we didn't find a legitimate reduction above, look for some common errors
 # This is not wasteful as they are only processed if there is no match above
 
-bad-division ::= t-division2 tincture | \
-				 t-division2 | \
-				 t-division3 tincture ?andd^ tincture | \
-				 t-division3 ! Wrong number of tinctures for division
+bad_division ::= t_division2 tincture | \
+				 t_division2 | \
+				 t_division3 tincture ?andd^ tincture | \
+				 t_division3 ! Wrong number of tinctures for division
 
-bad-treatment ::= t-treatment2 colour | \
-				  colour t-treatment 2 | \
-				  t-treatment2 |\
-				  t-treatment1 ! Wrong number of colours for treatment
+bad_treatment ::= t_treatment2 colour | \
+				  colour t_treatment 2 | \
+				  t_treatment2 |\
+				  t_treatment1 ! Wrong number of colours for treatment
 
 
 

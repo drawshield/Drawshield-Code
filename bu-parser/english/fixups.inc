@@ -40,4 +40,16 @@ class fixups {
         }
         return $node;
     }
+
+    public function tincture($node) {
+        $node->setAttribute(blazonML::A_ORIGIN,"given");
+        return $node;
+    }
+
+    public function bare_ordinary($node) {
+        $tinc = $this->xml->createElement(blazonML::E_TINCTURE);
+        $tinc->setAttribute(blazonML::A_ORIGIN,"pending");
+        $node->appendChild($tinc);
+        return $node;
+    }
 }
