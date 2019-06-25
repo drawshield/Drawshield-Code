@@ -18,12 +18,13 @@ if ( ($num_of = getModifierValueByKeyterm($node, 'ofnum', true)) == null ) $num_
 $NC = '';
 $CH = '';
 $stepC = 900 / $num_of; // with a chief
-$stepV = 1200 / $num_of;
+$stepV = $calcHeight / $num_of;
 for ( $i = 1; $i < $num_of; $i +=2 ) {
   $Y1 = $i * $stepV;
   $YC = 300 + $i * $stepC;
   $NC .= "X-100Y{$Y1}A1200c{$stepV}E1200g{$stepV}   ";
   $CH .= "X-100Y{$YC}A1200c{$stepC}E1200g{$stepC}   ";
 }
-$division['div2'] = createBody( choose_fit (compact('NC', 'CH')), getModifierByType($node,'linetype'), 40);
+$lineSize = (int)($calcHeight / 30);
+$division['div2'] = createBody( choose_fit (compact('NC', 'CH')), getModifierByType($node,'linetype'), $lineSize);
 

@@ -95,9 +95,7 @@ class englishGrammar extends grammar {
           break;
         case 'aspect':
           $value = $this->phraseMatcher->getValue();
-//          error_log("Setting aspect as " . $value);
           $options['aspectRatio'] = calculateAR($value);
-          $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
         default:
           break;
       }

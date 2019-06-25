@@ -43,7 +43,7 @@ function rgb($name) {
         }
         $loaded = true;
     }
-    if ($options['drawType'] == 'flag') {
+    if ($options['shape'] == 'flag') {
       $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/flags.txt'));
     }
 
@@ -100,7 +100,7 @@ function apply_tincture ( DOMElement $tincture, $object, $chg_size = '',
 	  list($chgX,$chgY) = explode(',', $chg_size);
 		$scale = max ( $chgX / 1000, $chgY / 1200 ); // multiply here to adjust relative size of fur etc. on a charge
 	  $patTrans = ' scale(' . $scale . ') ';
-	} elseif ($options['drawType'] == 'flag') { // adjust size based on flag AR?
+	} elseif ($options['shape'] == 'flag') { // adjust size based on flag AR?
     $patTrans = ' scale(0.5) ';
   }
 	if ( $rot != '0' ) // If the object is rotated, we rotate some of the tinctures to match_number()

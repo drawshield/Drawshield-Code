@@ -28,8 +28,13 @@ function includeDivision( DOMElement &$node ) {
   $divisionType = $node->getAttribute('keyterm');
   $division = array ();
   $file = "divisions/$divisionType.inc";
+  $calcHeight = 1200; // value to use for calculating drawing height
+  if ($options['shape'] == 'flag') {
+    $calcHeight = $options['flagHeight'];
+  }
   // WARNINGS Accepted
   if ( stream_resolve_include_path($file) !== false )
+    // calcHeight is available within the included file
     include ( $file );
   else { // can't draw this division
     $messages->addMessage('warning','Cannot draw $type, substituting per-bend' . getLine($node) );
@@ -48,7 +53,7 @@ function makeDivision( DOMElement $node, $counter = false ) {
   $division = includeDivision($node);
 
   $height = 1200;
-  if ($options['drawType'] == 'flag') {
+  if ($options['shape'] == 'flag') {
     $height = $options['flagHeight'];
   }
 

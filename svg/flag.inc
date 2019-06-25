@@ -16,6 +16,25 @@
 $aspect_ratio = '10:12';
 $scale_factor = 1.0;
 
+function get_clipdata ( $AR ) {
+  $clip_data = array (
+    '10:12' => '0,0,1000,1200',
+    '10:10' => '0,0,1000,1000',
+    '10:14' => '70,0,860,1200',
+    '10:24' => '250,0,500,1200',
+    '10:20' => '250,0,500,1000',
+    '10:28' => '285,0,430,1200',
+    '10:6' => '0,200,1000,600',
+  );
+
+  $retval = array();
+  list($x1,$y1,$w,$h) = explode(',',$clip_data[$AR]);
+  $retval['clippath'] = "<path d=\"M$x1,$y1 h$w v$h h-$w v-$h Z\" />";
+  $retval['xOffset'] = $x1;
+  $retval['yOffset'] = $y1;
+  return $retval;
+}
+
 function makePlain( &$children ) {
   global $options;
 

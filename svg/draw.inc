@@ -1,16 +1,4 @@
-<?php /* Copyright 2010 Karl R. Wilcox
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License. */
+<?php 
 
 // Global variables for parsing
 $svg_region = 'PL';
@@ -28,7 +16,10 @@ include "tinctures.inc";
 include "ordinary.inc";
 include "arrangements.inc";
 include "quartering.inc";
-include "shield.inc";
+if ($options['shape'] == 'flag')
+  include "flag.inc";
+else
+  include "shield.inc";
 include "pathtools.inc";
 include "treatment.inc";
 
@@ -170,39 +161,68 @@ function draw() {
   // Get all the charge data (once for each charge type)
   get_chg_data();
 
-  $header = '<?xml version="1.0" encoding="utf-8" ?>
-  <svg version="1.1"
-       baseProfile="full"
-       xmlns="http://www.w3.org/2000/svg"
-       xmlns:xlink="http://www.w3.org/1999/xlink" ' .
-       'preserveAspectRatio="xMidYMid meet" height="' . (int)($options['size'] * 1.2) . '" width="' . $options['size'];
-  $header .= '" viewBox="'. getEffect('viewbox') . ' ">';
-  $meta = '';
-  $defs = '<defs>' . getEffect('defs') . '</defs>';
-  $trailer =  "</svg>\n";
+  if ($options['shape'] == 'flag') {
+    $displayScale = $options['size'] / 1000;
+    $displayWidth = $options['size'];
+    $displayHeight = (int)(($options['flagHeight'] + 40) * $displayScale);
+    $textY = ($options['flagHeight'] + 34);
 
-  $blazonNode = $dom->documentElement;
-  $body = '';
-  foreach ( $blazonNode->childNodes as $node ) {
-    switch ( $node->nodeName ) {
-    case 'shield':
-      $body .= makeshield($node,'10:12');
-      break;
-      // other elements for future expansion
+    $header = '<?xml version="1.0" encoding="utf-8" ?>
+    <svg version="1.1"
+         baseProfile="full"
+         xmlns="http://www.w3.org/2000/svg"
+         xmlns:xlink="http://www.w3.org/1999/xlink" ' .
+         'preserveAspectRatio="xMidYMid meet" height="' . $displayHeight . '" width="' . $displayWidth . '" ';
+    $header .= 'viewBox="'. getEffect('viewbox',1000,$options['flagHeight'] + 40) . ' ">';
+    $meta = '';
+    $defs = '<defs>' . getEffect('defs') . '</defs>';
+    $trailer =  "</svg>\n";
+
+    $blazonNode = $dom->documentElement;
+    $body = '';
+    foreach ( $blazonNode->childNodes as $node ) {
+        switch ( $node->nodeName ) {
+            case 'shield':
+              $body .= makeflag($node);
+              break;
+              // other elements for future expansion
+        }
     }
-  }
-  if ($options['shape'] == 'italian') { // another horrible fudge
-    $body .= '<g>
-    <path
-       d="m 344.81,3.6726 38.87,68.8004 -38.87,44.027 c 98.25,-11.08 203.99,-10.83 294.76,0 l -25.1,-43.029 25.1,-69.7984 c -91.97,12.5284 -196.51,13.0914 -294.76,0 z"
-       style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
-    <path
-       d="m 7.3198,182.27 c 153.3802,0 216.1402,-145.737 308.6002,-145.737 38.95,0 47.72,17.957 47.72,37.931 -21.32,6.107 -38.06,7.221 -62.77,-1.998 3.71,24.327 27.69,43.914 60.28,43.914 30.41,0 66.46,-18.364 66.46,-53.9 0,-29.654 -35.64,-58.8906 -97.85,-58.8906 -140.82,0 -162.71,123.0406 -322.4402,178.6806 z"
-       style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
-    <path
-       d="m 991.87,182.27 c -152.89,0 -215.82,-145.737 -308.28,-145.737 -38.95,0 -47.72,17.957 -47.72,37.931 21.33,6.107 38.06,7.221 62.77,-1.998 -3.62,24.327 -27.6,43.914 -60.19,43.914 -30.5,0 -66.55,-18.364 -66.55,-53.9 0,-29.654 35.65,-58.8906 97.85,-58.8906 141.06,0 162.79,123.0406 322.12,178.6806 z"
-       style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
-  </g>';
+  } else {
+    $header = '<?xml version="1.0" encoding="utf-8" ?>
+    <svg version="1.1"
+        baseProfile="full"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink" ' .
+        'preserveAspectRatio="xMidYMid meet" height="' . (int)($options['size'] * 1.2) . '" width="' . $options['size'];
+    $header .= '" viewBox="'. getEffect('viewbox') . ' ">';
+    $meta = '';
+    $defs = '<defs>' . getEffect('defs') . '</defs>';
+    $trailer =  "</svg>\n";
+
+    $blazonNode = $dom->documentElement;
+    $body = '';
+    foreach ( $blazonNode->childNodes as $node ) {
+      switch ( $node->nodeName ) {
+      case 'shield':
+        $body .= makeshield($node,'10:12');
+        break;
+        // other elements for future expansion
+      }
+    }
+    if ($options['shape'] == 'italian') { // another horrible fudge
+      $body .= '<g>
+      <path
+        d="m 344.81,3.6726 38.87,68.8004 -38.87,44.027 c 98.25,-11.08 203.99,-10.83 294.76,0 l -25.1,-43.029 25.1,-69.7984 c -91.97,12.5284 -196.51,13.0914 -294.76,0 z"
+        style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
+      <path
+        d="m 7.3198,182.27 c 153.3802,0 216.1402,-145.737 308.6002,-145.737 38.95,0 47.72,17.957 47.72,37.931 -21.32,6.107 -38.06,7.221 -62.77,-1.998 3.71,24.327 27.69,43.914 60.28,43.914 30.41,0 66.46,-18.364 66.46,-53.9 0,-29.654 -35.64,-58.8906 -97.85,-58.8906 -140.82,0 -162.71,123.0406 -322.4402,178.6806 z"
+        style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
+      <path
+        d="m 991.87,182.27 c -152.89,0 -215.82,-145.737 -308.28,-145.737 -38.95,0 -47.72,17.957 -47.72,37.931 21.33,6.107 38.06,7.221 62.77,-1.998 -3.62,24.327 -27.6,43.914 -60.19,43.914 -30.5,0 -66.55,-18.364 -66.55,-53.9 0,-29.654 35.65,-58.8906 97.85,-58.8906 141.06,0 162.79,123.0406 322.12,178.6806 z"
+        style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
+    </g>';
+    }
   }
   if (!array_key_exists('nomask', $options)) {
     $clipShield = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />' );

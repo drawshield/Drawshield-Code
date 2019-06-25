@@ -13,19 +13,12 @@
    limitations under the License. */
 
 
-$ordinary['shape_spec'] = 'X-8,Y{%75*}A1016c{%26*}e1016g{%26*}';
-
-if ($options['shape'] == 'flag') {
-  $ordinary['chargesOn'] = array ('h','100,{%77*},800,{%21*}');
-} else {
-  $ordinary['chargesOn'] = '500,{%87*},500,{%21*}/333.33,{%87*},300,{%21*}:666.67,{%87*}/333.33,{%87*},160,{%21*}:500,{%87*}:666.67,{%87*}/x/x/x';
-}
-
-if ( existModifierWithKeyterm($node, 'riveted')) {
-  include '_rivet.inc';
-  $rivetList = '';
-  for ($i = 5; $i < 1000; $i += 80) {
-    $rivetList .= '<g transform="translate(' . $i . ',915)">' . $rivet . '</g>';
-  }
-  $ordinary['body3'] = $rivetList;
-}
+$ordinary['if_ord_on'] = 'scale';
+$ordinary['feature_size'] = (int)($calcHeight / 30);;
+$ordinary['shape_spec'] = 'X-10Y-{%1}a343C{%51}E343g{%51}';
+// 2 cantons not supported on a flag
+// if ( $node->getAttribute('number') == '2')
+// $ordinary['shape_spec'] .= '    X{%70}Y-{%1}a{%31}c{%31}E{%31}G{%31}';
+$qSize = (int)($calcHeight / 2);
+$outerEdge = $qSize - 40;
+$ordinary['chargesOn'] = array ('w', "20,20,293,$outerEdge");

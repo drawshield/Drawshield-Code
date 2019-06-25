@@ -197,6 +197,29 @@ function getEffect($item, $width=1000, $height=1200) {
     </filter>',
       'filter' => ' filter="url(#shiny)" ',
     ),
+    'ripples' => array (
+      'viewbox' => array(0, 0, 30, 30),
+      'credits' => 'http://www.inkscapeforum.com/memberlist.php?mode=viewprofile&u=3691',
+      'defs' => '
+      <filter
+      id="ripples">
+     <feTurbulence
+        id="feTurbulence3052"
+        type="fractalNoise"
+        baseFrequency="0.005"
+        numOctaves="2"
+        result="result1"
+        seed="0" />
+     <feDisplacementMap
+        id="feDisplacementMap3054"
+        in2="result1"
+        scale="50"
+        in="SourceGraphic"
+        xChannelSelector="B"
+        yChannelSelector="R" />
+   </filter>',
+      'filter' => ' filter="url(#ripples)" ',
+    ),
     'vellum' => array (
     'viewbox' => array(-20, -20, 40, 20),
       'defs' => '<filter id="vellum"  color-interpolation-filters="sRGB">
@@ -255,6 +278,11 @@ function getEffect($item, $width=1000, $height=1200) {
   $effect = $options['effect'];
   // Some synonyms
   switch ($effect) {
+     case 'waving':
+     case 'ripple':
+     case 'rippling':
+      $effect = 'ripples';
+      break;
     case "plain": 
     case "flat": 
       $effect = 'none';

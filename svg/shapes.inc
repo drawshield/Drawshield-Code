@@ -1,9 +1,12 @@
 <?php
 
 function getShape($shape) {
-  global $messages;
+  global $messages, $options;
 
   switch ($shape) {
+    case 'flag':
+      $outline = 'm 0,0 h 1000 v ' . $options['flagHeight'] . 'h -1000 Z';
+      break;
     case 'french':
       $outline = "m 499.99,-74.556 500,3.408 c 0,0 0,1087.148 -1.71,1124.548 -13.63,56.2 -379.96,80.1 -454.92,90.3 -37.49,5.1 -43.37,32.4 -43.37,32.4 m 0,-1250.656 -500,3.408 c 0,0 -4.1193e-5,1087.148 1.7039,1124.548 13.6311,56.2 379.9661,80.1 454.9261,90.3 37.49,5.1 43.37,32.4 43.37,32.4";
       break;

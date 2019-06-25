@@ -95,7 +95,7 @@ class languageDB extends lexicon {
     $this->patterns = array(
       self::WORD_THE => array ( 'the' ),
       self::OVERALL => array ( 'overall', 'sur le tout', 'all with(in)?', "over all", "in pretence" ),
-      self::METAOVERALL => array ( 'over ?all ?the ?# (quarters|quarterings|halves|parts|sections)', ),
+      self::METAOVERALL => array ( 'over(all)? ?all ?the ?# (quarters|quarterings|halves|parts|sections)', ),
       self::SUPPLEMENTARY => array (
         array ('crest', 'crest'),
         array ('mantling', 'mantling'),
@@ -112,8 +112,8 @@ class languageDB extends lexicon {
       self::WITH => array ( array ('(with|upon)', 'with' ) ),
       self::BETWEEN => array ( 'between', 'inter', 'inside', 'within', 'surrounded by', 'accompagne' ),
       self::QUARTERED => array (
-        array ( 'quartered', 'quartered' ), // Always a marshalling
-        array ( 'quarterly', 'quarterly' ), // Could be a marshalling or a division
+        array ( '(grand)?quartered', 'quartered' ), // Always a marshalling
+        array ( '(grand)?quarterly', 'quarterly' ), // Could be a marshalling or a division
       ),
       self::QUARTERMARK => array ( '\\)' ),
       self::LETTERS => array (
@@ -843,7 +843,11 @@ class languageDB extends lexicon {
           array ( '(with|in|using) * (palette|tinctures|colou?rs)', 'scheme'),
           array ( '(with|in|using) ?(a|an|the) * shape', 'shape'),
           array ( '(with|in|using) ?(a|an|the) * (appearance|style|effect)', 'style'),
-        ),
+          array ( '(with|in|using) ?(a|an|the) aspect ?ratio ?of *', 'aspect'),
+          array ( '(with|in|using) ?(a|an|the) * aspect ?ratio', 'aspect'),
+          array ( '(with|in|using) ?(a|an|the) proportions? ?of *', 'aspect'),
+          array ( '(with|in|using) ?(a|an|the) * proportions?', 'aspect')
+      ),
         self::QUARTERMODS => array (
           array ( 'per cross', 'per-cross'),
           array ( 'per saltire', 'per-saltire'),
@@ -855,14 +859,10 @@ class languageDB extends lexicon {
       );
       include "charge.inc";
       include "chargemod.inc";
-      if ($options['drawType'] == 'flag') {
+      if ($options['shape'] == 'flag') {
         include "flag-colours.inc";
         $this->patterns[self::COLOUR] = array_merge($this->patterns[self::COLOUR],$flagColours);
-        $this->patterns[self::DRAWN_MODS] = array_merge($this->patterns[self::DRAWN_MODS],
-          array (
-            array ( '(with|in|using) ?(a|an|the) aspect ?ratio ?of *', 'aspect'),
-            array ( '(with|in|using) ?(a|an|the) * aspect ?ratio', 'aspect')
-          ));
+
       }
     }
   }

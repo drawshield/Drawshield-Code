@@ -100,7 +100,7 @@ function get_placement(DOMElement $item) {
     }
     
     // Figure out default bounding box size for this aspect ratio, chief presence and entire
-    if ( $options['drawType'] == 'flag') {
+    if ( $options['shape'] == 'flag') {
       if ( existModifierWithKeyterm($item,'entire') ) {
         $boundingBox = '0,0,1000,' . $options['flagHeight'];
       } else {
@@ -417,12 +417,19 @@ function get_placement(DOMElement $item) {
     
     // If we don't have a placement yet the default is just to arrange in wide rows
     if ( $placement == '' ) {
-      // special case placements
-      if (($group == "quadrate" || $group = 'geometric') && $number == 1) {
+      // special case placements, put some charges in exact centre of cross
+      if (($group == "quadrate" || $group == 'geometric') && $number == 1) {
         if ($chief) {
           $placement = '500,700,600,600';
         } else {
-          $placement = '500,500,800,800';
+          if ( $options['shape'] == 'flag') {
+            $calcHeight = $options['flagHeight'];
+            $centerY = (int)($calcHeight / 2);
+            $extentY = $calcHeight - 200;
+            $placement = "500,$centerY,800,$extentY";
+          } else {
+            $placement = '500,500,800,800';
+          }
         }
       } else {
         $placement = calcPlace($item,'w',$boundingBox);
@@ -482,12 +489,60 @@ function calcPlace( $node, $aspect, $bb = '100,100,800,900'  ) {
     '4,4,4,4,3',  // 19
     '4,4,4,4,4',  // 20
   );
+  $big_rows = array ( // over 20, all the same
+    '5,4,4,4,4',      // 21
+    '5,5,4,4,4',      // 22
+    '5,5,5,4,4',      // 23
+    '5,5,5,5,4',      // 24
+    '5,5,5,5,5',      // 25
+    '6,5,5,5,5',      // 26
+    '6,6,5,5,5',      // 27
+    '6,6,6,5,5',      // 28
+    '6,6,6,6,5',      // 29
+    '6,6,6,6,6',      // 30
+    '6,5,5,5,5,5',    // 31
+    '6,6,5,5,5,5',    // 32
+    '6,6,6,5,5,5',    // 33
+    '6,6,6,6,5,5',    // 34
+    '6,6,6,6,6,5',    // 35
+    '6,6,6,6,6,6',    // 36
+    '7,6,6,6,6,6',    // 37
+    '7,7,6,6,6,6',    // 38
+    '7,7,7,6,6,6',    // 39
+    '7,7,7,7,6,6',    // 40
+    '7,7,7,7,7,6',    // 41
+    '7,7,7,7,7,7',    // 42
+    '7,6,6,6,6,6,6',  // 43
+    '7,7,6,6,6,6,6',  // 44
+    '7,7,7,6,6,6,6',  // 45
+    '7,7,7,7,6,6,6',  // 46
+    '7,7,7,7,7,6,6',  // 47
+    '7,7,7,7,7,7,6',  // 48
+    '7,7,7,7,7,7,7',  // 49
+    '8,7,7,7,7,7,7',  // 50
+    '8,8,7,7,7,7,7',  // 51
+    '8,8,8,7,7,7,7',  // 52
+    '8,8,8,8,7,7,7',  // 53
+    '8,8,8,8,8,7,7',  // 54
+    '8,8,8,8,8,8,7',  // 55
+    '8,8,8,8,8,8,8',  // 56
+    '8,7,7,7,7,7,7,7',// 57
+    '8,8,7,7,7,7,7,7',// 58
+    '8,8,8,7,7,7,7,7',// 59
+    '8,8,8,8,7,7,7,7',// 60
+    '8,8,8,8,8,7,7,7',// 61
+    '8,8,8,8,8,8,7,7',// 62
+    '8,8,8,8,8,8,8,7',// 63
+    '8,8,8,8,8,8,8,8',// 64
+
+
+  );
   $number = getNumberOfCharges($node);
  // $number = $node->getAttribute('number');
   $conjoined = existModifierWithKeyterm($node,'conjoined');
   $facing_in = existModifierWithKeyterm($node,'facing-in');
   $facing_out = existModifierWithKeyterm($node,'facing-out');
-  if ( $number > 20 ) return $number;
+  if ( $number > 64 ) return $number;
   elseif ( $number < 1 ) $number = 1;
   if ( $rows = getModifierValueByKeyterm($node,'arrange-by-rows') )
     $row_list = explode(',', $rows);
@@ -500,10 +555,16 @@ function calcPlace( $node, $aspect, $bb = '100,100,800,900'  ) {
         $row_list = array_fill(0,$number,'1');
         break;
       case 'w': // wide box
-        $row_list = explode(',',$wide_rows[$number]);
+        if ($number > 20)
+          $row_list = explode(',',$big_rows[$number - 21]);
+        else
+          $row_list = explode(',',$wide_rows[$number]);
         break;
       case 'n': // narrow box
-        $row_list = explode(',',$narrow_rows[$number]);
+        if ($number > 20)
+          $row_list = explode(',',$big_rows[$number - 21]);
+        else
+          $row_list = explode(',',$narrow_rows[$number]);
         break;
     }
   }

@@ -1,8 +1,8 @@
 <?php
 
 $version = array (
-  'release' => '2.6t',
-  'date' => '15 Dec 2018',
+  'release' => '2.7',
+  'date' => '22 Jun 2019',
   'name' => 'Version ',
   'website' => 'drawshield.net',
   'flagsite' => 'drawflag.net',
@@ -13,7 +13,6 @@ $version = array (
 // Set default values for arguments
 $options = array(
   // These options are potentially set by URL arguments
-  'drawType' => 'shield',
   'blazon' => '',
   'palette' => 'drawshield',
   'printable' => false,

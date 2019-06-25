@@ -12,7 +12,9 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-$ordinary['shape_spec'] = array ( 'NC' => 'X-8Y500g508a508C508E508', 'CH' =>  'X-8Y800g508a508C508E608');
+$ordinary['shape_spec'] = array ( 'NC' => 'X-{%1}Y{%50}g{%51}a{%51}C{%51}E{%51}', 'CH' =>  'X-8Y800g508a508C508E608');
 $ordinary['if_ord_on'] = 'scale';
-$ordinary['chargesOn'] = array ('w', chiefPresent() ? '20,320,460,360' : '20,20,460,460');
+$qSize = (int)($calcHeight / 2);
+$outerEdge = $qSize - 40;
+$ordinary['chargesOn'] = array ('w', chiefPresent() ? '20,320,460,360' : "20,20,$outerEdge,$outerEdge");
 

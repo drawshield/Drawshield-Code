@@ -106,7 +106,7 @@ function includeOrdinary( DOMElement &$node ) {
   $ordinaryType = $node->getAttribute('keyterm');
   $ordinary = array ();
   $file = null;
-  if ($options['drawType'] == 'flag') { // look in the flag sub-directory first
+  if ($options['shape'] == 'flag') { // look in the flag sub-directory first
     $file ="ordinaries/flag/$ordinaryType.inc";
     if ( stream_resolve_include_path($file) === false ) $file = null;
   }
@@ -114,7 +114,11 @@ function includeOrdinary( DOMElement &$node ) {
     $file = "ordinaries/$ordinaryType.inc";
     if ( stream_resolve_include_path($file) === false ) $file = null;
   }
-  if ($file != null) {
+  $calcHeight = 1200; // value to use for calculating drawing height
+  if ($options['shape'] == 'flag') {
+    $calcHeight = $options['flagHeight'];
+  }
+  if ($file != null) { // calcHeight is available within the included file
     include ( $file );
   } else { // can't draw this ordinary
     $messages->addMessage('warning',"Cannot draw $ordinaryType, substituting bend" . getLine($node) );
@@ -155,7 +159,7 @@ function makeOrdinary( DOMElement &$node ) {
 	// Some defaults (either from the ordinary data or from modifiers)
   if ( array_key_exists('feature_size', $ord_data) ) { 
     $feature_size = $ord_data['feature_size'];
-  } elseif ($options['drawType'] == 'flag') {
+  } elseif ($options['shape'] == 'flag') {
     $feature_size = (int)($options['flagHeight'] * 0.05);
   } else {
 	  $feature_size = 50;

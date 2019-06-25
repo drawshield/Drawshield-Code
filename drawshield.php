@@ -1,16 +1,4 @@
-<?php /* Copyright 2010 Karl R. Wilcox
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License. */
+<?php 
 
 //
 // Global Variables
@@ -32,18 +20,46 @@ $messages = null;
 
 $spareRoom = str_repeat('*', 1024 * 1024);
 $size = 500;
+
+function calculateAR($ar) {
+  if (strpos($ar, ':') > 0) {
+    $arParts = explode(':', $ar);
+    $numerator = intval($arParts[0]);
+    $denominator = 0;
+    if (count($arParts) > 1) {
+      $denominator = intval($arParts[1]);
+    }
+    if ($denominator == 0) $denominator = 1;
+    $ar = $numerator / $denominator;
+  } else {
+    $ar = floatval($ar);
+  }
+  if ($ar > 1.2) {
+    $ar = 1.2;
+  } elseif ($ar < 0.25) {
+    $ar = 0.25;
+  }
+  return $ar;  
+}
+
 //
 // Argument processing
 //
-if ( isset($argc) and  $argc > 1 ) { // run in debug mode, probably
-  $options['blazon'] = implode(' ', array_slice($argv,1));
+if (isset($argc)) {
+  if ( $argc > 1 ) { // run in debug mode, probably
+    $options['blazon'] = implode(' ', array_slice($argv,1));
+  } else {
+    $options['blazon'] = "barry of 13 gules and argent on a canton azure 50 mullets argent 6,5,6,5,6,5,6,5,6 drawn using a flag shape in the proportion 10:19 and with a rippling effect";
+  }
   // $options['printable'] = true;
    $options['outputFormat'] = 'png';
 }
 
 // Process arguments
+$ar = null;
+$size = null;
 // For backwards compatibility we support argument in GET, but prefer POST
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_FILES['blazonfile']) && ($_FILES['blazonfile']['name'] != "")) {
     $fileName = $_FILES['blazonfile']['name'];
     $fileSize = $_FILES['blazonfile']['size'];
@@ -64,6 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //  if (isset($_POST['printable'])) $options['printable'] = ($_POST['printable'] == "1");
   if (isset($_POST['effect'])) $options['effect'] = strip_tags($_POST['effect']);
   if (isset($_POST['size'])) $size = strip_tags ($_POST['size']);
+  if (isset($_POST['ar'])) $ar = strip_tags ($_POST['ar']);
 } else { // for old API
   if (isset($_GET['blazon'])) $options['blazon'] = html_entity_decode(strip_tags(trim($_GET['blazon'])));
   if (isset($_GET['saveformat'])) $options['saveFormat'] = strip_tags ($_GET['saveformat']);;
@@ -76,14 +93,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   //  if (isset($_GET['printable'])) $options['printable'] = ($_GET['printable'] == "1");
   if (isset($_GET['effect'])) $options['effect'] = strip_tags($_GET['effect']);
   if (isset($_GET['size'])) $size = strip_tags ($_GET['size']);
+  if (isset($_GET['ar'])) $ar = strip_tags ($_GET['ar']);
 }
 if ( $size < 100 ) $size = 100;
 $options['size'] = $size;
+// if ($options['shape'] == 'flag') {
+//   $options['aspectRatio'] = calculateAR($ar);
+//   $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
+// } // moved to after the parse
 
 // Quick response for empty blazon
 if ( $options['blazon'] == '' ) {
   include "svg/shapes.inc";
+  if ($options['shape'] == 'flag') {
+    if (!isset($options['aspectRatio'])) $options['aspectRatio'] = calculateAR($ar);
+    $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
+  }
   $outline = getShape($options['shape']);
+  
   header('Content-Type: text/xml; charset=utf-8');
   $output = '<?xml version="1.0" encoding="utf-8" ?><svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" height="' .
     ( $options['size'] * 1.2) . '" width="' .  $options['size'] . '" viewBox="0 0 1000 1200" >
@@ -119,6 +146,13 @@ if ( $options['blazon'] == '' ) {
       echo $dom->saveXML(); 
       exit; 
   }
+
+  // Some options might be set in the parser
+  if ($options['shape'] == 'flag') {
+    if (!isset($options['aspectRatio'])) $options['aspectRatio'] = calculateAR($ar);
+    $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
+  }
+
   // Resolve references
   include "analyser/utilities.inc";
   include "analyser/references.inc";
