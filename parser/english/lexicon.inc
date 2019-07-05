@@ -110,7 +110,7 @@ class languageDB extends lexicon {
       ),
       self::ONFIELDOF => array ( '?(on|upon) a (field|court) ?of' ),
       self::WITH => array ( array ('(with|upon)', 'with' ) ),
-      self::BETWEEN => array ( 'between', 'inter', 'inside', 'within', 'surrounded by', 'accompagne' ),
+      self::BETWEEN => array ( 'between', 'inter', 'inside', 'within', 'surrounded by', 'accompagne', 'cantonned by' ),
       self::QUARTERED => array (
         array ( '(grand)?quartered', 'quartered' ), // Always a marshalling
         array ( '(grand)?quarterly', 'quarterly' ), // Could be a marshalling or a division
@@ -417,7 +417,8 @@ class languageDB extends lexicon {
           array ( 'counter vair', 'counter-vair',    ),
           array ( 'counter potent', 'counter-potent',  ),
           array ( 'potent counter potent', 'potent-counter-potent', ),
-            // Sports pitches
+          array ( 'tapiss?ee? ?of ?wheat',    'tapisse',    ),
+          // Sports pitches
             array ('soccer', 'soccer-field'),
             array ( '?american football', 'american-football-field'),
             array ( 'tennis', 'tennis-court'),
@@ -576,6 +577,7 @@ class languageDB extends lexicon {
             array( 'humets?', 'humet' ),
             array( 'pall?ets?', 'palet' ),
             array( 'piles? ?of ?(3|three) ?points ?issuing ?from ?the ?chief', 'pile' ),
+            array( 'mountains?', 'mountain' ),
             array( 'base', 'base' ),
             array( 'bends?', 'bend' ),
             array( 'chief', 'chief' ),
@@ -837,6 +839,8 @@ class languageDB extends lexicon {
           array ( 'smaller', 'smaller' ),
           array ( '(above|raised|lifted|higher)', 'raised'),
           array ( '(below|lowere?d?|dropped)', 'lowered'),
+          array ( 'further apart', 'further-apart'),
+          array ( 'closer? together', 'closer-together'),
           ),
         self::DRAWN_MODS => array (
           array ( 'drawn', 'drawn' ),

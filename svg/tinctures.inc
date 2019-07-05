@@ -122,6 +122,7 @@ function apply_tincture ( DOMElement $tincture, $object, $chg_size = '',
     } */
   }
   $child = $tincture->firstChild;
+  $spec = false;
   switch ( $child->nodeName ) {
     case 'colour':
     case 'default': // don't think these two ever occur

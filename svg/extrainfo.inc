@@ -26,8 +26,10 @@ class extraInfoMap {
             'bbox' => array ('orient_to_ordinary' => 1),
             'cartouche' => array ('orient_to_ordinary' => 1),
             'billet' => array ('orient_to_ordinary' => 1),
-            'rocket-man' => array ('orient_to_ordinary' => -1),
+            'rocket-man' => array ('horizontal' => true, 'orient_to_ordinary' => -1),
             'trumpet' => array('horizontal' => true, 'orient_to_ordinary' => 1),
+            'feather' => array('horizontal' => true, 'orient_to_ordinary' => 1),
+            'chain' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'cross/long' => array('orient_to_ordinary' => -1),
     );
   }

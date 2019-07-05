@@ -173,6 +173,7 @@ function PlaceCharge ( DOMElement $node,  // images
           $orientation = $child->getAttribute('keyterm');
           break;
         case 'entire':
+        case 'conjoined':
           $Xflex = $Yflex = 9999;
           break;
         // the "shown" mods
@@ -289,7 +290,7 @@ function PlaceCharge ( DOMElement $node,  // images
       case 'bendwise':
       case 'bendsinwise':
         if ( array_key_exists('horizontal', $charge)  ) {
-          $angle = ($orientation == 'bendwise') ? "45" : "-45";
+          $angle = ($orientation == 'bendwise') ? "45" : "135";
         } else {
           $angle = ($orientation == 'bendwise') ? "-45" : "45";
         }

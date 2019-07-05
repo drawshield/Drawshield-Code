@@ -112,6 +112,7 @@ if ($subtype == 'bar' and existModifierWithKeyterm($node,'sinister')) {
     case 'bar':
     default:
       $bar_width = 400;
+      if ($main_linetype == 'dancetty') $linetype_size = 50;
       break;
   }
   if ( $num < 1 ) { $num = 1; }

@@ -55,6 +55,7 @@ class properColour {
       'badges' => self::$red, // dummy entry
     );
     self::$charges = array(
+      'polar-bear' => self::$white, // overrides bear group
       'camelopard' => self::$orange,
       'squirrel' => self::$brown,
       'auk' => self::$white,
@@ -117,8 +118,10 @@ class properColour {
       'rubber-duck' => self::$yellow,
       'magpie' => self::$white,
       'starling' => self::$black,
+      'fleece' => self::$yellow,
     );
     self::$features = array(
+      'conker/fructed' => self::$brown,
       'with-stone' => self::$gray,
       'slipped' => self::$green,
       'leaved' => self::$green,

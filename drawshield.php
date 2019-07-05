@@ -49,7 +49,7 @@ if (isset($argc)) {
   if ( $argc > 1 ) { // run in debug mode, probably
     $options['blazon'] = implode(' ', array_slice($argv,1));
   } else {
-    $options['blazon'] = "barry of 13 gules and argent on a canton azure 50 mullets argent 6,5,6,5,6,5,6,5,6 drawn using a flag shape in the proportion 10:19 and with a rippling effect";
+    $options['blazon'] = "azure 2 pellets shown further apart 2 roundels or";
   }
   // $options['printable'] = true;
    $options['outputFormat'] = 'png';

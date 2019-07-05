@@ -2,7 +2,7 @@
    
    // modify a (1000x1000) placement to fit within the given bounding box
    // TODO Deal with any arrangment that extends below 1000 (is this only in pale...?)
-   function adjustPlacement($placement,$boundingBox) {
+   function adjustPlacement($placement,$boundingBox, $scaleSize = true) {
      if ( $boundingBox == 'x' ) return $placement; // dummy entry to give multiple locations
      $newPlacement = '';
      $numberGroups = explode('/',$placement);
@@ -21,9 +21,9 @@
          $newPlacement .= ',';
          if ( $y != '' ) $newPlacement .= sprintf("%.2f", $bby + ( $y * $yScale));
          $newPlacement .= ',';
-         if ( $w != '' ) $newPlacement .= sprintf("%.2f", $w * $xScale);
+         if ( $w != '' ) $newPlacement .= $scaleSize ? sprintf("%.2f", $w * $xScale) : $w;
          $newPlacement .= ',';
-         if ( $h != '' ) $newPlacement .= sprintf("%.2f", $h * $yScale);
+         if ( $h != '' ) $newPlacement .= $scaleSize ? sprintf("%.2f", $h * $yScale) : $h;
          if ("$rot$inv$rev" != "") {
             $newPlacement .= ",$rot";
             $newPlacement .= ",$inv";
@@ -435,7 +435,11 @@ function get_placement(DOMElement $item) {
         $placement = calcPlace($item,'w',$boundingBox);
       }
     }
-    
+  if (existModifierWithKeyterm($item,'further-apart'))
+    $placement = adjustPlacement($placement,'-100,-100,1200,1200', false);
+  elseif (existModifierWithKeyterm($item,'closer-together'))
+   $placement = adjustPlacement($placement,'100,100,800,800', false);
+   
     return $placement;
 }
 
