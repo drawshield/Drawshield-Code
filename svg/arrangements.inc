@@ -40,6 +40,34 @@
    }
    //TODO above / below modifiers
 
+function adjustDistance($item, $placement) {
+  foreach ( $item->childNodes as $child ) {
+    if ( $child->nodeName == 'modifier' ) {
+      switch ( $child->getAttribute('keyterm') ) {
+        case 'further-apart':
+          $placement = adjustPlacement($placement,'-100,-100,1200,1200', false);
+          break;
+        case 'much-further-apart':
+          $placement = adjustPlacement($placement,'-200,-200,1400,1400', false);
+          break;
+        case 'very-much-further-apart':
+          $placement = adjustPlacement($placement,'-300,-300,1600,1600', false);
+          break;
+        case 'closer-together':
+           $placement = adjustPlacement($placement,'50,50,900,900', false);
+           break;
+        case 'much-closer-together':
+           $placement = adjustPlacement($placement,'100,100,800,800', false);
+           break;
+        case 'very-much-closer-together':
+           $placement = adjustPlacement($placement,'150,150,700,700', false);
+           break;
+      }
+    }
+  }
+  return $placement;
+}
+
 function get_placement(DOMElement $item) {
   global $dom, $xpath, $messages, $options;
   global $aspect_ratio;
@@ -397,6 +425,7 @@ function get_placement(DOMElement $item) {
           // If we don't have a placement yet the default is just to arrange in wide rows
           if ( $placement == '' ) 
             $placement = calcPlace($item,'w',$boundingBox);
+            $placement = adjustDistance($item, $placement);
           foreach ( explode('*',$adjustment) as $adjust )
             $placements[] = adjustPlacement($placement,$adjust);
           $placement = $orig_placement;
@@ -434,11 +463,9 @@ function get_placement(DOMElement $item) {
       } else {
         $placement = calcPlace($item,'w',$boundingBox);
       }
+      $placement = adjustDistance($item, $placement);
     }
-  if (existModifierWithKeyterm($item,'further-apart'))
-    $placement = adjustPlacement($placement,'-100,-100,1200,1200', false);
-  elseif (existModifierWithKeyterm($item,'closer-together'))
-   $placement = adjustPlacement($placement,'100,100,800,800', false);
+
    
     return $placement;
 }
