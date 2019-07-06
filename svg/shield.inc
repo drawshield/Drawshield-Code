@@ -93,7 +93,7 @@ function get_hierarchy( DOMElement $item ) {
 }
 
 function makePlain( &$children, $drawnAR = '10:12' ) {
-  global $aspect_ratio;
+  global $aspect_ratio, $options;
   
   $aspect_ratio = $drawnAR;
   
@@ -109,7 +109,8 @@ function makePlain( &$children, $drawnAR = '10:12' ) {
     switch ( $kid->nodeName ) {
       case 'field':
         // Paint the field
-        $retval .= apply_tincture ( $kid->firstChild, '<rect x="0" y="0" width="1000" height="1200" ><title>Field</title></rect>' , '1000,1200' );
+        if (!array_key_exists('raw', $options))
+          $retval .= apply_tincture ( $kid->firstChild, '<rect x="0" y="0" width="1000" height="1200" ><title>Field</title></rect>' , '1000,1200' );
         break;
       case 'objects':
         // process ordinaries and charges
