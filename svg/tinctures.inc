@@ -110,7 +110,7 @@ function apply_tincture ( DOMElement $tincture, $object, $chg_size = '',
 
   if ( $tincture->getAttribute('origin') == 'implied' ) return $object; // Nothing to do
   // stage "raw" means leave charge colours as they are
-  if ( $object_type == 'charge' && array_key_exists('raw', $options)) return $object;
+  // if ( $object_type == 'charge' && array_key_exists('raw', $options)) return $object;
   $tincture = resolveReference($tincture);
   if ( ! $tincture->hasChildNodes() ) {
     if ($tincture->getAttribute('origin') == 'pending' || $tincture->getAttribute('origin') == 'missing') {
@@ -127,17 +127,8 @@ function apply_tincture ( DOMElement $tincture, $object, $chg_size = '',
     case 'colour':
     case 'default': // don't think these two ever occur
     case 'proper':
-      if (array_key_exists('raw', $options)) {
-        switch ($object_type) {
-          case 'charge':
-            $spec = 'none';
-            break;
-          case 'ordinary':
+      if ($object_type == 'ordinary' && array_key_exists('raw', $options)) {
             $spec = '#999999';
-            break;
-          default:
-            break;
-        }
       } elseif ( $child->hasAttribute('spec') )  {
         $spec = $child->getAttribute('spec');
       } else {
