@@ -48,7 +48,7 @@
      'belled', 'finned', 'nest', 'staff', 'seamed',
      'acorns', 'towered', 'domed', 'tasselled', 'mortared',
      'shelled', 'tied', 'headed', // NOT heads
-     'drooping', 'voided', 'beaded', 'ringed', 
+     'drooping', 'voided', 'beaded', 'ringed', 'masoned',
      array ( 'in profile', 'in-profile'),
      array ( 'tool(s|ed)?', 'tools'),
      array ( 'apron(s|ed)?', 'apron'),
@@ -186,13 +186,13 @@
    
    $this->patterns[languageDB::CHARGE_MODS] = array (
      // animal positions
-      'couchant', 'courant', 'coward', 'dormant', 
+      'couchant', 'courant', 'coward', 'dormant', 'migrant',
       'erect', 'pierced', 'passant', 'cadent', 'counterpassant',
-      'salient', 'statant', 'equipped', 'accrued', 
+      'salient', 'statant', 'equipped', 'accrued', 'clymant',
       'segreant', 'dexter', 'sinister', 'closed', 'accosted',
       'ambulant', 'anime', 'annodated', 'arrondie', 'ascendant', 'aversant',
       'ayrant', 'baillone', 'bi corporate', 'cantoned', 'cloue',
-      'developed', 'disarmed', 'disclosed', 'distilling',
+      'developed', 'disarmed', 'disclosed', 'distilling', 'enraged',
       'double tete', 'flotant', 'fumant', 'braced', 'conjunct',
       'gradient', 'increscent', 'crescent', 'unarmed', 'spouting',
       'incensed', 'issuant', 'jacent', 'questing', 'tergiant',
@@ -205,6 +205,8 @@
       'covered', 'uncovered', 'waved', 'vambraced', 'double',
       'skipping', 'recursant', 'fixed', 'ploye', 'clenched',
       'pometty', 'floretty', 'debruised', 'increscent', 'decrescent',
+      'rousant',
+      array ( '?(dexter|sinister) forepaw raised', 'forepaw-raised'),
       array ( '(with|and) ?an arrow ?nocked', 'arrow-nocked'),
       array ( '(with|and) ?an arrow ?nocked ?and drawn', 'arrow-drawn'),
       array ('of sp(ri|ir)als', 'of-spirals'),
@@ -214,6 +216,9 @@
       array ('of chain', 'of-chain'),
       array ('of rope', 'of-rope'),
       array ('busts?', 'bust'),
+      array ('vorant ?of ?a child(ren)?', 'vorant-of-child'),
+      array ('maintaining ?a towers? ?on ?(their|its) ?backs?', 'tower-back'),
+      array ('in annull?o?', 'in-annulo'),
       array ( 'en arriere', 'en-arriere'),
       array ( 'terra(ced|ssee?)', 'terraced'),
       array ( 'in full course', 'courant'),
@@ -267,7 +272,7 @@
       array ( 'vuln(ed|ing)', 'vulned' ),
       array ( 'urin?ant', 'uriant' ),
       array ( 'on each side', 'on-each-side' ),
-      array ( 'at gaze', 'at gaze' ),
+      array ( 'at gaze', 'at-gaze' ),
       array ( 'a?d?umbrated', 'umbrated' ),
       array ( 'tripp(ing|ant)', 'trippant' ),
       array ( '(rousant|rising)', 'rising' ),
@@ -327,7 +332,7 @@
       array ( 'hauri[ea]nt', 'haurient' ), // of fish
       array ( 'na[it]ant?', 'fesswise' ), // of fish
       array ( '(dispo[sn]|arrang)ed', 'arranged' ),
-      array ( 'affront(e|ed|ant|y|ee)', 'affronte' ),
+      array ( 'affront(e|ed|ant|y|ee)', 'affronty' ),
       array ( '(lying|laying)', 'laying' ),
       // Next 4 Mostly for labels
       array ( 'straight', 'straight' ),
@@ -344,6 +349,7 @@
       array ( '?(the|her) sails? set', 'fullsail' ),
       array ( '?(the|her) sails? furled ?and ?shrouded', 'sails-furled'),
       array ( 'snakes? entwined a?round (it|her|him|them)', 'snake-entwined' ),
+      array ( 'entwined a?round ?a pillars?', 'entwined-pillar' ),
       array ( 'growing out of the ground', 'from-ground' ),
       array ( 'wings?', 'wing' ),
       array ( '(bough|branche?|scrog?)s?', 'bough' ), // of a tree
