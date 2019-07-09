@@ -48,7 +48,7 @@
      'belled', 'finned', 'nest', 'staff', 'seamed',
      'acorns', 'towered', 'domed', 'tasselled', 'mortared',
      'shelled', 'tied', 'headed', // NOT heads
-     'drooping', 'voided', 'beaded', 'ringed', 'masoned',
+     'drooping', 'voided', 'beaded', 'ringed', 'masonry',
      array ( 'in profile', 'in-profile'),
      array ( 'tool(s|ed)?', 'tools'),
      array ( 'apron(s|ed)?', 'apron'),

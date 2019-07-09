@@ -13,15 +13,6 @@
     <title>Reindeer Rampant</title>
     <g id="Reindeer_Rampant: Layer 2" >
       <title>Layer 2</title>
-      <g id="Graphic_189">
-        <rect x="296.53704" y="407.3976" width="76.752" height="92.1024" id="path"/>
-        <clipPath id="clip_path">
-          <use xl:href="#path"/>
-        </clipPath>
-        <g clip-path="url(#clip_path)">
-          <image xl:href="image262.pdf" width="245" height="352" transform="translate(303.06304 407.6888) scale(.26)"/>
-        </g>
-      </g>
       <g id="Group_3">
         <g id="Group_105">
           <g id="Graphic_182">

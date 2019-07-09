@@ -156,6 +156,7 @@
       array ( '(badger|brock|gray)s?', 'wildlife/badger' ),
       array ( 'cats? a mountains?', 'wildlife/wildcat' ),
       array ( 'catamounts?', 'wildlife/wildcat' ),
+      array ( 'wildcats?', 'wildlife/wildcat' ),
       array ( 'mountain cats?', 'wildlife/wildcat' ),
       array ( 'cats?', 'wildlife/cat' ),
       array ( 'fox(es)?', 'wildlife/fox' ),
