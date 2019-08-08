@@ -49,7 +49,7 @@ if (isset($argc)) {
   if ( $argc > 1 ) { // run in debug mode, probably
     $options['blazon'] = implode(' ', array_slice($argv,1));
   } else {
-    $options['blazon'] = "azure 2 pellets shown further apart 2 roundels or";
+    $options['blazon'] = "argent a cross trefle latin gules";
   }
   // $options['printable'] = true;
    $options['outputFormat'] = 'png';
@@ -152,6 +152,9 @@ if ( $options['blazon'] == '' ) {
     if (!isset($options['aspectRatio'])) $options['aspectRatio'] = calculateAR($ar);
     $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
   }
+
+  // Synonyms for circle shape
+  if (in_array($options['shape'],array('circular','round'))) $options['shape'] = 'circle';
 
   // Resolve references
   include "analyser/utilities.inc";

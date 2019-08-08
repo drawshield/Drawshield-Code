@@ -35,6 +35,8 @@
       array ( 'spanish ?shaped?', 'shape-spanish'),
       array ( 'german ?shaped?', 'shape-german'),
       array ( 'heater ?shaped?', 'shape-heater'),
+      array ('equal armed', 'equal-armed'),
+
       );
 
    // TODO Deal with all the stuff in _quadrate8.inc
@@ -205,7 +207,7 @@
       'covered', 'uncovered', 'waved', 'vambraced', 'double',
       'skipping', 'recursant', 'fixed', 'ploye', 'clenched',
       'pometty', 'floretty', 'debruised', 'increscent', 'decrescent',
-      'rousant',
+      'rousant', 'latin',
       array ( '?(dexter|sinister) forepaw raised', 'forepaw-raised'),
       array ( '(with|and) ?an arrow ?nocked', 'arrow-nocked'),
       array ( '(with|and) ?an arrow ?nocked ?and drawn', 'arrow-drawn'),
@@ -213,6 +215,7 @@
       array ( '(of|with) (two|2) arches', 'two-arches'),
       array ( '(of|with) (three|3) arches', 'three-arches'),
       array ('in lure', 'in-lure'),
+      array ('equal armed', 'equal-armed'),
       array ('of chain', 'of-chain'),
       array ('of rope', 'of-rope'),
       array ('busts?', 'bust'),

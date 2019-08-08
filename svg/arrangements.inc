@@ -134,6 +134,12 @@ function get_placement(DOMElement $item) {
       } else {
         $boundingBox = '50,50,900,' . ($options['flagHeight'] - 100);
       }
+    } elseif (in_array($options['shape'],array('circle','square', 'lozenge'))) {
+      if ( existModifierWithKeyterm($item,'entire') ) {
+        $boundingBox = '0,0,1000,1000';
+      } else {
+        $boundingBox = $options['shape'] == 'square' ? '50,50,900,900' : '100,100,800,800';
+      }
     } else {
       $bounding_index = 0;
       if ( $chief ) $bounding_index += 2;
