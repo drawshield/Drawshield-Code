@@ -441,7 +441,7 @@ function get_placement(DOMElement $item) {
     } elseif ( $cadency ) { // unless there is a specific location, put in the center, but small
       $placement = calcPlace($item,'w',$boundingBox);
       $placement = adjustplacement($placement,'400,400,200,200');
-    } elseif ( $overall ) { // like cadency, but a bit bigger
+    } elseif ( $overall && !($name == 'label' && $entire)) { // like cadency, but a bit bigger, fudge for label overall, already moved
       $placement = calcPlace($item,'w',$boundingBox);
        if ( $group == "quadrate" ) {
           $placement = adjustplacement($placement,'100,66,800,800');

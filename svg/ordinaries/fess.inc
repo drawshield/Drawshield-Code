@@ -13,7 +13,7 @@
    limitations under the License. */
 
 
-
+if ( ($num_of = getModifierValueByKeyterm($node, 'points')) == null ) $num_of = 3;
 // Set basic body shape
 if ( existModifierWithKeyterm($node,'couped') ) {
   $ordinary['shape_spec'] = 'X100Y{%35}A800c{%30}E800g{%30}';
@@ -27,6 +27,8 @@ elseif ( existModifierWithKeyterm($node,'couped-sinister')) {
   $ordinary['shape_spec'] = 'X-100Y{%50}A600g{%15}A600c{%15}E600c{%15}E600g{%15}';
 } elseif ( existModifierWithKeyterm($node,'lozengy')) {
   $ordinary['body'] = '<path d="M0,{%35}l83.3,150 83.3,-150 83.3,150 83.3,-150 83.3,150 83.3,-150 83.3,150 83.3,-150 83.3,150 83.3,-150 83.3,150 83.3,-150 v{%30} l-83.3,-150 -83.3,150 -83.3,-150 -83.3,150 -83.3,-150 -83.3,150 -83.3,-150 -83.3,150 -83.3,-150 -83.3,150 -83.3,-150 -83.3,150 " />';
+} elseif ( existModifierWithKeyterm($node,'dancetty') && $num_of == 2) { 
+  $ordinary['body'] = '<path d="M -10.528194,490.00143 247.10288,290.00714 504.73396,490.00143 762.36503,290.00714 1019.9961,490.00143 V 789.99287 L 762.36503,589.99858 504.73396,789.99287 247.10288,589.99858 -10.528194,789.99287 Z" />';
 } elseif ( existModifierWithKeyterm($node,'dancetty')) { // TODO Finish these weird shapes as %ages
   $ordinary['body'] = '<path d="M-100,450L100,250 {%30},450 500,250 700,450 900,250 1100,450 1100,750 900,550 700,750 500,550 {%30},750 100,550 -100,750Z" />';
 } elseif ( existModifierWithKeyterm($node, 'voided')) {
