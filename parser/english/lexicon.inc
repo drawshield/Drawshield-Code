@@ -600,7 +600,7 @@ class languageDB extends lexicon {
             array( '(gorge|whirlpool|gurges)', 'gorge' ),
             array( 'grid', 'grid' ),
             array( 'trimount', 'trimount' ),
-            array( 'mount of (3|three) peaks', 'trimount' ),
+            array( 'moun[td] of (3|three) peaks', 'trimount' ),
             array( 'dexter (bas?ton|battoon|batune) ?couped', 'baton-dexter' ),
             array( '(bas?ton|battoon|batune) dexter ?couped', 'baton-dexter' ),
             array( '(bas?ton|battoon|batune) ?sinister ?couped', 'baton' ),
