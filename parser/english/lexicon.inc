@@ -403,6 +403,10 @@ class languageDB extends lexicon {
             array ( 'grad(ed|y) in bend sinister', 'grady-in-bendsin'),
             array ( 'grad(ed|y) in sinister bend', 'grady-in-bendsin'),
             array ( 'grad(ed|y) in annull?o', 'grady-in-annulo'),
+            // Following DO NOT HAVE HERALDIC PRECEDENT (but are useful anyway)
+            array ( 'guzy',        'guzy',       true ),
+            array ( 'pommy',        'pommy',       true ),
+            array ( 'torty',        'torty',       true ),
           ),
         self::INVERSE => array ('reversed', 'inverted'),
         self::FUR => array (
@@ -686,7 +690,7 @@ class languageDB extends lexicon {
            array ( 'of # points', 'points' ), // only if label is a ordinary
            // array ( '(de)?bruised|fracted|disjoint ?at ?the ?top', 'fracted' ),
            array ( 'en(aluron|urney|toire|toyre)', 'entire' ),
-           'lozengy', 'triangular', 'throughout', 'of pretence', 'voided',
+           'lozengy', 'triangular', 'throughout', 'of pretence', 'voided', 'ploye',
            ),
         self::COTTICE_MODS => array ( 
           array ( 'cott?i(s|ss|c)ed', '1'),

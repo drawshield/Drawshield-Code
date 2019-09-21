@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg4"
+   xml:space="preserve"
+   enable-background="new 0 0 85.26 100"
+   width="85"
+   height="100"
+   viewBox="0 0 85 100"
+   version="1.1"><metadata
+     id="metadata10"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><dc:creator><cc:Agent><dc:title>The Noun Project, via Wikimedia commons</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata>
+           <g id="body">
+           <path
+     style="fill:#ffff00;stroke:#808080"
+     d="M85.26,35.754C85.26,12.973,67.545,0,44.005,0S0,12.973,0,35.754l35.496,49.72  c-0.792,1.002-1.289,2.243-1.289,3.61v5.027c0,3.23,2.658,5.888,5.887,5.888h5.028c3.23,0,5.888-2.657,5.888-5.888v-5.027  c0-1.367-0.497-2.608-1.289-3.61L85.26,35.754z M35.711,85.217L2.75,35.754c1.375-2.75,4.126-4.125,6.876-4.125  s5.5,1.375,6.876,4.125l20.67,48.259C36.623,84.333,36.13,84.744,35.711,85.217z M37.559,83.799L19.252,35.754  c1.375-2.751,4.125-4.125,6.876-4.125s5.5,1.375,6.876,4.125l6.79,47.486C39,83.284,38.239,83.469,37.559,83.799z M35.754,35.754  c1.375-2.751,4.125-4.125,6.876-4.125c2.75,0,5.501,1.375,6.876,4.125L44.95,83.197h-4.684L35.754,35.754z M45.466,83.24  l6.79-47.486c1.375-2.751,4.126-4.125,6.876-4.125s5.501,1.375,6.876,4.125L47.701,83.799C47.021,83.469,46.259,83.284,45.466,83.24  z M48.045,84.014l20.713-48.259c1.375-2.75,4.126-4.125,6.876-4.125s5.501,1.375,6.876,4.125L49.506,85.217  C49.087,84.744,48.594,84.333,48.045,84.014z"/></g></svg>

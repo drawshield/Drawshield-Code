@@ -891,6 +891,7 @@
       array ( '(oreiller|cushion)s?', 'furnishings/cushion' ),
       array ( 'pillows?', 'furnishings/pillow' ),
       array ( 'tables?', 'furnishings/table' ),
+      array ( 'tassels?', 'furnishings/tassel' ),
       array ( '(seat|chair)s?', 'furnishings/chair' ),
       array ( 'gonfann?ons?', 'furnishings/gonfannon' ),
       array ( 'wool[ps]acks?', 'furnishings/wool-pack' ),
@@ -1184,5 +1185,7 @@
        // logos (srsly?)
        array ( 'reddit aliens?', 'logo/reddit-alien'),
        array ( 'snoos?', 'logo/reddit-alien'),
+       // modern
+       array ( 'parachutes?', 'modern/parachute'),
           );
    

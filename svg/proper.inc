@@ -59,6 +59,7 @@ class properColour {
       'camelopard' => self::$orange,
       'squirrel' => self::$brown,
       'auk' => self::$white,
+      'parachute' => self::$white,
       'skull' => self::$white,
       'snowflake' => self::$white,
       'crystal' => self::$white,
