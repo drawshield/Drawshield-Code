@@ -497,7 +497,7 @@ function expand($tokenString) {
     $newString = '';
     foreach ($tokens as $token) {
         $replacement = null;
-        if ($token[0] == '{') {
+        if (strlen($token) && $token[0] == '{') {
             $tokenValue = substr($token,1,strlen($token)-2);
             if (ctype_digit($tokenValue[0])) {
                 list($lower,$upper) = explode('-',$tokenValue);
@@ -575,6 +575,7 @@ function createLexicon($item) {
         case "charge-all":
             $lexicon[$item] = [];
             foreach ($options as $key => $value) {
+                if (!strpos($key,'-')) continue;
                 list($prefix,$type) = explode('-', $key, 2);
                 if ($prefix == 'chg' && $value == "on" && array_key_exists($key, $lexicon))
                     $lexicon[$item][] = "{" . $key . "}";
@@ -584,6 +585,7 @@ function createLexicon($item) {
         case "charge-x1":
             $lexicon[$item] = [];
             foreach ($options as $key => $value) {
+                if (!strpos($key,'-')) continue;
                 list($prefix,$type) = explode('-', $key, 2);
                 if ($prefix == 'chg' && $value == "on" && array_key_exists("$type-x1", $lexicon))
                     $lexicon[$item][] = "{" . $type . "-x1}";
@@ -593,6 +595,7 @@ function createLexicon($item) {
         case "charge-xn":
             $lexicon[$item] = [];
             foreach ($options as $key => $value) {
+                if (!strpos($key,'-')) continue;
                 list($prefix,$type) = explode('-', $key, 2);
                 if ($prefix == 'chg' && $value == "on" && array_key_exists("$type-xn", $lexicon))
                     $lexicon[$item][] = "{" . $type . "-xn}";
@@ -671,7 +674,7 @@ if ($showOrdinary) {
         $ordinaryTypes[] = "a {ord-minor} {base-tincture}";
     if ($options["ord-rare"] == "on")
         $ordinaryTypes[] = "a {ord-rare} {base-tincture}";
-    $ordinaryText .= expand(randomly($ordinaryTypes));
+    $ordinaryText = expand(randomly($ordinaryTypes));
 
     if ($showCharge) {
         switch ($usedOrdinary) {
@@ -732,13 +735,13 @@ if (count($errors)) {
         echo "$error\n";
     }
 }
-if ($options["show-opt"]) {
+if (isset($options["show-opt"])) {
     echo "\n-- Option Settings:\n";
     foreach ($options as $key => $value) {
         echo "$key: $value\n";
     }
 }
-if ($options['dump']) {
+if (isset($options['dump']))  {
     echo "\n";
     var_dump(${$options['dump']});
 }
