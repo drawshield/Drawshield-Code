@@ -293,6 +293,8 @@ function makeOrdinary( DOMElement &$node ) {
           $onPlacement = $ord_data['chargesOn'];
           if ( is_array($onPlacement )) { // Means we have to call calcPlace
             $onPlacement = calcPlace($onObject,$onPlacement[0],subPercent($onPlacement[1]));
+          } else {
+            $onPlacement = subPercent($onPlacement);
           }
         } else {
           $onPlacement = 'n'; // error if no placement for ordinary with charges on it, but let placeCharges handle it
