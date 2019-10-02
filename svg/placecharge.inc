@@ -110,27 +110,27 @@ function place_charges ( DOMElement $node, $placement ) {
       continue;
     }
     $items = explode(',', $place_list[$count]);
-    if ( isset($items[0]) and $items[0] != '' ) {
+    if ( isset($items[0]) && $items[0] != '' && is_numeric($items[0])) {
       $cx = $items[0];
   //    if ( $sinister )$cx = 1000 - $cx;
     }
-    if ( isset($items[1]) and $items[1] != '' ) {
+    if ( isset($items[1]) && $items[1] != '' && is_numeric($items[1]) ) {
       $cy = $items[1];
     //  if ( $inverted) $cy = 1200 - $cy;
    //   if ( $enhanced) $cy -= 200;
    //   if ( $abased) $cy += 200;
     }
-    if ( isset($items[2]) and $items[3] != '' ) $bbx = $items[2];
-    if ( isset($items[3]) and $items[2] != '' ) $bby = $items[3];
-    if ( isset($items[4]) and $items[4] != '' ) {
+    if ( isset($items[2]) && $items[2] != '' ) $bbx = $items[2];
+    if ( isset($items[3]) && $items[3] != '' ) $bby = $items[3];
+    if ( isset($items[4]) && $items[4] != '' ) {
       $rot = $items[4];
   //    if ( $sinister ) { if ( $rot != 0 ) { $rot += 90; } }
   //    if ( $inverted ) { if ( $rot != 0 ) { $rot -= 90; } }
     }
-    if ( isset($items[5]) and $items[5] != '' ) $inv = $items[5];
-    if ( isset($items[6]) and $items[6] != '' ) $rev = $items[6];
+    if ( isset($items[5]) && $items[5] != '' ) $inv = $items[5];
+    if ( isset($items[6]) && $items[6] != '' ) $rev = $items[6];
     $item = $node;
-    if ( $between and ( ($count+1) <= $half or ($count+1) > ($num_of - $half))) 
+    if ( $between && ( ($count+1) <= $half or ($count+1) > ($num_of - $half))) 
       $item = $between;
     $retval .= PlaceCharge( $item, $bbx, $bby, $cx, $cy, $rot, $inv, $rev );
   }
@@ -144,7 +144,7 @@ function PlaceCharge ( DOMElement $node,  // images
                             $rotation = '0',
                             $inverted = '0',
                             $reversed = '0' ) {
-  global $dom;
+  global $dom, $options;
 
   $charge = getCharge( $node );
   $orientation = null;
@@ -379,6 +379,7 @@ function PlaceCharge ( DOMElement $node,  // images
   $sizeY = $chargeY * $Yscale;
   $posX = $centreX - ($sizeX / 2);
   $posY = $centreY - ($sizeY / 2);
+ 
   $transform = '';
   if ( $rotation != 0 ) {
     $transform .= 'rotate(' . $rotation . ',' . $centreX . ',' . $centreY . ') ';

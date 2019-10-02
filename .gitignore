@@ -1,8 +1,3 @@
-.htaccess
-sftp-config-alt.json
 .vscode/*
 .gitignore
-**/.DS_Store
-*~
 
-svg/charges/food/.DS_Store

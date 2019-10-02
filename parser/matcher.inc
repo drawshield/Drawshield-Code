@@ -54,7 +54,7 @@ class matcher {
       }
       // Do we want the whole of the next token?
       // Optional & negative do not make sense here, so ignore
-      if ( $regex == '*' ) {
+      if ( $regex == '*' && isset($this->tokenList->words[$t_word]) ) {
         $this->value = $this->tokenList->words[$t_word];
         $t_word++;
         continue;

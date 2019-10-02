@@ -81,10 +81,12 @@ function shiftRGB($hex, $direction="lighter") {
 
 
 
-function apply_tincture ( DOMElement $tincture, $object, $chg_size = '',
+function apply_tincture ($tincture, $object, $chg_size = '',
         $rot = '0', $rev = false, $inv = false ) {
   global $_SERVER, $messages, $xpath, $options;
   $retval = '';
+
+  if (is_null($tincture)) return $object; // Maybe an error? Sometimes get here from makeOrdinary()
 
 	$patTrans = '';
 	$object_type = $tincture->parentNode->nodeName;
