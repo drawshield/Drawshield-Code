@@ -149,7 +149,11 @@ if ( $options['blazon'] == '' ) {
 
   // Some options might be set in the parser
   if ($options['shape'] == 'flag') {
-    if (!isset($options['aspectRatio'])) $options['aspectRatio'] = calculateAR($ar);
+    // default aspectRatio is set in version.inc, do we need to change it?
+    if (isset($options['blazonAspectRatio'])) // from the blazon
+      $options['aspectRatio'] = $options['blazonAspectRatio'];
+    elseif ($ar != null) // from the GET or POST data
+      $options['aspectRatio'] = calculateAR($ar);
     $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
   }
 

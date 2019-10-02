@@ -95,7 +95,7 @@ class englishGrammar extends grammar {
           break;
         case 'aspect':
           $value = $this->phraseMatcher->getValue();
-          $options['aspectRatio'] = calculateAR($value);
+          $options['blazonAspectRatio'] = calculateAR($value);
         default:
           break;
       }
