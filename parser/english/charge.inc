@@ -696,6 +696,8 @@
       array ( 'mill wheels?', 'architecture/millwheel' ),
       array ( 'millwheels?', 'architecture/millwheel' ),
       array ( 'towers?', 'architecture/tower' ),
+      array ( 'lighthouses?', 'architecture/lighthouse' ),
+      array ( 'pharose?s?', 'architecture/lighthouse' ),
       array ( 'water wheels?', 'architecture/waterwheel' ),
       array ( 'waterwheels?', 'architecture/waterwheel' ),
       array ( 'gates?', 'architecture/gate' ),
@@ -1095,7 +1097,7 @@
       array ( 'escut?cheons? ?of ?pretence', 'special/escutcheon' ),
       array ( 'socheons?', 'special/escutcheon' ),
       // emblem
-      array ( 'rods? ?of aesculapius', 'emblem/rod-aesculapius' ),
+      array ( 'rods? ?of (a|e|ae)scu?l[ae]pi?us', 'emblem/rod-of-esclapius' ),
       array ( 'thyrsuse?s? ?of ?dionysus', 'emblem/thyrsus' ),
       array ( 'ankhs?', 'emblem/ankh' ),
       array ( 'caduceus', 'emblem/caduceus' ),

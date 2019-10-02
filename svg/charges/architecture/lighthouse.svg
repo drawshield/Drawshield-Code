@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   id="svg3243"
+   height="399.25"
+   width="124.1875">
+  <defs
+     id="defs3245" />
+  <metadata
+     id="metadata3248">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>https://commons.wikimedia.org/wiki/User:Henrysalome</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(-312.90625,-332.73718)"
+     id="layer1">
+    <g
+       id="g3204"
+       transform="translate(-125,310.48718)">
+      <path
+         style="fill:#666666;stroke:#808080;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 440,420 120,0 -10,-30 -100,0 z"
+         id="path5346" />
+      <path
+         style="fill:#ffff00;stroke:#808080;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 460,390 10,-40 10,-280 5,0 0,-35 c 5,-15 25,-15 30,0 l 0,35 5,0 10,280 10,40 z"
+         id="path5350" />
+      <path
+         style="fill:#4d4d4d;stroke:#808080;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 490,390 0,-30 c 0,-15 20,-15 20,0 l 0,30 z"
+         id="path5354" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#808080;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 472.84375,270 -0.34375,10 55,0 -0.34375,-10 -54.3125,0 z"
+         id="rect5356" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#808080;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="M 475.34375,200 475,210 l 50,0 -0.34375,-10 -49.3125,0 z"
+         id="rect5356-5" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#808080;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 477.84375,130 -0.34375,10 45,0 -0.34375,-10 -44.3125,0 z"
+         id="rect5356-50" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#808080;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 480,70 -0.34375,10 40.6875,0 L 520,70 480,70 z"
+         id="rect5356-504" />
+      <path
+         style="fill:none;stroke:#808080;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 485,35 30,0"
+         id="path5480" />
+      <path
+         style="fill:none;stroke:#808080;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 495,35 0,35"
+         id="path5480-8" />
+      <path
+         style="fill:none;stroke:#808080;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 505,35 0,35"
+         id="path5480-83" />
+      <path
+         style="fill:#4d4d4d;fill-opacity:1;stroke:#808080;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 505,230 -10,0 0,25 10,0 z"
+         id="rect5356-9" />
+      <path
+         style="fill:#4d4d4d;fill-opacity:1;stroke:#808080;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 505,155 -10,0 0,25 10,0 z"
+         id="rect5356-9-5" />
+      <path
+         style="fill:#4d4d4d;fill-opacity:1;stroke:#808080;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 505,90 -10,0 0,25 10,0 z"
+         id="rect5356-9-59" />
+    </g>
+  </g>
+</svg>
