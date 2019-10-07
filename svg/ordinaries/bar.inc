@@ -15,7 +15,11 @@
 global $svg_chief, $options;
 $subtype = $node->getAttribute('keyterm');
 $height = 1000;
-if ($options['shape'] == 'flag') $height = $options['flagHeight'];
+$palet_length = 1400;
+if ($options['shape'] == 'flag') {
+  $height = $options['flagHeight'];
+  $palet_length = sprintf("%d", $height + 200);
+}
 
 // bar
 // ( although a "bar sinister" is a bend sinister
@@ -35,7 +39,7 @@ if ($subtype == 'bar' and existModifierWithKeyterm($node,'sinister')) {
   $bar_start = '-100';
   $bar_length = '1200';
   $palet_start = '-100';
-  $palet_length = sprintf("%d", $height + 200);
+
   $linetype_size = 30;
 
   $main_linetype = getModifierByType($node, 'linetype');
