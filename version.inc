@@ -1,14 +1,16 @@
 <?php
 
 $version = array (
-  'release' => '2.7a',
-  'date' => '30 Jun 2019',
-  'name' => 'Version ',
+  'release' => '(development)',
+  'date' => '6th October 2019',
   'website' => 'drawshield.net',
-  'flagsite' => 'drawflag.net',
   'author' => 'Karl R. Wilcox',
   'email' => 'karlwilcox36@gmail.com',
 );
+
+ if (($gitVer = file_get_contents('release.txt')) != NULL)
+// if (($gitVer = shell_exec('date')) != NULL)
+  $version['release'] = $gitVer;
 
 // Set default values for arguments
 $options = array(
