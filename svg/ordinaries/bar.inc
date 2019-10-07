@@ -12,8 +12,10 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-global $svg_chief;
+global $svg_chief, $options;
 $subtype = $node->getAttribute('keyterm');
+$height = 1000;
+if ($options['shape'] == 'flag') $height = $options['flagHeight'];
 
 // bar
 // ( although a "bar sinister" is a bend sinister
@@ -33,7 +35,7 @@ if ($subtype == 'bar' and existModifierWithKeyterm($node,'sinister')) {
   $bar_start = '-100';
   $bar_length = '1200';
   $palet_start = '-100';
-  $palet_length = '1400';
+  $palet_length = sprintf("%d", $height + 200);
   $linetype_size = 30;
 
   $main_linetype = getModifierByType($node, 'linetype');
@@ -61,17 +63,17 @@ if ($subtype == 'bar' and existModifierWithKeyterm($node,'sinister')) {
           $bar_start = '100';
           $bar_length = '800';
           $palet_start = '100';
-          $palet_length = '900';
+          $palet_length = sprintf("%d", $height - 200);;
           $child->setAttribute('value','used');
           break;
         case 'couped-base':
           $palet_start = '-100';
-          $palet_length = '1000';
+          $palet_length = sprintf("%d", $height - 200);;
           $child->setAttribute('value','used');
           break;
         case 'couped-chief':
           $palet_start = '100';
-          $palet_length = '1200';
+          $palet_length = sprintf("%d", $height - 200);
           $child->setAttribute('value','used');
           break;
         case 'couped-dexter':
@@ -91,12 +93,13 @@ if ($subtype == 'bar' and existModifierWithKeyterm($node,'sinister')) {
       }
     }
   }
+
   switch ($subtype) {
-    case 'endorse':
     case 'barrulet':
-      $bar_width = 200;
-      $linetype_size = 25;
+      $bar_width = 50;
+      $linetype_size = 15;
       break;
+    case 'endorse':
     case 'closet':
       $bar_width = 100;
       $linetype_size = 20;
@@ -104,54 +107,60 @@ if ($subtype == 'bar' and existModifierWithKeyterm($node,'sinister')) {
     case 'bar-gemel':
     case 'palet-gemel':
       $linetype_size = 20;
-      $bar_width = 400;
+      $bar_width = 200;
       break;
     case 'riband':
       $bar_width = 80;
       break;
-    case 'bar':
+    // case 'bar':
+    // case 'palet':
     default:
-      $bar_width = 400;
+      $bar_width = 200;
       if ($main_linetype == 'dancetty') $linetype_size = 50;
       break;
   }
+
+  $vSpacing = $height/($num+1);
+  $hSpacing = 1000/($num+1);
+
   if ( $num < 1 ) { $num = 1; }
   if ( $num > 8 ) { $num = 8; }
   $body = '';
   $spec = '';
-  $spacing = 1000/($num+1);
-  $H1 = min ( 200, ($bar_width / $num) );
+  // Adjust bar size for height
+  $H1 = $bar_width * $height / 1000;
   $H2 = $H1 / 2;
   for ( $i = 0; $i < $num; $i++ ) {
     switch ( $subtype ) {
       case 'barrulet':
       case 'closet':
       case 'bar':
-        $Y1 = (($i+1) * $spacing) - $H2;
+        $Y1 = (($i+1) * $vSpacing) - $H2;
         $spec = "X{$bar_start}Y{$Y1}A{$bar_length}c{$H1}E{$bar_length}g{$H1}";
         break;
       case 'bar-gemel':
-        $Y1 = (($i+1) * $spacing) - $H2;
+        $Y1 = (($i+1) * $vSpacing) - $H2;
         $Y2 = $Y1 + ($H1 * 0.75);
         $H4 = $H1 / 4;
         $spec = "X{$bar_start}Y{$Y1}A{$bar_length}c{$H4}E{$bar_length}g{$H4}   X{$bar_start}Y{$Y2}A{$bar_length}c{$H4}E{$bar_length}g{$H4}";
         break;
       case 'palet-gemel':
-        $X1 = (($i+1) * $spacing) - $H2;
+        $X1 = (($i+1) * $hSpacing) - $H2;
         $X2 = $X1 + ($H1 * 0.75);
         $H4 = $H1 / 4;
         $spec = "X{$X1}Y{$palet_start}a{$H4}C{$palet_length}e{$H4}G{$palet_length}    X{$X2}Y{$palet_start}a{$H4}C{$palet_length}e{$H4}G{$palet_length}";
         break;
       case 'palet':
       case 'endorse':
-        $X1 = (($i+1) * $spacing) - $H2;
+        $X1 = (($i+1) * $hSpacing) - $H2;
         $spec = "X{$X1}Y{$palet_start}a{$H1}C{$palet_length}e{$H1}G{$palet_length}";
         break;
       case 'riband':
+      case 'scarpe':
       case 'bendlet':
         $W2 = ($H1/0.707) / 2;
-        $X1 = (($i+1) * $spacing) - 500 - $W2;
-        $Y1 = 500 - (($i+1) * $spacing);
+        $X1 = (($i+1) * $hSpacing) - 500 - $W2;
+        $Y1 = 500 - (($i+1) * $hSpacing);
         if ( $svg_chief == 'CH' ) $Y1 += 300;
         $spec = "X{$X1}Y{$Y1}h{$H1}B1600d{$H1}F1600";
         break;

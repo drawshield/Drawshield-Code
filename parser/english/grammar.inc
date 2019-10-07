@@ -368,7 +368,7 @@ class englishGrammar extends grammar {
     // TODO in herald knowledge replace special/same
     if( ($keyterm = self::find(languageDB::CHARGE_NOT_ORDINARY)) or (($keyterm = self::find(languageDB::ORDINARY_OR_CHARGE)) and $chgNum > 1) or ($keyterm = self::find(languageDB::CHARGE)) ) {
       // don't care if no flags
-      @list($keyterm, $flags) = explode('?', $keyterm);
+      list($keyterm, $flags) = explode('?', $keyterm . '?');
       $charge->setAttribute(blazonML::A_KEYTERM,$keyterm);
       $charge->setAttribute(blazonML::A_TOKENS, $charge->getAttribute(blazonML::A_TOKENS) . ' ' . self::tokens() );
       $charge->setAttribute(blazonML::A_LINENUMBER, self::lineNo() );
