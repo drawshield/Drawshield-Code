@@ -707,7 +707,7 @@ Function reverseSpec ( $shapeSpec ) {
     // Get direction and distance
     $dir = $match{0};
     $dist = substr($match,1);
-    if ( strpos ( "XYZQVO", $dir ) !== false ) {
+    if ( strpos ( "XYZQVOU", $dir ) !== false ) {
       $retval .= $match;
     } else {
       $retval .= $toReverse[$dir] . $dist;
@@ -738,7 +738,7 @@ function parallelSpec ( $shapeSpec, $io, $size ) {
     } elseif ( $dir == 'Y' ) {
       $Yoff = $dist;
       continue;
-    } elseif ( strpos("ZQVO", $dir) !== false ) {
+    } elseif ( strpos("ZQVOU", $dir) !== false ) {
       $flags .= $dir . $dist;
       continue;
     }

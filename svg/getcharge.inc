@@ -439,7 +439,13 @@ function getCharge( DOMElement $node ) {
     // What type of "on" is this?
     $chargeWithType = $chargeOn->getAttribute('keyterm');
     $chargeToAdd = $chargeOn->firstChild;
+    // We don't support charging with ordinaries (yet?
+    // - would need to mask scaled ord with charge outline I think)
     $chargeToAddType = $chargeToAdd->getAttribute('keyterm');
+    if ( $chargeToAdd->nodeName == 'ordinary') {
+      $messages->addMessage('Warning', "Charge charged with ordinary not supported");
+      continue;
+    }
     $chargeOnTop = false;
     switch ( $chargeWithType ) {
       case 'encircled-by':

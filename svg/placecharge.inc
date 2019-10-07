@@ -385,6 +385,7 @@ function PlaceCharge ( DOMElement $node,  // images
     $transform .= 'rotate(' . $rotation . ',' . $centreX . ',' . $centreY . ') ';
   }
   $transform .= " translate($posX,$posY) scale($Xscale, $Yscale) ";
+  if (!isset($charge['title'])) $charge['title'] = 'a charge';
   $retval = "<g transform=\"$transform\" >\n<title>" . htmlentities(transliterate($charge['title'])) . '</title>' . $retval . "</g>\n";
 
   $retval = apply_tincture( $tincture, $retval, "$chargeX,$chargeY", $rotation, $reversed, $inverted );

@@ -386,7 +386,7 @@ function byChance($chance) {
 function randomly($choices, $checkUsed = false) {
     if (!is_array($choices)) return $choices; // just in case we send a string - issue warning?
     $maxIndex = count($choices)  - 1;
-    if ($maxIndex == 0) return $choices[0]; // Hobson's
+    if ($maxIndex <= 0) return $choices[0]; // Hobson's
     $limit = 20; // avoid infinite loops (just in case)
     do {
         $chosen = $choices[rand(0, $maxIndex)];

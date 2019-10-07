@@ -205,7 +205,7 @@ function makeOrdinary( DOMElement &$node ) {
 	  $rot = $ord_data['rotate_pattern'];
 	else 
 	  $rot = 0;
-	$mirrored = existModifierWithKeyterm($node, 'sinister');
+	$mirrored = existModifierWithKeyterm($node, 'sinister') || $subtype == 'scarpe';
 	$inverted = existModifierWithKeyterm($node, 'inverted');
 
 	// Start to build return string
