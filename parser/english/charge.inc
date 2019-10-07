@@ -965,6 +965,8 @@
       array ( 'terrestrial (globe|sphere)s?', 'household/globe' ),
       array ( 'saltcellars?', 'household/saltcellar' ),
       array ( 'salt cellars?', 'household/saltcellar' ),
+      array ( 'candlesticks?', 'household/candlestick' ),
+      array ( 'candle sticks?', 'household/candlestick' ),
       array ( 'e?scrolls?', 'household/scroll' ),
       array ( '(vase|urn)s?', 'household/urn' ),
       array ( 'amphora(e|s)?', 'household/amphora' ),
