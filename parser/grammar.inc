@@ -38,6 +38,25 @@ abstract class grammar  {
    */
   protected $stateStore;
 
+  protected $shieldNode;
+  protected $achievementNode = null;
+  protected $notesNode = null;
+  protected $messagesNode = null;
+  
+  protected function addInstruction($child) {
+    if ($this->notesNode == null)
+          $this->notesNode = $this->schema->makeNode(blazonML::E_INSTRUCTIONS);
+    $this->notesNode->appendChild($child);
+  }
+ 
+
+  protected function addAchievement($child) {
+    if ($this->achievementNode == null) {
+      $this->achievementNode = $this->schema->makeNode(blazonML::E_ACHIEVEMENT);
+    }
+    $this->achievementNode->appendChild($child);
+  }
+
   public function __construct( $language = 'english', BlazonML $schema) {
     switch ( $language ) {
       case 'english':
@@ -62,18 +81,11 @@ abstract class grammar  {
     $this->phraseMatcher = new matcher($tokenList, $this->patternDB);
     $this->tokenList = $tokenList;
 
-    $xml = $this->getShield();
-    if ($xml == null)
-      $xml = $this->schema->makeNode(blazonML::E_SHIELD, array ( blazonML::A_INDEX => '0' )); // TODO - add a field?
-    $messages = $xml->appendChild($this->schema->makeNode('messages'));
-    foreach ( $this->getMessages() as $message ) {
-      $messageNode = $this->schema->makeNode('message');
-      $messageNode->setAttribute('category', 'blazon');
-      $messageText = $this->schema->createTextNode($message);
-      $messageNode->appendChild($messageText);
-      $messages->appendChild($messageNode);
-    }
-    return $xml;
+    $shield = $this->getShield();
+    if ($shield == null)
+      $shield = $this->schema->makeNode(blazonML::E_SHIELD, array ( blazonML::A_INDEX => '0' )); // TODO - add a field?
+    $this->checkBadWords();
+    return array ($shield, $this->achievementNode, $this->notesNode, $this->messagesNode);
   }
 
   // shorthand functions to make code read better
@@ -110,6 +122,8 @@ abstract class grammar  {
   }
   
   protected function raiseError ( $type, $message, $getOffset = false ) {
+    if ($this->messagesNode == NULL) 
+      $this->messagesNode = $this->schema->makeNode(blazonML::E_MESSAGES);
     $context = '';
     $lineNo = '';
     if ( $getOffset === true ) {
@@ -124,21 +138,26 @@ abstract class grammar  {
          $lineNo = " near line " . $lineNos[$offset];
     } elseif ( $getOffset !== false )
       $context = $getOffset;
-    $this->messages[] = "$type $message $context $lineNo";
-    // TODO suppress duplicate errors?
+    $messageNode = $this->schema->makeNode(blazonML::E_MESSAGE, array ( 
+      blazonML::A_CATEGORY => 'blazon',
+      blazonML::A_CONTEXT => $context,
+      blazonML::A_LINERANGE => $lineNo,
+    ));
+    $messageText = $this->schema->createTextNode($message);
+    $messageNode->appendChild($messageText);
+    $this->messagesNode->appendChild($messageNode);
   }
   
   protected function clearErrors( $type = null ) {
-    if ( $type == null )
-      $this->messages = array();
-    else
-      for ($i = count ($this->messages) - 1; $i >= 0; $i--) {
-        if ($this->messages[$i][0] == $type)
-          array_splice($this->messages,$i,1);
+    if (is_null($this->messagesNode) || !$this->messagesNode->hasChildNodes()) return;
+    for ($i = 0; $i < $this->messagesNode->childNodes->length; $i++ ) {
+      $message = $this->messagesNode->childNodes->item($i);
+      if ($type == null || $message->getAttribute(blazonML::A_CATEGORY) == $type ) 
+        $this->messagesNode->removeChild($message);
     }
   }
 
-  public function getMessages () {
+  public function checkBadWords () {
     // Was there any unknown input?
     if ( $this->tokenList->badWords ) {
       $allTokens = $this->tokenList->getTokens();
@@ -148,8 +167,6 @@ abstract class grammar  {
       $start = max(1,$i - 5);
       self::raiseError('blazon',"Don't understand:", '...' . implode(' ', array_slice($allTokens, $start, 10)) . '...');
     }
-    // include any messages from the lexical analyser
-    return array_merge($this->messages, $this->phraseMatcher->getMatcherErrors());
   }
       
   protected function semicolon($lookback = true) {

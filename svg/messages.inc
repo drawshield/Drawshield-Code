@@ -47,6 +47,7 @@ class messageStore {
     global $xpath;
 
     $messageParent = ($xpath->query('//messages'))->item(0);
+    if ($messageParent == null) return; // or should we create it?
     foreach ($this->messages as $category => $messageSet) {
       foreach ($messageSet as $message) {
         $messageNode = $this->dom->createElement(blazonML::E_MESSAGE);

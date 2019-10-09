@@ -26,6 +26,7 @@ class englishGrammar extends grammar {
       self::semicolon();
       if ( ($overall = self::overall(true)) != null )
         $node->appendChild($overall);
+      self::mantling();
       self::drawn(); // get any options appended to the blazon
       // If last word is ignored, can't go further
       if ( $this->tokenList->words[$this->tokenList->num_tokens-1]{0} == '[')
@@ -80,24 +81,34 @@ class englishGrammar extends grammar {
   }
 
   protected function drawn() {
-    global $options;
 
     while ($option = self::find(LanguageDB::DRAWN_MODS)) {
+      $elementName = null;
+      $value = strtolower($this->phraseMatcher->getValue());
       switch ($option) {
         case 'scheme':
-          $options['palette'] = strtolower($this->phraseMatcher->getValue());
+          $elementName = blazonML::E_PALETTE;
           break;
         case 'style':
-          $options['effect'] = strtolower($this->phraseMatcher->getValue());
+          $elementName = blazonML::E_EFFECT;
           break;
         case 'shape':
-          $options['shape'] = strtolower($this->phraseMatcher->getValue());
+          $elementName = blazonML::E_SHAPE;          
           break;
         case 'aspect':
-          $value = $this->phraseMatcher->getValue();
-          $options['blazonAspectRatio'] = calculateAR($value);
+          // $value = calculateAR($value);
+          $elementName = blazonML::E_ASPECT;
+          break;
         default:
           break;
+      }
+      if (!is_null($elementName)) {
+        $node = $this->schema->makeNode($elementName, array ( 
+          blazonML::A_KEYTERM => $value ),
+          self::tokens(),
+          self::lineNo()
+        );
+        $this->addInstruction($node);
       }
       self::ignore(LanguageDB::ANDD);
     }
@@ -1107,6 +1118,50 @@ class englishGrammar extends grammar {
       // }
     }
     return $node;
+  }
+
+  protected function mantling() {
+    $state = self::save();
+    $mantlingNode = $this->schema->makeNode(blazonML::E_MANTLING);
+    self::ignore(languageDB::WITH);
+    if (!self::find(languageDB::MANTLING)) {
+      self::restore($state);
+      return;
+    }
+    while (true) {
+      if (($loc = self::find(languageDB::MANTLING_LOC)) != null) {
+        $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
+            blazonML::A_KEYTERM => $loc 
+          ),
+          self::tokens(),
+          self::lineno()
+        );
+      } else {
+        $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
+          blazonML::A_KEYTERM => 'default'),
+          self::tokens(),
+          self::lineno());
+      }
+      $colCount = 0;
+      while (($colNode = self::colour()) != null) {
+        $colCount++;
+        $tincNode = $this->schema->makeNode(blazonML::E_TINCTURE, array(
+          blazonML::A_INDEX => $colCount,
+          blazonML::A_ORIGIN => 'given'));
+        $tincNode->appendChild($colNode);
+        $locNode->appendChild($tincNode);
+        self::ignore(languageDB::ANDD);
+      }
+      if ($colCount == 0) {
+        // self::raiseError('parser','Expected colour for mantling');
+        break;
+      }
+      $mantlingNode->appendChild($locNode);
+      self::ignore(languageDB::ANDD);
+    }
+
+    self::discard($state);
+    $this->addAchievement($mantlingNode);
   }
 
   // Look for a tincture, return a pending tincture if not found

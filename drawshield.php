@@ -5,6 +5,8 @@
 //
 $options = array();
 include 'version.inc';
+include 'parser/utilities.inc';
+include "analyser/utilities.inc";
 /**
  * @var DOMDocument $dom
  */
@@ -49,10 +51,12 @@ if (isset($argc)) {
   if ( $argc > 1 ) { // run in debug mode, probably
     $options['blazon'] = implode(' ', array_slice($argv,1));
   } else {
-    $options['blazon'] = "argent a cross trefle latin gules";
+    // $options['blazon'] = "vert mantling to the sinister gules and or to the dexter vert and sable";
+    $options['blazon'] = "argent  a bend or a couple-close gules a grid sable";
+    // $options['stage'] = 'parser';
   }
   // $options['printable'] = true;
-   $options['outputFormat'] = 'png';
+   $options['outputFormat'] = 'svg';
 }
 
 // Process arguments
@@ -79,7 +83,7 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_POST['stage'])) $options['stage'] = strip_tags($_POST['stage']);
 //  if (isset($_POST['printable'])) $options['printable'] = ($_POST['printable'] == "1");
   if (isset($_POST['effect'])) $options['effect'] = strip_tags($_POST['effect']);
-  if (isset($_POST['size'])) $size = strip_tags ($_POST['size']);
+  if (isset($_POST['size'])) $options['size']= strip_tags ($_POST['size']);
   if (isset($_POST['ar'])) $ar = strip_tags ($_POST['ar']);
 } else { // for old API
   if (isset($_GET['blazon'])) $options['blazon'] = html_entity_decode(strip_tags(trim($_GET['blazon'])));
@@ -92,36 +96,10 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_GET['raw'])) $options['raw'] = true;
   //  if (isset($_GET['printable'])) $options['printable'] = ($_GET['printable'] == "1");
   if (isset($_GET['effect'])) $options['effect'] = strip_tags($_GET['effect']);
-  if (isset($_GET['size'])) $size = strip_tags ($_GET['size']);
+  if (isset($_GET['size'])) $options['size'] = strip_tags ($_GET['size']);
   if (isset($_GET['ar'])) $ar = strip_tags ($_GET['ar']);
 }
-if ( $size < 100 ) $size = 100;
-$options['size'] = $size;
-// if ($options['shape'] == 'flag') {
-//   $options['aspectRatio'] = calculateAR($ar);
-//   $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
-// } // moved to after the parse
 
-// Quick response for empty blazon
-if ( $options['blazon'] == '' ) {
-  include "svg/shapes.inc";
-  if ($options['shape'] == 'flag') {
-    if (!isset($options['aspectRatio'])) $options['aspectRatio'] = calculateAR($ar);
-    $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
-  }
-  $outline = getShape($options['shape']);
-  
-  header('Content-Type: text/xml; charset=utf-8');
-  $output = '<?xml version="1.0" encoding="utf-8" ?><svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" height="' .
-    ( $options['size'] * 1.2) . '" width="' .  $options['size'] . '" viewBox="0 0 1000 1200" >
-    <g clip-path="url(#clipPath1)"><desc>argent</desc><g><title>Shield</title><g fill="#F0F0F0">
-    <rect x="0" y="0" width="1000" height="1200" ><title>Field</title></rect></g></g></g>
-    <defs><clipPath id="clipPath1" > <path d="' . $outline . '" /> </clipPath></defs>
-    <text x="10" y="1160" font-size="30" >'
-   . $version['name'] . ' ' . $version['release'] . '</text><text x="10" y="1190" font-size="30" >' . $version['website'] . '</text></svg>';
-} else {
-  // Otherwise log the blazon for research... (unless told not too)
- if ( $options['logBlazon']) error_log($options['blazon']);
 
  register_shutdown_function(function()
     {
@@ -135,6 +113,13 @@ if ( $options['blazon'] == '' ) {
         }
     });
 
+// Quick response for empty blazon
+if ( $options['blazon'] == '' ) {
+  $dom = new DOMDocument('1.0');
+  $dom->loadXML('<blazon ID="N1-0" blazonText="argent" blazonTokens="argent" creatorName="drawshield.net" ><shield ID="N1-6"><simple ID="N1-4"><field ID="N1-3"><tincture ID="N1-1" index="1" origin="given"><colour ID="N1-2" keyterm="argent" tokens="argent" linenumber="1" link="https://drawshield.net/reference/parker/a/argent.html"></colour></tincture></field></simple></shield><messages></messages></blazon>');
+} else {
+  // log the blazon for research... (unless told not too)
+  if ( $options['logBlazon']) error_log($options['blazon']);
   include "parser/parser.inc";
   $p = new parser('english');
   $dom = $p->parse($options['blazon'],'dom');
@@ -147,21 +132,7 @@ if ( $options['blazon'] == '' ) {
       exit; 
   }
 
-  // Some options might be set in the parser
-  if ($options['shape'] == 'flag') {
-    // default aspectRatio is set in version.inc, do we need to change it?
-    if (isset($options['blazonAspectRatio'])) // from the blazon
-      $options['aspectRatio'] = $options['blazonAspectRatio'];
-    elseif ($ar != null) // from the GET or POST data
-      $options['aspectRatio'] = calculateAR($ar);
-    $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
-  }
-
-  // Synonyms for circle shape
-  if (in_array($options['shape'],array('circular','round'))) $options['shape'] = 'circle';
-
   // Resolve references
-  include "analyser/utilities.inc";
   include "analyser/references.inc";
   $references = new references($dom);
   $dom = $references->setReferences();
@@ -185,9 +156,49 @@ if ( $options['blazon'] == '' ) {
       echo $dom->saveXML(); 
       exit; 
   }
+}
+// Make the blazonML searchable
+$xpath = new DOMXPath($dom);
+
+/*
+ * Update any optiona that were set in the blazon itself
+ */
+$blazonOptions = $xpath->query('//instructions/child::*');
+if (!is_null($blazonOptions)) {
+  for ($i = 0; $i < $blazonOptions->length; $i++) {
+    $blazonOption = $blazonOptions->item($i);
+    switch ($blazonOption->nodeName) {
+      case blazonML::E_SHAPE:
+        $options['shape'] = $blazonOption->getAttribute('keyterm');
+        break;
+      case blazonML::E_PALETTE:
+        $options['palette'] = $blazonOption->getAttribute('keyterm');
+        break;
+      case blazonML::E_EFFECT:
+        $options['effect'] = $blazonOption->getAttribute('keyterm');
+        break;
+      case blazonML::E_ASPECT:
+        $ar = $blazonOption->getAttribute('keyterm');
+        break;
+    }
+  }
+}
+
+/*
+ * General options tidy-up
+ */
+// Minimum sensible size
+if ( $options['size'] < 100 ) $options['size'] = 100;
+// Synonyms for circle shape
+if (in_array($options['shape'],array('circular','round'))) $options['shape'] = 'circle';
+// Calculate actual flagHeight
+if ($options['shape'] == 'flag') {
+  if ($ar != null) $options['aspectRatio'] = calculateAR($ar);
+  $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
+}
 
   // Read in the drawing code  ( All formats start out as SVG )
-  $xpath = new DOMXPath($dom);
+
   //include "analyser/rewriter.inc";
   // some fudges / heraldic knowledge
   // rewrite();
@@ -200,7 +211,7 @@ if ( $options['blazon'] == '' ) {
   // }
   include "svg/draw.inc";
   $output = draw();
-}
+
 
 // Output content header
 if ( $options['asFile'] ) {

@@ -8,9 +8,8 @@ $version = array (
   'email' => 'karlwilcox36@gmail.com',
 );
 
- if (($gitVer = file_get_contents('release.txt')) != NULL)
-// if (($gitVer = shell_exec('date')) != NULL)
-  $version['release'] = $gitVer;
+if (file_exists('release.txt'))
+  $version['release'] = @file_get_contents('release.txt');
 
 // Set default values for arguments
 $options = array(

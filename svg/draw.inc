@@ -240,7 +240,10 @@ function draw() {
       $body .=  '<path fill="none" stroke="' . rgb('division-stroke') . '" stroke-width="4" d="' . $outline . '" />';
     // Rest depends on output format
     if ( !$options['asFile'] /* && !$options['printable'] */ ) { // minimal decoration, no metadata
-      $body .= '<text id="test1" x="10" y="1160" font-size="30" >' . $version['website'] . '</text><text x="10" y="1190" font-size="30" >' . $version['release'] . '</text>';
+      $y1Location = '1160';
+      if ($options['shape'] == 'flag') $y1Location = $options['flagHeight'] + 40;
+      $y2Location = $y1Location + 30;
+      $body .= '<text id="test1" x="10" y="' . $y1Location . '" font-size="30" >' . $version['website'] . '</text><text x="10" y="' . $y2Location . '" font-size="30" >' . $version['release'] . '</text>';
       if ( $options['outputFormat'] == 'svg') {
         $messages->addMessage('legal',"Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.");
         $messages->insertMessages();

@@ -17,6 +17,7 @@
 //
 $options = array();
 include 'version.inc';
+include 'parser/utilities.inc';
 /**
  * @var DOMDocument $dom
  */

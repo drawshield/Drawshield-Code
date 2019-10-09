@@ -1,6 +1,6 @@
 <?php
 
-include "utilities.inc";
+//include "utilities.inc";
 include "tokeniser.inc";
 include "matcher.inc";
 // abstract classes for the language data
@@ -33,16 +33,24 @@ class parser {
   }
   
   public function parse($blazon, $format = 'xml' ) {
+    global $version;
     // set things up
     $this->tokenList = new tokeniser($blazon);
-    $topNode = $this->xmlMaker->makeNode(blazonML::E_BLAZON, array ( "blazonText" => $blazon,
-          "blazonTokens" => (implode(' ', $this->tokenList->getTokens()))));
+    $topNode = $this->xmlMaker->makeNode(blazonML::E_BLAZON, 
+        array ( "blazonText" => $blazon,
+                "blazonTokens" => (implode(' ', $this->tokenList->getTokens())),
+                "creatorName" => $version['website'],
+                "creatorVersion" => $version['release'],
+                "timestamp" => time(),
+              )
+      );
     $this->xmlMaker->appendChild($topNode);
 
     // Do the parsing
-    $node = $this->grammar->readGrammar($this->tokenList);
-    if ( $node != null )
-      $topNode->appendChild($node);
+    $nodes = $this->grammar->readGrammar($this->tokenList);
+    foreach ($nodes as $node) {
+      if ($node != NULL) $topNode->appendChild($node);
+    }
     
     // Return the result
     switch ( $format ) {

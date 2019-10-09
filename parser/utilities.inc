@@ -1,16 +1,13 @@
-<?php /* Copyright 2014 Karl R. Wilcox
+<?php 
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+function unique($prefix = 'item') {
+  static $uni_num = 0;
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License. */
+  $uni_num += 1;
+  return "$prefix$uni_num";
+}
+
   
 interface checkpoint {
   public function save();
@@ -57,23 +54,39 @@ class blazonML extends DOMDocument {
   protected $uid;
   
   // We introduce a level of indirection here, in case of future changes to the schema
+  // and for consistency
   const E_BLAZON = 'blazon';
   const E_SHIELD = 'shield';
   const E_PLAIN = 'simple';
   const E_COMPLEX = 'complex';
+  const E_INSTRUCTIONS = 'instructions';
+  const E_SHAPE = 'shape';
+  const E_PALETTE = 'palette';
+  const E_EFFECT = 'effect';
+  const E_ACHIEVEMENT = 'achievement';
+  const E_CREST = 'crest';
+  const E_MANTLING = 'mantling';
+  const E_SUPPORTERS = 'supporters';
+  const E_MOTTO = 'motto';
+  const E_LOCATION = 'location';
+  const E_ASPECT = 'aspect';
   const A_INDEX = 'index';
   const A_TOKENS = 'tokens';
   const A_LINENUMBER = 'linenumber';
+  const A_LINERANGE = 'linerange';
   const A_ID = 'ID';
   const A_IDREF = 'IDREF';
+  const A_CONTEXT = 'context';
   const V_DIMIDIATED = 'dimidiated';
   const V_IMPALED = 'impaled';
   const V_QUARTERED = 'quartered';
   const E_MISSING = 'missing';
   const E_MESSAGE = 'message';
+  const E_MESSAGES = 'messages';
   const E_OVERALL = 'overall';
   const E_TINCTURE = 'tincture';
   const A_ORIGIN = 'origin';
+  const A_CATEGORY = 'category';
   const E_PROPER = 'proper';
   const E_PENDING = 'pending';
   const A_NAME = 'name';
@@ -139,5 +152,3 @@ function transliterate($string) {
   return preg_replace(array('/è/','/é/','/ê/','/ç/','/à/','/á/','/â/','/È/','/É/','/Ê/','/Ç/','/À/','/Á/','/Â/'),
         				       array('e','e','e','c','a','a','a','e','e','e','c','a','a','a'), $string);
 }
-   
-?>
