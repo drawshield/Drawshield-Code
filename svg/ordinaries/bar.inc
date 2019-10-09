@@ -16,6 +16,7 @@ global $svg_chief, $options;
 $subtype = $node->getAttribute('keyterm');
 $height = 1000;
 $palet_length = 1400;
+$bend_length = 1600; // future - adjust for flag height???
 if ($options['shape'] == 'flag') {
   $height = $options['flagHeight'];
   $palet_length = sprintf("%d", $height + 200);
@@ -110,6 +111,7 @@ if ($subtype == 'bar' and existModifierWithKeyterm($node,'sinister')) {
       break;
     case 'bar-gemel':
     case 'palet-gemel':
+    case 'couple-close':
       $linetype_size = 20;
       $bar_width = 200;
       break;
@@ -154,6 +156,18 @@ if ($subtype == 'bar' and existModifierWithKeyterm($node,'sinister')) {
         $H4 = $H1 / 4;
         $spec = "X{$X1}Y{$palet_start}a{$H4}C{$palet_length}e{$H4}G{$palet_length}    X{$X2}Y{$palet_start}a{$H4}C{$palet_length}e{$H4}G{$palet_length}";
         break;
+      case 'couple-close':
+        $W2 = ($H1/0.707) / 2;
+        $X1 = (($i+1) * $hSpacing) - 500 - $W2;
+        $Y1 = 500 - (($i+1) * $hSpacing);
+        $H4 = $H1 / 4;
+        $H3 = ($H1 / 4) * 3 * 0.707;
+        if ( $svg_chief == 'CH' ) $Y1 += 300;
+        $spec = "X{$X1}Y{$Y1}h{$H4}B{$bend_length}d{$H4}F{$bend_length}";
+        $X2 = $X1 + $H3;
+        $Y2 = $Y1 - $H3;
+        $spec .= "   X{$X2}Y{$Y2}h{$H4}B{$bend_length}d{$H4}F{$bend_length}";
+        break;
       case 'palet':
       case 'endorse':
         $X1 = (($i+1) * $hSpacing) - $H2;
@@ -166,7 +180,7 @@ if ($subtype == 'bar' and existModifierWithKeyterm($node,'sinister')) {
         $X1 = (($i+1) * $hSpacing) - 500 - $W2;
         $Y1 = 500 - (($i+1) * $hSpacing);
         if ( $svg_chief == 'CH' ) $Y1 += 300;
-        $spec = "X{$X1}Y{$Y1}h{$H1}B1600d{$H1}F1600";
+        $spec = "X{$X1}Y{$Y1}h{$H1}B{$bend_length}d{$H1}F{$bend_length}";
         break;
     }
     $body .= createBody( $spec, $mods[$i], $linetype_size );

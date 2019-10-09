@@ -79,6 +79,8 @@ class languageDB extends lexicon {
   const QUARTERMODS = 'quartermods';
   const LETTERS = 'letters';
   const INVERSE = 'inverse';
+  const MANTLING = 'mantling';
+  const MANTLING_LOC = 'mantling_loc';
   
   public function __construct() {
     global $options;
@@ -96,10 +98,16 @@ class languageDB extends lexicon {
       self::WORD_THE => array ( 'the' ),
       self::OVERALL => array ( 'overall', 'sur le tout', 'all with(in)?', "over all", "in pretence" ),
       self::METAOVERALL => array ( 'over(all)? ?all ?the ?# (quarters|quarterings|halves|parts|sections)', ),
-      self::SUPPLEMENTARY => array (
-        array ('crest', 'crest'),
+      self::MANTLING => array (
         array ('mantling', 'mantling'),
         array ('lambrequin', 'mantling'),
+      ),
+      self::MANTLING_LOC => array (
+        array ('?to ?the sinister', 'sinister'),
+        array ('?to ?the dexter', 'dexter'),
+      ),
+      self::SUPPLEMENTARY => array (
+        array ('crest', 'crest'),
         array ('supporters', 'supporters'),
         array ('motto', 'motto'),
         array ('devi[sc]e', 'motto'),
@@ -803,6 +811,7 @@ class languageDB extends lexicon {
           array ( '?each sinister', 'sinister' ),
           array ( '(each|every|all|both) ?of ?the', 'each' ),
           array ( 'middle', 'middle' ),
+          array ( 'cent(re|er)', 'middle' ),
           array ( 'upper', 'upper' ),
           array ( 'lower', 'lower' ),
           ),
@@ -851,7 +860,7 @@ class languageDB extends lexicon {
           ),
         self::DRAWN_MODS => array (
           array ( 'drawn', 'drawn' ),
-          array ( '(with|in|using) * (palette|tinctures|colou?rs)', 'scheme'),
+          array ( '(with|in|using) ?(a|an|the) * (palette|tinctures|colou?rs)', 'scheme'),
           array ( '(with|in|using) ?(a|an|the) * shape', 'shape'),
           array ( '(with|in|using) ?(a|an|the) * (appearance|style|effect)', 'style'),
           array ( '(with|in|using) ?(a|an|the) aspect ?ratio ?of *', 'aspect'),
