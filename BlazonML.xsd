@@ -1,25 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://shield.karlwilcox.com/2014/BlazonML" targetNamespace="http://shield.karlwilcox.com/2014/BlazonML" xmlns:blazon="http://shield.karlwilcox.com/2014/BlazonML">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+ xmlns="http://shield.karlwilcox.com/2014/BlazonML"
+ targetNamespace="http://shield.karlwilcox.com/2014/BlazonML"
+ xmlns:blazon="http://shield.karlwilcox.com/2014/BlazonML" vc:maxVersion="1.1" vc:minVersion="1.0"
+ xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning">
  <xs:element name="blazon">
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref="herald_notes"/>
     <xs:element ref="shield"/>
-    <xs:element minOccurs="0" name="crest">
-     <xs:annotation>
-      <xs:documentation>For future expansion</xs:documentation>
-     </xs:annotation>
+    <xs:element minOccurs="0" name="achievement">
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element minOccurs="0" name="crest">
+        <xs:annotation>
+         <xs:documentation>For future expansion</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+         <xs:sequence>
+          <xs:element ref="location"/>
+         </xs:sequence>
+         <xs:attributeGroup ref="common"/>
+        </xs:complexType>
+       </xs:element>
+       <xs:element minOccurs="0" name="mantling">
+        <xs:complexType>
+         <xs:sequence>
+          <xs:element maxOccurs="unbounded" ref="location"/>
+         </xs:sequence>
+         <xs:attributeGroup ref="common"/>
+        </xs:complexType>
+       </xs:element>
+       <xs:element minOccurs="0" name="supporters">
+        <xs:annotation>
+         <xs:documentation>For future expansion</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+         <xs:sequence>
+          <xs:element ref="location"/>
+         </xs:sequence>
+         <xs:attributeGroup ref="common"/>
+        </xs:complexType>
+       </xs:element>
+       <xs:element minOccurs="0" name="motto">
+        <xs:annotation>
+         <xs:documentation>For future expansion</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+         <xs:attributeGroup ref="common"/>
+         <xs:attribute name="text" type="xs:string"/>
+        </xs:complexType>
+       </xs:element>
+      </xs:sequence>
+     </xs:complexType>
     </xs:element>
-    <xs:element minOccurs="0" name="supporters">
-     <xs:annotation>
-      <xs:documentation>For future expansion</xs:documentation>
-     </xs:annotation>
-    </xs:element>
-    <xs:element minOccurs="0" name="motto">
-     <xs:annotation>
-      <xs:documentation>For future expansion</xs:documentation>
-     </xs:annotation>
-    </xs:element>
+    <xs:element ref="instructions" minOccurs="0"/>
     <xs:element minOccurs="0" name="messages">
      <xs:complexType>
       <xs:sequence>
@@ -27,13 +61,14 @@
         <xs:annotation>
          <xs:documentation>Content is free form error message</xs:documentation>
         </xs:annotation>
-        <xs:complexType>
+        <xs:complexType mixed="true">
          <xs:sequence>
-          <xs:any namespace="##any"/>
+          <xs:any/>
          </xs:sequence>
-         <xs:attribute name="category"/>
-         <xs:attribute name="filename"/>
-         <xs:attribute name="line"/>
+         <xs:attribute name="category" type="xs:Name"/>
+         <xs:attribute name="context" type="xs:string"/>
+         <xs:attribute name="filename" type="xs:string"/>
+         <xs:attribute name="linerange" type="xs:string"/>
          <xs:attribute ref="tokens"/>
         </xs:complexType>
        </xs:element>
@@ -48,10 +83,10 @@
    </xs:attribute>
    <xs:attribute name="blazonTokens" use="required">
     <xs:annotation>
-     <xs:documentation>This is a blank separated list of tokens created by the lexical analyser. The &quot;tokens&quot; attributes of other elements are zero based references to this list.</xs:documentation>
+     <xs:documentation>This is a blank separated list of tokens created by the lexical analyser. The "tokens" attributes of other elements are zero based references to this list.</xs:documentation>
     </xs:annotation>
    </xs:attribute>
-   <xs:attribute name="schemaVersion"/>
+   <xs:attribute name="schemaVersion" fixed="1.1"/>
    <xs:attribute name="creatorName">
     <xs:annotation>
      <xs:documentation>Free format string for use of the program that generated this xml</xs:documentation>
@@ -68,7 +103,6 @@
  <xs:element name="shield">
   <xs:complexType>
    <xs:sequence minOccurs="0">
-    <xs:element ref="herald_notes"/>
     <xs:choice maxOccurs="1">
      <xs:element name="simple">
       <xs:complexType>
@@ -129,7 +163,7 @@
  <xs:element name="tincture">
   <xs:complexType>
    <xs:sequence minOccurs="0">
-    <xs:element ref="herald_notes"/>
+    <xs:element ref="instructions"/>
     <xs:choice>
      <xs:element name="proper">
       <xs:complexType>
@@ -170,7 +204,7 @@
    <xs:attribute default="1" name="index" type="xs:nonNegativeInteger" use="optional"/>
    <xs:attribute name="origin">
     <xs:annotation>
-     <xs:documentation>This is the &quot;origin&quot; of the tincture, i.e. where it came from. See the enumerations for details of each. It is possible that in future the elements &quot;proper&quot; and &quot;implied&quot; may be replaced by this attribute.</xs:documentation>
+     <xs:documentation>This is the "origin" of the tincture, i.e. where it came from. See the enumerations for details of each. It is possible that in future the elements "proper" and "implied" may be replaced by this attribute.</xs:documentation>
     </xs:annotation>
     <xs:simpleType>
      <xs:restriction base="xs:string">
@@ -191,7 +225,7 @@
       </xs:enumeration>
       <xs:enumeration value="proper">
        <xs:annotation>
-        <xs:documentation>This charge is always the same tincture, and may only be given the explicit tincture &quot;proper&quot;.</xs:documentation>
+        <xs:documentation>This charge is always the same tincture, and may only be given the explicit tincture "proper".</xs:documentation>
        </xs:annotation>
       </xs:enumeration>
       <xs:enumeration value="implied"/>
@@ -206,7 +240,6 @@
   <xs:complexType>
    <xs:sequence>
     <xs:choice>
-     <xs:element ref="herald_notes" minOccurs="0"/>
      <xs:element minOccurs="0" ref="counterChanged"/>
      <xs:element maxOccurs="unbounded" minOccurs="0" ref="modifier"/>
      <xs:element ref="tincture" maxOccurs="unbounded"/>
@@ -221,7 +254,6 @@
   </xs:annotation>
   <xs:complexType>
    <xs:sequence minOccurs="0">
-    <xs:element ref="herald_notes"/>
     <xs:element ref="tincture" minOccurs="0"/>
     <xs:choice minOccurs="0">
      <xs:element maxOccurs="unbounded" ref="modifier" minOccurs="0"/>
@@ -234,7 +266,6 @@
  <xs:element name="ordinary">
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref="herald_notes"/>
     <xs:element ref="tincture"/>
     <xs:element minOccurs="0" ref="tincture"/>
     <xs:element maxOccurs="unbounded" minOccurs="0" ref="modifier"/>
@@ -267,7 +298,6 @@
  <xs:element name="modifier">
   <xs:complexType>
    <xs:sequence minOccurs="0">
-    <xs:element ref="herald_notes"/>
     <xs:choice minOccurs="0">
      <xs:element ref="tincture"/>
      <xs:element ref="charge"/>
@@ -290,19 +320,34 @@
    <xs:attributeGroup ref="common"/>
   </xs:complexType>
  </xs:element>
- <xs:element name="herald_notes">
+ <xs:element name="instructions">
   <xs:complexType>
    <xs:sequence>
     <xs:choice maxOccurs="unbounded">
-     <xs:element name="shieldShape">
+     <xs:element name="shape" minOccurs="0">
       <xs:complexType>
-       <xs:attribute name="chief" type="xs:boolean"/>
-       <xs:attribute name="shape" type="xs:Name"/>
-       <xs:attribute name="AspectRatio" type="xs:Name"/>
+       <xs:attributeGroup ref="common"/>
       </xs:complexType>
      </xs:element>
-     <xs:element name="chargeLayout"/>
-     <xs:element name="comments">
+     <xs:element minOccurs="0" name="palette">
+      <xs:complexType>
+       <xs:attributeGroup ref="common"/>
+      </xs:complexType>
+     </xs:element>
+     <xs:element minOccurs="0" name="effect">
+      <xs:complexType>
+       <xs:attributeGroup ref="common"/>
+      </xs:complexType>
+     </xs:element>
+     <xs:element name="aspect">
+      <xs:annotation>
+       <xs:documentation>Only meaningful if shape is "flag"</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+       <xs:attributeGroup ref="common"/>
+      </xs:complexType>
+     </xs:element>
+     <xs:element name="comments" minOccurs="0">
       <xs:complexType>
        <xs:sequence>
         <xs:any namespace="##any"/>
@@ -330,7 +375,7 @@
  </xs:attributeGroup>
  <xs:attribute name="tokens" type="xs:string">
   <xs:annotation>
-   <xs:documentation>This is the sequence of tokens that were &quot;consumed&quot; by the parsing process in reading this tincture. It may be empty if the tincture is implied, or is part of a larger structure.</xs:documentation>
+   <xs:documentation>This is the sequence of tokens that were "consumed" by the parsing process in reading this tincture. It may be empty if the tincture is implied, or is part of a larger structure.</xs:documentation>
   </xs:annotation>
  </xs:attribute>
  <xs:attribute name="annotation" type="xs:string">
@@ -340,7 +385,7 @@
  </xs:attribute>
  <xs:attribute name="IDREF" type="xs:IDREF">
   <xs:annotation>
-   <xs:documentation>If an element has an IDREF all additional content is optional. If present the additional content &quot;overrides&quot; that from the referred element.</xs:documentation>
+   <xs:documentation>If an element has an IDREF all additional content is optional. If present the additional content "overrides" that from the referred element.</xs:documentation>
   </xs:annotation>
  </xs:attribute>
  <xs:element name="counterChanged">
@@ -349,6 +394,22 @@
     <xs:element ref="division"/>
    </xs:sequence>
    <xs:attributeGroup ref="common"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="location">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:choice maxOccurs="unbounded">
+     <xs:element ref="tincture"/>
+     <xs:element ref="charge"/>
+    </xs:choice>
+   </xs:sequence>
+   <xs:attributeGroup ref="common"/>
+   <xs:attribute name="name">
+    <xs:annotation>
+     <xs:documentation>typically just sinister/dexter, but absence denotes the "normal" location</xs:documentation>
+    </xs:annotation>
+   </xs:attribute>
   </xs:complexType>
  </xs:element>
 </xs:schema>
