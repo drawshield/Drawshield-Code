@@ -26,7 +26,19 @@ class englishGrammar extends grammar {
       self::semicolon();
       if ( ($overall = self::overall(true)) != null )
         $node->appendChild($overall);
-      self::mantling();
+      do {
+        $found = false;
+        if (($mantle = self::mantling()) != null) {
+          $found = true;
+          $this->addAchievement($mantle);
+        } elseif (($motto = self::motto()) != null) {
+          $found = true;
+          $this->addAchievement($motto);
+        } elseif (self::find(languageDB::ACHIEVEMENT)) {
+          $found = true;
+        }
+        if ($found) self::ignore(languageDB::ANDD);
+      } while ($found);
       self::drawn(); // get any options appended to the blazon
       // If last word is ignored, can't go further
       if ( $this->tokenList->words[$this->tokenList->num_tokens-1]{0} == '[')
@@ -1121,13 +1133,10 @@ class englishGrammar extends grammar {
   }
 
   protected function mantling() {
-    $state = self::save();
-    $mantlingNode = $this->schema->makeNode(blazonML::E_MANTLING);
-    self::ignore(languageDB::WITH);
     if (!self::find(languageDB::MANTLING)) {
-      self::restore($state);
       return;
     }
+    $mantlingNode = $this->schema->makeNode(blazonML::E_MANTLING);
     while (true) {
       if (($loc = self::find(languageDB::MANTLING_LOC)) != null) {
         $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
@@ -1160,8 +1169,22 @@ class englishGrammar extends grammar {
       self::ignore(languageDB::ANDD);
     }
 
-    self::discard($state);
-    $this->addAchievement($mantlingNode);
+    return $mantlingNode;
+  }
+
+  protected function motto() {
+    if (!self::find(languageDB::MOTTO)) {
+      return null;
+    }
+    $text = $this->phraseMatcher->getValue();
+    $mottoNode = $this->schema->makeNode(blazonML::E_MOTTO, array (
+      blazonML::A_KEYTERM => 'plain',  // expansion to other styles? 
+      blazonML::A_TEXT => $text
+      ),
+      self::tokens(),
+      self::lineno()
+    );
+    return $mottoNode;
   }
 
   // Look for a tincture, return a pending tincture if not found

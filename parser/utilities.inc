@@ -68,6 +68,7 @@ class blazonML extends DOMDocument {
   const E_MANTLING = 'mantling';
   const E_SUPPORTERS = 'supporters';
   const E_MOTTO = 'motto';
+  const A_TEXT = 'text';
   const E_LOCATION = 'location';
   const E_ASPECT = 'aspect';
   const A_INDEX = 'index';

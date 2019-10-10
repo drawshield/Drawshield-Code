@@ -70,7 +70,7 @@ class languageDB extends lexicon {
   const CHARGE_MODS = 'chargemod';
   const POSITION = 'position';
   const POINTS = 'points';
-  const SUPPLEMENTARY = 'supplementary';
+ // const SUPPLEMENTARY = 'supplementary';
   const SHOWN_EXTRA = 'shownextra';
   const SHOWN_MODS = 'shown';
   const DRAWN_MODS = 'drawn';
@@ -81,6 +81,8 @@ class languageDB extends lexicon {
   const INVERSE = 'inverse';
   const MANTLING = 'mantling';
   const MANTLING_LOC = 'mantling_loc';
+  const MOTTO = 'motto';
+  const ACHIEVEMENT = 'achievement';
   
   public function __construct() {
     global $options;
@@ -102,16 +104,18 @@ class languageDB extends lexicon {
         array ('mantling', 'mantling'),
         array ('lambrequin', 'mantling'),
       ),
+      self::ACHIEVEMENT => array ('achievement', 'hatchment'),
       self::MANTLING_LOC => array (
         array ('?to ?the sinister', 'sinister'),
         array ('?to ?the dexter', 'dexter'),
       ),
-      self::SUPPLEMENTARY => array (
-        array ('crest', 'crest'),
-        array ('supporters', 'supporters'),
-        array ('motto', 'motto'),
-        array ('devi[sc]e', 'motto'),
-      ),
+      self::MOTTO => array ('motto *', 'motto'),
+      // self::SUPPLEMENTARY => array (
+      //   array ('crest', 'crest'),
+      //   array ('supporters', 'supporters'),
+      //   array ('motto', 'motto'),
+      //   array ('devi[sc]e', 'motto'),
+      // ),
       self::SPLITS => array (
         array ( 'impaled with', 'impaled' ),
         array ( 'dimidiated with', 'dimidiated' ),

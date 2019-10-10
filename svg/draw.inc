@@ -20,6 +20,7 @@ if ($options['shape'] == 'flag')
   include "flag.inc";
 else
   include "shield.inc";
+include "achievement.inc";
 include "pathtools.inc";
 include "treatment.inc";
 
@@ -202,26 +203,47 @@ function draw() {
 
     $blazonNode = $dom->documentElement;
     $body = '';
+    $achievement = false;
+    $mantling = '';
+    $motto = '';
+    $helm = '';
+    $crest = '';
     foreach ( $blazonNode->childNodes as $node ) {
       switch ( $node->nodeName ) {
       case 'shield':
         $body .= makeshield($node,'10:12');
+        if ($options['shape'] == 'italian') { // another horrible fudge
+          $body .= '<g>
+          <path
+            d="m 344.81,3.6726 38.87,68.8004 -38.87,44.027 c 98.25,-11.08 203.99,-10.83 294.76,0 l -25.1,-43.029 25.1,-69.7984 c -91.97,12.5284 -196.51,13.0914 -294.76,0 z"
+            style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
+          <path
+            d="m 7.3198,182.27 c 153.3802,0 216.1402,-145.737 308.6002,-145.737 38.95,0 47.72,17.957 47.72,37.931 -21.32,6.107 -38.06,7.221 -62.77,-1.998 3.71,24.327 27.69,43.914 60.28,43.914 30.41,0 66.46,-18.364 66.46,-53.9 0,-29.654 -35.64,-58.8906 -97.85,-58.8906 -140.82,0 -162.71,123.0406 -322.4402,178.6806 z"
+            style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
+          <path
+            d="m 991.87,182.27 c -152.89,0 -215.82,-145.737 -308.28,-145.737 -38.95,0 -47.72,17.957 -47.72,37.931 21.33,6.107 38.06,7.221 62.77,-1.998 -3.62,24.327 -27.6,43.914 -60.19,43.914 -30.5,0 -66.55,-18.364 -66.55,-53.9 0,-29.654 35.65,-58.8906 97.85,-58.8906 141.06,0 162.79,123.0406 322.12,178.6806 z"
+            style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
+        </g>';
+        }
+        break;
+      case 'achievement':
+        $achievement = true;
+        foreach ( $node->childNodes as $subNode ) {
+          switch ( $subNode->nodeName) {
+            case 'mantling':
+              $mantling = drawMantling($subNode);
+              break;
+            case 'motto':
+              $motto = drawMotto($subNode);
+              break;
+            default:
+              // not implemented yet
+              break;
+          }
+        }
         break;
         // other elements for future expansion
       }
-    }
-    if ($options['shape'] == 'italian') { // another horrible fudge
-      $body .= '<g>
-      <path
-        d="m 344.81,3.6726 38.87,68.8004 -38.87,44.027 c 98.25,-11.08 203.99,-10.83 294.76,0 l -25.1,-43.029 25.1,-69.7984 c -91.97,12.5284 -196.51,13.0914 -294.76,0 z"
-        style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
-      <path
-        d="m 7.3198,182.27 c 153.3802,0 216.1402,-145.737 308.6002,-145.737 38.95,0 47.72,17.957 47.72,37.931 -21.32,6.107 -38.06,7.221 -62.77,-1.998 3.71,24.327 27.69,43.914 60.28,43.914 30.41,0 66.46,-18.364 66.46,-53.9 0,-29.654 -35.64,-58.8906 -97.85,-58.8906 -140.82,0 -162.71,123.0406 -322.4402,178.6806 z"
-        style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
-      <path
-        d="m 991.87,182.27 c -152.89,0 -215.82,-145.737 -308.28,-145.737 -38.95,0 -47.72,17.957 -47.72,37.931 21.33,6.107 38.06,7.221 62.77,-1.998 -3.62,24.327 -27.6,43.914 -60.19,43.914 -30.5,0 -66.55,-18.364 -66.55,-53.9 0,-29.654 35.65,-58.8906 97.85,-58.8906 141.06,0 162.79,123.0406 322.12,178.6806 z"
-        style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
-    </g>';
     }
   }
   if (!array_key_exists('nomask', $options)) {
@@ -240,10 +262,8 @@ function draw() {
       $body .=  '<path fill="none" stroke="' . rgb('division-stroke') . '" stroke-width="4" d="' . $outline . '" />';
     // Rest depends on output format
     if ( !$options['asFile'] /* && !$options['printable'] */ ) { // minimal decoration, no metadata
-      $y1Location = '1160';
+      $y1Location = '1190';
       if ($options['shape'] == 'flag') $y1Location = $options['flagHeight'] + 40;
-      $y2Location = $y1Location + 30;
-      $body .= '<text id="test1" x="10" y="' . $y1Location . '" font-size="30" >' . $version['website'] . '</text><text x="10" y="' . $y2Location . '" font-size="30" >' . $version['release'] . '</text>';
       if ( $options['outputFormat'] == 'svg') {
         $messages->addMessage('legal',"Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.");
         $messages->insertMessages();
@@ -259,6 +279,20 @@ function draw() {
         $meta = "\n<metadata>\n"  . preg_replace('/<\?xml version="1\.0"\?>/', '', $dom->saveXml()) . "\n</metadata>\n";
       }
     }
+  }
+
+  if ($mantling) {
+    $body = '<g transform="translate(191.667,400) scale(0.61667) ">' . $body . '</g>' . $mantling;
+  }
+  if ($motto) {
+    $body .= '<g transform="translate(0,985)">' . $motto . '</g>';
+  }
+  if ($achievement) {
+    $helmet = drawHelmet(null);
+    $body .= '<g transform="translate(300,68) scale(0.548) ">' . $helmet . '</g>';
+  }
+  if (!$options['asFile']) {
+    $body .= '<text id="test1" x="10" y="' . $y1Location . '" font-size="30" >' . $version['website'] . '</text><text x="990" y="' . $y1Location . '" text-anchor="end" font-size="30" >' . $version['release'] . '</text>';
   }
   return $header . $meta . $defs . $body . $trailer;
 }

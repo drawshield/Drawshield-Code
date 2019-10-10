@@ -52,7 +52,7 @@ if (isset($argc)) {
     $options['blazon'] = implode(' ', array_slice($argv,1));
   } else {
     // $options['blazon'] = "vert mantling to the sinister gules and or to the dexter vert and sable";
-    $options['blazon'] = "argent  a bend or a couple-close gules a grid sable";
+    $options['blazon'] = "vert mantling or";
     // $options['stage'] = 'parser';
   }
   // $options['printable'] = true;
