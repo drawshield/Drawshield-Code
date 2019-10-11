@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
- xmlns="http://shield.karlwilcox.com/2014/BlazonML"
- targetNamespace="http://shield.karlwilcox.com/2014/BlazonML"
- xmlns:blazon="http://shield.karlwilcox.com/2014/BlazonML" vc:maxVersion="1.1" vc:minVersion="1.0"
- xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://drawshield.net/blazonML"
+ targetNamespace="http://drawshield.net/blazonML" xmlns:blazon="http://drawshield.net/blazonML"
+ vc:maxVersion="1.1" vc:minVersion="1.0" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning">
  <xs:element name="blazon">
   <xs:complexType>
    <xs:sequence>
+    <xs:element name="input">
+     <xs:complexType>
+      <xs:sequence maxOccurs="unbounded">
+       <xs:element name="token" type="xs:string"/>
+      </xs:sequence>
+      <xs:attribute name="blazonText"/>
+     </xs:complexType>
+    </xs:element>
     <xs:element ref="shield"/>
     <xs:element minOccurs="0" name="achievement">
      <xs:complexType>
@@ -19,6 +25,11 @@
          <xs:sequence>
           <xs:element ref="location"/>
          </xs:sequence>
+         <xs:attributeGroup ref="common"/>
+        </xs:complexType>
+       </xs:element>
+       <xs:element minOccurs="0" name="helmet">
+        <xs:complexType>
          <xs:attributeGroup ref="common"/>
         </xs:complexType>
        </xs:element>
@@ -78,7 +89,7 @@
    </xs:sequence>
    <xs:attribute name="blazonText" use="required" type="xs:string">
     <xs:annotation>
-     <xs:documentation>This is a plain text version of the blazon, as input by the user</xs:documentation>
+     <xs:documentation>DEPRECATED - prefer the input element </xs:documentation>
     </xs:annotation>
    </xs:attribute>
    <xs:attribute name="blazonTokens" use="required">
@@ -339,7 +350,7 @@
        <xs:attributeGroup ref="common"/>
       </xs:complexType>
      </xs:element>
-     <xs:element name="aspect">
+     <xs:element name="aspect" minOccurs="0">
       <xs:annotation>
        <xs:documentation>Only meaningful if shape is "flag"</xs:documentation>
       </xs:annotation>

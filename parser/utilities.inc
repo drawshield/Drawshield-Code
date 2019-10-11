@@ -56,6 +56,8 @@ class blazonML extends DOMDocument {
   // We introduce a level of indirection here, in case of future changes to the schema
   // and for consistency
   const E_BLAZON = 'blazon';
+  const E_INPUT = 'input';
+  const E_TOKEN = 'token';
   const E_SHIELD = 'shield';
   const E_PLAIN = 'simple';
   const E_COMPLEX = 'complex';
@@ -66,6 +68,7 @@ class blazonML extends DOMDocument {
   const E_ACHIEVEMENT = 'achievement';
   const E_CREST = 'crest';
   const E_MANTLING = 'mantling';
+  const E_HELMET = 'helmet';
   const E_SUPPORTERS = 'supporters';
   const E_MOTTO = 'motto';
   const A_TEXT = 'text';

@@ -82,6 +82,7 @@ class languageDB extends lexicon {
   const MANTLING = 'mantling';
   const MANTLING_LOC = 'mantling_loc';
   const MOTTO = 'motto';
+  const HELMET = 'helmet';
   const ACHIEVEMENT = 'achievement';
   
   public function __construct() {
@@ -108,6 +109,13 @@ class languageDB extends lexicon {
       self::MANTLING_LOC => array (
         array ('?to ?the sinister', 'sinister'),
         array ('?to ?the dexter', 'dexter'),
+      ),
+      self::HELMET => array (
+        array ('?a royal helmet', 'royal'),
+        array ('?a monarchs? helmet', 'royal'),
+        array ('?a (knight|baronet)s? helmet', 'baronet'),
+        array ('?a ?(esquire|gentlemen)s? helmet', 'esquire'),  // DEFAULT
+        array ('?a (peer|lord)s? helmet', 'peer'),
       ),
       self::MOTTO => array ('motto *', 'motto'),
       // self::SUPPLEMENTARY => array (
@@ -359,7 +367,7 @@ class languageDB extends lexicon {
         array ( 'silver', 'argent'  ),
         array ( 'black', 'sable' ),
         array ( 'brown', 'brunatre' ),
-        array ( 'gr[ae]y', 'cendree' ),
+        array ( 'gr[ae]y', 'gray' ),
         array ( 'pink', 'rose' ),
         array ( 'white', 'white' ),
         ),

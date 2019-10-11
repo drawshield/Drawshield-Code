@@ -54,7 +54,8 @@ abstract class grammar  {
     if ($this->achievementNode == null) {
       $this->achievementNode = $this->schema->makeNode(blazonML::E_ACHIEVEMENT);
     }
-    $this->achievementNode->appendChild($child);
+    if ($child != null)
+      $this->achievementNode->appendChild($child);
   }
 
   public function __construct( $language = 'english', BlazonML $schema) {

@@ -206,7 +206,7 @@ function draw() {
     $achievement = false;
     $mantling = '';
     $motto = '';
-    $helm = '';
+    $helmet = '';
     $crest = '';
     foreach ( $blazonNode->childNodes as $node ) {
       switch ( $node->nodeName ) {
@@ -235,6 +235,9 @@ function draw() {
               break;
             case 'motto':
               $motto = drawMotto($subNode);
+              break;
+            case 'helmet':
+              $helmet = drawHelmet($subNode);
               break;
             default:
               // not implemented yet
@@ -276,11 +279,15 @@ function draw() {
           }
           $node->parentNode->replaceChild($replacement, $node);
         }
-        $meta = "\n<metadata>\n"  . preg_replace('/<\?xml version="1\.0"\?>/', '', $dom->saveXml()) . "\n</metadata>\n";
+        $dom->formatOutput = true;
+        $blazonMLText = $dom->saveXml();
+        $blazonMLText = preg_replace('/<\?xml version="1\.0"\?>/', '', $blazonMLText);
+        $meta = "\n<metadata>\n"  . $blazonMLText . "\n</metadata>\n";
       }
     }
   }
 
+  // assorted combinations of achievements
   if ($mantling) {
     $body = '<g transform="translate(191.667,400) scale(0.61667) ">' . $body . '</g>' . $mantling;
   }
@@ -288,12 +295,16 @@ function draw() {
     $body .= '<g transform="translate(0,985)">' . $motto . '</g>';
   }
   if ($achievement) {
-    $helmet = drawHelmet(null);
-    $body .= '<g transform="translate(300,68) scale(0.548) ">' . $helmet . '</g>';
+    if ($helmet == '') $helmet = drawHelmet(null);
+    $body .= quickPlace($helmet['body'], $helmet['width'], $helmet['height'], 400, 400, 500, 300, rgb($helmet['fill']));
   }
   if (!$options['asFile']) {
     $body .= '<text id="test1" x="10" y="' . $y1Location . '" font-size="30" >' . $version['website'] . '</text><text x="990" y="' . $y1Location . '" text-anchor="end" font-size="30" >' . $version['release'] . '</text>';
   }
+  // Uncomment following 3 lines for an overall grid
+  // $ordinary = [];
+  // include "ordinaries/grid.inc";
+  // $body .= '<g fill="#555555">' . $ordinary['body'] . '</g>';
   return $header . $meta . $defs . $body . $trailer;
 }
 

@@ -5,18 +5,20 @@ function drawMantling($mantlingNode) {
     if (is_null($mantlingNode)) return '';
 
     // keyterm of MantlingNode will contain the type (eventually)
+    $default1 = rgb('argent');
+    $default2 = rgb('gray');
 
     // default colours
     $features = array (
-        'sinister1' => rgb('argent'),
-        'sinister2' => rgb('sable'),
-        'dexter1' => rgb('argent'),
-        'dexter2' => rgb('sable')
+        'sinister1' => $default1,
+        'sinister2' => $default2,
+        'dexter1' => $default1,
+        'dexter2' => $default2
     );
     $extras = array(); // not used at present (but required for getSVGFragment)
 
     // switch on type here
-    $svg = file_get_contents('svg/components/mantling/mantling-ribbons.svg');
+    $svg = file_get_contents('svg/components/mantling/ribbons.svg');
 
     // Sort out the actual colours in use
     for ($i = 0; $i < $mantlingNode->childNodes->length; $i++) {
@@ -30,53 +32,51 @@ function drawMantling($mantlingNode) {
                 $colours[] = rgb($tincture->firstChild->getAttribute('keyterm'));
             }
         }
-        $numCols = count($colours);
-        if ($numCols < 1) $colours[0] = rgb('gray');
-        switch($location->getAttribute('keyterm')) {
-            case 'default':
-                $features['sinister1'] = $colours[0];
-                $features['dexter1'] = $colours[0];
-                if ($numCols < 2) {
-                    // check no clash with default colours
-                    if ($colours[0] == rgb('sable')) {
-                        $features['sinister2'] = rgb('argent');
-                        $features['dexter2'] = rgb('argent');
-                    }
-                } else {
-                    $features['sinister2'] = $colours[1];
-                    $features['dexter2'] = $colours[1];
+    }
+    $numCols = count($colours);
+    if ($numCols < 1) $colours[0] = rgb('gray');
+    switch($location->getAttribute('keyterm')) {
+        case 'default':
+            $features['sinister1'] = $colours[0];
+            $features['dexter1'] = $colours[0];
+            if ($numCols < 2) {
+                // check no clash with default colours
+                if ($colours[0] == $default2) {
+                    $features['sinister2'] = $default1;
+                    $features['dexter2'] = $default1;
                 }
-                break;
-            case 'sinister':
-                $features['sinister1'] = $colours[0];
-                if ($numCols < 2) {
-                    if ($colours[0] == rgb('sable')) {
-                        $features['sinister2'] = rgb('argent');
-                    }
-                } else {
-                    $features['sinister2'] = $colours[1];
+            } else {
+                $features['sinister2'] = $colours[1];
+                $features['dexter2'] = $colours[1];
+            }
+            break;
+        case 'sinister':
+            $features['sinister1'] = $colours[0];
+            if ($numCols < 2) {
+                if ($colours[0] == $default2) {
+                    $features['sinister2'] = $default1;
                 }
-                break;
-            case 'dexter':
-                $features['dexter1'] = $colours[0];
-                if ($numCols < 2) {
-                    if ($colours[0] == rgb('sable')) {
-                        $features['dexter2'] = rgb('argent');
-                    }
-                } else {
-                    $features['dexter2'] = $colours[1];
+            } else {
+                $features['sinister2'] = $colours[1];
+            }
+            break;
+        case 'dexter':
+            $features['dexter1'] = $colours[0];
+            if ($numCols < 2) {
+                if ($colours[0] == $default2) {
+                    $features['dexter2'] = $default1;
                 }
-                break;
-            default:
-                $messages->addMessage('internal','Unknown location for mantling tincture');
-                break;
-        }
+            } else {
+                $features['dexter2'] = $colours[1];
+            }
+            break;
+        default:
+            $messages->addMessage('internal','Unknown location for mantling tincture');
+            break;
     }
 
-
-  $retval = getSvgFragment($svg, $features, 'mantling', 'ribbons', $extras);
-  if (isset($retval['licence'])) $messages->addMessage('licence','Mantling: ' . $retval['licence']);
-  return $retval['body'];
+    $retval = getSvgFragment($svg, $features, 'mantling', 'ribbons', $extras);
+    return $retval['body'];
 }
 
 function drawMotto($mottoNode) {
@@ -109,9 +109,26 @@ function drawMotto($mottoNode) {
 
 function drawHelmet($helmetNode) {
     global $messages;
+
+    $defaults = array (
+        'peer' => 'gray',
+        'royal' => 'or',
+        'esquire' => 'argent',
+        'baronet' => 'gray'
+    );
+
+    if ($helmetNode == null) {
+        $style = 'esquire';
+    } else {
+        $style = $helmetNode->getAttribute(blazonML::A_KEYTERM);
+    }
     // always draw a helmet if we are asked to
-    $svg = file_get_contents('svg/components/helmet/baronet.svg');
+    $svg = file_get_contents("svg/components/helmet/$style.svg");
     $retval = getSvgFragment($svg, array(), 'helmet', 'baronet', array());
-    if (isset($retval['licence'])) $messages->addMessage('licence','helmet: ' . $retval['licence']);
-    return $retval['body'];
+    if (array_key_exists($style, $defaults)) 
+        $fill = $defaults[$style];
+    else
+        $fill = 'gray';
+    $retval['fill'] = $fill;
+    return $retval;
 }

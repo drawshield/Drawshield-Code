@@ -34,12 +34,18 @@ class englishGrammar extends grammar {
         } elseif (($motto = self::motto()) != null) {
           $found = true;
           $this->addAchievement($motto);
+        } elseif (($helmet = self::helmet()) != null) {
+          $found = true;
+          $this->addAchievement($helmet);
         } elseif (self::find(languageDB::ACHIEVEMENT)) {
+          $this->addAchievement(null);
+          $found = true;
+        } elseif (self::drawn()) {
           $found = true;
         }
         if ($found) self::ignore(languageDB::ANDD);
       } while ($found);
-      self::drawn(); // get any options appended to the blazon
+      //self::drawn(); // get any options appended to the blazon
       // If last word is ignored, can't go further
       if ( $this->tokenList->words[$this->tokenList->num_tokens-1]{0} == '[')
         break;
@@ -94,7 +100,9 @@ class englishGrammar extends grammar {
 
   protected function drawn() {
 
+    $found = false;
     while ($option = self::find(LanguageDB::DRAWN_MODS)) {
+      $found = true;
       $elementName = null;
       $value = strtolower($this->phraseMatcher->getValue());
       switch ($option) {
@@ -124,6 +132,7 @@ class englishGrammar extends grammar {
       }
       self::ignore(LanguageDB::ANDD);
     }
+    return $found;
   }
 
   /**
@@ -1185,6 +1194,19 @@ class englishGrammar extends grammar {
       self::lineno()
     );
     return $mottoNode;
+  }
+
+  protected function helmet() {
+    if (($helmType = self::find(languageDB::HELMET)) == null) {
+      return null;
+    }
+    $helmetNode = $this->schema->makeNode(blazonML::E_HELMET, array (
+      blazonML::A_KEYTERM => $helmType,  // expansion to other styles? 
+      ),
+      self::tokens(),
+      self::lineno()
+    );
+    return $helmetNode;
   }
 
   // Look for a tincture, return a pending tincture if not found

@@ -138,7 +138,7 @@ function place_charges ( DOMElement $node, $placement ) {
 }
 
 
-function PlaceCharge ( DOMElement $node,  // images
+function PlaceCharge ( $node,  // images
                             $boundX, $boundY,  // size of bounding box
                             $centreX, $centreY,// centre of bounding box
                             $rotation = '0',
@@ -390,4 +390,22 @@ function PlaceCharge ( DOMElement $node,  // images
 
   $retval = apply_tincture( $tincture, $retval, "$chargeX,$chargeY", $rotation, $reversed, $inverted );
   return $retval;
+}
+
+function quickPlace($svg, $chargeX, $chargeY, $boundX, $boundY, $centreX, $centreY, $fill = null ) {
+  // Calculate the size of the image to fit into the bounding box,
+  $Xscale = $boundX / $chargeX;
+  $Yscale = $boundY / $chargeY;
+  $Xscale = $Yscale = min ( $Xscale, $Yscale );
+  $sizeX = $chargeX * $Xscale;
+  $sizeY = $chargeY * $Yscale;
+  $posX = $centreX - ($sizeX / 2);
+  $posY = $centreY - ($sizeY / 2);
+  
+  $attribs = "transform=\"translate($posX,$posY) scale($Xscale, $Yscale)\" ";
+  if ($fill)
+    $attribs .= " fill=\"$fill\" ";
+    
+
+  return "<g $attribs>\n" .  $svg . "\n</g>\n";
 }
