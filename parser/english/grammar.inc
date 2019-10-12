@@ -42,9 +42,9 @@ class englishGrammar extends grammar {
           self::ignore(languageDB::WITH);
           $this->addAchievement(null);
           $found = true;
-        }// elseif (self::drawn()) {
-          //$found = true;
-       // }
+        } elseif (self::drawn()) {
+          $found = true;
+        }
         if ($found) self::ignore(languageDB::ANDD);
       } while ($found);
       //self::drawn(); // get any options appended to the blazon
