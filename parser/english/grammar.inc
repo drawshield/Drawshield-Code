@@ -1162,9 +1162,10 @@ class englishGrammar extends grammar {
         );
       }
       $tinctures = [];
+      $colCount = 0;
       while (($colNode = self::colour()) != null) {
         $tincNode = $this->schema->makeNode(blazonML::E_TINCTURE, array(
-          blazonML::A_INDEX => $colCount,
+          blazonML::A_INDEX => ++$colCount,
           blazonML::A_ORIGIN => 'given'));
         $tincNode->appendChild($colNode);
         $tinctures[] = $tincNode;
