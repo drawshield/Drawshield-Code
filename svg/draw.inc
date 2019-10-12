@@ -244,6 +244,8 @@ function draw() {
               break;
           }
         }
+        // Always use mantling if an achievement is requested
+        if (!$mantling) $mantling = drawMantling(null);
         break;
         // other elements for future expansion
       }
@@ -251,14 +253,11 @@ function draw() {
   }
   if (!array_key_exists('nomask', $options)) {
     $clipShield = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />' );
+    $body = '<g mask="url(#' . $clipShield . ')">' . $body . '</g>';
     // Add effects (if any) and Clip to shield shape
-    if ( false && ( ($options['asFile'] && $options['saveFormat'] != 'svg') || (!$options['asFile'] && $options['outputFormat'] != 'svg')) ) {
-      $bodyfill = add_def('pattern width="100%" height="100%" patternUnits="objectBoundingBox"', $body . getEffect('above') );
-      $body = add_def(); // Note, we reset body here
-      $body .= '<path fill="url(#' . $bodyfill . ')" ' . getEffect('filter') . ' d="' . $outline . '" />';
-    } else  {
+    if ($options['effect'] == 'shiny') { // this only gets applied to the escutcheon
       $body .= add_def();
-      $body = getEffect('below') . '<g ' . getEffect('filter') . '><g mask="url(#' . $clipShield . ')">' . $body . getEffect('above') . '</g></g>';
+      $body = getEffect('below') . '<g ' . getEffect('filter') . '>' . $body . getEffect('above') . '</g>';
     }
     // Add outline of shield shape, only if required
     if ( $options['palette'] == 'outline')
@@ -301,6 +300,11 @@ function draw() {
   if (!$options['asFile']) {
     $body .= '<text id="test1" x="10" y="' . $y1Location . '" font-size="30" >' . $version['website'] . '</text><text x="990" y="' . $y1Location . '" text-anchor="end" font-size="30" >' . $version['release'] . '</text>';
   }
+  if ($options['effect'] != 'shiny') { // other effects are applied everywhere
+    $body .= add_def();
+    $body = getEffect('below') . '<g ' . getEffect('filter') . '>' . $body . getEffect('above') . '</g>';
+  }
+
   // Uncomment following 3 lines for an overall grid
   // $ordinary = [];
   // include "ordinaries/grid.inc";

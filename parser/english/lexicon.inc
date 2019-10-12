@@ -102,8 +102,8 @@ class languageDB extends lexicon {
       self::OVERALL => array ( 'overall', 'sur le tout', 'all with(in)?', "over all", "in pretence" ),
       self::METAOVERALL => array ( 'over(all)? ?all ?the ?# (quarters|quarterings|halves|parts|sections)', ),
       self::MANTLING => array (
-        array ('mantling', 'mantling'),
-        array ('lambrequin', 'mantling'),
+        array ('mantling ?of ?ribbons', 'ribbons'),
+        array ('lambrequin ?of ?ribbons', 'ribbons'),
       ),
       self::ACHIEVEMENT => array ('achievement', 'hatchment'),
       self::MANTLING_LOC => array (
@@ -111,11 +111,11 @@ class languageDB extends lexicon {
         array ('?to ?the dexter', 'dexter'),
       ),
       self::HELMET => array (
-        array ('?a royal helmet', 'royal'),
-        array ('?a monarchs? helmet', 'royal'),
-        array ('?a (knight|baronet)s? helmet', 'baronet'),
-        array ('?a ?(esquire|gentlemen)s? helmet', 'esquire'),  // DEFAULT
-        array ('?a (peer|lord)s? helmet', 'peer'),
+        array ('?(the|a|an) royal helmet', 'royal'),
+        array ('?(the|a|an) monarchs? helmet', 'royal'),
+        array ('?(the|a|an) (knight|baronet)s? helmet', 'baronet'),
+        array ('?(the|a|an) ?(esquire|gentlemen)s? helmet', 'esquire'),  // DEFAULT
+        array ('?(the|a|an) (peer|lord)s? helmet', 'peer'),
       ),
       self::MOTTO => array ('motto *', 'motto'),
       // self::SUPPLEMENTARY => array (

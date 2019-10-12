@@ -38,11 +38,13 @@ class englishGrammar extends grammar {
           $found = true;
           $this->addAchievement($helmet);
         } elseif (self::find(languageDB::ACHIEVEMENT)) {
+          self::ignore(languageDB::WORD_OF);
+          self::ignore(languageDB::WITH);
           $this->addAchievement(null);
           $found = true;
-        } elseif (self::drawn()) {
-          $found = true;
-        }
+        }// elseif (self::drawn()) {
+          //$found = true;
+       // }
         if ($found) self::ignore(languageDB::ANDD);
       } while ($found);
       //self::drawn(); // get any options appended to the blazon
@@ -1142,10 +1144,14 @@ class englishGrammar extends grammar {
   }
 
   protected function mantling() {
-    if (!self::find(languageDB::MANTLING)) {
+    if (($type = self::find(languageDB::MANTLING)) == null) {
       return;
     }
-    $mantlingNode = $this->schema->makeNode(blazonML::E_MANTLING);
+    $mantlingNode = $this->schema->makeNode(blazonML::E_MANTLING, array (
+      blazonML::A_KEYTERM => $type),
+      self::tokens(),
+      self::lineno());
+    $locNode = null;
     while (true) {
       if (($loc = self::find(languageDB::MANTLING_LOC)) != null) {
         $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
@@ -1154,27 +1160,27 @@ class englishGrammar extends grammar {
           self::tokens(),
           self::lineno()
         );
-      } else {
-        $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
-          blazonML::A_KEYTERM => 'default'),
-          self::tokens(),
-          self::lineno());
       }
-      $colCount = 0;
+      $tinctures = [];
       while (($colNode = self::colour()) != null) {
-        $colCount++;
         $tincNode = $this->schema->makeNode(blazonML::E_TINCTURE, array(
           blazonML::A_INDEX => $colCount,
           blazonML::A_ORIGIN => 'given'));
         $tincNode->appendChild($colNode);
-        $locNode->appendChild($tincNode);
+        $tinctures[] = $tincNode;
         self::ignore(languageDB::ANDD);
       }
-      if ($colCount == 0) {
-        // self::raiseError('parser','Expected colour for mantling');
+      if (count($tinctures)) { // found some colours
+        if ($locNode == null) { // use a default location
+          $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
+              blazonML::A_KEYTERM => 'default'));
+        }
+        foreach($tinctures as $tincture) 
+          $locNode->appendChild($tincture);
+        $mantlingNode->appendChild($locNode);
+      } else {
         break;
       }
-      $mantlingNode->appendChild($locNode);
       self::ignore(languageDB::ANDD);
     }
 
