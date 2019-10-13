@@ -25,8 +25,8 @@ steel=#ffffff
 white=#ffffff
 charge-stroke=#848484
 ordinary-stroke=#848484
-pattern-stroke='#848484
-division-stroke='#848484
+pattern-stroke=#848484
+division-stroke=#848484
 white-line=#848484
     
 

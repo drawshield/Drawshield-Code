@@ -161,7 +161,12 @@ function draw() {
 
   // Get all the charge data (once for each charge type)
   get_chg_data();
-
+  $achievement = false;
+  $mantling = '';
+  $motto = '';
+  $helmet = '';
+  $crest = '';
+  
   if ($options['shape'] == 'flag') {
     $displayScale = $options['size'] / 1000;
     $displayWidth = $options['size'];
@@ -203,11 +208,6 @@ function draw() {
 
     $blazonNode = $dom->documentElement;
     $body = '';
-    $achievement = false;
-    $mantling = '';
-    $motto = '';
-    $helmet = '';
-    $crest = '';
     foreach ( $blazonNode->childNodes as $node ) {
       switch ( $node->nodeName ) {
       case 'shield':

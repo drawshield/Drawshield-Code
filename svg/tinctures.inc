@@ -41,10 +41,10 @@ function rgb($name) {
         } else {
             $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/' . $palette . '.txt'));
         }
+        if ($options['shape'] == 'flag') {
+          $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/flags.txt'));
+        }
         $loaded = true;
-    }
-    if ($options['shape'] == 'flag') {
-      $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/flags.txt'));
     }
 
     if (array_key_exists($name, $tinctures)) {
