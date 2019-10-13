@@ -120,7 +120,7 @@ function rewriteAttributes($attributes, $class = '', $fillSet = false) {
         break;
       case 'transform':
         // $messages->addMessage('warning',"Transform in element $myId " );
-        $retval = ' transform="' . $data . '" ';
+        $retval .= ' transform="' . $data . '" ';
         break;
       case 'stroke-width':
         $retval .= ' stroke-width="' . $data . '" ';
@@ -145,29 +145,31 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
   $class = '';
   //---------------------------------------------------
   // Handle invisible rectangles marking additional charge positions
-  if ( $name == 'rect' && array_key_exists($id, $extras)) { // Special handling for extra items, e.g. crowns
-    $item = '';
-    if ( isset($element['transform']))
-      $item .= '<g transform="' . $element['transform'] . '">'; // Apply the original transform (e.g. to tilt crown)
-    if ( $id == 'crowned' ) { // crowns just use width, then drop to the bottom
-      $scale = ($element['width'] / $extras[$id]['width']);
-      $yAdjustment = $element['height'] - ($extras[$id]['height'] * $scale);
-      $xAdjustment = 0;
-    } else { // everything else scales to fit centrally in the rectangle
-      $scale = min ( $element['height'] / $extras[$id]['height'], $element['width'] / $extras[$id]['width']);
-      $yAdjustment = ($element['height'] - ($extras[$id]['height'] * $scale))/2;
-      $xAdjustment = ($element['width'] - ($extras[$id]['width'] * $scale))/2;
+  if ( $name == 'rect' ) {
+    if ( array_key_exists($id, $extras)) { // Special handling for extra items, e.g. crowns
+      $item = '';
+      if ( isset($element['transform']))
+        $item .= '<g transform="' . $element['transform'] . '">'; // Apply the original transform (e.g. to tilt crown)
+      if ( $id == 'crowned' ) { // crowns just use width, then drop to the bottom
+        $scale = ($element['width'] / $extras[$id]['width']);
+        $yAdjustment = $element['height'] - ($extras[$id]['height'] * $scale);
+        $xAdjustment = 0;
+      } else { // everything else scales to fit centrally in the rectangle
+        $scale = min ( $element['height'] / $extras[$id]['height'], $element['width'] / $extras[$id]['width']);
+        $yAdjustment = ($element['height'] - ($extras[$id]['height'] * $scale))/2;
+        $xAdjustment = ($element['width'] - ($extras[$id]['width'] * $scale))/2;
+      }
+      $item .= '<g transform="translate(' . ($element['x'] + $xAdjustment) . ',' . ($element['y'] + $yAdjustment) . ')">'; // Move to the box position, adjust if we are shorter than the box
+      // Scale item to the size of the original rectangle
+      $item .= '<g transform="scale(' . $scale . ',' . $scale . ')">';
+      if ( array_key_exists('crowned',$featureColours) )
+        $item .= '<g fill="' . $featureColours['crowned'] . '">' . $extras[$id]['body'] . '</g>';
+      else
+        $item .= $extras[$id]['body'];
+      $item .= '</g></g>';
+      if ( isset($element['transform'])) $item .= '</g>'; // close the groups above
+      return $item;
     }
-    $item .= '<g transform="translate(' . ($element['x'] + $xAdjustment) . ',' . ($element['y'] + $yAdjustment) . ')">'; // Move to the box position, adjust if we are shorter than the box
-    // Scale item to the size of the original rectangle
-    $item .= '<g transform="scale(' . $scale . ',' . $scale . ')">';
-    if ( array_key_exists('crowned',$featureColours) )
-      $item .= '<g fill="' . $featureColours['crowned'] . '">' . $extras[$id]['body'] . '</g>';
-    else
-      $item .= $extras[$id]['body'];
-    $item .= '</g></g>';
-    if ( isset($element['transform'])) $item .= '</g>'; // close the groups above
-    return $item;
   }
   //-------------------------------------------------------------------------
   $fillSet = false;
