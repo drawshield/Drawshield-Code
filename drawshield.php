@@ -52,7 +52,7 @@ if (isset($argc)) {
     $options['blazon'] = implode(' ', array_slice($argv,1));
   } else {
     // $options['blazon'] = "vert mantling to the sinister gules and or to the dexter vert and sable";
-    $options['blazon'] = "vert  mantling or gules ";
+    $options['blazon'] = "vert  a royal helmet crest a lion gules ";
     // $options['stage'] = 'parser';
   }
   // $options['printable'] = true;
@@ -210,7 +210,7 @@ if ($options['shape'] == 'flag') {
   //     exit; 
   // }
   include "svg/draw.inc";
-  $output = draw();
+$output = draw();
 
 
 // Output content header
@@ -224,6 +224,17 @@ if ( $options['asFile'] ) {
      header('Content-Type: image/svg+xml');
      echo $output;
      break;
+    case 'pdfA4':
+    $im = new Imagick();
+    $im->readimageblob($output);
+    $im->setimageformat('pdf');
+    header("Content-type: application/force-download");
+    header('Content-Disposition: inline; filename="shield.pdf"');
+    header("Content-Transfer-Encoding: 8bit");
+    header('Content-Disposition: attachment; filename="shield.pdf"');
+    header('Content-Type: application/pdf');
+    echo $im->getimagesblob();
+    break;
     case 'jpg':
       $im = new Imagick();
       $im->readimageblob($output);

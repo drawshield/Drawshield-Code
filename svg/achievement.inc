@@ -33,7 +33,7 @@ function drawMantling($mantlingNode) {
             for($j = 0; $j < $location->childNodes->length; $j++) {
                 $tincture = $location->childNodes->item($j);
                 if ($tincture->firstChild->nodeName != 'colour') {
-                    $messages->addMessage('warning',"mantling tinctures may only be plain colours");
+                    $messages->addMessage('error',"mantling tinctures may only be plain colours");
                 } else {
                     $colours[] = rgb($tincture->firstChild->getAttribute('keyterm'));
                 }
@@ -123,18 +123,33 @@ function drawHelmet($helmetNode) {
         'baronet' => 'gray'
     );
 
+    $fill = null;
     if ($helmetNode == null) {
         $style = 'esquire';
     } else {
         $style = $helmetNode->getAttribute(blazonML::A_KEYTERM);
+        if ($helmetNode->hasChildNodes() && $helmetNode->firstChild->nodeName == 'tincture') {
+            $tincture = $helmetNode->firstChild;
+            if ($tincture->firstChild->nodeName != 'colour') {
+                $messages->addMessage('error',"Helmet tinctures may only be plain colours");
+            } else {
+                $fill = $tincture->firstChild->getAttribute('keyterm');
+            }
+        }
     }
     // always draw a helmet if we are asked to
     $svg = file_get_contents("svg/components/helmet/$style.svg");
-    $retval = getSvgFragment($svg, array(), 'helmet', 'baronet', array());
-    if (array_key_exists($style, $defaults)) 
-        $fill = $defaults[$style];
-    else
-        $fill = 'gray';
+    $retval = getSvgFragment($svg, array(), 'helmet', $style, array());
+    if ($fill == null) {
+        if (array_key_exists($style, $defaults)) 
+            $fill = $defaults[$style];
+        else
+            $fill = 'gray';
+    }
     $retval['fill'] = $fill;
     return $retval;
 }
+
+// function drawCrest($crestNode) { // indirection just for consistency
+//     return getCharge($crestNode->firstChild);
+// }

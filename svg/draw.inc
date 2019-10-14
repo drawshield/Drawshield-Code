@@ -166,7 +166,7 @@ function draw() {
   $motto = '';
   $helmet = '';
   $crest = '';
-  
+
   if ($options['shape'] == 'flag') {
     $displayScale = $options['size'] / 1000;
     $displayWidth = $options['size'];
@@ -239,6 +239,9 @@ function draw() {
             case 'helmet':
               $helmet = drawHelmet($subNode);
               break;
+            case 'crest':
+              $crest = $subNode->cloneNode(true);
+              break;
             default:
               // not implemented yet
               break;
@@ -295,7 +298,12 @@ function draw() {
   }
   if ($achievement) {
     if ($helmet == '') $helmet = drawHelmet(null);
-    $body .= quickPlace($helmet['body'], $helmet['width'], $helmet['height'], 400, 400, 500, 300, rgb($helmet['fill']));
+    if ($crest) {
+      $body .= placeCharge($crest->firstChild, 300, 300, 500, 150);
+      $body .= quickPlace($helmet['body'], $helmet['width'], $helmet['height'], 300, 300, 500, 350, rgb($helmet['fill']));
+    } else {
+      $body .= quickPlace($helmet['body'], $helmet['width'], $helmet['height'], 400, 400, 500, 300, rgb($helmet['fill']));
+    }
   }
   if (!$options['asFile']) {
     $body .= '<text id="test1" x="10" y="' . $y1Location . '" font-size="30" >' . $version['website'] . '</text><text x="990" y="' . $y1Location . '" text-anchor="end" font-size="30" >' . $version['release'] . '</text>';
