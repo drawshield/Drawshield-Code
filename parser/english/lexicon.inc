@@ -82,6 +82,7 @@ class languageDB extends lexicon {
   const MANTLING = 'mantling';
   const MANTLING_LOC = 'mantling_loc';
   const MOTTO = 'motto';
+  const CREST = 'crest';
   const HELMET = 'helmet';
   const ACHIEVEMENT = 'achievement';
   
@@ -106,6 +107,9 @@ class languageDB extends lexicon {
         array ('lambrequin ?of ?ribbons', 'ribbons'),
       ),
       self::ACHIEVEMENT => array ('achievement', 'hatchment'),
+      self::CREST => array (
+        array ('?(a|the) crest ?of', 'crest' ), // room for other crest types?
+      ),
       self::MANTLING_LOC => array (
         array ('?to ?the sinister', 'sinister'),
         array ('?to ?the dexter', 'dexter'),
@@ -863,6 +867,8 @@ class languageDB extends lexicon {
           array ( 'a great deal', 'very-much'),
           array ( 'much', 'much'),
           array ( 'a lot', 'much'),
+          array ( 'a little', 'slightly'),
+          array ( 'slightly', 'slightly'),
           array ( '(larger|bigger)', 'larger' ),
           array ( 'smaller', 'smaller' ),
           array ( '(above|raised|lifted|higher)', 'raised'),

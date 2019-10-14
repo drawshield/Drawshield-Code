@@ -197,6 +197,26 @@ function PlaceCharge ( $node,  // images
         case 'to-sinister':
           $centreX += 50;
           break;
+        case 'slightly-smaller':
+          $boundX *= 0.9;
+          $boundY *= 0.9;
+          break;
+        case 'slightly-larger':
+          $boundX *= 1.1;
+          $boundY *= 1.1;
+          break;
+        case 'slightly-raised':
+          $centreY -= 30;
+          break;
+        case 'slightly-lowered':
+          $centreY += 30;
+          break;
+        case 'slightly-to-dexter':
+          $centreX -= 25;
+          break;
+        case 'slightly-to-sinister':
+          $centreX += 25;
+          break;
         case 'much-smaller':
           $boundX *= 0.6;
           $boundY *= 0.6;

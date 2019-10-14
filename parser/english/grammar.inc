@@ -34,6 +34,9 @@ class englishGrammar extends grammar {
         } elseif (($motto = self::motto()) != null) {
           $found = true;
           $this->addAchievement($motto);
+        } elseif (($crest = self::crest()) != null) {
+          $found = true;
+          $this->addAchievement($crest);
         } elseif (($helmet = self::helmet()) != null) {
           $found = true;
           $this->addAchievement($helmet);
@@ -520,6 +523,7 @@ class englishGrammar extends grammar {
           $foundShown = true;
           break;
         case 'much':
+        case 'slightly':
         case 'very-much':
           $foundMuch = $keyterm;
           break;
@@ -1143,6 +1147,24 @@ class englishGrammar extends grammar {
     return $node;
   }
 
+  protected function crest() {
+    if (($type = self::find(languageDB::CREST)) == null) {
+      return;
+    }
+    $crestNode = $this->schema->makeNode(blazonML::E_CREST, array (
+      blazonML::A_KEYTERM => $type),
+      self::tokens(),
+      self::lineno());
+    $charge = self::charge(true,false,false); // assume number, don't allow positions or arrangements
+    if ($charge == null) {
+      self::raiseError(self::ERROR_ORIGIN,"Expected charge for the crest", true);
+      return null;
+    } else {
+      $crestNode->appendChild($charge);
+    }
+    return $crestNode;
+  }
+
   protected function mantling() {
     if (($type = self::find(languageDB::MANTLING)) == null) {
       return;
@@ -1163,11 +1185,7 @@ class englishGrammar extends grammar {
       }
       $tinctures = [];
       $colCount = 0;
-      while (($colNode = self::colour()) != null) {
-        $tincNode = $this->schema->makeNode(blazonML::E_TINCTURE, array(
-          blazonML::A_INDEX => ++$colCount,
-          blazonML::A_ORIGIN => 'given'));
-        $tincNode->appendChild($colNode);
+      while (($tincNode = self::colour()) != null) {
         $tinctures[] = $tincNode;
         self::ignore(languageDB::ANDD);
       }
@@ -1213,6 +1231,9 @@ class englishGrammar extends grammar {
       self::tokens(),
       self::lineno()
     );
+    if (($tincNode = self::tincture()) != null) {
+      $helmetNode->appendChild( $tincNode );
+    }
     return $helmetNode;
   }
 
