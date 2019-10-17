@@ -1185,7 +1185,7 @@ class englishGrammar extends grammar {
       }
       $tinctures = [];
       $colCount = 0;
-      while (($tincNode = self::colour()) != null) {
+      while (($tincNode = self::tincture()) != null) {
         $tinctures[] = $tincNode;
         self::ignore(languageDB::ANDD);
       }
