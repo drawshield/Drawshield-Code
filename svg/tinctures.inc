@@ -87,6 +87,10 @@ function apply_tincture ($tincture, $object, $chg_size = '',
   $retval = '';
 
   if (is_null($tincture)) return $object; // Maybe an error? Sometimes get here from makeOrdinary()
+  if (!is_object($tincture)) {
+    error_log("bad tincture in " . $options['blazon']);
+    return $object;
+  }
 
 	$patTrans = '';
 	$object_type = $tincture->parentNode->nodeName;
@@ -231,11 +235,12 @@ function apply_tincture ($tincture, $object, $chg_size = '',
         $messages->addMessage ('error','Counterchange requires two colour field' );
         return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $object . '</g>';
       }
-      // check for loops (are we trying to counterchange ourself?)
+      // check for loops (are we trying to counterchange ourself or our own parent?)
       $counterDiv = $division->item(($division->length)-1);
       if ($object_type == 'division') {
         $me = $tincture->parentNode->getAttribute('ID');
-        if ($counterDiv->getAttribute('ID') == $me) {
+        if ($counterDiv->getAttribute('ID') == $me ||
+           ($object_type == 'division' && $tincture->parentNode->parentNode->nodeName != 'division') ) {
           $messages->addMessage ('error','Counterchange not valid' );
           return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $object . '</g>';
         }
