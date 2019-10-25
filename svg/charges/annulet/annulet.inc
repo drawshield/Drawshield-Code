@@ -15,21 +15,33 @@
 // annulet
 
 $annuletMods = array('concentric', 'interlaced', 'braced', 'conjunct',);
+$num = $node->getAttribute('number');
+if ( $num > 10 ) $num = 10;
 
-$modded = false;
+$modded = '';
 foreach($annuletMods as $aMod) {
   if (existModifierWithKeyterm($node, $aMod)) {
     if ($modded) {
       $messages->addMessage('parser',"Can only apply one modifier to annulets");
       break;
     }
-    $num = $node->getAttribute('number');
-    if ($num > 1) {
-      $node->setAttribute('number','1');
-      if ( $num > 10 ) $num = 10;
-      $charge['file'] = "annulet-$aMod-of$num.svg";
-    }
-    $modded = true; // only use first mod
+    $modded = "-$aMod"; // only use first mod
   }   
 }
 
+$of_num = '';
+if (existModifierWithKeyterm($node, 'of-num')) {
+  $of_num = '-of' . getModifierValueByKeyterm($node, 'of-num');
+  if (!$modded) { // set a default mod if "of-num" is present alone
+    $modded = "-concentric";
+  }
+}
+
+if ($modded && $of_num == '') {  // if of_num not present, num of charges becomes of_num
+  if ($num > 1) {
+    $node->setAttribute('number','1');
+  }
+  $of_num = "-of$num";
+}
+
+$charge['file'] = "annulet$modded$of_num.svg";
