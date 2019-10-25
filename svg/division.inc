@@ -27,17 +27,23 @@ function includeDivision( DOMElement &$node ) {
 
   $divisionType = $node->getAttribute('keyterm');
   $division = array ();
-  $file = "divisions/$divisionType.inc";
+  $file = null;
+  if ($options['shape'] == 'flag') { // look in the flag sub-directory first
+    $file ="divisions/flag/$divisionType.inc";
+    if ( stream_resolve_include_path($file) === false ) $file = null;
+  }
+  if ($file == null) {
+    $file = "divisions/$divisionType.inc";
+    if ( stream_resolve_include_path($file) === false ) $file = null;
+  }    
   $calcHeight = 1200; // value to use for calculating drawing height
   if ($options['shape'] == 'flag') {
     $calcHeight = $options['flagHeight'];
   }
-  // WARNINGS Accepted
-  if ( stream_resolve_include_path($file) !== false )
-    // calcHeight is available within the included file
+  if ($file != null) { // calcHeight is available within the included file
     include ( $file );
-  else { // can't draw this division
-    $messages->addMessage('warning','Cannot draw $type, substituting per-bend' . getLine($node) );
+  } else { // can't draw this ordinary
+    $messages->addMessage('warning',"Cannot draw $divisionType, substituting per bend" . getLine($node) );
     include ( 'divisions/per-bend.inc');
   }
   return $division;
