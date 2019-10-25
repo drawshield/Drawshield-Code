@@ -1,15 +1,4 @@
 <?php
-/**
- * Drawshield PHP Source File
- *
- * Description...
- *
- * @author Karl R. Wilcox <karl@karlwilcox.com>
- * @copyright Karl R. Wilcox 2014
- * @license http://www.apache.org/licenses/LICENSE-2.0
- * Date: 06/09/14
- * Time: 19:56
- */
 
 $div_data = array (
   'per-bend' => array ( 'NC' => 'X-106Y-106B1714c100e1212g1312', 'CH' => 'X0Y300B1414e1000g900'),
