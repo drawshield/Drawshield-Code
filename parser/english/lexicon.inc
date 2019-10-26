@@ -118,7 +118,7 @@ class languageDB extends lexicon {
         array ('?(the|a|an) royal helmet', 'royal'),
         array ('?(the|a|an) monarchs? helmet', 'royal'),
         array ('?(the|a|an) (knight|baronet)s? helmet', 'baronet'),
-        array ('?(the|a|an) ?(esquire|gentlemen)s? helmet', 'esquire'),  // DEFAULT
+        array ('?(the|a|an) ?(esquire|gentlem[ea]n)s? helmet', 'esquire'),  // DEFAULT
         array ('?(the|a|an) (peer|lord)s? helmet', 'peer'),
       ),
       self::MOTTO => array ('motto *', 'motto'),
