@@ -95,12 +95,12 @@ function drawMotto($mottoNode) {
     $up = 2;
     $textLen = strlen($text);
     //adjust for long mottos
-    if ($textLen > 15) {
-        $fontSize -= $textLen - 15; // one pixel smaller per extra letter
-        $up = ($textLen - 15) / 3;
-        if ($fontSize < 12) {
-            $fontSize == 12; // but have a lower limit
-            $up = 8;
+    if ($textLen > 10) {
+        $fontSize -= (2 * ($textLen - 10)); // one pixel smaller per extra letter
+        $up = ($textLen - 10) /1;
+        if ($fontSize < 15) {
+            $fontSize = 15; // but have a lower limit
+            $up = 12;
         }
     }
 
