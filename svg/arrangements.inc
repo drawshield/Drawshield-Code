@@ -68,6 +68,25 @@ function adjustDistance($item, $placement) {
   return $placement;
 }
 
+function inAnnulo($number) {
+  $cx = 500;
+  $cy = 500;
+  $radius = 400;
+  $angle = 0;
+  $turn = 360 / $number;
+  // Make size dependent on circumference and number
+  $size = intval(($radius * 3.1412) / ($number * 0.9));
+  if ($size > 150) $size = 250;
+  $placement = str_repeat('/',$number - 1);
+  for ($i = 0; $i < $number; $i++) {
+    $x = intval($cx + sin(deg2rad($angle)) * $radius);
+    $y = intval($cy + cos(deg2rad($angle)) * ($radius * -1));
+    $placement .= "$x,$y,$size,$size:";
+    $angle += $turn;
+  }
+  return $placement;
+}
+
 function get_placement(DOMElement $item) {
   global $dom, $xpath, $messages, $options;
   global $aspect_ratio;
@@ -181,6 +200,7 @@ function get_placement(DOMElement $item) {
     // explicit arrangements
     if ( $placement == '' && $arr ) {
       switch ( $arr ) { // TODO add incross + insaltire with chief,
+        case 'inannulo': $placement = inAnnulo($number); break;
         case 'facing-in': $placement = 'x/250,600,333,1000,0,0,1:750,600,,,0,0,0/x/266,333,333,400,0,0,1:734,333,,,0,0,0:266,900,,,0,0,1:734,900,,,0,0,0/x/260,220,320,240,,,1:740,220,320,240,,,0:260,550,320,240,,,1:740,550,320,240,,,0:260,880,320,240,,,1:740,880,320,240,,,0'; break;
         //case 'facing-in': $placement = ($chief) ? '' : 'x/250,600,333,1000,0,0,1:750,600,,,0,0,0/x/266,333,333,400,0,0,1:734,333,,,0,0,0:266,900,,,0,0,1:734,900,,,0,0,0/x/260,220,320,240,,,1:740,220,320,240,,,0:260,550,320,240,,,1:740,550,320,240,,,0:260,880,320,240,,,1:740,880,320,240,,,0'; break;
         case 'facing-out': $placement =  'x/250,600,333,1000,0,0,0:750,600,,,0,0,1/x/266,333,333,400,0,0,0:734,333,,,0,0,1:266,900,,,0,0,0:734,900,,,0,0,1/x/290,443,280,187:710,443,280,187,,,1:290,700,280,187,,,0:710,700,280,187,,,1:290,957,280,187,,,0:710,957,280,187,,,1'; break;

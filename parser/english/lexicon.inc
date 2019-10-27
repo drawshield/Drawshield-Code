@@ -787,6 +787,7 @@ class languageDB extends lexicon {
           array( 'frets? couped', 'fret-couped' ), 
         ),
       self::ARRANGEMENT => array (
+          array ( 'in ann?ull?o',               'inannulo',        ),
           array ( 'in ?the pale',               'inpale',        ),
           array ( 'in ?the pale throughout',    'inpalethrough', ),
           array ( 'in ?the pall' ,              'inpall',        ),

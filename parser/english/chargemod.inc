@@ -221,7 +221,7 @@
       array ('busts?', 'bust'),
       array ('vorant ?of ?a child(ren)?', 'vorant-of-child'),
       array ('maintaining ?a towers? ?on ?(their|its) ?backs?', 'tower-back'),
-      array ('in annull?o?', 'in-annulo'),
+      // array ('in annull?o?', 'in-annulo'),
       array ( 'en arriere', 'en-arriere'),
       array ( 'terra(ced|ssee?)', 'terraced'),
       array ( 'in full course', 'courant'),
