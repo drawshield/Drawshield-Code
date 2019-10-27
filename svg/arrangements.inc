@@ -76,7 +76,7 @@ function inAnnulo($number) {
   $turn = 360 / $number;
   // Make size dependent on circumference and number
   $size = intval(($radius * 3.1412) / ($number * 0.9));
-  if ($size > 150) $size = 250;
+  if ($size > 150) $size = 200;
   $placement = str_repeat('/',$number - 1);
   for ($i = 0; $i < $number; $i++) {
     $x = intval($cx + sin(deg2rad($angle)) * $radius);
