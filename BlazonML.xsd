@@ -19,7 +19,7 @@
       <xs:sequence>
        <xs:element minOccurs="0" name="crest">
         <xs:annotation>
-         <xs:documentation>For future expansion</xs:documentation>
+         <xs:documentation/>
         </xs:annotation>
         <xs:complexType>
          <xs:sequence>
@@ -30,6 +30,17 @@
        </xs:element>
        <xs:element minOccurs="0" name="helmet">
         <xs:complexType>
+         <xs:sequence>
+          <xs:element ref="location"/>
+         </xs:sequence>
+         <xs:attributeGroup ref="common"/>
+        </xs:complexType>
+       </xs:element>
+       <xs:element name="torse">
+        <xs:complexType>
+         <xs:sequence>
+          <xs:element ref="location"/>
+         </xs:sequence>
          <xs:attributeGroup ref="common"/>
         </xs:complexType>
        </xs:element>
@@ -43,7 +54,7 @@
        </xs:element>
        <xs:element minOccurs="0" name="supporters">
         <xs:annotation>
-         <xs:documentation>For future expansion</xs:documentation>
+         <xs:documentation/>
         </xs:annotation>
         <xs:complexType>
          <xs:sequence>
@@ -54,7 +65,7 @@
        </xs:element>
        <xs:element minOccurs="0" name="motto">
         <xs:annotation>
-         <xs:documentation>For future expansion</xs:documentation>
+         <xs:documentation/>
         </xs:annotation>
         <xs:complexType>
          <xs:attributeGroup ref="common"/>
@@ -409,11 +420,8 @@
  </xs:element>
  <xs:element name="location">
   <xs:complexType>
-   <xs:sequence>
-    <xs:choice maxOccurs="unbounded">
-     <xs:element ref="tincture"/>
-     <xs:element ref="charge"/>
-    </xs:choice>
+   <xs:sequence maxOccurs="2" minOccurs="0">
+    <xs:element ref="tincture"/>
    </xs:sequence>
    <xs:attributeGroup ref="common"/>
    <xs:attribute name="name">

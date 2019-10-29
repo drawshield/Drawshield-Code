@@ -80,9 +80,10 @@ class languageDB extends lexicon {
   const LETTERS = 'letters';
   const INVERSE = 'inverse';
   const MANTLING = 'mantling';
-  const MANTLING_LOC = 'mantling_loc';
+  const ACHIEVEMENT_LOC = 'achievement_loc';
   const MOTTO = 'motto';
   const CREST = 'crest';
+  const TORSE = 'torse';
   const HELMET = 'helmet';
   const ACHIEVEMENT = 'achievement';
   
@@ -110,9 +111,13 @@ class languageDB extends lexicon {
       self::CREST => array (
         array ('?(a|the) crest ?of', 'crest' ), // room for other crest types?
       ),
-      self::MANTLING_LOC => array (
+      self::TORSE => array (
+        array ('?(a|the) (torse|bourlet)', 'torse' ),
+      ),
+      self::ACHIEVEMENT_LOC => array (
         array ('?to ?the sinister', 'sinister'),
         array ('?to ?the dexter', 'dexter'),
+        array ('?(of|to) ?the centre', 'centre'),
       ),
       self::HELMET => array (
         array ('?(the|a|an) royal helmet', 'royal'),

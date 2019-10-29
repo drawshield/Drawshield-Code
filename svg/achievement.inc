@@ -84,6 +84,65 @@ function drawMantling($mantlingNode) {
     $retval = getSvgFragment($svg, $features, 'mantling', 'ribbons', $extras);
     return $retval['body'];
 }
+function drawTorse($torseNode) {
+    global $messages;
+
+    if (is_null($torseNode)) {
+        $type = 'torse';
+    } else {
+        $type = $torseNode->getAttribute(blazonML::A_KEYTERM);
+    }
+
+    // keyterm of torseNode will contain the type (possibly)
+    $default1 = rgb('argent');
+    $default2 = rgb('gray');
+
+    // default colours
+    $features = array (
+        'tincture1' => $default1,
+        'tincture2' => $default2,
+    );
+    $extras = array(); // not used at present (but required for getSVGFragment)
+
+    // switch on type here
+    $svg = file_get_contents("svg/components/torse/$type.svg");
+
+     if ($torseNode != null) {
+        // Sort out the actual colours in use
+        for ($i = 0; $i < $torseNode->childNodes->length; $i++) {
+            $location = $torseNode->childNodes->item($i);
+            $colours = array();
+            for($j = 0; $j < $location->childNodes->length; $j++) {
+                $tincture = $location->childNodes->item($j);
+                if ($tincture->firstChild->nodeName != 'colour') {
+                    $messages->addMessage('error',"torse tinctures may only be plain colours");
+                } else {
+                    $colours[] = rgb($tincture->firstChild->getAttribute('keyterm'));
+                }
+            }
+            $numCols = count($colours);
+            if ($numCols < 1) $colours[0] = rgb('gray');
+            switch($location->getAttribute('keyterm')) {
+                case 'default':
+                    $features['tincture1'] = $colours[0];
+                    if ($numCols < 2) {
+                        // check no clash with default colours
+                        if ($colours[0] == $default2) {
+                            $features['tincture2'] = $default1;
+                        }
+                    } else {
+                        $features['tincture2'] = $colours[1];
+                    }
+                    break;
+                default:
+                    $messages->addMessage('internal','Unknown location for torse tincture');
+                    break;
+            }
+        }
+    }
+    $retval = getSvgFragment($svg, $features, 'torse', 'torse', $extras);
+    return $retval;
+}
 
 function drawMotto($mottoNode) {
     global $messages;
@@ -113,7 +172,7 @@ function drawMotto($mottoNode) {
     return $svg;
 }
 
-function drawHelmet($helmetNode) {
+function drawHelmet($helmetNode, $torse) {
     global $messages;
 
     $defaults = array (
@@ -123,7 +182,11 @@ function drawHelmet($helmetNode) {
         'baronet' => 'gray'
     );
 
-    $fill = null;
+    $fill = null; 
+    $extras = [];
+    if ($torse != '') {
+        $extras['torse'] = $torse;
+    }
     if ($helmetNode == null) {
         $style = 'esquire';
     } else {
@@ -139,7 +202,7 @@ function drawHelmet($helmetNode) {
     }
     // always draw a helmet if we are asked to
     $svg = file_get_contents("svg/components/helmet/$style.svg");
-    $retval = getSvgFragment($svg, array(), 'helmet', $style, array());
+    $retval = getSvgFragment($svg, array(), 'helmet', $style, $extras);
     if ($fill == null) {
         if (array_key_exists($style, $defaults)) 
             $fill = $defaults[$style];
@@ -150,6 +213,3 @@ function drawHelmet($helmetNode) {
     return $retval;
 }
 
-// function drawCrest($crestNode) { // indirection just for consistency
-//     return getCharge($crestNode->firstChild);
-// }

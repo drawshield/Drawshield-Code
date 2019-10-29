@@ -37,6 +37,9 @@ class englishGrammar extends grammar {
         } elseif (($crest = self::crest()) != null) {
           $found = true;
           $this->addAchievement($crest);
+        } elseif (($torse = self::torse()) != null) {
+          $found = true;
+          $this->addAchievement($torse);
         } elseif (($helmet = self::helmet()) != null) {
           $found = true;
           $this->addAchievement($helmet);
@@ -1177,7 +1180,7 @@ class englishGrammar extends grammar {
       self::lineno());
     $locNode = null;
     while (true) {
-      if (($loc = self::find(languageDB::MANTLING_LOC)) != null) {
+      if (($loc = self::find(languageDB::ACHIEVEMENT_LOC)) != null) {
         $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
             blazonML::A_KEYTERM => $loc 
           ),
@@ -1208,6 +1211,47 @@ class englishGrammar extends grammar {
     return $mantlingNode;
   }
 
+  protected function torse() {
+    if (($type = self::find(languageDB::TORSE)) == null) {
+      return '';
+    }
+    $torseNode = $this->schema->makeNode(blazonML::E_TORSE, array (
+      blazonML::A_KEYTERM => $type),
+      self::tokens(),
+      self::lineno());
+    $locNode = null;
+    while (true) {
+      if (($loc = self::find(languageDB::ACHIEVEMENT_LOC)) != null) {
+        $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
+            blazonML::A_KEYTERM => $loc 
+          ),
+          self::tokens(),
+          self::lineno()
+        );
+      }
+      $tinctures = [];
+      $colCount = 0;
+      while (($tincNode = self::tincture()) != null) {
+        $tinctures[] = $tincNode;
+        self::ignore(languageDB::ANDD);
+      }
+      if (count($tinctures)) { // found some colours
+        if ($locNode == null) { // use a default location
+          $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
+              blazonML::A_KEYTERM => 'default'));
+        }
+        foreach($tinctures as $tincture) 
+          $locNode->appendChild($tincture);
+        $torseNode->appendChild($locNode);
+      } else {
+        break;
+      }
+      self::ignore(languageDB::ANDD);
+    }
+
+    return $torseNode;
+  }
+
   protected function motto() {
     if (!self::find(languageDB::MOTTO)) {
       return null;
@@ -1233,9 +1277,24 @@ class englishGrammar extends grammar {
       self::tokens(),
       self::lineno()
     );
-    if (($tincNode = self::tincture()) != null) {
-      $helmetNode->appendChild( $tincNode );
+    $locNode = null;
+    if (($loc = self::find(languageDB::ACHIEVEMENT_LOC)) != null) {
+      $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
+          blazonML::A_KEYTERM => $loc 
+        ),
+        self::tokens(),
+        self::lineno()
+      );
     }
+    if (($tincNode = self::tincture()) != null) {
+      if ($locNode == null) { // use a default location
+        $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
+            blazonML::A_KEYTERM => 'default'));
+      }
+      $locNode->appendChild($tincture);
+      $helmetNode->appendChild( $locNode );
+    }
+
     return $helmetNode;
   }
 

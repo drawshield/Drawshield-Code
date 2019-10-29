@@ -166,6 +166,7 @@ function draw() {
   $motto = '';
   $helmet = '';
   $crest = '';
+  $torse = '';
 
   if ($options['shape'] == 'flag') {
     $displayScale = $options['size'] / 1000;
@@ -236,16 +237,22 @@ function draw() {
             case 'motto':
               $motto = drawMotto($subNode);
               break;
-            case 'helmet':
-              $helmet = drawHelmet($subNode);
+            case 'helmet': // can't draw immediately in case there is a torse
+              $helmet = $subNode;
               break;
             case 'crest':
               $crest = $subNode->cloneNode(true);
+              break;
+            case 'torse':
+              $torse = drawTorse($subNode);
               break;
             default:
               // not implemented yet
               break;
           }
+        }
+        if ($helmet != '') { // Did we stash this away earlier...?
+          $helmet = drawHelmet($helmet, $torse);
         }
         // Always use mantling if an achievement is requested
         if (!$mantling) $mantling = drawMantling(null);
@@ -297,7 +304,7 @@ function draw() {
     $body .= '<g transform="translate(0,985)">' . $motto . '</g>';
   }
   if ($achievement) {
-    if ($helmet == '') $helmet = drawHelmet(null);
+    if ($helmet == '') $helmet = drawHelmet(null, $torse);
     if ($crest) {
       $body .= placeCharge($crest->firstChild, 300, 300, 500, 150);
       $body .= quickPlace($helmet['body'], $helmet['width'], $helmet['height'], 300, 300, 500, 350, rgb($helmet['fill']));
