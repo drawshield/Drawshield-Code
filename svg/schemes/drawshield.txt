@@ -37,4 +37,4 @@ white=#ffffff
 buff=#f0dc82
 red-ochre=#890520
 yellow-ochre=#ccaa2b
-crimson=#850606 //same as sanguine
+crimson=#dc143c 
