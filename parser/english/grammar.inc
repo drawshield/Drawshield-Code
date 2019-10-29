@@ -1105,15 +1105,17 @@ class englishGrammar extends grammar {
             $found = false;
           }
         }    
-        if ( !self::find(languageDB::COUNTERCHANGE) )
-          self::raiseError(self::ERROR_ORIGIN,"Second division should be counterchanged");
-        $maxTinc = 1; // We have all the tinctures that we need
-        $minTinc = 1;
-        $tincCount = 1;
-        $secondTinc = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
-            blazonML::A_ORIGIN => 'implied' ));
-        $secondTinc->appendChild($this->schema->makeNode(blazonML::E_COUNTERCHANGED, null, self::tokens(), self::lineNo()));
-        $node->appendChild($secondTinc);
+        if ( !self::find(languageDB::COUNTERCHANGE) ) {
+          self::raiseError(self::ERROR_ORIGIN,"Second division should be counterchanged?");
+        } else {
+          $maxTinc = 1; // We have all the tinctures that we need
+          $minTinc = 1;
+          $tincCount = 1;
+          $secondTinc = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
+              blazonML::A_ORIGIN => 'implied' ));
+          $secondTinc->appendChild($this->schema->makeNode(blazonML::E_COUNTERCHANGED, null, self::tokens(), self::lineNo()));
+          $node->appendChild($secondTinc);
+        }
       } else {
         $tincCount = 0;
       }
