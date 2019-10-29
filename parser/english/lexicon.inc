@@ -362,6 +362,7 @@ class languageDB extends lexicon {
           array ( 'iron', 'iron'),
           array ( 'bronze', 'bronze'),
           array ( 'copper', 'copper'),
+          array ( 'crimson', 'crimson'),
           array ( 'lead', 'lead'),
           array ( 'steel', 'steel'),
         array ( 'gold',  'or'    ),
