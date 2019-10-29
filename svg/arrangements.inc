@@ -114,7 +114,12 @@ function get_placement(DOMElement $item) {
 
     $placement = ''; // This is what we are after, keep going until we find one
     $adjustment = ''; // And we might also have an adjustment once we have found it
-    list($group,$name) = explode('/', $item->getAttribute('keyterm'));
+    $keyterm = $item->getAttribute('keyterm');
+    if (is_null($keyterm) || strpos($keyterm,'/') === false) {
+      error_log("bad keyterm in " . $options['blazon']);
+      return 'x';
+    }
+    list($group,$name) = explode('/', $keyterm);
     
     // Set up parameters for this charge
     if ($aspect_ratio == 'square')
