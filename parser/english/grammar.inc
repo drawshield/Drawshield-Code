@@ -45,13 +45,15 @@ class englishGrammar extends grammar {
           $this->addAchievement($helmet);
         } elseif (self::find(languageDB::ACHIEVEMENT)) {
           self::ignore(languageDB::WORD_OF);
-          self::ignore(languageDB::WITH);
           $this->addAchievement(null);
           $found = true;
         } elseif (self::drawn()) {
           $found = true;
         }
-        if ($found) self::ignore(languageDB::ANDD);
+        if ($found) {
+          self::ignore(languageDB::ANDD);
+          self::ignore(languageDB::WITH);
+        }
       } while ($found);
       //self::drawn(); // get any options appended to the blazon
       // If last word is ignored, can't go further
