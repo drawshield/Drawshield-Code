@@ -1099,6 +1099,7 @@ class englishGrammar extends grammar {
       } elseif (in_array($keyterm, $opt3Tinc)) {
         $maxTinc = 3;
       }
+      $tincCount = 0;
       if ( $depth == 2 ) { // The tincture is implied by the previous division
         $found = true;
         while ($found) {

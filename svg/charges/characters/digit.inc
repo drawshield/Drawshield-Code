@@ -89,6 +89,7 @@ if ($newValue) $value = $newValue;
 $numChars = strlen($value);
 // set vertical flex quite high?
 
+$svg = '';
 $totalWidth = 0;
 $offset = 0;
 foreach (str_split($value) as $val) {

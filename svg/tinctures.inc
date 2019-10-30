@@ -87,7 +87,7 @@ function apply_tincture ($tincture, $object, $chg_size = '',
   $retval = '';
 
   if (is_null($tincture)) return $object; // Maybe an error? Sometimes get here from makeOrdinary()
-  if (!is_object($tincture)) {
+  if (!is_object($tincture) || is_null($tincture->parentNode)) {
     error_log("bad tincture in " . $options['blazon']);
     return $object;
   }
