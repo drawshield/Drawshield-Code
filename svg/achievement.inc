@@ -191,12 +191,15 @@ function drawHelmet($helmetNode, $torse) {
         $style = 'esquire';
     } else {
         $style = $helmetNode->getAttribute(blazonML::A_KEYTERM);
-        if ($helmetNode->hasChildNodes() && $helmetNode->firstChild->nodeName == 'tincture') {
-            $tincture = $helmetNode->firstChild;
-            if ($tincture->firstChild->nodeName != 'colour') {
-                $messages->addMessage('error',"Helmet tinctures may only be plain colours");
-            } else {
-                $fill = $tincture->firstChild->getAttribute('keyterm');
+        if ($helmetNode->hasChildNodes() && $helmetNode->firstChild->nodeName == 'location') {
+            $locNode = $helmetNode->firstChild;
+            if ($locNode->hasChildNodes() && $locNode->firstChild->nodeName == 'tincture') {
+                $tincture = $locNode->firstChild;
+                if ($tincture->firstChild->nodeName != 'colour') {
+                    $messages->addMessage('error',"Helmet tinctures may only be plain colours");
+                } else {
+                    $fill = $tincture->firstChild->getAttribute('keyterm');
+                }
             }
         }
     }

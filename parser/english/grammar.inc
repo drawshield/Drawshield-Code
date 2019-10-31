@@ -1294,7 +1294,7 @@ class englishGrammar extends grammar {
         $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
             blazonML::A_KEYTERM => 'default'));
       }
-      $locNode->appendChild($tincture);
+      $locNode->appendChild($tincNode);
       $helmetNode->appendChild( $locNode );
     }
 
