@@ -129,6 +129,10 @@ function apply_tincture ($tincture, $object, $chg_size = '',
   }
   $child = $tincture->firstChild;
   $spec = false;
+  if (!is_object($child)) {
+    error_log("non-object tincture in " . $options['blazon']);
+    $child = createColourNode('gray','1');
+  }
   switch ( $child->nodeName ) {
     case 'colour':
     case 'default': // don't think these two ever occur
