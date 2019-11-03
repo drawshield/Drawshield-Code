@@ -104,8 +104,10 @@ class languageDB extends lexicon {
       self::OVERALL => array ( 'overall', 'sur le tout', 'all with(in)?', "over all", "in pretence" ),
       self::METAOVERALL => array ( 'over(all)? ?all ?the ?# (quarters|quarterings|halves|parts|sections)', ),
       self::MANTLING => array (
-        array ('mantling ?of ?ribbons', 'ribbons'),
+        array ('mantling ?of ?ribbons', 'ribbons'),  // note default
         array ('lambrequin ?of ?ribbons', 'ribbons'),
+        array ( 'cloak ?mantling', 'cloak'),
+        array ( 'mantling ?of ?a cloak', 'cloak'),
       ),
       self::ACHIEVEMENT => array ('achievement', 'hatchment'),
       self::CREST => array (
@@ -641,6 +643,7 @@ class languageDB extends lexicon {
             array( '(bas?ton|battoon|batune) ?sinister ?couped', 'baton' ),
             array( 'bordure', 'bordure' ),
             array( 'cantons?', 'canton' ),
+            array( 'square cantons?', 'square-canton' ), // only meaningful for flags
             array( 'double trea?s?sure', 'double-tressure' ),
             array( 'fillet', 'fillet' ),
             array( 'fillet saltire', 'fillet-saltire' ),
