@@ -52,8 +52,9 @@ if (isset($argc)) {
     $options['blazon'] = implode(' ', array_slice($argv,1));
   } else {
     // $options['blazon'] = "vert mantling to the sinister gules and or to the dexter vert and sable";
-    $options['blazon'] = "vert  a royal helmet crest a lion gules ";
-    // $options['stage'] = 'parser';
+    $options['blazon'] = "vert achievement  helmet gules";
+    // $options['shape'] = "flag";
+    $options['stage'] = 'parser';
   }
   // $options['printable'] = true;
    $options['outputFormat'] = 'svg';
@@ -128,6 +129,7 @@ if ( $options['blazon'] == '' ) {
       $note = $dom->createComment("Debug information - parser stage.\n(Did you do SHIFT + 'Save as File' by accident?)");
       $dom->insertBefore($note,$dom->firstChild);
       header('Content-Type: text/xml; charset=utf-8');
+      $dom->outputFormat = true;
       echo $dom->saveXML(); 
       exit; 
   }
@@ -141,6 +143,7 @@ if ( $options['blazon'] == '' ) {
       $note = $dom->createComment("Debug information - references stage.\n(Did you do SHIFT + 'Save as File' by accident?)");
       $dom->insertBefore($note,$dom->firstChild);
       header('Content-Type: text/xml; charset=utf-8');
+      $dom->outputFormat = true;
       echo $dom->saveXML(); 
       exit; 
   }
@@ -153,6 +156,7 @@ if ( $options['blazon'] == '' ) {
       $note = $dom->createComment("Debug information - links stage.\n(Did you do SHIFT + 'Save as File' by accident?)");
       $dom->insertBefore($note,$dom->firstChild);
       header('Content-Type: text/xml; charset=utf-8');
+      $dom->outputFormat = true;
       echo $dom->saveXML(); 
       exit; 
   }
