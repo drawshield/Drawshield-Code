@@ -83,6 +83,7 @@
       array ( 'wildm[ae]n?', 'human/savage' ),
       array ( 'eyes?', 'human/eye' ),
       array ( 'maidens?', 'human/maiden' ),
+      array ( 'monks?', 'human/monk' ),
       array ( 'englishm[ae]ns?', 'human/man' ),
       array ( 'm[ae]ns?', 'human/man' ),
       array ( 'egyptians?', 'human/egyptian' ),
