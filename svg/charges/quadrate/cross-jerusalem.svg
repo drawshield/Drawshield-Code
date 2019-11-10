@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg342"
+   version="1.1"
+   height="200"
+   width="200">
+  <defs
+     id="defs346" />
+  <metadata
+     id="metadata337">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="" />
+        <dc:title></dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>(Drawshield internal)</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="body"
+     style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#808080;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+    <path
+       style="stroke:#808080"
+       id="path339"
+       d="m100,0h30v20h-20v70 h70  v-20  h20  v30   v30  h-20  v-20  h-70   v70  h20  v20  h-30   h-30  v-20  h20  v-70   h-70  v20  h-20  v-30   v-30  h20  v20  h70  v-70h-20v-20h30         z" />
+  </g>
+  <path
+     id="rect356"
+     d="M 139.29688 31.601562 L 139.29688 43.255859 L 127.64062 43.255859 L 127.64062 56.414062 L 139.29688 56.414062 L 139.29688 68.068359 L 152.45312 68.068359 L 152.45312 56.414062 L 164.10938 56.414062 L 164.10938 43.255859 L 152.45312 43.255859 L 152.45312 31.601562 L 139.29688 31.601562 z "
+     style="opacity:1;fill:#ffff00;stroke:#808080;stroke-width:1.69109714" />
+  <path
+     style="opacity:1;fill:#ffff00;stroke:#808080;stroke-width:1.69109714"
+     d="m 47.547293,31.601581 v 11.654297 h -11.65626 v 13.158203 h 11.65626 v 11.654297 h 13.15624 V 56.414081 h 11.65626 V 43.255878 H 60.703533 V 31.601581 Z"
+     id="path363" />
+  <path
+     id="path367"
+     d="m 47.547293,131.7666 v 11.6543 h -11.65626 v 13.1582 h 11.65626 v 11.6543 h 13.15624 v -11.6543 h 11.65626 v -13.1582 h -11.65626 v -11.6543 z"
+     style="opacity:1;fill:#ffff00;stroke:#808080;stroke-width:1.69109714" />
+  <path
+     style="opacity:1;fill:#ffff00;stroke:#808080;stroke-width:1.69109714"
+     d="m 139.29647,131.7666 v 11.6543 h -11.65626 v 13.1582 h 11.65626 v 11.6543 h 13.15624 v -11.6543 h 11.65626 v -13.1582 h -11.65626 v -11.6543 z"
+     id="path369" />
+</svg>

@@ -45,6 +45,7 @@
           array ( 'cross(let|lets|es)? pommes?', 'quadrate/cross-pomme' ), 
           array ( 'cross(es)? potent crossed', 'quadrate/cross-potent-crossed' ), 
           array ( 'cross(es)? poten(t|ce)', 'quadrate/cross-potent' ), 
+          array ( 'cross(es)? of jerusalem', 'quadrate/cross-jerusalem' ), 
           array ( 'cross(let|lets|es)? recercell?e?(e|y)', 'quadrate/cross-recercele' ), 
           array ( 'cross(let|lets|es)? moline voided', 'quadrate/cross-recercele' ), 
           array ( 'cross(let|lets|es)? sarcell(ee|y)', 'quadrate/cross-sarcelly' ), 
@@ -74,6 +75,7 @@
      array ( 'celtic cross(es)?', 'cross/celtic' ),
      array ( 'russian cross(es)?', 'cross/russian' ),
      array ( 'egyptian cross(es)?', 'cross/egyptian' ),
+     array ( 'jerusalem cross(es)?', 'quadrate/cross-jerusalem' ),
       // human
       array ( 'mounted knights?', 'human/knight-mounted'),
       array ( 'knights? mounted', 'human/knight-mounted'),
@@ -83,7 +85,6 @@
       array ( 'wildm[ae]n?', 'human/savage' ),
       array ( 'eyes?', 'human/eye' ),
       array ( 'maidens?', 'human/maiden' ),
-      array ( 'monks?', 'human/monk' ),
       array ( 'englishm[ae]ns?', 'human/man' ),
       array ( 'm[ae]ns?', 'human/man' ),
       array ( 'egyptians?', 'human/egyptian' ),
