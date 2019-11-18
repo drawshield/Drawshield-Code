@@ -245,7 +245,7 @@ class englishGrammar extends grammar {
       $locations = array();
       $state = self::save();
 
-
+      self::ignore(languageDB::ANDD);
       if ( !self::find(languageDB::WORD_IN) ) {
         self::discard($state);
         break;
