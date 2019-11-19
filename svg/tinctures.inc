@@ -198,6 +198,13 @@ function apply_tincture ($tincture, $object, $chg_size = '',
 	    // What we do depends on what we are filling...
       switch ($object_type) {
         case 'division':
+            $new_div = makeDivision( $child );
+            $mask_id = add_def ( 'mask width="1200" height="1400" maskUnits="userSpaceOnUse"',
+              $title . "<desc>Division used to fill $objectKeyterm</desc>" .
+              '<g fill="white">' . $object . '</g>' );
+          $retval = add_def();
+          $retval .= '<g mask="url(#' . $mask_id . ')"  >' . $new_div . '</g>';
+          break;
         case 'field': // just the field of the shield
 				  $retval = '<g>' . $title . '<desc>Division used to fill field</desc>' . makeDivision( $child ) . '</g>';
 			  	break;
