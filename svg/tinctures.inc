@@ -240,26 +240,39 @@ function apply_tincture ($tincture, $object, $chg_size = '',
       $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $object . '</g>';
       break;
     case 'counterchanged': // Never change anything, just fill with this pattern
-      // Try to find a field division
-      $division = $xpath->query('preceding::field/tincture/division|ancestor::field/tincture/division',$tincture);
-      if ( !$division->length ) {
-        $messages->addMessage ('error','Counterchange requires two colour field' );
-        return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $object . '</g>';
-      }
-      // check for loops (are we trying to counterchange ourself or our own parent?)
-      $counterDiv = $division->item(($division->length)-1);
-      if ($object_type == 'division') {
-        $me = $tincture->parentNode->getAttribute('ID');
-        if ($counterDiv->getAttribute('ID') == $me ||
-           ($object_type == 'division' && $tincture->parentNode->parentNode->nodeName != 'division') ) {
+      if ( $object_type == 'division') {
+        if ($object->parentNode->parentNode->nodeName == 'division') {
+          $counterDiv = $object->parentNode->parentNode;
+        } else {
           $messages->addMessage ('error','Counterchange not valid' );
           return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $object . '</g>';
         }
-      }
-			// else go ahead
+      } else { // object is charge or ordinary
+        if ( $object_type == 'charge' ) {
+          $messages->addMessage ('alert','Browser bug may not render counterchanged charge correctly, try save file as PNG.' );
+        }
+        // Try to find a field division
+        $division = $xpath->query('preceding::field/tincture/division|ancestor::field/tincture/division',$tincture);
+        if ( !$division->length ) {
+          $messages->addMessage ('error','Counterchange requires two colour field' );
+          return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $object . '</g>';
+        }
+        $counterDiv = $division->item(($division->length)-1);
+      } 
+
       $div_data = makeDivision( $counterDiv, true );
-      if ( $object_type == 'charge' )
-        $messages->addMessage ('alert','Browser bug may not render counterchanged charge correctly, try save file as PNG.' );
+      // if ($object_type == 'division') {
+      //   $me = $tincture->parentNode->getAttribute('ID');
+      //   if ($counterDiv->getAttribute('ID') == $me ||
+      //      ($object_type == 'division' && $tincture->parentNode->parentNode->nodeName != 'division') ) {
+      //     $messages->addMessage ('error','Counterchange not valid' );
+      //     return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $object . '</g>';
+      //   }
+      // }
+			// else go ahead
+
+
+ 
       $patt_id = add_def ( 'clipPath', $object );
       $retval = add_def() . '<g clip-path="url(#' . $patt_id . ')"  >' . $div_data . '</g>';
 			if ( $object_type == 'charge' ) // add the outline and any shading

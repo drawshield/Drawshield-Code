@@ -1081,7 +1081,7 @@ class englishGrammar extends grammar {
     return $node;
   }
 
-  protected function division( $depth = 1 ) {
+  protected function division( $depth = 1 ) { // arg not used
     $need3Tinc = array ( 'per-pall', 'per-pall-arrondi', 'tierced-in-pale',
     'tierced-in-fess', 'tierced-in-bend', 'tierced-in-bend', 'tierced-in-chevron' );
     $opt3Tinc = array ( 'per-pile', );
@@ -1100,33 +1100,34 @@ class englishGrammar extends grammar {
         $maxTinc = 3;
       }
       $tincCount = 0;
-      if ( $depth == 2 ) { // The tincture is implied by the previous division
-        $found = true;
-        while ($found) {
-          if ($keyterm = self::find(languageDB::LINETYPE)) {
-            $node->appendChild( $this->schema->makeMod(blazonML::A_LINETYPE, null, $keyterm, self::tokens(), self::lineNo()));
-          } elseif ($keyterm = self::find(languageDB::ORIENTATION)) {
-            $node->appendChild($this->schema->makeMod(languageDB::ORIENTATION,null,$keyterm, self::tokens(), self::lineNo()));
-          } else {
-            $found = false;
-          }
-        }    
-        if ( !self::find(languageDB::COUNTERCHANGE) ) {
-          self::raiseError(self::ERROR_ORIGIN,"Second division should be counterchanged?");
-        } else {
-          $maxTinc = 1; // We have all the tinctures that we need
-          $minTinc = 1;
-          $tincCount = 1;
-          $secondTinc = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
-              blazonML::A_ORIGIN => 'implied' ));
-          $secondTinc->appendChild($this->schema->makeNode(blazonML::E_COUNTERCHANGED, null, self::tokens(), self::lineNo()));
-          $node->appendChild($secondTinc);
-        }
-      } else {
-        $tincCount = 0;
-      }
+      // if ( $depth == 2 ) { // The tincture is implied by the previous division
+      //   $found = true;
+      //   while ($found) {
+      //     if ($keyterm = self::find(languageDB::LINETYPE)) {
+      //       $node->appendChild( $this->schema->makeMod(blazonML::A_LINETYPE, null, $keyterm, self::tokens(), self::lineNo()));
+      //     } elseif ($keyterm = self::find(languageDB::ORIENTATION)) {
+      //       $node->appendChild($this->schema->makeMod(languageDB::ORIENTATION,null,$keyterm, self::tokens(), self::lineNo()));
+      //     } else {
+      //       $found = false;
+      //     }
+      //   }    
+      //   if ( !self::find(languageDB::COUNTERCHANGE) ) {
+      //     self::raiseError(self::ERROR_ORIGIN,"Second division should be counterchanged?");
+      //   } else {
+      //     $maxTinc = 1; // We have all the tinctures that we need
+      //     $minTinc = 1;
+      //     $tincCount = 1;
+      //     $secondTinc = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
+      //         blazonML::A_ORIGIN => 'implied' ));
+      //     $secondTinc->appendChild($this->schema->makeNode(blazonML::E_COUNTERCHANGED, null, self::tokens(), self::lineNo()));
+      //     $node->appendChild($secondTinc);
+      //   }
+      // } else {
+      //   $tincCount = 0;
+      // }
       $found = true;
       while ( $found ) {
+        if (self::semicolon()) break;
         self::comma();
         self::find(languageDB::ANDD);
         if ($keyterm = self::find(languageDB::LINETYPE)) {
@@ -1139,6 +1140,10 @@ class englishGrammar extends grammar {
           $tincCount++;
           $tinc->setAttribute(blazonML::A_INDEX,"$tincCount");
           $node->appendChild($tinc);
+          if ($tinc->firstChild->nodeName == blazonML::E_COUNTERCHANGED) {
+            $tincCount = 2;
+            break;
+          }
         } else
           $found = false;
       }
@@ -1375,7 +1380,7 @@ class englishGrammar extends grammar {
       // Look for division
     } elseif ( ($div1 = self::division()) ) {
       // Look for a second (normally counterchanged) division
-      if ( ( $div2 = self::division(2) ) ) $div1->appendChild($div2);
+      //  if ( ( $div2 = self::division(2) ) ) $div1->appendChild($div2);
       $node->appendChild($div1);
       // Look for a back reference
     } elseif ( ($keyterm = self::find(languageDB::BACKREF)) ) {
