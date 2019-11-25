@@ -643,6 +643,7 @@ class languageDB extends lexicon {
             array( '(bas?ton|battoon|batune) ?sinister ?couped', 'baton' ),
             array( 'bordure', 'bordure' ),
             array( 'cantons?', 'canton' ),
+            array( 'cantells?', 'cantell' ),
             array( 'square cantons?', 'square-canton' ), // only meaningful for flags
             array( 'double trea?s?sure', 'double-tressure' ),
             array( 'fillet', 'fillet' ),
