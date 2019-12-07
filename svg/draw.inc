@@ -20,6 +20,7 @@ if ($options['shape'] == 'flag')
   include "flag.inc";
 else
   include "shield.inc";
+include "shapes.inc";
 include "achievement.inc";
 include "pathtools.inc";
 include "treatment.inc";
@@ -155,7 +156,6 @@ function draw() {
   $messages = new messageStore($dom);
   
   if ($options['shape'] != 'default') {
-    include "shapes.inc";
     $outline = getShape($options['shape']);
   } 
 

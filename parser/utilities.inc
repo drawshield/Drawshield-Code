@@ -113,6 +113,7 @@ class blazonML extends DOMDocument {
   const A_LINETYPE = 'linetype';
   const V_FEATURE = 'feature';
   const A_KEYTERM = 'keyterm';
+  const V_IMPLIED = 'implied';
   
   public function __construct($version = '1.0', $encoding = null) {
     $this->uid = new unique();

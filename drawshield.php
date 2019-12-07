@@ -51,13 +51,8 @@ if (isset($argc)) {
   if ( $argc > 1 ) { // run in debug mode, probably
     $options['blazon'] = implode(' ', array_slice($argv,1));
   } else {
-    // $options['blazon'] = "vert mantling to the sinister gules and or to the dexter vert and sable";
-    $options['blazon'] = "vert achievement  helmet gules";
-    // $options['shape'] = "flag";
-    $options['stage'] = 'parser';
+  if (file_exists('debug.inc')) include 'debug.inc';
   }
-  // $options['printable'] = true;
-   $options['outputFormat'] = 'svg';
 }
 
 // Process arguments

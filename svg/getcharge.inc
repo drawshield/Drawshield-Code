@@ -292,7 +292,9 @@ function getCharge( DOMElement $node ) {
           $modifier = $child->getAttribute('keyterm');
           if (substr($modifier,0,6) == 'shape-') {
             $shape = substr($modifier,6);
-          }
+          } // we don't need the pending tincture node
+        } elseif ($child->nodeName == blazonML::E_TINCTURE) {
+          $child->setAttribute(blazonML::A_ORIGIN, blazonML::V_IMPLIED);
         }
       }
     }
