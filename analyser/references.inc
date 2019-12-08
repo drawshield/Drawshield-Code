@@ -33,9 +33,7 @@ class references {
       $field = $this->dom->createElement(blazonML::E_FIELD);
       $field->setAttribute('ID',unique('N1-'));
       $colour = createColourNode('cendree');
-      $tincture = createTinctureNode();
-      $tincture->appendChild($colour);
-      $field->appendChild($tincture);
+      $field->appendChild($colour);
       $simple->appendChild($field);  
       return $simple; 
   }

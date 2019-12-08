@@ -118,7 +118,7 @@ function apply_tincture ($tincture, $object, $chg_size = '',
   // stage "raw" means leave charge colours as they are
   // if ( $object_type == 'charge' && array_key_exists('raw', $options)) return $object;
   $tincture = resolveReference($tincture);
-  if ( ! $tincture->hasChildNodes() ) {
+  if ( $tincture === null || !$tincture->hasChildNodes() ) {
     if ($tincture->getAttribute('origin') == 'pending' || $tincture->getAttribute('origin') == 'missing') {
       $messages->addMessage ('blazon','Gray substituted.' );
       $tincture = createColourNode('gray','1');
