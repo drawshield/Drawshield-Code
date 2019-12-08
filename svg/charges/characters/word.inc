@@ -39,6 +39,7 @@ if ( $font = getModifierValueByKeyterm($node,'font') ) {
       case 'symbol':
       // No action needed
       break;
+    case 'plain':
     case 'san serif':
     case 'sans serif':
       $font = 'sans-serif';

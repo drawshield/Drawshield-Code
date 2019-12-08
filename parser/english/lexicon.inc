@@ -75,6 +75,7 @@ class languageDB extends lexicon {
   const SHOWN_MODS = 'shown';
   const DRAWN_MODS = 'drawn';
   const FONT = 'font';
+  const LAYERING = "layers";
   const QUARTERMARK = 'quartermark';
   const QUARTERMODS = 'quartermods';
   const LETTERS = 'letters';
@@ -140,10 +141,12 @@ class languageDB extends lexicon {
         array ( 'dimidiated with', 'dimidiated' ),
       ),
       self::ONFIELDOF => array ( '?(on|upon) a (field|court) ?of' ),
+      self::LAYERING => array ( 'over', 'under'), // recognised, not implemented
       self::WITH => array ( array ('(with|upon)', 'with' ) ),
       self::BETWEEN => array ( 'between', 'inter', 'inside', 'within', 'surrounded by', 'accompagne', 'cantonned by' ),
       self::QUARTERED => array (
         array ( '(grand)?quartered', 'quartered' ), // Always a marshalling
+        array ( 'quarter(ed|ly) per saltire', 'quartered-per-saltire' ), // Always a marshalling
         array ( '(grand)?quarterly', 'quarterly' ), // Could be a marshalling or a division
       ),
       self::QUARTERMARK => array ( '\\)' ),
@@ -903,7 +906,7 @@ class languageDB extends lexicon {
           array ( 'per saltire', 'per-saltire'),
         ),
         self::FONT => array ( 
-          array ( 'in (a|the) * (font|face|style)', 'font' ),
+          array ( 'in (a|the) * (font|face|style|script)', 'font' ),
           ),
       );
       include "charge.inc";

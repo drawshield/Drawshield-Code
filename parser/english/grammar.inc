@@ -565,6 +565,7 @@ class englishGrammar extends grammar {
     }
     // if found, remember "on" for later
     if ($keyterm = self::find(languageDB::WORD_ON)) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,'charged-with',self::tokens(), self::lineNo());
+    self::ignore(languageDB::LAYERING); // over x a y, not needed, under x a y not implementd
     // Look for an actual charge
     if ( ($charge = self::simpleCharge( $assumeNum, $allowArr, $allowPos )) == null ) {
       self::restore($state);
@@ -749,6 +750,7 @@ class englishGrammar extends grammar {
     if ($keyterm = self::find(languageDB::WORD_ON)) $onMod = $this->schema->makeMod(languageDB::WORD_ON,null,$keyterm,self::tokens(), self::lineNo());
     // if found, remember "inside" for later
     if ($keyterm = self::find(languageDB::BETWEEN)) $insideMod = $this->schema->makeMod(languageDB::BETWEEN,null,$keyterm,self::tokens(), self::lineNo());
+    self::ignore(languageDB::LAYERING); // over x a y, not needed, under x a y not implementd
     // Look for a number (or assume one)
     $ordNum = self::find(languageDB::QUANTITY);
     if ( !$ordNum ) $ordNum = self::find(languageDB::NUMBER);
@@ -987,6 +989,10 @@ class englishGrammar extends grammar {
         } else { 
           $subshields[$i]-> setAttribute(blazonML::A_INDEX,"$i");
         }
+      }
+      if ($marshall == 'quartered-per-saltire') { 
+        self::raiseError(self::ERROR_ORIGIN,'Quarterly per saltire not supported, sorry', true );
+        // $order = '4-saltire';
       }
       $quartered->setAttribute('order',$order);
       for ( $i = 1; $i <= $highest; $i++ )

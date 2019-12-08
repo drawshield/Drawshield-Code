@@ -37,7 +37,7 @@ function makeQuartered($across, $down, $children) {
 }
 
 function makequarters( DOMNodeList $children, $child_ARs, $child_Scales, $translates) {
-  global $scale_factor;
+  global $scale_factor, $options;
   
   $retval = '';
   /**
@@ -47,6 +47,12 @@ function makequarters( DOMNodeList $children, $child_ARs, $child_Scales, $transl
     $index = $kid->getAttribute('index');
     region('push','Q' . $index ); // Can lose this soon I hope...
     $index -= 1; // Arrays are zero based
+    // error check
+    if (!isset($child_ARs[$index])) {
+      region('pop');
+      error_log("bad quarter index in " . $options['blazon'] );
+      continue;
+    }
     $child_AR = $child_ARs[$index];
     $clippath = $xOffset = $yOffset = null; // Prevent error message
     extract( get_clipdata ($child_AR)  ); // Creates clippath, xOffset, yOffset

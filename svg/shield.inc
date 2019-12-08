@@ -250,6 +250,9 @@ function makeshield( DOMElement &$node, $this_AR ) {
             break;
           case 'quartered':
             switch ( $child->getAttribute('order') ) {
+              case '4-saltire':
+                $messages->addMessage('warning','Quarterly per saltire not supported yet (sorry)');
+                // Flow through
               case 4:
                 $retval .= makeQuartered4($children, $this_AR);
                 break;
