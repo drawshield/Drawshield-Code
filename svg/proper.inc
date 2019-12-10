@@ -58,6 +58,7 @@ class properColour {
       'polar-bear' => self::$white, // overrides bear group
       'camelopard' => self::$orange,
       'squirrel' => self::$brown,
+      'beaver' => self::$brown,
       'auk' => self::$white,
       'parachute' => self::$white,
       'skull' => self::$white,
