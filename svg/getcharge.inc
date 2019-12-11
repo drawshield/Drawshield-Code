@@ -348,7 +348,7 @@ function getCharge( DOMElement $node ) {
             $featureTinc = $child->firstChild;
             $featureTinc = resolveReference($featureTinc);
             $featureName = $child->getAttribute('keyterm');
-            if (!$featureTinc->hasChildNodes())
+            if ($featureTinc == null || !$featureTinc->hasChildNodes())
               $messages->addMessage('Warning',"No tincture for $featureName");
             else {
               $tinctureType = $featureTinc->firstChild;
