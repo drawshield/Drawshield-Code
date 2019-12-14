@@ -297,11 +297,15 @@
   </xs:complexType>
  </xs:element>
  <xs:element name="objects">
+  <xs:annotation>
+   <xs:documentation>Although any division is allowed by the schema,the parser should ensure that ONLY divisions which are counterchanged should be permitted</xs:documentation>
+  </xs:annotation>
   <xs:complexType>
    <xs:sequence>
     <xs:choice maxOccurs="unbounded">
      <xs:element maxOccurs="unbounded" minOccurs="0" ref="charge"/>
      <xs:element maxOccurs="unbounded" minOccurs="0" ref="ordinary"/>
+     <xs:element ref="division"/>
     </xs:choice>
    </xs:sequence>
    <xs:attributeGroup ref="common"/>

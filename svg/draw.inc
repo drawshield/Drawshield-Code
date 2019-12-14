@@ -136,6 +136,9 @@ function makeOrdChgs( $node ) {
       case 'ordinary':
         $retval .= makeOrdinary( $child );
         break;
+      case 'division':
+        $retval .= makeDivision( $child );
+        break;
       case 'missing':
       case 'charge':
         $retval .= makeCharge( $child );
@@ -178,7 +181,8 @@ function draw() {
     <svg version="1.1"
          baseProfile="full"
          xmlns="http://www.w3.org/2000/svg"
-         xmlns:xlink="http://www.w3.org/1999/xlink" ' .
+         xmlns:xlink="http://www.w3.org/1999/xlink" 
+         xmlns:blazonML="http://drawshield.net/blazonML" ' .
          'preserveAspectRatio="xMidYMid meet" height="' . $displayHeight . '" width="' . $displayWidth . '" ';
     $header .= 'viewBox="'. getEffect('viewbox',1000,$options['flagHeight'] + 40) . ' ">';
     $meta = '';

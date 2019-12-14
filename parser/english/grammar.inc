@@ -647,7 +647,11 @@ class englishGrammar extends grammar {
     self::ignore(languageDB::WITH);
 
     while ( self::moreInput() ) {
-      if ($item = self::ordinary()  or  $item = self::charge($assume_num)) {
+      // We treat a counterchanged division a bit like an ordinary
+      if ( $counterchangedDivision = self::division(true) ) {
+        $node->appendChild($counterchangedDivision);
+        $found = true;
+      } elseif ($item = self::ordinary()  or  $item = self::charge($assume_num)) {
         $found = true;
         $assume_num = false; // reset if it was true
         $node->appendChild($item);
@@ -1087,11 +1091,12 @@ class englishGrammar extends grammar {
     return $node;
   }
 
-  protected function division( $depth = 1 ) { // arg not used
+  protected function division( $onlyCounterchanged = false ) { 
     $need3Tinc = array ( 'per-pall', 'per-pall-arrondi', 'tierced-in-pale',
     'tierced-in-fess', 'tierced-in-bend', 'tierced-in-bend', 'tierced-in-chevron' );
     $opt3Tinc = array ( 'per-pile', );
 
+    $state = self::save();
     $node = null;
     if ( ($keyterm = self::find( languageDB::DIVISION )) != null ) {
       $node = $this->schema->makeNode(blazonML::E_DIVISION,array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
@@ -1132,10 +1137,11 @@ class englishGrammar extends grammar {
       //   $tincCount = 0;
       // }
       $found = true;
+      $foundCounterchange = false;
       while ( $found ) {
         if (self::semicolon()) break;
         self::comma();
-        self::find(languageDB::ANDD);
+        self::ignore(languageDB::ANDD);
         if ($keyterm = self::find(languageDB::LINETYPE)) {
           $node->appendChild( $this->schema->makeMod(blazonML::A_LINETYPE, null, $keyterm, self::tokens(), self::lineNo()));
         } elseif ( $keyterm = self::find(languageDB::DIVISION_MODS)) {
@@ -1147,12 +1153,17 @@ class englishGrammar extends grammar {
           $tinc->setAttribute(blazonML::A_INDEX,"$tincCount");
           $node->appendChild($tinc);
           if ($tinc->firstChild->nodeName == blazonML::E_COUNTERCHANGED) {
+            $foundCounterchange = true;
             $tincCount = 2;
             break;
           }
         } else
           $found = false;
       }
+      if ($onlyCounterchanged && !$foundCounterchange) {
+        self::restore($state);
+        return null;
+      } 
       // Did we find all the tinctures that we need?
       while ( $tincCount < $minTinc ) {
         $node->appendChild($this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => ++$tincCount,
@@ -1163,6 +1174,7 @@ class englishGrammar extends grammar {
         // self::raiseError(self::ERROR_ORIGIN,"Too many tinctures on division", true);
       // }
     }
+    self::discard($state);
     return $node;
   }
 
@@ -1344,11 +1356,6 @@ class englishGrammar extends grammar {
               $treat->appendChild($tinc2);
             }
           }
-          // and gyronny seems to have up to three (see BASSINGBOURNE)
-          if ( $keyterm == 'gyronny' and ($tinc3 = self::tincture(false)) ) {
-            $tinc3->setAttribute(blazonML::A_INDEX, '3');
-            $treat->appendChild($tinc3);
-          }
           $node->appendChild($treat);
           // Could also be [colour] [semyde] [charge]
         } elseif ( self::find(languageDB::SEMY) ) {
@@ -1386,7 +1393,7 @@ class englishGrammar extends grammar {
       // Look for division
     } elseif ( ($div1 = self::division()) ) {
       // Look for a second (normally counterchanged) division
-      //  if ( ( $div2 = self::division(2) ) ) $div1->appendChild($div2);
+      // if ( ( $div2 = self::division(true) ) ) $div1->appendChild($div2);
       $node->appendChild($div1);
       // Look for a back reference
     } elseif ( ($keyterm = self::find(languageDB::BACKREF)) ) {

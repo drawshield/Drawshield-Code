@@ -76,8 +76,6 @@ function makeDivision( DOMElement $node, $counter = false ) {
   foreach ( $children as $child ) {
     if ( $child->nodeName == 'tincture' )
       $tinctures[$child->getAttribute('index')] = $child;
-    elseif ( $child->nodeName == 'division' )
-      $secondDiv = $child;
   }
   $div2 = $division['div2'];
   $div3 = '';
@@ -86,31 +84,27 @@ function makeDivision( DOMElement $node, $counter = false ) {
       $messages->addMessage('blazon', 'Cannot counterchange 3 tinctures' . getLine($node) );
       return '<g />';
     }
-  } else
+  } else {
     $div3 = '';
+  }
   // set the main colours
-  if ( $tinctures[1]->getAttribute('origin') == 'implied' ) { // This is a 2nd division
+  if ($tinctures[1]->firstChild->nodeName == 'counterchanged') {
     $div1 = '';
-    $tinctures[1]->setAttribute('origin','given');
+    $div2 = apply_tincture( $tinctures[1], $div2 );
+  } elseif ( $counter ) {
+    $div1 = apply_tincture ( $tinctures[2], '<rect x="0" y="0" width="1000" height="' . $height . '" />',
+                              '1000,' . $height );
     $div2 = apply_tincture( $tinctures[1], $div2 );
   } else {
-    if ( $counter ) {
-      $div1 = apply_tincture ( $tinctures[2], '<rect x="0" y="0" width="1000" height="' . $height . '" />',
-                                '1000,' . $height );
-      $div2 = apply_tincture( $tinctures[1], $div2 );
-    } else {
-      $div1 = apply_tincture ( $tinctures[1], '<rect x="-100" y="-100" width="1200" height="' . ($height + 200) . '" />',
-                                '1000,' . $height );
-      $div2 = apply_tincture( $tinctures[2], $div2 );
-      if ( isset($division['div3']) && isset($tinctures[3]) ) {
-        $div3 = apply_tincture( $tinctures[3], $division['div3'] );
-      }
+    $div1 = apply_tincture ( $tinctures[1], '<rect x="-100" y="-100" width="1200" height="' . ($height + 200) . '" />',
+                              '1000,' . $height );
+    $div2 = apply_tincture( $tinctures[2], $div2 );
+    if ( isset($division['div3']) && isset($tinctures[3]) ) {
+      $div3 = apply_tincture( $tinctures[3], $division['div3'] );
     }
   }
   $retval = "$div1\n$div2\n$div3\n";
-  if ( !$counter && $secondDiv ) {
-    $retval .= makeDivision( $secondDiv );
-  }
+
   if ( array_key_exists('div4',$division) ) { // Add any extra embellishment
     $retval .= $division['div4'];
   }

@@ -81,27 +81,28 @@ function shiftRGB($hex, $direction="lighter") {
 
 
 
-function apply_tincture ($tincture, $object, $chg_size = '',
+function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
         $rot = '0', $rev = false, $inv = false ) {
   global $_SERVER, $messages, $xpath, $options;
   $retval = '';
 
-  if (is_null($tincture)) return $object; // Maybe an error? Sometimes get here from makeOrdinary()
-  if (!is_object($tincture) || is_null($tincture->parentNode) ) {
+  if (is_null($tinctureNode)) return $targetSVG; // Maybe an error? Sometimes get here from makeOrdinary()
+  if (!is_object($tinctureNode) || is_null($tinctureNode->parentNode) ) {
     // error_log("bad tincture in " . $options['blazon']);
-    return $object;
+    return $targetSVG;
   }
 
-	$patTrans = '';
-	$object_type = $tincture->parentNode->nodeName;
-  $objectKeyterm = "";
-  if ( $tincture->parentNode !== null) {
-      $objectKeyterm = $tincture->parentNode->getAttribute('keyterm'); 
+  $patTrans = '';
+  $targetNode = $tinctureNode->parentNode;
+	$targetType = $targetNode->nodeName;
+  $targetKeyterm = "";
+  if ( $targetNode !== null) {
+      $targetKeyterm = $targetNode->getAttribute('keyterm'); 
   } else {
-      return $object;
+      return $targetSVG;
   }
 
-	if ( $object_type == 'charge' and $chg_size != '' ) // We make some things a wee bit smaller if on a charge, just for looks
+	if ( $targetType == 'charge' and $chg_size != '' ) // We make some things a wee bit smaller if on a charge, just for looks
 	{
 	  list($chgX,$chgY) = explode(',', $chg_size);
 		$scale = max ( $chgX / 1000, $chgY / 1200 ); // multiply here to adjust relative size of fur etc. on a charge
@@ -114,44 +115,44 @@ function apply_tincture ($tincture, $object, $chg_size = '',
 	if ( $patTrans != '' )
 	  $patTrans = ' patternTransform="' . $patTrans . '" ';
 
-  if ( $tincture->getAttribute('origin') == 'implied' ) return $object; // Nothing to do
+  if ( $tinctureNode->getAttribute('origin') == 'implied' ) return $targetSVG; // Nothing to do
   // stage "raw" means leave charge colours as they are
-  // if ( $object_type == 'charge' && array_key_exists('raw', $options)) return $object;
-  $tincture = resolveReference($tincture);
-  if ( $tincture === null || !$tincture->hasChildNodes() ) {
-    if ($tincture->getAttribute('origin') == 'pending' || $tincture->getAttribute('origin') == 'missing') {
+  // if ( $targetType == 'charge' && array_key_exists('raw', $options)) return $targetSVG;
+  $tinctureNode = resolveReference($tinctureNode);
+  if ( $tinctureNode === null || !$tinctureNode->hasChildNodes() ) {
+    if ($tinctureNode->getAttribute('origin') == 'pending' || $tinctureNode->getAttribute('origin') == 'missing') {
       $messages->addMessage ('blazon','Gray substituted.' );
-      $tincture = createColourNode('gray','1');
+      $tinctureNode = createColourNode('gray','1');
     } /* else {
-      $messages->addMessage('internal', 'Malformed tincture ID=' . $tincture->getAttribute('ID'));
+      $messages->addMessage('internal', 'Malformed tincture ID=' . $tinctureNode->getAttribute('ID'));
       return '';
     } */
   }
-  $child = $tincture->firstChild;
+  $tinctureTypeNode = $tinctureNode->firstChild;
   $spec = false;
-  if (!is_object($child)) {
+  if (!is_object($tinctureTypeNode)) {
     error_log("non-object tincture in " . $options['blazon']);
-    $child = createColourNode('gray','1');
+    $tinctureTypeNode = createColourNode('gray','1');
   }
-  switch ( $child->nodeName ) {
+  switch ( $tinctureTypeNode->nodeName ) {
     case 'colour':
     case 'default': // don't think these two ever occur
     case 'proper':
-      if ($object_type == 'ordinary' && array_key_exists('raw', $options)) {
+      if ($targetType == 'ordinary' && array_key_exists('raw', $options)) {
             $spec = '#999999';
-      } elseif ( $child->hasAttribute('spec') )  {
-        $spec = $child->getAttribute('spec');
+      } elseif ( $tinctureTypeNode->hasAttribute('spec') )  {
+        $spec = $tinctureTypeNode->getAttribute('spec');
       } else {
-        $spec = rgb($child->getAttribute('keyterm'));
+        $spec = rgb($tinctureTypeNode->getAttribute('keyterm'));
       }
       if ($spec !== false) { // set if we are to use the fill found
-        $retval = '<g fill="' . $spec . '">' . $object . '</g>';
+        $retval = '<g fill="' . $spec . '">' . $targetSVG . '</g>';
       } else {
-        $retval =  $object;
+        $retval =  $targetSVG;
       }
       break;
     case 'fur':
-      $fur_name = $child->getAttribute('keyterm');
+      $fur_name = $tinctureTypeNode->getAttribute('keyterm');
       $fur_data = makeFur( $fur_name );
       // If what we are placing is inverted, we also invert the fill so it appears the "right way up"
       // Don't need to do reversed as all furs are symmetrical
@@ -161,15 +162,15 @@ function apply_tincture ($tincture, $object, $chg_size = '',
          $fur_data['width'] . '" height="' . $fur_data['height'] . '"',
          '<g class="fur">' . $fur_data['body'] . '</g>' );
       $retval = add_def();
-      $stroke = ($object_type == 'ordinary') ? 'stroke="' . rgb('sable') . '" stroke-width="5"' : '';
-      $retval .= '<g ' . $stroke . ' fill="url(#' . $patt_id . ')"  >' . $object . '</g>';
+      $stroke = ($targetType == 'ordinary') ? 'stroke="' . rgb('sable') . '" stroke-width="5"' : '';
+      $retval .= '<g ' . $stroke . ' fill="url(#' . $patt_id . ')"  >' . $targetSVG . '</g>';
       break;
     case 'treatment':
       // A bit messy, but we handle gradients as a fill, not a pattern fill (could make this its own node type really?)
-      if (substr($child->getAttribute("keyterm"), 0, 5) == 'grady') {
-        $patt_id = makeGrady( $child );
+      if (substr($tinctureTypeNode->getAttribute("keyterm"), 0, 5) == 'grady') {
+        $patt_id = makeGrady( $tinctureTypeNode );
       } else {
-        $treat_data = makeTreatment( $child );
+        $treat_data = makeTreatment( $tinctureTypeNode );
         // If what we are placing is inverted, we also invert the fill so it appears the "right way up"
         // Don't need to do reversed as all treatments are symmetrical
         if ( $inv ) $treat_data['width'] = "<g transform=\"translate(0,{$treat_data['height']}) scale(1,-1)\">{$treat_data['body']}</g>";
@@ -179,10 +180,10 @@ function apply_tincture ($tincture, $object, $chg_size = '',
           '<g class="treatment">' . $treat_data['body'] . '</g>' );
       }
       $retval = add_def();
-      $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $object . '</g>';
+      $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $targetSVG . '</g>';
       break;
     case 'semyde':
-      $treat_data = makeSemy( $child );
+      $treat_data = makeSemy( $tinctureTypeNode );
       // If what we are placing is inverted, we also invert the fill so it appears the "right way up"
       if ( $inv ) $treat_data['body'] = "<g transform=\"translate(0,{$treat_data['height']}) scale(1,-1)\">{$treat_data['body']}</g>";
       if ( $rev ) $treat_data['body'] = "<g transform=\"translate({$treat_data['width']},0) scale(-1,1)\">{$treat_data['body']}</g>";
@@ -191,92 +192,75 @@ function apply_tincture ($tincture, $object, $chg_size = '',
          $treat_data['width'] . '" height="' . $treat_data['height'] . '"',
          $treat_data['body'] );
       $retval = add_def();
-      $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $object . '</g>';
+      $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $targetSVG . '</g>';
       break;
     case 'division': 
-		  $title = '<title>' . $child->getAttribute('keyterm') . '</title>';
+		  $title = '<title>' . $tinctureTypeNode->getAttribute('keyterm') . '</title>';
 	    // What we do depends on what we are filling...
-      switch ($object_type) {
+      switch ($targetType) {
         case 'division':
-            $new_div = makeDivision( $child );
+            $new_div = makeDivision( $tinctureTypeNode );
             $mask_id = add_def ( 'mask width="1200" height="1400" maskUnits="userSpaceOnUse"',
-              $title . "<desc>Division used to fill $objectKeyterm</desc>" .
-              '<g fill="white">' . $object . '</g>' );
+              $title . "<desc>Division used to fill $targetKeyterm</desc>" .
+              '<g fill="white">' . $targetSVG . '</g>' );
           $retval = add_def();
           $retval .= '<g mask="url(#' . $mask_id . ')"  >' . $new_div . '</g>';
           break;
         case 'field': // just the field of the shield
-				  $retval = '<g>' . $title . '<desc>Division used to fill field</desc>' . makeDivision( $child ) . '</g>';
+				  $retval = '<g>' . $title . '<desc>Division used to fill field</desc>' . makeDivision( $tinctureTypeNode ) . '</g>';
 			  	break;
         case 'ordinary':
-          if ($objectKeyterm == 'plain-cross' || $objectKeyterm == 'bend') {
-            $new_div = makeDivision( $child );
+          if ($targetKeyterm == 'plain-cross' || $targetKeyterm == 'bend') {
+            $new_div = makeDivision( $tinctureTypeNode );
              $mask_id = add_def ( 'mask width="1200" height="1400" maskUnits="userSpaceOnUse"',
-                $title . "<desc>Division used to fill $objectKeyterm</desc>" .
-                '<g fill="white">' . $object . '</g>' );
+                $title . "<desc>Division used to fill $targetKeyterm</desc>" .
+                '<g fill="white">' . $targetSVG . '</g>' );
             $retval = add_def();
             $retval .= '<g mask="url(#' . $mask_id . ')"  >' . $new_div . '</g>';
             break;
           } // else flow through
         case 'charge':
 				  chief('push','NC');
-          $new_div = makeDivision( $child );
+          $new_div = makeDivision( $tinctureTypeNode );
           chief('pop');
-					$height = get_div_height($child);
+					$height = get_div_height($tinctureTypeNode);
           $patt_id = add_def ( 'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 ' .   $height . '"',
-              $title . "<desc>Division used to fill $object_type</desc>" .
+              $title . "<desc>Division used to fill $targetType</desc>" .
                $new_div ); 
           $retval = add_def();
-          $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $object . '</g>';
+          $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $targetSVG . '</g>';
 				  break;
 			}
 			break;	
 	  case 'shield':
-	    $shield = makeshield( $child, '10:10' );
+	    $shield = makeshield( $tinctureTypeNode, '10:10' );
 	    $patt_id = add_def ( 'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 1000"',
-              "<desc>Shield used to fill $object_type</desc>" .
+              "<desc>Shield used to fill $targetType</desc>" .
                $shield ); 
       $retval = add_def();
-      $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $object . '</g>';
+      $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $targetSVG . '</g>';
       break;
     case 'counterchanged': // Never change anything, just fill with this pattern
-      if ( $object_type == 'division') {
-        if ($tincture->parentNode->parentNode->nodeName == 'division') {
-          $counterDiv = $object->parentNode->parentNode;
-        } else {
-          $messages->addMessage ('error','Counterchange not valid' );
-          return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $object . '</g>';
-        }
-      } else { // object is charge or ordinary
-        if ( $object_type == 'charge' ) {
-          $messages->addMessage ('alert','Browser bug may not render counterchanged charge correctly, try save file as PNG.' );
-        }
-        // Try to find a field division
-        $division = $xpath->query('preceding::field/tincture/division|ancestor::field/tincture/division',$tincture);
-        if ( !$division->length ) {
-          $messages->addMessage ('error','Counterchange requires two colour field' );
-          return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $object . '</g>';
-        }
-        $counterDiv = $division->item(($division->length)-1);
-      } 
-
-      $div_data = makeDivision( $counterDiv, true );
-      // if ($object_type == 'division') {
-      //   $me = $tincture->parentNode->getAttribute('ID');
-      //   if ($counterDiv->getAttribute('ID') == $me ||
-      //      ($object_type == 'division' && $tincture->parentNode->parentNode->nodeName != 'division') ) {
-      //     $messages->addMessage ('error','Counterchange not valid' );
-      //     return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $object . '</g>';
-      //   }
+      // if ( $targetType == 'charge' ) {
+      //   $messages->addMessage ('alert','Browser bug may not render counterchanged charge correctly, try save file as PNG.' );
       // }
-			// else go ahead
-
-
- 
-      $patt_id = add_def ( 'clipPath', $object );
-      $retval = add_def() . '<g clip-path="url(#' . $patt_id . ')"  >' . $div_data . '</g>';
-			if ( $object_type == 'charge' ) // add the outline and any shading
-			   $retval .= '<g style="fill:none;">' . $object . '</g>';
+      // Try to find a field division
+      $division = $xpath->query('preceding::field/tincture/division',$tinctureNode);
+      if ( !$division->length ) {
+        $messages->addMessage ('error','Counterchange requires two colour field' );
+        return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $targetSVG . '</g>';
+      }
+      $counterDiv = $division->item(($division->length)-1);
+      $div_data = makeDivision( $counterDiv, true );
+      if (true) {
+        $patt_id = add_def ( 'mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>' );
+        $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $div_data . '</g>';
+      } else {
+        $patt_id = add_def ( 'clipPath', $targetSVG );
+        $retval = add_def() . '<g clip-path="url(#' . $patt_id . ')"  >' . $div_data . '</g>';
+      }
+			if ( $targetType == 'charge' ) // add the outline and any shading
+			  $retval .= '<g style="fill:none;">' . $targetSVG . '</g>';
       break;
 			// END of switch
   }

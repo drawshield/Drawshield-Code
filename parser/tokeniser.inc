@@ -48,6 +48,14 @@ class tokeniser {
       if ($i + 1 < $end) {
         $lookAhead = $blazon[$i+1];
       }
+      if ($lineComment) { // shortcut, ignore all up to new line
+        if ($blazon[$i] == "\n") {
+          $lineNo += 1;
+          $lineComment = false;    
+        } 
+        $i++;
+        continue;
+      }
       switch ( $blazon[$i] ) {
         case "\n":
         case ' ':
@@ -61,10 +69,6 @@ class tokeniser {
           } // else ignore it
           if ($blazon[$i] == "\n") {
             $lineNo += 1;
-            if ($lineComment) {
-              $lineComment = false;
-              $comment = false;
-            }
           }
           break;
         case '{':
@@ -164,7 +168,6 @@ class tokeniser {
           }
           if ($lookAhead == '/') {
             $lineComment = true;
-            $comment = true;
             $i += 1;
           } elseif ($lookAhead == '*') {
             $comment = '*';
