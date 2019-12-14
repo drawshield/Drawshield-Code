@@ -87,7 +87,7 @@ function apply_tincture ($tincture, $object, $chg_size = '',
   $retval = '';
 
   if (is_null($tincture)) return $object; // Maybe an error? Sometimes get here from makeOrdinary()
-  if (!is_object($tincture) || is_null($tincture->parentNode) || !is_object($object) ) {
+  if (!is_object($tincture) || is_null($tincture->parentNode) ) {
     // error_log("bad tincture in " . $options['blazon']);
     return $object;
   }
@@ -241,7 +241,7 @@ function apply_tincture ($tincture, $object, $chg_size = '',
       break;
     case 'counterchanged': // Never change anything, just fill with this pattern
       if ( $object_type == 'division') {
-        if ($object->parentNode->parentNode->nodeName == 'division') {
+        if ($tincture->parentNode->parentNode->nodeName == 'division') {
           $counterDiv = $object->parentNode->parentNode;
         } else {
           $messages->addMessage ('error','Counterchange not valid' );
