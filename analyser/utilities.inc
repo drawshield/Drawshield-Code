@@ -246,8 +246,10 @@ function getRenderInfo(DOMElement $node, $match ) {
 
 function getFieldTincture(DOMElement $node) {
   do {
+    if (is_null($node) || !is_object($node) )
+      return null;
     $node = $node->parentNode;
-  } while ($node->nodeName != blazonML::E_PLAIN);
+  } while ($node->nodeName != blazonML::E_SIMPLE); 
   return getTinctureNode($node->firstChild);
 }
 

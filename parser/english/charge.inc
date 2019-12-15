@@ -459,6 +459,7 @@
       array ( 'sea dragons?', 'sealife/sea-dragon' ),
       array ( 'sea serpents?', 'sealife/sea-serpent' ),
       array ( 'sea wol(f|ves)', 'sealife/sea-wolf' ),
+      array ( 'seawol(f|ves)', 'sealife/sea-wolf' ),
       // helmets
       array ( '?knights helm(et)?s?', 'armour/helmet-knight' ),
       array ( 'morions?', 'armour/morion' ),
