@@ -87,6 +87,9 @@ function makeDivision( DOMElement $node, $counter = false ) {
   } else {
     $div3 = '';
   }
+  // Safety checks
+  if (!isset($tinctures[1])) $tinctures[1] = createColourNode('gray');
+  // if (!isset($tinctures[2])) $tinctures[2] = createColourNode('argent');
   // set the main colours
   if ($tinctures[1]->firstChild->nodeName == 'counterchanged') {
     $div1 = '';

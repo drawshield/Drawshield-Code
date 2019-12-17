@@ -119,14 +119,11 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
   // stage "raw" means leave charge colours as they are
   // if ( $targetType == 'charge' && array_key_exists('raw', $options)) return $targetSVG;
   $tinctureNode = resolveReference($tinctureNode);
-  if ( $tinctureNode === null || !$tinctureNode->hasChildNodes() ) {
-    if ($tinctureNode->getAttribute('origin') == 'pending' || $tinctureNode->getAttribute('origin') == 'missing') {
-      $messages->addMessage ('blazon','Gray substituted.' );
+  if ( $tinctureNode === null || !$tinctureNode->hasChildNodes() 
+      || $tinctureNode->getAttribute('origin') == 'pending' 
+      || $tinctureNode->getAttribute('origin') == 'missing') {
+      $messages->addMessage ('blazon','Missing colour, Gray substituted.' );
       $tinctureNode = createColourNode('gray','1');
-    } /* else {
-      $messages->addMessage('internal', 'Malformed tincture ID=' . $tinctureNode->getAttribute('ID'));
-      return '';
-    } */
   }
   $tinctureTypeNode = $tinctureNode->firstChild;
   $spec = false;
