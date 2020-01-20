@@ -23,9 +23,9 @@
           array ( 'cross(let|lets|es)? clech(y|e|ee)', 'quadrate/cross-cleche' ), 
           array ( 'cross(let|lets|es)? urd(y|e|ee)', 'quadrate/cross-cleche' ), 
           // TODO is the pattee version a separate cross?
-          array ( 'cross(es)? crosslet crossed ?patt(ee|y)', 'quadrate/cross-crosslet-crossed' ), 
+          array ( 'cross(es)? cross?lett? crossed ?patt(ee|y)', 'quadrate/cross-crosslet-crossed' ), 
           // TODO is recoursy a seprate cross?
-          array ( 'cross(es)? crosslets? ?recoursy', 'quadrate/cross-crosslet' ), 
+          array ( 'cross(es)? cross?lett?s? ?recoursy', 'quadrate/cross-crosslet' ), 
           array ( 'cross(let|lets|es)? florettys?', 'quadrate/cross-floretty' ), 
           array ( 'cross(let|lets|es)? (flory|fleuronny) of (nine|9) fusils?', 'quadrate/cross-flory-of-9-fusils' ), 
           array ( 'cross(let|lets|es)? (flory|fleuronny) of (one|1) lozenge', 'quadrate/cross-flory-lozenge' ), 
@@ -521,8 +521,8 @@
       array ( 'compass roses?', 'quadrate/compass-rose' ),
       array ( 'compass stars?', 'quadrate/compass-star' ),
       array ( 'novae?', 'quadrate/compass-rose' ),
-      array ( '?plain crosslets?', 'quadrate/crosslet' ),
-      array ( 'crosslets? formy', 'quadrate/cross-formy' ),
+      array ( '?plain cross?lett?s?', 'quadrate/crosslet' ),
+      array ( 'cross?lett?s? formy', 'quadrate/cross-formy' ),
       array ( 'saltorels?', 'quadrate/saltorel' ),
 
       // insect
