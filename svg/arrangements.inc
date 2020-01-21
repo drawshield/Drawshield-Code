@@ -158,11 +158,22 @@ function get_placement(DOMElement $item) {
       } else {
         $boundingBox = '50,50,900,' . ($options['flagHeight'] - 100);
       }
-    } elseif (in_array($options['shape'],array('circle','square', 'lozenge'))) {
+    } elseif (in_array($options['shape'],array('circle','square', 'lozenge', 'pauldron'))) {
       if ( existModifierWithKeyterm($item,'entire') ) {
         $boundingBox = '0,0,1000,1000';
       } else {
-        $boundingBox = $options['shape'] == 'square' ? '50,50,900,900' : '100,100,800,800';
+        switch ($options['shape']) {
+          case 'pauldron':
+            $boundingBox = '240,240,560,700';
+          break;
+          case 'lozenge':
+            $boundingBox = '100,100,800,800';
+          break;
+          case 'square':
+          default:
+            $boundingBox = '50,50,900,900';
+          break;
+        }
       }
     } else {
       $bounding_index = 0;
@@ -206,6 +217,8 @@ function get_placement(DOMElement $item) {
     if ( $placement == '' && $arr ) {
       switch ( $arr ) { // TODO add incross + insaltire with chief,
         case 'inannulo': $placement = inAnnulo($number); break;
+        case 'combattant': $placement = 'x/250,600,333,1000,0,0,1:750,600,,,0,0,0/x/266,333,333,400,0,0,1:734,333,,,0,0,0:266,900,,,0,0,1:734,900,,,0,0,0/x/260,220,320,240,,,1:740,220,320,240,,,0:260,550,320,240,,,1:740,550,320,240,,,0:260,880,320,240,,,1:740,880,320,240,,,0'; break;
+        //case 'facing-in': $placement = ($chief) ? '' : 'x/250,600,333,1000,0,0,1:750,600,,,0,0,0/x/266,333,333,400,0,0,1:734,333,,,0,0,0:266,900,,,0,0,1:734,900,,,0,0,0/x/260,220,320,240,,,1:740,220,320,240,,,0:260,550,320,240,,,1:740,550,320,240,,,0:260,880,320,240,,,1:740,880,320,240,,,0'; break;
         case 'facing-in': $placement = 'x/250,600,333,1000,0,0,1:750,600,,,0,0,0/x/266,333,333,400,0,0,1:734,333,,,0,0,0:266,900,,,0,0,1:734,900,,,0,0,0/x/260,220,320,240,,,1:740,220,320,240,,,0:260,550,320,240,,,1:740,550,320,240,,,0:260,880,320,240,,,1:740,880,320,240,,,0'; break;
         //case 'facing-in': $placement = ($chief) ? '' : 'x/250,600,333,1000,0,0,1:750,600,,,0,0,0/x/266,333,333,400,0,0,1:734,333,,,0,0,0:266,900,,,0,0,1:734,900,,,0,0,0/x/260,220,320,240,,,1:740,220,320,240,,,0:260,550,320,240,,,1:740,550,320,240,,,0:260,880,320,240,,,1:740,880,320,240,,,0'; break;
         case 'facing-out': $placement =  'x/250,600,333,1000,0,0,0:750,600,,,0,0,1/x/266,333,333,400,0,0,0:734,333,,,0,0,1:266,900,,,0,0,0:734,900,,,0,0,1/x/290,443,280,187:710,443,280,187,,,1:290,700,280,187,,,0:710,700,280,187,,,1:290,957,280,187,,,0:710,957,280,187,,,1'; break;
@@ -602,7 +615,7 @@ function calcPlace( $node, $aspect, $bb = '100,100,800,900'  ) {
   $number = getNumberOfCharges($node);
  // $number = $node->getAttribute('number');
   $conjoined = existModifierWithKeyterm($node,'conjoined');
-  $facing_in = existModifierWithKeyterm($node,'facing-in');
+  $facing_in = existModifierWithKeyterm($node,'facing-in') || existModifierWithKeyterm($node,'combattant');
   $facing_out = existModifierWithKeyterm($node,'facing-out');
   if ( $number > 64 ) return $number;
   elseif ( $number < 1 ) $number = 1;

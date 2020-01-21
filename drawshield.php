@@ -190,6 +190,7 @@ if (!is_null($blazonOptions)) {
 if ( $options['size'] < 100 ) $options['size'] = 100;
 // Synonyms for circle shape
 if (in_array($options['shape'],array('circular','round'))) $options['shape'] = 'circle';
+if ($options['shape'] == 'spauldron') $options['shape'] = 'pauldron';
 // Calculate actual flagHeight
 if ($options['shape'] == 'flag') {
   if ($ar != null) $options['aspectRatio'] = calculateAR($ar);

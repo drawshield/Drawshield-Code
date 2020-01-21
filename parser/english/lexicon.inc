@@ -828,8 +828,9 @@ class languageDB extends lexicon {
           array ( 'respecting each other',  'facing-in'  ),
           array ( 'respectant',  'facing-in'  ),
           array ( 'counter rampant',  'facing-in'  ),
-          array ( '(affrontt?ant|combatt?ant|aspectant)',  'facing-in'  ),
-          array ( 'confront(e|ing|y)',  'facing-in'  ),
+          array ( '(affrontt?ant|aspectant)',  'facing-in'  ),
+          array ( 'confront(e|ing|y)',  'combattant'  ),
+          array ( 'combatt?ant',  'combattant'  ),
           array ( '(addorsed|adosse|endorsed)',  'facing-out' ),
         ),
       self::SPECIFIER => array (
