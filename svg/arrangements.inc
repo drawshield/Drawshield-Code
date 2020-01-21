@@ -164,7 +164,7 @@ function get_placement(DOMElement $item) {
       } else {
         switch ($options['shape']) {
           case 'pauldron':
-            $boundingBox = '240,240,560,700';
+            $boundingBox = '245,305,530,580';
           break;
           case 'lozenge':
             $boundingBox = '100,100,800,800';
@@ -491,7 +491,7 @@ function get_placement(DOMElement $item) {
     // If we don't have a placement yet the default is just to arrange in wide rows
     if ( $placement == '' ) {
       // special case placements, put some charges in exact centre of cross
-      if (($group == "quadrate" || $group == 'geometric') && $number == 1) {
+      if (($options['shape'] != 'pauldron') && ($group == "quadrate" || $group == 'geometric') && $number == 1) {
         if ($chief) {
           $placement = '500,700,600,600';
         } else {
