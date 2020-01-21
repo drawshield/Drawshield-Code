@@ -43,6 +43,8 @@ function rgb($name) {
         }
         if ($options['shape'] == 'flag') {
           $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/flags.txt'));
+        } elseif ($options['shape'] == 'pauldron') {
+          $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/warhammer.txt'));
         }
         $loaded = true;
     }
