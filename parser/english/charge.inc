@@ -524,7 +524,10 @@
       array ( '?plain cross?lett?s?', 'quadrate/crosslet' ),
       array ( 'cross?lett?s? formy', 'quadrate/cross-formy' ),
       array ( 'saltorels?', 'quadrate/saltorel' ),
-
+      // Norse imagery
+      array ( 'odins? ravens?', 'norse/raven'),
+      array ( 'norse ravens?', 'norse/raven'),
+      array ( '?(norse|viking) long(ship|boat)s?', 'norse/longship'),
       // insect
       array ( 'snails?', 'insect/snail' ),
       array ( '(gad)?fl(ies|y)', 'insect/fly' ),
