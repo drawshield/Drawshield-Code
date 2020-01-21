@@ -912,7 +912,7 @@ class languageDB extends lexicon {
       );
       include "charge.inc";
       include "chargemod.inc";
-      if ($options['shape'] == 'flag') {
+      if ($options['shape'] == 'flag' || $options['shape'] == 'pauldron') {
         include "flag-colours.inc";
         $this->patterns[self::COLOUR] = array_merge($this->patterns[self::COLOUR],$flagColours);
 
