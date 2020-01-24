@@ -1,16 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 23.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg"    xmlns:dc="http://purl.org/dc/elements/1.1/"
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 1000 1000" style="enable-background:new 0 0 1000 1000;" xml:space="preserve"><metadata
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_2"
+   x="0px"
+   y="0px"
+   viewBox="0 0 817.34003 817.34003"
+   xml:space="preserve"
+   sodipodi:docname="elites-symbol.svg"
+   width="817.34003"
+   height="817.34003"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"><defs
+   id="defs10" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="451"
+   inkscape:window-height="434"
+   id="namedview8"
+   showgrid="false"
+   inkscape:zoom="0.236"
+   inkscape:cx="398.34"
+   inkscape:cy="396.28"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Layer_2" /><metadata
    id="metadata97"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata>
-<g style="fill:#ff0000">
-<path d="M825.46,194.75v50.11h-35.63v83.02l-78.28,36.24c-19.44-31.61-46.12-58.29-77.73-77.73l36.24-78.28h83.02v-35.63h50.11
-	V78.94H217.47v93.54h50.11v35.63h83.02l36.24,78.28c-31.61,19.44-58.29,46.12-77.73,77.73l-78.28-36.24v-83.02H195.2v-50.11h-93.54
-	v585.72h93.54v-50.11h35.63v-83.02l78.28-36.24c19.44,31.61,46.12,58.29,77.73,77.73l-36.24,78.28h-83.02v35.63h-50.11v93.54h585.72
-	v-93.54h-50.11v-35.63h-83.02l-36.24-78.28c31.61-19.44,58.29-46.12,77.73-77.73l78.28,36.24v83.02h35.63v50.11H919V194.75H825.46z"
-	/>
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata>
+<g
+   style="fill:#ff0000"
+   id="g5"
+   transform="translate(-101.66,-78.94)">
+<path
+   d="m 825.46,194.75 v 50.11 h -35.63 v 83.02 l -78.28,36.24 c -19.44,-31.61 -46.12,-58.29 -77.73,-77.73 l 36.24,-78.28 h 83.02 v -35.63 h 50.11 V 78.94 H 217.47 v 93.54 h 50.11 v 35.63 h 83.02 l 36.24,78.28 c -31.61,19.44 -58.29,46.12 -77.73,77.73 L 230.83,327.88 V 244.86 H 195.2 v -50.11 h -93.54 v 585.72 h 93.54 v -50.11 h 35.63 v -83.02 l 78.28,-36.24 c 19.44,31.61 46.12,58.29 77.73,77.73 l -36.24,78.28 h -83.02 v 35.63 h -50.11 v 93.54 h 585.72 v -93.54 h -50.11 v -35.63 h -83.02 l -36.24,-78.28 c 31.61,-19.44 58.29,-46.12 77.73,-77.73 l 78.28,36.24 v 83.02 h 35.63 v 50.11 H 919 V 194.75 Z"
+   id="path3"
+   inkscape:connector-curvature="0" />
 </g></svg>

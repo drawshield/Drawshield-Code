@@ -1,30 +1,80 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 21.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg"    xmlns:dc="http://purl.org/dc/elements/1.1/"
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 1000 1000" style="enable-background:new 0 0 1000 1000;" xml:space="preserve"><metadata
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 409.32263 879.22107"
+   xml:space="preserve"
+   id="svg13"
+   sodipodi:docname="iron-hands-symbol.svg"
+   width="409.32263"
+   height="879.22107"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"><defs
+   id="defs17" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="640"
+   inkscape:window-height="480"
+   id="namedview15"
+   showgrid="false"
+   inkscape:zoom="0.236"
+   inkscape:cx="231.05437"
+   inkscape:cy="479.92106"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="svg13" /><metadata
    id="metadata97"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
          rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata>
-<g style="fill:#ff0000">
-<style type="text/css">
+<g
+   style="fill:#ff0000"
+   id="g11"
+   transform="translate(-268.94563,-100.7)">
+<style
+   type="text/css"
+   id="style3">
 	.st0{display:none;}
 	.st1{stroke:#000000;stroke-miterlimit:10;}
 </style>
-<g id="Layer_1" class="st0">
+<g
+   id="Layer_1"
+   class="st0"
+   style="display:none">
 	
-		<image style="display:inline;overflow:visible;" width="310" height="239" xlink:href="Iron_Hands_Livery.jpg"  transform="matrix(3.0812 0 0 3.0812 8.633 196.7039)">
+		<image
+   sodipodi:absref="/home/karl/Nextcloud/draw-code/include/svg/charges/warhammer/Iron_Hands_Livery.jpg"
+   xlink:href="Iron_Hands_Livery.jpg"
+   id="image5"
+   transform="matrix(3.0812,0,0,3.0812,8.633,196.7039)"
+   height="239"
+   width="310"
+   style="display:inline;overflow:visible">
 	</image>
 </g>
-<g id="Layer_2">
-	<path class="st1" d="M473.6,979.3L304.3,856.7l57.3-119.9l-68-8v-6.7l75.9-12v-10.7l-41.7-74.1c-1.1-2.1-0.5-4.6,1.3-6l13.8-7.8
-		l-52.7-160.1l12.8-7.8l-29.3-123.9l8-5.3l-12.2-66.7l4.2-2.5l-3.4-42.1l23.3-12.7l9.7,48.3l8.1,0.6l9.5,64.4l11.8-0.5L359,401
-		l-10.7-122.6l9.3-1.3l-8-78.6h8l1.3-62.6l25.3-4l6.7,66.6l8,1.3l2.7,70.6h8l17.3,93.3l2.7-119.9h9.3l-2.7-82.6h6.7l6.7-60h28.8
-		l1.8,56h7.6l-0.9,86.3l9.7,0.3v154.6l13-126.6l10.2,1.3v-86.6l8.7-0.3l2.5-61.8l28,3.5l3.7,59.1l5.3,2.2l2.8,85.6l7.9,2.7
-		L572.2,409c0,0,14.7,5.3,14.7,25.3s36-69.3,36-69.3v-56c0,0,16-28,25.3-25.3c9.3,2.7,18.7,81.3,18.7,81.3s8,0,10.7,9.3
-		c2.7,9.3-30.6,90.6-30.6,90.6s4,4,1.3,17.3s-46.6,125.3-46.6,125.3s20,5.3,21.3,14.7c1.3,9.3-41.3,78.6-41.3,78.6l70.6,17.3v10.7
-		l-69.9,10.8l56.6,115.7L473.6,979.3z"/>
+<g
+   id="Layer_2">
+	<path
+   class="st1"
+   d="m 473.6,979.3 -169.3,-122.6 57.3,-119.9 -68,-8 v -6.7 l 75.9,-12 v -10.7 l -41.7,-74.1 c -1.1,-2.1 -0.5,-4.6 1.3,-6 l 13.8,-7.8 -52.7,-160.1 12.8,-7.8 -29.3,-123.9 8,-5.3 -12.2,-66.7 4.2,-2.5 -3.4,-42.1 23.3,-12.7 9.7,48.3 8.1,0.6 9.5,64.4 11.8,-0.5 26.3,97.8 -10.7,-122.6 9.3,-1.3 -8,-78.6 h 8 l 1.3,-62.6 25.3,-4 6.7,66.6 8,1.3 2.7,70.6 h 8 l 17.3,93.3 2.7,-119.9 h 9.3 l -2.7,-82.6 h 6.7 l 6.7,-60 h 28.8 l 1.8,56 h 7.6 l -0.9,86.3 9.7,0.3 v 154.6 l 13,-126.6 10.2,1.3 v -86.6 l 8.7,-0.3 2.5,-61.8 28,3.5 3.7,59.1 5.3,2.2 2.8,85.6 7.9,2.7 -6.5,131.5 c 0,0 14.7,5.3 14.7,25.3 0,20 36,-69.3 36,-69.3 v -56 c 0,0 16,-28 25.3,-25.3 9.3,2.7 18.7,81.3 18.7,81.3 0,0 8,0 10.7,9.3 2.7,9.3 -30.6,90.6 -30.6,90.6 0,0 4,4 1.3,17.3 -2.7,13.3 -46.6,125.3 -46.6,125.3 0,0 20,5.3 21.3,14.7 1.3,9.3 -41.3,78.6 -41.3,78.6 l 70.6,17.3 v 10.7 l -69.9,10.8 56.6,115.7 z"
+   id="path8"
+   inkscape:connector-curvature="0"
+   style="stroke:#000000;stroke-miterlimit:10" />
 </g>
 </g></svg>

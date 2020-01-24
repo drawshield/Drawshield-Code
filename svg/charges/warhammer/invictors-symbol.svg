@@ -1,24 +1,72 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 23.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_3" xmlns="http://www.w3.org/2000/svg"    xmlns:dc="http://purl.org/dc/elements/1.1/"
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 1000 1000" style="enable-background:new 0 0 1000 1000;" xml:space="preserve"><metadata
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_3"
+   x="0px"
+   y="0px"
+   viewBox="0 0 805.83002 927.98999"
+   xml:space="preserve"
+   sodipodi:docname="invictors-symbol.svg"
+   width="805.83002"
+   height="927.98999"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"><defs
+   id="defs20" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="640"
+   inkscape:window-height="480"
+   id="namedview18"
+   showgrid="false"
+   inkscape:zoom="0.236"
+   inkscape:cx="385"
+   inkscape:cy="483"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Layer_3" /><metadata
    id="metadata97"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
          rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata>
-<g style="fill:#ff0000">
-<g>
-	<path d="M655.84,307.2H380c18.74,30.26,45.88,58.3,86.69,82.75l3.94,535.91c11.89,21.48,26.56,41.22,47.29,57.14
-		c20.73-15.92,35.39-35.65,47.29-57.14l3.94-535.91C609.95,365.5,637.1,337.46,655.84,307.2z"/>
-	<path d="M502.16,157.46c-1.16,51.05,1.97,124.13-7.88,132.01h47.29c-9.85-7.88-6.72-80.96-7.88-132.01H502.16z"/>
-	<path d="M498.21,139.73h39.41c-1.97-5.91,25.61-31.52,25.61-57.14c-4.35-22.34-22.73-27.53-45.32-27.58
-		c-22.59,0.05-40.97,5.24-45.32,27.58C472.6,108.21,500.18,133.82,498.21,139.73z"/>
-	<path d="M337.64,334.79c0-81.22,54.01-149.81,128.07-171.85v-28.63c-24.82,6.32-47.84,17.15-68.17,31.54L255.61,87.51l78.93,149.64
-		c-4.91,9.14-9.17,18.68-12.68,28.58L115,330.85l204,64.22c4.67,15.36,11.07,29.97,18.99,43.59l-81.52,154.54l150.6-83.13
-		c9.83,6.17,20.2,11.57,31.04,16.04v-30.24C378.61,466.69,337.64,405.53,337.64,334.79z"/>
-	<path d="M716.83,395.22l204-64.22l-206.87-65.13c-3.51-9.9-7.77-19.44-12.68-28.58l78.93-149.64L638.3,166
-		c-20.32-14.39-43.34-25.21-68.17-31.54v28.63c74.06,22.04,128.07,90.64,128.07,171.85c0,70.74-40.98,131.91-100.48,161.08v30.24
-		c10.85-4.47,21.21-9.87,31.04-16.04l150.6,83.13l-81.52-154.54C705.76,425.19,712.16,410.58,716.83,395.22z"/>
+<g
+   style="fill:#ff0000"
+   id="g15"
+   transform="translate(-115,-55.01)">
+<g
+   id="g13">
+	<path
+   d="M 655.84,307.2 H 380 c 18.74,30.26 45.88,58.3 86.69,82.75 l 3.94,535.91 c 11.89,21.48 26.56,41.22 47.29,57.14 20.73,-15.92 35.39,-35.65 47.29,-57.14 l 3.94,-535.91 c 40.8,-24.45 67.95,-52.49 86.69,-82.75 z"
+   id="path3"
+   inkscape:connector-curvature="0" />
+	<path
+   d="m 502.16,157.46 c -1.16,51.05 1.97,124.13 -7.88,132.01 h 47.29 c -9.85,-7.88 -6.72,-80.96 -7.88,-132.01 z"
+   id="path5"
+   inkscape:connector-curvature="0" />
+	<path
+   d="m 498.21,139.73 h 39.41 c -1.97,-5.91 25.61,-31.52 25.61,-57.14 -4.35,-22.34 -22.73,-27.53 -45.32,-27.58 -22.59,0.05 -40.97,5.24 -45.32,27.58 0.01,25.62 27.59,51.23 25.62,57.14 z"
+   id="path7"
+   inkscape:connector-curvature="0" />
+	<path
+   d="m 337.64,334.79 c 0,-81.22 54.01,-149.81 128.07,-171.85 v -28.63 c -24.82,6.32 -47.84,17.15 -68.17,31.54 L 255.61,87.51 334.54,237.15 c -4.91,9.14 -9.17,18.68 -12.68,28.58 L 115,330.85 319,395.07 c 4.67,15.36 11.07,29.97 18.99,43.59 l -81.52,154.54 150.6,-83.13 c 9.83,6.17 20.2,11.57 31.04,16.04 V 495.87 C 378.61,466.69 337.64,405.53 337.64,334.79 Z"
+   id="path9"
+   inkscape:connector-curvature="0" />
+	<path
+   d="M 716.83,395.22 920.83,331 713.96,265.87 c -3.51,-9.9 -7.77,-19.44 -12.68,-28.58 L 780.21,87.65 638.3,166 c -20.32,-14.39 -43.34,-25.21 -68.17,-31.54 v 28.63 c 74.06,22.04 128.07,90.64 128.07,171.85 0,70.74 -40.98,131.91 -100.48,161.08 v 30.24 c 10.85,-4.47 21.21,-9.87 31.04,-16.04 l 150.6,83.13 -81.52,-154.54 c 7.92,-13.62 14.32,-28.23 18.99,-43.59 z"
+   id="path11"
+   inkscape:connector-curvature="0" />
 </g>
 </g></svg>

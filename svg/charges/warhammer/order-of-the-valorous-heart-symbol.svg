@@ -1,21 +1,72 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_3" xmlns="http://www.w3.org/2000/svg"    xmlns:dc="http://purl.org/dc/elements/1.1/"
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 1000 1000" style="enable-background:new 0 0 1000 1000;" xml:space="preserve"><metadata
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_3"
+   x="0px"
+   y="0px"
+   viewBox="0 0 975 965.09998"
+   xml:space="preserve"
+   sodipodi:docname="order-of-the-valorous-heart-symbol.svg"
+   width="975"
+   height="965.09998"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"><defs
+   id="defs20" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="640"
+   inkscape:window-height="480"
+   id="namedview18"
+   showgrid="false"
+   inkscape:zoom="0.236"
+   inkscape:cx="495"
+   inkscape:cy="489"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Layer_3" /><metadata
    id="metadata97"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
          rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata>
-<g style="fill:#ff0000">
-<g>
-	<path d="M671.9,297.7c-109.1-68.8-180.1,48-180.1,48s-71.3-116.9-180.4-48C122.2,416.9,470.4,734,493.5,734.6
-		C516.7,735.3,861.3,417,671.9,297.7z"/>
-	<path d="M491.9,328.7c32.2-45.8,84.2-70.6,145-58.2L738.4,23.9L491.9,151.5L245.3,23.9l101.6,246.5
-		C406.4,256.8,459.7,282.8,491.9,328.7z"/>
-	<path d="M493.1,747.4c-31-21.1-68.1-53.3-105.3-92.9L246.6,989l246.5-132.6L739.7,989L598.4,654.5
-		C561.2,694.1,524.1,726.4,493.1,747.4z"/>
-	<path d="M353.1,614.9c-26-34.7-52-60.7-75.6-109c-26.1-53-41.9-103.3-26-145L8.7,266.7l130.1,239.1L5,751.1L353.1,614.9z"/>
-	<path d="M733.5,357.2c15.9,41.6,0,91.9-26,145c-23.5,48.3-44.6,73.1-70.6,107.8L980,747.4L846.2,502.1L976.3,263L733.5,357.2z"/>
+<g
+   style="fill:#ff0000"
+   id="g15"
+   transform="translate(-5,-23.9)">
+<g
+   id="g13">
+	<path
+   d="m 671.9,297.7 c -109.1,-68.8 -180.1,48 -180.1,48 0,0 -71.3,-116.9 -180.4,-48 -189.2,119.2 159,436.3 182.1,436.9 23.2,0.7 367.8,-317.6 178.4,-436.9 z"
+   id="path3"
+   inkscape:connector-curvature="0" />
+	<path
+   d="m 491.9,328.7 c 32.2,-45.8 84.2,-70.6 145,-58.2 L 738.4,23.9 491.9,151.5 245.3,23.9 346.9,270.4 c 59.5,-13.6 112.8,12.4 145,58.3 z"
+   id="path5"
+   inkscape:connector-curvature="0" />
+	<path
+   d="M 493.1,747.4 C 462.1,726.3 425,694.1 387.8,654.5 L 246.6,989 493.1,856.4 739.7,989 598.4,654.5 c -37.2,39.6 -74.3,71.9 -105.3,92.9 z"
+   id="path7"
+   inkscape:connector-curvature="0" />
+	<path
+   d="m 353.1,614.9 c -26,-34.7 -52,-60.7 -75.6,-109 -26.1,-53 -41.9,-103.3 -26,-145 L 8.7,266.7 138.8,505.8 5,751.1 Z"
+   id="path9"
+   inkscape:connector-curvature="0" />
+	<path
+   d="m 733.5,357.2 c 15.9,41.6 0,91.9 -26,145 C 684,550.5 662.9,575.3 636.9,610 L 980,747.4 846.2,502.1 976.3,263 Z"
+   id="path11"
+   inkscape:connector-curvature="0" />
 </g>
 </g></svg>

@@ -1,17 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 24.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"    xmlns:dc="http://purl.org/dc/elements/1.1/"
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 1000 1000" style="enable-background:new 0 0 1000 1000;" xml:space="preserve"><metadata
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 777.72998 983.52002"
+   xml:space="preserve"
+   sodipodi:docname="steel-legion-symbol.svg"
+   width="777.72998"
+   height="983.52002"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"><defs
+   id="defs10" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="640"
+   inkscape:window-height="480"
+   id="namedview8"
+   showgrid="false"
+   inkscape:zoom="0.236"
+   inkscape:cx="388.85"
+   inkscape:cy="492"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Layer_1" /><metadata
    id="metadata97"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
          rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata>
-<g style="fill:#ff0000">
-<path class="st0" d="M596.91,121.81L613.63,8.48l-57.25,105.26c-18.49-2.75-37.18-4.13-56.47-4.13
-	c-214.65,0-388.76,174.12-388.76,388.76c0,181.4,124.14,333.68,292.16,376.57L385.81,992l59.22-109c18.1,2.56,36.4,3.93,55.09,3.93
-	c214.65,0,388.76-174.12,388.76-388.76C888.68,317.17,764.73,164.89,596.91,121.81z M179.03,498.37
-	c0-177.07,144.02-321.08,321.08-321.08c7.08,0,13.97,0.59,21.05,0.98L301.8,580.81l146.18-3.93l-34.63,230.39
-	C278.39,769.29,179.03,645.34,179.03,498.37z M552.45,423.02l34.43-233.53C721.84,227.46,821.2,351.41,821.2,498.37
-	c0,177.07-144.02,321.08-321.08,321.08c-6.89,0-13.58-0.59-20.26-0.98l218.19-401.75L552.45,423.02z"/>
+<g
+   style="fill:#ff0000"
+   id="g5"
+   transform="translate(-111.15,-8.48)">
+<path
+   class="st0"
+   d="M 596.91,121.81 613.63,8.48 556.38,113.74 c -18.49,-2.75 -37.18,-4.13 -56.47,-4.13 -214.65,0 -388.76,174.12 -388.76,388.76 0,181.4 124.14,333.68 292.16,376.57 L 385.81,992 445.03,883 c 18.1,2.56 36.4,3.93 55.09,3.93 214.65,0 388.76,-174.12 388.76,-388.76 -0.2,-181 -124.15,-333.28 -291.97,-376.36 z M 179.03,498.37 c 0,-177.07 144.02,-321.08 321.08,-321.08 7.08,0 13.97,0.59 21.05,0.98 L 301.8,580.81 447.98,576.88 413.35,807.27 C 278.39,769.29 179.03,645.34 179.03,498.37 Z m 373.42,-75.35 34.43,-233.53 c 134.96,37.97 234.32,161.92 234.32,308.88 0,177.07 -144.02,321.08 -321.08,321.08 -6.89,0 -13.58,-0.59 -20.26,-0.98 L 698.05,416.72 Z"
+   id="path3"
+   inkscape:connector-curvature="0" />
 </g></svg>

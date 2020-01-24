@@ -1,31 +1,80 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 23.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg"    xmlns:dc="http://purl.org/dc/elements/1.1/"
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 1000 1000" style="enable-background:new 0 0 1000 1000;" xml:space="preserve"><metadata
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 658.94 953.63"
+   xml:space="preserve"
+   id="svg15"
+   sodipodi:docname="avatater-of-khaine-symbol.svg"
+   width="658.94"
+   height="953.63"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"><defs
+   id="defs19" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="451"
+   inkscape:window-height="434"
+   id="namedview17"
+   showgrid="false"
+   inkscape:zoom="0.236"
+   inkscape:cx="327"
+   inkscape:cy="471"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="svg15" /><metadata
    id="metadata97"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata>
-<g style="fill:#ff0000">
-<style type="text/css">
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata>
+<g
+   style="fill:#ff0000"
+   id="g13"
+   transform="translate(-173,-17.37)">
+<style
+   type="text/css"
+   id="style3">
 	.st0{display:none;}
 </style>
-<g id="Layer_1" class="st0">
+<g
+   id="Layer_1"
+   class="st0"
+   style="display:none">
 	
-		<image style="display:inline;overflow:visible;" width="201" height="219" xlink:href="../Documents/Bakadesign/Projects/Warhammer 40.000 icons/To Do/Avatater of Khaine.jpg"  transform="matrix(3.9348 0 0 3.9348 100 84)">
+		<image
+   sodipodi:absref="/home/karl/Nextcloud/draw-code/include/svg/charges/warhammer/../Documents/Bakadesign/Projects/Warhammer 40.000 icons/To Do/Avatater of Khaine.jpg"
+   xlink:href="../Documents/Bakadesign/Projects/Warhammer 40.000 icons/To Do/Avatater of Khaine.jpg"
+   id="image5"
+   transform="matrix(3.9348,0,0,3.9348,100,84)"
+   height="219"
+   width="201"
+   style="display:inline;overflow:visible">
 	</image>
 </g>
-<g id="Layer_2">
-	<g>
-		<path d="M831.94,462.57L722.46,300.68h61.42v-43H635.9l101.56,161.89H530.3v-30.35h158.1L580.28,222.26h156.81l-57.31-84.74h44.66
-			v-43H650.7l-23.09-34.15h141.1v-43H541.05L642.6,179.26h-90.17l-49.96-77.15l-49.96,77.15h-90.17L463.9,17.37H236.24v43h141.1
-			l-23.09,34.15H280.5v43h44.66l-57.31,84.74h156.81L316.55,389.21h158.1v30.35H267.48l101.56-161.89H221.06v43h61.42L173,462.57
-			h301.65v35.41H317.18v43h157.46v40.47H363.98v43h110.67l1.26,183.39c0,0,51.86-60.71,158.1-63.24
-			C782,750,783.25,914.09,626.42,922.94c-111.3-5.06-140.39-135.33-290.9-130.27c-137.86,3.79-161.89,169.48-161.89,169.48
-			c25.43-23.35,49.34-22.32,72.09-5.06c0,0,25.3-121.42,98.65-118.89c116.36,2.53,125.21,127.74,295.95,132.8
-			c43,0,150.51-10.12,150.51-136.59c-7.81-171.76-212.32-133.04-260.54-121.49v-88.46h110.67v-43H530.3v-40.47h157.46v-43H530.3
-			v-35.41H831.94z M400.02,346.21l102.45-158.2l102.45,158.2H400.02z"/>
+<g
+   id="Layer_2">
+	<g
+   id="g10">
+		<path
+   d="M 831.94,462.57 722.46,300.68 h 61.42 v -43 H 635.9 L 737.46,419.57 H 530.3 V 389.22 H 688.4 L 580.28,222.26 h 156.81 l -57.31,-84.74 h 44.66 v -43 H 650.7 L 627.61,60.37 h 141.1 v -43 H 541.05 L 642.6,179.26 h -90.17 l -49.96,-77.15 -49.96,77.15 H 362.34 L 463.9,17.37 H 236.24 v 43 h 141.1 L 354.25,94.52 H 280.5 v 43 h 44.66 l -57.31,84.74 H 424.66 L 316.55,389.21 h 158.1 v 30.35 H 267.48 L 369.04,257.67 H 221.06 v 43 h 61.42 L 173,462.57 h 301.65 v 35.41 H 317.18 v 43 h 157.46 v 40.47 H 363.98 v 43 h 110.67 l 1.26,183.39 c 0,0 51.86,-60.71 158.1,-63.24 C 782,750 783.25,914.09 626.42,922.94 515.12,917.88 486.03,787.61 335.52,792.67 197.66,796.46 173.63,962.15 173.63,962.15 c 25.43,-23.35 49.34,-22.32 72.09,-5.06 0,0 25.3,-121.42 98.65,-118.89 116.36,2.53 125.21,127.74 295.95,132.8 43,0 150.51,-10.12 150.51,-136.59 C 783.02,662.65 578.51,701.37 530.29,712.92 v -88.46 h 110.67 v -43 H 530.3 v -40.47 h 157.46 v -43 H 530.3 V 462.58 H 831.94 Z M 400.02,346.21 502.47,188.01 604.92,346.21 Z"
+   id="path8"
+   inkscape:connector-curvature="0" />
 	</g>
 </g>
 </g></svg>

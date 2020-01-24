@@ -1,17 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 24.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg"    xmlns:dc="http://purl.org/dc/elements/1.1/"
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 1000 1000" style="enable-background:new 0 0 1000 1000;" xml:space="preserve"><metadata
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_2"
+   x="0px"
+   y="0px"
+   viewBox="0 0 970 271"
+   xml:space="preserve"
+   sodipodi:docname="imperial-lasgun-symbol.svg"
+   width="970"
+   height="271"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"><defs
+   id="defs10" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="640"
+   inkscape:window-height="480"
+   id="namedview8"
+   showgrid="false"
+   inkscape:zoom="0.236"
+   inkscape:cx="481"
+   inkscape:cy="134"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Layer_2" /><metadata
    id="metadata97"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
          rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata>
-<g style="fill:#ff0000">
-<path d="M989,401H861v10h-30.39l0.39-15H690v-2h16v-15h-16v-10h-80l-10.82,10H417v-8h-6l-4,6h-55l-5-14h-69c0,0-4.89,7.65-10.36,16
-	H238v15h19.61c-0.5,0.72-0.97,1.39-1.41,2H206v20.81L187,418c-2,5-38.27,9.15-67,7l-11-23c-26,0-74,1-74-6H19
-	c0.67,50,1.33,100,2,150h19v-4h12c5.69-38.32,24.04-67.67,76-73l78-1.79V471h5v11c20.74,6.23,29.76,14.3,31,22c-3,51-21,25-24,91
-	c22.65,15.81,45.31,29.31,68,39l5-11l-17-20c3-36,8-73,31-78v-4h42l6,6.88V557h8v61h11v5h82v-5h4v-61h7v-46h313.8l3.2,5h7l3,6h36
-	c0,0,5.75-15.34,8.06-22H868c0.97-9,0.97-18,0-27h-22v-27h15v13h77l11.43-13H969c1.65-5.42,2.31-15.6,1.87-24.38L989,401z
-	 M353,492.14L342,511h-32l13-5v-2c-8-10-12-19,1.24-28H353V492.14z M580.8,396H478h-20h-41v-2h165.96L580.8,396z"/>
+<g
+   style="fill:#ff0000"
+   id="g5"
+   transform="translate(-19,-363)">
+<path
+   d="M 989,401 H 861 v 10 H 830.61 L 831,396 H 690 v -2 h 16 v -15 h -16 v -10 h -80 l -10.82,10 H 417 v -8 h -6 l -4,6 h -55 l -5,-14 h -69 c 0,0 -4.89,7.65 -10.36,16 H 238 v 15 h 19.61 c -0.5,0.72 -0.97,1.39 -1.41,2 H 206 v 20.81 L 187,418 c -2,5 -38.27,9.15 -67,7 l -11,-23 c -26,0 -74,1 -74,-6 H 19 c 0.67,50 1.33,100 2,150 h 19 v -4 h 12 c 5.69,-38.32 24.04,-67.67 76,-73 l 78,-1.79 V 471 h 5 v 11 c 20.74,6.23 29.76,14.3 31,22 -3,51 -21,25 -24,91 22.65,15.81 45.31,29.31 68,39 l 5,-11 -17,-20 c 3,-36 8,-73 31,-78 v -4 h 42 l 6,6.88 V 557 h 8 v 61 h 11 v 5 h 82 v -5 h 4 v -61 h 7 v -46 h 313.8 l 3.2,5 h 7 l 3,6 h 36 c 0,0 5.75,-15.34 8.06,-22 H 868 c 0.97,-9 0.97,-18 0,-27 h -22 v -27 h 15 v 13 h 77 l 11.43,-13 H 969 c 1.65,-5.42 2.31,-15.6 1.87,-24.38 z M 353,492.14 342,511 h -32 l 13,-5 v -2 c -8,-10 -12,-19 1.24,-28 H 353 Z M 580.8,396 H 478 458 417 v -2 h 165.96 z"
+   id="path3"
+   inkscape:connector-curvature="0" />
 </g></svg>

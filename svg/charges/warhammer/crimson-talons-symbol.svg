@@ -1,24 +1,76 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 23.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg"    xmlns:dc="http://purl.org/dc/elements/1.1/"
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 1000 1000" style="enable-background:new 0 0 1000 1000;" xml:space="preserve"><metadata
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_2"
+   x="0px"
+   y="0px"
+   viewBox="0 0 947.91742 890.02905"
+   xml:space="preserve"
+   sodipodi:docname="crimson-talons-symbol.svg"
+   width="947.91742"
+   height="890.02905"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"><defs
+   id="defs22" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="640"
+   inkscape:window-height="480"
+   id="namedview20"
+   showgrid="false"
+   inkscape:zoom="0.236"
+   inkscape:cx="471.92742"
+   inkscape:cy="422.98904"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Layer_2" /><metadata
    id="metadata97"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
          rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata>
-<g style="fill:#ff0000">
-<g>
-	<path d="M704.82,32.96c0,0-53.82,134.55-53.82,140.76l225.63,173.88l99.36-82.8L704.82,32.96z"/>
-	<path d="M547.5,237.9c14.49,37.26,41.4,60.03-16.56,132.48c-70.38,66.24-271.99-71.53-262.9-95.22l-51.75,140.76
-		c0,0,45.54,26.91,45.54,37.26c0,10.35-45.54,20.7-45.54,20.7l49.68,142.83c0,0,53.82-18.63,60.03-8.28
-		c6.21,10.35-8.28,43.47-8.28,43.47l113.85,101.43c6.21-70.38,89.01-124.2,169.74-113.85c33.12,18.63,8.28,72.45,8.28,84.87
-		l155.25,53.82c-8.1-74.92-8.6-146.23,0-213.21c0,0-55.89-39.33-28.98-82.8c16.56-6.21,91.08,6.21,91.08,6.21
-		c-2.22-2.62-32.61-39.64-18.63-82.8c7.5-23.16,23.99-36.38,31.05-41.4c-66.93-51.06-133.86-102.12-200.79-153.18
-		C626.16,233.76,582.69,246.18,547.5,237.9z"/>
-	<path d="M172.82,389.01l49.68-124.2C108.65,210.99-36.25,382.8,58.97,463.53C67.25,399.36,96.23,382.8,172.82,389.01z"/>
-	<path d="M170.75,745.06c-31.05-70.38,4.14-120.06,59.03-120.99l-52.56-123.01C40.34,548.41,27.92,745.06,170.75,745.06z"/>
-	<path d="M383.97,771.97l-84.24-65.56c-104.13,104.89-10.98,274.63,94.59,181.48C326.01,887.89,352.92,798.88,383.97,771.97z"/>
-	<path d="M501.96,821.65c14.49,155.25,187.83,115.14,221.49-6.21l-111.6-39.98C595.11,838.21,561.99,873.4,501.96,821.65z"/>
+<g
+   style="fill:#ff0000"
+   id="g17"
+   transform="translate(-28.072578,-32.96)">
+<g
+   id="g15">
+	<path
+   d="m 704.82,32.96 c 0,0 -53.82,134.55 -53.82,140.76 l 225.63,173.88 99.36,-82.8 z"
+   id="path3"
+   inkscape:connector-curvature="0" />
+	<path
+   d="m 547.5,237.9 c 14.49,37.26 41.4,60.03 -16.56,132.48 -70.38,66.24 -271.99,-71.53 -262.9,-95.22 l -51.75,140.76 c 0,0 45.54,26.91 45.54,37.26 0,10.35 -45.54,20.7 -45.54,20.7 l 49.68,142.83 c 0,0 53.82,-18.63 60.03,-8.28 6.21,10.35 -8.28,43.47 -8.28,43.47 l 113.85,101.43 c 6.21,-70.38 89.01,-124.2 169.74,-113.85 33.12,18.63 8.28,72.45 8.28,84.87 l 155.25,53.82 c -8.1,-74.92 -8.6,-146.23 0,-213.21 0,0 -55.89,-39.33 -28.98,-82.8 16.56,-6.21 91.08,6.21 91.08,6.21 -2.22,-2.62 -32.61,-39.64 -18.63,-82.8 7.5,-23.16 23.99,-36.38 31.05,-41.4 C 772.43,313.11 705.5,262.05 638.57,210.99 626.16,233.76 582.69,246.18 547.5,237.9 Z"
+   id="path5"
+   inkscape:connector-curvature="0" />
+	<path
+   d="M 172.82,389.01 222.5,264.81 C 108.65,210.99 -36.25,382.8 58.97,463.53 67.25,399.36 96.23,382.8 172.82,389.01 Z"
+   id="path7"
+   inkscape:connector-curvature="0" />
+	<path
+   d="M 170.75,745.06 C 139.7,674.68 174.89,625 229.78,624.07 L 177.22,501.06 c -136.88,47.35 -149.3,244 -6.47,244 z"
+   id="path9"
+   inkscape:connector-curvature="0" />
+	<path
+   d="m 383.97,771.97 -84.24,-65.56 c -104.13,104.89 -10.98,274.63 94.59,181.48 -68.31,0 -41.4,-89.01 -10.35,-115.92 z"
+   id="path11"
+   inkscape:connector-curvature="0" />
+	<path
+   d="m 501.96,821.65 c 14.49,155.25 187.83,115.14 221.49,-6.21 l -111.6,-39.98 c -16.74,62.75 -49.86,97.94 -109.89,46.19 z"
+   id="path13"
+   inkscape:connector-curvature="0" />
 </g>
 </g></svg>

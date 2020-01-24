@@ -1,28 +1,76 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 23.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg"    xmlns:dc="http://purl.org/dc/elements/1.1/"
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 1000 1000" style="enable-background:new 0 0 1000 1000;" xml:space="preserve"><metadata
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_2"
+   x="0px"
+   y="0px"
+   viewBox="0 0 936.27002 972.26001"
+   xml:space="preserve"
+   sodipodi:docname="centurio-ordinatus-symbol.svg"
+   width="936.27002"
+   height="972.26001"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"><defs
+   id="defs20" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="451"
+   inkscape:window-height="434"
+   id="namedview18"
+   showgrid="false"
+   inkscape:zoom="0.236"
+   inkscape:cx="461.63"
+   inkscape:cy="488"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Layer_2" /><metadata
    id="metadata97"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata>
-<g style="fill:#ff0000">
-<g>
-	<path d="M755.74,565.03c0,111.24-72.83,205.46-173.41,237.6c-22.33,26.13-48.77,46.52-74.07,46.52c-23.9,0-48.82-19.27-70.33-44.21
-		c-104.49-29.73-181.01-125.89-181.01-239.91c0-15.82,1.49-31.28,4.3-46.28H83.36v94.18h63.98c4.53,30.96,12.97,60.65,24.8,88.55
-		l-56.58,32.66L163.98,818l57.56-33.23c18.82,23.81,40.57,45.2,64.69,63.64l-33.75,58.46l83.85,48.41l33.99-58.87
-		c27.51,11.13,56.7,18.99,87.09,23.08V988h96.82v-68.37c30.4-4.01,59.61-11.78,87.15-22.83l34.06,59l83.85-48.41l-33.69-58.35
-		c24.18-18.37,45.98-39.7,64.87-63.45l57.69,33.31l48.41-83.85l-56.47-32.6c11.91-27.87,20.44-57.53,25.06-88.47h64.13v-95.2H751.44
-		C754.25,533.75,755.74,549.22,755.74,565.03z"/>
-	<path d="M163.07,346.48l30.7,24.73c-20.14,32.84-35.25,69.09-44.26,107.69h119.05c15.49-44.09,42.9-82.56,78.36-111.56v-64.56
-		h321.4v66.69c34.21,28.75,60.67,66.42,75.79,109.44h119.04c-8.99-38.53-24.07-74.71-44.14-107.5l30.93-24.92l20.57,50.14
-		l104.13-116.99l-86.14,43.71l-11.57-43.71l-93.19,43.49c-25.95-30.05-56.7-55.84-91.06-76.18l11.55-40.33l45.69,29.14l17.75-155.61
-		l-45.24,85.34L687.8,136.4l-48.47,84.57c-30.5-11.89-62.98-19.8-96.82-23.12l-9.52-40.75l54.1,3.21L526.83,15.74l2.03,96.57
-		l-44.4-8.53l-1.11,93c-38.49,2.38-75.37,10.71-109.74,24.07l-48.4-84.46l-34.63,29.07l-45.24-85.34l17.75,155.61l45.69-29.14
-		l11.5,40.16c-34.44,20.34-65.25,46.16-91.25,76.25l-92.95-43.38l-11.57,43.71l-86.14-43.71L142.5,396.62L163.07,346.48z"/>
-	<path d="M396.41,691.02c0,21.86,58.5,136.28,111.21,136.28s111.21-107.99,111.21-136.28V414.62H396.41V691.02z"/>
-	<rect x="396.41" y="369.62" width="222.41" height="33.43"/>
-	<rect x="364.91" y="318.19" width="285.41" height="39.85"/>
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata>
+<g
+   style="fill:#ff0000"
+   id="g15"
+   transform="translate(-38.37,-15.74)">
+<g
+   id="g13">
+	<path
+   d="m 755.74,565.03 c 0,111.24 -72.83,205.46 -173.41,237.6 -22.33,26.13 -48.77,46.52 -74.07,46.52 -23.9,0 -48.82,-19.27 -70.33,-44.21 C 333.44,775.21 256.92,679.05 256.92,565.03 c 0,-15.82 1.49,-31.28 4.3,-46.28 H 83.36 v 94.18 h 63.98 c 4.53,30.96 12.97,60.65 24.8,88.55 l -56.58,32.66 48.42,83.86 57.56,-33.23 c 18.82,23.81 40.57,45.2 64.69,63.64 l -33.75,58.46 83.85,48.41 33.99,-58.87 c 27.51,11.13 56.7,18.99 87.09,23.08 V 988 h 96.82 v -68.37 c 30.4,-4.01 59.61,-11.78 87.15,-22.83 l 34.06,59 83.85,-48.41 -33.69,-58.35 c 24.18,-18.37 45.98,-39.7 64.87,-63.45 l 57.69,33.31 48.41,-83.85 -56.47,-32.6 c 11.91,-27.87 20.44,-57.53 25.06,-88.47 h 64.13 v -95.2 H 751.44 c 2.81,14.97 4.3,30.44 4.3,46.25 z"
+   id="path3"
+   inkscape:connector-curvature="0" />
+	<path
+   d="m 163.07,346.48 30.7,24.73 c -20.14,32.84 -35.25,69.09 -44.26,107.69 h 119.05 c 15.49,-44.09 42.9,-82.56 78.36,-111.56 v -64.56 h 321.4 v 66.69 c 34.21,28.75 60.67,66.42 75.79,109.44 h 119.04 c -8.99,-38.53 -24.07,-74.71 -44.14,-107.5 l 30.93,-24.92 20.57,50.14 104.13,-116.99 -86.14,43.71 -11.57,-43.71 -93.19,43.49 c -25.95,-30.05 -56.7,-55.84 -91.06,-76.18 l 11.55,-40.33 45.69,29.14 17.75,-155.61 -45.24,85.34 -34.63,-29.09 -48.47,84.57 c -30.5,-11.89 -62.98,-19.8 -96.82,-23.12 l -9.52,-40.75 54.1,3.21 -60.26,-144.57 2.03,96.57 -44.4,-8.53 -1.11,93 c -38.49,2.38 -75.37,10.71 -109.74,24.07 l -48.4,-84.46 -34.63,29.07 -45.24,-85.34 17.75,155.61 45.69,-29.14 11.5,40.16 c -34.44,20.34 -65.25,46.16 -91.25,76.25 l -92.95,-43.38 -11.57,43.71 -86.14,-43.71 104.13,117 z"
+   id="path5"
+   inkscape:connector-curvature="0" />
+	<path
+   d="m 396.41,691.02 c 0,21.86 58.5,136.28 111.21,136.28 52.71,0 111.21,-107.99 111.21,-136.28 V 414.62 H 396.41 Z"
+   id="path7"
+   inkscape:connector-curvature="0" />
+	<rect
+   x="396.41"
+   y="369.62"
+   width="222.41"
+   height="33.43"
+   id="rect9" />
+	<rect
+   x="364.91"
+   y="318.19"
+   width="285.41"
+   height="39.849998"
+   id="rect11" />
 </g>
 </g></svg>

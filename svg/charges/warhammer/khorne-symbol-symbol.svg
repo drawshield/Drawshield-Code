@@ -1,16 +1,56 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 21.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg"    xmlns:dc="http://purl.org/dc/elements/1.1/"
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 772 865.5" style="enable-background:new 0 0 772 865.5;" xml:space="preserve"><metadata
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_2"
+   x="0px"
+   y="0px"
+   viewBox="0 0 772 865.5"
+   xml:space="preserve"
+   sodipodi:docname="khorne-symbol-symbol.svg"
+   width="772"
+   height="865.5"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"><defs
+   id="defs12" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="640"
+   inkscape:window-height="480"
+   id="namedview10"
+   showgrid="false"
+   inkscape:zoom="0.27267475"
+   inkscape:cx="386"
+   inkscape:cy="432.75"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Layer_2" /><metadata
    id="metadata97"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
          rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata>
-<g style="fill:#ff0000">
-<path d="M771.4,734.5V585.3l-0.4-0.4L639,432.2h132V274.6H519.8l101.1-117H771V0H489.4L382.5,123.8L279,0H0v157.6h144.7l101.1,117H0
-	v157.6h132L1.7,582.9l-1.7,0v151.6v27v104h100.8V761.8l66.6,0.2v103.4h100.8V762.3l66.6,0.2v102.9h100.8V762.9l66.6,0.2v102.4h100.8
-	V763.4l65.1,0.2v101.9H772l-0.7-101.6l0.1,0v-2.4l0.6-27H771.4z M237.6,583.7l145.9-161.5l150.7,162.4L237.6,583.7z"/>
-<path d="M534.2,584.6"/>
+<g
+   style="fill:#ff0000"
+   id="g7">
+<path
+   d="M 771.4,734.5 V 585.3 L 771,584.9 639,432.2 H 771 V 274.6 H 519.8 l 101.1,-117 H 771 V 0 H 489.4 L 382.5,123.8 279,0 H 0 v 157.6 h 144.7 l 101.1,117 H 0 V 432.2 H 132 L 1.7,582.9 H 0 v 151.6 27 104 H 100.8 V 761.8 l 66.6,0.2 V 865.4 H 268.2 V 762.3 l 66.6,0.2 V 865.4 H 435.6 V 762.9 l 66.6,0.2 V 865.5 H 603 V 763.4 l 65.1,0.2 V 865.5 H 772 l -0.7,-101.6 h 0.1 v -2.4 l 0.6,-27 z M 237.6,583.7 383.5,422.2 534.2,584.6 Z"
+   id="path3"
+   inkscape:connector-curvature="0" />
+<path
+   d="M 534.2,584.6"
+   id="path5"
+   inkscape:connector-curvature="0" />
 </g></svg>

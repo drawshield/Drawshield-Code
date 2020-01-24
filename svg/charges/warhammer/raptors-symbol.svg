@@ -1,20 +1,52 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" id="Layer_3" 
-	 xmlns="http://www.w3.org/2000/svg"    xmlns:dc="http://purl.org/dc/elements/1.1/"
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000"
-	 style="enable-background:new 0 0 1000 1000;" xml:space="preserve"><metadata
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_3"
+   x="0px"
+   y="0px"
+   viewBox="0 0 935.60638 736.57001"
+   xml:space="preserve"
+   sodipodi:docname="raptors-symbol.svg"
+   width="935.60638"
+   height="736.57001"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"><defs
+   id="defs10" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="640"
+   inkscape:window-height="480"
+   id="namedview8"
+   showgrid="false"
+   inkscape:zoom="0.236"
+   inkscape:cx="474.60641"
+   inkscape:cy="392"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Layer_3" /><metadata
    id="metadata97"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
          rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata>
-<g style="fill:#ff0000">
-		<path d="M961,675.82c-142.64,0-113.66-310.9-156.01-363.27c-51.26-80.23-81.35-70.2-81.35-82.46
-			c-1.11-20.06,21.17-46.8,60.17-74.66c-240.97,23.53-506.05,47.62-587.26,66.86c-13.92,10.94-19.87,24.84-20.06,40.12
-			C-15.16,314.77-6.25,412.83,101.84,481.92c-24.52-60.17,60.17-53.49,168.27-35.66c63.94,93.38,56.85,242.45-4.46,437.94
-			c52.51-18.9,100.69-48.01,147.09-73.55c77.85,37.9,155.87,75.57,257.41,81.35c-27-23.54-44.92-47.53-43.46-72.43
-			c51,33.72,113.59,59.07,195.01,25.63c-47.65-11.79-92.44-30.29-102.52-65.75c67.27,25.6,131.43,33.66,187.21-5.57
-			c-43.56-8.62-76.15-25.15-93.6-52.37C888.9,720.87,944.08,708.79,961,675.82z M259.27,305.05l-33.95-33.95
-			c-0.86-0.86-0.41-2.32,0.78-2.55l139.89-26.9c0.44-0.09,0.67,0.51,0.29,0.74l-102.77,63.16
-			C262.15,306.38,260.4,306.18,259.27,305.05z"/>
+<g
+   style="fill:#ff0000"
+   id="g5"
+   transform="translate(-25.393588,-155.43)">
+		<path
+   d="m 961,675.82 c -142.64,0 -113.66,-310.9 -156.01,-363.27 -51.26,-80.23 -81.35,-70.2 -81.35,-82.46 -1.11,-20.06 21.17,-46.8 60.17,-74.66 -240.97,23.53 -506.05,47.62 -587.26,66.86 -13.92,10.94 -19.87,24.84 -20.06,40.12 -191.65,52.36 -182.74,150.42 -74.65,219.51 -24.52,-60.17 60.17,-53.49 168.27,-35.66 63.94,93.38 56.85,242.45 -4.46,437.94 52.51,-18.9 100.69,-48.01 147.09,-73.55 77.85,37.9 155.87,75.57 257.41,81.35 -27,-23.54 -44.92,-47.53 -43.46,-72.43 51,33.72 113.59,59.07 195.01,25.63 -47.65,-11.79 -92.44,-30.29 -102.52,-65.75 67.27,25.6 131.43,33.66 187.21,-5.57 -43.56,-8.62 -76.15,-25.15 -93.6,-52.37 C 888.9,720.87 944.08,708.79 961,675.82 Z M 259.27,305.05 225.32,271.1 c -0.86,-0.86 -0.41,-2.32 0.78,-2.55 l 139.89,-26.9 c 0.44,-0.09 0.67,0.51 0.29,0.74 l -102.77,63.16 c -1.36,0.83 -3.11,0.63 -4.24,-0.5 z"
+   id="path3"
+   inkscape:connector-curvature="0" />
 
 </g></svg>

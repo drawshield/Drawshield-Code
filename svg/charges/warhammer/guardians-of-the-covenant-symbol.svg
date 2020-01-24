@@ -5,10 +5,36 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    viewBox="0 0 860 990"
    data-name="Layer 2"
-   id="Layer_2">
+   id="Layer_2"
+   sodipodi:docname="guardians-of-the-covenant-symbol.svg"
+   width="860"
+   height="990"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview6"
+     showgrid="false"
+     inkscape:zoom="0.23838384"
+     inkscape:cx="430"
+     inkscape:cy="495"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="Layer_2" />
   <metadata
      id="metadata11">
     <rdf:RDF>
@@ -31,5 +57,6 @@
   <path
      id="polygon4"
      d="M 812.51,156.41 860,0 718.22,81.35 l -3.1,71.2 -83.33,94.4 -19.15,-15.24 -5.94,-52.33 -78.09,8.87 8.87,78.09 52.32,-5.94 17.68,14.08 L 430,475.52 252.52,274.48 270.2,260.4 l 52.32,5.94 8.87,-78.09 -78.09,-8.87 -5.94,52.33 -19.15,15.24 -83.33,-94.4 -3.1,-71.2 L 0,0 l 47.49,156.41 68.69,18.99 73.31,102.37 -19.15,15.24 -52.32,-5.94 -8.87,78.1 78.1,8.86 5.94,-52.32 17.68,-14.08 L 375.39,537.39 169.99,770.05 71.92,990 264.27,845.11 430,613.66 595.73,845.11 788.09,990 690.01,770.05 484.62,537.39 649.13,307.63 l 17.69,14.08 5.94,52.32 78.09,-8.86 -8.87,-78.1 -52.32,5.94 -19.15,-15.24 73.31,-102.37 z"
-     style="fill:#ff0000" />
+     style="fill:#ff0000"
+     inkscape:connector-curvature="0" />
 </svg>
