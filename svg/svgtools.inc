@@ -225,13 +225,13 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
   }
   $viewbox = $svg['viewBox'] ?? '0 0 100 100';
   list($x0,$y0,$x1,$y1) = explode(' ',$viewbox);
-  $heightVal = $svg['height'];
+  $heightVal = $svg['height'] ?? $x1;
   if (substr($heightVal,-1) == '%') {
     $retval['height'] = ($y1 - $y0) * intval($heightVal) / 100;
   } else {
     $retval['height'] = floatval($heightVal);
   }
-  $widthVal = $svg['width'];
+  $widthVal = $svg['width'] ?? $y1;
   if (substr($widthVal,-1) == '%') {
     $retval['width'] = ($x1 - $x0) * intval($widthVal) / 100;
   } else {
