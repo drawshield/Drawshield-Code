@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" 
+	 xmlns="http://www.w3.org/2000/svg"    xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000"
+	 style="enable-background:new 0 0 1000 1000;" xml:space="preserve"><metadata
+   id="metadata97"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata>
+<g style="fill:#ff0000">
+			<g>
+				<path d="M532.71,373h113l-62.97-94.2c34.96-23.85,58.96-56.33,73.47-96.3h-42c5.76,41.27-13.17,64.96-44.06,77.47L522.71,189
+					l-47.44,70.97c-30.89-12.52-49.81-36.21-44.06-77.47h-42c14.51,39.96,38.51,72.44,73.47,96.3L399.71,373h113v30h-123.5v20h123.5
+					v26h-72.42v20h72.42v26h-39.42v20h39.42v84H513v37c0,0,50-56,78-56c27,0,38,23,38,33c1,58-161,149-184,181c-18,24-49,107-36,162
+					l41-61c0,0-7-55,23-101c9-15,179-125,179-185c0-37-40-51-60-51c-19.26,0-51.55,26.06-59.29,32.55V515h39.58v-20h-39.58v-26
+					h72.58v-20h-72.58v-26h123.5v-20h-123.5V373z M522.71,347h-77.54l77.54-116l77.54,116H522.71z"/>
+				<path d="M522.71,136l52.5,53l66-66.62l-66-63.38l-52.5,50.41L470.21,59l-66,63.38l66,66.62L522.71,136z M575.21,84l39,39l-39,41
+					l-39-41L575.21,84z M470.21,84l39,39l-39,41l-39-41L470.21,84z"/>
+			</g>
+
+</g></svg>
