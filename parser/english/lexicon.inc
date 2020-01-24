@@ -912,12 +912,9 @@ class languageDB extends lexicon {
       );
       include "charge.inc";
       include "chargemod.inc";
-      if ($options['shape'] == 'flag') {
-        include "flag-colours.inc";
-        $this->patterns[self::COLOUR] = array_merge($this->patterns[self::COLOUR],$flagColours);
-      } elseif ($options['shape'] == 'pauldron') {
-        include "warhammer-colours.inc";
-        $this->patterns[self::COLOUR] = array_merge($this->patterns[self::COLOUR],$warHammerColours);
-      }
+      include "web-colours.inc";
+      $this->patterns[self::COLOUR] = array_merge($this->patterns[self::COLOUR],$flagColours);
+      include "warhammer-colours.inc";
+      $this->patterns[self::COLOUR] = array_merge($this->patterns[self::COLOUR],$warHammerColours);
     }
   }

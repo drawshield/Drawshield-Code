@@ -28,4 +28,6 @@ $options = array(
   // These options can only be set here, or are set later by the program
   'logBlazon' => false,
   'notify' => false,
+  'useWebColours' => false,
+  'useWarhammerColours' => false,
 );

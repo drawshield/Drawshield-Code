@@ -25,10 +25,12 @@ function readTinctureFile($filename) {
     return $retval;
 }
 
-function rgb($name) {
+function rgb($keyterm) {
     global $options, $messages;
 
     static $loaded = false;
+    static $errorColours = array ('#eeeeee','#dddddd','#cccccc', '#bbbbbb', '#aaaaaa',
+                                  '#999999', '#888888', '#777777', '#666666', '#555555');
     static $tinctures = array ();
 
     if (!$loaded) {
@@ -41,20 +43,39 @@ function rgb($name) {
         } else {
             $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/' . $palette . '.txt'));
         }
-        if ($options['shape'] == 'flag') {
-          $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/flags.txt'));
-        } elseif ($options['shape'] == 'pauldron') {
+        if ($options['useWebColours'] == true || $options['shape'] == 'flag') {
+          $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/web.txt'));
+        }
+        if ($options['useWarhammerColours'] == true || $options['shape'] == 'pauldron') {
           $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/warhammer.txt'));
         }
         $loaded = true;
     }
 
+    if (!strpos($keyterm, '/')) {
+        $keyterm = 'heraldic/' . $keyterm;
+    }
+    list($type,$name) = explode('/',$keyterm);
+
     if (array_key_exists($name, $tinctures)) {
         return $tinctures[$name];
     } else {
-        $messages->addMessage('internal', "unknown colour - $name" );
+        switch($type) {
+          case 'heraldic': // should not happen
+            $messages->addMessage('internal', "unknown colour - $name" );
+          break;
+          case 'web':
+            $messages->addMessage('warning', "$name is not a heraldic colour, to use, enable web colours in preferences" );
+          break;
+          case 'wh':
+            $messages->addMessage('warning', "$name is not a heraldic colour, to use, enable warhammer colours in preferences" );
+          break;
+        }
     }
-    return '#ffffff';
+    if (count($errorColours)) 
+      return array_pop($errorColours);
+    else
+      return '#ffffff';
 
 }
 

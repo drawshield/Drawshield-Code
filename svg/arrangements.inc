@@ -164,7 +164,7 @@ function get_placement(DOMElement $item) {
       } else {
         switch ($options['shape']) {
           case 'pauldron':
-            $boundingBox = '245,305,530,580';
+            $boundingBox = '245,305,510,580';
           break;
           case 'lozenge':
             $boundingBox = '100,100,800,800';

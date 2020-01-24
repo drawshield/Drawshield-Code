@@ -22,6 +22,9 @@ class englishGrammar extends grammar {
       /**
        * @var DOMElement $node
        */
+      self::drawn(); // allow shapes etc. to be given first, if required
+      self::semicolon();
+      self::comma();
       $node = self::shield();
       self::semicolon();
       if ( ($overall = self::overall(true)) != null )
@@ -55,7 +58,6 @@ class englishGrammar extends grammar {
           self::ignore(languageDB::WITH);
         }
       } while ($found);
-      //self::drawn(); // get any options appended to the blazon
       // If last word is ignored, can't go further
       if ( $this->tokenList->words[$this->tokenList->num_tokens-1]{0} == '[')
         break;
