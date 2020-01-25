@@ -5,7 +5,7 @@ if ( existModifierWithKeyterm($node, 'nowy')) { // special handling for some lin
 } elseif ( existModifierWithKeyterm($node, 'quadrate')) { // special handling for some linetypes
   $ordinary['body'] = '<path d="m -243.73,411.73 v 199.97 h 415.45 v 200.02 h 200.01 v 528.58 h 199.97 v -528.58 h 200.01 v -200.01 h 484.59 v -199.97 h -484.59 v -200.01 h -200.01 v -415.45 h -199.97 v 415.45 h -200.01 v 200.01 z" />';
 } else {
-  $ordinary['shape_spec'] = array ( 'NC' => 'X-100Y350A450G450a300C450A450c300E450C650e300G650E450g300',
+  $ordinary['shape_spec'] = array ( 'NC' => 'X-100Y400A500G500a200C500A500c200E500C700e200G700E500g200',
                                   'CH' => 'X400Y200a200C400A500c200E500C500e200G500E500g200A500G400' );
 }
 
