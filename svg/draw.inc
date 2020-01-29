@@ -16,10 +16,7 @@ include "tinctures.inc";
 include "ordinary.inc";
 include "arrangements.inc";
 include "quartering.inc";
-if ($options['shape'] == 'flag')
-  include "flag.inc";
-else
-  include "shield.inc";
+include "shield.inc";
 include "shapes.inc";
 include "achievement.inc";
 include "pathtools.inc";
@@ -194,7 +191,7 @@ function draw() {
     foreach ( $blazonNode->childNodes as $node ) {
         switch ( $node->nodeName ) {
             case 'shield':
-              $body .= makeflag($node);
+              $body .= makeshield($node,'10:12');
               break;
               // other elements for future expansion
         }

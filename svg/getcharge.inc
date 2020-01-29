@@ -269,7 +269,7 @@ function makeSquareCharge(DOMElement $node ) {
 }
 
 function getCharge( DOMElement $node ) {
-  global $chg_data_cache, $messages;
+  global $chg_data_cache, $messages, $options;
 
   list($chargeGroup, $chargeName ) = explode('/',$node->getAttribute('keyterm'));
 
@@ -304,7 +304,10 @@ function getCharge( DOMElement $node ) {
     } else {
       $clipPath = getShape($shape);
       $clip = add_def( 'clipPath', '<path d="' . $clipPath . '" />' );
+      $savedShape = $options['shape'];
+      $options['shape'] = $shape;
       $body = '<g clip-path="url(#' . $clip . ')" >' . makeshield( $shield, '10:12' ) . "</g>\n";
+      $options['shape'] = $savedShape;
       $width = 1000;
       $height = 1200;
       // return $chg_data;

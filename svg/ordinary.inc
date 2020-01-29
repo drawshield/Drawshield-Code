@@ -150,7 +150,7 @@ function makeOrdinary( DOMElement &$node ) {
   } elseif ($options['shape'] == 'flag') {
     $feature_size = (int)($options['flagHeight'] * 0.05);
   } else {
-	  $feature_size = 50;
+	  $feature_size = 40;
   }
   /**
    * @var DOMElement $voided

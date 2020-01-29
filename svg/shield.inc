@@ -1,17 +1,4 @@
-<?php /* Copyright 2010 Karl R. Wilcox
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License. */
-
+<?php 
 // These are for scaling into quarters & dimidiations
 $aspect_ratio = '10:12';
 $scale_factor = 1.0;
@@ -109,8 +96,13 @@ function makePlain( &$children, $drawnAR = '10:12' ) {
     switch ( $kid->nodeName ) {
       case 'field':
         // Paint the field
-        if (!array_key_exists('raw', $options))
-          $retval .= apply_tincture ( $kid->firstChild, '<rect x="0" y="0" width="1000" height="1200" ><title>Field</title></rect>' , '1000,1200' );
+        if (!array_key_exists('raw', $options)) {
+          if ($options['shape'] == 'flag') {
+            $retval .= apply_tincture ( $kid->firstChild, '<rect x="0" y="0" width="1000" height="' . $options['flagHeight'] . '" ><title>Field</title></rect>' , '1000,' . $options['flagHeight'] );
+          } else {
+            $retval .= apply_tincture ( $kid->firstChild, '<rect x="0" y="0" width="1000" height="1200" ><title>Field</title></rect>' , '1000,1200' );
+          }
+        }
         break;
       case 'objects':
         // process ordinaries and charges
@@ -174,8 +166,13 @@ function makeimpaled( DOMNodeList $children, $this_AR ) {
 }
   
 function makedimidiated( $children, $this_AR ) {
-  global $messages;
+  global $messages, $options;
   $retval = '';
+
+  if ($options['shape'] == 'flag') {
+    $messages->addMessage('Dimidiated not supported for flags');
+    return $retval;
+  }
   
   switch ( $this_AR ) {
   case '10:12':
