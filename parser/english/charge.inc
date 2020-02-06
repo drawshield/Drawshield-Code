@@ -102,6 +102,7 @@
       array ( '?human (main|hand)s? clawed', 'human/hand-clawed' ),
       array ( '?human (main|hand)s? of benediction', 'human/hand-benediction' ),
       array ( '?human (mort|skull)s?', 'human/skull' ),
+      array ( '?human skeletons?', 'human/skeleton' ),
       array ( 'deaths heads?', 'human/skull' ),
       array ( '?human (jambe|gambe|leg)s?', 'human/leg' ),
       array ( '?human f(oo|ee)t', 'human/foot' ),
