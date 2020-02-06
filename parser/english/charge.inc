@@ -450,6 +450,8 @@
       array ( 'sea urchins?', 'sealife/urchin-sea' ),
       array ( 'sea tortoise?', 'sealife/sea-tortoise' ),
       array ( 'turtles?', 'sealife/turtle' ),
+      array ( 'sword fish(es)?', 'sealife/swordfish' ),
+      array ( 'swordfish(es)?', 'sealife/swordfish' ),
       // mythical sea life
       array ( 'sea dog?', 'sealife/sea-dog' ),
       array ( 'lions? poissons?', 'sealife/sea-lion' ),
