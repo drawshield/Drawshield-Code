@@ -443,7 +443,8 @@ class languageDB extends lexicon {
             array ( 'pommy',        'pommy',       true ),
             array ( 'torty',        'torty',       true ),
           ),
-        self::INVERSE => array ('reversed', 'inverted'),
+        self::INVERSE => array ('reversed', 'inverted',
+          array ( 'contourny', 'reversed',  ),),
         self::FUR => array (
           'ermine',   'erminois', 'erminites', 'pean', 'potent', 'vair',
           //array ( 'or ermined sa(ble)?', 'erminois',           ),                      
@@ -612,7 +613,7 @@ class languageDB extends lexicon {
             array( 'couple closes?', 'couple-close' ), 
             array( 'close couples?', 'couple-close' ), 
             array( 'closets?', 'closet' ),
-            array( '(baston|riband)', 'riband' ), 
+            array( '(baston|riband)s?', 'riband' ), 
             array( '[ie]ndorses?', 'endorse' ),
             array( 'humets?', 'humet' ),
             array( 'pall?ets?', 'palet' ),
