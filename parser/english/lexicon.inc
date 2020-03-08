@@ -138,6 +138,7 @@ class languageDB extends lexicon {
       // ),
       self::SPLITS => array (
         array ( 'impaled with', 'impaled' ),
+        array ( 'impaling', 'impaled' ),
         array ( 'dimidiated with', 'dimidiated' ),
       ),
       self::ONFIELDOF => array ( '?(on|upon) a (field|court) ?of' ),
