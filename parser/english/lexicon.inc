@@ -765,7 +765,7 @@ class languageDB extends lexicon {
           array ( 'bevill?y ?lower', 'bevilled' ),
           array ( 'dau?ncett(e|y) fl(o|eu)r(y|etty)', 'dancetty-floretty' ),
           array ( 'dau?ncett(e|y) ?the peaks ?ensigned ?with ?a fleur-de-lys', 'dancetty-floretty' ),
-          array ( 'dau?ncetty', 'dancetty' ),
+          array ( 'dau?ncett[ye]', 'dancetty' ),
           array ( 'double (en)?arched', 'double-arched' ),
           array ( '(en)?arched double', 'double-arched' ),
           array ( '(rayonated|radiant)', 'rayonny' ),

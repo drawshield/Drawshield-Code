@@ -453,7 +453,7 @@
       array ( 'sword fish(es)?', 'sealife/swordfish' ),
       array ( 'swordfish(es)?', 'sealife/swordfish' ),
       // mythical sea life
-      array ( 'sea dog?', 'sealife/sea-dog' ),
+      array ( 'sea dogs?', 'sealife/sea-dog' ),
       array ( 'lions? poissons?', 'sealife/sea-lion' ),
       array ( 'sea lions?', 'sealife/sea-lion' ),
       array ( 'sea horses?', 'sealife/sea-horse' ),
@@ -697,7 +697,7 @@
       array ( 'passion nails?', 'christian/passion-nail' ),
       // architecture
       array ( 'well frames?', 'architecture/well-frame'),
-      array ( 'portcullis?', 'architecture/portcullis' ),
+      array ( 'portcullis(es)?', 'architecture/portcullis' ),
       array ( '?door arch(es)?', 'architecture/arch' ),
       array ( 'cogwheels?', 'architecture/cogwheel' ),
       array ( '(cog|clock) wheels?', 'architecture/cogwheel' ),

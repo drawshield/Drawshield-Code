@@ -59,12 +59,13 @@ class tokeniser {
       switch ( $blazon[$i] ) {
         case "'": // like a space (unless in a string)
         case "`":
-          if ( $incAll )
+          if ( $incAll ) {
             $part_word .= "'";
-          elseif ( $part_word != '' ) {
-            if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
-            $part_word = '';
-          } // else ignore it
+          }
+          // elseif ( $part_word == '' ) {
+          //   if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
+            // $part_word = '';
+          // } // else ignore it
           break;
         case "\n":
         case ' ':
