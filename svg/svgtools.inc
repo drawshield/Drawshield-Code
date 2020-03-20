@@ -177,7 +177,9 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
   if ($id != null && substr($id, 0, 4) != 'path' && substr($id, 0, 5) != 'group') {
     // We allow multiple features with numeric flags at the end
     $len = strlen($id);
-    if ($id[$len-2] == '-' && ctype_digit($id[$len-1])) $id = substr($id, 0, $len - 2);
+    if ($len >= 2 && $id[$len-2] == '-' && ctype_digit($id[$len-1])) {
+      $id = substr($id, 0, $len - 2);
+    }
     if (array_key_exists($id, $featureColours)) { // this is a feature with a given colour
       $class = "feature $id";
       $item .= ' fill="' . $featureColours[$id] . '" ';
