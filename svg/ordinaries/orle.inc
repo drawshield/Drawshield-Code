@@ -49,7 +49,7 @@ if ( $tinc->hasChildNodes() and $tinc->firstChild->nodeName == 'fur' ) {
   if ( $orle_col != null ) {
     $node->replaceChild($orle_col,$tinc);
     $on = createModifierNode('wordon','on');
-    $chg = createChargeNode('symbol/ermine-spot',12);
+    $chg = createChargeNode('emblem/ermine-spot',12);
     $chg->appendChild($spot_col);
     $on->appendChild($chg);
     $node->appendChild($on);
