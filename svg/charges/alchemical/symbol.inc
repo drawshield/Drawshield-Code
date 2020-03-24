@@ -11,7 +11,7 @@
  * Time: 23:00
  */
 
-$item = getModifierValueByKeyterm($node,'value');
+$item = strtolower(getModifierValueByKeyterm($node,'value'));
 if ( file_exists( $folder . $item . '.svg'))
   $charge['file'] = "$item.svg";
 else {
