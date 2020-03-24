@@ -12,7 +12,9 @@
  */
 
 $item = getModifierValueByKeyterm($node,'value');
-if ( file_exists( $folder . '../alchemical/' . $item . '.svg')) {
+if ( $item == 'sulfur' ) {
+  $charge['file'] = '../alchemical/sulphur.svg';
+} elseif ( file_exists( $folder . '../alchemical/' . $item . '.svg')) {
   $charge['file'] = "../alchemical/$item.svg";
 } elseif ( file_exists( $folder . '../astronomical/' . $item . '.svg')) {
   $charge['file'] = "../astronomical/$item.svg";

@@ -12,9 +12,11 @@
  */
 
 $item = getModifierValueByKeyterm($node,'value');
-if ( file_exists( $folder . $item . '.svg'))
+if ( $item == 'sulfur' ) {
+  $charge['file'] = 'sulphur.svg';
+} elseif ( file_exists( $folder . $item . '.svg')) {
   $charge['file'] = "$item.svg";
-else {
+} else {
   $charge['file'] = "fire.svg";
   $messages->addMessage('warning',"No symbol for $item (using fire)");
 }
