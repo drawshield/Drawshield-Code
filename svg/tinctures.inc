@@ -193,7 +193,7 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
         $treat_data = makeTreatment( $tinctureTypeNode );
         // If what we are placing is inverted, we also invert the fill so it appears the "right way up"
         // Don't need to do reversed as all treatments are symmetrical
-        if ( $inv ) $treat_data['width'] = "<g transform=\"translate(0,{$treat_data['height']}) scale(1,-1)\">{$treat_data['body']}</g>";
+        if ( $inv ) $treat_data['body'] = "<g transform=\"translate(0,{$treat_data['height']}) scale(1,-1)\">{$treat_data['body']}</g>";
         $patt_id = add_def ( 'pattern ' . $patTrans .
           ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="0" y="0" width="' .
           $treat_data['width'] . '" height="' . $treat_data['height'] . '"',
