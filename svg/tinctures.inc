@@ -176,7 +176,7 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
       $fur_data = makeFur( $fur_name );
       // If what we are placing is inverted, we also invert the fill so it appears the "right way up"
       // Don't need to do reversed as all furs are symmetrical
-      if ( $inv ) $fur_data['body'] = "<g transform=\"translate(0,{$fur_data[1]}) scale(1,-1)\">{$fur_data['body']}</g>";
+      if ( $inv ) $fur_data['body'] = "<g transform=\"translate(0,{$fur_data['height']}) scale(1,-1)\">{$fur_data['body']}</g>";
       $patt_id = add_def ( 'pattern ' . $patTrans .
          ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="0" y="0" width="' .
          $fur_data['width'] . '" height="' . $fur_data['height'] . '"',
