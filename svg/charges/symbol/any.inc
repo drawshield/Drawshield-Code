@@ -16,6 +16,8 @@ if ( file_exists( $folder . '../alchemical/' . $item . '.svg')) {
   $charge['file'] = "../alchemical/$item.svg";
 } elseif ( file_exists( $folder . '../astronomical/' . $item . '.svg')) {
   $charge['file'] = "../astronomical/$item.svg";
+} elseif ( file_exists( $folder . '../zodiac/' . $item . '.svg')) {
+  $charge['file'] = "../zodiac/$item.svg";
 } else {
   $charge['file'] = "../alchemical/fire.svg";
   $messages->addMessage('warning',"No symbol for $item (using fire)");
