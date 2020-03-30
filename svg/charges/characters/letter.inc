@@ -17,7 +17,12 @@
 $charge['default_colour'] = 'sable';
 $value = getModifierValueByKeyterm ( $node, 'value' );
 $font = getModifierValueByKeyterm ( $node, 'font' );
-if (is_null($font) || !file_exists($folder . "fonts/" . $font . '.svg')) $font = "gothic";
+if (is_null($font)) {
+  $font = 'gothic';
+} else {
+  $font = strtolower($font);
+  if (!file_exists($folder . 'fonts/' . $font . '.svg')) $font = 'gothic';
+}
 $glyphs = simplexml_load_file($folder . "fonts/" . $font . '.svg' );
 $numChars = strlen($value);
 // set vertical flex quite high?
