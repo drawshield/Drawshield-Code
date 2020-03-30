@@ -7,4 +7,4 @@ foreach ( $node->childNodes as $child ) {
   }
 }
 
-$charge['file'] = 'bezant.svg';
+$charge['file'] = 'roundel.svg';
