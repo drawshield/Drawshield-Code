@@ -46,6 +46,7 @@
           array ( 'cross(es)? potent crossed', 'quadrate/cross-potent-crossed' ), 
           array ( 'cross(es)? poten(t|ce)', 'quadrate/cross-potent' ), 
           array ( 'cross(es)? of jerusalem', 'quadrate/cross-jerusalem' ), 
+          array ( 'cross(es)? ?of ?(saint|st) florian', 'quadrate/cross-florian' ), 
           array ( 'cross(let|lets|es)? recercell?e?(e|y)', 'quadrate/cross-recercele' ), 
           array ( 'cross(let|lets|es)? moline voided', 'quadrate/cross-recercele' ), 
           array ( 'cross(let|lets|es)? sarcell(ee|y)', 'quadrate/cross-sarcelly' ), 
@@ -62,6 +63,7 @@
    $this->patterns[languageDB::CHARGE] = array (
       // cross
       array ( 'calvary cross(es)?', 'cross/calvary' ),
+      array ( '?(saint|st) florian cross(es)?', 'cross/calvary' ),
       array ( 'greek cross(es)?', 'cross/greek' ),
       array ( 'coptic cross(es)?', 'quadrate/cross-coptic' ),
       array ( 'couped cross(es)?', 'cross/couped' ),
@@ -258,7 +260,7 @@
       array ( 'vols?', 'bird/wing-pair-2' ),
       array ( 'feathers?', 'bird/feather' ),
       array ( 'starlings?', 'bird/starling' ),
-      array ( 'larks?', 'bird/lark' ),
+      array ( '(sky)?larks?', 'bird/lark' ),
       array ( 'quails?', 'bird/quail' ),
       array ( 'bats?', 'bird/bat' ),
       array ( '(rere|flitter)(mouse|mice)', 'bird/bat' ),
@@ -480,6 +482,7 @@
       // armour
       array ( 'cou(te|diere)s?', 'armour/coute' ),
       array ( 'garde bras', 'armour/coute' ),
+      array ( 'mailed fists?', 'armour/mailed-fist' ),
       array ( 'chamfrons?', 'armour/chamfron' ),
       array ( '(cuirass|breastplat)e?s?', 'armour/cuirass' ),
       array ( '(coute|coudiere)s?', 'armour/coutes' ),
@@ -818,6 +821,7 @@
       array ( '?gem rings?', 'clothes/gem-ring' ),
       array ( 'gloves?', 'clothes/glove' ),
       array ( '(sleeve|mau?nche?)s?', 'clothes/maunche' ),
+      array ( '(phrygian|liberty) caps?', 'clothes/phrygian-cap' ),
       array ( '?mans garters?', 'clothes/garter' ),
       array ( '(purse|scrip)s?', 'clothes/purse' ),
       array ( 'bags?', 'clothes/bag' ),
