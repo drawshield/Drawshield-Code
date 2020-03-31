@@ -624,7 +624,7 @@ c
       $end = '-';
     }
 
-    $edges[] = compact('dir','dist','flag','start','end','doMirror');
+    $edges[] = compact('dir','dist', /* 'flag', */  'start','end','doMirror');
   }
   // We now have all the edge directions and lengths in an array, we calculate any
   // adjustments to the lengths to take account of how they meet (inner to outer or whatever)
