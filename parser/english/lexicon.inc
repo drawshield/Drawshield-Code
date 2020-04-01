@@ -357,13 +357,17 @@ class languageDB extends lexicon {
           'orange',
           // "de" names (for gouttes particularly)
           array ( 'd or', 'or'  ),
+          array ( 'dor', 'or' ),
           array ( 'd eau', 'argent'  ),
+          array ( 'deau', 'argent' ),
           array ( 'de larmes', 'azure'  ),
           array ( 'de sangu?e?', 'gules' ),
           array ( 'de vin', 'gules'   ),
           array ( 'de poix', 'sable'  ),
           array ( 'd huile',  'vert' ),
+          array ( 'dhuile', 'vert' ),
           array ( 'd olive',  'vert' ),
+          array ( 'dolive', 'vert' ),
           // obsolete names
           /* Start Comment obsolete names
            'amethyst', 'diamond', 'dragons head', 'dragons tail', 'emerald',

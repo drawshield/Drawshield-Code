@@ -113,6 +113,7 @@
       array ( 'askers?', 'human/asker' ),
       array ( 'locks? of ?* hair', 'human/hair' ),
       array ( '?(hu)?mans? beards?', 'human/beard' ),
+      array ( 'monks?', 'human/monk' ),
       // ship
       array ( 'lymphads?', 'ship/galley' ),
       array ( 'oars?', 'ship/oars' ),
