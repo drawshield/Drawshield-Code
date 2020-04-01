@@ -660,7 +660,7 @@ class languageDB extends lexicon {
             array( 'grafts?', 'graft' ),
             array( 'gussets?', 'gusset' ),
             array( 'gyrons?', 'gyron' ),
-            array( '?based e?s?quie?r?res?', 'gyron' ),
+            array( 'based e?s?quie?r?res?', 'gyron' ),
             array( 'inescut?cheon', 'inescutcheon' ),
             array( 'orle', 'orle' ),
             array( 'pall', 'pall' ),

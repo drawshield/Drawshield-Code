@@ -467,7 +467,10 @@
       array ( 'sea wol(f|ves)', 'sealife/sea-wolf' ),
       array ( 'seawol(f|ves)', 'sealife/sea-wolf' ),
       // helmets
-      array ( '?knights helm(et)?s?', 'armour/helmet-knight' ),
+      array ( '?knights helm(et)?s?', 'armour/helmet-knight' ), // default
+      array ( 'baronets? helm(et)?s?', 'armour/helmet-baronet' ),
+      array ( '(peer|lord)s? helm(et)?s?', 'armour/helmet-peer' ),
+      array ( '(monarchs|royal) helm(et)?s?', 'armour/helmet-royal' ),
       array ( 'morions?', 'armour/morion' ),
       array ( 'mail shirts?', 'armour/mail-shirt' ),
       array ( 'shirts? of mail', 'armour/mail-shirt' ),
@@ -476,7 +479,7 @@
       array ( 'caps? of steel', 'armour/morion' ),
       array ( 'bas([sc]i)?nets?', 'armour/morion' ),
       array ( 'heaumes?', 'armour/helmet-knight' ),
-      array ( 'esquires? helm(et)?s?', 'armour/helmet-esquire' ),
+      array ( '(esquire|gentlem[ea]n)s? helm(et)?s?', 'armour/helmet-esquire' ),
       array ( 'coif de mailles', 'armour/hood' ),
       array ( 'burgonett?e?s?', 'armour/burgonet' ),
       // armour
