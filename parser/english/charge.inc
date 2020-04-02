@@ -63,7 +63,7 @@
    $this->patterns[languageDB::CHARGE] = array (
       // cross
       array ( 'calvary cross(es)?', 'cross/calvary' ),
-      array ( '?(saint|st) florian cross(es)?', 'cross/calvary' ),
+      array ( '?(saint|st) florians? cross(es)?', 'quadrate/cross-florian' ),
       array ( 'greek cross(es)?', 'cross/greek' ),
       array ( 'coptic cross(es)?', 'quadrate/cross-coptic' ),
       array ( 'couped cross(es)?', 'cross/couped' ),
