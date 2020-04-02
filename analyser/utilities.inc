@@ -85,7 +85,10 @@ function getModifierByType(DOMElement $node, $type, $markUsed = true) { // Also 
      */
     foreach ( $node->childNodes as $child ) {
       if ( $child->nodeName === 'modifier' and $child->getAttribute('type') === $type ) {
-        if ( $markUsed ) setRenderInfo( $child, 'used' );
+        if ( $markUsed ) {
+          if (getRenderInfo($child, 'used')) continue;
+          /* else */ setRenderInfo( $child, 'used' );
+        }
         return (string)$child->getAttribute('keyterm');
       }
     }
@@ -230,7 +233,10 @@ function getNumberOfCharges(DOMElement $node) { // Find total number of charges,
 
 function setRenderInfo(DOMElement $node, $param, $value = null ) {
   // TODO what if it already exists?
-  $node->setAttribute('renderinfo', $node->getAttribute('renderinfo') . '&' . $param . '=' . ($value) ? urlencode($value) : '1');
+  $curValue = $node->getAttribute('renderinfo');
+  if ($curValue != "") $curValue .= '&';
+  $newValue = $curValue . $param . '=' . (($value) ? urlencode($value) : '1');
+  $node->setAttribute('renderinfo',  $newValue);
 }
 
 function getRenderInfo(DOMElement $node, $match ) {
