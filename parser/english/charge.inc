@@ -961,6 +961,8 @@
       array ( 'spools? ?of threads?', 'crafts/thread-spool' ),
       // household
       array ( 'bungs? ?of ?a ?tun', 'household/bung' ),
+      array ( 'fire steels?', 'household/fire-steel' ),
+      array ( 'furisons?', 'household/fire-steel' ),
       array ( 'spits? of meat', 'household/meat-spit' ),
       array ( 'meat spits?', 'household/meat-spit' ),
       array ( 'playing tops?', 'household/tops' ),
