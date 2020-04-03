@@ -1101,7 +1101,7 @@
       array ( 'knots?', 'knot/knot' ),
       array ( 'bourchier knots?', 'knot/bourchier' ),
       array ( 'harrington knots?', 'knot/harrington' ),
-      array ( 'he?ane?age knots?', 'knot/heneage-knot' ),
+      array ( 'hea?ne?age knots?', 'knot/heneage-knot' ),
       array ( 'ormonde knots?', 'knot/ormonde' ),
       array ( 'stafford knots?', 'knot/stafford-knot' ),
       array ( '(wake|ormond) knots?', 'knot/wake-knot' ),
