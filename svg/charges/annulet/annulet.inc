@@ -43,5 +43,5 @@ if ($modded && $of_num == '') {  // if of_num not present, num of charges become
   }
   $of_num = "-of$num";
 }
-
-$charge['file'] = "annulet$modded$of_num.svg";
+// only set the filename if we have found relevant modifiers
+if ($modded || $of_num) $charge['file'] = "annulet$modded$of_num.svg";
