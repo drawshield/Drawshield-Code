@@ -324,7 +324,7 @@ class languageDB extends lexicon {
         array ( '(64th|lxiv|lxiiii)', 64 ),
       ),
       self::SEMICOLON => array ( ':', ';', '\\.' ), // need to escape '.' as this is regex special character
-      self::COMMA => array ( ',' ),
+      self::COMMA => array ( ',', '\\.' ), // allow periods in more places
       self::WORD_OF => array ( 'of' ),
       self::WORD_ON => array ( 'on' ),
       self::WORD_IN => array ( 'in ?the' ),
@@ -722,6 +722,7 @@ class languageDB extends lexicon {
            array ( '(couped|humetty|alese) ?in base', 'couped-base' ), 
            array ( 'pointed', 'pointed' ),                   
            array ( 'fl(o|eu)ry counter fl(o|eu)ry', 'flory-counter-flory' ),
+           array ( 'fl(o|eu)ry counterfl(o|eu)ry', 'flory-counter-flory' ),
            array ( 'pointed ?in sinister', 'pointed-sinister' ),
            array ( 'pointed ?in dexter', 'pointed-dexter' ),
            array ( 'pointed ?in chief', 'pointed-chief' ),
