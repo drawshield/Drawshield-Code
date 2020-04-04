@@ -13,7 +13,7 @@
    limitations under the License. */
 
 
-if ( ($num_of = getModifierValueByKeyterm($node, 'ofnum', true)) == null ) $num_of = 8;
+if ( ($num_of = getModifierValueByKeyterm($node, 'ofnum', false)) == null ) $num_of = 8;
 
 $NC = '';
 $CH = '';

@@ -29,7 +29,7 @@ $g_data = array (
 );
 
 $allowed = array ( '6', '8', '10', '12', '14', '16' );
-$num_of = getModifierValueByKeyterm($node,'ofnum', true);
+$num_of = getModifierValueByKeyterm($node,'ofnum', false);
 if ( !in_array($num_of, $allowed) ) $num_of = '8';
 
 $chosenPath = choose_fit($g_data[('gyronny-of-' . $num_of)]);

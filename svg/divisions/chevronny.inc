@@ -12,7 +12,7 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-$num_of = getModifierValueByKeyterm($node, 'ofnum', true);
+$num_of = getModifierValueByKeyterm($node, 'ofnum', false);
 if ( $num_of < 1 ) $num_of = 8;
 // Each chevron is counted, not just the coloured ones
 $num = $num_of / 2;
