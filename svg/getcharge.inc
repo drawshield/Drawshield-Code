@@ -407,11 +407,23 @@ function getCharge( DOMElement $node ) {
       $node->removeChild($inscribe);
     }
 
+  $strokeCol = ($charge_col != null);
+  // special handling for fimbriated
+  if ( ($fimNode = getModifierNodeWithKeyterm($node, 'fimbriated')) != null ) {
+    if ($chargeGroup != 'geometric' && $chargeGroup != 'cross' && $chargeGroup != 'quadrate') {
+      $messages->addMessage('warning','Only geometric charges can be fimbriated');
+    } else {
+      $tincNode = getTinctureNode($fimNode);
+      $strokeCol = get_rgb($tincNode);
+    }
+  }
+
+
     //---------------------------------------------------------
     // So we now have $charge_col set to a valid tincture node and the feat_cols array set, apply this to the svg Data
     // dummy assignments
     $body = $height = $width = /* $licence = */ null;
-    extract(getSvgFragment($chg_data['svgCode'], $feat_cols, $chargeGroup, $chargeName, $extras, $charge_col != null ));
+    extract(getSvgFragment($chg_data['svgCode'], $feat_cols, $chargeGroup, $chargeName, $extras, $strokeCol ));
     // $body now contains a valid fragment of SVG, ready for use
     // Also, $licence, $height and $width are set
     //----------------------------------------------------------

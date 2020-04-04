@@ -42,9 +42,11 @@ $targetColours = array (
   '#0ff', '#f0f'
 );
 
-function splitStyle ( $styles, $attributeKeys ) {
+function splitStyle ( $styles, $attributeKeys, $strokeCol ) {
   global $targetColours, $options;
   $retval = '';
+  $strokeWidthDouble = false;
+
   $styles = explode(';', $styles . ';');
   foreach ($styles as $style) {
     if ( $style == null ) continue;
@@ -66,11 +68,21 @@ function splitStyle ( $styles, $attributeKeys ) {
         if ( $value != '1' ) $retval .= $setting . '="' . $value . '" ';
         break;
       case 'stroke-width':
+        if ($strokeCol !== true)
+          $value = $value * 2;
+        $retval .= $setting . '="' . $value . '" ';
+        break;
       case 'fill-rule':
         $retval .= $setting . '="' . $value . '" ';
         break;
       case 'stroke':
-        if ( $value == '#000000' ) $value = rgb('charge-stroke');
+        if ($value != 'none'){
+          if ($strokeCol === true) {
+            $value = rgb('charge-stroke');
+          } else {
+            $value = $strokeCol;
+          }
+        }
         $retval .= 'stroke="' . $value . '" ';
         break;
     }
@@ -79,11 +91,11 @@ function splitStyle ( $styles, $attributeKeys ) {
 }
 
 
-function rewriteAttributes($attributes, $class = '', $fillSet = false) {
+function rewriteAttributes($attributes, $strokeCol, $class = '', $fillSet = false) {
 //  global $messages;
   global $targetColours, $options;
   $retval = '';
-  // $myId = '';
+
   // Collect names of all the attributes
   $existingAttributes = array();
   foreach ($attributes as $key => $data ) {
@@ -100,7 +112,7 @@ function rewriteAttributes($attributes, $class = '', $fillSet = false) {
         $class .= " $data ";
         break;
       case 'style':
-        $retval .= splitStyle( $data, $existingAttributes);
+        $retval .= splitStyle( $data, $existingAttributes, $strokeCol);
         break;
       case 'href':
         $retval .= 'xlink:href="' . $data . '" ';
@@ -115,7 +127,13 @@ function rewriteAttributes($attributes, $class = '', $fillSet = false) {
         }
         break; // any other colour is left as it is
       case 'stroke':
-        if ( $data == '#000000' || $data == '#000' ) $data = rgb('charge-stroke');
+        if ($data != 'none'){
+          if ($strokeCol === true) {
+            $data = rgb('charge-stroke');
+          } else {
+            $data = $strokeCol;
+          }
+        }
         $retval .= ' stroke="' . $data . '" ';
         break;
       case 'transform':
@@ -123,6 +141,8 @@ function rewriteAttributes($attributes, $class = '', $fillSet = false) {
         $retval .= ' transform="' . $data . '" ';
         break;
       case 'stroke-width':
+        if ($strokeCol !== true)
+          $data = $data * 2;
         $retval .= ' stroke-width="' . $data . '" ';
        break; 
       default:
@@ -135,7 +155,7 @@ function rewriteAttributes($attributes, $class = '', $fillSet = false) {
   return $retval;
 }
 
-function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $chargeName, $extras) {
+function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $chargeName, $extras, $strokeCol) {
   $name = $element->getName();
   if ( in_array($name, array( 'metadata', 'defs', 'title' ) ))
     return null;
@@ -193,12 +213,12 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
       $fillSet = true;
     }
   }
-  $item .= rewriteAttributes($element->attributes(), $class, $fillSet);
+  $item .= rewriteAttributes($element->attributes(), $strokeCol, $class, $fillSet);
   $subitem = '';
   if ( $name == 'text' or $name == 'tspan' or $name == 'textPath' ) // We need the element content as well
     $subitem = htmlentities((string)$element);
   foreach( $element->children() as $child )
-      $subitem .= addChild($child,$featureColours, $chargeGroup, $chargeName, $extras);
+      $subitem .= addChild($child,$featureColours, $chargeGroup, $chargeName, $extras, $strokeCol);
   if ( $subitem != '') {
     $item .= ">$subitem</$name>\n";
   } else {
@@ -207,7 +227,8 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
   return $item;
 }
 
-function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName, $extras, $addStroke = true) {
+/* if $strokeCol is not set, use the default colour and normal stroke-width */
+function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol = true) {
   global $messages, $options;
   $retval = array();
 
@@ -259,11 +280,11 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
   }
   $fragment = '';
   foreach( $svg->children() as $child )
-    $fragment .= addChild($child, $featureTinctures, $chargeGroup, $chargeName, $extras);
+    $fragment .= addChild($child, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol);
   // Set the global stroke colour
-  if ($addStroke){
-    $fragment = '<g stroke="' . rgb('charge-stroke') . '">' . $fragment . '</g>';
-  }
+  // if ($addStroke){
+  //   $fragment = '<g stroke="' . $addStroke . '">' . $fragment . '</g>';
+  // }
   if ($offset) {
     $fragment = "<g transform=\"$offset\">$fragment</g>\n";
   }
