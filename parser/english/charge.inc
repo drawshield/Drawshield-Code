@@ -538,7 +538,9 @@
       // Norse imagery
       array ( 'odins? ravens?', 'norse/raven'),
       array ( 'norse ravens?', 'norse/raven'),
+      array ( '?celtic ar?wens?', 'norse/awen'),
       array ( '?(norse|viking) long(ship|boat)s?', 'norse/longship'),
+      array ( '?(norse|viking) vegvisirs?', 'norse/vegvisir'),
       // insect
       array ( 'snails?', 'insect/snail' ),
       array ( '(gad)?fl(ies|y)', 'insect/fly' ),
@@ -1112,6 +1114,8 @@
       array ( 'lovers? knots?', 'knot/lovers-knot' ),
       array ( '(trinity|trefoil)? knots?', 'knot/trinity-knot' ),
       array ( 'triquetras? ?knots?', 'knot/trinity-knot' ),
+      array ( 'carolingian knots?', 'knot/carolingian-knot' ),
+      array ( 'carolingian cross(es)?', 'knot/carolingian-knot' ),
       array ( 'quatrefoil? ?knots?', 'knot/quatrefoil-knot' ),
       // special
       array ( 'of the same', 'special/same' ),
