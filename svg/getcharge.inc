@@ -410,8 +410,8 @@ function getCharge( DOMElement $node ) {
   $strokeCol = ($charge_col != null);
   // special handling for fimbriated
   if ( ($fimNode = getModifierNodeWithKeyterm($node, 'fimbriated')) != null ) {
-    if ($chargeGroup != 'geometric' && $chargeGroup != 'cross' && $chargeGroup != 'quadrate') {
-      $messages->addMessage('warning','Only geometric charges can be fimbriated');
+    if (!array_key_exists('fimbriate', $chg_data)) {
+      $messages->addMessage('warning','Only simple charges can be fimbriated');
     } else {
       $tincNode = getTinctureNode($fimNode);
       $strokeCol = get_rgb($tincNode);
