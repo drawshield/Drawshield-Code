@@ -473,7 +473,7 @@ class englishGrammar extends grammar {
           $mods[] = $this->schema->makeMod( 'rows', implode(',',$rows), 'arrange-by-rows', self::tokens(), self::lineNo() );
           self::discard($state2);
         }
-      } elseif ( !$foundTinc && $tinc = self::tincture() ) {
+      } elseif ( !$foundTinc && ($tinc = self::tincture()) ) {
         if ($always_proper && $tinc->firstChild->nodeName != 'proper') {
           self::raiseError(self::ERROR_ORIGIN,'Charge is always proper',true);
         } else {
@@ -482,7 +482,7 @@ class englishGrammar extends grammar {
         }
       } elseif ( $keyterm = self::find(languageDB::CHARGE_FEATURES) ) {
         $feature = $this->schema->makeMod(blazonML::V_FEATURE,null,$keyterm,self::tokens(), self::lineNo());
-        if ( $foundTinc and ($tinc = self::tincture() ))
+        if ( ($foundTinc || $always_proper) && ($tinc = self::tincture() ))
           $feature->appendChild($tinc);
         else {
           $feature->appendChild($this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'pending',
