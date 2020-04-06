@@ -19,10 +19,10 @@ if ( existModifierWithKeyterm($node,'couped') ) {
   $ordinary['shape_spec'] = 'X100Y{%35}A800c{%30}E800g{%30}';
 }
 elseif ( existModifierWithKeyterm($node, 'couped-dexter')) {
-  $ordinary['shape_spec'] = 'X-8Y{%35}A908c{%30}E908g{%30}';
+  $ordinary['shape_spec'] = 'X100Y{%35}A908c{%30}E908g{%30}';
 }
 elseif ( existModifierWithKeyterm($node,'couped-sinister')) {
-  $ordinary['shape_spec'] = 'X100Y{%35}A908c{%30}E908g{%30}';
+  $ordinary['shape_spec'] = 'X-8Y{%35}A908c{%30}E908g{%30}';
 } elseif ( existModifierWithKeyterm($node,'fracted') ) {
   $ordinary['shape_spec'] = 'X-100Y{%50}A600g{%15}A600c{%15}E600c{%15}E600g{%15}';
 } elseif ( existModifierWithKeyterm($node,'lozengy')) {
