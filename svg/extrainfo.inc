@@ -9,6 +9,11 @@ class extraInfoMap {
   {
 
     self::$groups = array(
+      'animal' => array( 'demi' => 'horizontal' ),
+      'game' => array( 'demi' => 'horizontal' ),
+      'livestock' => array( 'demi' => 'horizontal' ),
+      'wildlife' => array( 'demi' => 'horizontal' ),
+      'lion' => array( 'demi' => 'horizontal' ),
       'sword' => array ('orient_to_ordinary' => -1),
       'axe' => array ('orient_to_ordinary' => -1),
       'flute' => array ('orient_to_ordinary' => -1),
@@ -32,7 +37,7 @@ class extraInfoMap {
             'rocket' => array ('orient_to_ordinary' => -1),
             'bbox' => array ('orient_to_ordinary' => 1),
             'cartouche' => array ('orient_to_ordinary' => 1),
-            'billet' => array ('orient_to_ordinary' => 1),
+            'billet' => array ('orient_to_ordinary' => 1, 'demi' => 'horizontal'),
             'rocket-man' => array ('horizontal' => true, 'orient_to_ordinary' => -1),
             'trumpet' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'feather' => array('horizontal' => true, 'orient_to_ordinary' => 1),
