@@ -213,18 +213,6 @@ function includeCharge( DOMElement $node, $includeFile, $charge, $folder, $charg
   return $charge;
 }
 
-function getDemi ( $group, $charge ) {
-  static $demi = null;
-
-  if ( !$demi ) {
-    include 'svg/demi.inc';
-    $demi = new demiType();
-  }
-
-  return $demi->getDemi($group, $charge );
-}
-
-
 function getProper ( $group, $charge, $feature = null, $errorIfNone = true ) {
   static $proper = null;
 
@@ -410,11 +398,11 @@ function getCharge( DOMElement $node ) {
   $strokeCol = ($charge_col != null);
   // special handling for fimbriated
   if ( ($fimNode = getModifierNodeWithKeyterm($node, 'fimbriated')) != null ) {
-    if (!array_key_exists('fimbriate', $chg_data)) {
-      $messages->addMessage('warning','Only simple charges can be fimbriated');
-    } else {
+    if (array_key_exists('fimbriate', $chg_data) && $chg_data['fimbriate'] == true) {
       $tincNode = getTinctureNode($fimNode);
       $strokeCol = get_rgb($tincNode);
+    } else {
+      $messages->addMessage('warning','Only simple charges can be fimbriated');
     }
   }
 
@@ -430,9 +418,9 @@ function getCharge( DOMElement $node ) {
   }
 
   //----------------------------------------------------------
-  // Demi handling
+  // demi / half handling
   if ( existModifierWithKeyterm($node,'demi') ) {
-    if ( getDemi($chargeGroup, $chargeName) == 'horizontal' ) {
+    if ( array_key_exists('demi', $chg_data) && $chg_data['demi'] == 'horizontal' ) {
       $half = $height / 2;
       $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $width . '" height="' . $half . '" />' );
       $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
@@ -445,6 +433,30 @@ function getCharge( DOMElement $node ) {
     }
   } //----------------------------------------------------------
 
+  
+  //----------------------------------------------------------
+  // NON-STANDARD EXTENSION - half handling
+  if ( existModifierWithKeyterm($node,'upper-half') ) {
+    $half = $height / 2;
+    $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $width . '" height="' . $half . '" />' );
+    $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
+    $height = $half;
+  } elseif ( existModifierWithKeyterm($node,'sinister-half') ) {
+    $half = $width / 2;
+    $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $half . '" height="' . $height . '" />' );
+    $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
+    $width = $half;
+  } elseif ( existModifierWithKeyterm($node,'dexter-half') ) {
+    $half = $width / 2;
+    $clip = add_def ( 'clipPath', '<rect x="' . $half . '" y="0" width="' . $half . '" height="' . $height . '" />' );
+    $body = '<g transform="translate(-' .  $half . ',0)" clip-path="url(#' . $clip . ')">' . $body . '</g>';
+    $width = $half;
+  } elseif ( existModifierWithKeyterm($node,'lower-half') ) {
+    $half = $height / 2;
+    $clip = add_def ( 'clipPath', '<rect x="0" y="' . $half . '" width="' . $width . '" height="' . $half . '" />' );
+    $body = '<g transform="translate(0, -' .  $half . ')" clip-path="url(#' . $clip . ')">' . $body . '</g>';
+    $height = $half;
+  } //----------------------------------------------------------
 
   //------------------------------------------------------------
   // Charges on or around this one
