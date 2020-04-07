@@ -441,12 +441,12 @@ function getCharge( DOMElement $node ) {
     $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $width . '" height="' . $half . '" />' );
     $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
     $height = $half;
-  } elseif ( existModifierWithKeyterm($node,'sinister-half') ) {
+  } elseif ( existModifierWithKeyterm($node,'dexter-half') ) {
     $half = $width / 2;
     $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $half . '" height="' . $height . '" />' );
     $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
     $width = $half;
-  } elseif ( existModifierWithKeyterm($node,'dexter-half') ) {
+  } elseif ( existModifierWithKeyterm($node,'sinister-half') ) {
     $half = $width / 2;
     $clip = add_def ( 'clipPath', '<rect x="' . $half . '" y="0" width="' . $half . '" height="' . $height . '" />' );
     $body = '<g transform="translate(-' .  $half . ',0)" clip-path="url(#' . $clip . ')">' . $body . '</g>';
