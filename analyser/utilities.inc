@@ -177,8 +177,9 @@ function getChildOfType(DOMElement $node, $nodeName) {
   return $retval;
 }
 
-function get_rgb(DOMElement $tinc_node) {
+function get_rgb($tinc_node) {
   global $messages;
+  // if (!$tinc_node) return ('#555555'); // but probably an error
 	$col = $tinc_node->firstChild;
 	if ( !$col or $col->nodeName != 'colour' ) {
     $messages->addMessage('warning','plain colour expected');

@@ -468,6 +468,11 @@ function getCharge( DOMElement $node ) {
     // What type of "on" is this?
     $chargeWithType = $chargeOn->getAttribute('keyterm');
     $chargeToAdd = $chargeOn->firstChild;
+    if ($chargeToAdd->nodeName == 'missing') {
+      // error already rasied in parser
+      // $messages->addMessage('error', "Missing charge for 'on'"); 
+      continue;
+    }    
     // We don't support charging with ordinaries (yet?
     // - would need to mask scaled ord with charge outline I think)
     $chargeToAddType = $chargeToAdd->getAttribute('keyterm');

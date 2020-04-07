@@ -176,7 +176,9 @@ function makequartered4( DOMNodeList $children, $this_AR ) {
 
 function makequartered6( $children, $this_AR ) {
   global $halfHeights, $messages;
-  
+  $xShift0 = 0; // fudge until finished properly
+  $xShift1 = 333;
+  $xShift2 = 666;
   switch ( $this_AR ) {
   case '10:12':
     $child_ARs = array ( '10:14', '10:14', '10:14', '10:20', '10:20', '10:20' );
