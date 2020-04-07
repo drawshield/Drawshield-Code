@@ -58,8 +58,9 @@ class englishGrammar extends grammar {
           self::ignore(languageDB::WITH);
         }
       } while ($found);
-      // If last word is ignored, can't go further
-      if ( $this->tokenList->words[$this->tokenList->num_tokens-1]{0} == '[')
+      // If last word (or only) is ignored, can't go further
+      $lastEntry = $this->tokenList->num_tokens-1;
+      if ( $lastEntry < 0 || $this->tokenList->words[$lastEntry]{0} == '[')
         break;
       // If input still left
       if ( $this->tokenList->cur_word < $this->tokenList->num_tokens ) {
@@ -425,14 +426,14 @@ class englishGrammar extends grammar {
     // In some cases we want the next input token as a "value" (e.g. "the word Karl" matches "words? *")
     if ( $asterisk = $this->phraseMatcher->getValue() )
       $mods[] = $this->schema->makeMod('value',$asterisk,'value',self::tokens(), self::lineNo());
-      if ($keyterm == 'special/escutcheon') {
-        $foundTinc = true; // don't look for a colour, let the shield take it
-        // $mods[] = self::simple(true);
-        $mods[] = self::shield();
-      }
-      // Look for bundle again (e.g. "two arrow bundles"
-      if ( $keyterm = self::find(languageDB::BUNDLE) )
-      $mods[] = $this->schema->makeMod(languageDB::BUNDLE,null,$keyterm,self::tokens(), self::lineNo());
+    if ($keyterm == 'special/escutcheon') {
+      $foundTinc = true; // don't look for a colour, let the shield take it
+      // $mods[] = self::simple(true);
+      $mods[] = self::shield();
+    }
+    // Look for bundle again (e.g. "two arrow bundles"
+    if ( $keyterm = self::find(languageDB::BUNDLE) )
+    $mods[] = $this->schema->makeMod(languageDB::BUNDLE,null,$keyterm,self::tokens(), self::lineNo());
     // Now look for postfix stuff, including tinctures and arrangements
     $foundTinc = false;
     while ( self::moreInput() ) {
@@ -576,6 +577,9 @@ class englishGrammar extends grammar {
     }
     self::discard($state);
     // Is there anything else "on" this charge?
+    if ( isset($onMod) && $charge->getAttribute(blazonML::A_KEYTERM) == 'special/escutcheon') {
+      unset($onMod); // don't need to say "on an escutcheon..." (but allow it anyway)
+    }
 
     if ( isset($onMod) or ($keyterm = self::find(languageDB::CHARGE_WITH)) ) { // TODO check this logic
       if ( !isset($onMod)) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,$this->phraseMatcher->getValue(),$keyterm,self::tokens(), self::lineNo());
