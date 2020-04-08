@@ -1,6 +1,8 @@
 <?php 
 
 class extraInfoMap {
+
+  
   
   static $groups = array();
   static $charges = array();
@@ -20,8 +22,7 @@ class extraInfoMap {
       'knot' => array ('orient_to_ordinary' => 1),
       'plant' => array ('orient_to_ordinary' => 1),
       'projectile' => array ('orient_to_ordinary' => -1),
-      'quadrate' => array('charged-with' => 'c/c/c/500,200,200,200:200,500:800,500:500,800/c/c',
-                      'fimbriate' => true),
+      'quadrate' => array( 'fimbriate' => true),
       'geometric' => array('fimbriate' => true),
       'mullet' => array('fimbriate' => true),
       'zodiac' => array('fimbriate' => true),
@@ -43,6 +44,7 @@ class extraInfoMap {
             'feather' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'chain' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'cross/long' => array('orient_to_ordinary' => -1),
+            'sports/football-helmet' => array ('superposition' => '65,35,65'),
     );
   }
   
