@@ -566,46 +566,60 @@ class englishGrammar extends grammar {
       else
         break;
     }
-    // if found, remember "on" for later
-    if ($keyterm = self::find(languageDB::WORD_ON)) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,'charged-with',self::tokens(), self::lineNo());
-    self::ignore(languageDB::LAYERING); // over x a y, not needed, under x a y not implementd
-    // Look for an actual charge
-    if ( ($charge = self::simpleCharge( $assumeNum, $allowArr, $allowPos )) == null ) {
-      self::restore($state);
-      return null;
-
-    }
-    self::discard($state);
-    // Is there anything else "on" this charge?
-    if ( isset($onMod) && $charge->getAttribute(blazonML::A_KEYTERM) == 'special/escutcheon') {
-      unset($onMod); // don't need to say "on an escutcheon..." (but allow it anyway)
-    }
-
-    if ( isset($onMod) or ($keyterm = self::find(languageDB::CHARGE_WITH)) ) { // TODO check this logic
-      if ( !isset($onMod)) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,$this->phraseMatcher->getValue(),$keyterm,self::tokens(), self::lineNo());
-      if ( (($onCharge = self::simpleCharge( true, true, false )) == null) and (($onCharge = self::ordinary()) == null)) {
-        $onCharge = $this->schema->makeNode(blazonML::E_MISSING);
-        self::raiseError(self::ERROR_ORIGIN,"Expected something to go on charge", true);
+    $topCharge = null;
+    $currentCharge = null;
+    do {
+      $found = false;
+      $onMod = null;
+      if ($topCharge == null ) { // already found charge, only look for charged with
+        // if found, remember "on" for later
+        if ($keyterm = self::find(languageDB::WORD_ON)) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,'charged-with',self::tokens(), self::lineNo());
+        self::ignore(languageDB::LAYERING); // over x a y, not needed, under x a y not implementd
+        // Look for an actual charge
+        if ( ($charge = self::simpleCharge( $assumeNum, $allowArr, $allowPos )) == null ) {
+          self::restore($state);
+          break;
+        }
+        $found = true;
+        if ($topCharge == null) {
+          $topCharge = $charge;
+        }
+        $currentCharge = $charge;
       }
-      $onMod->appendChild($onCharge);
-      $mods[] = $onMod;
-    }
-    // look for charge "on" charge (but can also be end of charge, with "on" belonging to next item)
-    $state = self::save();
-    //while ( self::moreInput() ) { // TODO make this loop encompass CHARGE_WITH above, for nested charges
-    if ( self::find(languageDB::WORD_ON) ) {
-      if ( ($onCharge = self::simpleCharge( true, true, false )) == null ) {
-        // The word we found belongs to something else
-        self::restore($state);
-      } else { // swap chargeA on chargeB to become chargeB charged with chargeA
-        $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,'on',self::tokens(), self::lineNo());
-        $onMod->appendChild($charge);
-        $onCharge->appendChild($onMod);
-        $charge = $onCharge;
+
+      self::discard($state);
+      // Is there anything else "on" this charge?
+      if ( ($onMod != null) && $charge->getAttribute(blazonML::A_KEYTERM) == 'special/escutcheon') {
+        $onMod = null; // don't need to say "on an escutcheon..." (but allow it anyway)
+        break;
       }
-      //  } else
-      //  break;
-    }
+
+      if ( ($onMod != null) or ($keyterm = self::find(languageDB::CHARGE_WITH)) ) { // TODO check this logic
+        if ( $onMod == null) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,$this->phraseMatcher->getValue(),$keyterm,self::tokens(), self::lineNo());
+        if ( (($onCharge = self::simpleCharge( true, true, false )) == null) and (($onCharge = self::ordinary()) == null)) {
+          $onCharge = $this->schema->makeNode(blazonML::E_MISSING);
+          self::raiseError(self::ERROR_ORIGIN,"Expected something to go on charge", true);
+        }
+        $onMod->appendChild($onCharge);
+      }
+      // look for charge "on" charge (but can also be end of charge, with "on" belonging to next item)
+      $state = self::save();
+      if ( self::find(languageDB::WORD_ON) ) {
+        if ( ($onCharge = self::simpleCharge( true, true, false )) == null ) {
+          // The word we found belongs to something else
+          self::restore($state);
+        } else { // swap chargeA on chargeB to become chargeB charged with chargeA
+          $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,'on',self::tokens(), self::lineNo());
+          $onMod->appendChild($currentCharge);
+          $onCharge->appendChild($onMod);
+        }
+      }
+      if ($onMod != null) {
+        $currentCharge->appendChild($onMod);
+        $currentCharge = $onCharge;
+      }
+    } while ($found);
+    if ($topCharge == null) return null;
     self::discard($state);
     $state = self::save();
     if ( !self::semicolon() ) {
@@ -639,8 +653,8 @@ class englishGrammar extends grammar {
     }
     // Add anything found earlier
     foreach ( $mods as $mod )
-      $charge->appendChild($mod);
-    return $charge;
+      $topCharge->appendChild($mod);
+    return $topCharge;
   }
 
   protected function objects(){

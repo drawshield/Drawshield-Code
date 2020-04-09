@@ -2,7 +2,7 @@
 
 class extraInfoMap {
 
-  
+
   
   static $groups = array();
   static $charges = array();
@@ -29,7 +29,6 @@ class extraInfoMap {
       'alchemical' => array('fimbriate' => true),
       'astronimical' => array('fimbriate' => true),
       'crown' => array('horizontal' => true),
-      'crown' => array('horizontal' => true),
       'fish' => array('horizontal' => true, 'orient_to_ordinary' => 1),
     );
     self::$charges = array(
@@ -39,7 +38,7 @@ class extraInfoMap {
             'bbox' => array ('orient_to_ordinary' => 1),
             'cartouche' => array ('orient_to_ordinary' => 1),
             'billet' => array ('orient_to_ordinary' => 1, 'demi' => 'horizontal'),
-            'rocket-man' => array ('horizontal' => true, 'orient_to_ordinary' => -1),
+            'rocket-man' => array ('horizontal' => true, 'orient_to_ordinary' => 1),
             'trumpet' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'feather' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'chain' => array('horizontal' => true, 'orient_to_ordinary' => 1),
