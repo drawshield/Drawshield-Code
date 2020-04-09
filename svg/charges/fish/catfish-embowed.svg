@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="67.5 63 229.5 346.5" width="229.5" height="346.5">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="9 121.5 346.5 229.5" width="346.5" height="229.5">
   <defs>
     <clipPath id="artboard_clip_path">
       <path d="M 67.5 63 L 297 63 L 297 409.5 L 67.5 409.5 Z"/>
@@ -9,7 +9,7 @@
   <metadata> Produced by OmniGraffle 7.8 
     <dc:date>2018-07-22 18:16:24 +0000</dc:date><dc:title>Traceable heraldic art http://heraldicart.org/credits.html</dc:title>
   </metadata>
-  <g id="Catfish_Haurient_Embowed" fill-opacity="1" stroke-dasharray="none" stroke="none" stroke-opacity="1" fill="#ffff00">
+  <g id="Catfish_Haurient_Embowed" transform="rotate(-90,182.25,236.25)" fill-opacity="1" stroke-dasharray="none" stroke="none" stroke-opacity="1" fill="#ffff00">
     <title>Catfish Haurient Embowed</title>
     <g id="Catfish_Haurient_Embowed: Layer 2" >
       <title>Layer 2</title>
