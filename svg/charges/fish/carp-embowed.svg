@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="40.5 63 283.5 319.5" width="283.5" height="319.5">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="22.5 81 319.5 283.5" width="319.5" height="283.5">
   <defs>
     <clipPath id="artboard_clip_path">
       <path d="M 40.5 63 L 324 63 L 324 382.5 L 40.5 382.5 Z"/>
@@ -9,7 +9,7 @@
   <metadata> Produced by OmniGraffle 7.8 
     <dc:date>2018-07-22 18:16:24 +0000</dc:date><dc:title>Traceable heraldic art http://heraldicart.org/credits.html</dc:title>
   </metadata>
-  <g id="Carp_Haurient_Embowed" fill-opacity="1" stroke-dasharray="none" stroke="none" stroke-opacity="1" fill="#ffff00">
+  <g id="Carp_Haurient_Embowed" transform="rotate(-90,182.25,222.75)" fill-opacity="1" stroke-dasharray="none" stroke="none" stroke-opacity="1" fill="#ffff00">
     <title>Carp Haurient Embowed</title>
     <g id="Carp_Haurient_Embowed: Layer 2" >
       <title>Layer 2</title>
