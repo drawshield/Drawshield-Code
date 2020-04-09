@@ -116,7 +116,7 @@ function get_placement(DOMElement $item) {
     $adjustment = ''; // And we might also have an adjustment once we have found it
     $keyterm = $item->getAttribute('keyterm');
     if (is_null($keyterm) || strpos($keyterm,'/') === false) {
-      error_log("bad keyterm in " . $options['blazon']);
+      // error_log("bad keyterm in " . $options['blazon']); // Just a bad placement, not necessarily a code error
       return 'x';
     }
     list($group,$name) = explode('/', $keyterm);
