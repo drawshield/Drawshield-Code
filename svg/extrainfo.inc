@@ -44,6 +44,9 @@ class extraInfoMap {
             'chain' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'cross/long' => array('orient_to_ordinary' => -1),
             'sports/football-helmet' => array ('superposition' => '65,35,65'),
+            'gonfannon' => array ('superposition' => '50,35,50'),
+            'triangle' => array ('superposition' => '50,65,65'),
+            'crescent' => array ('superposition' => '50,65,65'),
     );
   }
   

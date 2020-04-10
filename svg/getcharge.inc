@@ -188,7 +188,9 @@ function read_chg_file(DOMElement $node) {
       $chg_data['svgCode'] = '<svg height="100" width="100"><g stroke="none"><path fill-rule="evenodd" d="M0,0h100v100h-100zM10,10h80v80h-80z" />' .
               '<text x="50" y="55" font-size="15" text-anchor="middle">' . $title . '</text></g></svg>';
     }
-    $chg_data = array_merge($chg_data, getExtraInfo($group, $chargeKey));
+    // Get additional metadata, but allow existing entries (picked up from the charge itself)
+    // to have priority
+    $chg_data = array_merge(getExtraInfo($group, $chargeKey), $chg_data);
   }
   $chg_data['title'] = $title;
   if (array_key_exists('licence',$chg_data))
