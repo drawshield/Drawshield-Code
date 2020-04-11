@@ -47,6 +47,14 @@ class extraInfoMap {
             'gonfannon' => array ('superposition' => '50,35,50'),
             'triangle' => array ('superposition' => '50,65,65'),
             'crescent' => array ('superposition' => '50,65,65'),
+            'roundel' => array ('superposition' => '50,50,85'),
+            'hurt' => array ('superposition' => '50,50,85'),
+            'pellet' => array ('superposition' => '50,50,85'),
+            'bezant' => array ('superposition' => '50,50,85'),
+            'orange' => array ('superposition' => '50,50,85'),
+            'plate' => array ('superposition' => '50,50,85'),
+            'pomme' => array ('superposition' => '50,50,85'),
+            'torteau' => array ('superposition' => '50,50,85'),
     );
   }
   

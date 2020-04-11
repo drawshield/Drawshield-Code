@@ -65,7 +65,8 @@ class languageDB extends lexicon {
   const QUANTIFIER = 'quantifier';
   const BUNDLE = 'bundle';
   const CHARGE_PREFIX = 'chargepre';
-  const CHARGE_ADJACENT = 'chargeadj';
+  const CHARGE_BETWEEN = 'between';
+  const CHARGE_NEAR = 'chargenear';
   const CHARGE_FEATURES = 'chargefeat';
   const CHARGE_MODS = 'chargemod';
   const POSITION = 'position';
@@ -868,9 +869,11 @@ class languageDB extends lexicon {
           array ( 'quarters?', 'quarter' ),
           array ( '(half|section|part)', 'all' ),
           ),
-        self::CHARGE_ADJACENT => array (
+        self::CHARGE_BETWEEN => array (
           array ( '(between|betwixt|inter) ?them', 'between' ),
-        //  array ( 'within ?(them|it)', 'within' ),
+          //  array ( 'within ?(them|it)', 'within' ),
+        ),
+        self::CHARGE_NEAR => array (
           array ( 'above ?(them|it)',  'above' ),
           array ( 'below ?(them|it)',  'below' ),  
           array ( 'with ?(them|it)',   'below' ),
