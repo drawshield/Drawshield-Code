@@ -62,6 +62,7 @@ class properColour {
       'auk' => self::$white,
       'parachute' => self::$white,
       'skull' => self::$white,
+      'bone' => self::$white,
       'snowflake' => self::$white,
       'crystal' => self::$white,
       'badger' => self::$grey,

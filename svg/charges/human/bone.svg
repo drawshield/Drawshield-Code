@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg840"
+   version="1.1"
+   height="95"
+   width="418">
+  <metadata
+     id="metadata846">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>John D'Alessandro</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs844" />
+  <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+  <g
+     id="g838"
+     class="layer">
+    <title
+       id="title835">Layer 1</title>
+    <path
+       style="stroke:#808080;fill:#ffff00;fill-opacity:1"
+       stroke-width="5"
+       d="m379.495148,4.49481c-16.038513,8.170939 -33.076904,13.77766 -50.767975,16.985741c-73.945389,0.414049 -145.522949,0.573479 -219.731644,4.119869c-19.772346,-3.674311 -42.34024,0.25124 -59.277321,-12.64973c-12.552128,-10.04833 -39.000308,-3.37943 -34.675718,15.73208c8.549959,19.49995 -20.23616,30.042912 -10.50823,49.831459c8.465381,20.319763 33.979191,12.495705 49.270649,5.775238c28.093742,-6.639099 56.140579,-13.638725 84.335258,-19.910835c58.867447,-6.674023 114.264664,-2.53455 172.458923,1.413185c16.177704,3.525154 32.608826,5.583481 49.079132,7.449203c14.096161,0.221786 25.399506,10.33609 38.646362,11.986908c17.5159,-1.696236 22.728912,-26.576107 10.517456,-37.613838c-18.25705,-12.07642 9.349274,-33.42766 -11.270416,-43.44872c-5.886414,-3.19875 -12.087433,-1.04852 -18.076508,0.32945l0,0l0.000031,0l0,-0.00001z" />
+  </g>
+</svg>
