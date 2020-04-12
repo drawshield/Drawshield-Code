@@ -29,3 +29,4 @@ Blazonry however has much greater expressive power and literally billions of dif
 Please check out the Wiki for an overview of the code organisation and a fairly random scattering of other documentation.
 
 And please get in touch if you can help develop DrawShield further or have bug reports and feature suggestions.
+
