@@ -18,4 +18,12 @@ For a real example try:
 
 ```https://drawshield.net/include/drawshield.php?blazon=Azure,%20a%20bend%20or```
 
-This will return an SVG file of a blue shield with a yellow diagonal band from top left to bottom right, which in most modern browsers will be displayed as an image.
+This will return an SVG file of a blue shield with a yellow diagonal band from top left to bottom right, which in most modern browsers will be displayed as an image like this:
+
+![Azure a bend or](/examples/azure-a-bend-or)
+
+Blazonry however has much greater expressive power and literally billions of different images can be created. There are over 1,500 example images, each complete with the blazon on the [DrawShield Gallery Page](https://drawshield.net/gallery/index.html):
+
+![DrawShield Gallery](/examples/gallery.png)
+
+
