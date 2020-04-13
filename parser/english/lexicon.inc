@@ -883,6 +883,9 @@ class languageDB extends lexicon {
           array ( 'below ?(them|it)',  'below' ),  
           array ( '(hang|depend)ing from',   'below' ),
           array ( '(be|along)side',  'beside' ),
+          array ( 'suspended (by|from|of)', 'below' ),
+          array ( 'resting (each|its|his|her) claws? (up)?on', 'above' ),
+          array ( 'sustaining', 'below' ),
           ),
         self::SHOWN_EXTRA => array (
           array ( 'to ?the dexter', 'to-dexter'),
