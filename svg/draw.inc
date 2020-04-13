@@ -295,7 +295,7 @@ function draw() {
         }
         $dom->formatOutput = true;
         $blazonMLText = $dom->saveXml(); // Need to remove the processing instruction
-        $blazonMLText = preg_replace('/<\?xml version="1\.0" encoding="utf-8"\?>/i', '', $blazonMLText);
+        $blazonMLText = preg_replace('/<\?xml version="1\.0"( encoding="utf-8")?\?>/i', '', $blazonMLText);
         $meta = "\n<metadata>\n"  . $blazonMLText . "\n</metadata>\n";
       }
     }
