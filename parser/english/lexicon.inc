@@ -88,6 +88,7 @@ class languageDB extends lexicon {
   const TORSE = 'torse';
   const HELMET = 'helmet';
   const ACHIEVEMENT = 'achievement';
+  const EACH = 'each';
   
   public function __construct() {
     global $options;
@@ -854,6 +855,9 @@ class languageDB extends lexicon {
           array ( 'upper', 'upper' ),
           array ( 'lower', 'lower' ),
           ),
+      self::EACH => array (
+        array ( '(each|every|all|both) ?of ?the', 'each' ),
+      ),
       self::LOCATION => array (
          array ( 'chief ?point', 'chief' ),
          array ( 'base ?point', 'base' ),
@@ -875,8 +879,10 @@ class languageDB extends lexicon {
         ),
         self::CHARGE_NEAR => array (
           array ( 'above ?(them|it)',  'above' ),
+          array ( '(stand|rest)ing on',  'above' ),
           array ( 'below ?(them|it)',  'below' ),  
-          array ( 'with ?(them|it)',   'below' ),
+          array ( '(hang|depend)ing from',   'below' ),
+          array ( '(be|along)side',  'beside' ),
           ),
         self::SHOWN_EXTRA => array (
           array ( 'to ?the dexter', 'to-dexter'),
@@ -896,8 +902,8 @@ class languageDB extends lexicon {
           array ( 'slightly', 'slightly'),
           array ( '(larger|bigger)', 'larger' ),
           array ( 'smaller', 'smaller' ),
-          array ( '(above|raised|lifted|higher)', 'raised'),
-          array ( '(below|lowere?d?|dropped)', 'lowered'),
+          array ( '(raised|lifted|higher)', 'raised'),
+          array ( '(lowere?d?|dropped)', 'lowered'),
           array ( 'further apart', 'further-apart'),
           array ( 'closer? together', 'closer-together'),
           ),

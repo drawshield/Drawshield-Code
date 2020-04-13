@@ -593,6 +593,7 @@ class englishGrammar extends grammar {
     $swapCharges = false;
 
     if ($keyterm = self::find(languageDB::WORD_ON)) { // (1)
+      self::ignore(languageDB::EACH);
       $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,
               'charged-with',self::tokens(), self::lineNo());
     } elseif ($keyterm = self::find(languageDB::CHARGE_BETWEEN)) { // (5)
@@ -600,9 +601,13 @@ class englishGrammar extends grammar {
               $keyterm, self::tokens(), self::lineNo());
       $swapCharges = true; // turn this into case (4)
     } elseif ($keyterm = self::find(languageDB::CHARGE_NEAR)) { // (7)
+      if ($keyterm == 'below') {
+        $keyterm = 'above';
+      } else {
+        $swapCharges = true; // turn this into case (6)
+      }
       $nearMod = $this->schema->makeMod(languageDB::CHARGE_NEAR,null,
               $keyterm, self::tokens(), self::lineNo());
-      $swapCharges = true; // turn this into case (6)
     }
 
     // Look for an actual charge
@@ -634,8 +639,9 @@ class englishGrammar extends grammar {
         }
       }
 
-      if ( $onMod == null ) {
+      if ( $firstTime && $onMod == null ) {
         if ($keyterm = self::find(languageDB::WORD_ON)) { // (3)
+          self::ignore(languageDB::EACH);
           $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,
                   'charged-with',self::tokens(), self::lineNo());
           $swapCharges = true; // turn this into case (1)
@@ -651,6 +657,10 @@ class englishGrammar extends grammar {
 
       if ($nearMod == null) {
         if ($keyterm = self::find(languageDB::CHARGE_NEAR)) { // (6)
+          if ($keyterm == 'below') {
+            $keyterm = 'above'; // collapse to a single case
+            $swapCharges = true;
+          }
           $nearMod = $this->schema->makeMod(languageDB::CHARGE_NEAR,null,
                   $keyterm, self::tokens(), self::lineNo());
         }

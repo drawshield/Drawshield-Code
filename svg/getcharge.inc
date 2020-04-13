@@ -73,7 +73,10 @@ function getBestMatchFilename($folder, $base, $mods) {
       }
       if (!$found) {
         $penalty += $currentRNPPenalty;
-        $missing .= $requiredParts[$i] . ' ';
+        // Some things we don't really care about
+        if (!in_array($requiredParts[$i], array('upper', 'lower', 'half', 'demi'))) {
+          $missing .= $requiredParts[$i] . ' ';
+        }
       }
       $currentRNPPenalty += $positionWeight;
     }
@@ -259,7 +262,7 @@ function makeSquareCharge(DOMElement $node ) {
 }
 
 function getCharge( DOMElement $node ) {
-  global $chg_data_cache, $messages, $options;
+  global $chg_data_cache, $messages, $options, $aspect_ratio;
 
   list($chargeGroup, $chargeName ) = explode('/',$node->getAttribute('keyterm'));
 
@@ -512,7 +515,10 @@ function getCharge( DOMElement $node ) {
         break;
       // TODO Add more of the above!
       default:
+        $tempAR = $aspect_ratio;
+        $aspect_ratio = 'square'; // make sure any chief is ignored when placing charges
         $charges = makeCharge($chargeToAdd);
+        $aspect_ratio = $tempAR;
         // We now have one or more superposed charges scaled to fit into a 1000x1000 box
         // We want to shrink the superposed charges by a factor (so they leave plenty of space
         // to allow the underlying charge to be seen)

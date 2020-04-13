@@ -143,7 +143,7 @@
    $this->patterns[languageDB::CHARGE_WITH] = array ( 
       array ( '?(each|all|both) (enrich|charg|deck)ed (by|with|of)', 'charged-with' ),
       array ( 'thereon', 'charged-with' ),
-      array ( '?charged (at|on) each ?(point|corner|limb) ?with', 'charged-with' ),
+      array ( 'charged (at|on) each ?(point|corner|limb) ?with', 'charged-with' ),
       array ( 'surmounted (by|with|of)', 'charged-with' ),
       array ( '(en)?circled (by|with|of)', 'encircled-by' ),
       array ( 'all within', 'encircled-by' ),
