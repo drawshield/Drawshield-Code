@@ -1,6 +1,8 @@
 <?php 
 
 class extraInfoMap {
+
+
   
   static $groups = array();
   static $charges = array();
@@ -20,14 +22,12 @@ class extraInfoMap {
       'knot' => array ('orient_to_ordinary' => 1),
       'plant' => array ('orient_to_ordinary' => 1),
       'projectile' => array ('orient_to_ordinary' => -1),
-      'quadrate' => array('charged-with' => 'c/c/c/500,200,200,200:200,500:800,500:500,800/c/c',
-                      'fimbriate' => true),
+      'quadrate' => array( 'fimbriate' => true),
       'geometric' => array('fimbriate' => true),
       'mullet' => array('fimbriate' => true),
       'zodiac' => array('fimbriate' => true),
       'alchemical' => array('fimbriate' => true),
       'astronimical' => array('fimbriate' => true),
-      'crown' => array('horizontal' => true),
       'crown' => array('horizontal' => true),
       'fish' => array('horizontal' => true, 'orient_to_ordinary' => 1),
     );
@@ -38,11 +38,23 @@ class extraInfoMap {
             'bbox' => array ('orient_to_ordinary' => 1),
             'cartouche' => array ('orient_to_ordinary' => 1),
             'billet' => array ('orient_to_ordinary' => 1, 'demi' => 'horizontal'),
-            'rocket-man' => array ('horizontal' => true, 'orient_to_ordinary' => -1),
+            'rocket-man' => array ('horizontal' => true, 'orient_to_ordinary' => 1),
             'trumpet' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'feather' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'chain' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'cross/long' => array('orient_to_ordinary' => -1),
+            'sports/football-helmet' => array ('superposition' => '65,35,65'),
+            'gonfannon' => array ('superposition' => '50,35,50'),
+            'triangle' => array ('superposition' => '50,65,65'),
+            'crescent' => array ('superposition' => '50,65,65'),
+            'roundel' => array ('superposition' => '50,50,85'),
+            'hurt' => array ('superposition' => '50,50,85'),
+            'pellet' => array ('superposition' => '50,50,85'),
+            'bezant' => array ('superposition' => '50,50,85'),
+            'orange' => array ('superposition' => '50,50,85'),
+            'plate' => array ('superposition' => '50,50,85'),
+            'pomme' => array ('superposition' => '50,50,85'),
+            'torteau' => array ('superposition' => '50,50,85'),
     );
   }
   

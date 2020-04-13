@@ -38,7 +38,6 @@
      $newPlacement = rtrim($newPlacement,'/');
      return $newPlacement;
    }
-   //TODO above / below modifiers
 
 function adjustDistance($item, $placement) {
   foreach ( $item->childNodes as $child ) {
@@ -84,7 +83,7 @@ function inAnnulo($number) {
     $placement .= "$x,$y,$size,$size:";
     $angle += $turn;
   }
-  return $placement;
+  return rtrim($placement,':');
 }
 
 function get_placement(DOMElement $item) {
@@ -133,6 +132,7 @@ function get_placement(DOMElement $item) {
     $number = $item->getAttribute('number');
     $overall = ($item->parentNode->parentNode->nodeName == 'overall');
     $apply_location = true;
+    $forceCentre = (($options['shape'] != 'pauldron') && ($group == "quadrate" || $group == 'geometric') && $number == 1);
     $div_node = $xpath->query("parent::objects/parent::simple/field/tincture/division", $item);
     if ( $div_node->length > 0 ) {
       /**
@@ -192,6 +192,40 @@ function get_placement(DOMElement $item) {
       $placement = '500,150,1000,200';
       $boundingBox = 'x';
     }
+
+    // Are we above or below another charge?
+    // If so, occupy only half the bounding box
+    if ( $xpath->evaluate("boolean(parent::modifier[@keyterm='above']/parent::charge)",$item) ) {
+      list($x1,$y1,$x2,$y2) = explode(',',$boundingBox);
+      $half = (int)($y2/2);
+      $y1 += $half;
+      $y2 = $half;
+      $boundingBox = "$x1,$y1,$x2,$y2";
+      $forceCentre = false;
+    } elseif ( existModifierWithKeyterm($item,'above') ) {
+      list($x1,$y1,$x2,$y2) = explode(',',$boundingBox);
+      $half = (int)($y2/2);
+      $y2 = $half;
+      $boundingBox = "$x1,$y1,$x2,$y2";  
+      $forceCentre = false;    
+    }
+
+    // similarly for charge beside charge
+    if ( $xpath->evaluate("boolean(parent::modifier[@keyterm='beside']/parent::charge)",$item) ) {
+      list($x1,$y1,$x2,$y2) = explode(',',$boundingBox);
+      $half = (int)($x2/2);
+      $x1 += $half;
+      $x2 = $half;
+      $boundingBox = "$x1,$y1,$x2,$y2";
+      $forceCentre = false;
+    } elseif ( existModifierWithKeyterm($item,'beside') ) {
+      list($x1,$y1,$x2,$y2) = explode(',',$boundingBox);
+      $half = (int)($x2/2);
+      $x2 = $half;
+      $boundingBox = "$x1,$y1,$x2,$y2";  
+      $forceCentre = false;    
+    }
+    
     
     // Are we around another charge?
     if ( $placement == '' && $xpath->evaluate("boolean(parent::modifier[@keyterm='between']/parent::charge)",$item) ) {
@@ -212,7 +246,7 @@ function get_placement(DOMElement $item) {
       // If our parent charge has a position, then we need to apply it to ourselves also
       $pos = getModifiersByTypeAsArray($item->parentNode->parentNode,'position');
     }
-    
+
     // explicit arrangements
     if ( $placement == '' && $arr ) {
       switch ( $arr ) { // TODO add incross + insaltire with chief,
@@ -491,7 +525,7 @@ function get_placement(DOMElement $item) {
     // If we don't have a placement yet the default is just to arrange in wide rows
     if ( $placement == '' ) {
       // special case placements, put some charges in exact centre of cross
-      if (($options['shape'] != 'pauldron') && ($group == "quadrate" || $group == 'geometric') && $number == 1) {
+      if ( $forceCentre ) {
         if ($chief) {
           $placement = '500,700,600,600';
         } else {

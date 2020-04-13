@@ -73,7 +73,10 @@ function getBestMatchFilename($folder, $base, $mods) {
       }
       if (!$found) {
         $penalty += $currentRNPPenalty;
-        $missing .= $requiredParts[$i] . ' ';
+        // Some things we don't really care about
+        if (!in_array($requiredParts[$i], array('upper', 'lower', 'half', 'demi'))) {
+          $missing .= $requiredParts[$i] . ' ';
+        }
       }
       $currentRNPPenalty += $positionWeight;
     }
@@ -188,7 +191,9 @@ function read_chg_file(DOMElement $node) {
       $chg_data['svgCode'] = '<svg height="100" width="100"><g stroke="none"><path fill-rule="evenodd" d="M0,0h100v100h-100zM10,10h80v80h-80z" />' .
               '<text x="50" y="55" font-size="15" text-anchor="middle">' . $title . '</text></g></svg>';
     }
-    $chg_data = array_merge($chg_data, getExtraInfo($group, $chargeKey));
+    // Get additional metadata, but allow existing entries (picked up from the charge itself)
+    // to have priority
+    $chg_data = array_merge(getExtraInfo($group, $chargeKey), $chg_data);
   }
   $chg_data['title'] = $title;
   if (array_key_exists('licence',$chg_data))
@@ -257,7 +262,7 @@ function makeSquareCharge(DOMElement $node ) {
 }
 
 function getCharge( DOMElement $node ) {
-  global $chg_data_cache, $messages, $options;
+  global $chg_data_cache, $messages, $options, $aspect_ratio;
 
   list($chargeGroup, $chargeName ) = explode('/',$node->getAttribute('keyterm'));
 
@@ -510,17 +515,42 @@ function getCharge( DOMElement $node ) {
         break;
       // TODO Add more of the above!
       default:
+        $tempAR = $aspect_ratio;
+        $aspect_ratio = 'square'; // make sure any chief is ignored when placing charges
         $charges = makeCharge($chargeToAdd);
-        $scale = min ( $width/1400, $height/1400);
-        // scale to fit onto charge - then move so charges are central
-        // TODO fix this horrible bodge
-        if ($node->getAttribute('keyterm') == 'sports/football-helmet' ) {
-          $charges = sprintf('<g transform="translate(%2f,%2f) scale(%4f)">%s</g>', (($width / 2) - (550 * $scale) / 2), (($height / 2) - (1400 * $scale) / 2),
-              $scale, $charges);
-        } else {
-          $charges = sprintf('<g transform="translate(%2f,%2f) scale(%4f)">%s</g>', (($width / 2) - (1000 * $scale) / 2), (($height / 2) - (1100 * $scale) / 2),
-              $scale, $charges);
+        $aspect_ratio = $tempAR;
+        // We now have one or more superposed charges scaled to fit into a 1000x1000 box
+        // We want to shrink the superposed charges by a factor (so they leave plenty of space
+        // to allow the underlying charge to be seen)
+        $xPos = $yPos = 50; // Centre Position of superposed charge, can be varied, as a percentage (0 = left/top edge)
+        $shrinkFactor = 72;  // <<< As percentage of existing charge size
+        if (array_key_exists('superposition', $chg_data)) {
+          $supers = explode(',',$chg_data['superposition']);
+          switch (count($supers)) {
+            case 3:
+              $shrinkFactor = $supers[2];
+              /* flow through */
+            case 2:
+              $yPos = $supers[1];
+              /* flow through */
+            case 1:
+              $xPos = $supers[0];
+            break;
+          }
         }
+        // The underlying charge is $width x $height, we need to work out how to scale
+        // the superposed charges so that they fit
+        $targetSize = min ( $width * ($shrinkFactor / 100), $height * ($shrinkFactor / 100));
+        $scale = $targetSize / 1000;
+        $targetCentre = $targetSize / 2;
+        $xShift = ($width * ($xPos / 100)) - $targetCentre; // convert percentage to factor
+        $yShift = ($height * ($yPos / 100)) - $targetCentre; // convert percentage to factor
+        // scale to fit onto charge - then move so charges are central
+        $charges = sprintf('<g transform="translate(%2f,%2f) scale(%4f)">%s</g>', 
+                $xShift, 
+                $yShift,
+                $scale, 
+                $charges);
         $body .= $charges;
         break;
     }

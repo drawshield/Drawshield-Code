@@ -61,6 +61,10 @@ function place_charges ( DOMElement $node, $placement ) {
       $num_of += (integer)$between->getAttribute('number');
       $half = ($between->getAttribute('number')) / 2;
     }
+  } elseif ( $child = getModifierNodeWithKeyterm($node,'above')) {
+    $retval .= place_charges( $child->firstChild, get_placement($child->firstChild));
+  } elseif ( $child = getModifierNodeWithKeyterm($node,'beside')) {
+    $retval .= place_charges( $child->firstChild, get_placement($child->firstChild));
   }
 
   $cx = 500; // default values

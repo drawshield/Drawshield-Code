@@ -566,81 +566,228 @@ class englishGrammar extends grammar {
       else
         break;
     }
-    // if found, remember "on" for later
-    if ($keyterm = self::find(languageDB::WORD_ON)) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,'charged-with',self::tokens(), self::lineNo());
-    self::ignore(languageDB::LAYERING); // over x a y, not needed, under x a y not implementd
+
+    // over x a y, not needed, under x a y not implemented
+    self::ignore(languageDB::LAYERING);
+
+    /* 
+     * We support several types of grouped charges:
+     * 
+     * 1) on ChargeA ChargeB
+     * 2) ChargeA charged with ChargeB (and this is allowed recursively)
+     * 3) ChargeB on ChargeA
+     * 4) ChargeA between ChargeB
+     * 5) between ChargeA ChargeB
+     * 
+     * And we generally ignore (for now)
+     * 6) ChargeA above/below ChargeB
+     * 7) above/below ChargeA ChargeB
+     * 
+     * Bracketed numbers below refer to the groupings above
+     */
+
+    // Look for markers to associated charges, if found, remember for later
+    $onMod = null;
+    $betweenMod = null;
+    $nearMod = null;
+    $swapCharges = false;
+
+    if ($keyterm = self::find(languageDB::WORD_ON)) { // (1)
+      self::ignore(languageDB::EACH);
+      $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,
+              'charged-with',self::tokens(), self::lineNo());
+    } elseif ($keyterm = self::find(languageDB::CHARGE_BETWEEN)) { // (5)
+      $betweenMod = $this->schema->makeMod(languageDB::CHARGE_BETWEEN,null,
+              $keyterm, self::tokens(), self::lineNo());
+      $swapCharges = true; // turn this into case (4)
+    } elseif ($keyterm = self::find(languageDB::CHARGE_NEAR)) { // (7)
+      if ($keyterm == 'below') {
+        $keyterm = 'above';
+      } else {
+        $swapCharges = true; // turn this into case (6)
+      }
+      $nearMod = $this->schema->makeMod(languageDB::CHARGE_NEAR,null,
+              $keyterm, self::tokens(), self::lineNo());
+    }
+
     // Look for an actual charge
-    if ( ($charge = self::simpleCharge( $assumeNum, $allowArr, $allowPos )) == null ) {
+    if ( ($topCharge = self::simpleCharge( $assumeNum, $allowArr, $allowPos )) == null ) {
       self::restore($state);
       return null;
-
     }
     self::discard($state);
+
+    // Special handling for escutcheon (1)
+    if ( ($onMod != null) && $topCharge->getAttribute(blazonML::A_KEYTERM) == 'special/escutcheon') {
+      $onMod = null; // don't need to say "on an escutcheon..." (but allow it anyway)
+    }
+
+    // Now loop, looking for associated charges
+    $currentCharge = $topCharge;
+    $firstTime = true;
+    do {
+      $found = false; // looping control
+
+      if ( self::semicolon() ) break; // semi colon ends input
+  
+
+      if ( $onMod == null) {
+        if ($keyterm = self::find(languageDB::CHARGE_WITH)) { // (2)
+          $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,
+                      $this->phraseMatcher->getValue(),$keyterm,self::tokens(), 
+                      self::lineNo());
+        }
+      }
+
+      if ( $firstTime && $onMod == null ) {
+        if ($keyterm = self::find(languageDB::WORD_ON)) { // (3)
+          self::ignore(languageDB::EACH);
+          $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,
+                  'charged-with',self::tokens(), self::lineNo());
+          $swapCharges = true; // turn this into case (1)
+        }
+      }
+
+      if ($betweenMod == null) {
+        if ($keyterm = self::find(languageDB::CHARGE_BETWEEN)) { // (4)
+          $betweenMod = $this->schema->makeMod(languageDB::CHARGE_BETWEEN,null,
+                  $keyterm, self::tokens(), self::lineNo());
+        }
+      }
+
+      if ($nearMod == null) {
+        if ($keyterm = self::find(languageDB::CHARGE_NEAR)) { // (6)
+          if ($keyterm == 'below') {
+            $keyterm = 'above'; // collapse to a single case
+            $swapCharges = true;
+          }
+          $nearMod = $this->schema->makeMod(languageDB::CHARGE_NEAR,null,
+                  $keyterm, self::tokens(), self::lineNo());
+        }
+      }
+
+      if ($onMod == null && $betweenMod == null && $nearMod == null) { 
+        break; // Nothing further to do, no associated charges
+      }
+
+      // There should be a charge (only) here
+      if ( (($otherCharge = self::simpleCharge( true, true, false )) == null) && (($otherCharge = self::ordinary()) == null)) {
+        $otherCharge = $this->schema->makeNode(blazonML::E_MISSING);
+        self::raiseError(self::ERROR_ORIGIN,"Expected something to go with charge", true);
+        break;
+      } // else
+      
+      if ($swapCharges) { // collapse cases
+        if ($firstTime) {
+          $topCharge = $otherCharge;
+          $temp = $otherCharge;
+          $otherCharge = $currentCharge;
+          $currentCharge = $temp;
+        } else {
+          self::raiseError(self::ERROR_ORIGIN,"Ambiguous charge stacking (use charged with)", true);
+        }
+      }
+      
+      if ($onMod != null) {
+        $theMod = $onMod;
+      } elseif ($betweenMod != null) {
+        $theMod = $betweenMod;
+      } else  { // by default 
+        $theMod = $nearMod;
+      }
+      
+      $theMod->appendChild($otherCharge);
+      $currentCharge->appendChild($theMod);
+      $currentCharge = $otherCharge;
+      
+      $found = true; // loop again, with a clean slate
+      $onMod = null;
+      $betweenMod = null;
+      $nearMod = null;
+      $swapCharges = false;
+      $firstTime = false;
+
+      // if found, remember "on" for later
+      // if ($keyterm = self::find(languageDB::WORD_ON)) {
+      //   $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,
+      //           'charged-with',self::tokens(), self::lineNo());
+      // }
+
+/*
+      
+      if ($topCharge == null ) { // already found charge, only look for charged with
+
+        $topCharge = $charge;
+        $currentCharge = $charge;
+    
+        $found = true;
+        
+  
+      }
+
+
     // Is there anything else "on" this charge?
-    if ( isset($onMod) && $charge->getAttribute(blazonML::A_KEYTERM) == 'special/escutcheon') {
-      unset($onMod); // don't need to say "on an escutcheon..." (but allow it anyway)
-    }
-
-    if ( isset($onMod) or ($keyterm = self::find(languageDB::CHARGE_WITH)) ) { // TODO check this logic
-      if ( !isset($onMod)) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,$this->phraseMatcher->getValue(),$keyterm,self::tokens(), self::lineNo());
-      if ( (($onCharge = self::simpleCharge( true, true, false )) == null) and (($onCharge = self::ordinary()) == null)) {
-        $onCharge = $this->schema->makeNode(blazonML::E_MISSING);
-        self::raiseError(self::ERROR_ORIGIN,"Expected something to go on charge", true);
-      }
-      $onMod->appendChild($onCharge);
-      $mods[] = $onMod;
-    }
-    // look for charge "on" charge (but can also be end of charge, with "on" belonging to next item)
-    $state = self::save();
-    //while ( self::moreInput() ) { // TODO make this loop encompass CHARGE_WITH above, for nested charges
-    if ( self::find(languageDB::WORD_ON) ) {
-      if ( ($onCharge = self::simpleCharge( true, true, false )) == null ) {
-        // The word we found belongs to something else
-        self::restore($state);
-      } else { // swap chargeA on chargeB to become chargeB charged with chargeA
-        $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,'on',self::tokens(), self::lineNo());
-        $onMod->appendChild($charge);
-        $onCharge->appendChild($onMod);
-        $charge = $onCharge;
-      }
-      //  } else
-      //  break;
-    }
-    self::discard($state);
-    $state = self::save();
-    if ( !self::semicolon() ) {
-      // Look for adjacent charges
-      if ( $keyterm = self::find(languageDB::CHARGE_ADJACENT) ) {
-        $adjMod = $this->schema->makeMod(languageDB::CHARGE_ADJACENT,null,$keyterm,self::tokens(), self::lineNo());
-        if ( (($adjCharge = self::charge()) == null) and (($adjCharge = self::ordinary()) == null) ) {
-          $adjCharge = $this->schema->makeNode(blazonML::E_MISSING);
-          self::raiseError(self::ERROR_ORIGIN,"Expected charge or ordinary for $keyterm", true);
+      if ( ($onMod != null) or ($keyterm = self::find(languageDB::CHARGE_WITH)) ) { 
+        if ( $onMod == null) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,$this->phraseMatcher->getValue(),$keyterm,self::tokens(), self::lineNo());
+        if ( (($onCharge = self::simpleCharge( true, true, false )) == null) and (($onCharge = self::ordinary()) == null)) {
+          $onCharge = $this->schema->makeNode(blazonML::E_MISSING);
+          self::raiseError(self::ERROR_ORIGIN,"Expected something to go on charge", true);
         }
-        $adjMod->appendChild ( $adjCharge);
-        // keep looking for more of the same 
-        while ( !self::semicolon() and self::find(languageDB::ANDD) and (($adjCharge = self::charge()) != null ) ) {
-          $adjMod->appendChild ( $adjCharge);
-        }
+        $onMod->appendChild($onCharge);
+      }
+      // look for charge "on" charge (but can also be end of charge, with "on" belonging to next item)
+      $state = self::save();
+      if ( self::find(languageDB::WORD_ON) ) {
+        if ( ($onCharge = self::simpleCharge( true, true, false )) == null ) {
+          // The word we found belongs to something else
+          self::restore($state);
+        } else { // swap chargeA on chargeB to become chargeB charged with chargeA
+          $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,'on',self::tokens(), self::lineNo());
+          $onMod->appendChild($currentCharge);
+          $onCharge->appendChild($onMod);
+        } 
+      }
+      if ($onMod != null) {
+        $currentCharge->appendChild($onMod);
+        $currentCharge = $onCharge;
+      } */
+    } while ($found);
+    // // self::discard($state);
+    // // if ($topCharge == null) return null;
+    // $state = self::save();
+    // if ( !self::semicolon() ) {
+    //   // Look for adjacent charges
+    //   if ( $keyterm = self::find(languageDB::CHARGE_ADJACENT) ) {
+    //     $adjMod = $this->schema->makeMod(languageDB::CHARGE_ADJACENT,null,$keyterm,self::tokens(), self::lineNo());
+    //     if ( (($adjCharge = self::charge()) == null) and (($adjCharge = self::ordinary()) == null) ) {
+    //       $adjCharge = $this->schema->makeNode(blazonML::E_MISSING);
+    //       self::raiseError(self::ERROR_ORIGIN,"Expected charge or ordinary for $keyterm", true);
+    //     }
+    //     $adjMod->appendChild ( $adjCharge);
+    //     // keep looking for more of the same 
+    //     while ( !self::semicolon() and self::find(languageDB::ANDD) and (($adjCharge = self::charge()) != null ) ) {
+    //       $adjMod->appendChild ( $adjCharge);
+    //     }
 
-        $mods[] = $adjMod;
-        self::restoreAnd();
-        /*   // If there is an explicit position, a following "between" is redundant (e.g. issue 173)
-           $state = self::save();
-           if ( $keyterm = self::find(languageDB::CHARGE_ADJACENT) ) {
-             if ( $keyterm != 'between' ) // Backtrack, this belongs to the next item
-               self::restore($state);
-             // else just ignore the 'between'
-           } */
+    //     $mods[] = $adjMod;
+    //     self::restoreAnd();
+    //     /*   // If there is an explicit position, a following "between" is redundant (e.g. issue 173)
+    //        $state = self::save();
+    //        if ( $keyterm = self::find(languageDB::CHARGE_ADJACENT) ) {
+    //          if ( $keyterm != 'between' ) // Backtrack, this belongs to the next item
+    //            self::restore($state);
+    //          // else just ignore the 'between'
+    //        } */
 
-        self::discard($state);
-      } 
-    } else {
-      self::restore($state); // put the semi-colon back
-    }
-    // Add anything found earlier
+    //     self::discard($state);
+    //   } 
+    // } else {
+    //   self::restore($state); // put the semi-colon back
+    // }
+    // // Add anything found earlier
     foreach ( $mods as $mod )
-      $charge->appendChild($mod);
-    return $charge;
+      $topCharge->appendChild($mod);
+    return $topCharge;
   }
 
   protected function objects(){
