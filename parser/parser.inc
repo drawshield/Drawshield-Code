@@ -20,7 +20,7 @@ class parser {
   protected $tokenList;
 
   public function __construct( $language = 'english' ) {
-    $this->xmlMaker = new blazonML('1.0');
+    $this->xmlMaker = new blazonML('1.0',"utf-8");
     switch ( $language ) {
       case 'english':
         include "english/grammar.inc";

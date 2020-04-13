@@ -228,6 +228,7 @@ function makeshield( DOMElement &$node, $this_AR ) {
 
 
   $retval = '<g>';
+  if (!is_object($node)) return $retval;
   /**
    * @var DOMElement $child
    */
