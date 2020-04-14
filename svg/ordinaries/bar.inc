@@ -183,7 +183,22 @@ if ($subtype == 'bar' and existModifierWithKeyterm($node,'sinister')) {
         $spec = "X{$X1}Y{$Y1}h{$H1}B{$bend_length}d{$H1}F{$bend_length}";
         break;
     }
+
     $body .= createBody( $spec, $mods[$i], $linetype_size );
+    // we allow a single bar (only) to be cotticed
+    if ( ($num == 1) && ($cot_node = getModifierNodeWithKeyterm($node,'cotticing', false)) != null ) {
+      $cotiseSVG = '';
+      $cot_linetype= getModifierByType($cot_node,'linetype');
+			$cot_tinc = getTinctureNode($cot_node);
+			if ( !$cot_tinc )
+			  $cot_tinc = $tinc1;
+      $numberCottices = $cot_node->getAttribute('value');
+      for ( $i = 1; $i <= $numberCottices; $i++ )
+			  $cotiseSVG .= createCotise( $spec, $i, $cot_linetype );
+		  $cotiseSVG = apply_tincture ( $cot_tinc, $cotiseSVG );
+      existModifierWithKeyterm($node,'cotticing',true); // mark as used
+      $body .= $cotiseSVG;
+		}
   }
   $ordinary['body'] = $body;
 }
