@@ -52,7 +52,7 @@
           array ( 'cross(let|lets|es)? sarcell(ee|y)', 'quadrate/cross-sarcelly' ), 
           array ( 'cross(let|lets|es)? doubl(e|y) pommell?ed', 'quadrate/cross-sarcelly' ), 
           array ( 'cross(es)? potent rebated', 'quadrate/fylfot' ), 
-          array ( 'cross(es)? gammadions?', 'quadrate/fylfot' ), 
+          array ( 'cross(es)? gammadions?', 'quadrate/gammadion' ), 
           array ( 'cross(let|lets|es)? of (8|eight|huit) points', 'quadrate/maltese-cross' ),
           array ( 'chevrons? couped', 'geometric/chevron' ),
           array ( 'saltires? couped', 'cross/saltire' ),
@@ -486,7 +486,7 @@
       // armour
       array ( 'cou(te|diere)s?', 'armour/coute' ),
       array ( 'garde bras', 'armour/coute' ),
-      array ( 'mailed fists?', 'armour/mailed-fist' ),
+      array ( '(armour|mail)ed fists?', 'armour/mailed-fist' ),
       array ( 'chamfrons?', 'armour/chamfron' ),
       array ( '(cuirass|breastplat)e?s?', 'armour/cuirass' ),
       array ( '(coute|coudiere)s?', 'armour/coutes' ),
