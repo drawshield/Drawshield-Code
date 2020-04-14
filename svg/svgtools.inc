@@ -69,7 +69,7 @@ function splitStyle ( $styles, $attributeKeys, $strokeCol ) {
         break;
       case 'stroke-width':
         if ($strokeCol !== true)
-          $value = $value * 2;
+          $value = floatval($value) * 2;
         $retval .= $setting . '="' . $value . '" ';
         break;
       case 'fill-rule':
@@ -142,7 +142,7 @@ function rewriteAttributes($attributes, $strokeCol, $class = '', $fillSet = fals
         break;
       case 'stroke-width':
         if ($strokeCol !== true)
-          $data = $data * 2;
+          $data = floatval($data) * 2;
         $retval .= ' stroke-width="' . $data . '" ';
        break; 
       default:

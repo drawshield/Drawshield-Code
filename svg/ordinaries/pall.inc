@@ -16,7 +16,7 @@
 // This shape cannot be simply inverted, we actually need a different shaped to match per-pall inverted.
 if ( ($inv = getModifierNodeWithKeyterm($node,'inverted')) != null ) {
   $node->removeChild($inv);
-  $ordinary['shape_spec'] = array ( 'NC' => 'X450Y-100a100C589B889d141F848D848f141H889G589', 'CH' => 'X450Y200a100C289B889d141F848D848f141H889G289' );
+  $ordinary['shape_spec'] = array ( 'NC' => 'X430Y-100a141C589B889d141F847D847f141H889G589', 'CH' => 'X450Y200a141C289B889d141F847D847f141H889G289' );
 } else {
   $ordinary['shape_spec'] = array ( 'NC' => 'X92Y-8B577H577a100c100D618C670e141G670F618g100a100', 'CH' => 'X92Y292B577H577a100c100D618C370e141G370F618g100a100' );
 }
