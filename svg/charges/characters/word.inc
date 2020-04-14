@@ -115,7 +115,7 @@ switch ($textLayout) {
       $fontStyle . '" font-family="' . $fontFamily . '" text-decoration="' . $textDecoration .
       '" font-weight="' . $fontWeight . '">';
     foreach ($words as $word) {
-      $svgText .= '<tspan x="' . $x . '" y="' .  $y . '" text-anchor="' . $textAlign . '" >' . htmlentities($word) . '</tspan>';
+      $svgText .= '<tspan x="' . $x . '" y="' .  $y . '" text-anchor="' . $textAlign . '" >' . $word . '</tspan>';
       $y += 44;
     }
     $svgText .= '</text>';
@@ -126,7 +126,7 @@ switch ($textLayout) {
     $svgText .= '<text x="0" y="0" font-size="44" font-style="' .
       $fontStyle . '" font-family="' . $fontFamily . '" text-decoration="' . $textDecoration .
       '" font-weight="' . $fontWeight . '">';
-    $svgText .= '<tspan x="' . ($width / 2) . '" y="44" text-anchor="middle" >' . htmlentities($item) . '</tspan>';
+    $svgText .= '<tspan x="' . ($width / 2) . '" y="44" text-anchor="middle" >' . $item . '</tspan>';
     $svgText .= '</text>';
     break;
   case 'block': //--------------------------------------------------------------
@@ -172,7 +172,7 @@ switch ($textLayout) {
       $fontStyle . '" font-family="' . $fontFamily . '" text-decoration="' . $textDecoration .
       '" font-weight="' . $fontWeight . '">';
     foreach ($lines as $line) {
-      $svgText .= '<tspan x="' . $x . '" y="' .  $y . '" text-anchor="' . $textAlign . '" >' . htmlentities($line) . '</tspan>';
+      $svgText .= '<tspan x="' . $x . '" y="' .  $y . '" text-anchor="' . $textAlign . '" >' . $line . '</tspan>';
       $y += 44;
     }
     $svgText .= '</text>';
@@ -196,7 +196,7 @@ switch ($textLayout) {
   else
     $arch = add_def('path d="m 25,0 a1,0.7 0 0,0 400,0"',null);
   $svgText .= '<defs><path id="#' . $arch .  '" d="m 0,0 "/></defs>'; // dummy defs to make svgCode parse in simplexml_load
-  $svgText .= '<text text-anchor="' . $textAlign . '" font-weight="' . $fontWeight . '" font-style="' . $fontStyle . '" font-family="' . $fontFamily . '" font-size="' . $fontSize . '" x="0" y="400"><textPath startOffset="' . $startOffset . '" href="#' . $arch . '">' . htmlentities($item) . '</textPath></text>';
+  $svgText .= '<text text-anchor="' . $textAlign . '" font-weight="' . $fontWeight . '" font-style="' . $fontStyle . '" font-family="' . $fontFamily . '" font-size="' . $fontSize . '" x="0" y="400"><textPath startOffset="' . $startOffset . '" href="#' . $arch . '">' . $item . '</textPath></text>';
     break;
   case 'wavy':
     $width = 800;
@@ -212,7 +212,7 @@ switch ($textLayout) {
     if ( $fontSize > 150 ) $fontSize = 150; // but not too large!
     $arch = add_def('path d="m 25,160 a1,0.7 0 0,1 400,0 a1,0.7 0 0,0 400,0"',null);
     $svgText .= '<defs><path id="#' . $arch .  '" d="m 0,0 "/></defs>'; // dummy defs to make svgCode parse in simplexml_load
-    $svgText .= '<text text-anchor="' . $textAlign . '" font-weight="' . $fontWeight . '" font-style="' . $fontStyle . '" font-family="' . $fontFamily . '" font-size="' . $fontSize . '" x="0" y="400"><textPath startOffset="' . $startOffset . '" href="#' . $arch . '">' . htmlentities($item) . '</textPath></text>';
+    $svgText .= '<text text-anchor="' . $textAlign . '" font-weight="' . $fontWeight . '" font-style="' . $fontStyle . '" font-family="' . $fontFamily . '" font-size="' . $fontSize . '" x="0" y="400"><textPath startOffset="' . $startOffset . '" href="#' . $arch . '">' . $item . '</textPath></text>';
     break;
   case 'encircled':
     $width = 500;
