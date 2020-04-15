@@ -27,7 +27,7 @@ class extraInfoMap {
       'mullet' => array('fimbriate' => true),
       'zodiac' => array('fimbriate' => true),
       'alchemical' => array('fimbriate' => true),
-      'astronimical' => array('fimbriate' => true),
+      'astronomical' => array('fimbriate' => true),
       'crown' => array('horizontal' => true),
       'fish' => array('horizontal' => true, 'orient_to_ordinary' => 1),
     );

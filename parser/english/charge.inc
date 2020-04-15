@@ -72,7 +72,7 @@
       array ( 'paternoster cross(es)?', 'cross/paternoster' ),
       array ( 'rosary cross(es)?', 'cross/paternoster' ),
       array ( 'portate cross(es)?', 'cross/portate' ),
-      array ( '(latin|long|passion) cross(es)?', 'cross/long' ),
+      array ( '(latin|long|straight|passion) cross(es)?', 'cross/long' ),
       array ( 'couped saltires?', 'cross/saltire' ),
      array ( 'celtic cross(es)?', 'cross/celtic' ),
      array ( 'russian cross(es)?', 'cross/russian' ),
