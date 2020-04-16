@@ -45,7 +45,7 @@
 
    // TODO Deal with all the stuff in _quadrate8.inc
    $this->patterns[languageDB::CHARGE_FEATURES] = array ( 
-     'crossed', 'fructed', 'beaked', 'hooped', 'plumed',
+     'crossed', 'fructed', 'beaked', 'hooped', 'plumed', 'wreathed',
      'seeded', 'barbed', 'gemmed', 'acorned', 'laced',
      'muzzled', 'allume', 'chains', 'tusked', 'spotted',
      'chausse', 'crined', 'cuff', 'nooked', 'hooded',
