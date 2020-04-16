@@ -270,11 +270,13 @@ class references {
       if (count($existingIDs) == 0) {
         $simple = $this->greyShield();
         $firstChild = $node->firstChild; // the shield element
-        $theID = unique('N1-');
-        $firstChild->setAttribute('ID', $theID);
-        $existingIDs[] = $theID;
-        $pending = $firstChild->firstChild;
-        $firstChild->replaceChild($simple,$pending);
+        if ($firstChild != null) {
+          $theID = unique('N1-');
+          $firstChild->setAttribute('ID', $theID);
+          $existingIDs[] = $theID;
+          $pending = $firstChild->firstChild;
+          $firstChild->replaceChild($simple,$pending);
+        }
       }
       // start counting through the available IDs
       $currentID = 0;
