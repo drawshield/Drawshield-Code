@@ -356,7 +356,10 @@ function getCharge( DOMElement $node ) {
                   $feat_cols[$featureName] = getProper($chargeGroup, $chargeName, $featureName);
                   break;
                 default: // treatment or something
-                  $messages->addMessage('Warning', "Features can only be plain colours");
+                // Message comment out for now, spurious when feature is really 
+                // a charge modifier, e.g. wolfs head counterchaged
+                // so not helpful at present.
+                  // $messages->addMessage('Warning', "Features can only be plain colours");
                   break;
               }
             }

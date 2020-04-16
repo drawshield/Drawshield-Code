@@ -876,7 +876,7 @@ class languageDB extends lexicon {
           array ( '(half|section|part)', 'all' ),
           ),
         self::CHARGE_BETWEEN => array (
-          array ( '(between|betwixt|inter) ?them', 'between' ),
+          array ( '(between|betwixt|inter|btw) ?them', 'between' ),
           //  array ( 'within ?(them|it)', 'within' ),
         ),
         self::CHARGE_NEAR => array (

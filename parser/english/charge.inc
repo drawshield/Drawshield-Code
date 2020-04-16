@@ -650,6 +650,7 @@
       array ( 'tulips?', 'flower/tulip' ),
       array ( 'popp(y|ies)', 'flower/poppy' ),
       array ( 'dais(y|ies)', 'flower/daisy' ),
+      array ( 'iris(es)?', 'flower/iris' ),
       array ( 'lotus(es)? ?(flower|blossom)s?', 'flower/lotus'),
       // other plants
       array ( 'pine apples?', 'plant/pineapple' ),
@@ -752,7 +753,7 @@
       array ( 'mascles?', 'geometric/mascle' ),
       array ( 'm(o|u)ll?ets?', 'mullet/mullet' ),
       array ( 'astroids?', 'mullet/mullet' ),
-      array ( 'round(el|le)s?', 'geometric/roundel' ),
+      array ( 'rou?nd(el|le)s?', 'geometric/roundel' ),
       array ( 'rustres?', 'geometric/rustre' ),
       array ( 'triangles?', 'geometric/triangle' ),
       array ( 'squares?', 'geometric/square' ),
