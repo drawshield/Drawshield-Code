@@ -943,6 +943,8 @@
       array ( 'alquerque boards?', 'games/board-alquerque'),
       array ( '(nine|9) mens? morris boards?', 'games/board-nine-mens-morris'),
       array ( '(twelve|12) mens? morris boards?', 'games/board-twelve-mens-morris'),
+      array ( 'morris ?boards? ?of ?(9|nine)', 'games/board-nine-mens-morris'), // default
+      array ( 'morris ?boards? of (twelve|12)', 'games/board-twelve-mens-morris'),
       // crafts
       array ( 'spindles? ?of ?silk', 'crafts/spindle' ),
       array ( 'ribbons?', 'crafts/ribbon' ),
