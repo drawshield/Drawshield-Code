@@ -427,6 +427,7 @@ class englishGrammar extends grammar {
     if ( $asterisk = $this->phraseMatcher->getValue() )
       $mods[] = $this->schema->makeMod('value',$asterisk,'value',self::tokens(), self::lineNo());
     if ($keyterm == 'special/escutcheon') {
+      self::ignore(languageDB::BLAZONED);
       $foundTinc = true; // don't look for a colour, let the shield take it
       // $mods[] = self::simple(true);
       $mods[] = self::shield();

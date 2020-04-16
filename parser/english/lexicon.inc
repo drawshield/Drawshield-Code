@@ -89,6 +89,7 @@ class languageDB extends lexicon {
   const HELMET = 'helmet';
   const ACHIEVEMENT = 'achievement';
   const EACH = 'each';
+  const BLAZONED = 'blazoned';
   
   public function __construct() {
     global $options;
@@ -138,6 +139,7 @@ class languageDB extends lexicon {
       //   array ('motto', 'motto'),
       //   array ('devi[sc]e', 'motto'),
       // ),
+      self::BLAZONED => array ( '(em)blazoned ?(with|of)', 'with ?(a|the) blazon ?of'),
       self::SPLITS => array (
         array ( 'impaled with', 'impaled' ),
         array ( 'impaling', 'impaled' ),
