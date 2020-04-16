@@ -119,7 +119,7 @@ class englishGrammar extends grammar {
       $elementName = null;
       $value = strtolower($this->phraseMatcher->getValue());
       switch ($option) {
-        case 'scheme':
+        case 'palette':
           $elementName = blazonML::E_PALETTE;
           break;
         case 'style':

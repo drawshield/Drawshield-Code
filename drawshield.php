@@ -200,6 +200,7 @@ if ($options['shape'] == 'flag') {
   if ($ar != null) $options['aspectRatio'] = calculateAR($ar);
   $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
 }
+if ($options['palette'] == 'default') $options['palette'] = 'drawshield';
 
   // Read in the drawing code  ( All formats start out as SVG )
 

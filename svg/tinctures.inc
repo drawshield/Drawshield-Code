@@ -38,8 +38,8 @@ function rgb($keyterm) {
         $tinctures = readTinctureFile('svg/schemes/drawshield.txt');
         $palette = $options['palette'];
         if (!file_exists('svg/schemes/' . $palette . '.txt')) {
-            $palette = 'drawshield';
-            $messages->addMessage('internal', "unknown colour scheme - $palette" );
+          $messages->addMessage('internal', "unknown colour scheme - $palette" );
+          $palette = 'drawshield';
         } else {
             $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/' . $palette . '.txt'));
         }

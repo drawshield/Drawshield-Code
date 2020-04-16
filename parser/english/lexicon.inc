@@ -914,7 +914,7 @@ class languageDB extends lexicon {
           ),
         self::DRAWN_MODS => array (
           array ( 'drawn', 'drawn' ),
-          array ( '(with|in|using) ?(a|an|the) * (palette|tinctures|colou?rs)', 'scheme'),
+          array ( '(with|in|using) ?(a|an|the) * (palette|tinctures|colou?rs)', 'palette'),
           array ( '(with|in|using) ?(a|an|the) * shape', 'shape'),
           array ( '(with|in|using) ?(a|an|the) * (appearance|style|effect)', 'style'),
           array ( '(with|in|using) ?(a|an|the) aspect ?ratio ?of *', 'aspect'),
