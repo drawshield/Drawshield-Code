@@ -58,18 +58,23 @@ class extraInfoMap {
     );
   }
   
+  /*
+   * We build up the extras array from the most general to the most specific, allowing values to
+   * be overwritten by more specific elements
+   */
+  
   public function getExtra ( $chargeGroup, $chargeName )
   {
-    global $messages;
+    $extras = [];
 
-    // Look for the most specific things first
+    if (array_key_exists($chargeGroup, self::$groups))
+      $extras = self::$groups[$chargeGroup]; // Don't need to merge as this is the first
+    if (array_key_exists($chargeName, self::$charges))
+      $extras = array_merge($extras, self::$charges[$chargeName]);
     $search = $chargeGroup . '/' . $chargeName;
     if (array_key_exists($search, self::$charges))
-      return self::$charges[$search];
-    elseif (array_key_exists($chargeName, self::$charges))
-      return self::$charges[$chargeName];
-    elseif (array_key_exists($chargeGroup, self::$groups))
-      return self::$groups[$chargeGroup];
-    return [];
+    $extras = array_merge($extras, self::$charges[$search]);
+
+    return $extras;
   }
 }
