@@ -136,7 +136,8 @@ abstract class grammar  {
          $start = $start < 0 ? 0 : $start; 
          for ( $i = $start; $i < $offset; $i++ ) 
            $context .= $tokens[$i] . ' ';
-         $lineNo = " near line " . $lineNos[$offset];
+        if (isset($lineNos[$offset]))
+          $lineNo = " near line " . $lineNos[$offset];
     } elseif ( $getOffset !== false )
       $context = $getOffset;
     $messageNode = $this->schema->makeNode(blazonML::E_MESSAGE, array ( 
