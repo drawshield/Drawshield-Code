@@ -168,7 +168,7 @@ function makeOrdinary( DOMElement &$node ) {
 			  $bodySVG .= apply_tincture ( $void_col, createBody($shape_spec, 'none', 0 ) );
       $bodySVG .= createVoid($shape_spec, getModifierByType($node,'linetype'), $feature_size);
     } else {
-      $bodySVG .= createBody($shape_spec, getModifierByType($node,'linetype'), $feature_size);
+      $bodySVG .= createBody($shape_spec, getModifierByType($node,'linetype', false), $feature_size);
     }
 		// Now do the cotises
     /**
