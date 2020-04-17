@@ -170,7 +170,7 @@ function makedimidiated( $children, $this_AR ) {
   $retval = '';
 
   if ($options['shape'] == 'flag') {
-    $messages->addMessage('Dimidiated not supported for flags');
+    $messages->addMessage('blazon','Sorry, dimidiated not supported for flags');
     return $retval;
   }
   
