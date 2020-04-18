@@ -46,6 +46,8 @@
           array ( 'cross(es)? potent crossed', 'quadrate/cross-potent-crossed' ), 
           array ( 'cross(es)? poten(t|ce)', 'quadrate/cross-potent' ), 
           array ( 'cross(es)? of jerusalem', 'quadrate/cross-jerusalem' ), 
+          array ( 'cross(es)? of pisa', 'quadrate/cross-pisa' ), 
+          array ( 'cross(es)? of toulouse', 'quadrate/cross-toulouse' ), 
           array ( 'cross(es)? ?of ?(saint|st) florian', 'quadrate/cross-florian' ), 
           array ( 'cross(let|lets|es)? recercell?e?(e|y)', 'quadrate/cross-recercele' ), 
           array ( 'cross(let|lets|es)? moline voided', 'quadrate/cross-recercele' ), 
@@ -148,6 +150,7 @@
       array ( 'goats?', 'livestock/goat' ),
       array ( 'ox(en)?', 'livestock/ox' ),
       array ( 'rams?', 'livestock/ram' ),
+      array ( 'rams? horns?', 'livestock/rams-horn' ),
       array ( 'lambs?', 'livestock/lamb' ),
       array ( 'sheep?', 'livestock/sheep' ),
       array ( 'bulls?', 'livestock/bull' ),
@@ -160,7 +163,8 @@
       array ( '(moor|heath)cocks?', 'livestock/cock' ),
       // dogs
       array ( 'greyhounds?', 'dog/greyhound' ),
-      array ( '(talbot|hound)s?', 'dog/talbot' ),
+      array ( 'talbots?', 'dog/talbot' ),
+      array ( 'hounds?', 'dog/hound' ),
       array ( 'dogs?', 'dog/dog' ),
       array ( 'alan[dt]s', 'dog/mastiff' ),
       // Wildlife
@@ -382,6 +386,7 @@
       array ( 'brackets?', 'tools/bracket' ),
       array ( 'cables?', 'tools/cable' ),
       array ( 'chains?', 'tools/chain' ),
+      array ( 'rakes?', 'tools/rake' ),
       array ( 'compass(es)?', 'tools/compass' ),
       array ( 'fers? de molines?', 'tools/millrind' ),
       array ( 'flax breakers?', 'tools/hemp-break' ),
@@ -582,6 +587,7 @@
       array ( '?mountain (rowan|rodey|ash)', 'tree-fruit/ash' ),
       array ( 'hazels?', 'tree-fruit/hazel' ),
       array ( 'palms?', 'tree-fruit/palm' ),
+      array ( 'logs?', 'tree-fruit/log' ),
       array ( 'palmtrees?', 'tree-fruit/palm' ),
       array ( 'cherr(y|ies)', 'tree-fruit/cherry' ),
       array ( 'whitethorns?', 'tree-fruit/whitethorn' ),
@@ -707,6 +713,7 @@
       array ( 'well frames?', 'architecture/well-frame'),
       array ( 'portcullis(es)?', 'architecture/portcullis' ),
       array ( '?door arch(es)?', 'architecture/arch' ),
+      array ( 'doors?', 'architecture/door' ),
       array ( 'cogwheels?', 'architecture/cogwheel' ),
       array ( '(cog|clock) wheels?', 'architecture/cogwheel' ),
       array ( 'gears? ?wheels?', 'architecture/cogwheel' ),
@@ -1003,6 +1010,7 @@
       array ( 'fleeces?', 'farming/fleece' ),
       array ( 'golden fleeces?', 'farming/fleece?P' ),
       array ( 'bellows?', 'household/bellows' ),
+      array ( 'armill?ary spheres?', 'household/armillary-sphere' ),
       // crown
       array ( '?open (crown|coronet)s?', 'crown/open-crown' ), // default crown
       array ( 'antique crowns?', 'crown/antique' ),
@@ -1215,9 +1223,6 @@
        array ( 'football helmets?', 'sports/football-helmet'),
        array ( 'baseball gloves?', 'sports/baseball-glove'),
        array ( 'sports? (number|digit)s? *', 'sports/number'),
-       // logos (srsly?)
-       array ( 'reddit aliens?', 'logo/reddit-alien'),
-       array ( 'snoos?', 'logo/reddit-alien'),
        // modern
        array ( 'parachutes?', 'modern/parachute'),
        // warhammer
