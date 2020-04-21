@@ -132,7 +132,7 @@ function get_placement(DOMElement $item) {
     $number = $item->getAttribute('number');
     $overall = ($item->parentNode->parentNode->nodeName == 'overall');
     $apply_location = true;
-    $forceCentre = (($options['shape'] != 'pauldron') && ($group == "quadrate" || $group == 'geometric') && $number == 1);
+    $forceCentre = (!($entire) && ($options['shape'] != 'pauldron') && ($group == "quadrate" || $group == 'geometric') && $number == 1);
     $div_node = $xpath->query("parent::objects/parent::simple/field/tincture/division", $item);
     if ( $div_node->length > 0 ) {
       /**
