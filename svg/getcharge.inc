@@ -193,7 +193,7 @@ function read_chg_file(DOMElement $node) {
     }
     // Get additional metadata, but allow existing entries (picked up from the charge itself)
     // to have priority
-    $chg_data = array_merge(getExtraInfo($group, $chargeKey), $chg_data);
+    $chg_data = array_merge(getMetadata($group, $chargeKey), $chg_data);
   }
   $chg_data['title'] = $title;
   if (array_key_exists('licence',$chg_data))
@@ -229,26 +229,15 @@ function getProper ( $group, $charge, $feature = null, $errorIfNone = true ) {
   return $proper->getProper($group, $charge, $feature, $errorIfNone );
 }
 
-function getExtraInfo ( $group, $charge ) {
-  static $extraInfo = null;
+function getMetadata ( $group, $charge ) {
+  static $metadata = null;
 
-  if ( !$extraInfo ) {
-    include 'svg/extrainfo.inc';
-    $extraInfo = new extraInfoMap();
+  if ( !$metadata ) {
+    include 'svg/metadata.inc';
+    $metadata = new metadataMap();
   }
 
-  return $extraInfo->getExtra($group, $charge);
-}
-
-function getFlex ( $group, $charge ) {
-  static $flex = null;
-
-  if ( !$flex ) {
-    include 'svg/flex.inc';
-    $flex = new flexAmount();
-  }
-
-  return $flex->getFlex($group, $charge );
+  return $metadata->getMeta($group, $charge);
 }
 
 function makeSquareCharge(DOMElement $node ) {
@@ -314,13 +303,7 @@ function getCharge( DOMElement $node ) {
       $chg_data = $chg_data_cache[$chg_ref];
 
     //-------------------------------------------------------------
-    // Set Flex amounts
-    $flex = getFlex($chargeGroup, $chargeName);
-    $chg_data['hflex'] = $flex[0];
-    $chg_data['wflex'] = $flex[1];
-    //-------------------------------------------------------------
-
-  
+    
 
     //------------------------------------------------------------
     // Get all tincture related information
