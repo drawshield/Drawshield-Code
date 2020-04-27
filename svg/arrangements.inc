@@ -6,7 +6,16 @@
      if ( $boundingBox == 'x' ) return $placement; // dummy entry to give multiple locations
      $newPlacement = '';
      $numberGroups = explode('/',$placement);
-     list($bbx,$bby,$bbw,$bbh) = explode(',',$boundingBox);
+     $bbElements = explode(',',$boundingBox);
+     if (count($bbElements) < 4) {
+       error_log("bad BB - $boundingBox");
+       return $placement;
+     }
+     $bbx = $bbElements[0];
+     $bby = $bbElements[1];
+     $bbw = $bbElements[2];
+     $bbh = $bbElements[3];
+     // list($bbx,$bby,$bbw,$bbh) = explode(',',$boundingBox); // replaced for error tracking
      $xScale = $bbw / 1000;
      $yScale = $bbh / 1000;
      foreach ( $numberGroups as $numberGroup ) {
@@ -73,7 +82,7 @@ function inAnnulo($number) {
   $radius = 400;
   $angle = 0;
   $turn = 360 / $number;
-  // Make size dependent on circumference and number
+  // Make size dependent on circumference && number
   $size = intval(($radius * 3.1412) / ($number * 0.9));
   if ($size > 150) $size = 200;
   $placement = str_repeat('/',$number - 1);
@@ -112,7 +121,7 @@ function get_placement(DOMElement $item) {
   // $aspect_group = $aspect_groups[$aspect_ratio];
 
     $placement = ''; // This is what we are after, keep going until we find one
-    $adjustment = ''; // And we might also have an adjustment once we have found it
+    $adjustment = ''; // && we might also have an adjustment once we have found it
     $keyterm = $item->getAttribute('keyterm');
     if (is_null($keyterm) || strpos($keyterm,'/') === false) {
       // error_log("bad keyterm in " . $options['blazon']); // Just a bad placement, not necessarily a code error
@@ -151,7 +160,7 @@ function get_placement(DOMElement $item) {
       $underlying_div = null;
     }
     
-    // Figure out default bounding box size for this aspect ratio, chief presence and entire
+    // Figure out default bounding box size for this aspect ratio, chief presence && entire
     if ( $options['shape'] == 'flag') {
       if ( existModifierWithKeyterm($item,'entire') ) {
         $boundingBox = '0,0,1000,' . $options['flagHeight'];
@@ -302,25 +311,25 @@ function get_placement(DOMElement $item) {
   }
 
   // On an underlying division (but ignore if in a specific location)
-    if ( $placement == '' and count($pos)==0 and $underlying_div != null ) {
-      if ($underlying_div=='per-bend' and $number==2 and $chief == false) $placement = 'x/300,700,350,350:700,300/x/x/x/x';
-      elseif ($underlying_div=='per-bend-sinister' and $number==2 and $chief == false) $placement = 'x/300,300,350,350:700,700/x/x/x/x';
-      elseif ($underlying_div=='per-bend-sinister' and $number==2  and $chief == true) $placement = 'x/300,600,350,350:700,1000/x/x/x/x';
-      elseif ($underlying_div=='per-bend' and $number==2  and $chief == true) $placement = 'x/300,900,250,250:600,600/x/x/x/x';
-      elseif (substr($underlying_div,0,9)=='quarterly' and $number==4  and $chief == false) $placement = 'x/x/x/250,250,300,300:750,250:250,750:750,750/x/x/';
-      elseif (substr($underlying_div,0,9)=='quarterly' and $number==4  and $chief == true) $placement = 'x/x/x/250,450,260,260:750,450:250,850:750,850/x/x/';
-      elseif ($underlying_div=='gyronny_of_8' and ($number==8 or $number==4)  and $chief == false) $placement = 'x/x/x/200,500,300,300:500,200:800,500:500,800/x/x/x/200,400,160,160:400,200:600,200:800,400:800,600:600,800:400,800:200,600';
-      elseif ($underlying_div=='gyronny_of_8' and ($number==8 or $number==4)  and $chief == true) $placement = 'x/x/x/200,700,250,250:500,400:800,700:500,1000/x/x/x/200,600,150,150:400,400:600,400:800,600:800,800:600,1000:400,1000:200,800';
-      elseif ($underlying_div=='gyronny_of_6' and ($number==6 or $number==3)  and $chief == false) $placement = 'x/200,500,300,600:800,500/x/x/x/350,200,200,200:650,200:150,500:850,500:350,800:650,800';
-      elseif ($underlying_div=='gyronny_of_6' and ($number==6 or $number==3)  and $chief == true) $placement = 'x/200,800,300,400:800,800/x/x/x/350,450,180,180:650,450:150,700:850,700:350,950:650,950';
-      elseif ($underlying_div=='per-chevron' and $number==3  and $chief == false) $placement = 'x/x/250,200,240,240:500,750,300,300:750,200,240,240';
-      elseif ($underlying_div=='per-chevron' and $number==3  and $chief == true) $placement = 'x/x/250,500,220,220:500,950,300,300:750,500,220,220';
-      elseif ($underlying_div=='per-pall-reversed' and $number==3  and $chief == false) $placement = 'x/x/250,300,300,300:500,900:750,300/x/x/x/';
-      elseif ($underlying_div=='per-pall-reversed' and $number==3  and $chief == true) $placement = 'x/x/250,500,260,260:500,950:750,500/x/x/x/';
-      elseif ($underlying_div=='per-pall' and $number==3  and $chief == false) $placement = 'x/x/250,700,300,300:500,200,300,300:750,700,300,300:/x/x/x/';
-      elseif ($underlying_div=='per-pall' and $number==3  and $chief == true) $placement = 'x/x/250,850,260,260:500,500:750,850:/x/x/x/';
-      elseif ($underlying_div=='per-saltire' and $number==3  and $chief == false) $placement = 'x/200,500,240,240:800,500/200,500,240,240:500,850,300,300:800,500,240,240/200,500,240,240:500,850,300,300:800,500,240,240:500,200,240,240/x/x';
-      elseif ($underlying_div=='per-saltire' and $number>=2 and $number<=4  and $chief == true) $placement = 'x/200,700,220,220:800,700/200,700,220,220:500,950,260,260:800,700,220,220/200,700,220,220:500,950,260,260:800,700,220,220:500,450,220,220/x/x';
+    if ( $placement == '' && count($pos)==0 && $underlying_div != null ) {
+      if ($underlying_div=='per-bend' && $number==2 && $chief == false) $placement = 'x/300,700,350,350:700,300/x/x/x/x';
+      elseif ($underlying_div=='per-bend-sinister' && $number==2 && $chief == false) $placement = 'x/300,300,350,350:700,700/x/x/x/x';
+      elseif ($underlying_div=='per-bend-sinister' && $number==2  && $chief == true) $placement = 'x/300,600,350,350:700,1000/x/x/x/x';
+      elseif ($underlying_div=='per-bend' && $number==2  && $chief == true) $placement = 'x/300,900,250,250:600,600/x/x/x/x';
+      elseif (substr($underlying_div,0,9)=='quarterly' && $number==4  && $chief == false) $placement = 'x/x/x/250,250,300,300:750,250:250,750:750,750/x/x/';
+      elseif (substr($underlying_div,0,9)=='quarterly' && $number==4  && $chief == true) $placement = 'x/x/x/250,450,260,260:750,450:250,850:750,850/x/x/';
+      elseif ($underlying_div=='gyronny_of_8' && ($number==8 or $number==4)  && $chief == false) $placement = 'x/x/x/200,500,300,300:500,200:800,500:500,800/x/x/x/200,400,160,160:400,200:600,200:800,400:800,600:600,800:400,800:200,600';
+      elseif ($underlying_div=='gyronny_of_8' && ($number==8 or $number==4)  && $chief == true) $placement = 'x/x/x/200,700,250,250:500,400:800,700:500,1000/x/x/x/200,600,150,150:400,400:600,400:800,600:800,800:600,1000:400,1000:200,800';
+      elseif ($underlying_div=='gyronny_of_6' && ($number==6 or $number==3)  && $chief == false) $placement = 'x/200,500,300,600:800,500/x/x/x/350,200,200,200:650,200:150,500:850,500:350,800:650,800';
+      elseif ($underlying_div=='gyronny_of_6' && ($number==6 or $number==3)  && $chief == true) $placement = 'x/200,800,300,400:800,800/x/x/x/350,450,180,180:650,450:150,700:850,700:350,950:650,950';
+      elseif ($underlying_div=='per-chevron' && $number==3  && $chief == false) $placement = 'x/x/250,200,240,240:500,750,300,300:750,200,240,240';
+      elseif ($underlying_div=='per-chevron' && $number==3  && $chief == true) $placement = 'x/x/250,500,220,220:500,950,300,300:750,500,220,220';
+      elseif ($underlying_div=='per-pall-reversed' && $number==3  && $chief == false) $placement = 'x/x/250,300,300,300:500,900:750,300/x/x/x/';
+      elseif ($underlying_div=='per-pall-reversed' && $number==3  && $chief == true) $placement = 'x/x/250,500,260,260:500,950:750,500/x/x/x/';
+      elseif ($underlying_div=='per-pall' && $number==3  && $chief == false) $placement = 'x/x/250,700,300,300:500,200,300,300:750,700,300,300:/x/x/x/';
+      elseif ($underlying_div=='per-pall' && $number==3  && $chief == true) $placement = 'x/x/250,850,260,260:500,500:750,850:/x/x/x/';
+      elseif ($underlying_div=='per-saltire' && $number==3  && $chief == false) $placement = 'x/200,500,240,240:800,500/200,500,240,240:500,850,300,300:800,500,240,240/200,500,240,240:500,850,300,300:800,500,240,240:500,200,240,240/x/x';
+      elseif ($underlying_div=='per-saltire' && $number>=2 && $number<=4  && $chief == true) $placement = 'x/200,700,220,220:800,700/200,700,220,220:500,950,260,260:800,700,220,220/200,700,220,220:500,950,260,260:800,700,220,220:500,450,220,220/x/x';
     }
    
     // now, do we need to modify placement to put the arrangement in a specific location?
@@ -691,7 +700,7 @@ function calcPlace( $node, $aspect, $bb = '100,100,800,900'  ) {
     for ( $i = 0; $i < $num_rows; $i++ ) {
       $centre_y = $bb_y + ($cbb_height * $i) + ($cbb_height / 2);
       for ( $j = 0; $j < $row_list[$i]; $j++ ) {
-        if ( $row_list[$i] == $max_row and $max_row != 1 ) {
+        if ( $row_list[$i] == $max_row && $max_row != 1 ) {
           $centre_x = $bb_x + ($cbb_width * $j) + ($cbb_width/2);
         } else {
           $centre_x = $bb_x + ((1000 - $bb_x - $bb_x - ($cbb_width * $row_list[$i]))/2) + ($cbb_width * $j) + ($cbb_width/2);

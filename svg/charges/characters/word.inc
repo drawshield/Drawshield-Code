@@ -82,6 +82,7 @@ $fontAdjustments = array (
 );
 
 $item = getModifierValueByKeyterm( $node, 'value' );
+
 if ( $item == null ) $item = 'huh';
 $lines = array();
 $words = explode(' ', $item);

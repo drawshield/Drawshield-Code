@@ -69,7 +69,7 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
       $options['blazon'] = file_get_contents($fileTmpName);
     } 
   } else {    
-      if (isset($_POST['blazon'])) $options['blazon'] = html_entity_decode(strip_tags(trim($_POST['blazon'])));
+      if (isset($_POST['blazon'])) $options['blazon'] = strip_tags(trim($_POST['blazon']));
   }
   if (isset($_POST['outputformat'])) $options['outputFormat'] = strip_tags ($_POST['outputformat']);;
   if (isset($_POST['saveformat'])) $options['saveFormat'] = strip_tags ($_POST['saveformat']);;
@@ -84,7 +84,7 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_POST['webcols'])) $options['useWebColours'] = true;
   if (isset($_POST['whcols'])) $options['useWarhammerColours'] = true;
 } else { // for old API
-  if (isset($_GET['blazon'])) $options['blazon'] = html_entity_decode(strip_tags(trim($_GET['blazon'])));
+  if (isset($_GET['blazon'])) $options['blazon'] = strip_tags(trim($_GET['blazon']));
   if (isset($_GET['saveformat'])) $options['saveFormat'] = strip_tags ($_GET['saveformat']);;
   if (isset($_GET['outputformat'])) $options['outputFormat'] = strip_tags ($_GET['outputformat']);;
   if (isset($_GET['asfile'])) $options['asFile'] = ($_GET['asfile'] == "1");
@@ -100,6 +100,8 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_GET['whcols'])) $options['useWarhammerColours'] = true;
 }
 
+$options['blazon'] = preg_replace("/&#?[a-z0-9]{2,8};/i","",$options['blazon']); // strip all entities.
+$options['blazon'] = preg_replace("/\\x[0-9-a-f]{2}/i","",$options['blazon']); // strip all entities.
 
  register_shutdown_function(function()
     {

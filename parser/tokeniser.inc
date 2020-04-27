@@ -1,16 +1,4 @@
-<?php /* Copyright 2014 Karl R. Wilcox
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License. */
+<?php 
 
 class tokeniser {
 
@@ -206,10 +194,10 @@ class tokeniser {
             $part_word = '';
           }
           if ($comment) break;
-          if ( $i > 0 and strstr(  " \t\n\r'\",.", $blazon[$i-1])) {
+          if ( $i > 0 && strstr(  " \t\n\r'\",.", $blazon[$i-1])) {
             $i = $end;
           }
-          if ( $i < $end and $blazon[$i+1] == '-' ) {
+          if ( $i < $end && $blazon[$i+1] == '-' ) {
             $i = $end;
           }
           break;
@@ -292,7 +280,7 @@ class tokeniser {
     elseif ( $offset < 0 )
       $offset = 0;
     // in case already ignored, try ignoring next word
-    while ( $this->words[$offset]{0} == '[' and $offset < $this->num_tokens  )
+    while ( $this->words[$offset]{0} == '[' && $offset < $this->num_tokens  )
       $offset++;
     $this->words[$offset] = '[' . $this->words[$offset] . ']';
     if ($trace) echo "<p>Ignoring - " . $this->words[$offset] . "</p>\n";

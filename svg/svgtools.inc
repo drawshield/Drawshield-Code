@@ -232,7 +232,8 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
   global $messages, $options;
   $retval = array();
 
-  if ( ($svg = simplexml_load_string($svgCode)) == null ) {
+  libxml_use_internal_errors(true);
+  if ( ($svg = @simplexml_load_string($svgCode, null, LIBXML_NOENT)) == null ) {
     $messages->addMessage('internal',"XML error reading charge data");
     error_log("XML error reading charge data - " . $chargeGroup . '/' . $chargeName);
     // Fallback item
@@ -246,6 +247,7 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
                  <text x="50" y="65" font-size="30" text-anchor="middle">????</text></g>
                 </svg>');
   }
+  libxml_clear_errors();
   $viewbox = $svg['viewBox'] ?? '0 0 100 100';
   list($x0,$y0,$x1,$y1) = explode(' ',$viewbox);
   $heightVal = $svg['height'] ?? $x1;

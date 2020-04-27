@@ -24,7 +24,7 @@ if ($options['shape'] == 'flag') {
 
 // bar
 // ( although a "bar sinister" is a bend sinister
-if ($subtype == 'bar' and existModifierWithKeyterm($node,'sinister')) {
+if ($subtype == 'bar' && existModifierWithKeyterm($node,'sinister')) {
   $node->setAttribute('keyterm','bend');
   include 'svg/ordinaries/bend.inc';
 } else {
@@ -36,7 +36,7 @@ if ($subtype == 'bar' and existModifierWithKeyterm($node,'sinister')) {
     'barmod-in' => array (   'x', 'x', 'x',   '2',     '2,3',     '2,3,4',     '3,4',         '3,4,5',         '3,4,5,6' ),
     'barmod-out' => array (   'x', 'x', 'x',   '1,3',   '1,4',     '1,5',       '1,2,5,6',     '1,2,6,7',       '1,2,7,8' ),
   );
-  $num = $node->getAttribute('number');
+  $num = intval($node->getAttribute('number'));
   $bar_start = '-100';
   $bar_length = '1200';
   $palet_start = '-100';
@@ -190,8 +190,8 @@ if ($subtype == 'bar' and existModifierWithKeyterm($node,'sinister')) {
       $cotiseSVG = '';
       $cot_linetype= getModifierByType($cot_node,'linetype');
 			$cot_tinc = getTinctureNode($cot_node);
-			if ( !$cot_tinc )
-			  $cot_tinc = $tinc1;
+			// if ( !$cot_tinc )
+			//  $cot_tinc = $tinc1;
       $numberCottices = $cot_node->getAttribute('value');
       for ( $i = 1; $i <= $numberCottices; $i++ )
 			  $cotiseSVG .= createCotise( $spec, $i, $cot_linetype );

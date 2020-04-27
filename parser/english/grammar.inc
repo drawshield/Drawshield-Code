@@ -476,7 +476,7 @@ class englishGrammar extends grammar {
           self::discard($state2);
         }
       } elseif ( !$foundTinc && ($tinc = self::tincture()) ) {
-        if ($always_proper && $tinc->firstChild->nodeName != 'proper') {
+        if ($always_proper && is_object($tinc->firstChild) && $tinc->firstChild->nodeName != 'proper') {
           self::raiseError(self::ERROR_ORIGIN,'Charge is always proper',true);
         } else {
           $mods[] = $tinc;
