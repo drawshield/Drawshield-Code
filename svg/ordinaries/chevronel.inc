@@ -64,6 +64,6 @@ if ( existModifierWithKeyterm($node, 'braced')) {
 
 
 
-$ordinary['body'] = array( 'NC' => $bodySpec, 'CH' => '<g transform="translate(0,100)">' . $bodySpec . '</g>');
+$ordinary['body'] = array( 'NC' => $bodySpec, 'CH' => '<g transform="translate(0,180)">' . $bodySpec . '</g>');
 unset($bodySpec);
 $ordinary['chargesWithin'] = 'x/x/200,200,180,180:500,900,240,240:800,200,180,180/x/x/x';
