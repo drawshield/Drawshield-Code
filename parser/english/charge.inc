@@ -364,7 +364,7 @@
       array ( 'shackles?', 'weapon/shackle'),
       // tools
       array ( 'barnacles?', 'tools/barnacle' ),
-      array ( 'breys?', 'tools/brey' ),
+      array ( 'br[ae]ys?', 'tools/brey' ),
       array ( '(fetter|pad)locks?', 'tools/padlock' ),
       array ( '(flea?g?me?|lancet)s?', 'tools/fleam' ),
       array ( '(hammer|martell)s?', 'tools/hammer' ),
