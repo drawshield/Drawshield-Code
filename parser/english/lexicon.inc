@@ -499,6 +499,7 @@ class languageDB extends lexicon {
           array ( '?part(y|ed) per fesse?' ,    'per-fess',           ),
           array ( 'parted fesse?wise' ,      'per-fess',           ),
           array ( '?part(y|ed) per pale' ,      'per-pale',           ),
+          array ( '?part(y|ed) per chief' ,      'per-chief',           ),
           array ( 'parted palewise' ,      'per-pale',           ),
           array ( '?part(y|ed) per pile' ,      'per-pile',           ),
           array ( 'parted pilewise' ,      'per-pile',           ),
