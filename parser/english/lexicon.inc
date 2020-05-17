@@ -491,6 +491,7 @@ class languageDB extends lexicon {
           array ( 'b[ua]rr?(y|uly) ?sans ?nombre', 'barry',      ),
           array ( 'paly',                  'paly',               ),
           array ( '?per chape',                 'chape',              ),
+          array ( '?per chape ploye',           'chape-ploye',              ),
           array ( 'chevronn?(ell)?y',      'chevronny',          ),
           array ( '?per chausse',               'chausse',            ),
           array ( 'quarterly quartered',   'gyronny',		 ),
