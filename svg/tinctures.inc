@@ -15,9 +15,9 @@ function readTinctureFile($filename) {
         if ($line != '') {
             list($key,$value) = explode('=', $line);
             if (!is_null($key) && !is_null($value)) {
-                if ($value[0] != '#') {
-                    $value = '#' . $value;
-                }
+//                if ($value[0] != '#') {
+//                    $value = '#' . $value;
+//                }
                 $retval[$key] = $value;
             }
         }

@@ -168,6 +168,11 @@ function draw() {
   $crest = '';
   $torse = '';
 
+  $extraDefs = '';
+  if ($options['palette'] == 'hatching') {
+      $extraDefs = file_get_contents("svg/schemes/hatching-defs.txt");
+  }
+
   if ($options['shape'] == 'flag') {
     $displayScale = $options['size'] / 1000;
     $displayWidth = $options['size'];
@@ -183,7 +188,7 @@ function draw() {
          'preserveAspectRatio="xMidYMid meet" height="' . $displayHeight . '" width="' . $displayWidth . '" ';
     $header .= 'viewBox="'. getEffect('viewbox',1000,$options['flagHeight'] + 40) . ' ">';
     $meta = '';
-    $defs = '<defs>' . getEffect('defs') . '</defs>';
+    $defs = '<defs>' . getEffect('defs') . $extraDefs . '</defs>';
     $trailer =  "</svg>\n";
 
     $blazonNode = $dom->documentElement;
@@ -205,7 +210,7 @@ function draw() {
         'preserveAspectRatio="xMidYMid meet" height="' . (int)($options['size'] * 1.2) . '" width="' . $options['size'];
     $header .= '" viewBox="'. getEffect('viewbox') . ' ">';
     $meta = '';
-    $defs = '<defs>' . getEffect('defs') . '</defs>';
+    $defs = '<defs>' . getEffect('defs') . $extraDefs .  '</defs>';
     $trailer =  "</svg>\n";
 
     $blazonNode = $dom->documentElement;
