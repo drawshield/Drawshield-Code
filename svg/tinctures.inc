@@ -24,6 +24,103 @@ function readTinctureFile($filename) {
     }
     return $retval;
 }
+function mkGules() {
+	$retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
+	for ($i = 0; $i <= 1200; $i += 20) {
+		$retval .= "<path d=\"M $i, 0 V 1200\"/>\n";
+	}
+	$retval .= "</g>\n";
+	return $retval;
+}
+
+function mkAzure() {
+	$retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
+	for ($i = 0; $i <= 1200; $i += 20) {
+		$retval .= "<path d=\"M 0, $i H 1200\"/>\n";
+	}
+	$retval .= "</g>\n";
+	return $retval;
+}
+
+function mkSable() {
+	$retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
+	for ($i = 0; $i <= 1200; $i += 20) {
+		$retval .= "<path d=\"M 0, $i H 1200\"/>\n";
+		$retval .= "<path d=\"M $i, 0 V 1200\"/>\n";
+	}
+	$retval .= "</g>\n";
+	return $retval;
+}
+
+function mkVert() {
+	$retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
+	for ($i = 0; $i <= 1200; $i += 20) {
+		$retval .= "<path d=\"M 0, $i l 1420, 1420\"/>\n";
+		$retval .= "<path d=\"M $i, 0 l 1420, 1420\"/>\n";
+	}
+	$retval .= "</g>\n";
+	return $retval;
+}
+
+function mkPurpure() {
+	$retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
+	for ($i = 0; $i <= 1200; $i += 20) {
+		$retval .= "<path d=\"M 1200, $i l -1420, 1420\"/>\n";
+		$retval .= "<path d=\"M $i, 0 l -1420, 1420\"/>\n";
+	}
+	$retval .= "</g>\n";
+	return $retval;
+}
+
+
+function mkOr() {
+	$retval = "<g stroke=\"none\" fill=\"#000000\">\n";
+	for ($i = 0; $i <= 1200; $i += 40) {
+		for ($j = 0; $j <= 1200; $j += 40) {
+			$retval .= "<circle cx=\"$i\" cy=\"$j\" r=\"2\" />\n";
+			$k = $i + 20;
+			$l = $j + 20;
+			$retval .= "<circle cx=\"$k\" cy=\"$l\" r=\"2\" />\n";
+		}
+	}
+	$retval .= "</g>\n";
+	return $retval;
+}
+
+
+function mkHatches() {
+    $defs = "";
+    $defs .= "<g id=\"gules\" >\n";
+    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkGules();
+    $defs .= "</g>\n";
+
+    $defs .= "<g id=\"azure\" >\n";
+    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkAzure();
+    $defs .= "</g>\n";
+
+    $defs .= "<g id=\"or\" >\n";
+    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkOr();
+    $defs .= "</g>\n";
+
+    $defs .= "<g id=\"sable\"  >\n";
+    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkSable();
+    $defs .= "</g>\n";
+
+    $defs .= "<g id=\"vert\" >\n";
+    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkVert();
+    $defs .= "</g>\n";
+
+    $defs .= "<g id=\"purpure\"  >\n";
+    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkPurpure();
+    $defs .= "</g>\n";
+    return $defs;
+}
 
 function rgb($keyterm) {
     global $options, $messages;
@@ -166,7 +263,15 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
         $spec = rgb($tinctureTypeNode->getAttribute('keyterm'));
       }
       if ($spec !== false) { // set if we are to use the fill found
-        $retval = '<g fill="' . $spec . '">' . $targetSVG . '</g>';
+          if ($spec[0] == '"') { // mask athe element with this id
+              $patt_id = add_def('mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>');
+              $retval = '<g mask="url(#' . $patt_id . ')"  ><use xlink:href=' . $spec . ' /></g>';
+              if ( $targetType == 'charge' ) // add the outline and any shading
+                    $retval .= '<g style="fill:none;">' . $targetSVG . '</g>';
+
+          } else {
+              $retval = '<g fill="' . $spec . '">' . $targetSVG . '</g>';
+          }
       } else {
         $retval =  $targetSVG;
       }
@@ -272,15 +377,10 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
       }
       $counterDiv = $division->item(($division->length)-1);
       $div_data = makeDivision( $counterDiv, true );
-      if (true) {
         $patt_id = add_def ( 'mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>' );
         $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $div_data . '</g>';
-      } else {
-        $patt_id = add_def ( 'clipPath', $targetSVG );
-        $retval = add_def() . '<g clip-path="url(#' . $patt_id . ')"  >' . $div_data . '</g>';
-      }
-			if ( $targetType == 'charge' ) // add the outline and any shading
-			  $retval .= '<g style="fill:none;">' . $targetSVG . '</g>';
+        if ( $targetType == 'charge' ) // add the outline and any shading
+            $retval .= '<g style="fill:none;">' . $targetSVG . '</g>';
       break;
 			// END of switch
   }

@@ -170,7 +170,7 @@ function draw() {
 
   $extraDefs = '';
   if ($options['palette'] == 'hatching') {
-      $extraDefs = file_get_contents("svg/schemes/hatching-defs.txt");
+      $extraDefs = mkHatches();
   }
 
   if ($options['shape'] == 'flag') {

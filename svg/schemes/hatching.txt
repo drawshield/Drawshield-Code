@@ -1,11 +1,11 @@
 // For colouring books...
-or=url(#or)
-azure=url(#azure)
-vert=url(#vert)
-gules=url(#gules)
+or="#or"
+azure="#azure"
+vert="#vert"
+gules="#gules"
 argent=#ffffff
-sable=url(#sable)
-purpure=url(#purpure)
+sable="#sable"
+purpure="#purpure"
 murrey=#cccccc
 sanguine=#cccccc
 carnation=#cccccc
