@@ -72,6 +72,20 @@ function mkPurpure() {
 	return $retval;
 }
 
+function mkMurrey() {
+	$retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
+	for ($i = 0; $i <= 1200; $i += 20) {
+		$retval .= "<path d=\"M 1200, $i l -1420, 1420\"/>\n";
+		$retval .= "<path d=\"M $i, 0 l -1420, 1420\"/>\n";
+	}
+	for ($i = 0; $i <= 1200; $i += 20) {
+		$retval .= "<path d=\"M 0, $i l 1420, 1420\"/>\n";
+		$retval .= "<path d=\"M $i, 0 l 1420, 1420\"/>\n";
+	}
+	$retval .= "</g>\n";
+	return $retval;
+}
+
 
 function mkOr() {
 	$retval = "<g stroke=\"none\" fill=\"#000000\">\n";
@@ -118,6 +132,11 @@ function mkHatches() {
     $defs .= "<g id=\"purpure\"  >\n";
     $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
     $defs .= mkPurpure();
+    $defs .= "</g>\n";
+
+    $defs .= "<g id=\"murrey\"  >\n";
+    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkMurrey();
     $defs .= "</g>\n";
     return $defs;
 }
