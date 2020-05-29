@@ -182,7 +182,6 @@ class tokeniser {
             $part_word = '';
           }
           $lineComment = true;
-          $comment = '#';
           break;
         case '-':
           if ( $incAll ) {

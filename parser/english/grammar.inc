@@ -54,6 +54,7 @@ class englishGrammar extends grammar {
           $found = true;
         }
         if ($found) {
+          self::comma();
           self::ignore(languageDB::ANDD);
           self::ignore(languageDB::WITH);
         }
