@@ -165,7 +165,10 @@ function rgb($keyterm) {
         if ($options['useWarhammerColours'] == true || $options['shape'] == 'pauldron') {
           $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/warhammer.txt'));
         }
-        $loaded = true;
+        if ($options['useTartanColours'] == true ) {
+          $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/tartan.txt'));
+        }        
+		$loaded = true;
     }
 
     if (!strpos($keyterm, '/')) {
@@ -183,7 +186,10 @@ function rgb($keyterm) {
           case 'web':
             $messages->addMessage('warning', "$name is not a heraldic colour, to use, enable web colours in preferences" );
           break;
-          case 'wh':
+          case 'tartan':
+            $messages->addMessage('warning', "$name is not a heraldic colour, to use, enable tartan colours in preferences" );
+          break;
+		  case 'wh':
             $messages->addMessage('warning', "$name is not a heraldic colour, to use, enable warhammer colours in preferences" );
           break;
         }

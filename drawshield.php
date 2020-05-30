@@ -82,6 +82,7 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_POST['size'])) $options['size']= strip_tags ($_POST['size']);
   if (isset($_POST['ar'])) $ar = strip_tags ($_POST['ar']);
   if (isset($_POST['webcols'])) $options['useWebColours'] = true;
+  if (isset($_POST['tartancols'])) $options['useTartanColours'] = true;
   if (isset($_POST['whcols'])) $options['useWarhammerColours'] = true;
 } else { // for old API
   if (isset($_GET['blazon'])) $options['blazon'] = strip_tags(trim($_GET['blazon']));

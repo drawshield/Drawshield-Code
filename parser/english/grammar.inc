@@ -113,7 +113,8 @@ class englishGrammar extends grammar {
   }
 
   protected function drawn() {
-
+	global $options;
+	  
     $found = false;
     while ($option = self::find(LanguageDB::DRAWN_MODS)) {
       $found = true;
@@ -122,6 +123,19 @@ class englishGrammar extends grammar {
       switch ($option) {
         case 'palette':
           $elementName = blazonML::E_PALETTE;
+/*			  switch ($value) {
+				  case 'warhammer':
+					  $options['useWarhammerColours'] = true;
+					  break;
+				  case 'tartan':
+					  $options['useTartanColours'] = true;
+					  break;
+				  case 'web':
+					  $options['useWebColours'] = true;
+					  break;
+				  default:
+					  break;
+			  } */
           break;
         case 'style':
           $elementName = blazonML::E_EFFECT;

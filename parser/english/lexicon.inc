@@ -939,5 +939,6 @@ class languageDB extends lexicon {
       $this->patterns[self::COLOUR] = array_merge($this->patterns[self::COLOUR],$flagColours);
       include "warhammer-colours.inc";
       $this->patterns[self::COLOUR] = array_merge($this->patterns[self::COLOUR],$warHammerColours);
-    }
+      include "tartan-colours.inc";
+      $this->patterns[self::COLOUR] = array_merge($this->patterns[self::COLOUR],$tartanColours);    }
   }
