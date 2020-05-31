@@ -30,4 +30,5 @@ $options = array(
   'notify' => false,
   'useWebColours' => false,
   'useWarhammerColours' => false,
+    'useTartanColours' => false,
 );
