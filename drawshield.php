@@ -98,6 +98,7 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_GET['size'])) $options['size'] = strip_tags ($_GET['size']);
   if (isset($_GET['ar'])) $ar = strip_tags ($_GET['ar']);
   if (isset($_GET['webcols'])) $options['useWebColours'] = true;
+  if (isset($_POST['tartancols'])) $options['useTartanColours'] = true;
   if (isset($_GET['whcols'])) $options['useWarhammerColours'] = true;
 }
 
