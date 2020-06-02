@@ -79,7 +79,7 @@ function getEffect($item, $width=1000, $height=1200) {
          id="feComposite2879"
          result="result5"
          k3="0.5"
-         k1="1.5"
+         k1="1.8"
          operator="arithmetic"
          in2="result4" />
       <feBlend
