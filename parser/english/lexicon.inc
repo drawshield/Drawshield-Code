@@ -410,6 +410,7 @@ class languageDB extends lexicon {
             array ( 'hounds tooth',    'houndstooth',    ),
             array ( 'houndstooth',    'houndstooth',    ),
             array ( 'tartan',    'tartan',    ),
+            array ( 'tartan no repeat',    'tartan-no-repeat',    ),
             array ( 'gingham',    'gingham',    ),
             array ( 'shepherds? check[sy]?',    'shepherd-check',    ),
             array ( 'buffalo check[sy]?',    'buffalo-check',    ),

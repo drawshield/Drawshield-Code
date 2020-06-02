@@ -346,8 +346,13 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
         // If what we are placing is inverted, we also invert the fill so it appears the "right way up"
         // Don't need to do reversed as all treatments are symmetrical
         if ( $inv ) $treat_data['body'] = "<g transform=\"translate(0,{$treat_data['height']}) scale(1,-1)\">{$treat_data['body']}</g>";
+        //do we need to offset the pattern to center it?
+          $offset = 0;
+          if (array_key_exists('offset', $treat_data)) {
+              $offset = $treat_data['offset'];
+          }
         $patt_id = add_def ( 'pattern ' . $patTrans .
-          ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="0" y="0" width="' .
+          ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="' . $offset . '" y="0" width="' .
           $treat_data['width'] . '" height="' . $treat_data['height'] . '"',
           '<g class="treatment">' . $treat_data['body'] . '</g>' );
       }

@@ -23,6 +23,77 @@ function getEffect($item, $width=1000, $height=1200) {
    */
   static $effectData = array (
     'none' => array ('viewbox' => array(0, 0, 0, 0) ), // adjustments
+      'fabric' => array (
+       'viewbox' => array(0, 0, 0, 0),
+          'credits' => 'Inkscape, Filters->Bumps->Linen Canvas ',
+          'defs' => '<filter
+       id="fabric"
+       style="color-interpolation-filters:sRGB;">
+      <feTurbulence
+         id="feTurbulence2861"
+         baseFrequency="0.4"
+         numOctaves="5" />
+      <feConvolveMatrix
+         id="feConvolveMatrix2863"
+         targetY="2"
+         targetX="2"
+         kernelMatrix="-4 0 0 0 -4 0 -2 0 -2 0 0 0 -10 0 0 0 -2 0 -2 0 -4 0 0 0 -4 "
+         order="5 5" />
+      <feConvolveMatrix
+         id="feConvolveMatrix2865"
+         targetY="1"
+         targetX="1"
+         kernelMatrix="2 0 2 0 -5 0 2 0 2 "
+         order="3 3" />
+      <feColorMatrix
+         id="feColorMatrix2867"
+         result="result1"
+         type="saturate" />
+      <feComposite
+         id="feComposite2869"
+         result="result2"
+         k3="0.5"
+         k2="0.5"
+         k1="1.5"
+         operator="arithmetic"
+         in2="SourceGraphic" />
+      <feBlend
+         id="feBlend2871"
+         result="result4"
+         in2="result1"
+         mode="normal" />
+      <feColorMatrix
+         id="feColorMatrix2873"
+         type="luminanceToAlpha" />
+      <feDiffuseLighting
+         id="feDiffuseLighting2877"
+         result="result3"
+         diffuseConstant="1"
+         surfaceScale="10">
+        <feDistantLight
+           id="feDistantLight2875"
+           elevation="35"
+           azimuth="180" />
+      </feDiffuseLighting>
+      <feComposite
+         id="feComposite2879"
+         result="result5"
+         k3="0.5"
+         k1="1.5"
+         operator="arithmetic"
+         in2="result4" />
+      <feBlend
+         id="feBlend2881"
+         result="result6"
+         in2="result3"
+         mode="normal" />
+      <feComposite
+         id="feComposite2883"
+         operator="in"
+         in2="SourceGraphic" />
+    </filter>',
+          'filter' => ' filter="url(#fabric)" ',
+      ),
     'stonework' => array (
       'viewbox' => array(0, 0, 0, 0),
       'credits' => 'Filters by Inkscape: emboss + roughen inside + rough paper',

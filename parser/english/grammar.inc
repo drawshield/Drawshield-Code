@@ -1264,7 +1264,7 @@ class englishGrammar extends grammar {
       self::restore($state);
       return null;
     }
-    if ($keyterm == 'tartan') {
+    if (substr($keyterm, 0, 6) == 'tartan') {
         $node = $this->schema->makeNode(blazonML::E_TREATMENT, array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
         $tartanColours = self::tartan();
         foreach ($tartanColours as $tartanColour) {

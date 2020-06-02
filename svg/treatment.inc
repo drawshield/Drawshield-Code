@@ -46,6 +46,11 @@ function makeTreatment ( $node ) {
   $tinctures = array();
   $children = $node->childNodes;
   $parent = $node->parentNode;
+  $reverse = true;
+  if ($name == 'tartan-no-repeat') {
+      $name = 'tartan';
+      $reverse = false;
+  }
   // This file can set $filename and/or overwrite $tinctures  (and has access to the other variables above)
   if ( file_exists("svg/treatments/$name.inc"))
     include "svg/treatments/$name.inc";
@@ -73,8 +78,12 @@ function makeTreatment ( $node ) {
         $base = apply_tincture($tinctures[1], '<rect x="0" y="0" width="' .
             $size_x . '" height="' . $size_y . '" />', "$size_x,$size_y");
         $pattern = apply_tincture($tinctures[2], $treatment, "$size_x,$size_y");
-    }
-  $retval = array ( 'width' =>  $size_x, 'height' => $size_y, 'body' => $base . '<g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" >' .$pattern . '</g>' );
+  }
+  // Do we need to offset to make treatment symmetrical on the field?
+  $offset = intval((1000 % $size_x) / 2);
+  if (in_array($name, array('gingham', 'buffalo-check', 'glen-check', 'houndstooth', 'shepherd-check'))) $offset += intval($size_x / 4);
+  $retval = array ( 'width' =>  $size_x, 'height' => $size_y, 'offset' => $offset,
+      'body' => $base . '<g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" >' .$pattern . '</g>' );
   return $retval;
 }
 
