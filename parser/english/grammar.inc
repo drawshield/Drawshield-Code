@@ -1231,6 +1231,32 @@ class englishGrammar extends grammar {
     return $this->schema->makeNode(blazonML::E_COLOUR, array ( blazonML::A_KEYTERM => $keyterm ), self::tokens(), self::lineNo());
   }
 
+  protected function tartan() {
+      global $options;
+
+      $options['useTartanColours'] = true;
+      $patternArray = [];
+      $defaultSize = 10;
+      $found = true;
+      while ($found) {
+          if (self::semicolon(true)) break;
+          self::ignore(languageDB::ANDD);
+          self::comma();
+          if (($colour = self::colour()) != null) {
+              $size = null;
+              if (!self::semicolon())
+                $size = self::find(languageDB::NUMBER);
+              if ($size == null) $size = $defaultSize;
+              $mod = $this->schema->makeMod(languageDB::NUMBER,$size,languageDB::NUMBER,self::tokens(), self::lineNo());
+              $colour->appendChild($mod);
+              $patternArray[] = $colour;
+          } else {
+              $found = false;
+          }
+      }
+      return $patternArray;
+  }
+
   protected function treatment() {
     $state = self::save();
     $keyterm = self::find(languageDB::TREATMENT);
@@ -1238,23 +1264,31 @@ class englishGrammar extends grammar {
       self::restore($state);
       return null;
     }
-    self::ignore(languageDB::WORD_OF);
-    if ($ofNum = self::find(languageDB::NUMBER))
-      self::ignore(languageDB::POINTS);
-    if ( $ofNum == null || $ofNum < 5 )
-      $ofNum = 5;
-    elseif ( $ofNum > 10 )
-      $ofNum = 10;
-    if ( $keyterm == 'mulletty')
-      $keyterm .= '-' . $ofNum;
-    if ($keyterm == 'checky' && $ofNum == 9) {
-      $keyterm = 'checky9';
-    }
-    $node = $this->schema->makeNode(blazonML::E_TREATMENT, array ( blazonML::A_KEYTERM => $keyterm ), self::tokens(), self::lineNo());
-    if (substr($keyterm,0,5) == 'grady') {
-      if (self::find(languageDB::INVERSE)) {
-        $node->appendChild($this->schema->makeMod(languageDB::INVERSE,null,languageDB::INVERSE, self::tokens(), self::lineNo()));
-      }
+    if ($keyterm == 'tartan') {
+        $node = $this->schema->makeNode(blazonML::E_TREATMENT, array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
+        $tartanColours = self::tartan();
+        foreach ($tartanColours as $tartanColour) {
+            $node->appendChild($tartanColour);
+        }
+    } else {
+        self::ignore(languageDB::WORD_OF);
+        if ($ofNum = self::find(languageDB::NUMBER))
+            self::ignore(languageDB::POINTS);
+        if ($ofNum == null || $ofNum < 5)
+            $ofNum = 5;
+        elseif ($ofNum > 10)
+            $ofNum = 10;
+        if ($keyterm == 'mulletty')
+            $keyterm .= '-' . $ofNum;
+        if ($keyterm == 'checky' && $ofNum == 9) {
+            $keyterm = 'checky9';
+        }
+        $node = $this->schema->makeNode(blazonML::E_TREATMENT, array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
+        if (substr($keyterm, 0, 5) == 'grady') {
+            if (self::find(languageDB::INVERSE)) {
+                $node->appendChild($this->schema->makeMod(languageDB::INVERSE, null, languageDB::INVERSE, self::tokens(), self::lineNo()));
+            }
+        }
     }
     self::discard($state);
     return $node;

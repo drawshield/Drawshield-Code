@@ -405,6 +405,15 @@ class languageDB extends lexicon {
             array ( '(like|of|as) the (fourth|4th)', 'offourth'),
         ),
         self::TREATMENT => array (
+            array ( 'glen check[sy]?',    'glen-check',    ),
+            array ( 'prince of wales check[sy]?',    'glen-check',    ),
+            array ( 'hounds tooth',    'houndstooth',    ),
+            array ( 'houndstooth',    'houndstooth',    ),
+            array ( 'tartan',    'tartan',    ),
+            array ( 'gingham',    'gingham',    ),
+            array ( 'shepherds? check[sy]?',    'shepherd-check',    ),
+            array ( 'buffalo check[sy]?',    'buffalo-check',    ),
+            array ( 'graph check[sy]?',    'graph-check',    ),
             array ( 'ann?ulett?y',    'annuletty',    ),
             array ( 'rou?ndell?y',    'roundelly',    ),
             array ( 'bezant(y|e)',  'bezanty', true ),
@@ -699,6 +708,7 @@ class languageDB extends lexicon {
             array ( '(disjoint|disjointed|brisse)', 'disjointed' ),
             array ( '(debrui|depres|oppres)sed (with|by|of)', 'depressed' ),
             array ( 'false', 'voided' ),
+            array ( 'pointed', 'pointed' ),
           ),
         self::COLOUR_MODS => array (
            array ( '(compony|gobone|gobonated)', 'compony1' ),

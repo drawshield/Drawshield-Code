@@ -224,6 +224,28 @@ function shiftRGB($hex, $direction="lighter") {
   return $retval;
 }
 
+function mixRGB($hex1, $hex2) {
+    if ($hex1[0] == '#') {
+        $hex1 = substr($hex1,1);
+    }
+    if ($hex2[0] == '#') {
+        $hex2 = substr($hex2,1);
+    }
+    $red1 = intval('0x' . substr($hex1,0,2),16);
+    $green1 = intval('0x' . substr($hex1,2,2),16);
+    $blue1 = intval('0x' . substr($hex1,4,2),16);
+    $red2 = intval('0x' . substr($hex2,0,2),16);
+    $green2 = intval('0x' . substr($hex2,2,2),16);
+    $blue2 = intval('0x' . substr($hex2,4,2),16);
+
+    $red3 = intval(($red1 + $red2) / 2);
+    $green3 = intval(($green1 + $green2) / 2);
+    $blue3 = intval(($blue1 + $blue2) / 2);
+
+    $retval =  sprintf("%s%02x%02x%02x",'#',$red3,$green3,$blue3);
+
+    return $retval;
+}
 
 
 function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',

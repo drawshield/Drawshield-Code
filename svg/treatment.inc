@@ -40,6 +40,7 @@ function getSvgTreatment ($filename) {
 function makeTreatment ( $node ) {
   global $messages;
   $folder = 'svg/treatments/';
+  $treatment_data = [];
 
   $name = $node->getAttribute('keyterm');
   $tinctures = array();
@@ -48,24 +49,31 @@ function makeTreatment ( $node ) {
   // This file can set $filename and/or overwrite $tinctures  (and has access to the other variables above)
   if ( file_exists("svg/treatments/$name.inc"))
     include "svg/treatments/$name.inc";
-  foreach ( $children as $child ) {
-    if ( $child->nodeName == 'tincture' )
-      $tinctures[$child->getAttribute('index')] = $child;
-  }
-  if ( !isset($filename))
-  $filename = "$folder$name.svg";
-  if ( file_exists($filename))
-    $treatment_data = getSvgTreatment($filename);
-  else {
-    $treatment_data = getSvgTreatment("${folder}checky.svg");
-    $messages->addMessage('warning',"Checky substituted for treatment $name");
-  }
-  $treatment = $treatment_data['body'];
-  $size_x = $treatment_data['width'];
-  $size_y = $treatment_data['height'];
-  $base = apply_tincture ( $tinctures[1], '<rect x="0" y="0" width="' .
-                $size_x . '" height="' . $size_y . '" />', "$size_x,$size_y" );
-  $pattern = apply_tincture ( $tinctures[2], $treatment, "$size_x,$size_y" );
+  if (array_key_exists('pattern', $treatment_data)) {
+        $size_x = $treatment_data['width'];
+        $size_y = $treatment_data['height'];
+        $pattern = $treatment_data['pattern'];
+        $base = '';
+  } else {
+        foreach ($children as $child) {
+            if ($child->nodeName == 'tincture')
+                $tinctures[$child->getAttribute('index')] = $child;
+        }
+        if (!isset($filename))
+            $filename = "$folder$name.svg";
+        if (file_exists($filename))
+            $treatment_data = getSvgTreatment($filename);
+        else {
+            $treatment_data = getSvgTreatment("${folder}checky.svg");
+            $messages->addMessage('warning', "Checky substituted for treatment $name");
+        }
+        $treatment = $treatment_data['body'];
+        $size_x = $treatment_data['width'];
+        $size_y = $treatment_data['height'];
+        $base = apply_tincture($tinctures[1], '<rect x="0" y="0" width="' .
+            $size_x . '" height="' . $size_y . '" />', "$size_x,$size_y");
+        $pattern = apply_tincture($tinctures[2], $treatment, "$size_x,$size_y");
+    }
   $retval = array ( 'width' =>  $size_x, 'height' => $size_y, 'body' => $base . '<g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" >' .$pattern . '</g>' );
   return $retval;
 }

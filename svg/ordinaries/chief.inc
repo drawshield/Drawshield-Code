@@ -30,6 +30,9 @@ if ( existModifierWithKeyterm($node,'couped') ) {
 } elseif ( existModifierWithKeyterm($node, 'voided')) {
   $ordinary['shape_spec'] = 'X-100Y300U1a1200c40E1200g40';
   $ordinary['chargesOn'] = array ('h','100,30,800,180');
+} elseif ( existModifierWithKeyterm($node, 'pointed')) {
+  $ordinary['body'] = '<path d="M -20,250 500,350 1020,250 V -20 H -20 Z" />';
+  $ordinary['chargesOn'] = array ('h','100,50,800,200');
 } else {
   $ordinary['shape_spec'] = 'X-100Y-8U1a1200c308E1200g308';
   $ordinary['chargesOn'] = array ('h','100,50,800,200');
