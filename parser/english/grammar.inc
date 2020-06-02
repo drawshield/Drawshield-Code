@@ -931,7 +931,7 @@ class englishGrammar extends grammar {
     // Look for various prefix modifiers (including positions, sometimes we get "in chief" or "in base"
     while ( $found ) {
       if ( $keyterm = self::find(languageDB::ORDINARY_PREFIX) ) {
-        $ord->appendChild($this->schema->makeMod(languageDB::ORDINARY_PREFIX,$keyterm,self::tokens(), self::lineNo()));
+        $ord->appendChild($this->schema->makeMod(languageDB::ORDINARY_PREFIX,null,$keyterm,self::tokens(), self::lineNo()));
       } else {
         $found = false;
       }
@@ -1247,7 +1247,7 @@ class englishGrammar extends grammar {
               if (!self::semicolon())
                 $size = self::find(languageDB::NUMBER);
               if ($size == null) $size = $defaultSize;
-              $mod = $this->schema->makeMod(languageDB::NUMBER,$size,languageDB::NUMBER,self::tokens(), self::lineNo());
+              $mod = $this->schema->makeMod(languageDB::NUMBER,$size, $size,languageDB::NUMBER,self::tokens(), self::lineNo());
               $colour->appendChild($mod);
               $patternArray[] = $colour;
           } else {
