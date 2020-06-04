@@ -1,6 +1,6 @@
 <?php
 
-$warHammerColours = array (
+$this->patterns[self::WHCOLS] = array (
     array ( "abaddon black", 'wh/abaddon-black' ),
     array ( "administratum grey", 'wh/administratum-grey' ),
     array ( "agrax earthshade", 'wh/agrax-earthshade' ),

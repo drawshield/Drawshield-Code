@@ -61,7 +61,7 @@ class englishGrammar extends grammar {
       } while ($found);
       // If last word (or only) is ignored, can't go further
       $lastEntry = $this->tokenList->num_tokens-1;
-      if ( $lastEntry < 0 || $this->tokenList->words[$lastEntry]{0} == '[')
+      if ( $lastEntry < 0 || $this->tokenList->words[$lastEntry][0] == '[')
         break;
       // If input still left
       if ( $this->tokenList->cur_word < $this->tokenList->num_tokens ) {
@@ -166,7 +166,7 @@ class englishGrammar extends grammar {
   /**
    * @return DOMElement
    */
-  protected function simple($endOnSemi = false) {
+  protected function simple() {
     $state = self::save();
     self::ignore(languageDB::ONFIELDOF);
 
@@ -180,14 +180,11 @@ class englishGrammar extends grammar {
       self::comma();
       $field->appendChild ( $tinc );
       $simple->appendChild ( $field );
-      if (!($endOnSemi && self::semicolon())) {
         if ( ($ordChgs = self::objects())) {
           $simple->appendChild($ordChgs);
-        }
       }
       $node = $this->schema->makeNode(blazonML::E_SHIELD, array ( blazonML::A_INDEX => '0' ));
       $node->appendChild($simple);
-
     }
     if ( $node == null )
       self::restore($state);
@@ -220,12 +217,12 @@ class englishGrammar extends grammar {
     }
     if ($checkOverAllParts && ($overall = self::overall(true)) != null) {
       $node1->appendChild($overall);
-    } elseif ( self::moreInput() and !self::semicolon() and ($overall = self::overall()) != null )
+    } elseif ( !self::semicolon() && ($overall = self::overall()) != null )
       $node1->appendChild($overall);
     $retval = $node1;
 
     // Now do it all again, in case of "A impaled with B"
-    if ( self::moreInput() and ($keyterm = self::find(languageDB::SPLITS)) != null ) {
+    if ( ($keyterm = self::find(languageDB::SPLITS)) != null ) {
       $node2 = null;
       // $node2 = builtin();
       if ( $node2 == null ) $node2 = self::quartered();
@@ -417,7 +414,7 @@ class englishGrammar extends grammar {
       $mods[] = $this->schema->makeMod(languageDB::BUNDLE,$num,$keyterm,self::tokens(), self::lineNo());
     }
     // Look for prefixes, (e.g. "a demi-lion")
-    while ( self::moreInput() and ($keyterm = self::find(languageDB::CHARGE_PREFIX)) )
+    while ( ($keyterm = self::find(languageDB::CHARGE_PREFIX)) != null)
       $mods[] = $this->schema->makeMod(languageDB::CHARGE_MODS,null,$keyterm,self::tokens(), self::lineNo());
     // Look for ordinaries that we might confuse with charges
     if ( self::find(languageDB::ORDINARY_NOT_CHARGE) ) {
@@ -453,8 +450,8 @@ class englishGrammar extends grammar {
     // Now look for postfix stuff, including tinctures and arrangements
     $foundTinc = false;
     while ( self::moreInput() ) {
-      if ( self::semicolon()) {
-        self::lookAhead(-1);
+      if ( self::semicolon(true)) {
+       // self::lookAhead(-1);
         break;
       } 
       $state2 = self::save();
@@ -479,7 +476,7 @@ class englishGrammar extends grammar {
         while ( ($num = self::find(languageDB::NUMBER)) ) {
           $count += 1;
           $rows[] = $num;
-          if ( self::semicolon()) break;
+          if ( self::semicolon(true)) break;
           self::comma();
           self::ignore(languageDB::ANDD);
         }
@@ -644,7 +641,7 @@ class englishGrammar extends grammar {
     do {
       $found = false; // looping control
 
-      if ( self::semicolon() ) break; // semi colon ends input
+      if ( self::semicolon(true) ) break; // semi colon ends input
   
 
       if ( $onMod == null) {
@@ -722,84 +719,8 @@ class englishGrammar extends grammar {
       $nearMod = null;
       $swapCharges = false;
       $firstTime = false;
-
-      // if found, remember "on" for later
-      // if ($keyterm = self::find(languageDB::WORD_ON)) {
-      //   $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,
-      //           'charged-with',self::tokens(), self::lineNo());
-      // }
-
-/*
-      
-      if ($topCharge == null ) { // already found charge, only look for charged with
-
-        $topCharge = $charge;
-        $currentCharge = $charge;
-    
-        $found = true;
-        
-  
-      }
-
-
-    // Is there anything else "on" this charge?
-      if ( ($onMod != null) or ($keyterm = self::find(languageDB::CHARGE_WITH)) ) { 
-        if ( $onMod == null) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,$this->phraseMatcher->getValue(),$keyterm,self::tokens(), self::lineNo());
-        if ( (($onCharge = self::simpleCharge( true, true, false )) == null) and (($onCharge = self::ordinary()) == null)) {
-          $onCharge = $this->schema->makeNode(blazonML::E_MISSING);
-          self::raiseError(self::ERROR_ORIGIN,"Expected something to go on charge", true);
-        }
-        $onMod->appendChild($onCharge);
-      }
-      // look for charge "on" charge (but can also be end of charge, with "on" belonging to next item)
-      $state = self::save();
-      if ( self::find(languageDB::WORD_ON) ) {
-        if ( ($onCharge = self::simpleCharge( true, true, false )) == null ) {
-          // The word we found belongs to something else
-          self::restore($state);
-        } else { // swap chargeA on chargeB to become chargeB charged with chargeA
-          $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,null,'on',self::tokens(), self::lineNo());
-          $onMod->appendChild($currentCharge);
-          $onCharge->appendChild($onMod);
-        } 
-      }
-      if ($onMod != null) {
-        $currentCharge->appendChild($onMod);
-        $currentCharge = $onCharge;
-      } */
     } while ($found);
-    // // self::discard($state);
-    // // if ($topCharge == null) return null;
-    // $state = self::save();
-    // if ( !self::semicolon() ) {
-    //   // Look for adjacent charges
-    //   if ( $keyterm = self::find(languageDB::CHARGE_ADJACENT) ) {
-    //     $adjMod = $this->schema->makeMod(languageDB::CHARGE_ADJACENT,null,$keyterm,self::tokens(), self::lineNo());
-    //     if ( (($adjCharge = self::charge()) == null) and (($adjCharge = self::ordinary()) == null) ) {
-    //       $adjCharge = $this->schema->makeNode(blazonML::E_MISSING);
-    //       self::raiseError(self::ERROR_ORIGIN,"Expected charge or ordinary for $keyterm", true);
-    //     }
-    //     $adjMod->appendChild ( $adjCharge);
-    //     // keep looking for more of the same 
-    //     while ( !self::semicolon() and self::find(languageDB::ANDD) and (($adjCharge = self::charge()) != null ) ) {
-    //       $adjMod->appendChild ( $adjCharge);
-    //     }
 
-    //     $mods[] = $adjMod;
-    //     self::restoreAnd();
-    //     /*   // If there is an explicit position, a following "between" is redundant (e.g. issue 173)
-    //        $state = self::save();
-    //        if ( $keyterm = self::find(languageDB::CHARGE_ADJACENT) ) {
-    //          if ( $keyterm != 'between' ) // Backtrack, this belongs to the next item
-    //            self::restore($state);
-    //          // else just ignore the 'between'
-    //        } */
-
-    //     self::discard($state);
-    //   } 
-    // } else {
-    //   self::restore($state); // put the semi-colon back
-    // }
     // // Add anything found earlier
     foreach ( $mods as $mod )
       $topCharge->appendChild($mod);
@@ -1019,7 +940,7 @@ class englishGrammar extends grammar {
         // self::raiseError(self::ERROR_ORIGIN,"Expected charge for within/inside", true);
       }
       // keep looking for more of the same
-      while ( !self::semicolon() and self::find(languageDB::ANDD) and (($obj = self::charge()) != null ) ) {
+      while ( !self::semicolon(true) and self::find(languageDB::ANDD) and (($obj = self::charge()) != null ) ) {
         $insideMod->appendChild($obj);
       }
       self::restoreAnd();
@@ -1075,11 +996,11 @@ class englishGrammar extends grammar {
     return null;
   }
 
-  protected function quarteredMods() {
-    if ( ($qmod = self::find(languageDB::QUARTERMODS)) != null ) {
-       $quartered->appendChild( $this->schema->makeMod(languageDB::QUARTERMODS, null, $qmod, self::tokens(), self::lineNo()));
-    }
-  }
+//  protected function quarteredMods() {
+//    if ( ($qmod = self::find(languageDB::QUARTERMODS)) != null ) {
+//       $quartered->appendChild( $this->schema->makeMod(languageDB::QUARTERMODS, null, $qmod, self::tokens(), self::lineNo()));
+//    }
+//  }
 
   protected function quartered() {
     /**
@@ -1093,6 +1014,7 @@ class englishGrammar extends grammar {
     $highest = 0;
 
     if ( ($marshall = self::find(languageDB::QUARTERED)) != null ) {
+        self::ignore(languageDB::COLON); // allow quarterly: ...
       $quartered = $this->schema->makeNode(blazonML::E_COMPLEX, array( 'keyterm' => blazonML::V_QUARTERED), self::tokens(), self::lineNo());
       if ( ($qmod = self::find(languageDB::QUARTERMODS)) != null ) {
          $quartered->appendChild( $this->schema->makeMod(languageDB::QUARTERMODS, null, $qmod, self::tokens(), self::lineNo()));
@@ -1103,9 +1025,10 @@ class englishGrammar extends grammar {
         self::comma();
       }
       
-      self::ignore(languageDB::SEMICOLON);
       $foundQuarter = false;
       do { // Look for quarters
+        if (self::find(languageDB::DOUBLESEMI))
+          break;
         $found = false;
         $indices = array();
         while ( ($keyterm =self::quartermarker()) != null ) {
@@ -1134,10 +1057,6 @@ class englishGrammar extends grammar {
               $subshields[$indices[$i]] = $reference;
           }
         } // Keep going as long as we find quarters
-        if ( self::semicolon() ) {
-          $found = false;
-          // error_log("exiting quarterly loop");
-        }
       } while ( $found );
       if ( $marshall == 'quarterly' and !$foundQuarter ) {
         self::restore($state); // backtrack, assume this is quarterly division
@@ -1199,7 +1118,8 @@ class englishGrammar extends grammar {
       //$half = $$this->schema->makeNode($keyterm); // TODO is this needed (not tested yet)
       $half->appendChild($shield1);
       $half->appendChild($shield2);
-      $node = $this->schema->makeNode(blazonML::E_SHIELD, array ( blazonML::A_INDEX => '0' ));
+      $node = $this->schema->makeNode(blazonML::E_SHIELD,
+          array ( blazonML::A_INDEX => '0' ));
       $node->appendChild($half);
     }
     return $node;
@@ -1215,31 +1135,159 @@ class englishGrammar extends grammar {
       return null;
     }
     self::discard($state);
-    return $this->schema->makeNode(blazonML::E_FUR, array ( blazonML::A_KEYTERM => $keyterm ), self::tokens(), self::lineNo());
+    return $this->schema->makeNode(blazonML::E_FUR,
+        array ( blazonML::A_KEYTERM => $keyterm ), self::tokens(), self::lineNo());
   }
 
   protected function colour() {
+      global $options;
 
     $state = self::save();
     self::ignore(languageDB::WORD_OF);
-    $keyterm = self::find(languageDB::COLOUR);
+    $keyterm = null;
+    // if a colour set is enabled, those colours OVERRIDE heraldic colours
+    if ($options['useTartanColours'])
+        $keyterm = self::find(languageDB::TARTANCOLS);
+    if ($keyterm == null && $options['useWebColours'])
+        $keyterm = self::find(languageDB::WEBCOLS);
+    if ($keyterm == null && $options['useWarhammerColours'])
+        $keyterm = self::find(languageDB::WHCOLS);
+    if ($keyterm == null)
+        $keyterm = self::find(languageDB::COLOUR);
+    // If not enabled, we still search for them, but AFTER heraldic colours
+    if ($keyterm == null && !$options['useTartanColours'])
+        $keyterm = self::find(languageDB::TARTANCOLS);
+    if ($keyterm == null && !$options['useWebColours'])
+        $keyterm = self::find(languageDB::WEBCOLS);
+    if ($keyterm == null && !$options['useWarhammerColours'])
+        $keyterm = self::find(languageDB::WHCOLS);
+    // FFS! Have we found anything yet? If not, give up
     if ( $keyterm == null ) {
       self::restore($state);
       return null;
     }
     self::discard($state);
-    return $this->schema->makeNode(blazonML::E_COLOUR, array ( blazonML::A_KEYTERM => $keyterm ), self::tokens(), self::lineNo());
+    return $this->schema->makeNode(blazonML::E_COLOUR,
+        array ( blazonML::A_KEYTERM => $keyterm ), self::tokens(), self::lineNo());
+  }
+
+  protected function tartanSpec($value) {
+      $message = '';
+      $retval = [];
+      $value = strtoupper($value);
+      $len = strlen($value);
+      $defaultSize = 10;
+      $lineNo = self::lineNo();
+      $tokens = self::tokens();
+
+    $symmetrical = true;
+    $number = '';
+    $colour = '';
+    for ($i = 0; $i < $len; $i++) {
+        switch ($value[$i]) {
+            case '/':
+                $symmetrical = true;
+                break;
+            case '.':
+                $symmetrical = false;
+                break;
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                $number .= $value[$i];
+                break;
+            case ' ':
+                if (!$colour) break;
+                if (!$number) $number = $defaultSize;
+                $colNode = $this->schema->makeNode(blazonML::E_COLOUR,
+                    array ( blazonML::A_KEYTERM => $colour ), $tokens, $lineNo);
+                $mod = $this->schema->makeMod(languageDB::NUMBER,$number,
+                    languageDB::NUMBER,$tokens, $lineNo);
+                $colNode->appendChild($mod);
+                $retval[] = $colNode;
+                $number = '';
+                $colour = '';
+                break;
+            case 'L':
+                $colour .= 'light-';
+                break;
+            case 'D':
+                $colour .= 'dark-';
+                break;
+            case 'R':
+                $colour .= 'red';
+                break;
+            case 'Y':
+                $colour .= 'yellow';
+                break;
+            case 'O':
+                $colour .= 'orange';
+                break;
+            case 'G':
+                $colour .= 'green';
+                break;
+            case 'B':
+                $colour .= 'blue';
+                break;
+            case 'P':
+                $colour .= 'purple';
+                break;
+            case 'W':
+                $colour .= 'white';
+                break;
+            case 'N':
+                $colour .= 'grey';
+                break;
+            case 'K':
+                $colour .= 'black';
+                break;
+            case 'T':
+                $colour .= 'brown';
+                break;
+            default:
+                $message .= ' [' . $value[$i] . '?]';
+                break;
+        }
+    }
+    if ($message) {
+        self::raiseError(self::ERROR_ORIGIN,
+            "Unknown characters in tartan specifier: " . $message, true);
+    }
+    if ($colour) {
+        if (!$number) $number = $defaultSize;
+        $colNode = $this->schema->makeNode(blazonML::E_COLOUR,
+            array(blazonML::A_KEYTERM => $colour), $tokens, $lineNo);
+        $mod = $this->schema->makeMod(languageDB::NUMBER, $number,
+            languageDB::NUMBER, $tokens, $lineNo);
+        $colNode->appendChild($mod);
+        $retval[] = $colNode;
+    }
+    if (!$symmetrical) {
+        $retval[] = "no-repeat";
+    }
+    return $retval;
+
   }
 
   protected function tartan() {
       global $options;
 
-      $options['useTartanColours'] = true;
+      if (($keyterm = self::find(languageDB::TARTAN)) == null)
+          return null;
+
+      $options['useTartanColours'] = true; // triggers search for tartan colours first
       $patternArray = [];
       $defaultSize = 10;
       $found = true;
       while ($found) {
-          if (self::semicolon(true)) break;
+          if (self::semicolon()) break;
           self::ignore(languageDB::ANDD);
           self::comma();
           if (($colour = self::colour()) != null) {
@@ -1254,7 +1302,29 @@ class englishGrammar extends grammar {
               $found = false;
           }
       }
-      return $patternArray;
+      if (!count($patternArray)) { // didn't find anything, look for a string
+          $state = self::save();
+          self::find(languageDB::VALUE); // always gets something
+          $value = $this->phraseMatcher->getValue();
+          $patternArray = self::tartanSpec($value);
+          if (count(($patternArray))) {
+              self::discard($state);
+          } else {
+              self::restore($state);
+          }
+      }
+
+      $node = $this->schema->makeNode(blazonML::E_TREATMENT,
+          array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
+        $last = count($patternArray) - 1;
+        if ($patternArray[$last] == "no-repeat") {
+            $node->setAttribute(blazonML::A_KEYTERM, "tartan-no-repeat");
+            array_pop($patternArray);
+        }
+        foreach ($patternArray as $tartanColour) {
+            $node->appendChild($tartanColour);
+        }
+      return $node;
   }
 
   protected function treatment() {
@@ -1264,30 +1334,23 @@ class englishGrammar extends grammar {
       self::restore($state);
       return null;
     }
-    if (substr($keyterm, 0, 6) == 'tartan') {
-        $node = $this->schema->makeNode(blazonML::E_TREATMENT, array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
-        $tartanColours = self::tartan();
-        foreach ($tartanColours as $tartanColour) {
-            $node->appendChild($tartanColour);
-        }
-    } else {
-        self::ignore(languageDB::WORD_OF);
-        if ($ofNum = self::find(languageDB::NUMBER))
-            self::ignore(languageDB::POINTS);
-        if ($ofNum == null || $ofNum < 5)
-            $ofNum = 5;
-        elseif ($ofNum > 10)
-            $ofNum = 10;
-        if ($keyterm == 'mulletty')
-            $keyterm .= '-' . $ofNum;
-        if ($keyterm == 'checky' && $ofNum == 9) {
-            $keyterm = 'checky9';
-        }
-        $node = $this->schema->makeNode(blazonML::E_TREATMENT, array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
-        if (substr($keyterm, 0, 5) == 'grady') {
-            if (self::find(languageDB::INVERSE)) {
-                $node->appendChild($this->schema->makeMod(languageDB::INVERSE, null, languageDB::INVERSE, self::tokens(), self::lineNo()));
-            }
+
+    self::ignore(languageDB::WORD_OF);
+    if ($ofNum = self::find(languageDB::NUMBER))
+        self::ignore(languageDB::POINTS);
+    if ($ofNum == null || $ofNum < 5)
+        $ofNum = 5;
+    elseif ($ofNum > 10)
+        $ofNum = 10;
+    if ($keyterm == 'mulletty')
+        $keyterm .= '-' . $ofNum;
+    if ($keyterm == 'checky' && $ofNum == 9) {
+        $keyterm = 'checky9';
+    }
+    $node = $this->schema->makeNode(blazonML::E_TREATMENT, array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
+    if (substr($keyterm, 0, 5) == 'grady') {
+        if (self::find(languageDB::INVERSE)) {
+            $node->appendChild($this->schema->makeMod(languageDB::INVERSE, null, languageDB::INVERSE, self::tokens(), self::lineNo()));
         }
     }
     self::discard($state);
@@ -1302,6 +1365,7 @@ class englishGrammar extends grammar {
     $state = self::save();
     $node = null;
     if ( ($keyterm = self::find( languageDB::DIVISION )) != null ) {
+        self::ignore(languageDB::COLON); // allow per pale:...
       $node = $this->schema->makeNode(blazonML::E_DIVISION,array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
       self::comma();
       // generic modifiers, including tinctures
@@ -1314,35 +1378,10 @@ class englishGrammar extends grammar {
         $maxTinc = 3;
       }
       $tincCount = 0;
-      // if ( $depth == 2 ) { // The tincture is implied by the previous division
-      //   $found = true;
-      //   while ($found) {
-      //     if ($keyterm = self::find(languageDB::LINETYPE)) {
-      //       $node->appendChild( $this->schema->makeMod(blazonML::A_LINETYPE, null, $keyterm, self::tokens(), self::lineNo()));
-      //     } elseif ($keyterm = self::find(languageDB::ORIENTATION)) {
-      //       $node->appendChild($this->schema->makeMod(languageDB::ORIENTATION,null,$keyterm, self::tokens(), self::lineNo()));
-      //     } else {
-      //       $found = false;
-      //     }
-      //   }    
-      //   if ( !self::find(languageDB::COUNTERCHANGE) ) {
-      //     self::raiseError(self::ERROR_ORIGIN,"Second division should be counterchanged?");
-      //   } else {
-      //     $maxTinc = 1; // We have all the tinctures that we need
-      //     $minTinc = 1;
-      //     $tincCount = 1;
-      //     $secondTinc = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
-      //         blazonML::A_ORIGIN => 'implied' ));
-      //     $secondTinc->appendChild($this->schema->makeNode(blazonML::E_COUNTERCHANGED, null, self::tokens(), self::lineNo()));
-      //     $node->appendChild($secondTinc);
-      //   }
-      // } else {
-      //   $tincCount = 0;
-      // }
       $found = true;
       $foundCounterchange = false;
       while ( $found ) {
-        if (self::semicolon()) break;
+        if (self::semicolon(true)) break;
         self::comma();
         self::ignore(languageDB::ANDD);
         if ($keyterm = self::find(languageDB::LINETYPE)) {
@@ -1355,7 +1394,7 @@ class englishGrammar extends grammar {
           $tincCount++;
           $tinc->setAttribute(blazonML::A_INDEX,"$tincCount");
           $node->appendChild($tinc);
-          if ($tinc->firstChild->nodeName == blazonML::E_COUNTERCHANGED) {
+          if ($tinc->firstChild != null && $tinc->firstChild->nodeName == blazonML::E_COUNTERCHANGED) {
             $foundCounterchange = true;
             $tincCount = 2;
             break;
@@ -1538,11 +1577,13 @@ class englishGrammar extends grammar {
     // zeroth, discard grouping words TODO should this be part of charge & ordinary?
     self::ignore(languageDB::GROUP);
 
-    if ( ($colourOrFur = self::colour()) or ($colourOrFur = self::fur()) ) {
+    if ( ($colourOrFur = self::colour())
+        || ($colourOrFur = self::fur())
+        || ($colourOrFur = self::tartan()) ) {
       // This could be [colour] [treatment] [colour],
-      // unless it is followed by a comma
+      // unless it is followed by a semi colon
       self::comma();
-      if ( self::moreInput() /* and !self::semicolon() */ ) {
+      if ( !self::semicolon() ) {
         if ( ($treat = self::treatment()) ) {
           $keyterm = $treat->getAttribute('keyterm');
           $grady = (substr($keyterm,0,5) == 'grady');
@@ -1579,15 +1620,15 @@ class englishGrammar extends grammar {
       // Look for [treatment] [colour] [colour]
     } elseif ( ($treat = self::treatment()) ) {
       self::comma();
-      $treat->appendChild(self::tincture(true));
       $keyterm = $treat->getAttribute('keyterm');
-      $grady = (substr($keyterm,0,5) == 'grady');
+      $treat->appendChild(self::tincture(true));
+      $grady = (substr($keyterm, 0, 5) == 'grady');
       self::comma();
       self::ignore(languageDB::ANDD);
       $tinc2 = self::tincture(!$grady); // grady might not need second tincture
       if ($tinc2 != null) {
-        $tinc2->setAttribute('index',2);
-        $treat->appendChild($tinc2);
+          $tinc2->setAttribute('index', 2);
+          $treat->appendChild($tinc2);
       }
       $node->appendChild($treat);
       // Look for counterchange

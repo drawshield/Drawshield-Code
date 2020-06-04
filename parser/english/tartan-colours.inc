@@ -1,6 +1,6 @@
 <?php
 
-$tartanColours = array (
+$this->patterns[self::TARTANCOLS] = array (
 	
 	array ( "yellow", 'tartan/yellow'),
     array ( "orange", 'tartan/orange'),

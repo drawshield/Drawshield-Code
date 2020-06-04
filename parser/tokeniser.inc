@@ -216,6 +216,23 @@ class tokeniser {
           if ( !$comment ) { $this->words[] = $blazon[$i]; $this->lineNos[] = $lineNo; }
           break;
         case ';':
+          if ( $incAll ) {
+            $part_word .= $blazon[$i];
+            break;
+          }
+          if ( $part_word != '' ) {
+            if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
+            $part_word = '';
+          }
+          if ( !$comment ) {
+            $temp_word = ';';
+            if ($lookAhead == ';') { // treat double semi-colon as its own symbol
+              $temp_word = ";;";
+              $i += 1;
+            }
+            $this->words[] = $temp_word; $this->lineNos[] = $lineNo;
+          }
+          break;
         case ',':
           if ( $incAll ) {
             $part_word .= $blazon[$i];

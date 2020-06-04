@@ -171,7 +171,7 @@ abstract class grammar  {
     }
   }
       
-  protected function semicolon($lookback = true) {
+  protected function semicolon($lookback = false) {
   
     $retval = false;
     if ( self::find(languageDB::SEMICOLON) ) {
@@ -180,7 +180,7 @@ abstract class grammar  {
       $state = self::save();
       if ( self::lookAhead(-1) && self::find(languageDB::SEMICOLON) != null ) $retval = true;
       self::restore($state);
-    } 
+    }
     return $retval;
   }
   

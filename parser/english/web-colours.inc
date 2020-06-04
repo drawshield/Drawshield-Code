@@ -1,6 +1,6 @@
 <?php
 
-$flagColours = array (
+$this->patterns[self::WHCOLS] = array (
     array ( "cyan", 'web/cyan'),
     array ( "lime", 'web/lime'),
     array ( "olive", 'web/olive'),
