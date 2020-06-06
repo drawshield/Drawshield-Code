@@ -631,6 +631,7 @@ class languageDB extends lexicon
                 array('sixty three', "63"),
                 array('sixty four', "64"),
                 array('(as|so) many', 'asmany'),
+                array('(6[5-9]|[7-9][0-9]|[1-9][0-9][0-9]+)', 'bignum'),
             ),
             self::ORIENTATION => array(
                 'sinister', 'reversed', 'dexter', 'inverted', 'enhanced',

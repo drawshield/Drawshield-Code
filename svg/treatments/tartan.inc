@@ -11,9 +11,6 @@ foreach ($children as $child) {
     }
 }
 
-$threadScale = 2;
-// calculate the repeated area size
-
 $numThreads = count($tartanPattern);
 if (!$numThreads) { // something wrong, no colours
     $tartanPattern = [
@@ -24,10 +21,20 @@ if (!$numThreads) { // something wrong, no colours
     $messages->addMessage('parser',"Tartan requires colours and thread counts");
 }
 
+// calculate the repeated area size
 $repeatCount = 0;
 for ($k = 0; $k < $numThreads; $k++) {
-    $repeatCount += $tartanPattern[$k][1] * $threadScale;
+    $repeatCount += $tartanPattern[$k][1];
 }
+
+$threadScale = 2; // default
+if ($repeatCount > 100)
+    $threadScale = 1;
+elseif ($repeatCount < 21)
+    $threadScale = 3;
+
+$repeatCount *= $threadScale;
+
 if ($reverse)  $repeatCount *= 2;
 
 $svg = "<g>\n";
