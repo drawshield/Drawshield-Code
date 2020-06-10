@@ -17,6 +17,7 @@ $options = array(
   'blazon' => '',
   'palette' => 'drawshield',
   'printable' => false,
+  'filename' => 'shield',
   'size' => 500,
   'saveFormat' => 'png',
   'outputFormat' => 'svg',

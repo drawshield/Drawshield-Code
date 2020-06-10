@@ -77,6 +77,7 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_POST['palette'])) $options['palette'] = strip_tags($_POST['palette']);
   if (isset($_POST['shape'])) $options['shape'] = strip_tags($_POST['shape']);
   if (isset($_POST['stage'])) $options['stage'] = strip_tags($_POST['stage']);
+  if (isset($_POST['filename'])) $options['filename'] = strip_tags($_POST['filename']);
 //  if (isset($_POST['printable'])) $options['printable'] = ($_POST['printable'] == "1");
   if (isset($_POST['effect'])) $options['effect'] = strip_tags($_POST['effect']);
   if (isset($_POST['size'])) $options['size']= strip_tags ($_POST['size']);
@@ -92,6 +93,7 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_GET['palette'])) $options['palette'] = strip_tags($_GET['palette']);
   if (isset($_GET['shape'])) $options['shape'] = strip_tags($_GET['shape']);
   if (isset($_GET['stage'])) $options['stage'] = strip_tags($_GET['stage']);
+  if (isset($_GET['filename'])) $options['filename'] = strip_tags($_GET['filename']);
   if (isset($_GET['raw'])) $options['raw'] = true;
   //  if (isset($_GET['printable'])) $options['printable'] = ($_GET['printable'] == "1");
   if (isset($_GET['effect'])) $options['effect'] = strip_tags($_GET['effect']);
@@ -224,25 +226,27 @@ $output = draw();
 
 // Output content header
 if ( $options['asFile'] ) {
+    $name = $options['filename'];
+    if ($name == '') $name = 'shield';
   switch ($options['saveFormat']) {
     case 'svg':
      header("Content-type: application/force-download");
-     header('Content-Disposition: inline; filename="shield.svg"');
+     header('Content-Disposition: inline; filename="' . $name . '.svg"');
      header("Content-Transfer-Encoding: text");
-     header('Content-Disposition: attachment; filename="shield.svg"');
+     header('Content-Disposition: attachment; filename="' . $name . '.svg"');
      header('Content-Type: image/svg+xml');
      echo $output;
      break;
-    case 'pdfA4':
+    case 'pdf':
     $im = new Imagick();
     $im->readimageblob($output);
     $im->setimageformat('pdf');
     header("Content-type: application/force-download");
-    header('Content-Disposition: inline; filename="shield.pdf"');
+    header('Content-Disposition: inline; filename="' . $name . '.pdf"');
     header("Content-Transfer-Encoding: 8bit");
-    header('Content-Disposition: attachment; filename="shield.pdf"');
+    header('Content-Disposition: attachment; filename="' . $name . '.pdf"');
     header('Content-Type: application/pdf');
-    echo $im->getimagesblob();
+    echo $im->getimageblob();
     break;
     case 'jpg':
       $im = new Imagick();
@@ -251,9 +255,9 @@ if ( $options['asFile'] ) {
       $im->setimagecompressionquality(90);
       // $im->scaleimage(1000,1200);
       header("Content-type: application/force-download");
-      header('Content-Disposition: inline; filename="shield.jpg"');
+      header('Content-Disposition: inline; filename="' . $name . '.jpg"');
       header("Content-Transfer-Encoding: binary");
-      header('Content-Disposition: attachment; filename="shield.jpg"');
+      header('Content-Disposition: attachment; filename="' . $name . '.jpg"');
       header('Content-Type: image/jpg');
       echo $im->getimageblob();
       break;
@@ -265,9 +269,9 @@ if ( $options['asFile'] ) {
      $im->setimageformat('png32');
      // $im->scaleimage(1000,1200);
      header("Content-type: application/force-download");
-     header('Content-Disposition: inline; filename="shield.png"');
+     header('Content-Disposition: inline; filename="' . $name . '.png"');
      header("Content-Transfer-Encoding: binary");
-     header('Content-Disposition: attachment; filename="shield.png"');
+     header('Content-Disposition: attachment; filename="' . $name . '.png"');
      header('Content-Type: image/png');
      echo $im->getimageblob();
      break;
