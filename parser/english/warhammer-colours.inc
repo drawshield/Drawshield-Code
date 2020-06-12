@@ -22,7 +22,7 @@ $this->patterns[self::WHCOLS] = array (
     array ( "bestigor flesh", 'wh/bestigor-flesh' ),
     array ( "biel tan green", 'wh/biel-tan-green' ),
     array ( "blackfire earth", 'wh/blackfire-earth' ),
-    array ( "blood-for-the-blood-god", 'wh/blood-for-the-blood-god' ),
+    array ( "blood for the blood god", 'wh/blood-for-the-blood-god' ),
     array ( "bloodletter", 'wh/bloodletter' ),
     array ( "blue horror", 'wh/blue-horror' ),
     array ( "brass scorpion", 'wh/brass-scorpion' ),
