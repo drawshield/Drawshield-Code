@@ -145,29 +145,36 @@ function drawTorse($torseNode) {
 }
 
 function drawMotto($mottoNode) {
-    global $messages;
+    global $messages, $options;
 
     if (is_null($mottoNode)) return '';
 
     $text = $mottoNode->getAttribute('text');
-    $fontSize = 45;
-    $up = 2;
-    $textLen = strlen($text);
-    //adjust for long mottos
-    if ($textLen > 10) {
-        $fontSize -= (0.7 * ($textLen - 10)); // one pixel smaller per extra letter
-        $up = ($textLen - 10) / 1.5;
-        if ($fontSize < 15) {
-            $fontSize = 15; // but have a lower limit
-            $up = 12;
+    if ($options['shape'] == 'pauldron') {
+        $svg = file_get_contents('svg/components/scroll/plaque.svg');
+        $svg .= "<g transform=\"translate(50,1000)\">\n" .
+            getWords('hooge', $text, 160, 900) . "</g>\n";
+        $svg = '<g transform="scale(0.9,0.9) translate(50,180)">' . $svg . "</g>\n";
+    } else {
+        $fontSize = 45;
+        $up = 2;
+        $textLen = strlen($text);
+        //adjust for long mottos
+        if ($textLen > 10) {
+            $fontSize -= (0.7 * ($textLen - 10)); // one pixel smaller per extra letter
+            $up = ($textLen - 10) / 1.5;
+            if ($fontSize < 15) {
+                $fontSize = 15; // but have a lower limit
+                $up = 12;
+            }
         }
-    }
 
-    $svg = file_get_contents('svg/components/scroll/plain.svg');
-    $svg = str_replace('%TEXT%',htmlentities($text),$svg);
-    $svg = str_replace('%UP%',$up,$svg);
-    $svg = str_replace('%FONT-SIZE%',"${fontSize}px",$svg);
-    $messages->addMessage('licence','Motto: ' . "https://commons.wikimedia.org/wiki/User:F_l_a_n_k_e_r");
+        $svg = file_get_contents('svg/components/scroll/plain.svg');
+        $svg = str_replace('%TEXT%', htmlentities($text), $svg);
+        $svg = str_replace('%UP%', $up, $svg);
+        $svg = str_replace('%FONT-SIZE%', "${fontSize}px", $svg);
+        $messages->addMessage('licence', 'Motto: ' . "https://commons.wikimedia.org/wiki/User:F_l_a_n_k_e_r");
+    }
     
     return $svg;
 }

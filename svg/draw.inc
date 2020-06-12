@@ -21,6 +21,7 @@ include "shapes.inc";
 include "achievement.inc";
 include "pathtools.inc";
 include "treatment.inc";
+include "getwords.inc";
 
 function getLine($node) {
   $retval = '';
@@ -238,7 +239,8 @@ function draw() {
         }
         break;
       case 'achievement':
-        $achievement = true;
+          if ($options['shape'] != 'pauldron' && $options['shape'] != 'flag')
+                $achievement = true;
         foreach ( $node->childNodes as $subNode ) {
           switch ( $subNode->nodeName) {
             case 'mantling':
@@ -265,7 +267,7 @@ function draw() {
           $helmet = drawHelmet($helmet, $torse);
         }
         // Always use mantling if an achievement is requested
-        if (!$mantling) $mantling = drawMantling(null);
+        if (!$mantling && $options['shape'] != 'pauldron') $mantling = drawMantling(null);
         break;
         // other elements for future expansion
       }
@@ -311,7 +313,10 @@ function draw() {
     $body = '<g transform="translate(191.667,400) scale(0.61667) ">' . $body . '</g>' . $mantling;
   }
   if ($motto) {
-    $body .= '<g transform="translate(0,985)">' . $motto . '</g>';
+     if ($options['shape'] == 'pauldron') {
+         $body = '<g transform="translate(0,-100) ">' . $body . '</g>' . $motto;
+     } else {
+         $body .= '<g transform="translate(0, 985)">' . $motto . '</g>';}
   }
   if ($achievement) {
     if ($helmet == '') $helmet = drawHelmet(null, $torse);
