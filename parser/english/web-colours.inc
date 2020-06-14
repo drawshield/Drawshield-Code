@@ -1,6 +1,6 @@
 <?php
 
-$this->patterns[self::WHCOLS] = array (
+$this->patterns[self::WEBCOLS] = array (
     array ( "cyan", 'web/cyan'),
     array ( "lime", 'web/lime'),
     array ( "olive", 'web/olive'),
