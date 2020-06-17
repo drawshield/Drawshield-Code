@@ -328,7 +328,7 @@ function draw() {
     }
   }
   if (!$options['asFile']) {
-    $body .= '<text id="test1" x="10" y="' . $y1Location . '" font-size="30" >' . $version['website'] . '</text><text x="990" y="' . $y1Location . '" text-anchor="end" font-size="30" >' . $version['release'] . '</text>';
+    $body .= '<text id="test1" x="10" y="' . $y1Location . '" font-size="30" >' . $version['website'] . '</text><text id="release-id" x="990" y="' . $y1Location . '" text-anchor="end" font-size="30" >' . $version['release'] . '</text>';
   }
   if ($options['effect'] != 'shiny') { // other effects are applied everywhere
     $body .= add_def();
