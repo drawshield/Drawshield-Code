@@ -135,6 +135,7 @@ $this->patterns[self::WEBCOLS] = array (
     array ( "spring green", 'web/spring-green' ),
     array ( "lime green", 'web/lime-green' ),
     array ( "clover green", 'web/clover-green' ),
+    array ( "rebecca purple", 'web/rebecca-purple' ),
     array ( "green snake", 'web/green-snake' ),
     array ( "alien green", 'web/alien-green' ),
     array ( "green apple", 'web/green-apple' ),

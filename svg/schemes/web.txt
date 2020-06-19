@@ -341,3 +341,4 @@ pearl=#fdeef4
 seashell=#fff5ee
 milk-white=#fefcff
 white=#ffffff
+rebecca-purple=#663399
