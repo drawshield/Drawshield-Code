@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   height="752.66003"
+   width="973.52002"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 973.52002 752.66003"
+   xml:space="preserve"><metadata
+   id="metadata2806"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata><defs
+   id="defs2804" />
+<style
+   type="text/css"
+   id="style2791">
+	.st0{fill:#010101;}
+</style>
+<g
+   transform="translate(-13.57,-124.33998)"
+   id="g2799"
+   style="fill:#ff0000">
+	<path
+   class="st0"
+   d="M 532.75,743.47 548,567.12 c -13.55,1.39 -31.57,1.85 -47.74,1.85 -16.17,0 -34.19,-0.31 -47.74,-1.85 L 467.77,743.47 352.88,705.43 500.41,877 647.65,705.43 Z"
+   id="path2793"
+   style="fill:#ff0000" />
+	<path
+   class="st0"
+   d="m 519.05,129.42 c -6.16,0.46 -12.48,0.77 -18.64,0.77 -6.16,0 -12.48,-0.31 -18.64,-0.77 -15.25,-1.23 -48.05,-5.08 -49.75,-5.08 0.62,7.7 3.54,47.44 4.31,57.76 23.56,-2.62 45.13,-3.7 64.07,-3.85 18.94,0.15 40.35,1.08 64.07,3.85 0.77,-10.32 3.7,-50.05 4.31,-57.76 -1.68,-0.01 -34.49,3.84 -49.73,5.08 z"
+   id="path2795"
+   style="fill:#ff0000" />
+	<path
+   class="st0"
+   d="M 987.09,408.34 C 783.03,269.26 630.55,198.26 500.41,198.26 c -130.14,0 -282.77,71 -486.84,210.07 78.39,43.89 236.1,132.3 236.1,132.3 0,0 -28.18,-45.59 -41.58,-67.3 97.49,52.21 194.98,78.24 292.32,77.93 97.34,0.15 194.83,-25.87 292.32,-77.93 -13.4,21.72 -41.58,67.3 -41.58,67.3 0,0 157.7,-88.4 235.94,-132.29 z M 500.41,509.06 c -82.4,0 -253.2,-35.73 -315.11,-110.74 55.91,-73 174.34,-129.99 261.82,-151.4 C 432,324 454,399 499.95,480.41 c 0.15,-0.15 0.31,-0.46 0.46,-0.92 0.31,0.46 0.46,0.77 0.46,0.92 C 549,395 567,323 553.7,246.93 c 87.33,21.41 205.92,78.39 261.82,151.4 -61.91,75 -232.87,110.73 -315.11,110.73 z"
+   id="path2797"
+   style="fill:#ff0000" />
+</g>
+</svg>

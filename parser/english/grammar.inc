@@ -567,7 +567,7 @@ class englishGrammar extends grammar
         $foundMuch = false;
         $foundShown = false;
         while ((($keyterm = self::find(languageDB::SHOWN_MODS)) != null) ||
-            ($foundShown && ($keyterm = self::find(languageDB::SHOWN_EXTRA)) != null)) {
+            (($foundShown || $foundMuch) && ($keyterm = self::find(languageDB::SHOWN_EXTRA)) != null)) {
             switch ($keyterm) {
                 case 'than-normal':
                     break; // just ignore this (syntactic sugar)
