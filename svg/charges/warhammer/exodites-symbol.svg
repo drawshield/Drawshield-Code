@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   height="979.52002"
+   width="552.36554"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 552.36554 979.52002"
+   xml:space="preserve"><metadata
+   id="metadata9"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><dc:creator><cc:Agent><dc:title>http://bakadesign.dk/warhammer-40-000-icons/</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata><defs
+   id="defs7" />
+<g
+   id="layer1"
+   transform="translate(-278.63819,-63.31)"
+   style="fill:#ff0000">
+	<path
+   id="path826"
+   d="M 554.82,63.31 313.15,481.88 h 190.74 v 45.43 c -137.74,22.94 -234.29,133.8 -224.58,257.88 6.79,84.82 62.64,160.46 147.55,199.85 V 893.83 C 387.9,865.48 363.95,815.37 360.24,772.26 353.8,694.44 413.97,623.67 503.89,603.3 v 329.82 c 0,0 -1.37,39.64 -4.83,59.11 -3.06,17.23 -21.85,50.6 -21.85,50.6 h 155.21 c 0,0 -18.79,-33.36 -21.85,-50.59 -3.46,-19.47 -4.83,-59.12 -4.83,-59.12 V 603.33 c 75.3,17.04 147.99,71.5 147.99,140.5 0,69 -28.42,119.04 -70.95,150 V 984.9 C 773.76,942.68 830.85,859.15 831,768.03 831.73,645.83 725.34,544.42 605.74,527.43 v -45.54 h 190.74 z m 0,134.67 125.49,217.36 H 429.32 Z"
+   style="fill:#ff0000" />
+</g>
+</svg>
