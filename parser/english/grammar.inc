@@ -1186,14 +1186,18 @@ class englishGrammar extends grammar
 
         $state = self::save();
         self::ignore(languageDB::WORD_OF);
+        $heraldicOnly = false;
+        if (self::find(languageDB::HERALDIC)) $heraldicOnly = true;
         $keyterm = null;
         // if a colour set is enabled, those colours OVERRIDE heraldic colours
-        if ($options['useTartanColours'])
-            $keyterm = self::find(languageDB::TARTANCOLS);
-        if ($keyterm == null && $options['useWebColours'])
-            $keyterm = self::find(languageDB::WEBCOLS);
-        if ($keyterm == null && $options['useWarhammerColours'])
-            $keyterm = self::find(languageDB::WHCOLS);
+        if (!$heraldicOnly) {
+            if ( $options['useTartanColours'])
+                $keyterm = self::find(languageDB::TARTANCOLS);
+            if ($keyterm == null && $options['useWebColours'])
+                $keyterm = self::find(languageDB::WEBCOLS);
+            if ($keyterm == null && $options['useWarhammerColours'])
+                $keyterm = self::find(languageDB::WHCOLS);
+        }
         if ($keyterm == null)
             $keyterm = self::find(languageDB::COLOUR);
         // If not enabled, we still search for them, but AFTER heraldic colours

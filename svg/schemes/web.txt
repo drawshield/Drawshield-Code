@@ -1,4 +1,5 @@
 // colour names and codes from https://www.computerhope.com/htmcolor.htm
+azure=#f0ffff
 cyan=#00ffff
 lime=#00ff00
 olive=#808000

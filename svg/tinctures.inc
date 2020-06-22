@@ -1,7 +1,7 @@
 <?php
 
 
-function readTinctureFile($filename) {
+function readTinctureFile($filename, $prefix) {
     $retval = array();
     foreach (file($filename) as $line) {
         // remove comments
@@ -18,7 +18,7 @@ function readTinctureFile($filename) {
 //                if ($value[0] != '#') {
 //                    $value = '#' . $value;
 //                }
-                $retval[$key] = $value;
+                $retval["$prefix/$key"] = $value;
             }
         }
     }
@@ -151,22 +151,22 @@ function rgb($keyterm) {
 
     if (!$loaded) {
         // always read in the drawshield colours as these are the defaults for any not given
-        $tinctures = readTinctureFile('svg/schemes/drawshield.txt');
+        $tinctures = readTinctureFile('svg/schemes/drawshield.txt','heraldic');
         $palette = $options['palette'];
         if (!file_exists('svg/schemes/' . $palette . '.txt')) {
           $messages->addMessage('internal', "unknown colour scheme - $palette" );
           $palette = 'drawshield';
         } else {
-            $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/' . $palette . '.txt'));
+            $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/' . $palette . '.txt', 'heraldic'));
         }
         if ($options['useWebColours'] == true || $options['shape'] == 'flag') {
-          $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/web.txt'));
+          $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/web.txt','web'));
         }
         if ($options['useWarhammerColours'] == true || $options['shape'] == 'pauldron') {
-          $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/warhammer.txt'));
+          $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/warhammer.txt', 'wh'));
         }
         if ($options['useTartanColours'] == true ) {
-          $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/tartan.txt'));
+          $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/tartan.txt','tartan'));
         }        
 		$loaded = true;
     }
@@ -176,8 +176,8 @@ function rgb($keyterm) {
     }
     list($type,$name) = explode('/',$keyterm);
 
-    if (array_key_exists($name, $tinctures)) {
-        return $tinctures[$name];
+    if (array_key_exists($keyterm, $tinctures)) {
+        return $tinctures[$keyterm];
     } else {
         switch($type) {
           case 'heraldic': // should not happen
@@ -198,7 +198,6 @@ function rgb($keyterm) {
       return array_pop($errorColours);
     else
       return '#ffffff';
-
 }
 
 function shiftRGB($hex, $direction="lighter") {

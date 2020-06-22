@@ -98,6 +98,7 @@ class languageDB extends lexicon
     const WEBCOLS = 'webcols';
     const WHCOLS = 'whcols';
     const TARTANCOLS = 'tartancols';
+    const HERALDIC = 'heraldic';
 
     public function __construct()
     {
@@ -348,6 +349,10 @@ class languageDB extends lexicon
             self::ANDD => array(
                 array('(and|&|also)', 'and'),
                 array('(and|&) also', 'and'),
+            ),
+            self::HERALDIC => array (
+                array ('heraldic', 'heraldic'),
+                array ('herald(s|dry)?', 'heraldic'),
             ),
             self::COLOUR => array(
                 // basic tinctures (with abbreviations)
