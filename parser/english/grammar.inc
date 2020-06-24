@@ -1395,7 +1395,7 @@ class englishGrammar extends grammar
         $node = $this->schema->makeNode(blazonML::E_TREATMENT,
             array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
         $last = count($patternArray) - 1;
-        if ($patternArray[$last] == "no-repeat") {
+        if ($last > 0 && $patternArray[$last] == "no-repeat") {
             $node->setAttribute(blazonML::A_KEYTERM, "tartan-no-repeat");
             array_pop($patternArray);
         }

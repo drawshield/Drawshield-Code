@@ -252,12 +252,18 @@ function getRenderInfo(DOMElement $node, $match ) {
 }
 
 function getFieldTincture(DOMElement $node) {
-  do {
-    if (is_null($node) || !is_object($node) )
-      return null;
-    $node = $node->parentNode;
-  } while (is_object($node) && $node->nodeName != blazonML::E_PLAIN); 
-  return getTinctureNode($node->firstChild);
+    while (!is_null($node) && is_object($node) && $node->nodeName != blazonML::E_BLAZON) {
+        if ($node->nodeName == blazonML::E_PLAIN) {
+            return getTinctureNode($node->firstChild);
+        }
+    }
+    return null;
+//  do {
+//    if (is_null($node) || !is_object($node) )
+//      return null;
+//    $node = $node->parentNode;
+//  } while (is_object($node) && $node->nodeName != blazonML::E_PLAIN);
+//  return getTinctureNode($node->firstChild);
 }
 
 function words2digits ($words) {

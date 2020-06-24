@@ -191,7 +191,6 @@ switch ($textLayout) {
     $startOffset = '0%';
   else
     $startOffset = '100%';
-  if ( $fontSize > 150 ) $fontSize = 150; // but not too large!
   if ( $textLayout == 'enarched')
     $arch = add_def('path d="m 25,200 a1,0.7 0 0,1 400,0"',null);
   else

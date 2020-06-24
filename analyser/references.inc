@@ -294,8 +294,7 @@ class references {
       // to existing subshields
       foreach ($children as $subShield) {
         $child = $subShield->firstChild;
-        if ($child != null && $child->nodeName == blazonML::E_PENDING) {
-          //error_log("setting reference to " . $existingIDs[$currentID]);
+        if ($child != null && $child->nodeName == blazonML::E_PENDING && isset($existingIDs[$currentID])) {
           $subShield->setAttribute('IDREF', $existingIDs[$currentID]);
           if (++$currentID >= count($existingIDs)) $currentID = 0; 
           $subShield->removeChild($child);

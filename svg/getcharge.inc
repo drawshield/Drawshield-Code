@@ -252,8 +252,14 @@ function makeSquareCharge(DOMElement $node ) {
 
 function getCharge( DOMElement $node ) {
   global $chg_data_cache, $messages, $options, $aspect_ratio;
+  if (is_null($node)) return null;
 
-  list($chargeGroup, $chargeName ) = explode('/',$node->getAttribute('keyterm'));
+    $keyterm = $node->getAttribute('keyterm');
+    if (strpos('/', $keyterm) === false) {
+        error_log("internal","bad charge keyterm - $keyterm");
+        return null;
+    }
+    list($chargeGroup, $chargeName ) = explode('/', $keyterm);
 
 
     //-------------------------------------------------------------

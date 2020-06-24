@@ -77,7 +77,7 @@ if ( $font = getModifierValueByKeyterm($node,'font') ) {
     // convert words to digits
     $newValue = words2digits($value);
     if ($newValue) $value = $newValue;
-
+    if (!is_numeric($value)) $value = '0';
     $numChars = strlen($value);
     // set vertical flex quite high?
 
