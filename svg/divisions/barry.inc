@@ -14,7 +14,7 @@
 
 
 if ( ($num_of = getModifierValueByKeyterm($node, 'ofnum', false)) == null ) $num_of = 8;
-
+if (!is_numeric($num_of)) $num_of = 8;
 $NC = '';
 $CH = '';
 $stepC = 900 / $num_of; // with a chief
