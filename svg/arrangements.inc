@@ -655,6 +655,10 @@ function calcPlace( $node, $aspect, $bb = '100,100,800,900'  ) {
 
 
   );
+  if (is_null($bb) || strpos(',', $bb) === false) {
+      error_log("Bad bounding box - $bb");
+      $bb = '100,100,800,900';
+    }
   $number = getNumberOfCharges($node);
  // $number = $node->getAttribute('number');
   $conjoined = existModifierWithKeyterm($node,'conjoined');
