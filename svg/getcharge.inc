@@ -255,8 +255,8 @@ function getCharge( DOMElement $node ) {
   if (is_null($node)) return null;
 
     $keyterm = $node->getAttribute('keyterm');
-    if (strpos( $keyterm, '/') === false) {
-        error_log("internal","bad charge keyterm - $keyterm");
+    if (strpos('/', $keyterm) === false) {
+        error_log("bad charge keyterm - $keyterm");
         return null;
     }
     list($chargeGroup, $chargeName ) = explode('/', $keyterm);
