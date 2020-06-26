@@ -152,19 +152,6 @@ if ( $options['blazon'] == '' ) {
       echo $dom->saveXML(); 
       exit; 
   }
-  // Add dictionary references
-  include "analyser/addlinks.inc";
-  $adder = new linkAdder($dom);
-  $dom = $adder->addLinks();
-  $adder = null; // destroy adder
-  if ( $options['stage'] == 'links') { 
-      $note = $dom->createComment("Debug information - links stage.\n(Did you do SHIFT + 'Save as File' by accident?)");
-      $dom->insertBefore($note,$dom->firstChild);
-      header('Content-Type: text/xml; charset=utf-8');
-      $dom->outputFormat = true;
-      echo $dom->saveXML(); 
-      exit; 
-  }
 }
 // Make the blazonML searchable
 $xpath = new DOMXPath($dom);
@@ -210,16 +197,7 @@ if ($options['palette'] == 'default') $options['palette'] = 'drawshield';
 
   // Read in the drawing code  ( All formats start out as SVG )
 
-  //include "analyser/rewriter.inc";
-  // some fudges / heraldic knowledge
-  // rewrite();
-  // if ( $options['stage'] == 'rewrite') { 
-  //     $note = $dom->createComment("Debug information - rewrite stage.\n(Did you do SHIFT + 'Save as File' by accident?)");
-  //     $dom->insertBefore($note,$dom->firstChild);
-  //     header('Content-Type: text/xml; charset=utf-8');
-  //     echo $dom->saveXML(); 
-  //     exit; 
-  // }
+
 include "svg/draw.inc";
 $output = draw();
 
