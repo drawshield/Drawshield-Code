@@ -1,0 +1,2 @@
+# just basic quartering test
+blazon=quarterly 1) argent 2) ermine 3) pean 4) azure a bend or

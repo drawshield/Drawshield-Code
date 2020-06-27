@@ -1,0 +1,3 @@
+# Change the image save size
+blazon=vert
+size=200

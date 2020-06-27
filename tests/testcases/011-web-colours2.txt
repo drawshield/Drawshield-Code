@@ -1,0 +1,3 @@
+# Check that web colours can be enabled using the blazon
+# and that we can keep heraldic colours if we need them
+blazon=per pale firebrick and heraldic azure drawn using web colours
