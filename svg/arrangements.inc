@@ -655,7 +655,7 @@ function calcPlace( $node, $aspect, $bb = '100,100,800,900'  ) {
 
 
   );
-  if (is_null($bb) || strpos(',', $bb) === false) {
+  if (is_null($bb) || strpos( $bb, ',') === false) {
       error_log("Bad bounding box - $bb");
       $bb = '100,100,800,900';
     }
