@@ -4,3 +4,6 @@
 debug.inc
 
 drawshield-code.code-workspace
+
+/tests/responses/
+/tests/results.txt
