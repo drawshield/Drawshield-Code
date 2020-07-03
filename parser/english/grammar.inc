@@ -923,8 +923,8 @@ class englishGrammar extends grammar
             self::restore($state);
             return null;
         }
-        // Bit of a fudge, we are always "within" a bordure
-        if ($keyterm == "bordure") {
+        // Bit of a fudge, we are always "within" a bordure or a tressure
+        if (in_array($keyterm, array("bordure", "tressure", "double-tressure"), true)) {
             $insideMod = null;
         }
 
@@ -1701,6 +1701,16 @@ class englishGrammar extends grammar
           } else {
             $semyde->appendChild($this->schema->makeNode(blazonML::E_MISSING));
           }
+          // we also allow a second charge, which MUST be preceeded by AND
+            $state2 = self::save();
+            if (!self::semicolon() && self::find(languageDB::ANDD)) {
+                if ($charge2 = self::simpleCharge(true)) {
+                    $semyde->appendChild($charge2);
+                    self::discard($state2);
+                } else {
+                    self::restore($state2);
+                }
+            }
           $node->appendChild($semyde);
         }
       }

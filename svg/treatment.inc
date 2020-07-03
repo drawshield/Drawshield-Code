@@ -90,24 +90,45 @@ function makeTreatment ( $node ) {
 function makeSemy( $node ) {
   global $messages;
   $children = $node->childNodes;
-  $background = $charge = null;
+  $background = $charge1 = $charge2 = null;
   foreach ( $children as $child ) {
-    if ( $child->nodeName == 'tincture' )
-      $background = $child;
-   elseif ( $child->nodeName == 'charge' )
-     $charge = $child;
+    if ( $child->nodeName == 'tincture' ) {
+        $background = $child;
+    } elseif ( $child->nodeName == 'charge' ) {
+        if ($charge1 == null)
+            $charge1 = $child;
+        else
+            $charge2 = $child;
+    }
   }
-  if ( $background == null or $charge == null )
-    $messages->addMessage('internal', 'Bad semyde element' );
-  else {
-    $semy = PlaceCharge($charge, 100, 100, 100, 100);
-    $semy .= PlaceCharge($charge, 100, 100, 0, 0);
-    $semy .= PlaceCharge($charge, 100, 100, 200, 0);
-    $semy .= PlaceCharge($charge, 100, 100, 0, 200);
-    $semy .= PlaceCharge($charge, 100, 100, 200, 200);
+  if ( $background == null or $charge1 == null ) {
+      $messages->addMessage('internal', 'Bad semyde element');
+      return null;
+  }
+  if ($charge2 == null) {
+//    $semy = PlaceCharge($charge1, 100, 100, 100, 100);
+//    $semy .= PlaceCharge($charge1, 100, 100, 0, 0);
+//    $semy .= PlaceCharge($charge1, 100, 100, 200, 0);
+//    $semy .= PlaceCharge($charge1, 100, 100, 0, 200);
+//    $semy .= PlaceCharge($charge1, 100, 100, 200, 200);
+    $semy = PlaceCharge($charge1, 100, 100, 100, 0);
+    $semy .= PlaceCharge($charge1, 100, 100, 100, 200);
+    $semy .= PlaceCharge($charge1, 100, 100, 0, 100);
+    $semy .= PlaceCharge($charge1, 100, 100, 200, 100);
     $base = apply_tincture ( $background, '<rect x="0" y="0" width="200" height="200" />' );
-    return array (  'link' => 'http://drawshield.net/reference/parker/s/seme.html', 'width' => 200, 'height' => 200, 'body' => $base . $semy );
- }
+    return array (  'width' => 200, 'height' => 200, 'body' => $base . $semy );
+ } // else we have 2 charges, different pattern
+    $semy = PlaceCharge($charge1, 100, 100, 200, 150);
+    $semy .= PlaceCharge($charge1, 100, 100, 50, 0);
+    $semy .= PlaceCharge($charge1, 100, 100, 350, 0);
+    $semy .= PlaceCharge($charge1, 100, 100, 50, 300);
+    $semy .= PlaceCharge($charge1, 100, 100, 350, 300);
+    $semy .= PlaceCharge($charge2, 100, 100, 200, 0);
+    $semy .= PlaceCharge($charge2, 100, 100, 200, 300);
+    $semy .= PlaceCharge($charge2, 100, 100, 50, 150);
+    $semy .= PlaceCharge($charge2, 100, 100, 350, 150);
+    $base = apply_tincture ( $background, '<rect x="0" y="0" width="300" height="300" />' );
+    return array (  'width' => 300, 'height' => 300, 'body' => $base . $semy );
 }
 
 function makeGrady( $node ) {

@@ -5,7 +5,7 @@
         xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" height="600" width="500" viewBox="0,0,1000,1200 ">
 <metadata>
 
-<blazonML:blazon xmlns:blazonML="http://drawshield.net/blazonML" creatorName="drawshield.net" creatorVersion="(development)" timestamp="1593284096">
+<blazonML:blazon xmlns:blazonML="http://drawshield.net/blazonML" creatorName="drawshield.net" creatorVersion="(development)" timestamp="1593796857">
   <blazonML:input blazonText="Gules, on a bend or between two escallops argent a Cornish Chough proper between as many cinquefoils azure; and on a chief of the second a rose of the first seeded gold and barbed vert between two fleurs-de-lis of the field -- for Petre">
     <blazonML:token index="0">Gules</blazonML:token>
     <blazonML:token index="1">,</blazonML:token>
@@ -79,7 +79,7 @@
               <blazonML:tincture ID="N1-16" index="1" origin="given">
                 <blazonML:proper ID="N1-17" tokens="proper" linenumber="1" spec="#050505"/>
               </blazonML:tincture>
-              <blazonML:modifier ID="N1-18" type="between" keyterm="between" tokens="between" linenumber="1" value="used">
+              <blazonML:modifier ID="N1-18" type="chgbetween" keyterm="between" tokens="between" linenumber="1" value="used">
                 <blazonML:charge ID="N1-19" number="2" tokens="as many cinquefoils" linenumber="1" keyterm="flower/cinquefoil">
                   <blazonML:modifier ID="N1-20" type="value" value="Cornish" keyterm="value" linenumber="1"/>
                   <blazonML:tincture ID="N1-21" index="1" origin="given">
@@ -108,7 +108,7 @@
                   <blazonML:colour ID="N1-35" keyterm="vert" tokens="vert" linenumber="1"/>
                 </blazonML:tincture>
               </blazonML:modifier>
-              <blazonML:modifier ID="N1-36" type="between" keyterm="between" tokens="between" linenumber="1" value="used">
+              <blazonML:modifier ID="N1-36" type="chgbetween" keyterm="between" tokens="between" linenumber="1" value="used">
                 <blazonML:charge ID="N1-37" number="2" tokens="two fleurs de lis" linenumber="1" keyterm="emblem/fleur-de-lys">
                   <blazonML:modifier ID="N1-38" type="value" value="Cornish" keyterm="value" linenumber="1"/>
                   <blazonML:tincture ID="N1-39" index="1" origin="offield" tokens="of the field" linenumber="1" IDREF="N1-0"/>

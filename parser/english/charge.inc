@@ -429,6 +429,7 @@
       array ( 'fish(es)?', 'fish/fish' ),
       array ( '(luce|ged)s?', 'fish/luce' ),
       array ( 'luc(y|ies)', 'fish/luce' ),
+      array ( 'pikes?', 'fish/luce' ),
       array ( 'barbels?', 'fish/barbel' ),
       array ( 'sharks?', 'fish/shark' ),
       array ( 'eels?', 'fish/eel' ),

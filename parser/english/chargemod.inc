@@ -305,7 +305,7 @@
       array ( 'dis(member|join)ed', 'dismembered' ),
       array ( '(seje?ant|assis)', 'sejant' ),
       array ( '(regu?ardant|contourne|tourne)', 'reguardant' ),
-      array ( '?wings (display|unfold|overture)ed?', 'displayed' ),
+      array ( '?wings (outspread|display|unfold|overture)ed?', 'displayed' ),
       array ( '(sans|without) wings', 'wingless' ),
       array ( 'seje?ant erect', 'sejant-erect' ),
       array ( '(c|k)abo(c|s)(h|s)ed', 'caboshed' ),

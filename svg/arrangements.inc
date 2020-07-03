@@ -432,7 +432,8 @@ function get_placement(DOMElement $item) {
             break;
           case 'inbase':
             if ( $orig_placement == '' ) {
-              $placement = '500,950,500,240/333.33,950,300,200:666.67,950/333.33,900,160,160:666.67,900:500,1050/x/x/x';
+                $placement = calcPlace($item,'h','100,825,800,250');
+//              $placement = '500,950,500,240/333.33,950,300,200:666.67,950/333.33,900,160,160:666.67,900:500,1050/x/x/x';
               $adjustment = 'x';
             } else
               $adjustment = '400,850,200,200';
