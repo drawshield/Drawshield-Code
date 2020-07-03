@@ -55,6 +55,7 @@
      'acorns', 'towered', 'domed', 'tasselled', 'mortared',
      'shelled', 'tied', 'headed', // NOT heads
      'drooping', 'voided', 'beaded', 'ringed', 'masonry',
+     array ( 'leather(s|ed)?', 'leathered'),
      array ( 'in profile', 'in-profile'),
      array ( 'tool(s|ed)?', 'tools'),
      array ( 'apron(s|ed)?', 'apron'),
@@ -122,8 +123,7 @@
       array ( '?vine stick', 'stick' ),
       array ( '?fore feet fettered', 'feetfettered' ),
       array ( 'heads?', 'head' ), // See Parker Corpus ADY, usually a mod but if both present, features
-      array ( 'faces?', 'face' ),
-      array ( 'full faced?', 'face' ),
+      array ( 'faces?', 'head' ),
       array ( '(talon|claw)s?', 'claw' ),
       array ( 'ears?', 'ear' ),
       array ( '(gambe|leg)s?', 'leg' ),
@@ -212,6 +212,7 @@
       array ( '(with|and) ?an arrow ?nocked', 'arrow-nocked'),
       array ( '(with|and) ?an arrow ?nocked ?and drawn', 'arrow-drawn'),
       array ('of sp(ri|ir)als', 'of-spirals'),
+      array ( 'naient', 'naissant'),
       array ( '(of|with) (two|2) arches', 'two-arches'),
       array ( '(of|with) (three|3) arches', 'three-arches'),
       array ('in lure', 'in-lure'),
