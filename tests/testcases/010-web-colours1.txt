@@ -1,4 +1,4 @@
 # Check that web colours can be enabled using the API argument
 # and that we can keep heraldic colours if we need them
 blazon=per pale firebrick and heraldic azure
-webcols=1
+webcols=yes
