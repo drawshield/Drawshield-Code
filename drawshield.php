@@ -82,9 +82,9 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_POST['effect'])) $options['effect'] = strip_tags($_POST['effect']);
   if (isset($_POST['size'])) $options['size']= strip_tags ($_POST['size']);
   if (isset($_POST['ar'])) $ar = strip_tags ($_POST['ar']);
-  if (isset($_POST['webcols'])) $options['useWebColours'] = true;
-  if (isset($_POST['tartancols'])) $options['useTartanColours'] = true;
-  if (isset($_POST['whcols'])) $options['useWarhammerColours'] = true;
+  if (isset($_POST['webcols'])) $options['useWebColours'] = $_POST['webcols'] == 'yes';
+  if (isset($_POST['tartancols'])) $options['useTartanColours'] = $_POST['tartancols'] == 'yes';
+  if (isset($_POST['whcols'])) $options['useWarhammerColours'] = $_POST['whcols'] == 'yes';
 } else { // for old API
   if (isset($_GET['blazon'])) $options['blazon'] = strip_tags(trim($_GET['blazon']));
   if (isset($_GET['saveformat'])) $options['saveFormat'] = strip_tags ($_GET['saveformat']);;
@@ -100,7 +100,7 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_GET['size'])) $options['size'] = strip_tags ($_GET['size']);
   if (isset($_GET['ar'])) $ar = strip_tags ($_GET['ar']);
   if (isset($_GET['webcols'])) $options['useWebColours'] = true;
-  if (isset($_POST['tartancols'])) $options['useTartanColours'] = true;
+  if (isset($_GET['tartancols'])) $options['useTartanColours'] = true;
   if (isset($_GET['whcols'])) $options['useWarhammerColours'] = true;
 }
 
