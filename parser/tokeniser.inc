@@ -196,7 +196,7 @@ class tokeniser {
           if ( $i > 0 && strstr(  " \t\n\r'\",.", $blazon[$i-1])) {
             $i = $end;
           }
-          if ( $i < $end && $blazon[$i+1] == '-' ) {
+          if ( $i < $end - 1 && $blazon[$i+1] == '-' ) {
             $i = $end;
           }
           break;

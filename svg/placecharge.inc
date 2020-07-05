@@ -151,6 +151,7 @@ function PlaceCharge ( $node,  // images
   global $dom, $options;
 
   $charge = getCharge( $node );
+  if ($charge == null) return '';
   $orientation = null;
   $tincture = null;
   $Xflex = array_key_exists('wflex', $charge) ? $charge['wflex'] : 1;
