@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (1.0+r73+1)"
+   sodipodi:docname="shape-drawshield.svg"
+   id="svg924"
+   viewBox="0 0 1000 1200"
+   width="1000"
+   height="1200"
+   preserveAspectRatio="xMidYMid meet"
+   version="1.1">
+  <metadata
+     id="metadata928">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:current-layer="svg924"
+     inkscape:window-maximized="0"
+     inkscape:window-y="169"
+     inkscape:window-x="528"
+     inkscape:cy="450"
+     inkscape:cx="406.55152"
+     inkscape:zoom="0.812"
+     inkscape:guide-bbox="true"
+     showguides="true"
+     showgrid="false"
+     id="namedview926"
+     inkscape:window-height="1208"
+     inkscape:window-width="1465"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     inkscape:document-rotation="0">
+    <sodipodi:guide
+       id="guide930"
+       orientation="0,-1"
+       position="1067.3235,221.34647" />
+  </sodipodi:namedview>
+  <defs
+     id="defs897" />
+  <path
+     id="path917"
+     d="M 500.71484,0.71484375 C 368.29589,0.71447361 241.30034,53.317399 147.66582,146.95155 54.031303,240.58571 1.4278813,367.58105 1.4277344,500 1.4278803,632.41895 54.031301,759.41429 147.66582,853.04845 241.30034,946.6826 368.29589,999.28553 500.71484,999.28516 776.46229,999.28486 999.9997,775.74745 1000,500 999.99969,224.25255 776.46229,0.71514751 500.71484,0.71484375"
+     fill="#FFFFFF"
+     style="fill:#e6e6e6" />
+</svg>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   viewBox="0 0 1000 1200"
+   width="1000"
+   height="1200"
+   preserveAspectRatio="xMidYMid meet"
+   version="1.1">
+
+  <path fill-rule="evenodd" 
+        d="m 41.536147,871.59393 c 0,0 7.47903,-641.82667 458.680763,-641.93028 451.20173,-0.10361 456.7417,646.64289 456.7417,646.64289 z M 1.2817646,953.9012 c 0,0 -3.0191322,-756.24112 499.0203454,-754.95935 502.03949,1.28177 496.91075,760.08641 496.91075,760.08641 z" />';
+</svg>

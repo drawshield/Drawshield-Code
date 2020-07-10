@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (1.0+r73+1)"
+   sodipodi:docname="shape-drawshield.svg"
+   id="svg924"
+   viewBox="0 0 1000 1200"
+   width="1000"
+   height="1200"
+   preserveAspectRatio="xMidYMid meet"
+   version="1.1">
+  <metadata
+     id="metadata928">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:current-layer="svg924"
+     inkscape:window-maximized="0"
+     inkscape:window-y="169"
+     inkscape:window-x="528"
+     inkscape:cy="450"
+     inkscape:cx="406.55152"
+     inkscape:zoom="0.812"
+     inkscape:guide-bbox="true"
+     showguides="true"
+     showgrid="false"
+     id="namedview926"
+     inkscape:window-height="1208"
+     inkscape:window-width="1465"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     inkscape:document-rotation="0">
+    <sodipodi:guide
+       id="guide930"
+       orientation="0,-1"
+       position="1067.3235,221.34647" />
+  </sodipodi:namedview>
+  <defs
+     id="defs897" />
+  <path
+     id="path917"
+     d="M2.0857 -0.794C2.0857 -0.794 2.0857 270.816 2.0857 270.816C2.0857 605.256 239.14 1049.406 502.1 1202.106C778.47 1055.506 1002.1 611.136 1002.1 270.816C1002.1 270.816 1002.1 -0.794 1002.1 -0.794C920.4 47.882 838.67 68.036 756.92 66.474C671.98 64.906 587.04 39.987 502.1 -0.794C417.15 39.987 332.28 64.906 247.33 66.474C165.58 68.036 83.84 47.882 2.0857 -0.794C2.0857 -0.794 2.0857 -0.794 2.0857 -0.794"
+     fill="#FFFFFF"
+ />
+</svg>
