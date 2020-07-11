@@ -1,5 +1,24 @@
 <?php
 
+$filename = $options['shape'];
+if (chiefPresent()) $filename .= '-chief';
+$linetype = getModifierByType($node, 'linetype');
+if ($linetype != null) $filename .= '-' . $linetype;
+// $filename .= '.svg';
+$folder = 'svg/ordinaries/bordures/';
+
+$subfile = getBestMatchFilename($folder, $filename, null);
+
+if ($subfile == null) {
+    $messages->addMessage('warning',"Cannot draw bordure inside " . $options['shape']);
+    $subfile = 'svg/ordinaries/bordures/drawshield.svg';
+}
+
+$svg = simplexml_load_file( $subfile);
+
+$paths = $svg->xpath('//path');
+$ordinary['body'] = $paths[0];
+
 switch ($options['shape']) {
 	case 'drawshield':
 		break;
