@@ -115,6 +115,85 @@ function includeOrdinary( DOMElement &$node ) {
   return $ordinary;
 }
 
+function getBordure($node) {
+    global $options, $messages;
+    $bordure = [];
+
+    $filename = $options['shape'];
+    if ($filename == 'flag') {
+        $height = (isset($options['flagHeight'])) ? $options['flagHeight'] : 800; // just in case
+        $size = (int)(min(100,$height/8));
+        $bordure['body'] = '<path fill-rule="evenodd" d="M -10,-10 h1020 v' .
+            ($height + 20) . ' h-1020 v-' . ($height + 20) . ' z M' . $size . ', ' . $size .
+            ' h ' . (1000 - $size - $size) . ' v ' . ($height - $size - $size) . ' h-' .
+            (1000 - $size - $size) . ' z"/>';
+        return ($bordure);
+    } // else
+    if (chiefPresent()) $filename .= '-chief';
+    $linetype = getModifierByType($node, 'linetype');
+    if ($linetype != null) $filename .= '-' . $linetype;
+// $filename .= '.svg';
+    $folder = 'svg/ordinaries/bordures/';
+
+    $subfile = getBestMatchFilename($folder, $filename, null);
+
+    if ($subfile == null) {
+        $messages->addMessage('warning',"Cannot draw bordure inside " . $options['shape']);
+        $subfile = 'heater.svg';
+    }
+
+    $svg = simplexml_load_file( $folder . $subfile);
+
+    $paths = $svg->xpath('//svg:path');
+    $tempBody = '';
+    foreach ($paths as $path) {
+        $tempBody .= $path->asXML();
+    }
+    $bordure['body'] = $tempBody;
+
+    switch ($options['shape']) {
+        case 'drawshield':
+            break;
+        case 'french':
+            break;
+        case 'italian':
+            break;
+        case 'polish':
+            break;
+        case 'spanish':
+            break;
+        case 'sca':
+            break;
+        case 'english':
+            break;
+        case 'oval':
+            break;
+        case 'german':
+            break;
+        case 'square':
+            break;
+        case 'circle':
+            break;
+        case 'lozenge':
+            break;
+        case 'pauldron':
+            $options['notrim'] = true; // don't put the grey translucent border on
+            break;
+        case 'swiss':
+            break;
+        default:
+            break;
+    }
+
+    $bordure['chargesWithin'] = array ('w',chiefPresent() ? '120,420,760,560' : '120,120,760,860');
+
+// only really applies to drawshield
+    $bordure['chargesOn'] = chiefPresent() ? 'x///////////500,330,55,55:250,330:750,330:500,1150:35,700:965,700:35,450:965,450:50,900:950,900:200,1050:800,1047' : 'x///////////500,30,55,55:250,30:750,30:500,1150:35,500:965,500:35,200:965,200:35,800:965,800:200,1050:800,1050';
+
+    return ($bordure);
+
+}
+
 function makeOrdinary( DOMElement &$node ) {
   /**
    * @var
@@ -123,8 +202,13 @@ function makeOrdinary( DOMElement &$node ) {
 
 	// Get information about the shapes to be drawn
 	// We do this first in case the ordinary code changes any of the modifiers, e.g. a bend quarterly
-  $ord_data = includeOrdinary( $node );
-  $subtype = $node->getAttribute('keyterm');
+    $subtype = $node->getAttribute('keyterm');
+    // special handling for bordures (as lots of options)
+    if ($subtype == 'bordure') {
+        $ord_data = getBordure($node);
+    } else {
+        $ord_data = includeOrdinary( $node );
+    }
   /**
    * @var DOMElement $rev
    */

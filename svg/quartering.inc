@@ -17,6 +17,10 @@ function make1Quarter($child, $xScale, $yScale, $xOffset, $yOffset, $aspect ) {
 }
 
 function makeQuartered($across, $down, $children) {
+    global $options;
+
+    $saveShape = $options['shape'];
+    $options['shape'] = 'quarter';
 	$retval = '';
 	$subWidth = 1000 / $across;
 	$subHeight = 1200 / $down;
@@ -33,6 +37,7 @@ function makeQuartered($across, $down, $children) {
 		}
 		$yPos += $subHeight;
 	}
+    $options['shape'] = $saveShape;
 	return $retval;
 }
 
@@ -43,6 +48,8 @@ function makequarters( DOMNodeList $children, $child_ARs, $child_Scales, $transl
   /**
    * @var DOMElement $kid
    */
+  $saveShape = $options['shape'];
+  $options['shape'] = 'quarter';
   foreach ( $children as $kid ) {
     $index = $kid->getAttribute('index');
     region('push','Q' . $index ); // Can lose this soon I hope...
@@ -69,6 +76,7 @@ function makequarters( DOMNodeList $children, $child_ARs, $child_Scales, $transl
     $retval .= '<g clip-path="url(#' . $clipdef . ')" ' . $transform . ' >' . makeshield( $kid, $child_AR ) . "</g>\n";
     region('pop');
   }
+  $options['shape'] = $saveShape;
   $retval .= add_def();
   return $retval;
 }

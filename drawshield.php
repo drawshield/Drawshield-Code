@@ -157,7 +157,7 @@ if ( $options['blazon'] == '' ) {
 $xpath = new DOMXPath($dom);
 
 /*
- * Update any optiona that were set in the blazon itself
+ * Update any options that were set in the blazon itself
  */
 $blazonOptions = $xpath->query('//instructions/child::*');
 if (!is_null($blazonOptions)) {
@@ -185,14 +185,17 @@ if (!is_null($blazonOptions)) {
  */
 // Minimum sensible size
 if ( $options['size'] < 100 ) $options['size'] = 100;
-// Synonyms for circle shape
-if (in_array($options['shape'],array('circular','round'))) $options['shape'] = 'circle';
-if ($options['shape'] == 'spauldron') $options['shape'] = 'pauldron';
-// Calculate actual flagHeight
-if ($options['shape'] == 'flag') {
-  if ($ar != null) $options['aspectRatio'] = calculateAR($ar);
-  $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
+if (!array_key_exists('shape',$options)) {
+    $options['shape'] = 'heater';
+} elseif (in_array($options['shape'],array('circular','round'))) {
+    // Synonyms for circle shape
+    $options['shape'] = 'circle';
+} elseif ($options['shape'] == 'flag') {
+    if ($ar != null) $options['aspectRatio'] = calculateAR($ar);
+    $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
 }
+
+
 if ($options['palette'] == 'default') $options['palette'] = 'drawshield';
 
   // Read in the drawing code  ( All formats start out as SVG )
