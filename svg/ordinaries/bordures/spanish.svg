@@ -5,13 +5,28 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   viewBox="0 0 1000 1200"
-   width="1000"
-   height="1200"
+   id="svg4"
+   version="1.1"
    preserveAspectRatio="xMidYMid meet"
-   version="1.1">
-
+   height="1200"
+   width="1000"
+   viewBox="0 0 1000 1200">
+  <metadata
+     id="metadata10">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs8" />
   <path
-          fill-rule="evenodd"
-d="m -23.449,-23.449 v 30.2361 771.5829 h 1.957 c 17.2463,249.53 246.132,445.03 521.842,445.03 286.83,0 523.05,-211.5 523.05,-475.27 v -30.24 h -0.8 v -741.339 z m 60.472,60.472 h 925.077 v 735.557 c -14.08,216.38 -213.74,390.42 -461.75,390.42 -257.21,0 -462.532,-187.28 -462.532,-414.87 v -30.24 h -0.795 z"    />
+     id="path2"
+     d="M -23.449,-23.449 V 6.7871 778.37 h 1.957 c 17.2463,249.53 246.132,445.03 521.842,445.03 286.83,0 523.05,-211.5 523.05,-475.27 v -30.24 h -0.8 V -23.449 Z M 57.023,57.023 H 942.1 V 772.58 C 928.02,988.96 748.36,1143 500.35,1143 243.14,1143 57.818,958.19671 57.818,748.13 v -30.24 h -0.795 z"
+     fill-rule="evenodd" />
 </svg>

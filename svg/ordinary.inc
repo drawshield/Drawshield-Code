@@ -120,6 +120,7 @@ function getBordure($node) {
     $bordure = [];
 
     $filename = $options['shape'];
+    if ($filename == 'swatch' || $filename = 'stamp') $filename = "quarter"; // basically the same shape
     if ($filename == 'flag') {
         $height = (isset($options['flagHeight'])) ? $options['flagHeight'] : 800; // just in case
         $size = (int)(min(100,$height/8));
@@ -132,6 +133,8 @@ function getBordure($node) {
     if (chiefPresent()) $filename .= '-chief';
     $linetype = getModifierByType($node, 'linetype');
     if ($linetype != null) $filename .= '-' . $linetype;
+    $compony = getModifierByType($node,'compony');
+    if ($compony != null) $filename .= '-' . $compony;
 // $filename .= '.svg';
     $folder = 'svg/ordinaries/bordures/';
 
@@ -150,6 +153,15 @@ function getBordure($node) {
         $tempBody .= $path->asXML();
     }
     $bordure['body'] = $tempBody;
+
+    $paths = $svg->xpath('//svg:g[@id="body2"]/*');
+    if (is_array($paths)) {
+        $tempBody = '';
+        foreach ($paths as $path) {
+            $tempBody .= $path->asXML();
+        }
+        $bordure['body2'] = $tempBody;
+    }
 
     switch ($options['shape']) {
         case 'drawshield':
