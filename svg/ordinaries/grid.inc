@@ -6,7 +6,7 @@ $ordinary['body'] = '<polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><poly
              <g transform="translate(200,0)"><polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" /></g>
              <g transform="translate(300,0)"><polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" /></g>
              <g transform="translate(400,0)"><polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" /></g>
-             <g transform="translate(500,0)"><polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" /></g>
+             <g transform="translate(499,0)"><polygon points="49,0 50.5,0 51,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" /></g>
              <g transform="translate(600,0)"><polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" /></g>
              <g transform="translate(700,0)"><polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" /></g>
              <g transform="translate(800,0)"><polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" /></g>
@@ -16,7 +16,7 @@ $ordinary['body'] = '<polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><poly
              <path transform="translate(0,200)" d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
              <path transform="translate(0,300)" d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
              <path transform="translate(0,400)" d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
-             <path transform="translate(0,500)" d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
+             <path transform="translate(0,499)" d="M0,49h1000v2h-1000z M0,98h1000v4h-1000z" />
              <path transform="translate(0,600)" d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
              <path transform="translate(0,700)" d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
              <path transform="translate(0,800)" d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
