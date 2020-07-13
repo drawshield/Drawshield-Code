@@ -179,6 +179,22 @@ function drawMotto($mottoNode) {
     return $svg;
 }
 
+function drawFringe($fringeNode) {
+    global $messages, $options;
+
+    $shape = $options['shape'];
+    if (!file_exists("svg/components/fringes/$shape.svg")) {
+        $messages->addMessage('blazon', "Fringe not available for $shape shaped shields");
+        return null;
+    }
+    if ($fringeNode->hasChildNodes() && $fringeNode->firstChild->nodeName == 'tincture') {
+        $tinc = $fringeNode->firstChild;
+    } else {
+        $tinc = createColourNode('1', ) /// HERE:wall
+        ///
+    }
+}
+
 function drawHelmet($helmetNode, $torse) {
     global $messages;
 

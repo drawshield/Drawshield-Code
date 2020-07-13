@@ -99,6 +99,8 @@ class languageDB extends lexicon
     const WHCOLS = 'whcols';
     const TARTANCOLS = 'tartancols';
     const HERALDIC = 'heraldic';
+    const USING = 'using';
+    const FRINGED = 'fringed';
 
     public function __construct()
     {
@@ -124,6 +126,7 @@ class languageDB extends lexicon
                 array('cloak ?mantling', 'cloak'),
                 array('mantling ?of ?a cloak', 'cloak'),
             ),
+            self::FRINGED => array ('?a fringed?'),
             self::ACHIEVEMENT => array('achievement', 'hatchment'),
             self::CREST => array(
                 array('?(a|the) crest ?of', 'crest'), // room for other crest types?
@@ -944,15 +947,17 @@ class languageDB extends lexicon
                 array('further apart', 'further-apart'),
                 array('closer? together', 'closer-together'),
             ),
+            self::USING => array ( 'with', 'in', 'using'),
             self::DRAWN_MODS => array(
                 array('drawn', 'drawn'),
-                array('(with|in|using) ?(a|an|the) * (palette|tinctures|colou?rs)', 'palette'),
-                array('(with|in|using) ?(a|an|the) * shape', 'shape'),
-                array('(with|in|using) ?(a|an|the) * (appearance|style|effect)', 'style'),
-                array('(with|in|using) ?(a|an|the) aspect ?ratio ?of *', 'aspect'),
-                array('(with|in|using) ?(a|an|the) * aspect ?ratio', 'aspect'),
-                array('(with|in|using) ?(a|an|the) proportions? ?of *', 'aspect'),
-                array('(with|in|using) ?(a|an|the) * proportions?', 'aspect')
+                array('?(a|an|the) * (palette|tinctures|colou?rs)', 'palette'),
+                array('?(a|an|the) * shape', 'shape'),
+                array('?(a|an|the) shape ?of ?an? *', 'shape'),
+                array('?(a|an|the) * (appearance|style|effect)', 'style'),
+                array('?(a|an|the) aspect ?ratio ?of *', 'aspect'),
+                array('?(a|an|the) * aspect ?ratio', 'aspect'),
+                array('?(a|an|the) proportions? ?of *', 'aspect'),
+                array('?(a|an|the) * proportions?', 'aspect'),
             ),
             self::QUARTERMODS => array(
                 array('per cross', 'per-cross'),

@@ -45,6 +45,9 @@ class englishGrammar extends grammar
                 } elseif (($torse = self::torse()) != null) {
                     $found = true;
                     $this->addAchievement($torse);
+                } elseif (($fringe = self::fringe()) != null) {
+                    $found = true;
+                    $this->addAchievement($fringe);
                 } elseif (($helmet = self::helmet()) != null) {
                     $found = true;
                     $this->addAchievement($helmet);
@@ -118,50 +121,40 @@ class englishGrammar extends grammar
     {
         global $options;
 
-        $found = false;
-        while ($option = self::find(LanguageDB::DRAWN_MODS)) {
-            $found = true;
-            $elementName = null;
-            $value = strtolower($this->phraseMatcher->getValue());
-            switch ($option) {
-                case 'palette':
-                    $elementName = blazonML::E_PALETTE;
-                    /*			  switch ($value) {
-                                      case 'warhammer':
-                                          $options['useWarhammerColours'] = true;
-                                          break;
-                                      case 'tartan':
-                                          $options['useTartanColours'] = true;
-                                          break;
-                                      case 'web':
-                                          $options['useWebColours'] = true;
-                                          break;
-                                      default:
-                                          break;
-                                  } */
-                    break;
-                case 'style':
-                    $elementName = blazonML::E_EFFECT;
-                    break;
-                case 'shape':
-                    $elementName = blazonML::E_SHAPE;
-                    break;
-                case 'aspect':
-                    // $value = calculateAR($value);
-                    $elementName = blazonML::E_ASPECT;
-                    break;
-                default:
-                    break;
+        $found = true;
+        while ($true) {
+            $found = false;
+            self::ignore(languageDB::USING);
+            if ($option = self::find(LanguageDB::DRAWN_MODS)) {
+                $elementName = null;
+                $colour = null;
+                $value = strtolower($this->phraseMatcher->getValue());
+                switch ($option) {
+                    case 'palette':
+                        $elementName = blazonML::E_PALETTE;
+                        break;
+                    case 'style':
+                        $elementName = blazonML::E_EFFECT;
+                        break;
+                    case 'shape':
+                        $elementName = blazonML::E_SHAPE;
+                        break;
+                    case 'aspect':
+                        // $value = calculateAR($value);
+                        $elementName = blazonML::E_ASPECT;
+                        break;
+                }
+                if (!is_null($elementName)) {
+                    $node = $this->schema->makeNode($elementName, array(
+                        blazonML::A_KEYTERM => $value),
+                        self::tokens(),
+                        self::lineNo()
+                    );
+                    $this->addInstruction($node);
+                }
+                $found = true;
             }
-            if (!is_null($elementName)) {
-                $node = $this->schema->makeNode($elementName, array(
-                    blazonML::A_KEYTERM => $value),
-                    self::tokens(),
-                    self::lineNo()
-                );
-                $this->addInstruction($node);
-            }
-            self::ignore(LanguageDB::ANDD);
+            self::ignore(languageDB::ANDD);
         }
         return $found;
     }
@@ -1444,7 +1437,7 @@ class englishGrammar extends grammar
     return $node;
   }
 
-  protected function division( $onlyCounterchanged = false ) { 
+  protected function division( $onlyCounterchanged = false ) {
     $need3Tinc = array ( 'per-pall', 'per-pall-arrondi', 'tierced-in-pale',
     'tierced-in-fess', 'tierced-in-bend', 'tierced-in-bend', 'tierced-in-chevron' );
     $opt3Tinc = array ( 'per-pile', );
@@ -1460,7 +1453,7 @@ class englishGrammar extends grammar
       $minTinc = 2;
       if (in_array( $keyterm, $need3Tinc)) {
         $maxTinc = 3;
-        $minTinc = 3;  
+        $minTinc = 3;
       } elseif (in_array($keyterm, $opt3Tinc)) {
         $maxTinc = 3;
       }
@@ -1492,7 +1485,7 @@ class englishGrammar extends grammar
       if ($onlyCounterchanged && !$foundCounterchange) {
         self::restore($state);
         return null;
-      } 
+      }
       // Did we find all the tinctures that we need?
       while ( $tincCount < $minTinc ) {
         $node->appendChild($this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => ++$tincCount,
@@ -1621,6 +1614,22 @@ class englishGrammar extends grammar
     );
     return $mottoNode;
   }
+
+    protected function fringe() {
+        if (!self::find(languageDB::FRINGED)) {
+            return null;
+        }
+        $fringeNode = $this->schema->makeNode(blazonML::E_FRINGE, array (
+            blazonML::A_KEYTERM => 'fringe',  // expansion to other styles?
+        ),
+            self::tokens(),
+            self::lineno()
+        );
+        if (($tincNode = self::tincture()) != null) {
+            $fringeNode->appendChild( $tincNode );
+        }
+        return $fringeNode;
+    }
 
   protected function helmet() {
     if (($helmType = self::find(languageDB::HELMET)) == null) {

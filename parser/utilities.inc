@@ -93,6 +93,7 @@ class blazonML extends DOMDocument {
   const A_ORIGIN = 'origin';
   const A_CATEGORY = 'category';
   const E_PROPER = 'proper';
+    const E_FRINGE = 'fringe';
   const E_PENDING = 'pending';
   const A_NAME = 'name';
   const E_FUR = 'fur';
