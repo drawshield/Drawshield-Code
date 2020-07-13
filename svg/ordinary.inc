@@ -120,7 +120,7 @@ function getBordure($node) {
     $bordure = [];
 
     $filename = $options['shape'];
-    if ($filename == 'swatch' || $filename = 'stamp') $filename = "quarter"; // basically the same shape
+    if ($filename == 'swatch' || $filename == 'stamp') $filename = "quarter"; // basically the same shape
     if ($filename == 'flag') {
         $height = (isset($options['flagHeight'])) ? $options['flagHeight'] : 800; // just in case
         $size = (int)(min(100,$height/8));
