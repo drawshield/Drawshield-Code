@@ -213,6 +213,7 @@ function draw() {
 
     $blazonNode = $dom->documentElement;
     $body = '';
+    $addMantling = false;
     foreach ( $blazonNode->childNodes as $node ) {
       switch ( $node->nodeName ) {
       case 'shield':
@@ -251,6 +252,7 @@ function draw() {
               $motto = drawMotto($subNode);
               break;
               case blazonML::E_HELMET: // can't draw immediately in case there is a torse
+                  $addMantling = true;
               $helmet = $subNode;
               break;
             case blazonML::E_CREST:
@@ -268,8 +270,8 @@ function draw() {
           $helmet = drawHelmet($helmet, $torse);
         }
         // Always use mantling if an achievement is requested
-//        if (!$mantling && $options['shape'] != 'pauldron') $mantling = drawMantling(null);
-//        break;
+        if ($addMantling && $options['shape'] != 'pauldron') $mantling = drawMantling(null);
+        break;
         // other elements for future expansion
       }
     }
