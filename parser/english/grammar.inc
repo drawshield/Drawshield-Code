@@ -122,7 +122,7 @@ class englishGrammar extends grammar
         global $options;
 
         $found = true;
-        while ($true) {
+        while ($found) {
             $found = false;
             self::ignore(languageDB::USING);
             if ($option = self::find(LanguageDB::DRAWN_MODS)) {

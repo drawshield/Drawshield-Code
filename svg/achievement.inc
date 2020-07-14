@@ -140,8 +140,7 @@ function drawTorse($torseNode) {
             }
         }
     }
-    $retval = getSvgFragment($svg, $features, 'torse', 'torse', $extras);
-    return $retval;
+    return getSvgFragment($svg, $features, 'torse', 'torse', $extras);
 }
 
 function drawMotto($mottoNode) {
@@ -187,12 +186,16 @@ function drawFringe($fringeNode) {
         $messages->addMessage('blazon', "Fringe not available for $shape shaped shields");
         return null;
     }
+    $svg = getSvgFragment(file_get_contents("svg/components/fringes/$shape.svg"), array(), 'fringes', $shape,
+    array());
     if ($fringeNode->hasChildNodes() && $fringeNode->firstChild->nodeName == 'tincture') {
         $tinc = $fringeNode->firstChild;
     } else {
-        $tinc = createColourNode('1', ) /// HERE:wall
-        ///
+        $tinc = createColourNode('or' );
+        $fringeNode->appendChild($tinc);
     }
+    return (apply_tincture($tinc, $svg['body']));
+
 }
 
 function drawHelmet($helmetNode, $torse) {

@@ -164,6 +164,7 @@ function draw() {
   $helmet = '';
   $crest = '';
   $torse = '';
+  $fringe = '';
 
   $extraDefs = '';
   if ($options['palette'] == 'hatching') {
@@ -239,19 +240,23 @@ function draw() {
                 $achievement = true;
         foreach ( $node->childNodes as $subNode ) {
           switch ( $subNode->nodeName) {
-            case 'mantling':
+            case blazonML::E_MANTLING:
               $mantling = drawMantling($subNode);
               break;
-            case 'motto':
+              case blazonML::E_FRINGE:
+                  $fringe = drawFringe($subNode);
+                  $achievement = false; // can't combine these
+                  break;
+              case blazonML::E_MOTTO:
               $motto = drawMotto($subNode);
               break;
-            case 'helmet': // can't draw immediately in case there is a torse
+              case blazonML::E_HELMET: // can't draw immediately in case there is a torse
               $helmet = $subNode;
               break;
-            case 'crest':
+            case blazonML::E_CREST:
               $crest = $subNode->cloneNode(true);
               break;
-            case 'torse':
+            case blazonML::E_TORSE:
               $torse = drawTorse($subNode);
               break;
             default:
@@ -263,8 +268,8 @@ function draw() {
           $helmet = drawHelmet($helmet, $torse);
         }
         // Always use mantling if an achievement is requested
-        if (!$mantling && $options['shape'] != 'pauldron') $mantling = drawMantling(null);
-        break;
+//        if (!$mantling && $options['shape'] != 'pauldron') $mantling = drawMantling(null);
+//        break;
         // other elements for future expansion
       }
     }
@@ -314,6 +319,11 @@ function draw() {
      } else {
          $body .= '<g transform="translate(0, 985)">' . $motto . '</g>';}
   }
+  if ($fringe) {
+      $yPos = '995';
+      if ($options['shape'] == 'flag') $yPos = $options['flagHeight'] - 5;
+      $body .= "<g transform=\"translate(0,$yPos)\">$fringe</g>";
+  }
   if ($achievement) {
     if ($helmet == '') $helmet = drawHelmet(null, $torse);
     if ($crest) {
@@ -337,4 +347,3 @@ function draw() {
   // $body .= '<g fill="#555555">' . $ordinary['body'] . '</g>';
   return $header . $meta . $defs . $body . $trailer;
 }
-
