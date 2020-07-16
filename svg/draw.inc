@@ -166,6 +166,7 @@ function draw() {
   $torse = '';
   $fringe = '';
 
+  $y1Location = 0;
   $extraDefs = '';
   if ($options['palette'] == 'hatching') {
       $extraDefs = mkHatches();
