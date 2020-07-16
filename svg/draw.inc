@@ -271,7 +271,7 @@ function draw() {
           $helmet = drawHelmet($helmet, $torse);
         }
         // Always use mantling if an achievement is requested
-        if ($addMantling && $options['shape'] != 'pauldron') $mantling = drawMantling(null);
+        if (!$mantling && $addMantling && $options['shape'] != 'pauldron') $mantling = drawMantling(null);
         break;
         // other elements for future expansion
       }
