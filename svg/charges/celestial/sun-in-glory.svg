@@ -59,22 +59,36 @@
       <path
          style="fill:#7f7f7f;fill-opacity:1;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:1.32555974px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="M 138.69393,179.52737 C 145.79023,185.00628 151.32858,185.41889 158.38251,178.95791 C 151.08697,172.69935 146.30028,172.69633 138.69393,179.52737 z "
+         class="mouth-closed"
          inkscape:label="#path6604" />
       <path
+         onmouseover="var x=document.getElementsByClassName('eye-closed');x[0].setAttribute('visibility','visible')"
          style="fill:#7f7f7f;fill-opacity:1;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:1.32555974px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="M 121.78445,149.15979 C 123.30639,144.56578 117.91896,143.10127 116.17249,146.63441 L 113.08591,145.23142 C 119.40627,138.09138 126.2222,137.70774 133.28896,141.02245 C 135.65123,141.56844 135.55065,144.77502 129.92179,145.51202 C 126.26008,144.32793 130.40159,152.39666 121.78445,149.15979 z "
+         class="eye-open"
          inkscape:label="#path6606" />
       <path
          style="fill:#7f7f7f;fill-opacity:1;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:1.32555974px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="M 118.41727,133.4463 C 123.79944,133.31081 128.49067,130.52826 135.53374,135.69109 C 136.78577,132.72096 126.93271,127.43558 118.41727,133.4463 z "
          id="path6608"
-          />
-
+         class="brow-normal" />
+      <path
+         style="fill:#7f7f7f;fill-opacity:1;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:1.32555974px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 160,136 c 3,-4 5,-10 13,-11 -1,-3 -12,0 -13,11 z"
+         id="path66081"
+         visibility="hidden"
+         class="brow-raised" />
       <path
          style="fill:#7f7f7f;fill-opacity:1;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:1.32555974px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="M 159.71283,136.41163 C 164.7754,134.57956 168.34471,130.45521 176.6598,133.12335 C 176.90736,129.90963 165.88796,128.01466 159.71283,136.41163 z "
          id="path6610"
-          />
+         class="brow-normal" />
+      <path
+         style="fill:#7f7f7f;fill-opacity:1;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:1.32555974px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 121,127 c 5,2 11,2 15,9 2,-2 -5,-11 -15,-9 z"
+         id="path66101"
+         visibility="hidden"
+         class="brow-raised" />
       <path
          style="fill:#7f7f7f;fill-opacity:1;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:1.32555974px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="M 167.80251,145.51202 C 166.21245,143.72914 164.6224,144.6068 163.03234,144.95082 C 161.02977,139.68009 166.1233,140.49173 168.9249,139.33886 C 176.31398,138.43609 177.8105,141.86118 182.6742,144.10903 L 176.50104,144.95082 C 175.48129,152.18699 168.11794,149.31382 167.80251,145.51202 z "
@@ -87,11 +101,28 @@
          style="fill:#7f7f7f;fill-opacity:1;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:1.32555974px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="M 144.03778,164.88918 C 147.50688,164.44939 149.27707,168.69504 145.44076,169.93994 C 139.82302,169.79875 140.8152,166.89871 144.03778,164.88918 z "
          id="path6616" />
-
+      <path
+         inkscape:label="#path6606"
+         class="eye-closed"
+         onmouseout="var x=document.getElementsByClassName('eye-closed');x[0].setAttribute('visibility','hidden')"
+         d="m 120,151 c -5,-2 -3,-4 -7,-6 6,-7 13,-7 20,-4 6,11 -9,11 -13,10 z"
+         visibility="hidden"
+         style="fill:#7f7f7f;fill-opacity:1;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:1.326px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccc" />
+      <path
+         visibility="hidden"
+         onmouseout="var x=document.getElementsByClassName('mouth-open');x[0].setAttribute('visibility','hidden');var y=document.getElementsByClassName('mouth-closed');y[0].setAttribute('visibility','visible');"
+         style="fill:#7f7f7f;fill-opacity:1;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 149,175 c -3,0 -7,1 -10,6 4,14 18,13 20,-1 -3,-3 -6,-5 -10,-5 z m 0,4 c 3,0 6,1 7,2 -1,10 -11,10 -14,1 1,-2 4,-3 7,-3 z"
+         class="mouth-open"
+         inkscape:connector-curvature="0"
+         inkscape:label="#path985" />
       <path
         d="M 133,173 h 35 v 22 h -35 z"
         fill="black" stroke="#f0f0f0" opacity="0"
-
+        onmouseout="var x=document.getElementsByClassName('mouth-open');x[0].setAttribute('visibility','hidden');var y=document.getElementsByClassName('mouth-closed');y[0].setAttribute('visibility','visible');var x=document.getElementsByClassName('brow-raised');x[0].setAttribute('visibility','hidden');x[1].setAttribute('visibility','hidden');var y=document.getElementsByClassName('brow-normal');y[0].setAttribute('visibility','visible');y[1].setAttribute('visibility','visible');"
+        onmouseover="var x=document.getElementsByClassName('mouth-open');x[0].setAttribute('visibility','visible');var y=document.getElementsByClassName('mouth-closed');y[0].setAttribute('visibility','hidden');var x=document.getElementsByClassName('brow-raised');x[0].setAttribute('visibility','visible');x[1].setAttribute('visibility','visible');var y=document.getElementsByClassName('brow-normal');y[0].setAttribute('visibility','hidden');y[1].setAttribute('visibility','hidden');"
      />
     </g>
   </g>
