@@ -52,32 +52,6 @@ $thirdHeights = array (
     '10:6' => 200, // ???
 );
 
-function get_hierarchy( DOMElement $item ) {
-  $hierarchy = '';
-  
-  do {
-    if ( $item->nodeName == 'shield') {
-      $index = $item->getAttribute('index');
-      switch ( $item->parentNode->nodeName ) {
-      case 'blazon':
-        $hierarchy = 'PL' . $hierarchy;
-        break;
-      case 'quartered':
-        $hierarchy = 'Q' . $index . $hierarchy;
-        break;
-      case 'impaled':
-        $hierarchy = 'I' . $index . $hierarchy;
-        break;
-      case 'dimidiated':
-        $hierarchy = 'D' . $index . $hierarchy;
-        break;
-      }
-    }
-    $item = $item->parentNode;
-  } while ($item->nodeName != 'blazon');
-  
-  return $hierarchy;
-}
 
 function makePlain( &$children, $drawnAR = '10:12' ) {
   global $aspect_ratio, $options;

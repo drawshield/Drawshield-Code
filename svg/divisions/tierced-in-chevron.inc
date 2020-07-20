@@ -12,8 +12,13 @@
  */
 
 $lineType = getModifierByType($node, 'linetype');
-$div2_data = array ( 'NC' => 'V1X-100Y1200g500H848B849c500e1200', 'CH' => 'V1X-100Y1300g400H848B849c400e1200' );
-$div3_data = array ( 'NC' => 'V1X-100Y1300g100H848B849c100e1200', 'CH' => 'V1X-100Y1400g100H848B849c100e1200' );
+if ( existModifierWithKeyterm($node, 'inverted')) {
+    $div2_data = array('NC' => 'V1X-100Y-100B848H848c1400e1200g1400', 'CH' => 'V1X-100Y100B848H848c1200e1200g1200');
+    $div3_data = array('NC' => 'V1X-100Y400B848H848c900e1200g900', 'CH' => 'V1X-100Y500B848H848c1000e1200g1000');
+} else {
+    $div2_data = array('NC' => 'V1X-100Y1200g500H848B849c500e1200', 'CH' => 'V1X-100Y1300g400H848B849c400e1000');
+    $div3_data = array('NC' => 'V1X-100Y1300g100H848B849c100e1200', 'CH' => 'V1X-100Y1400g100H848B849c100e1000');
+}
 $division['div2'] = createBody(choose_fit($div2_data), $lineType, 60);
 $division['div3'] = createBody(choose_fit($div3_data), $lineType, 60);
 
@@ -22,13 +27,19 @@ if ( existModifierWithKeyterm($node, 'riveted')) {
   $rivetList = '';
   $ref = chiefPresent() ? 545 : 475;
   for ($i = 5; $i < 450; $i += 80) {
-    $rivetList .= '<g transform="translate(' . $i . ',' . (455 + $ref) . ')">' . $rivet . '</g>';
+    $rivetList .= '<g transform="translate(' . $i . ',' . (155 + $ref) . ')">' . $rivet . '</g>';
+      $rivetList .= '<g transform="translate(' . (970 - $i) . ',' . (155 + $ref) . ')">' . $rivet . '</g>';
+      $rivetList .= '<g transform="translate(' . $i . ',' . (55 + $ref) . ')">' . $rivet . '</g>';
+      $rivetList .= '<g transform="translate(' . (970 - $i) . ',' . (55 + $ref) . ')">' . $rivet . '</g>';
     $rivetList .= '<g transform="translate(' . ($i + 40) . ',' . (495 + $ref) . ')">' . $rivet . '</g>';
-    $rivetList .= '<g transform="translate(' . (970 - $i) . ',' . (455 + $ref) . ')">' . $rivet . '</g>';
     $rivetList .= '<g transform="translate(' . (930 - $i) . ',' . (495 + $ref) . ')">' . $rivet . '</g>';
+      $rivetList .= '<g transform="translate(' . ($i + 40) . ',' . (595 + $ref) . ')">' . $rivet . '</g>';
+      $rivetList .= '<g transform="translate(' . (930 - $i) . ',' . (595 + $ref) . ')">' . $rivet . '</g>';
     $ref -= 80;
   }
-  $division['div4'] = $rivetList;
+    $rivetList .= '<g transform="translate(485,50)">' . $rivet . '</g>';
+    $rivetList .= '<g transform="translate(485,150)">' . $rivet . '</g>';
+    $division['div4'] = $rivetList;
 }
 
 

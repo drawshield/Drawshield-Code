@@ -76,6 +76,7 @@ class properColour {
       'boar' => self::$brown,
       'chough' => self::$black,
       'crow' => self::$black,
+        'tophat' => self::$black,
       'raven' => self::$black,
       'daisy' => self::$white,
       'deer' => self::$brown,

@@ -837,6 +837,8 @@
       array ( 'caps? of (estate|maintenance)', 'clothes/chapeau' ),
       array ( '?gem rings?', 'clothes/gem-ring' ),
       array ( 'gloves?', 'clothes/glove' ),
+       array ( 'top hats?', 'clothes/tophat' ),
+       array ( 'tophats?', 'clothes/tophat' ),
       array ( '(sleeve|mau?nche?)s?', 'clothes/maunche' ),
       array ( '(phrygian|liberty) caps?', 'clothes/phrygian-cap' ),
       array ( '?mans garters?', 'clothes/garter' ),
@@ -1228,6 +1230,9 @@
        array ( 'sports? (number|digit)s? *', 'sports/number'),
        // modern
        array ( 'parachutes?', 'modern/parachute'),
+       array ( 'trevithicks? ?locomotives?', 'modern/trevithick'),
+       array ( 'airships?', 'modern/airship'),
+       array ( 'blimps?', 'modern/airship'),
        // warhammer
        array ( 'adeptus arbites? symbols?',	 'warhammer/adeptus-arbites-symbol'),
        array ( 'adeptus astartes? symbols?',	 'warhammer/adeptus-astartes-symbol'),
