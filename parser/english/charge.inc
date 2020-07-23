@@ -1233,6 +1233,12 @@
        array ( 'trevithicks? ?locomotives?', 'modern/trevithick'),
        array ( 'airships?', 'modern/airship'),
        array ( 'blimps?', 'modern/airship'),
+       array ( 'spyglass(es)?', 'modern/spyglass'),
+       array ( 'clockworks?', 'modern/clockwork'),
+       array ( 'gear chains?', 'modern/clockwork'),
+       array ( 'clock works?', 'modern/clockwork'),
+       array ( 'pocketwatch(es)?', 'modern/pocketwatch'),
+       array ( '(pocket|fob) watch(es)?', 'modern/pocketwatch'),
        // warhammer
        array ( 'adeptus arbites? symbols?',	 'warhammer/adeptus-arbites-symbol'),
        array ( 'adeptus astartes? symbols?',	 'warhammer/adeptus-astartes-symbol'),
