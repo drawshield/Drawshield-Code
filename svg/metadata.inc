@@ -60,6 +60,7 @@ class metadataMap {
             'torteau' => array ('superposition' => '50,50,85', 'hflex' => 1, 'wflex' => 1),
             'triangle' => array ('superposition' => '50,65,65'),
             'trumpet' => array('horizontal' => true, 'orient_to_ordinary' => 1),
+        'bird/wing' => array('superposition' => '50,70,70' ),
     );
   }
   
