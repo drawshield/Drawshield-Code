@@ -58,6 +58,7 @@
      array ( 'leather(s|ed)?', 'leathered'),
      array ( 'in profile', 'in-profile'),
      array ( 'tool(s|ed)?', 'tools'),
+     array ( 'knob(s|bed)?', 'knobbed'),
      array ( 'apron(s|ed)?', 'apron'),
      array ( 'belt(s|ed)?', 'belted'),
      array ( 'trouser(s|ed)?', 'trousered'),

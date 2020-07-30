@@ -5,10 +5,10 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   id="svg13"
-   version="1.1"
+   width="60"
    height="439"
-   width="60">
+   version="1.1"
+   id="svg13">
   <metadata
      id="metadata19">
     <rdf:RDF>
@@ -30,89 +30,57 @@
      id="defs17" />
   <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
   <g
-     transform="rotate(90,31,30)"
-     style="fill:#ffff00;stroke:#808080"
+     class="layer"
      id="g11"
-     class="layer">
+     style="fill:#ffff00;stroke:#808080"
+     transform="rotate(90,31,30)">
     <title
        id="title2">Layer 1</title>
     <rect
-       style="fill:#ffff00;stroke:#808080"
-       y="2"
-       x="2"
-       width="15"
-       stroke-width="2"
-       stroke="#000000"
-       ry="8"
-       rx="8"
-       id="lknob_1"
-       height="58"
-        />
-    <rect
-       style="fill:#ffff00;stroke:#808080"
-       y="9"
-       x="17"
-       width="10"
-       stroke-width="2"
-       stroke="#000000"
+       height="44"
        id="lknob_2"
-       height="44"
-        />
-    <rect
-       style="fill:#ffff00;stroke:#808080"
-       y="2"
-       x="27"
-       width="15"
-       stroke-width="2"
        stroke="#000000"
-       ry="8"
-       rx="8"
-       id="lknob_3"
-       height="58"
-        />
-    <rect
-       style="fill:#ffff00;stroke:#808080"
-       y="9.25"
-       x="42"
-       width="357"
        stroke-width="2"
-       stroke="#000000"
-       id="shaft"
-       height="43"
-        />
-    <rect
-       style="fill:#ffff00;stroke:#808080"
-       y="2"
-       x="399"
-       width="15"
-       stroke-width="2"
-       stroke="#000000"
-       ry="8"
-       rx="8"
-       id="rknob_1"
-       height="58"
-        />
-    <rect
-       style="fill:#ffff00;stroke:#808080"
-       y="9"
-       x="414"
        width="10"
-       stroke-width="2"
-       stroke="#000000"
-       id="rknob_2"
-       height="44"
-        />
+       x="17"
+       y="9"
+       style="fill:#ffff00;stroke:#808080" />
     <rect
-       style="fill:#ffff00;stroke:#808080"
-       y="2"
-       x="424"
-       width="15"
-       stroke-width="2"
+       height="43"
+       id="shaft"
        stroke="#000000"
-       ry="8"
-       rx="8"
-       id="rknob_3"
-       height="58"
-        />
+       stroke-width="2"
+       width="357"
+       x="42"
+       y="9.25"
+       style="fill:#ffff00;stroke:#808080" />
+    <rect
+       height="44"
+       id="rknob_2"
+       stroke="#000000"
+       stroke-width="2"
+       width="10"
+       x="414"
+       y="9"
+       style="fill:#ffff00;stroke:#808080" />
+    <g
+       id="knobbed">
+      <path
+         id="lknob_1"
+         style="fill:#ff0000;stroke:#808080;stroke-width:2"
+         d="m 9.5,2 c 4.155,0 7.5,3.568 7.5,8 v 42 c 0,4.432 -3.345,8 -7.5,8 C 5.345,60 2,56.432 2,52 V 10 C 2,5.568 5.345,2 9.5,2 Z" />
+      <path
+         id="lknob_3"
+         style="fill:#ff0000;stroke:#808080;stroke-width:2"
+         d="m 34.5,2 c 4.155,0 7.5,3.568 7.5,8 v 42 c 0,4.432 -3.345,8 -7.5,8 C 30.345,60 27,56.432 27,52 V 10 c 0,-4.432 3.345,-8 7.5,-8 z" />
+      <path
+         id="rknob_1"
+         style="fill:#ff0000;stroke:#808080;stroke-width:2"
+         d="m 406.5,2 c 4.155,0 7.5,3.568 7.5,8 v 42 c 0,4.432 -3.345,8 -7.5,8 -4.155,0 -7.5,-3.568 -7.5,-8 V 10 c 0,-4.432 3.345,-8 7.5,-8 z" />
+      <path
+         id="rknob_3"
+         style="fill:#ff0000;stroke:#808080;stroke-width:2"
+         d="m 431.5,2 c 4.155,0 7.5,3.568 7.5,8 v 42 c 0,4.432 -3.345,8 -7.5,8 -4.155,0 -7.5,-3.568 -7.5,-8 V 10 c 0,-4.432 3.345,-8 7.5,-8 z" />
+    </g>
   </g>
 </svg>
