@@ -1160,7 +1160,7 @@
       array ( '(star|shield)s? of david', 'emblem/star-of-david' ),
       array ( 'fleurs? de l(y|i)s', 'emblem/fleur-de-lys' ),
       array ( 'heralds? (staff|stave|baton)s?', 'emblem/heralds-staff' ),
-       array ( 'marshalls? (staff|stave|baton)s?', 'emblem/baton-marshall' ),
+       array ( 'marshall?s? (staff|stave|baton)s?', 'emblem/baton-marshall' ),
       array ( 'labyrinths?', 'emblem/labyrinth' ),
       array ( 'musical notes?', 'emblem/musical-note' ),
       array ( 'nesselblatt(s|er)?s?', 'emblem/nesselblatt' ),
