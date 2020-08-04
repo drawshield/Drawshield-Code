@@ -76,6 +76,27 @@ function adjustDistance($item, $placement) {
   return $placement;
 }
 
+function inOrle($number, $chief = false) {
+       global $options, $messages;
+
+       static $orles = array (
+        'heater-11' => '///////////500,100,100,100:100,650:900,650:500,1050:100,100:900,100:100,400:900,400:200,900:800,900:300,100:700,100',
+           'heater-12' => '///////////500,100,100,100:100,650:900,650:500,1050:100,100:900,100:100,400:900,400:200,900:800,900:300,100:700,100',
+       );
+
+       $shape = $options['shape'];
+       $target = $shape . '-';
+       if ($chief) $target .= 'chief-';
+       $target .= $number;
+
+       if (array_key_exists( $target, $orles)) {
+           return $orles[$target];
+       } else {
+           $messages->addMessage('internal',"No placement for $number charges on $shape, sorry");
+       }
+       return 'x';
+}
+
 function inAnnulo($number) {
   $cx = 500;
   $cy = 500;
@@ -96,7 +117,7 @@ function inAnnulo($number) {
 }
 
 function get_placement(DOMElement $item) {
-  global $dom, $xpath, $messages, $options;
+  global $xpath, $messages, $options;
   global $aspect_ratio;
 
   static $bounding_boxes = array (
@@ -291,7 +312,7 @@ function get_placement(DOMElement $item) {
         $placement = 'x/500,500,750,750,45,0,1:500,500,750,750,-45,0,0/x/200,200,200,200,-45:800,200,,,45:200,800,,,45:800,800,,,-45/200,200,200,200,-45:800,200,,,45:500,500,,,0:200,800,,,45:800,800,,,-45/x';
         break;
       case 'inpile': $placement = 'x/x/250,250,300,300:500,600:750,250/x/x/250,200,200,200:500:750:333.33,500:666.67:500,800'; break;
-      case 'inorle': $placement = '///////////500,100,100,100:100,650:900,650:500,1050:100,100:900,100:100,400:900,400:200,900:800,900:300,100:700,100'; break;
+      case 'inorle': $placement = inOrle($number, $chief);  break;
       case 'counter-passant': $placement = 'x/500,333.33,800,350:500,666.67,,,,,1/500,250,800,200:500,500,,,,,1:500,750,,,,,0/500,200,600,160:500,400,,,,,1:500,600,,,,,0:500,800,,,,,1/500,166.67,160,160:500,333.33,,,,,1:500,500,,,,,0:500,666.67,,,,,1:500,833.33,,,,,0/500,142.86,500,140:500,285.71,,,,,1:500,428.57,,,,,0:500,571.43,,,,,1:500,714.29,,,,,0:500,857.14,,,,,1'; break;
       case 'pilewise': $placement = ($chief) ? 'x/300,200,200,600,-30,1:700,,,,30,1/250,750,180,550,-30,1:500,700,,,0,1:750,750,,,30,1/200,850,150,500,-38,1:400,750,,,-16,1:600,,,,16,1:800,800,,,38,1/x/x' :
         'x/300,550,200,600,-30,1:700,,,,30,1/250,600,180,550,-30,1:500,550,,,0,1:750,600,,,30,1/200,650,150,500,-38,1:400,600,,,-16,1:600,,,,16,1:800,650,,,38,1/x/x';
