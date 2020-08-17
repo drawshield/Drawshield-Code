@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 170.11865 104.42853"
+   height="104.42853"
+   width="170.11865">
+  <defs
+     id="defs2">
+    <filter
+       height="1.0012623"
+       y="-0.00063116109"
+       width="1.0007745"
+       x="-0.00038725391"
+       id="filter1735"
+       style="color-interpolation-filters:sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur1737"
+         stdDeviation="0.027428387" />
+    </filter>
+  </defs>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>https://commons.wikimedia.org/wiki/User:Arch</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(396.87099,810.21817)"
+     id="layer1">
+    <path
+       d="m -246.37695,-810.15234 c 0.19784,0.33654 0.38194,0.67328 0.57617,1.00976 l -0.30078,39.32227 h -0.043 v -0.27539 h -9.92969 v -37.26758 h -4.6543 v 37.26758 h -6.46289 v -37.04297 h -4.65234 v 37.04297 h -6.98047 v -37.04297 h -4.6543 v 37.04297 h -4.9121 v -37.26758 h -4.65235 v 37.26758 h -6.98047 v -37.04297 h -4.65429 v 37.04297 h -5.94532 v -37.26758 h -4.65429 v 37.26758 h -6.72071 v -37.26758 h -4.65429 v 37.26758 h -7.75586 v -37.49024 h -4.65235 v 37.49024 h -8.27343 v -37.04297 h -4.65235 v 37.04297 h -7.49805 v -36.59375 h -4.65429 v 36.59375 h -12.64063 l -0.28515,-37.04297 c -0.10322,0.15473 -0.20018,0.31008 -0.30274,0.46484 -24.56676,33.60628 -27.43689,67.21208 0.58203,100.81836 -0.92596,-1.39702 -1.79566,-2.79503 -2.63867,-4.19336 1.00023,1.29252 2.03453,2.58566 3.13477,3.88281 l -0.3125,-40.80664 h 12.46289 v 40.35743 h 4.65429 v -40.35743 h 7.49805 v 39.91016 h 4.65235 v -39.91016 h 8.27343 v 39.46094 h 4.65235 v -39.46094 h 7.75586 v 39.68555 h 4.65429 v -39.68555 h 6.72071 v 39.68555 h 4.65429 v -39.68555 h 5.94532 v 39.91016 h 4.65429 v -39.91016 h 6.98047 v 39.68555 h 4.65235 v -39.68555 h 4.9121 v 39.91016 h 4.6543 v -39.91016 h 6.98047 v 39.91016 h 4.65234 v -39.91016 h 6.46289 v 39.68555 h 4.6543 v -39.68555 h 9.79688 l -0.28711,37.26172 c -0.10699,0.16314 -0.20438,0.32712 -0.3125,0.49024 0.10796,-0.12949 0.20545,-0.25918 0.3125,-0.38868 l -0.004,0.52735 c 15.08289,-17.78241 20.64705,-35.12484 19.63477,-52.16211 -0.52998,-12.619 -4.74188,-25.23843 -12.15821,-37.85742 -2.0347,-3.66029 -4.27152,-7.31113 -6.70117,-10.95313 l -0.006,0.71485 c -0.19544,-0.27067 -0.37987,-0.54183 -0.57812,-0.8125 z"
+       style="opacity:0.998;fill:#ffff00;fill-opacity:1;stroke:#808080;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter1735)"
+       id="rect4442-4-4" />
+  </g>
+</svg>
