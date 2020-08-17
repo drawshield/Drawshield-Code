@@ -802,6 +802,7 @@
       array ( 'mistrals?', 'natural/wind' ),
       array ( 'stones?', 'natural/stone' ),
       array ( 'rocks?', 'natural/rock' ),
+       array ( '?grass sods?', 'natural/sod' ),
       array ( 'flintstones?', 'natural/stone' ),
       array ( 'flint stones?', 'natural/stone-flint' ),
       array ( 'lightning bolts?', 'natural/lightning-bolt' ),
