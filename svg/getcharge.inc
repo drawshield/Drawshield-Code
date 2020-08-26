@@ -118,6 +118,7 @@ function featuresThatAreAlsoMods($node) {
   static $features = array (
     'head',
     'jessant',
+      'leathered',
     'voided',
     'holding-nut',
     'armoured',
