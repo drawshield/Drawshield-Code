@@ -40,7 +40,7 @@
       array ( 'dexter (half|halves|parts?) ?of ?(a|the)', 'dexter-half'),
       array ( '(upper|top) (half|halves|parts?) ?of ?(a|the)', 'upper-half'),
       array ( '(lower|bottom) (half|halves|parts?) ?of ?(a|the)', 'lower-half'),
-
+      array ( 'leather(s|ed)?', 'leathered'),
       );
 
    // TODO Deal with all the stuff in _quadrate8.inc
