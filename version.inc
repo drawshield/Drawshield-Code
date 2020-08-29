@@ -25,6 +25,8 @@ $options = array(
   'effect' => 'none',
   'stage' => 'render',
   'shape' => 'default',
+    'printSize' => 450, // 5 inches at 90ppi
+    'units' => 'px',
   'aspectRatio' => 0.5,
   // These options can only be set here, or are set later by the program
   'logBlazon' => false,

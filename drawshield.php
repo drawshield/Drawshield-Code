@@ -81,6 +81,7 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
 //  if (isset($_POST['printable'])) $options['printable'] = ($_POST['printable'] == "1");
   if (isset($_POST['effect'])) $options['effect'] = strip_tags($_POST['effect']);
   if (isset($_POST['size'])) $options['size']= strip_tags ($_POST['size']);
+    if (isset($_POST['units'])) $options['units']= strip_tags ($_POST['units']);
   if (isset($_POST['ar'])) $ar = strip_tags ($_POST['ar']);
   if (isset($_POST['webcols'])) $options['useWebColours'] = $_POST['webcols'] == 'yes';
   if (isset($_POST['tartancols'])) $options['useTartanColours'] = $_POST['tartancols'] == 'yes';
@@ -98,6 +99,7 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
   //  if (isset($_GET['printable'])) $options['printable'] = ($_GET['printable'] == "1");
   if (isset($_GET['effect'])) $options['effect'] = strip_tags($_GET['effect']);
   if (isset($_GET['size'])) $options['size'] = strip_tags ($_GET['size']);
+    if (isset($_GET['units'])) $options['units'] = strip_tags ($_GET['units']);
   if (isset($_GET['ar'])) $ar = strip_tags ($_GET['ar']);
   if (isset($_GET['webcols'])) $options['useWebColours'] = true;
   if (isset($_GET['tartancols'])) $options['useTartanColours'] = true;
@@ -183,6 +185,23 @@ if (!is_null($blazonOptions)) {
 /*
  * General options tidy-up
  */
+if ($options['asFile']) {
+    switch($options['saveFormat']) {
+        case 'pdfA4':
+            $options['printSize'] = $options['size'];
+            $options['size'] = 1000;
+            break;
+        case 'jpg':
+        case 'png':
+        case 'svg': // need to convert to pixels, if not already
+            if ($options['units'] == 'in') {
+                $options['size'] *= 90;
+            } elseif ($options['units'] == 'cm') {
+                $options['size'] *= 35;
+            }
+            break;
+    }
+}
 // Minimum sensible size
 if ( $options['size'] < 100 ) $options['size'] = 100;
 if (!array_key_exists('shape',$options)) {
@@ -209,6 +228,7 @@ $output = draw();
 if ( $options['asFile'] ) {
     $name = $options['filename'];
     if ($name == '') $name = 'shield';
+    $pageWidth = $pageHeight = false;
   switch ($options['saveFormat']) {
     case 'svg':
      header("Content-type: application/force-download");
@@ -218,10 +238,35 @@ if ( $options['asFile'] ) {
      header('Content-Type: image/svg+xml');
      echo $output;
      break;
-    case 'pdf':
+      case 'pdfLtr':
+          $pageWidth = 765;
+          $pageHeight = 990;
+          // flowthrough
+    case 'pdfA4':
+        if (!$pageWidth) $pageWidth = 744;
+        if (!$pageHeight) $pageHeight = 1051;
     $im = new Imagick();
     $im->readimageblob($output);
     $im->setimageformat('pdf');
+    // Convert print width to Imagick units at 90ppi
+    switch ($options['units']) {
+        case 'in':
+            $options['printSize'] *= 90;
+            break;
+        case 'cm':
+            $options['printSize'] *= 35;
+            break;
+    }
+    $margin = 40; // bit less than 1/2"
+    $maxWidth = $pageWidth - $margin - $margin;
+    if ($options['printSize'] > $maxWidth) $options['printSize'] = $maxWidth;
+    $imageWidth = $options['printSize'];
+    $imageHeight = $imageWidth * 1.2;
+    $im->scaleImage($imageWidth, $imageHeight);
+    $fromBottom = $pageHeight - $margin - $imageHeight;
+    $fromSide = $margin + (($pageWidth - $imageWidth) / 2);
+    $im->setImagePage($pageWidth,$pageHeight,$fromBottom,$fromSide);
+    //$im->setImageResolution(150);
     header("Content-type: application/force-download");
     header('Content-Disposition: inline; filename="' . $name . '.pdf"');
     header("Content-Transfer-Encoding: 8bit");
