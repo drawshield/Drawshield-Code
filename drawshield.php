@@ -264,7 +264,7 @@ if ( $options['asFile'] ) {
     $imageHeight = $imageWidth * 1.2;
     $im->scaleImage($imageWidth, $imageHeight);
     $fromBottom = $pageHeight - $margin - $imageHeight;
-    $fromSide = $margin + (($pageWidth - $imageWidth) / 2);
+    $fromSide = $margin + (($pageWidth - $margin - $margin - $imageWidth) / 2);
     $im->setImagePage($pageWidth,$pageHeight,$fromBottom,$fromSide);
     //$im->setImageResolution(150);
     header("Content-type: application/force-download");
