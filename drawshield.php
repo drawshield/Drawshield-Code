@@ -186,21 +186,8 @@ if (!is_null($blazonOptions)) {
  * General options tidy-up
  */
 if ($options['asFile']) {
-    switch($options['saveFormat']) {
-        case 'pdfA4':
-            $options['printSize'] = $options['size'];
-            $options['size'] = 1000;
-            break;
-        case 'jpg':
-        case 'png':
-        case 'svg': // need to convert to pixels, if not already
-            if ($options['units'] == 'in') {
-                $options['size'] *= 90;
-            } elseif ($options['units'] == 'cm') {
-                $options['size'] *= 35;
-            }
-            break;
-    }
+    $options['printSize'] = $options['size'];
+    $options['size'] = 1000;
 }
 // Minimum sensible size
 if ( $options['size'] < 100 ) $options['size'] = 100;
@@ -229,6 +216,11 @@ if ( $options['asFile'] ) {
     $name = $options['filename'];
     if ($name == '') $name = 'shield';
     $pageWidth = $pageHeight = false;
+    if ($options['units'] == 'in') {
+	$options['printSize'] *= 90;
+    } elseif ($options['units'] == 'cm') {
+	$options['printSize'] *= 35;
+    }
   switch ($options['saveFormat']) {
     case 'svg':
      header("Content-type: application/force-download");
@@ -248,24 +240,16 @@ if ( $options['asFile'] ) {
     $im = new Imagick();
     $im->readimageblob($output);
     $im->setimageformat('pdf');
-    // Convert print width to Imagick units at 90ppi
-    switch ($options['units']) {
-        case 'in':
-            $options['printSize'] *= 90;
-            break;
-        case 'cm':
-            $options['printSize'] *= 35;
-            break;
-    }
     $margin = 40; // bit less than 1/2"
     $maxWidth = $pageWidth - $margin - $margin;
-    if ($options['printSize'] > $maxWidth) $options['printSize'] = $maxWidth;
     $imageWidth = $options['printSize'];
+    if ($imageWidth > $maxWidth) $imageWidth = $maxWidth;
     $imageHeight = $imageWidth * 1.2;
     $im->scaleImage($imageWidth, $imageHeight);
-    $fromBottom = $pageHeight - $margin - $imageHeight;
+    $fromBottom = $pageHeight - $margin - $margin - $imageHeight;
     $fromSide = $margin + (($pageWidth - $margin - $margin - $imageWidth) / 2);
-    $im->setImagePage($pageWidth,$pageHeight,$fromBottom,$fromSide);
+    $im->setImagePage($pageWidth,$pageHeight,$fromSide * 0.9,$fromBottom * 0.9);
+     error_log("ps=" . $options['printSize'] . " un=" . $options['units'] . " m=$margin, mw=$maxWidth, pw=$pageWidth, ph=$pageHeight, iw=$imageWidth, ih=$imageHeight, fs=$fromSide, fb=$fromBottom\n");
     //$im->setImageResolution(150);
     header("Content-type: application/force-download");
     header('Content-Disposition: inline; filename="' . $name . '.pdf"');
@@ -279,7 +263,9 @@ if ( $options['asFile'] ) {
       $im->readimageblob($output);
       $im->setimageformat('jpeg');
       $im->setimagecompressionquality(90);
-      // $im->scaleimage(1000,1200);
+    $imageWidth = $options['printSize'];
+    $imageHeight = $imageWidth * 1.2;
+      $im->scaleimage($imageWidth,$imageHeight);
       header("Content-type: application/force-download");
       header('Content-Disposition: inline; filename="' . $name . '.jpg"');
       header("Content-Transfer-Encoding: binary");
@@ -293,7 +279,9 @@ if ( $options['asFile'] ) {
      $im->setBackgroundColor(new ImagickPixel('transparent'));
      $im->readimageblob($output);
      $im->setimageformat('png32');
-     // $im->scaleimage(1000,1200);
+    $imageWidth = $options['printSize'];
+    $imageHeight = $imageWidth * 1.2;
+      $im->scaleimage($imageWidth,$imageHeight);
      header("Content-type: application/force-download");
      header('Content-Disposition: inline; filename="' . $name . '.png"');
      header("Content-Transfer-Encoding: binary");
