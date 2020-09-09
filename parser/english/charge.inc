@@ -777,7 +777,8 @@
       // axe
       array ( 'lochaber axe?s?', 'axe/lochaber-axe' ),
       array ( 'pole axe?s?', 'axe/pole-axe' ),
-      array ( '(poleaxe?|halber[td]es?', 'axe/pole-axe' ),
+      array ( 'poleaxes?', 'axe/pole-axe' ),
+       array ( 'halber[td]s?', 'axe/pole-axe' ),
       array ( 'addices?', 'axe/addice' ),
       array ( 'carpenters? axe?s?', 'axe/addice' ),
       array ( 'battle axe?s?', 'axe/battle-axe' ),
