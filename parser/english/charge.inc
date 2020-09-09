@@ -777,7 +777,7 @@
       // axe
       array ( 'lochaber axe?s?', 'axe/lochaber-axe' ),
       array ( 'pole axe?s?', 'axe/pole-axe' ),
-      array ( '(poleaxe?|halbert)s?', 'axe/pole-axe' ),
+      array ( '(poleaxe?|halber[td]es?', 'axe/pole-axe' ),
       array ( 'addices?', 'axe/addice' ),
       array ( 'carpenters? axe?s?', 'axe/addice' ),
       array ( 'battle axe?s?', 'axe/battle-axe' ),
@@ -828,6 +828,8 @@
       array ( '?electoral bonnets?', 'clothes/bonnet' ),
       array ( '?square buckles?', 'clothes/buckle' ),
       array ( 'belts?', 'clothes/belt' ),
+       array ( 'eye masks?', 'clothes/eye-mask' ),
+       array ( 'eyemasks?', 'clothes/eye-mask' ),
       array ( 'ferma(il|ux)', 'clothes/buckle' ),
       array ( 'arming buckles?', 'clothes/arming-buckle' ),
       array ( 'caps? ?of ?dignity', 'clothes/cap-dignity' ),
@@ -1232,8 +1234,9 @@
        array ( 'baseball gloves?', 'sports/baseball-glove'),
        array ( 'sports? (number|digit)s? *', 'sports/number'),
        // modern
-       array ( 'parachutes?', 'modern/parachute'),
        array ( 'trevithicks? ?locomotives?', 'modern/trevithick'),
+       array ( 'parachutes?', 'modern/parachute'),
+       array ( 'umbrellas?', 'modern/umbrella'),
        array ( 'airships?', 'modern/airship'),
        array ( 'aerostats?', 'modern/aerostat'),
        array ( 'blimps?', 'modern/airship'),

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="400"
+   height="150"
+   id="svg2">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient5204">
+      <stop
+         id="stop5206"
+         style="stop-color:#0a1ba1;stop-opacity:1"
+         offset="0" />
+    </linearGradient>
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>https://commons.wikimedia.org/wiki/User:ANGELUS</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="matrix(1.3407177,0,0,1.3859892,-0.91681873,-1307.5241)"
+     id="layer1"
+     style="fill:#ffff00;stroke:#808080;stroke-width:2.93434651">
+    <path
+       d="m 58.552755,945.05674 c -16.62525,0.13664 -29.16344,4.36796 -38.21992,12.03757 -9.34866,7.91702 -14.97921,19.48588 -17.64199,33.9744 l 0,0.0325 0.0131,0.0435 c 8.86079,24.30879 20.43124,39.28389 33.34414,47.99829 12.91283,8.7146 27.15304,11.1558 41.30003,10.3987 14.14691,-0.7572 28.209925,-4.703 40.788835,-8.7379 12.55928,-4.0286 23.65729,-8.1426 31.86305,-9.2914 8.20576,1.1488 19.3038,5.2628 31.86304,9.2914 13.27578,4.6886 25.93073,7.8578 40.78886,8.7379 12.58563,0.6735 25.67811,-1.2329 40.42737,-10.3988 14.74926,-9.166 28.53184,-32.5328 34.21679,-47.99819 l 0.0131,-0.0435 0,-0.0325 c -2.71402,-12.39933 -4.44033,-19.47246 -12.94966,-29.33956 -6.58371,-7.54933 -15.58122,-12.72752 -27.35424,-15.1311 -23.5314,-4.80417 -58.12558,1.45769 -107.00526,21.86087 -38.10404,-15.90518 -67.523965,-23.22764 -89.795785,-23.40218 -0.009,-8e-5 -0.0176,6e-5 -0.0263,0 -0.54483,-0.005 -1.08898,-0.005 -1.62526,0 z m 16.04288,41.27943 c 19.03819,0.11805 31.687055,12.08737 47.040895,20.27613 -28.244275,3.2064 -66.540055,16.5701 -72.874725,-14.03481 9.94798,-4.52037 18.38412,-6.2875 25.83383,-6.24132 z m 148.685405,0 c 7.44975,-0.0461 15.8728,1.72095 25.82074,6.24132 -6.33465,30.60491 -44.6304,17.24121 -72.87473,14.03481 15.35386,-8.18876 28.01585,-20.15808 47.05399,-20.27613 z"
+       id="path3052"
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#ffff00;fill-opacity:1;fill-rule:nonzero;stroke:#808080;stroke-width:2.93434651;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans" />
+  </g>
+</svg>
