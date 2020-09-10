@@ -108,7 +108,7 @@ function getBestMatchFilename($folder, $base, $mods) {
     }
   }
   closedir($dh);
-  if ($bestMissing) $messages->addMessage('warning', $base . ' not drawn with ' . $bestMissing);
+  if ($bestMissing) $messages->addMessage('warning', $base . ' may not be drawn with ' . $bestMissing);
   // if ($bestExtra) $messages->addMessage('other', $base . ' is also ' . $bestExtra);
   return $bestFilename;
 }

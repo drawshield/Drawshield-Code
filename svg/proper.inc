@@ -179,6 +179,7 @@ class properColour {
       'banana-stem/stemmed' => self::$green,
       'banana-stem/flowers' => self::$red,
       'magpie/winged' => self::$black,
+        'vine/stick' => self::$black,
       'magpie/legged' => self::$black,
       'clan-ross/seeded' => self::$red,
     );
