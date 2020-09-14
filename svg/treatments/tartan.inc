@@ -24,6 +24,9 @@ if (!$numThreads) { // something wrong, no colours
 // calculate the repeated area size
 $repeatCount = 0;
 for ($k = 0; $k < $numThreads; $k++) {
+    // can't reproduce this, but it happens sometimes...
+    if (!isset($tartanPattern[$k][1]))
+        $tartanPattern[$k][1] = 25;
     $repeatCount += $tartanPattern[$k][1];
 }
 

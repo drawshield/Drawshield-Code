@@ -249,7 +249,7 @@ if ( $options['asFile'] ) {
     $fromBottom = $pageHeight - $margin - $margin - $imageHeight;
     $fromSide = $margin + (($pageWidth - $margin - $margin - $imageWidth) / 2);
     $im->setImagePage($pageWidth,$pageHeight,$fromSide * 0.9,$fromBottom * 0.9);
-     error_log("ps=" . $options['printSize'] . " un=" . $options['units'] . " m=$margin, mw=$maxWidth, pw=$pageWidth, ph=$pageHeight, iw=$imageWidth, ih=$imageHeight, fs=$fromSide, fb=$fromBottom\n");
+     // error_log("s=" . $options['size'] . " ps=" . $options['printSize'] . " un=" . $options['units'] . " m=$margin, mw=$maxWidth, pw=$pageWidth, ph=$pageHeight, iw=$imageWidth, ih=$imageHeight, fs=$fromSide, fb=$fromBottom\n");
     //$im->setImageResolution(150);
     header("Content-type: application/force-download");
     header('Content-Disposition: inline; filename="' . $name . '.pdf"');

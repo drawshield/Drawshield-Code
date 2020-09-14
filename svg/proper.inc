@@ -169,7 +169,6 @@ class properColour {
       'planet-earth/land' => self::$green,
       'planet-earth/water' => self::$blue,
       'rocket/inflamed' => self::$red,
-      'reddit-alien/eyes' => self::$red,
       'zebra/striped' => self::$black,
       'zebra/unguled' => self::$black,
       'vulning' => self::$red,

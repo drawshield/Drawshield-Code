@@ -240,37 +240,43 @@ function draw() {
       case 'achievement':
           if ($options['shape'] != 'pauldron' && $options['shape'] != 'flag')
                 $achievement = true;
-        foreach ( $node->childNodes as $subNode ) {
-          switch ( $subNode->nodeName) {
-            case blazonML::E_MANTLING:
-              $mantling = drawMantling($subNode);
-              break;
-              case blazonML::E_FRINGE:
-                  $fringe = drawFringe($subNode);
-                  $achievement = false; // can't combine these
-                  break;
-              case blazonML::E_MOTTO:
-              $motto = drawMotto($subNode);
-              break;
-              case blazonML::E_HELMET: // can't draw immediately in case there is a torse
-                  $addMantling = true;
-              $helmet = $subNode;
-              break;
-            case blazonML::E_CREST:
-              $crest = $subNode->cloneNode(true);
-              break;
-            case blazonML::E_TORSE:
-              $torse = drawTorse($subNode);
-              break;
-            default:
-              // not implemented yet
-              break;
+          if ($node->firstChild == null) {
+              $addMantling = true;
+              $helmet = drawHelmet(null,null);
+          } else {
+              foreach ($node->childNodes as $subNode) {
+                  switch ($subNode->nodeName) {
+                      case blazonML::E_MANTLING:
+                          $mantling = drawMantling($subNode);
+                          break;
+                      case blazonML::E_FRINGE:
+                          $fringe = drawFringe($subNode);
+                          $achievement = false; // can't combine these
+                          break;
+                      case blazonML::E_MOTTO:
+                          $motto = drawMotto($subNode);
+                          break;
+                      case blazonML::E_HELMET: // can't draw immediately in case there is a torse
+                          $addMantling = true;
+                          $helmet = $subNode;
+                          break;
+                      case blazonML::E_CREST:
+                          $crest = $subNode->cloneNode(true);
+                          break;
+                      case blazonML::E_TORSE:
+                          $torse = drawTorse($subNode);
+                          break;
+                      default:
+                          // not implemented yet
+                          break;
+                  }
+              }
+              if ($helmet != '') { // Did we stash this away earlier...?
+                  $helmet = drawHelmet($helmet, $torse);
+              }
           }
-        }
-        if ($helmet != '') { // Did we stash this away earlier...?
-          $helmet = drawHelmet($helmet, $torse);
-        }
-        // Always use mantling if an achievement is requested
+          // tidy up the combinations
+        if ($torse && $helmet == '') $helmet = drawHelmet(null, $torse);
         if (!$mantling && $addMantling && $options['shape'] != 'pauldron') $mantling = drawMantling(null);
         break;
         // other elements for future expansion
@@ -313,14 +319,18 @@ function draw() {
   }
 
   // assorted combinations of achievements
-  if ($mantling) {
+  if ($mantling || $helmet) {
     $body = '<g transform="translate(191.667,400) scale(0.61667) ">' . $body . '</g>' . $mantling;
   }
   if ($motto) {
      if ($options['shape'] == 'pauldron') {
          $body = '<g transform="translate(0,-100) ">' . $body . '</g>' . $motto;
      } else {
-         $body .= '<g transform="translate(0, 985)">' . $motto . '</g>';}
+         if ($helmet == '' && $mantling == '') { // only motto
+             $body = '<g transform="translate(60,0) scale(0.88) ">' . $body . '</g>';
+         }
+         $body .= '<g transform="translate(0, 985)">' . $motto . '</g>';
+     }
   }
   if ($fringe) {
       $yPos = '995';
@@ -328,7 +338,6 @@ function draw() {
       $body .= "<g transform=\"translate(0,$yPos)\">$fringe</g>";
   }
   if ($achievement) {
-    if ($helmet == '') $helmet = drawHelmet(null, $torse);
     if ($crest) {
       $body .= placeCharge($crest->firstChild, 300, 300, 500, 150);
       $body .= quickPlace($helmet['body'], $helmet['width'], $helmet['height'], 300, 300, 500, 350, rgb($helmet['fill']));
