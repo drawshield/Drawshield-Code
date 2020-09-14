@@ -276,7 +276,7 @@ function draw() {
               }
           }
           // tidy up the combinations
-        if ($torse && $helmet == '') $helmet = drawHelmet(null, $torse);
+        if (($torse || $crest) && $helmet == '') $helmet = drawHelmet(null, $torse);
         if (!$mantling && $addMantling && $options['shape'] != 'pauldron') $mantling = drawMantling(null);
         break;
         // other elements for future expansion
