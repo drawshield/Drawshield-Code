@@ -342,7 +342,7 @@ function draw() {
       $body .= placeCharge($crest->firstChild, 300, 300, 500, 150);
       $body .= quickPlace($helmet['body'], $helmet['width'], $helmet['height'], 300, 300, 500, 350, rgb($helmet['fill']));
     } else {
-      $body .= quickPlace($helmet['body'], $helmet['width'], $helmet['height'], 400, 400, 500, 300, rgb($helmet['fill']));
+      if ($helmet) $body .= quickPlace($helmet['body'], $helmet['width'], $helmet['height'], 400, 400, 500, 300, rgb($helmet['fill']));
     }
   }
   if (!$options['asFile']) {
