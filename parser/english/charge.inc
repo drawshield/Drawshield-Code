@@ -458,7 +458,7 @@
       array ( 'seals?', 'sealife/seal' ),
       array ( 'calamaries?', 'sealife/calamarie' ),
       array ( 'manatees?', 'sealife/manatee' ),
-       array ( 'narwhals?', 'sealife/narwhal' ),
+       array ( 'narwh?als?', 'sealife/narwhal' ),
       array ( 'polypuse?s?', 'sealife/polypus' ),
       array ( 'sea urchins?', 'sealife/urchin-sea' ),
       array ( 'sea tortoises?', 'sealife/sea-tortoise' ),
@@ -1065,6 +1065,7 @@
       array ( 'trumpets?', 'music/trumpet' ),
       array ( 'flutes?', 'music/flute' ),
        array ( 'guitars?', 'music/guitar' ),
+       array ( 'electric guitars?', 'music/electric-guitar' ),
       array ( 'lyres?', 'music/lyre' ),
       array ( 'bagpipes?', 'music/bagpipe' ),
       // fire
