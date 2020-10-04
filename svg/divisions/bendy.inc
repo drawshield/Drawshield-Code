@@ -17,8 +17,8 @@ if ( existModifierWithKeyterm($node, 'sinister')) {
     $Y1 = 500 -(($i-1) * $stepH);
     $X2 = 1500 - (($i-1) * $stepC);
     $Y2 = 600 - (($i-1) * $stepC);
-    $NC .= "X{$X1}Y{$Y1}D1600f{$stepB}H1600b{$stepB}   ";
-      $CH .= "X{$X2}Y{$Y2}D1300f{$stepB}H1300b{$stepB}   ";
+    $NC .= "X{$X1}Y{$Y1}D1700f{$stepB}H1700b{$stepB}   ";
+      $CH .= "X{$X2}Y{$Y2}D1400f{$stepB}H1400b{$stepB}   ";
     //$CH .= "X{$X2}Y{$Y2}b{$stepB}D1300f{$stepB}H1300   ";
     }
 } else {
@@ -27,8 +27,8 @@ if ( existModifierWithKeyterm($node, 'sinister')) {
     $Y1 = 500 - (($i-1) * $stepH);
     $X2 = (($i-1) * $stepC) - 500;
     $Y2 = 600 - (($i-1) * $stepC);
-    $NC .= "X{$X1}Y{$Y1}h{$stepB}B1600d{$stepB}F1600   ";
-    $CH .= "X{$X2}Y{$Y2}h{$stepB}B1300d{$stepB}F1300   ";
+    $NC .= "X{$X1}Y{$Y1}h{$stepB}B1700d{$stepB}F1700   ";
+    $CH .= "X{$X2}Y{$Y2}h{$stepB}B1400d{$stepB}F1400   ";
   }
 }
 
