@@ -15,10 +15,11 @@ if ( existModifierWithKeyterm($node, 'sinister')) {
   for ( $i = 1; $i < $num_of; $i +=2 ) {
     $X1 = 1500 - (($i-1) * $stepH);
     $Y1 = 500 -(($i-1) * $stepH);
-    $X2 = 500 - (($i-1) * $stepC);
+    $X2 = 1500 - (($i-1) * $stepC);
     $Y2 = 600 - (($i-1) * $stepC);
     $NC .= "X{$X1}Y{$Y1}D1600f{$stepB}H1600b{$stepB}   ";
-    $CH .= "X{$X2}Y{$Y2}b{$stepB}D1300f{$stepB}H1300   ";
+      $CH .= "X{$X2}Y{$Y2}D1300f{$stepB}H1300b{$stepB}   ";
+    //$CH .= "X{$X2}Y{$Y2}b{$stepB}D1300f{$stepB}H1300   ";
     }
 } else {
   for ( $i = 1; $i < $num_of; $i +=2 ) {
