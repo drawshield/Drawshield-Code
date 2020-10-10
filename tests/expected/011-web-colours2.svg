@@ -5,7 +5,7 @@
         xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" height="600" width="500" viewBox="0,0,1000,1200 ">
 <metadata>
 
-<blazonML:blazon xmlns:blazonML="http://drawshield.net/blazonML" creatorName="drawshield.net" creatorVersion="(development)" timestamp="1593208921">
+<blazonML:blazon xmlns:blazonML="http://drawshield.net/blazonML" creatorName="drawshield.net" creatorVersion="(development)" timestamp="1602357164">
   <blazonML:input blazonText="per pale firebrick and heraldic azure drawn using web colours">
     <blazonML:token index="0">per</blazonML:token>
     <blazonML:token index="1">pale</blazonML:token>
@@ -38,6 +38,7 @@
     <blazonML:palette ID="N1-11" keyterm="web" tokens="drawn using web colours" linenumber="1"/>
   </blazonML:instructions>
   <blazonML:messages>
+    <blazonML:message category="licence">Shield Shape - https://commons.wikimedia.org/wiki/User:MG</blazonML:message>
     <blazonML:message category="warning">firebrick is not a heraldic colour, to use, enable web colours in preferences</blazonML:message>
     <blazonML:message category="legal">Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.</blazonML:message>
   </blazonML:messages>

@@ -119,7 +119,10 @@ class languageDB extends lexicon
             self::VALUE => array("*"),
             self::WORD_THE => array('the'),
             self::OVERALL => array('overall', 'sur le tout', 'all with(in)?', "over all", "in pretence"),
-            self::METAOVERALL => array('over(all)? ?all ?the ?# (quarters|quarterings|halves|parts|sections)',),
+            self::METAOVERALL => array(
+                array ('over(all)? ?all ?the ?# (quarters|quarterings|halves|parts|sections)', 'metaoverall'),
+                array ('o(n|ver) the whole', 'metaoverall')
+            ),
             self::MANTLING => array(
                 array('mantling ?of ?ribbons', 'ribbons'),  // note default
                 array('lambrequin ?of ?ribbons', 'ribbons'),

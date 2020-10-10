@@ -62,7 +62,7 @@ function doCompare($basename) {
 
     if (!file_exists($expected . $basename . ".svg"))
         return "missing expected file";
-    $command = "diff -I \"timestamp\" -I \"release-id\" \"$expected$basename.svg\" \"$responses$basename.svg\"";
+    $command = "diff -I \"timestamp\" -I \"release-id\" -I \"licence\" \"$expected$basename.svg\" \"$responses$basename.svg\"";
     exec ($command, $output, $return);
     if ($return == 0) {
         return '';

@@ -474,13 +474,13 @@ class englishGrammar extends grammar
         $foundTinc = false;
         while (self::moreInput()) {
             if (self::semicolon(true)) {
-                // self::lookAhead(-1);
+                 self::lookAhead(-1);
                 break;
             }
             $state2 = self::save();
             self::comma();
-            self::ignore(languageDB::ANDD);
-            self::ignore(languageDB::WITH);
+            // self::ignore(languageDB::ANDD);
+            // self::ignore(languageDB::WITH);
             self::ignore(languageDB::GROUP);
             if ($keyterm = self::find(languageDB::CHARGE_MODS))
                 $mods[] = $this->schema->makeMod(languageDB::CHARGE_MODS, $this->phraseMatcher->getValue(), $keyterm, self::tokens(), self::lineNo());
@@ -535,6 +535,7 @@ class englishGrammar extends grammar
                 self::restore($state2);
                 break;
             }
+            self::ignore(languageDB::ANDD);
         }
 
         self::discard($state);
@@ -549,6 +550,7 @@ class englishGrammar extends grammar
             $mods[] = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'pending',
                 blazonML::A_INDEX => '1'));
         }
+        self::ignore(languageDB::WITH);
         foreach ($mods as $mod)
             $charge->appendChild($mod);
         return $charge;
@@ -579,6 +581,7 @@ class englishGrammar extends grammar
                     $foundShown = true;
                     break;
             }
+            self::ignore(languageDB::ANDD);
             self::ignore(languageDB::ANDD);
         }
         if (count($adjustments))
@@ -1678,8 +1681,8 @@ class englishGrammar extends grammar
         || ($colourOrFur = self::tartan()) ) {
       // This could be [colour] [treatment] [colour],
       // unless it is followed by a semi colon
-      self::comma();
-      if ( !self::semicolon() ) {
+      // self::comma();
+      if ( !self::comma() ) {
         if ( ($treat = self::treatment()) ) {
           $keyterm = $treat->getAttribute('keyterm');
           $grady = (substr($keyterm,0,5) == 'grady');

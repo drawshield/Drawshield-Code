@@ -5,7 +5,7 @@
         xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" height="600" width="500" viewBox="0,0,1000,1200 ">
 <metadata>
 
-<blazonML:blazon xmlns:blazonML="http://drawshield.net/blazonML" creatorName="drawshield.net" creatorVersion="(development)" timestamp="1593945913">
+<blazonML:blazon xmlns:blazonML="http://drawshield.net/blazonML" creatorName="drawshield.net" creatorVersion="(development)" timestamp="1602357177">
   <blazonML:input blazonText="argent 5 roundels or in cross">
     <blazonML:token index="0">argent</blazonML:token>
     <blazonML:token index="1">5</blazonML:token>
@@ -14,7 +14,7 @@
     <blazonML:token index="4">in</blazonML:token>
     <blazonML:token index="5">cross</blazonML:token>
   </blazonML:input>
-  <blazonML:shield ID="N1-10">
+  <blazonML:shield ID="N1-11">
     <blazonML:simple ID="N1-3">
       <blazonML:field ID="N1-2">
         <blazonML:tincture ID="N1-0" index="1" origin="given">
@@ -23,16 +23,18 @@
       </blazonML:field>
       <blazonML:objects ID="N1-4">
         <blazonML:charge ID="N1-6" number="5" tokens="5 roundels" linenumber="1" keyterm="geometric/roundel">
-          <blazonML:tincture ID="N1-7" index="1" origin="given">
-            <blazonML:colour ID="N1-8" keyterm="or" tokens="or" linenumber="1"/>
+          <blazonML:modifier ID="N1-7" type="value" value="argent" keyterm="value" linenumber="1"/>
+          <blazonML:tincture ID="N1-8" index="1" origin="given">
+            <blazonML:colour ID="N1-9" keyterm="or" tokens="or" linenumber="1"/>
           </blazonML:tincture>
-          <blazonML:modifier ID="N1-9" type="arrangement" keyterm="incross" tokens="in cross" linenumber="1" renderinfo="used=1"/>
+          <blazonML:modifier ID="N1-10" type="arrangement" keyterm="incross" tokens="in cross" linenumber="1" renderinfo="used=1"/>
           <blazonML:modifier type="chargemod" keyterm="chg_data" ID="S1-2" value="chg1"/>
         </blazonML:charge>
       </blazonML:objects>
     </blazonML:simple>
   </blazonML:shield>
   <blazonML:messages>
+    <blazonML:message category="licence">Shield Shape - https://commons.wikimedia.org/wiki/User:MG</blazonML:message>
     <blazonML:message category="licence">geometric/roundel - (Drawshield internal)</blazonML:message>
     <blazonML:message category="legal">Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.</blazonML:message>
   </blazonML:messages>
