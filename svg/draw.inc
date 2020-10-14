@@ -161,9 +161,8 @@ function draw() {
   $achievement = false;
   $mantling = '';
   $motto = '';
-  $helmet = '';
+  $helmets = [];
   $crest = '';
-  $torse = '';
   $fringe = '';
 
   $y1Location = 0;
@@ -242,7 +241,7 @@ function draw() {
                 $achievement = true;
           if ($node->firstChild == null) {
               $addMantling = true;
-              $helmet = drawHelmet(null,null);
+              $helmets[] = drawHelmet(null,null);
           } else {
               foreach ($node->childNodes as $subNode) {
                   switch ($subNode->nodeName) {
@@ -258,25 +257,18 @@ function draw() {
                           break;
                       case blazonML::E_HELMET: // can't draw immediately in case there is a torse
                           $addMantling = true;
-                          $helmet = $subNode;
+                          $helmets[] = drawHelmet($subNode);
                           break;
                       case blazonML::E_CREST:
                           $crest = $subNode->cloneNode(true);
-                          break;
-                      case blazonML::E_TORSE:
-                          $torse = drawTorse($subNode);
                           break;
                       default:
                           // not implemented yet
                           break;
                   }
               }
-              if ($helmet != '') { // Did we stash this away earlier...?
-                  $helmet = drawHelmet($helmet, $torse);
-              }
           }
           // tidy up the combinations
-        if (($torse || $crest) && $helmet == '') $helmet = drawHelmet(null, $torse);
         if (!$mantling && $addMantling && $options['shape'] != 'pauldron') $mantling = drawMantling(null);
         break;
         // other elements for future expansion
@@ -319,14 +311,14 @@ function draw() {
   }
 
   // assorted combinations of achievements
-  if ($mantling || $helmet) {
-    $body = '<g transform="translate(191.667,400) scale(0.61667) ">' . $body . '</g>' . $mantling;
+  if ($mantling || count($helmets || $crest)) {
+    $body = $mantling . '<g transform="translate(191.667,400) scale(0.61667) ">' . $body . '</g>';
   }
   if ($motto) {
      if ($options['shape'] == 'pauldron') {
          $body = '<g transform="translate(0,-100) ">' . $body . '</g>' . $motto;
      } else {
-         if ($helmet == '' && $mantling == '') { // only motto
+         if ($helmets == [] && $mantling == '') { // only motto
              $body = '<g transform="translate(60,0) scale(0.88) ">' . $body . '</g>';
          }
          $body .= '<g transform="translate(0, 985)">' . $motto . '</g>';
@@ -339,10 +331,11 @@ function draw() {
   }
   if ($achievement) {
     if ($crest) {
-      $body .= placeCharge($crest->firstChild, 300, 300, 500, 150);
-      $body .= quickPlace($helmet['body'], $helmet['width'], $helmet['height'], 300, 300, 500, 350, rgb($helmet['fill']));
+      $body .= placeCharge($crest->firstChild, 300, 300, 500, (count($helmets) ? 150 : 270));
+      if (count($helmets))
+      $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 500, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
     } else {
-      if ($helmet) $body .= quickPlace($helmet['body'], $helmet['width'], $helmet['height'], 400, 400, 500, 300, rgb($helmet['fill']));
+      if (count($helmets)) $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 400, 400, 500, 300, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
     }
   }
   if (!$options['asFile']) {

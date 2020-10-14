@@ -42,18 +42,22 @@ class englishGrammar extends grammar
                 } elseif (($crest = self::crest()) != null) {
                     $found = true;
                     $this->addAchievement($crest);
-                } elseif (($torse = self::torse()) != null) {
-                    $found = true;
-                    $this->addAchievement($torse);
                 } elseif (($fringe = self::fringe()) != null) {
                     $found = true;
                     $this->addAchievement($fringe);
                 } elseif (($helmet = self::helmet()) != null) {
                     $found = true;
+                    if (($torse = self::torse()) != null) {
+                        $helmet->appendChild($torse);
+                    }
                     $this->addAchievement($helmet);
                 } elseif (self::find(languageDB::ACHIEVEMENT)) {
                     self::ignore(languageDB::WORD_OF);
-                    $this->addAchievement(null);
+                    if (($church = self::ecclesiastic()) != null) {
+                        $this->addAchievement($church);
+                    } else {
+                        $this->addAchievement(null);
+                    }
                     $found = true;
                 } elseif (self::drawn()) {
                     $found = true;
@@ -1518,8 +1522,32 @@ class englishGrammar extends grammar
     } else {
       $crestNode->appendChild($charge);
     }
+      if (($adjust = $this->getAdjustments()) != null) {
+          $crestNode->appendChild($adjust);
+      }
     return $crestNode;
   }
+
+    protected function ecclesiastic() {
+        if (($type = self::find(languageDB::ECCLESIASTIC)) == null) {
+            return;
+        }
+        $mantlingNode = $this->schema->makeNode(blazonML::E_MANTLING, array (
+            blazonML::A_KEYTERM => $type),
+            self::tokens(),
+            self::lineno());
+        if (($tincNode = self::tincture()) != null) {
+            $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
+                    blazonML::A_KEYTERM => 'default'));
+            $locNode->appendChild($tincNode);
+            $mantlingNode->appendChild($locNode);
+        }
+
+        if (($adjust = $this->getAdjustments()) != null) {
+            $mantlingNode->appendChild($adjust);
+        }
+        return $mantlingNode;
+    }
 
   protected function mantling() {
     if (($type = self::find(languageDB::MANTLING)) == null) {
@@ -1559,6 +1587,9 @@ class englishGrammar extends grammar
       self::ignore(languageDB::ANDD);
     }
 
+      if (($adjust = $this->getAdjustments()) != null) {
+          $mantlingNode->appendChild($adjust);
+      }
     return $mantlingNode;
   }
 
@@ -1597,6 +1628,9 @@ class englishGrammar extends grammar
       } else {
         break;
       }
+      if (($adjust = $this->getAdjustments()) != null) {
+          $torseNode->appendChild($adjust);
+      }
       self::ignore(languageDB::ANDD);
     }
 
@@ -1615,6 +1649,9 @@ class englishGrammar extends grammar
       self::tokens(),
       self::lineno()
     );
+      if (($adjust = $this->getAdjustments()) != null) {
+          $mottoNode->appendChild($adjust);
+      }
     return $mottoNode;
   }
 
@@ -1662,6 +1699,11 @@ class englishGrammar extends grammar
       $helmetNode->appendChild( $locNode );
     }
 
+      if (($adjust = $this->getAdjustments()) != null) {
+          foreach ($adjust as $adj) {
+              $helmetNode->appendChild($adj);
+          }
+      }
     return $helmetNode;
   }
 

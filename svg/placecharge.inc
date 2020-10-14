@@ -417,7 +417,96 @@ function PlaceCharge ( $node,  // images
   return $retval;
 }
 
-function quickPlace($svg, $chargeX, $chargeY, $boundX, $boundY, $centreX, $centreY, $fill = null ) {
+function quickPlace($svg, $chargeX, $chargeY, $boundX, $boundY, $centreX, $centreY, $fill = null, $adjustments = [] ) {
+    // Apply the adjustments first
+    if (count($adjustments)) {
+        foreach ($adjustments as $adjustment) {
+            switch ($adjustment) {
+                // the "shown" mods
+                case 'smaller':
+                    $boundX *= 0.8;
+                    $boundY *= 0.8;
+                    break;
+                case 'larger':
+                    $boundX *= 1.2;
+                    $boundY *= 1.2;
+                    break;
+                case 'raised':
+                    $centreY -= 60;
+                    break;
+                case 'lowered':
+                    $centreY += 60;
+                    break;
+                case 'to-dexter':
+                    $centreX -= 50;
+                    break;
+                case 'to-sinister':
+                    $centreX += 50;
+                    break;
+                case 'slightly-smaller':
+                    $boundX *= 0.9;
+                    $boundY *= 0.9;
+                    break;
+                case 'slightly-larger':
+                    $boundX *= 1.1;
+                    $boundY *= 1.1;
+                    break;
+                case 'slightly-raised':
+                    $centreY -= 30;
+                    break;
+                case 'slightly-lowered':
+                    $centreY += 30;
+                    break;
+                case 'slightly-to-dexter':
+                    $centreX -= 25;
+                    break;
+                case 'slightly-to-sinister':
+                    $centreX += 25;
+                    break;
+                case 'much-smaller':
+                    $boundX *= 0.6;
+                    $boundY *= 0.6;
+                    break;
+                case 'much-larger':
+                    $boundX *= 1.4;
+                    $boundY *= 1.4;
+                    break;
+                case 'much-raised':
+                    $centreY -= 120;
+                    break;
+                case 'much-lowered':
+                    $centreY += 120;
+                    break;
+                case 'much-to-dexter':
+                    $centreX -= 100;
+                    break;
+                case 'much-to-sinister':
+                    $centreX += 100;
+                    break;
+                case 'very-much-smaller':
+                    $boundX *= 0.4;
+                    $boundY *= 0.4;
+                    break;
+                case 'very-much-larger':
+                    $boundX *= 1.6;
+                    $boundY *= 1.6;
+                    break;
+                case 'very-much-raised':
+                    $centreY -= 240;
+                    break;
+                case 'very-much-lowered':
+                    $centreY += 240;
+                    break;
+                case 'very-much-to-dexter':
+                    $centreX -= 200;
+                    break;
+                case 'very-much-to-sinister':
+                    $centreX += 200;
+                    break;
+
+            }
+        }
+    }
   // Calculate the size of the image to fit into the bounding box,
   $Xscale = $boundX / $chargeX;
   $Yscale = $boundY / $chargeY;

@@ -91,6 +91,7 @@ class languageDB extends lexicon
     const TORSE = 'torse';
     const HELMET = 'helmet';
     const ACHIEVEMENT = 'achievement';
+    const ECCLESIASTIC = 'ecclesiastic';
     const EACH = 'each';
     const BLAZONED = 'blazoned';
     const VALUE = 'value';
@@ -133,6 +134,14 @@ class languageDB extends lexicon
             self::ACHIEVEMENT => array('achievement', 'hatchment'),
             self::CREST => array(
                 array('?(a|the) crest ?of', 'crest'), // room for other crest types?
+            ),
+            self::ECCLESIASTIC => array(
+                array('?(a|the) ?roman ?catholic priest', 'priest-catholic'),
+                array('?(a|the) ?roman ?catholic canon', 'canon-catholic'),
+                array('?(a|the) ?roman ?catholic bishop', 'bishop-catholic'),
+                array('?(a|the) ?roman ?catholic chaplain ?of ?his ?holiness', 'chaplain-catholic'),
+                array('?(a|the) ?roman ?catholic prelate ?of ?his ?holiness', 'prelate-catholic'),
+                array('?(a|the) ?roman ?catholic (vicar|dean)', 'vicar-catholic'),
             ),
             self::TORSE => array(
                 array('?(a|the) (torse|bourlet)', 'torse'),

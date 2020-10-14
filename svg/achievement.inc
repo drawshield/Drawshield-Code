@@ -3,15 +3,37 @@
 function drawMantling($mantlingNode) {
     global $messages;
 
+    $hat = null;
+    $staff = null;
+
     if (is_null($mantlingNode)) {
         $type = 'ribbons';
+        $default1 = rgb('argent');
+        $default2 = rgb('gray');
     } else {
         $type = $mantlingNode->getAttribute(blazonML::A_KEYTERM);
+        switch($type) {
+            case 'priest-catholic':
+            case 'canon-catholic':
+            case 'vicar-catholic':
+                $default1 = $default2 = $hat = rgb('sable');
+                break;
+            case 'prelate-catholic':
+                $default1 = $default2 = $hat = rgb('purpure');
+                break;
+            case 'bishop-catholic':
+                $default1 = $default2 = $hat = rgb('vert');
+                $staff = rgb('or');
+                break;
+            case 'chaplain-catholic':
+                $default1 = $default2 = rgb('purpure');
+                $hat = rgb('sable');
+                break;
+            default:
+                $default1 = $default2 = $hat = rgb('gray');
+                break;
+        }
     }
-
-    // keyterm of MantlingNode will contain the type (eventually)
-    $default1 = rgb('argent');
-    $default2 = rgb('gray');
 
     // default colours
     $features = array (
@@ -44,6 +66,8 @@ function drawMantling($mantlingNode) {
                 case 'default':
                     $features['sinister1'] = $colours[0];
                     $features['dexter1'] = $colours[0];
+                    $staff = $colours[0];
+                    $hat = $colours[0];
                     if ($numCols < 2) {
                         // check no clash with default colours
                         if ($colours[0] == $default2) {
@@ -81,8 +105,15 @@ function drawMantling($mantlingNode) {
             }
         }
     }
-    $retval = getSvgFragment($svg, $features, 'mantling', 'ribbons', $extras);
-    return $retval['body'];
+     if ($staff) {
+         $features['staff'] = $staff;
+     }
+    if ($hat) {
+        $features['hat'] = $hat;
+    }
+    $retval = getSvgFragment($svg, $features, 'mantling', $type, $extras);
+     return $retval['body'];
+
 }
 function drawTorse($torseNode) {
     global $messages;
@@ -147,6 +178,7 @@ function drawMotto($mottoNode) {
     global $messages, $options;
 
     if (is_null($mottoNode)) return '';
+    $adjustments = null;
 
     $text = $mottoNode->getAttribute('text');
     if ($options['shape'] == 'pauldron') {
@@ -155,6 +187,16 @@ function drawMotto($mottoNode) {
             getWords('hooge', $text, 160, 900) . "</g>\n";
         $svg = '<g transform="scale(0.9,0.9) translate(50,180)">' . $svg . "</g>\n";
     } else {
+//        foreach($mottoNode->childNodes as $child) {
+//            switch($child->nodeName) {
+//                case 'modifier':
+//                    $adjustments[] = $child->getAttribute('keyterm');
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+
         $fontSize = 45;
         $up = 2;
         $textLen = strlen($text);
@@ -174,7 +216,8 @@ function drawMotto($mottoNode) {
         $svg = str_replace('%FONT-SIZE%', "${fontSize}px", $svg);
         $messages->addMessage('licence', 'Motto: ' . "https://commons.wikimedia.org/wiki/User:F_l_a_n_k_e_r");
     }
-    
+
+//    $retval['adjustments'] = $adjustments;
     return $svg;
 }
 
@@ -198,7 +241,7 @@ function drawFringe($fringeNode) {
 
 }
 
-function drawHelmet($helmetNode, $torse) {
+function drawHelmet($helmetNode) {
     global $messages;
 
     $defaults = array (
@@ -207,8 +250,15 @@ function drawHelmet($helmetNode, $torse) {
         'esquire' => 'argent',
         'baronet' => 'gray'
     );
-
-    $fill = null; 
+    $torse = null;
+    foreach($helmetNode->childNodes as $childNode) {
+       if ($childNode->nodeName == blazonML::E_TORSE) {
+           $torse = drawTorse($childNode);
+           break;
+       }
+    }
+    $fill = null;
+    $adjustments = [];
     $extras = [];
     if ($torse != '') {
         $extras['torse'] = $torse;
@@ -217,15 +267,24 @@ function drawHelmet($helmetNode, $torse) {
         $style = 'esquire';
     } else {
         $style = $helmetNode->getAttribute(blazonML::A_KEYTERM);
-        if ($helmetNode->hasChildNodes() && $helmetNode->firstChild->nodeName == 'location') {
-            $locNode = $helmetNode->firstChild;
-            if ($locNode->hasChildNodes() && $locNode->firstChild->nodeName == 'tincture') {
-                $tincture = $locNode->firstChild;
-                if ($tincture->firstChild->nodeName != 'colour') {
-                    $messages->addMessage('error',"Helmet tinctures may only be plain colours");
-                } else {
-                    $fill = $tincture->firstChild->getAttribute('keyterm');
-                }
+        foreach($helmetNode->childNodes as $child) {
+            switch($child->nodeName) {
+                case 'location':
+                    $locNode = $child;
+                    if ($locNode->hasChildNodes() && $locNode->firstChild->nodeName == 'tincture') {
+                        $tincture = $locNode->firstChild;
+                        if ($tincture->firstChild->nodeName != 'colour') {
+                            $messages->addMessage('error', "Helmet tinctures may only be plain colours");
+                        } else {
+                            $fill = $tincture->firstChild->getAttribute('keyterm');
+                        }
+                    }
+                    break;
+                case 'modifier':
+                    $adjustments[] = $child->getAttribute('keyterm');
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -239,6 +298,7 @@ function drawHelmet($helmetNode, $torse) {
             $fill = 'gray';
     }
     $retval['fill'] = $fill;
+    $retval['adjustments'] = $adjustments;
     return $retval;
 }
 
