@@ -311,7 +311,7 @@ function draw() {
   }
 
   // assorted combinations of achievements
-  if ($mantling || count($helmets || $crest)) {
+  if ($mantling || count($helmets) || $crest) {
     $body = $mantling . '<g transform="translate(191.667,400) scale(0.61667) ">' . $body . '</g>';
   }
   if ($motto) {
