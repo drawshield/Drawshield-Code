@@ -162,7 +162,7 @@ function draw() {
   $mantling = '';
   $motto = '';
   $helmets = [];
-  $crest = '';
+  $crests = [];
   $fringe = '';
 
   $y1Location = 0;
@@ -257,10 +257,13 @@ function draw() {
                           break;
                       case blazonML::E_HELMET: // can't draw immediately in case there is a torse
                           $addMantling = true;
+                          if (count($crests) < count($helmets)) {
+                              $crests[] = null; // keep crests in step with helmets
+                          }
                           $helmets[] = drawHelmet($subNode);
                           break;
                       case blazonML::E_CREST:
-                          $crest = $subNode->cloneNode(true);
+                          $crests[] = $subNode->cloneNode(true);
                           break;
                       default:
                           // not implemented yet
@@ -311,7 +314,7 @@ function draw() {
   }
 
   // assorted combinations of achievements
-  if ($mantling || count($helmets) || $crest) {
+  if ($mantling || count($helmets) || count($crests)) {
     $body = $mantling . '<g transform="translate(191.667,400) scale(0.61667) ">' . $body . '</g>';
   }
   if ($motto) {
@@ -330,9 +333,11 @@ function draw() {
       $body .= "<g transform=\"translate(0,$yPos)\">$fringe</g>";
   }
   if ($achievement) {
-    if ($crest) {
-      $body .= placeCharge($crest->firstChild, 300, 300, 500, (count($helmets) ? 150 : 270));
-      if (count($helmets))
+    foreach ($crests as $crest) {
+        if ($crest == null) continue;  // some helmets may not have crests
+        $body .= placeCharge($crest->firstChild, 300, 300, 500, (count($helmets) ? 150 : 270));
+    }
+      if (count($helmets)) {
       $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 500, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
     } else {
       if (count($helmets)) $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 400, 400, 500, 300, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);

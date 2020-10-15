@@ -157,6 +157,7 @@ function PlaceCharge ( $node,  // images
   $Xflex = array_key_exists('wflex', $charge) ? $charge['wflex'] : 1;
   $Yflex = array_key_exists('hflex', $charge) ? $charge['hflex'] : 1;
   $inArrangement = false;
+  $shownRotation = 0;
 //  $parent = $node->parentNode;
   foreach ( $node->childNodes as $child ) {
     if ( $child->nodeName == 'modifier' ) {
@@ -182,7 +183,30 @@ function PlaceCharge ( $node,  // images
           $Xflex = $Yflex = 9999;
           break;
         // the "shown" mods
-        case 'smaller':
+          case 'rotated-dexter':
+              $shownRotation = -18;
+              break;
+          case 'rotated-sinister':
+              $shownRotation = 18;
+              break;
+          case 'slightly-rotated-dexter':
+              $shownRotation = -9;
+              break;
+          case 'slightly-rotated-sinister':
+              $shownRotation = 9;
+              break;
+          case 'much-rotated-dexter':
+              $shownRotation = -27;
+              break;
+          case 'much-rotated-sinister':
+              $shownRotation = 27;
+              break;
+          case 'very-much-rotated-dexter':
+              $shownRotation = -36;
+              break;
+          case 'very-much-rotated-sinister':
+              $shownRotation = 36;
+              break;      case 'smaller':
           $boundX *= 0.8;
           $boundY *= 0.8;
           break;
@@ -326,7 +350,7 @@ function PlaceCharge ( $node,  // images
         $retval = "<g transform=\"translate($XY2,$XY2) rotate($angle) translate(-$X2,-$Y2)\"><desc>bendwise</desc>$retval</g>\n";
         break;
       case 'palewise':
-        $do_turn = $chargeX >= $chargeY;
+//        $do_turn = $chargeX >= $chargeY;
         if ( array_key_exists('horizontal', $charge)  ) {
           $retval = "<g transform=\"translate(0,$chargeX) rotate(-90)\"><desc>palewise charge</desc>$retval</g>\n";
           $temp = $chargeX; $chargeX = $chargeY; $chargeY = $temp;
@@ -404,12 +428,18 @@ function PlaceCharge ( $node,  // images
   $sizeY = $chargeY * $Yscale;
   $posX = $centreX - ($sizeX / 2);
   $posY = $centreY - ($sizeY / 2);
- 
+
   $transform = '';
   if ( $rotation != 0 ) {
     $transform .= 'rotate(' . $rotation . ',' . $centreX . ',' . $centreY . ') ';
   }
-  $transform .= " translate($posX,$posY) scale($Xscale, $Yscale) ";
+  $overrideRotation = '';
+  if ($shownRotation != 0) {
+      $rotateX = $chargeX / 2;
+      $rotateY = $chargeY / 2;
+      $overrideRotation = "rotate($shownRotation,$rotateX,$rotateY)";
+  }
+  $transform .= " translate($posX,$posY) scale($Xscale, $Yscale) $overrideRotation";
   if (!isset($charge['title'])) $charge['title'] = 'a charge';
   $retval = "<g transform=\"$transform\" >\n<title>" . htmlentities(transliterate($charge['title'])) . '</title>' . $retval . "</g>\n";
 
@@ -418,11 +448,36 @@ function PlaceCharge ( $node,  // images
 }
 
 function quickPlace($svg, $chargeX, $chargeY, $boundX, $boundY, $centreX, $centreY, $fill = null, $adjustments = [] ) {
+    $rotate = 0;
     // Apply the adjustments first
     if (count($adjustments)) {
         foreach ($adjustments as $adjustment) {
             switch ($adjustment) {
                 // the "shown" mods
+                case 'rotated-dexter':
+                    $rotate = -18;
+                    break;
+                case 'rotated-sinister':
+                    $rotate = 18;
+                    break;
+                case 'slightly-rotated-dexter':
+                    $rotate = -9;
+                    break;
+                case 'slightly-rotated-sinister':
+                    $rotate = 9;
+                    break;
+                case 'much-rotated-dexter':
+                    $rotate = -27;
+                    break;
+                case 'much-rotated-sinister':
+                    $rotate = 27;
+                    break;
+                case 'very-much-rotated-dexter':
+                    $rotate = -36;
+                    break;
+                case 'very-much-rotated-sinister':
+                    $rotate = 36;
+                    break;
                 case 'smaller':
                     $boundX *= 0.8;
                     $boundY *= 0.8;
@@ -515,8 +570,14 @@ function quickPlace($svg, $chargeX, $chargeY, $boundX, $boundY, $centreX, $centr
   $sizeY = $chargeY * $Yscale;
   $posX = $centreX - ($sizeX / 2);
   $posY = $centreY - ($sizeY / 2);
-  
-  $attribs = "transform=\"translate($posX,$posY) scale($Xscale, $Yscale)\" ";
+
+  $rotation = '';
+  if ($rotate) {
+      $rotateX = $chargeX / 2;
+      $rotateY = $chargeY / 2;
+      $rotation = "rotate($rotate,$rotateX,$rotateY)";
+  }
+    $attribs = "transform=\"translate($posX,$posY) scale($Xscale, $Yscale) $rotation\"";
   if ($fill)
     $attribs .= " fill=\"$fill\" ";
     
