@@ -213,7 +213,8 @@ function draw() {
 
     $blazonNode = $dom->documentElement;
     $body = '';
-    $addMantling = false;
+      $shieldAdjustments = [];
+      $addMantling = false;
     foreach ( $blazonNode->childNodes as $node ) {
       switch ( $node->nodeName ) {
       case 'shield':
@@ -247,6 +248,13 @@ function draw() {
                   switch ($subNode->nodeName) {
                       case blazonML::E_MANTLING:
                           $mantling = drawMantling($subNode);
+                          break;
+                      case blazonML::E_SHIELD:
+                          foreach ($subNode->childNodes as $childNode) {
+                              if ($childNode->nodeName == blazonML::E_MODIFIER) {
+                                  $shieldAdjustments[] = $childNode->getAttribute(blazonML::A_KEYTERM);
+                              }
+                          }
                           break;
                       case blazonML::E_FRINGE:
                           $fringe = drawFringe($subNode);
@@ -312,8 +320,11 @@ function draw() {
       }
     }
   }
+  if (count($shieldAdjustments)) {
+      $body = quickPlace($body, 1000, 1200, 1000, 1200, 500, 600, null, $shieldAdjustments);
+  }
 
-  // assorted combinations of achievements
+    // assorted combinations of achievements
   if ($mantling || count($helmets) || count($crests)) {
     $body = $mantling . '<g transform="translate(191.667,400) scale(0.61667) ">' . $body . '</g>';
   }

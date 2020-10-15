@@ -102,6 +102,7 @@ class languageDB extends lexicon
     const HERALDIC = 'heraldic';
     const USING = 'using';
     const FRINGED = 'fringed';
+    const SHIELD = 'shield';
 
     public function __construct()
     {
@@ -145,6 +146,9 @@ class languageDB extends lexicon
             ),
             self::TORSE => array(
                 array('?(a|the) (torse|bourlet)', 'torse'),
+            ),
+            self::SHIELD => array(
+                array('?the (shield|escutcheon)', 'shield'),
             ),
             self::ACHIEVEMENT_LOC => array(
                 array('?to ?the sinister', 'sinister'),

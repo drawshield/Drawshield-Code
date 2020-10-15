@@ -51,6 +51,14 @@ class englishGrammar extends grammar
                         $helmet->appendChild($torse);
                     }
                     $this->addAchievement($helmet);
+                } elseif (self::find(languageDB::SHIELD)) {
+                    if (($adjust = $this->getAdjustments()) != null) {
+                        $shieldNode = $this->schema->makeNode(blazonML::E_SHIELD, array( blazonML::A_KEYTERM => 'shield'));
+                        foreach ($adjust as $adj) {
+                            $shieldNode->appendChild($adj);
+                        }
+                        $this->addAchievement($shieldNode);
+                    }
                 } elseif (self::find(languageDB::ACHIEVEMENT)) {
                     self::ignore(languageDB::WORD_OF);
                     if (($church = self::ecclesiastic()) != null) {
@@ -1523,7 +1531,9 @@ class englishGrammar extends grammar
       $crestNode->appendChild($charge);
     }
       if (($adjust = $this->getAdjustments()) != null) {
-          $crestNode->appendChild($adjust);
+          foreach ($adjust as $adj) {
+              $crestNode->appendChild($adj);
+          }
       }
     return $crestNode;
   }
@@ -1544,7 +1554,9 @@ class englishGrammar extends grammar
         }
 
         if (($adjust = $this->getAdjustments()) != null) {
-            $mantlingNode->appendChild($adjust);
+            foreach ($adjust as $adj) {
+                $mantlingNode->appendChild($adj);
+            }
         }
         return $mantlingNode;
     }
@@ -1588,7 +1600,9 @@ class englishGrammar extends grammar
     }
 
       if (($adjust = $this->getAdjustments()) != null) {
-          $mantlingNode->appendChild($adjust);
+          foreach ($adjust as $adj) {
+              $mantlingNode->appendChild($adj);
+          }
       }
     return $mantlingNode;
   }
@@ -1650,7 +1664,9 @@ class englishGrammar extends grammar
       self::lineno()
     );
       if (($adjust = $this->getAdjustments()) != null) {
-          $mottoNode->appendChild($adjust);
+          foreach ($adjust as $adj) {
+              $mottoNode->appendChild($adj);
+          }
       }
     return $mottoNode;
   }
