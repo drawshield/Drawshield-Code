@@ -11,7 +11,7 @@
  * Time: 19:56
  */
 
-$lineType = getModifierByType($node, 'linetype');
+$lineType = getModifierByType($node, 'linetype', false);
 if ( existModifierWithKeyterm($node, 'inverted')) {
     $div2_data = array('NC' => 'V1X-100Y-100B848H848c1400e1200g1400', 'CH' => 'V1X-100Y100B848H848c1200e1200g1200');
     $div3_data = array('NC' => 'V1X-100Y400B848H848c900e1200g900', 'CH' => 'V1X-100Y500B848H848c1000e1200g1000');

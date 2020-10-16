@@ -11,7 +11,7 @@
  * Time: 19:56
  */
 
-$lineType = getModifierByType($node, 'linetype');
+$lineType = getModifierByType($node, 'linetype', false);
 $div2_data = array ( 'NC' => 'X333Y0a667c{%100*}e667G{%100*}',  'CH' => 'X333Y200a667c1100e667G1100' );
 $div3_data = array ( 'NC' => 'X666Y0a337c{%100*}e337G{%100*}',  'CH' => 'X666Y200a337c1100e337G1100' );
 $division['div2'] = createBody(choose_fit($div2_data), $lineType, 60);

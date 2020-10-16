@@ -43,7 +43,7 @@ if ($subtype == 'bar' && existModifierWithKeyterm($node,'sinister')) {
 
   $linetype_size = 30;
 
-  $main_linetype = getModifierByType($node, 'linetype');
+  $main_linetype = getModifierByType($node, 'linetype', false);
   if ( $main_linetype == null ) $main_linetype = 'none';
 
   $mods = array_pad(array(), $num, $main_linetype );
@@ -58,7 +58,7 @@ if ($subtype == 'bar' && existModifierWithKeyterm($node,'sinister')) {
         case 'barmod-down':
         case 'barmod-in':
         case 'barmod-out':
-          $linetype = getModifierByType($child,'linetype');
+          $linetype = getModifierByType($child,'linetype', false);
           if ( $linetype == null ) $linetype = 'none';
           $locs = $bar_locs[$mod][$num];
           if ( $locs != 'x' ) foreach ( explode(',',$locs) as $pos ) $mods[$pos-1] = $linetype;
@@ -188,7 +188,7 @@ if ($subtype == 'bar' && existModifierWithKeyterm($node,'sinister')) {
     // we allow a single bar (only) to be cotticed
     if ( ($num == 1) && ($cot_node = getModifierNodeWithKeyterm($node,'cotticing', false)) != null ) {
       $cotiseSVG = '';
-      $cot_linetype= getModifierByType($cot_node,'linetype');
+      $cot_linetype= getModifierByType($cot_node,'linetype', false);
 			$cot_tinc = getTinctureNode($cot_node);
 			// if ( !$cot_tinc )
 			//  $cot_tinc = $tinc1;

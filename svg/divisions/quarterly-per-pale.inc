@@ -13,4 +13,4 @@
    limitations under the License. */
 
 $division['div2'] = createBody( choose_fit( array ( 'NC' => 'O1Q1X500Y500C800e600g800a600   O1Q1X500Y500G600a600c600e600',  'CH' => 'O1Q1X500Y700c600e600g600a600   O1Q1X500Y700g600a600c600e600' )),
-  getModifierByType($node,'linetype'),60);
+  getModifierByType($node,'linetype', false),60);

@@ -131,7 +131,7 @@ function getBordure($node) {
         return ($bordure);
     } // else
     if (chiefPresent()) $filename .= '-chief';
-    $linetype = getModifierByType($node, 'linetype');
+    $linetype = getModifierByType($node, 'linetype', false);
     if ($linetype != null) $filename .= '-' . $linetype;
     $compony = getModifierByType($node,'compony');
     if ($compony != null) $filename .= '-' . $compony;
@@ -262,7 +262,7 @@ function makeOrdinary( DOMElement &$node ) {
     if ( $voided != null ) {
       if ( ($void_col = $voided->firstChild ) != null )
 			  $bodySVG .= apply_tincture ( $void_col, createBody($shape_spec, 'none', 0 ) );
-      $bodySVG .= createVoid($shape_spec, getModifierByType($node,'linetype'), $feature_size);
+      $bodySVG .= createVoid($shape_spec, getModifierByType($node,'linetype', false), $feature_size);
     } else {
       $bodySVG .= createBody($shape_spec, getModifierByType($node,'linetype', false), $feature_size);
     }
@@ -271,7 +271,7 @@ function makeOrdinary( DOMElement &$node ) {
      * @var DOMElement $cot_node
      */
     if ( ($cot_node = getModifierNodeWithKeyterm($node,'cotticing', false)) != null ) { // Need the value later
-			$cot_linetype= getModifierByType($cot_node,'linetype');
+			$cot_linetype= getModifierByType($cot_node,'linetype', false);
 			$cot_tinc = getTinctureNode($cot_node);
 			if ( !$cot_tinc )
 			  $cot_tinc = $tinc1;
@@ -319,7 +319,7 @@ function makeOrdinary( DOMElement &$node ) {
         $linetype = null;
         // Is there a linetype here also
         if ( ($div2ord = getModifierNodeWithKeyterm($node,'div2ord')) != null )
-          $linetype = getModifierByType($node,'linetype');
+          $linetype = getModifierByType($node,'linetype', false);
         $body2_spec = '<path d="' . makePath($body2_spec, $linetype, 30) . '" />';
       }
       $body2 = apply_tincture ( $body2_col, $body2_spec, '', $rot, $mirrored, $inverted );

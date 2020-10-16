@@ -14,4 +14,4 @@
 
 
 $division['div2'] = createBody( choose_fit( array ( 'NC' => 'O1Q1X500Y500c800e600g800A600   O1Q1X500Y500g600a600c600E600',  'CH' => 'O1Q1X500Y700c600e600g600A600   O1Q1X500Y700g600a600c600E600' )),
-  getModifierByType($node,'linetype'),60);
+  getModifierByType($node,'linetype', false),60);

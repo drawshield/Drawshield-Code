@@ -31,5 +31,5 @@ for ( $i = 0; $i < $num; $i++ ) {
   $startYC = 1200 - ( $i * 2 * $stepVC );
   $CH .= "V1X500Y{$startYC}D848f{$widthC}H{$upperC}B{$upperC}d{$widthC}F848     ";
 }
-$division['div2'] = createBody(choose_fit( compact ( 'CH', 'NC' )), getModifierByType($node,'linetype'),40);
+$division['div2'] = createBody(choose_fit( compact ( 'CH', 'NC' )), getModifierByType($node,'linetype', false),40);
 

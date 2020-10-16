@@ -11,7 +11,7 @@
  * Time: 19:56
  */
 
-$lineType = getModifierByType($node, 'linetype');
+$lineType = getModifierByType($node, 'linetype', false);
 if ( ($sinister = existModifierWithKeyterm($node, 'sinister'))) {
   $div2_data = array ( 'NC' => 'X-100Y800H1696c1700e1200g500', 'CH' => 'X-100Y1000H1696c1700e1200g500' );
   $div3_data = array ( 'NC' => 'X1100Y200c1100e1100H1696', 'CH' => 'X1100Y400c1100e1100H1696' );

@@ -14,7 +14,7 @@ else
     $shape_spec = "X${startX}Y${startY}A" . ($d + 200) . "c${h}e" . ($d + 200) . "g${h}";
 $shape_spec = subPercent($shape_spec);
 // turn that into an SVG path
-$path_spec = makePath($shape_spec, getModifierByType($node,'linetype'), $feature_size);
+$path_spec = makePath($shape_spec, getModifierByType($node,'linetype', false), $feature_size);
 // rotate that path to run down the diagonal
 
 if ( existModifierWithKeyterm($node, 'sinister')) {

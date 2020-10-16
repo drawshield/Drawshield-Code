@@ -1,6 +1,6 @@
 <?php
 
-$lineType = getModifierByType($node, 'linetype');
+$lineType = getModifierByType($node, 'linetype', false);
 if ( $lineType == 'nebuly' || $lineType == 'potenty' )
   $div_data = 'X-100Y-100a1200c400E1200g400';
 else

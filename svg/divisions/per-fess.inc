@@ -11,7 +11,7 @@
  * Time: 19:56
  */
 
-$lineType = getModifierByType($node, 'linetype');
+$lineType = getModifierByType($node, 'linetype', false);
 if ( $lineType == 'nebuly' or $lineType == 'potenty' )
   $div_data = array ( 'CH' =>'X-100Y700A1016c508e1016g608' , 'NC' =>'X-100Y600A1200c608e1200g608' );
 else

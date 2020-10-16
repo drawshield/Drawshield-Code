@@ -11,7 +11,7 @@
  * Time: 19:56
  */
 
-$lineType = getModifierByType($node, 'linetype');
+$lineType = getModifierByType($node, 'linetype', false);
 if ( $rev = getModifierNodeWithKeyterm($node,'reversed',true)) // reversed means inverted
   $rev->setAttribute('keyterm','inverted');
 if ( existModifierWithKeyterm($node, 'inverted') )
