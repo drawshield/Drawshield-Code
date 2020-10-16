@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="100%"
+   height="100%"
+   viewBox="0 0 180 400"
+   version="1.1"
+   xml:space="preserve"
+   style="fill-rule:evenodd;clip-rule:evenodd;"
+   id="svg176"><metadata
+   id="metadata182"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><dc:creator><cc:Agent><dc:title>https://commons.wikimedia.org/w/index.php?title=User:Blasonorc</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata><defs
+   id="defs180" />
+    <g
+   id="g13043"
+   transform="matrix(1,0,0,1,-277.495,-338.577)">
+        <path
+   id="path7440"
+   d="M339.97,362.43C356.653,361.758 373.335,361.086 390.018,360.414C400.002,342.518 400.002,387.425 390.018,369.43C373.351,368.725 356.685,368.02 340.018,367.315C340.002,365.687 339.986,364.059 339.97,362.43L339.97,362.43Z"
+   style="fill:rgb(128,128,128);stroke:rgb(128,128,128);stroke-width:2px;" />
+        <path
+   id="path7434"
+   d="M349.95,487.43C304.689,542.387 284.608,607.18 284.986,672.37C304.973,742.008 430.006,742.402 449.996,672.37C450.379,607.166 430.107,542.55 385.049,487.38C383.34,442.394 381.631,397.409 379.923,352.42C371.616,352.432 363.309,352.445 355.002,352.458C353.318,397.449 351.634,442.44 349.951,487.428L349.95,487.43Z"
+   style="fill:#ffff00;stroke:rgb(128, 128, 128);stroke-width:3px" />
+        <path
+   id="path7442"
+   d="M325,677.36C349.995,675.413 385.005,675.343 410,677.36L410,682.36C384.936,684.516 349.995,684.377 325,682.36L325,677.36Z"
+   style="fill:rgb(128,128,128);stroke:rgb(128,128,128);stroke-width:2px;" />
+        <g
+   id="path7444"
+   transform="matrix(1,0,0,1,-5.77343,-6.22854)">
+            <path
+   d="M390.49,582.5C390.49,592.115 382.607,599.91 372.884,599.91C363.16,599.91 355.278,592.116 355.278,582.5C355.278,572.885 363.161,565.09 372.884,565.09C382.608,565.09 390.49,572.885 390.49,582.5Z"
+   style="fill:rgb(128,128,128);stroke:rgb(128,128,128);stroke-width:3px;stroke-linejoin:bevel;"
+   id="path168" />
+        </g>
+        <path
+   id="path7448"
+   d="M360,364.36L360,679.37"
+   style="fill:none;stroke:black;stroke-width:1px;" />
+        <path
+   id="path7450"
+   d="M365,679.34L365,364.37"
+   style="fill:none;stroke:black;stroke-width:1px;" />
+        <path
+   id="path7452"
+   d="M370,364.36L370,679.41"
+   style="fill:none;stroke:black;stroke-width:1px;" />
+        <path
+   id="path7454"
+   d="M375,679.41L375,364.36"
+   style="fill:none;stroke:black;stroke-width:1px;" />
+    </g>
+</svg>

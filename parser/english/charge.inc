@@ -1061,12 +1061,15 @@
       array ( 'harps? ?of ?ireland', 'music/harp' ), // no difference with common harp(?)
       array ( '?hunting horns?', 'music/hunting-horn' ), // default horn
       array ( 'bugle horns?', 'music/bugle-horn' ),
+       array ( 'post horns?', 'music/post-horn' ),
       array ( 'organ pipes?', 'music/organ-pipe' ),
+       array ( 'church organs?', 'music/church-organ' ),
       array ( 'trumpets?', 'music/trumpet' ),
       array ( 'flutes?', 'music/flute' ),
        array ( 'guitars?', 'music/guitar' ),
        array ( 'electric guitars?', 'music/electric-guitar' ),
       array ( 'lyres?', 'music/lyre' ),
+       array ( 'lutes?', 'music/lute' ),
       array ( 'bagpipes?', 'music/bagpipe' ),
       // fire
       array ( 'beacons?', 'fire/beacon' ),
