@@ -164,7 +164,7 @@ function draw() {
   $helmets = [];
   $crests = [];
   $fringe = '';
-
+  $shieldAdjustments = [];
   $y1Location = 0;
   $extraDefs = '';
   if ($options['palette'] == 'hatching') {
@@ -213,7 +213,6 @@ function draw() {
 
     $blazonNode = $dom->documentElement;
     $body = '';
-      $shieldAdjustments = [];
       $addMantling = false;
     foreach ( $blazonNode->childNodes as $node ) {
       switch ( $node->nodeName ) {
