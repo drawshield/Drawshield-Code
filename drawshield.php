@@ -223,10 +223,11 @@ if ( $options['asFile'] ) {
     }
   switch ($options['saveFormat']) {
     case 'svg':
+        if (substr($name,-4) != '.svg') $name .= '.svg';
      header("Content-type: application/force-download");
-     header('Content-Disposition: inline; filename="' . $name . '.svg"');
+     header('Content-Disposition: inline; filename="' . $name );
      header("Content-Transfer-Encoding: text");
-     header('Content-Disposition: attachment; filename="' . $name . '.svg"');
+     header('Content-Disposition: attachment; filename="' . $name);
      header('Content-Type: image/svg+xml');
      echo $output;
      break;
@@ -251,10 +252,11 @@ if ( $options['asFile'] ) {
     $im->setImagePage($pageWidth,$pageHeight,$fromSide * 0.9,$fromBottom * 0.9);
      // error_log("s=" . $options['size'] . " ps=" . $options['printSize'] . " un=" . $options['units'] . " m=$margin, mw=$maxWidth, pw=$pageWidth, ph=$pageHeight, iw=$imageWidth, ih=$imageHeight, fs=$fromSide, fb=$fromBottom\n");
     //$im->setImageResolution(150);
+        if (substr($name,-4) != '.pdf') $name .= '.pdf';
     header("Content-type: application/force-download");
-    header('Content-Disposition: inline; filename="' . $name . '.pdf"');
+    header('Content-Disposition: inline; filename="' . $name);
     header("Content-Transfer-Encoding: 8bit");
-    header('Content-Disposition: attachment; filename="' . $name . '.pdf"');
+    header('Content-Disposition: attachment; filename="' . $name);
     header('Content-Type: application/pdf');
     echo $im->getimageblob();
     break;
@@ -266,10 +268,11 @@ if ( $options['asFile'] ) {
     $imageWidth = $options['printSize'];
     $imageHeight = $imageWidth * 1.2;
       $im->scaleimage($imageWidth,$imageHeight);
+        if (substr($name,-4) != '.jpg') $name .= '.jpg';
       header("Content-type: application/force-download");
-      header('Content-Disposition: inline; filename="' . $name . '.jpg"');
+      header('Content-Disposition: inline; filename="' . $name);
       header("Content-Transfer-Encoding: binary");
-      header('Content-Disposition: attachment; filename="' . $name . '.jpg"');
+      header('Content-Disposition: attachment; filename="' . $name);
       header('Content-Type: image/jpg');
       echo $im->getimageblob();
       break;
@@ -282,10 +285,11 @@ if ( $options['asFile'] ) {
     $imageWidth = $options['printSize'];
     $imageHeight = $imageWidth * 1.2;
       $im->scaleimage($imageWidth,$imageHeight);
-     header("Content-type: application/force-download");
-     header('Content-Disposition: inline; filename="' . $name . '.png"');
+      if (substr($name,-4) != '.png') $name .= '.png';
+      header("Content-type: application/force-download");
+     header('Content-Disposition: inline; filename="' . $name);
      header("Content-Transfer-Encoding: binary");
-     header('Content-Disposition: attachment; filename="' . $name . '.png"');
+     header('Content-Disposition: attachment; filename="' . $name);
      header('Content-Type: image/png');
      echo $im->getimageblob();
      break;
