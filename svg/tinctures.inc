@@ -430,7 +430,7 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
       $div_data = makeDivision( $counterDiv, true );
         $patt_id = add_def ( 'mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>' );
         $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $div_data . '</g>';
-        if ( $targetType == 'charge' ) // add the outline and any shading
+        if ( false && $targetType == 'charge' ) // add the outline and any shading
             $retval .= '<g style="fill:none;">' . $targetSVG . '</g>';
       break;
 			// END of switch
