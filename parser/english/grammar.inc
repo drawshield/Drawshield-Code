@@ -36,6 +36,9 @@ class englishGrammar extends grammar
                 if (($mantle = self::mantling()) != null) {
                     $found = true;
                     $this->addAchievement($mantle);
+                } elseif (($support = self::supporters()) != null) {
+                    $found = true;
+                    $this->addAchievement($support);
                 } elseif (($motto = self::motto()) != null) {
                     $found = true;
                     $this->addAchievement($motto);
@@ -1580,7 +1583,6 @@ class englishGrammar extends grammar
         );
       }
       $tinctures = [];
-      $colCount = 0;
       while (($tincNode = self::tincture()) != null) {
         $tinctures[] = $tincNode;
         self::ignore(languageDB::ANDD);
@@ -1598,7 +1600,6 @@ class englishGrammar extends grammar
       }
       self::ignore(languageDB::ANDD);
     }
-
       if (($adjust = $this->getAdjustments()) != null) {
           foreach ($adjust as $adj) {
               $mantlingNode->appendChild($adj);
@@ -1606,6 +1607,49 @@ class englishGrammar extends grammar
       }
     return $mantlingNode;
   }
+
+    protected function supporters() {
+        if (($type = self::find(languageDB::SUPPORTERS)) == null) {
+            return;
+        }
+        $supportNode = $this->schema->makeNode(blazonML::E_SUPPORTERS, array (
+            blazonML::A_KEYTERM => $type),
+            self::tokens(),
+            self::lineno());
+        $locNode = null;
+        while (true) {
+            if (($loc = self::find(languageDB::ACHIEVEMENT_LOC)) != null) {
+                $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
+                    blazonML::A_KEYTERM => $loc
+                ),
+                    self::tokens(),
+                    self::lineno()
+                );
+            }
+            $charge = self::charge(true,false,false); // assume number, don't allow positions or arrangements
+            if ($charge == null) {
+                if ($locNode != null)
+                    self::raiseError(self::ERROR_ORIGIN,"Expected charge for the supporter", true);
+                break;
+            } else {
+                if ($locNode == null) { // use a default location
+                    $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
+                        blazonML::A_KEYTERM => 'default'));
+                }
+                $locNode->appendChild($charge);
+            }
+            if (($adjust = $this->getAdjustments()) != null) {
+                foreach ($adjust as $adj) {
+                    $locNode->appendChild($adj);
+                }
+            }
+            $supportNode->appendChild($locNode);
+            $locNode = null;
+
+            self::ignore(languageDB::ANDD);
+        }
+        return $supportNode;
+    }
 
   protected function torse() {
     if (($type = self::find(languageDB::TORSE)) == null) {
@@ -1626,7 +1670,6 @@ class englishGrammar extends grammar
         );
       }
       $tinctures = [];
-      $colCount = 0;
       while (($tincNode = self::tincture()) != null) {
         $tinctures[] = $tincNode;
         self::ignore(languageDB::ANDD);

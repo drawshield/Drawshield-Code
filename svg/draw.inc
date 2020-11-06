@@ -160,6 +160,7 @@ function draw() {
   get_chg_data();
   $achievement = false;
   $mantling = '';
+    $supports = '';
   $motto = '';
   $helmets = [];
   $crests = [];
@@ -245,6 +246,9 @@ function draw() {
           } else {
               foreach ($node->childNodes as $subNode) {
                   switch ($subNode->nodeName) {
+                      case blazonML::E_SUPPORTERS:
+                          $supports = drawSupporters($subNode);
+                          break;
                       case blazonML::E_MANTLING:
                           $mantling = drawMantling($subNode);
                           break;
@@ -327,7 +331,7 @@ function draw() {
   if ($mantling || count($helmets) || count($crests)) {
     $body = $mantling . '<g transform="translate(191.667,400) scale(0.61667) ">' . $body . '</g>';
   }
-  if ($motto) {
+  if ($motto && $supports == '') {
      if ($options['shape'] == 'pauldron') {
          $body = '<g transform="translate(0,-100) ">' . $body . '</g>' . $motto;
      } else {
@@ -352,6 +356,12 @@ function draw() {
     } else {
       if (count($helmets)) $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 400, 400, 500, 300, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
     }
+  }
+  if ($supports) {
+      $body = '<g transform="translate(150,0) scale(0.7) ">' . $body . '</g>' . $supports;
+      if ($motto) {
+          $body .= '<g transform="translate(0, 885)">' . $motto . '</g>';
+      }
   }
   if (!$options['asFile']) {
     $body .= '<text id="test1" x="10" y="' . $y1Location . '" font-size="30" >' . $version['website'] . '</text><text id="release-id" x="990" y="' . $y1Location . '" text-anchor="end" font-size="30" >' . $version['release'] . '</text>';

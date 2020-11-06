@@ -1,5 +1,40 @@
 <?php
 
+function drawSupporters($supportNode) {
+    if ($supportNode == null) return '';
+    $boundX = 300;
+    $boundY = 600;
+    $centreY = 600;
+    $dexterX = $boundX / 2;
+    $sinisterX = 1000 - $dexterX;
+
+    $supportCount = 0;
+    $retval = '';
+    for ($i = 0; $i < $supportNode->childNodes->length; $i++) {
+        $location = $supportNode->childNodes->item($i);
+        switch ($location->getAttribute('keyterm')) {
+            case 'default':
+                if ($supportCount == 0) { // assume dexter first
+                    $retval .= placeCharge($location->firstChild,$boundX, $boundY, $dexterX, $centreY, 0, 0, 1);
+                    $supportCount++;
+                } else {
+                    $retval .= placeCharge($location->firstChild,$boundX, $boundY, $sinisterX, $centreY, 0, 0, 0);
+                }
+                break;
+            case 'dexter':
+                $retval .= placeCharge($location->firstChild,$boundX, $boundY, $dexterX, $centreY, 0, 0, 1);
+                break;
+            case 'sinister':
+                $retval .= placeCharge($location->firstChild,$boundX, $boundY, $sinisterX, $centreY, 0, 0, 0);
+                break;
+        }
+        if ($supportCount == 1) { // only one supplied, so repeat it
+            $retval .= placeCharge($location->firstChild,$boundX, $boundY, $sinisterX, $centreY, 0, 0, 0);
+        }
+    }
+    return $retval;
+}
+
 function drawMantling($mantlingNode) {
     global $messages;
 
