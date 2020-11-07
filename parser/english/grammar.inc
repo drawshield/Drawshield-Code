@@ -45,6 +45,9 @@ class englishGrammar extends grammar
                 } elseif (($crest = self::crest()) != null) {
                     $found = true;
                     $this->addAchievement($crest);
+                } elseif (($compartment = self::compartment()) != null) {
+                    $found = true;
+                    $this->addAchievement($compartment);
                 } elseif (($fringe = self::fringe()) != null) {
                     $found = true;
                     $this->addAchievement($fringe);
@@ -1540,6 +1543,32 @@ class englishGrammar extends grammar
       }
     return $crestNode;
   }
+
+
+    protected function compartment() {
+        if (self::find(languageDB::COMPARTMENT) == null) {
+            return;
+        }
+        $compType = self::find(languageDB::COMP_TYPE);
+        if ($compType == null) {
+            $compType = 'mound'; // default if none give or found
+        }
+        $compartmentNode = $this->schema->makeNode(blazonML::E_COMPARTMENT, array (
+            blazonML::A_KEYTERM => $compType),
+            self::tokens(),
+            self::lineno());
+        $tincNode = self::tincture();
+        if ($tincNode != null) {
+            $compartmentNode->appendChild($tincNode);
+        }
+
+        if (($adjust = $this->getAdjustments()) != null) {
+            foreach ($adjust as $adj) {
+                $compartmentNode->appendChild($adj);
+            }
+        }
+        return $compartmentNode;
+    }
 
     protected function ecclesiastic() {
         if (($type = self::find(languageDB::ECCLESIASTIC)) == null) {

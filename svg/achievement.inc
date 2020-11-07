@@ -256,6 +256,49 @@ function drawMotto($mottoNode) {
     return $svg;
 }
 
+function drawCompartment($compartmentNode) {
+    global $messages, $options;
+
+    $compType = $compartmentNode->getAttribute(blazonML::A_KEYTERM);
+    if (!file_exists("svg/components/compartments/$compType.svg")) {
+        $messages->addMessage('internal', "Not able to draw compartment $compType");
+        return null;
+    }
+    $retval = getSvgFragment(file_get_contents("svg/components/compartments/$compType.svg"), array(), 'compartments', $compType,
+        array());
+    $adjustments = [];
+    $fill = null;
+    foreach ($compartmentNode->childNodes as $child) {
+        switch($child->nodeName) {
+            case blazonML::E_TINCTURE:
+                if ($child->firstChild->nodeName != blazonML::E_COLOUR) {
+                    $messages->addMessage('error', 'Compartment tinctures may only be plain colours');
+                } else {
+                    $fill = $child->firstChild->getAttribute(blazonML::A_KEYTERM);
+                }
+                break;
+            case blazonML::E_MODIFIER:
+                $adjustments[] = $child->getAttribute(blazonML::A_KEYTERM);
+                break;
+        }
+    }
+    if ($fill == null) {
+        switch ($compType) {
+            case 'mound':
+                $fill = 'vert';
+                break;
+            default:
+                $fill = 'gray';
+                break;
+        }
+    }
+    $retval['fill'] = $fill;
+    $retval['adjustments'] = $adjustments;
+    return $retval;
+
+}
+
+
 function drawFringe($fringeNode) {
     global $messages, $options;
 

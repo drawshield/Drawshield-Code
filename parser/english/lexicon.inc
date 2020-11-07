@@ -73,6 +73,8 @@ class languageDB extends lexicon
     const LETTERS = 'letters';
     const INVERSE = 'inverse';
     const MANTLING = 'mantling';
+    const COMPARTMENT = 'compartment';
+    const COMP_TYPE = 'comptype';
     const SUPPORTERS = 'supporters';
     const ACHIEVEMENT_LOC = 'achievement_loc';
     const MOTTO = 'motto';
@@ -136,6 +138,13 @@ class languageDB extends lexicon
             ),
             self::TORSE => array(
                 array('?(a|the) (torse|bourlet)', 'torse'),
+            ),
+            self::COMPARTMENT => array(
+                array('?the compartment', 'compartment'),
+            ),
+            self::COMP_TYPE => array(
+                array('?(a|the) shelf', 'shelf'),
+                array('?(a|the) mound', 'mound'),
             ),
             self::SHIELD => array(
                 array('?the (shield|escutcheon)', 'shield'),

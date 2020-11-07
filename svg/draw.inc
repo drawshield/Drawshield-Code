@@ -161,6 +161,7 @@ function draw() {
   $achievement = false;
   $mantling = '';
     $supports = '';
+    $compartment = '';
   $motto = '';
   $helmets = [];
   $crests = [];
@@ -263,6 +264,9 @@ function draw() {
                           $fringe = drawFringe($subNode);
                           $achievement = false; // can't combine these
                           break;
+                      case blazonML::E_COMPARTMENT:
+                          $compartment = drawCompartment($subNode);
+                          break;
                       case blazonML::E_MOTTO:
                           $motto = drawMotto($subNode);
                           break;
@@ -359,6 +363,9 @@ function draw() {
   }
   if ($supports) {
       $body = '<g transform="translate(150,0) scale(0.7) ">' . $body . '</g>' . $supports;
+    if ($compartment) {
+        $body = quickPlace($compartment['body'], $compartment['width'], $compartment['height'], 1000, 300, 500, 910, rgb($compartment['fill']), $compartment['adjustments']) . $body;
+    }
       if ($motto) {
           $body .= '<g transform="translate(0, 885)">' . $motto . '</g>';
       }
