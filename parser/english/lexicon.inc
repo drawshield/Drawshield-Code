@@ -174,7 +174,11 @@ class languageDB extends lexicon
                 array('impaling', 'impaled'),
                 array('dimidiated with', 'dimidiated'),
             ),
-            self::ONFIELDOF => array('?(on|upon) a (field|court) ?of'),
+            self::ONFIELDOF => array(
+                array('?(on|upon) a court ?of', 'court'),
+                array('?(on|upon) a field ?of', 'field'),
+                array('?the field', 'field'),
+            ),
             self::LAYERING => array('over', 'under'), // recognised, not implemented
             self::WITH => array(array('(with|upon)', 'with')),
             self::BETWEEN => array('between', 'inter', 'inside', 'within', 'surrounded by', 'accompagne', 'cantonned by'),

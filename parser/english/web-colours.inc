@@ -1,7 +1,7 @@
 <?php
 
 $this->patterns[self::WEBCOLS] = array (
-    array ( "azure", "web/azure"),
+    array ( "web azure", "web/web-azure"),
     array ( "cyan", 'web/cyan'),
     array ( "lime", 'web/lime'),
     array ( "olive", 'web/olive'),
