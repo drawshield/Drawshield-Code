@@ -715,6 +715,7 @@
       array ( 'pastoral sta(ff|ve)s?', 'christian/staff-pastoral' ),
       array ( 'altars?', 'christian/altar' ),
       array ( 'passion nails?', 'christian/passion-nail' ),
+       array ( 'crowns? of thorns?', 'christian/crown-of-thorns' ),
       // architecture
       array ( 'well frames?', 'architecture/well-frame'),
       array ( 'portcullis(es)?', 'architecture/portcullis' ),
