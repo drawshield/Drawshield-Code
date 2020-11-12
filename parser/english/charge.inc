@@ -949,6 +949,9 @@
       array ( 'cheese wheels?', 'food/cheese-wheel'),
       array ( 'breadloa(f|ves)', 'food/breadloaf' ),
       array ( 'loa(f|ves) ?of ?bread', 'food/breadloaf' ),
+      array ( 'cakes?', 'food/cake'),
+       array ( 'slices? of cakes?', 'food/cake-slice'),
+       array ( 'cake slices?', 'food/cake-slice'),
       //games
       array ( 'dic?e', 'games/dice' ),
       array ( 'domino(es)?', 'games/domino'),
@@ -1119,6 +1122,7 @@
       array ( 'winnowing fans?', 'farming/fan-winnowing' ),
       array ( 'scruttles?', 'farming/fan-winnowing' ),
       array ( '?(wagon|cart) wheels? ?of ?# ?spokes', 'farming/spoked-wheel' ),
+       array ( 'spoked wheels?', 'farming/spoked-wheel' ),
       array ( 'beehives?', 'farming/beehive' ),
       array ( 'shredding kni[fv]es?', 'farming/shredding-knife' ),
       array ( 'plo(ugh|w)s?', 'farming/plough' ),
