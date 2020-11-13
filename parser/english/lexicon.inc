@@ -161,13 +161,7 @@ class languageDB extends lexicon
                 array('?(the|a|an) ?(esquire|gentlem[ea]n)s? helmet', 'esquire'),  // DEFAULT
                 array('?(the|a|an) (peer|lord)s? helmet', 'peer'),
             ),
-            self::MOTTO => array('motto *', 'motto'),
-            // self::SUPPLEMENTARY => array (
-            //   array ('crest', 'crest'),
-            //   array ('supporters', 'supporters'),
-            //   array ('motto', 'motto'),
-            //   array ('devi[sc]e', 'motto'),
-            // ),
+            self::MOTTO => array('?with ?the (motto|devi[sc]e) *', 'motto'),
             self::BLAZONED => array('(em)blazoned ?(with|of)', 'with ?(a|the) blazon ?of'),
             self::SPLITS => array(
                 array('impaled with', 'impaled'),

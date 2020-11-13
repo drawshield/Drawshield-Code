@@ -600,7 +600,7 @@ class englishGrammar extends grammar
                     break;
             }
             self::ignore(languageDB::ANDD);
-            self::ignore(languageDB::ANDD);
+            self::ignore(languageDB::COMMA);
         }
         if (count($adjustments))
             return $adjustments;

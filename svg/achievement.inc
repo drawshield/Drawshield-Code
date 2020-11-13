@@ -213,7 +213,6 @@ function drawMotto($mottoNode) {
     global $messages, $options;
 
     if (is_null($mottoNode)) return '';
-    $adjustments = null;
 
     $text = $mottoNode->getAttribute('text');
     if ($options['shape'] == 'pauldron') {
@@ -221,16 +220,19 @@ function drawMotto($mottoNode) {
         $svg .= "<g transform=\"translate(50,1000)\">\n" .
             getWords('hooge', $text, 160, 900) . "</g>\n";
         $svg = '<g transform="scale(0.9,0.9) translate(50,180)">' . $svg . "</g>\n";
+        return $svg;
     } else {
-//        foreach($mottoNode->childNodes as $child) {
-//            switch($child->nodeName) {
-//                case 'modifier':
-//                    $adjustments[] = $child->getAttribute('keyterm');
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
+        $adjustments = null;
+        $retval = [];
+        foreach($mottoNode->childNodes as $child) {
+            switch($child->nodeName) {
+                case 'modifier':
+                    $adjustments[] = $child->getAttribute('keyterm');
+                    break;
+                default:
+                    break;
+            }
+        }
 
         $fontSize = 45;
         $up = 2;
@@ -249,11 +251,12 @@ function drawMotto($mottoNode) {
         $svg = str_replace('%TEXT%', htmlentities($text), $svg);
         $svg = str_replace('%UP%', $up, $svg);
         $svg = str_replace('%FONT-SIZE%', "${fontSize}px", $svg);
-        $messages->addMessage('licence', 'Motto: ' . "https://commons.wikimedia.org/wiki/User:F_l_a_n_k_e_r");
+        $retval = getSvgFragment($svg, array(), 'scroll', 'plain', array());
+        $retval['adjustments'] = $adjustments;
+        return $retval;
     }
+    return null;
 
-//    $retval['adjustments'] = $adjustments;
-    return $svg;
 }
 
 function drawCompartment($compartmentNode) {

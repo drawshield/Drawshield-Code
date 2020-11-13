@@ -297,7 +297,7 @@ function makeOrdinary( DOMElement &$node ) {
 	} // We now have $body and $cotise set.
 	
 	// Find out how we are arranged
-  if ( array_key_exists('rotate_pattern', $ord_data) )
+  if ( array_key_exists('rotate_pattern', $ord_data) && $tinc1->firstChild->nodeName != blazonML::E_COUNTERCHANGED )
 	  $rot = $ord_data['rotate_pattern'];
 	else 
 	  $rot = 0;

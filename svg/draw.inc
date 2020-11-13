@@ -342,7 +342,8 @@ function draw() {
          if ($helmets == [] && $mantling == '') { // only motto
              $body = '<g transform="translate(60,0) scale(0.88) ">' . $body . '</g>';
          }
-         $body .= '<g transform="translate(0, 985)">' . $motto . '</g>';
+//         $body .= '<g transform="translate(0, 985)">' . $motto . '</g>';
+         $body .= quickPlace($motto['body'], $motto['width'], $motto['height'], 1000, 200, 500, 985, null, $motto['adjustments']);
      }
   }
   if ($fringe) {
@@ -367,7 +368,8 @@ function draw() {
         $body = quickPlace($compartment['body'], $compartment['width'], $compartment['height'], 1000, 300, 500, 910, rgb($compartment['fill']), $compartment['adjustments']) . $body;
     }
       if ($motto) {
-          $body .= '<g transform="translate(0, 885)">' . $motto . '</g>';
+          $body .= quickPlace($motto['body'], $motto['width'], $motto['height'], 1000, 200, 500, 985, null, $motto['adjustments']);
+          // $body .= '<g transform="translate(0, 885)">' . $motto . '</g>';
       }
   }
   if (!$options['asFile']) {

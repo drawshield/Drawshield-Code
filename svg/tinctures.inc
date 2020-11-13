@@ -261,6 +261,7 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
   $patTrans = '';
   $targetNode = $tinctureNode->parentNode;
 	$targetType = $targetNode->nodeName;
+    $tinctureTypeNode = $tinctureNode->firstChild;
   $targetKeyterm = "";
   if ( $targetNode !== null) {
       $targetKeyterm = $targetNode->getAttribute('keyterm'); 
@@ -268,7 +269,7 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
       return $targetSVG;
   }
 
-	if ( $targetType == 'charge' and $chg_size != '' ) // We make some things a wee bit smaller if on a charge, just for looks
+	if ( $targetType == 'charge' && $chg_size != '' && $tinctureTypeNode->nodeName != blazonML::E_COUNTERCHANGED ) // We make some things a wee bit smaller if on a charge, just for looks
 	{
 	  list($chgX,$chgY) = explode(',', $chg_size);
 		$scale = max ( $chgX / 1000, $chgY / 1200 ); // multiply here to adjust relative size of fur etc. on a charge
@@ -291,7 +292,6 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
       $messages->addMessage ('blazon','Missing colour, Gray substituted.' );
       $tinctureNode = createColourNode('gray','1');
   }
-  $tinctureTypeNode = $tinctureNode->firstChild;
   $spec = false;
   if (!is_object($tinctureTypeNode)) {
     error_log("non-object tincture in " . $options['blazon']);
@@ -417,21 +417,38 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
       $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $targetSVG . '</g>';
       break;
     case 'counterchanged': // Never change anything, just fill with this pattern
-      // if ( $targetType == 'charge' ) {
-      //   $messages->addMessage ('alert','Browser bug may not render counterchanged charge correctly, try save file as PNG.' );
-      // }
       // Try to find a field division
       $division = $xpath->query('preceding::field/tincture/division',$tinctureNode);
-      if ( !$division->length ) {
-        $messages->addMessage ('error','Counterchange requires two colour field' );
-        return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $targetSVG . '</g>';
+      if ( $division->length ) {
+          $counterDiv = $division->item(($division->length)-1);
+          $div_data = makeDivision( $counterDiv, true );
+          $patt_id = add_def ( 'mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>' );
+          $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $div_data . '</g>';
+      } else {
+          $treatment = $xpath->query('preceding::field/tincture/treatment',$tinctureNode);
+          if ( $treatment->length ) {
+              $counterTreatment = $treatment->item(($treatment->length) - 1);
+              $treat_data = makeTreatment($counterTreatment, true);
+              if ( $inv ) $treat_data['body'] = "<g transform=\"translate(0,{$treat_data['height']}) scale(1,-1)\">{$treat_data['body']}</g>";
+              //do we need to offset the pattern to center it?
+              $offset = 0;
+              if (array_key_exists('offset', $treat_data)) {
+                  $offset = $treat_data['offset'];
+              }
+              $treatPatt_id = add_def ( 'pattern ' . $patTrans .
+                  ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="' . $offset . '" y="0" width="' .
+                  $treat_data['width'] . '" height="' . $treat_data['height'] . '"',
+                  '<g class="treatment">' . $treat_data['body'] . '</g>' );
+//          }
+              $fill = '<g fill="url(#' . $treatPatt_id . ')"  ><path d="M0,0 h1000 v1200 h-1000 z" /></g>';
+//          $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $targetSVG . '</g>';
+              $patt_id = add_def('mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>');
+              $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $fill . '</g>';
+          } else {
+              $messages->addMessage ('error','Counterchange requires two colour field' );
+              return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $targetSVG . '</g>';
+          }
       }
-      $counterDiv = $division->item(($division->length)-1);
-      $div_data = makeDivision( $counterDiv, true );
-        $patt_id = add_def ( 'mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>' );
-        $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $div_data . '</g>';
-        if ( false && $targetType == 'charge' ) // add the outline and any shading
-            $retval .= '<g style="fill:none;">' . $targetSVG . '</g>';
       break;
 			// END of switch
   }

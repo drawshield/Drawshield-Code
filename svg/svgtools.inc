@@ -194,7 +194,8 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
   //-------------------------------------------------------------------------
   $fillSet = false;
   $item = "<$name ";
-  if ($id != null && substr($id, 0, 4) != 'path' && substr($id, 0, 5) != 'group') {
+    if ($id == 'textPath') $item .= ' id="textPath" '; // need this for the motto
+    if ($id != null && substr($id, 0, 4) != 'path' && substr($id, 0, 5) != 'group') {
     // We allow multiple features with numeric flags at the end
     $len = strlen($id);
     if ($len >= 2 && $id[$len-2] == '-' && ctype_digit($id[$len-1])) {
@@ -215,8 +216,13 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
   }
   $item .= rewriteAttributes($element->attributes(), $strokeCol, $class, $fillSet);
   $subitem = '';
-  if ( $name == 'text' or $name == 'tspan' or $name == 'textPath' ) // We need the element content as well
-    $subitem = htmlentities((string)$element);
+  if ( $name == 'text' or $name == 'tspan' or $name == 'textPath' ) {
+      // We need to preserve some of the important text related attributes
+      if (isset($element['style'])) $item .= ' style="' . $element['style'] . '" ';
+      $item .= ' xml:space="preserve" ';
+      // We need the element content as well
+      $subitem = htmlentities((string)$element);
+  }
   foreach( $element->children() as $child )
       $subitem .= addChild($child,$featureColours, $chargeGroup, $chargeName, $extras, $strokeCol);
   if ( $subitem != '') {
