@@ -341,6 +341,7 @@ function drawHelmet($helmetNode) {
     $fill = null;
     $adjustments = [];
     $extras = [];
+    $features = array ('visor' => rgb('or'));
     if ($torse != '') {
         $extras['torse'] = $torse;
     }
@@ -371,7 +372,7 @@ function drawHelmet($helmetNode) {
     }
     // always draw a helmet if we are asked to
     $svg = file_get_contents("svg/components/helmet/$style.svg");
-    $retval = getSvgFragment($svg, array(), 'helmet', $style, $extras);
+    $retval = getSvgFragment($svg, $features, 'helmet', $style, $extras);
     if ($fill == null) {
         if (array_key_exists($style, $defaults)) 
             $fill = $defaults[$style];
