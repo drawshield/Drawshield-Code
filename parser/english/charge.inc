@@ -1161,6 +1161,9 @@
       // emblem
       array ( 'rods? ?of (a|e|ae)scu?l[ae]pi?us', 'emblem/rod-of-esclapius' ),
       array ( 'thyrs(i|us|uses) ?of ?dionysus', 'emblem/thyrsus' ),
+       array ( 'chains? of navarre', 'emblem/chain-of-navarre' ),
+       array ( 'chains? of navarre square', 'emblem/chain-of-navarre-square' ),
+       array ( 'square chains? of navarre', 'emblem/chain-of-navarre-square' ),
       array ( 'ankhs?', 'emblem/ankh' ),
       array ( 'caduce(i|us)', 'emblem/caduceus' ),
       array ( 'laurel wreaths?', 'emblem/laurel-wreath' ),
