@@ -2,6 +2,7 @@
 header('Content-Type: text/plain; charset=utf-8');
 
 $errors = [];
+$count = 1;
 
 /******************************************************************
 **
@@ -88,6 +89,14 @@ if (array_key_exists("ord-all",$args)) {
 if (array_key_exists("chg-all",$args)) {
     setOptions($args["chg-all"], "chg");
 }
+if (array_key_exists("count",$args)) {
+    $count = intval($args['count']);
+    if ($count < 1) {
+        $count = 1;
+    } elseif ($count > 500) {
+        $count = 500;
+    }
+}
 
 
 /*
@@ -95,6 +104,7 @@ if (array_key_exists("chg-all",$args)) {
 */
 $options = array_merge($options, $args);
 
+$usedFieldTinctures = [];
 /******************************************************************
 **
 **	Define the lexicon (fixed items)
@@ -369,9 +379,6 @@ $componentTinctures = [
     "bezanty" => [ "or" ]
 ];
 
-$usedFieldTinctures = [];
-$usedOrdinary = false;
-
 
 /******************************************************************
 **
@@ -434,8 +441,11 @@ function hasBeenUsed($tincture) {
     return $used;
 }
 
+$prefix = '';
+
 function punctuate($string) {
-    static $prefix = '';
+    global $prefix;
+
     $output = '';
     $indent = '';
     $words = preg_split('/[ \t]+/', $string);
@@ -525,6 +535,7 @@ function expand($tokenString) {
     return $newString;
 }
 
+
 /******************************************************************
 **
 **	Phase 0 - Preparation, based on options
@@ -535,35 +546,42 @@ function expand($tokenString) {
 **	Pre-determine the big decisions (as they sometimes interact)
 */
 
-$showDivision = byChance($options['div-chance']);
-$showOrdinary = byChance($options['ord-chance']);
-$showCharge = byChance($options['chg-chance']);
+$showDivision = false;
+$showOrdinary = false;
+$showCharge = false;
 
-/*
-**	Set up list of chosen textures
-*/
+function prepare()
+{
+    global $showDivision, $showOrdinary, $showCharge, $options, $lexicon;
+
+    $showDivision = byChance($options['div-chance']);
+    $showOrdinary = byChance($options['ord-chance']);
+    $showCharge = byChance($options['chg-chance']);
+
+    /*
+    **	Set up list of chosen textures
+    */
 // idiot check - prevent all tinctures being off
-if ($options['tinc-common'] == 'off' && $options['tinc-second'] == 'off' 
-                    && $options['tinc-modern'] == 'off')
-    $options['tinc-common'] = 'on';
+    if ($options['tinc-common'] == 'off' && $options['tinc-second'] == 'off'
+        && $options['tinc-modern'] == 'off')
+        $options['tinc-common'] = 'on';
 
-if ($options['tinc-common'] == 'on') {
-    $lexicon["base-tincture"][] = "{tinc-common}"; 
-    if ($showCharge || $showOrdinary || $showDivision)
-    {    
-        $lexicon["base-tincture"][] = "{tinc-common}"; // Have a preference for common tinctures
-        $lexicon["base-tincture"][] = "{tinc-common}"; // when chosing colours for ordinaries etc.
+    if ($options['tinc-common'] == 'on') {
+        $lexicon["base-tincture"][] = "{tinc-common}";
+        if ($showCharge || $showOrdinary || $showDivision) {
+            $lexicon["base-tincture"][] = "{tinc-common}"; // Have a preference for common tinctures
+            $lexicon["base-tincture"][] = "{tinc-common}"; // when chosing colours for ordinaries etc.
+        }
     }
-}
-if ($options['tinc-second'] == "on") 
-    $lexicon["base-tincture"][] = "{tinc-second}";
-if ($options['tinc-modern'] == "on") 
-    $lexicon["base-tincture"][] = "{tinc-modern}";
+    if ($options['tinc-second'] == "on")
+        $lexicon["base-tincture"][] = "{tinc-second}";
+    if ($options['tinc-modern'] == "on")
+        $lexicon["base-tincture"][] = "{tinc-modern}";
 // fieldTincture are used for plain or divided fields only
-$lexicon["field-tincture"] = $lexicon["base-tincture"];
-if ($options['tinc-furs'] == "on") $lexicon["field-tincture"][] = "{fur}";
-if ($options['tinc-treatments'] == "on") $lexicon["field-tincture"][] = "{treatment}";
-
+    $lexicon["field-tincture"] = $lexicon["base-tincture"];
+    if ($options['tinc-furs'] == "on") $lexicon["field-tincture"][] = "{fur}";
+    if ($options['tinc-treatments'] == "on") $lexicon["field-tincture"][] = "{treatment}";
+}
 /*
 **	Set up lists of available charges
 */
@@ -609,127 +627,139 @@ function createLexicon($item) {
     return $created;
 }
 
+function create()
+{
+    global $showCharge, $showDivision, $showOrdinary, $options;
 
-/******************************************************************
-**
-**	Phase 1 - the field
-**
-*******************************************************************/
+    $usedOrdinary = false;
+    /******************************************************************
+     **
+     **    Phase 1 - the field
+     **
+     *******************************************************************/
 
 // Now, what types of field can we chose from?
-$fieldTypes = [ "{field-tincture}" ]; // The default
-if ($showDivision) {
-    // idiot check - prevent everything being off
-    if ($options['div-2part'] == 'off' && $options['div-3part'] == 'off' 
-        && $options['div-bars'] == 'off' && $options['div-pattern'] == 'off')
-    $options['div-2part'] = 'on';
+    $fieldTypes = ["{field-tincture}"]; // The default
+    if ($showDivision) {
+        // idiot check - prevent everything being off
+        if ($options['div-2part'] == 'off' && $options['div-3part'] == 'off'
+            && $options['div-bars'] == 'off' && $options['div-pattern'] == 'off')
+            $options['div-2part'] = 'on';
 
-    $fieldTypes = [];
-    if ($options['div-2part'] == "on") 
-            $fieldTypes =  [
+        $fieldTypes = [];
+        if ($options['div-2part'] == "on")
+            $fieldTypes = [
                 "{div-2part} {base-tincture} and {field-tincture}", // prefer 3x as much as div-3part
                 "{div-2part} {field-tincture} and {base-tincture}",
                 "{div-2part} {field-tincture} and {base-tincture}",
-            ] ;
-    if ($options['div-3part'] == "on")
-            $fieldTypes[] = "{div-3part} {field-tincture}, {base-tincture} and {field-tincture}" ;
-    if ($options['div-bars'] == "on")
-            $fieldTypes[] = "{div-bars} {field-tincture} and {base-tincture}" ;
-    if ($options['div-pattern'] == "on")
-            $fieldTypes[] = "{div-pattern} {field-tincture} and {base-tincture}" ;
-    if ($options['div-counter'] == "on")
-            $fieldTypes[] = "{counter1} {base-tincture} and {base-tincture} {counter2} counterchanged" ;
-}
+            ];
+        if ($options['div-3part'] == "on")
+            $fieldTypes[] = "{div-3part} {field-tincture}, {base-tincture} and {field-tincture}";
+        if ($options['div-bars'] == "on")
+            $fieldTypes[] = "{div-bars} {field-tincture} and {base-tincture}";
+        if ($options['div-pattern'] == "on")
+            $fieldTypes[] = "{div-pattern} {field-tincture} and {base-tincture}";
+        if ($options['div-counter'] == "on")
+            $fieldTypes[] = "{counter1} {base-tincture} and {base-tincture} {counter2} counterchanged";
+    }
 
-$blazon = expand(randomly($fieldTypes));
+    $blazon = expand(randomly($fieldTypes));
 
-/******************************************************************
-**
-**	Phase 2 - Ordinaries
-**
-*******************************************************************/
+    /******************************************************************
+     **
+     **    Phase 2 - Ordinaries
+     **
+     *******************************************************************/
 
-if ($showOrdinary) {
+    if ($showOrdinary) {
         // idiot check - prevent everything being off
-    if ($options['ord-common'] == 'off' && $options['ord-multi'] == 'off' 
+        if ($options['ord-common'] == 'off' && $options['ord-multi'] == 'off'
             && $options['ord-minor'] == 'off' && $options['ord-rare'] == 'off')
-        $options['ord-common'] = 'on';
+            $options['ord-common'] = 'on';
 
-    $ordinaryTypes = [];
-    if ($options["ord-common"] == "on") {
-        $ordinaryTypes[] = "a {ord-common} {field-tincture}";
-        $ordinaryTypes[] = "a {ord-common} {field-tincture}";
-        $ordinaryTypes[] = "a {ord-common} {field-tincture}"; // preference for big ordinaries
-        if ($options["ord-mods"] == "on") {
-            $ordinaryTypes[] = "a {ord-large1} {field-tincture} {mod-ord1}";
-            $ordinaryTypes[] = "a {ord-large1} {field-tincture} {mod-ord2}";
-            $ordinaryTypes[] = "a {ord-large1} {field-tincture} {mod-ord2}";
-            $ordinaryTypes[] = "a {ord-large2} {field-tincture} {mod-ord2}";
-        }    
+        $ordinaryTypes = [];
+        if ($options["ord-common"] == "on") {
+            $ordinaryTypes[] = "a {ord-common} {field-tincture}";
+            $ordinaryTypes[] = "a {ord-common} {field-tincture}";
+            $ordinaryTypes[] = "a {ord-common} {field-tincture}"; // preference for big ordinaries
+            if ($options["ord-mods"] == "on") {
+                $ordinaryTypes[] = "a {ord-large1} {field-tincture} {mod-ord1}";
+                $ordinaryTypes[] = "a {ord-large1} {field-tincture} {mod-ord2}";
+                $ordinaryTypes[] = "a {ord-large1} {field-tincture} {mod-ord2}";
+                $ordinaryTypes[] = "a {ord-large2} {field-tincture} {mod-ord2}";
+            }
+        }
+        if ($options["ord-multi"] == "on") {
+            $ordinaryTypes[] = "{ord-multi} {base-tincture}";
+            $ordinaryTypes[] = "{ord-multi} {base-tincture}"; // quite like these too...
+        }
+        if ($options["ord-minor"] == "on") // these are less common
+            $ordinaryTypes[] = "a {ord-minor} {base-tincture}";
+        if ($options["ord-rare"] == "on")
+            $ordinaryTypes[] = "a {ord-rare} {base-tincture}";
+        $ordinaryText = expand(randomly($ordinaryTypes));
+
+        if ($showCharge) {
+            switch ($usedOrdinary) {
+                case 'quarter':
+                case 'pile':
+                case 'inescutcheon':
+                case 'base':
+                    $ordinaryText = expand("on > # $ordinaryText < # {charge-x1} ");
+                    $showCharge = false;
+                    break;
+                case 'fess':
+                case 'bend':
+                case 'chief':
+                case 'pile':
+                case 'chevron':
+                    $ordinaryText = expand("on > # $ordinaryText < # {2-4} {charge-xn}");
+                    $showCharge = false;
+                    break;
+                case 'cross':
+                case 'saltire':
+                    $ordinaryText = expand("on > # $ordinaryText < # 4 {charge-xn}");
+                    $showCharge = false;
+                    break;
+                default:
+                    break; // just draw a charge in the normal place
+            }
+        }
+
+        $blazon .= " > # $ordinaryText";
     }
-    if ($options["ord-multi"] == "on") {
-        $ordinaryTypes[] = "{ord-multi} {base-tincture}";
-        $ordinaryTypes[] = "{ord-multi} {base-tincture}"; // quite like these too...
-    }
-    if ($options["ord-minor"] == "on") // these are less common
-        $ordinaryTypes[] = "a {ord-minor} {base-tincture}";
-    if ($options["ord-rare"] == "on")
-        $ordinaryTypes[] = "a {ord-rare} {base-tincture}";
-    $ordinaryText = expand(randomly($ordinaryTypes));
+
+    /******************************************************************
+    **
+    **	Charge phase
+    **
+    *******************************************************************/
 
     if ($showCharge) {
-        switch ($usedOrdinary) {
-            case 'quarter':
-            case 'pile':
-            case 'inescutcheon':
-            case 'base':
-                $ordinaryText = expand("on > # $ordinaryText < # {charge-x1} ");
-                $showCharge = false;
-                break;
-            case 'fess':
-            case 'bend':
-            case 'chief':
-            case 'pile':
-            case 'chevron':
-                $ordinaryText = expand("on > # $ordinaryText < # {2-4} {charge-xn}");
-                $showCharge = false;
-                break;
-            case 'cross':
-            case 'saltire':
-                $ordinaryText = expand("on > # $ordinaryText < # 4 {charge-xn}");
-                $showCharge = false;
-                break;
-            default:
-                break; // just draw a charge in the normal place
-        }
+        $blazon .= expand(" > # {charge-all}");
+        if (bychance($options['chg-loc-chance']))
+            $blazon .= expand(" # {location}");
     }
 
-    $blazon .= " > # $ordinaryText";
+    return $blazon;
 }
-
-/******************************************************************
-**
-**	Charge phase
-**
-*******************************************************************/
-
-if ($showCharge) {
-    $blazon .= expand(" > # {charge-all}");
-    if (bychance($options['chg-loc-chance']))
-        $blazon .= expand(" # {location}");
-}
-
-
 /******************************************************************
 **
 **	Output phase
 **
 *******************************************************************/
-
-$blazon = punctuate($blazon) . "\n// created by Drawshield.net/random";
-
+$separator = "\n created by Drawshield.net/random\n";
+if ($count > 1) {
+    $separator = "\n#####################\n";
+}
+while ($count-- > 0) {
+    prepare();
+    $blazon = create();
+    $blazon = punctuate($blazon) . $separator;
+    echo $blazon;
+    $prefix = '';
+};
 //header('Content-Type: text/plain; charset=utf-8');
-echo $blazon;
 if (count($errors)) {
     echo "-- Errors Reported:\n";
     foreach ($errors as $error) {
