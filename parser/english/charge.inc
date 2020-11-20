@@ -306,6 +306,7 @@
       array ( 'kni[fv]es?', 'sword/knife' ),
       array ( 'misericordes?', 'sword/knife' ),
       array ( 'claymores?', 'sword/claymore' ),
+       array ( 'katanas?', 'sword/katana' ),
       array ( '?rondel daggers?', 'sword/dagger' ),
       array ( 'dirks?', 'sword/dagger' ),
       array ( 'ske[ia]ne?s?', 'sword/dagger' ),

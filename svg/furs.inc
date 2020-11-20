@@ -100,6 +100,10 @@ function makeFur ( $name ) {
         <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="' . rgb('azure') . '"/>
         <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="translate(125,240)" points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="' . rgb('azure') . '"/>
         <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="translate(-125,240)" points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="' . rgb('azure') . '"/>' ),
+      'vair-ancient' => array ( 'width' => 250, 'height' => 480, 'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,480 250,480 250,0" fill="' . rgb('argent') . '"/>
+        <path stroke-width="2" stroke="' . rgb('pattern-stroke') . '" d="m 125,19.999988 c 24.42022,0 62.5,23.702556 62.5,50 V 169.99999 c 0,20 25.25918,50.29794 62.5,50.00001 v 20 H 0.67287425 L 0.16756524,220 C 34.983834,220 62.5,193.00988 62.5,169.99999 V 69.999988 c 0,-23.760378 38.07978,-50 62.5,-50 z" fill="' . rgb('azure') . '"/>
+        <path stroke-width="2" stroke="' . rgb('pattern-stroke') . '" d="m 125,258.63284 c 24.42022,0 62.5,23.70256 62.5,50 v 100 c 0,20 25.25918,50.29794 62.5,50.00001 v 20 H 0.67287375 l -0.50531,-20 c 34.81627025,0 62.33243025,-26.99012 62.33243025,-50.00001 v -100 c 0,-23.76038 38.079786,-50 62.500006,-50 z" fill="' . rgb('azure') . '"/>
+' ),
     'vair-en-point' => array (  'width' => 125, 'height' => 240, 'body' => '<g transform="scale(0.5)">
             <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,480 250,480 250,0" fill="' . rgb('argent') . '"/>
             <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="' . rgb('azure') . '"/>

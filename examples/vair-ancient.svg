@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0.1 (1.0.1+r73)"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 999.99998 1200"
+   height="1200"
+   width="1000"
+   sodipodi:docname="vair-ancient.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     units="px"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="px"
+     inkscape:cy="141.23219"
+     inkscape:cx="128.59743"
+     inkscape:zoom="1.1867133"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <sodipodi:guide
+       position="62.499999,1351.5229"
+       orientation="-1,0"
+       id="guide843"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="187.5,1307.0762"
+       orientation="-1,0"
+       id="guide845"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="113.13708,1180"
+       orientation="0,1"
+       id="guide847"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="110.10663,979.99999"
+       orientation="0,1"
+       id="guide849"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="125,1413.1422"
+       orientation="-1,0"
+       id="guide851"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="177.56421,959.99999"
+       orientation="0,1"
+       id="guide853"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="250,1219.9611"
+       orientation="-1,0"
+       id="guide855"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="92.357224,1150"
+       orientation="0,1"
+       id="guide857"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="288.69081,1010"
+       orientation="0,1"
+       id="guide859"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="-53.930462,721.36714"
+       orientation="0,-1"
+       id="guide882" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <path
+       id="polygon840"
+       style="fill:#ff0000;fill-opacity:0.8;stroke:#808080;stroke-opacity:1"
+       d="m 125,19.999988 c 24.42022,0 62.5,23.702556 62.5,50 V 169.99999 c 0,20 25.25918,50.29794 62.5,50.00001 v 20 H 0.67287425 L 0.16756524,220 C 34.983834,220 62.5,193.00988 62.5,169.99999 V 69.999988 c 0,-23.760378 38.07978,-50 62.5,-50 z"
+       sodipodi:nodetypes="zssccccssz" />
+    <path
+       id="polygon840-3"
+       style="fill:#ff0000;fill-opacity:0.8;stroke:#808080;stroke-opacity:1"
+       d="m 125,258.63284 c 24.42022,0 62.5,23.70256 62.5,50 v 100 c 0,20 25.25918,50.29794 62.5,50.00001 v 20 H 0.67287375 l -0.50531,-20 c 34.81627025,0 62.33243025,-26.99012 62.33243025,-50.00001 v -100 c 0,-23.76038 38.079786,-50 62.500006,-50 z"
+       sodipodi:nodetypes="zssccccssz" />
+  </g>
+</svg>

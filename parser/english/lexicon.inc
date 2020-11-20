@@ -177,7 +177,8 @@ class languageDB extends lexicon
             self::WITH => array(array('(with|upon)', 'with')),
             self::BETWEEN => array('between', 'inter', 'inside', 'within', 'surrounded by', 'accompagne', 'cantonned by'),
             self::QUARTERED => array(
-                array('(grand)?quartered', 'quartered'), // Always a marshalling
+                array('quartered', 'quartered'), // Always a marshalling
+                array('grandquartered', 'quartered'), // Always a marshalling
                 array('quarter(ed|ly) per saltire', 'quartered-per-saltire'), // Always a marshalling
                 array('(grand)?quarterly', 'quarterly'), // Could be a marshalling or a division
             ),
@@ -510,6 +511,7 @@ class languageDB extends lexicon
                 array('counter ermine', 'counter-ermine',),
                 // array ( 'sa(ble)? ermined arg(ent)?', 'counter-ermine',  ),
                 array('counter vair', 'counter-vair',),
+                array('vair ancient?', 'vair-ancient',),
                 array('counter potent', 'counter-potent',),
                 array('potent counter potent', 'potent-counter-potent',),
                 array('tapiss?ee? ?of ?wheat', 'tapisse',),
