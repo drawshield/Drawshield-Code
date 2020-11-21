@@ -45,127 +45,14 @@
       </cc:License>
     </rdf:RDF>
   </metadata>
-  <desc
-     id="desc4">Flag of Canton of Valais (Wallis)</desc>
-  <defs
-     id="defs6">
-    <linearGradient
-       id="linearGradient2893">
-      <stop
-         style="stop-color:white;stop-opacity:0.3137255;"
-         offset="0"
-         id="stop2895" />
-      <stop
-         id="stop2897"
-         offset="0.19"
-         style="stop-color:white;stop-opacity:0.25098041;" />
-      <stop
-         style="stop-color:#6b6b6b;stop-opacity:0.1254902;"
-         offset="0.60000002"
-         id="stop2901" />
-      <stop
-         style="stop-color:black;stop-opacity:0.1254902;"
-         offset="1"
-         id="stop2899" />
-    </linearGradient>
-    <linearGradient
-       id="linearGradient2885">
-      <stop
-         id="stop2887"
-         offset="0"
-         style="stop-color:white;stop-opacity:1;" />
-      <stop
-         style="stop-color:white;stop-opacity:1;"
-         offset="0.22857143"
-         id="stop2891" />
-      <stop
-         id="stop2889"
-         offset="1"
-         style="stop-color:black;stop-opacity:1;" />
-    </linearGradient>
-    <linearGradient
-       id="linearGradient2955">
-      <stop
-         id="stop2867"
-         offset="0"
-         style="stop-color:#fd0000;stop-opacity:1;" />
-      <stop
-         style="stop-color:#e77275;stop-opacity:0.65882355;"
-         offset="0.5"
-         id="stop2873" />
-      <stop
-         style="stop-color:black;stop-opacity:0.32291666;"
-         offset="1"
-         id="stop2959" />
-    </linearGradient>
-    <radialGradient
-       xlink:href="#linearGradient2955"
-       id="radialGradient2961"
-       cx="225.52438"
-       cy="218.90099"
-       fx="225.52438"
-       fy="218.90099"
-       r="300"
-       gradientTransform="matrix(-4.167939e-4,2.182867,-1.884232,-3.599562e-4,615.5972,-289.1214)"
-       gradientUnits="userSpaceOnUse" />
-    <polygon
-       id="star"
-       transform="scale(53)"
-       points="0.58778525,0.80901699 -0.95105652,-0.30901699 0.95105652,-0.30901699 -0.58778525,0.80901699 0,-1 " />
-    <clipPath
-       id="clip">
-      <path
-         d="M 0,-200 V 600 H 300 V -200 Z"
-         id="path10" />
-    </clipPath>
-    <radialGradient
-       xlink:href="#linearGradient2955"
-       id="radialGradient1911"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(-4.167939e-4,2.182867,-1.884232,-3.599562e-4,615.5972,-289.1214)"
-       cx="225.52438"
-       cy="218.90099"
-       fx="225.52438"
-       fy="218.90099"
-       r="300" />
-    <radialGradient
-       xlink:href="#linearGradient2955"
-       id="radialGradient2865"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0,1.748721,-1.593162,-1.049767e-7,551.7876,-191.2898)"
-       cx="225.52438"
-       cy="218.90099"
-       fx="225.52438"
-       fy="218.90099"
-       r="300" />
-    <radialGradient
-       xlink:href="#linearGradient2955"
-       id="radialGradient2871"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0,1.386237,-1.323286,-5.741131e-8,-158.0823,-109.5408)"
-       cx="225.52438"
-       cy="218.90099"
-       fx="225.52438"
-       fy="218.90099"
-       r="300" />
-    <radialGradient
-       xlink:href="#linearGradient2893"
-       id="radialGradient3163"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.353218,0,0,1.348928,-77.62935,-85.74693)"
-       cx="221.44487"
-       cy="226.33101"
-       fx="221.44487"
-       fy="226.33101"
-       r="300" />
-  </defs>
+
   <g
      id="layer4"
      transform="translate(-7.3679506,-146.02219)">
     <g
        id="g3949"
        transform="matrix(1.2975168,0,0,1.3558781,736.0619,-168.89985)"
-       style="fill:#ffffff">
+       >
       <path
          id="path2151"
          d="m -422.22222,400.47619 c 0.31224,24.70816 -1.64694,45.75147 -11.90476,57.93651 -6.5521,17.26623 18.31737,16.64915 21.42857,11.11111 4.35228,-7.74718 19.98692,-45.16527 -9.52381,-69.04762 z"
