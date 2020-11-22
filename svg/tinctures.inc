@@ -33,6 +33,81 @@ function mkGules() {
 	return $retval;
 }
 
+
+function mkCelestialAzure() {
+    $retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\" stroke-dasharray='5,7,21,7'>\n";
+    for ($i = 0; $i <= 1200; $i += 40) {
+        $retval .= "<path d=\"M 0,$i H 1000\"/>\n";
+        $i2 = $i + 20;
+        $retval .= "<path d=\"M -20,$i2 H 1040\"/>\n";
+    }
+    $retval .= "</g>\n";
+    return $retval;
+}
+
+function mkOrange() {
+    $retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\" stroke-dasharray='5,7,21,7'>\n";
+    for ($i = 0; $i <= 1000; $i += 40) {
+        $retval .= "<path d=\"M $i,0 V 1200\"/>\n";
+        $i2 = $i + 20;
+        $retval .= "<path d=\"M $i2,-20 V 1230\"/>\n";
+    }
+    $retval .= "</g>\n";
+    return $retval;
+}
+
+function mkCendree() {
+    $retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\" stroke-dasharray='40,40'>\n";
+    for ($i = -20; $i <= 1020; $i += 80) {
+        $retval .= "<path d=\"M $i,-20 V 1200\"/>\n";
+    }
+    for ($i = 0; $i <= 1200; $i += 80) {
+        $retval .= "<path d=\"M 0,$i H 1000\"/>\n";
+    }
+    for ($i = 20; $i <= 1020; $i += 80) {
+        $retval .= "<path d=\"M $i,20 V 1200\"/>\n";
+    }
+    for ($i = 40; $i <= 1240; $i += 80) {
+        $retval .= "<path d=\"M -40,$i H 1000\"/>\n";
+    }
+    $retval .= "</g>\n";
+    return $retval;
+}
+
+function mkBisque() {
+    $retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\" stroke-dasharray='40,40'>\n";
+    for ($i = 0; $i <= 1000; $i += 40) {
+            $retval .= "<path d=\"M $i,0 V 1200\"/>\n";
+            $i2 = $i + 20;
+            $retval .= "<path d=\"M $i2,40 V 1230\"/>\n";
+    }
+    $retval .= "</g>\n";
+    return $retval;
+}
+
+function mkbrunatre() {
+    $retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
+    for ($i = 0; $i <= 1200; $i += 20) {
+        $retval .= "<path d=\"M $i, 0 V 1200\"/>\n";
+        $retval .= "<path d=\"M 0, $i l 1420, 1420\"/>\n";
+        $retval .= "<path d=\"M $i, 0 l 1420, 1420\"/>\n";
+        $retval .= "<path d=\"M 0, $i H 1200\"/>\n";
+    }
+    $retval .= "</g>\n";
+    return $retval;
+}
+
+function mkTenne() {
+    $retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
+    for ($i = 0; $i <= 1200; $i += 20) {
+        $retval .= "<path d=\"M $i, 0 V 1200\"/>\n";
+        $retval .= "<path d=\"M 0, $i l 1420, 1420\"/>\n";
+        $retval .= "<path d=\"M $i, 0 l 1420, 1420\"/>\n";
+    }
+    $retval .= "</g>\n";
+    return $retval;
+}
+
 function mkAzure() {
 	$retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
 	for ($i = 0; $i <= 1200; $i += 20) {
@@ -114,6 +189,21 @@ function mkHatches() {
     $defs .= mkAzure();
     $defs .= "</g>\n";
 
+    $defs .= "<g id=\"cendree\" >\n";
+    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkCendree();
+    $defs .= "</g>\n";
+
+    $defs .= "<g id=\"orange\" >\n";
+    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkOrange();
+    $defs .= "</g>\n";
+
+    $defs .= "<g id=\"celestialAzure\" >\n";
+    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkcelestialAzure();
+    $defs .= "</g>\n";
+
     $defs .= "<g id=\"or\" >\n";
     $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
     $defs .= mkOr();
@@ -132,6 +222,21 @@ function mkHatches() {
     $defs .= "<g id=\"purpure\"  >\n";
     $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
     $defs .= mkPurpure();
+    $defs .= "</g>\n";
+
+    $defs .= "<g id=\"bisque\"  >\n";
+    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkBisque();
+    $defs .= "</g>\n";
+
+    $defs .= "<g id=\"tenne\"  >\n";
+    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkTenne();
+    $defs .= "</g>\n";
+
+    $defs .= "<g id=\"brunatre\"  >\n";
+    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkbrunatre();
     $defs .= "</g>\n";
 
     $defs .= "<g id=\"murrey\"  >\n";
