@@ -195,6 +195,7 @@
       
       // Exotic (but lifelike) animals
       array ( 'tortoises?', 'animal/tortoise' ),
+      array ( 'dinosaurs?', 'animal/dinosaur' ),
       array ( 'reindeers?', 'animal/reindeer' ),
       array ( 'crocodiles?', 'animal/crocodile' ),
       array ( 'antelopes?', 'animal/antelope' ),
@@ -290,7 +291,7 @@
       array ( 'pelicans?', 'bird/pelican' ),
       array ( '(papegay|popp?injay)s?', 'bird/popinjay' ),
       array ( 'ostriche?s?', 'bird/ostrich' ),
-      array ( 'ostriche?s? feathers?', 'bird/ostrich-feather' ),
+      array ( 'ostriche?s? feathers? ?in ?plume ?issuant', 'bird/ostrich-feather' ),
       array ( 'swallows?', 'bird/swallow' ),
       array ( 'storks?', 'bird/stork' ),
       array ( 'rocs?', 'bird/roc' ),
