@@ -170,7 +170,8 @@ function draw() {
   $y1Location = 0;
   $extraDefs = '';
   if ($options['palette'] == 'hatching') {
-      $extraDefs = mkHatches();
+    include("hatching.inc");
+    $extraDefs = mkHatches();
   }
 
   if ($options['shape'] == 'flag') {

@@ -450,7 +450,7 @@ function PlaceCharge ( $node,  // images
 function quickPlace($svg, $chargeX, $chargeY, $boundX, $boundY, $centreX, $centreY, $fill = null, $adjustments = [] ) {
     $rotate = 0;
     // Apply the adjustments first
-    if (count($adjustments)) {
+    if ($adjustments != null && count($adjustments)) {
         foreach ($adjustments as $adjustment) {
             switch ($adjustment) {
                 // the "shown" mods

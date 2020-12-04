@@ -94,6 +94,7 @@ class properColour {
       'dolphin' => self::$green,
       'dolphin-natural' => self::$gray,
       'rocket' => self::$gray,
+      'aubergine' => self::$purple,
       'dove' => self::$white,
       'clove' => self::$darkBrown,
       'elephant' => self::$gray,

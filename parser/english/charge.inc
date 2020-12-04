@@ -690,6 +690,8 @@
       array ( 'balms?', 'plant/balm' ),
       array ( 'grapes?', 'plant/grape' ),
       array ( 'turnips?', 'plant/turnip' ),
+      array ( 'aubergines?', 'plant/aubergine' ),
+      array ( 'eggplants?', 'plant/aubergine' ),
       array ( 'cotton', 'plant/cotton' ),
       array ( 'carrots?', 'plant/carrot' ),
       array ( 'vines?', 'plant/vine' ),
