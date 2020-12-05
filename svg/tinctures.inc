@@ -178,7 +178,7 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
   }
   $spec = false;
   if (!is_object($tinctureTypeNode)) {
-    error_log("non-object tincture in " . $options['blazon']);
+    // error_log("non-object tincture in " . $options['blazon']);
     $tinctureTypeNode = createColourNode('gray','1');
   }
   switch ( $tinctureTypeNode->nodeName ) {

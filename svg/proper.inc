@@ -56,6 +56,7 @@ class properColour {
     );
     self::$charges = array(
         'garland' => self::$green,
+      'flames' => self::$yellow,
       'polar-bear' => self::$white, // overrides bear group
       'camelopard' => self::$orange,
       'squirrel' => self::$brown,

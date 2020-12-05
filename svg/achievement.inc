@@ -332,11 +332,13 @@ function drawHelmet($helmetNode) {
         'baronet' => 'gray'
     );
     $torse = null;
-    foreach($helmetNode->childNodes as $childNode) {
-       if ($childNode->nodeName == blazonML::E_TORSE) {
-           $torse = drawTorse($childNode);
-           break;
-       }
+    if ($helmetNode->hasChildNodes) {
+        foreach($helmetNode->childNodes as $childNode) {
+            if ($childNode->nodeName == blazonML::E_TORSE) {
+                $torse = drawTorse($childNode);
+                break;
+            }
+        }
     }
     $fill = null;
     $adjustments = [];

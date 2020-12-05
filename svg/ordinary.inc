@@ -115,20 +115,20 @@ function includeOrdinary( DOMElement &$node ) {
   return $ordinary;
 }
 
-function getBordure($node) {
+function getSpecial($type,$node) {
     global $options, $messages;
-    $bordure = [];
+    $special = [];
 
     $filename = $options['shape'];
     if ($filename == 'swatch' || $filename == 'stamp') $filename = "quarter"; // basically the same shape
     if ($filename == 'flag') {
         $height = (isset($options['flagHeight'])) ? $options['flagHeight'] : 800; // just in case
         $size = (int)(min(100,$height/8));
-        $bordure['body'] = '<path fill-rule="evenodd" d="M -10,-10 h1020 v' .
+        $special['body'] = '<path fill-rule="evenodd" d="M -10,-10 h1020 v' .
             ($height + 20) . ' h-1020 v-' . ($height + 20) . ' z M' . $size . ', ' . $size .
             ' h ' . (1000 - $size - $size) . ' v ' . ($height - $size - $size) . ' h-' .
             (1000 - $size - $size) . ' z"/>';
-        return ($bordure);
+        return ($special);
     } // else
     if (chiefPresent()) $filename .= '-chief';
     $linetype = getModifierByType($node, 'linetype', false);
@@ -136,12 +136,12 @@ function getBordure($node) {
     $compony = getModifierByType($node,'compony');
     if ($compony != null) $filename .= '-' . $compony;
 // $filename .= '.svg';
-    $folder = 'svg/ordinaries/bordures/';
+    $folder = "svg/ordinaries/$type/";
 
     $subfile = getBestMatchFilename($folder, $filename, null);
 
     if ($subfile == null) {
-        $messages->addMessage('warning',"Cannot draw bordure inside " . $options['shape']);
+        $messages->addMessage('warning',"Cannot draw $type inside " . $options['shape']);
         $subfile = 'heater.svg';
     }
 
@@ -152,7 +152,7 @@ function getBordure($node) {
     foreach ($paths as $path) {
         $tempBody .= $path->asXML();
     }
-    $bordure['body'] = $tempBody;
+    $special['body'] = $tempBody;
 
     $paths = $svg->xpath('//svg:g[@id="body2"]/*');
     if (is_array($paths)) {
@@ -160,7 +160,7 @@ function getBordure($node) {
         foreach ($paths as $path) {
             $tempBody .= $path->asXML();
         }
-        $bordure['body2'] = $tempBody;
+        $special['body2'] = $tempBody;
     }
 
     switch ($options['shape']) {
@@ -197,12 +197,12 @@ function getBordure($node) {
             break;
     }
 
-    $bordure['chargesWithin'] = array ('w',chiefPresent() ? '120,420,760,560' : '120,120,760,860');
+    $special['chargesWithin'] = array ('w',chiefPresent() ? '120,420,760,560' : '120,120,760,860');
 
 // only really applies to drawshield
-    $bordure['chargesOn'] = chiefPresent() ? 'x///////////500,330,55,55:250,330:750,330:500,1150:35,700:965,700:35,450:965,450:50,900:950,900:200,1050:800,1047' : 'x///////////500,30,55,55:250,30:750,30:500,1150:35,500:965,500:35,200:965,200:35,800:965,800:200,1050:800,1050';
+    $special['chargesOn'] = chiefPresent() ? 'x///////////500,330,55,55:250,330:750,330:500,1150:35,700:965,700:35,450:965,450:50,900:950,900:200,1050:800,1047' : 'x///////////500,30,55,55:250,30:750,30:500,1150:35,500:965,500:35,200:965,200:35,800:965,800:200,1050:800,1050';
 
-    return ($bordure);
+    return ($special);
 
 }
 
@@ -217,7 +217,9 @@ function makeOrdinary( DOMElement &$node ) {
     $subtype = $node->getAttribute('keyterm');
     // special handling for bordures (as lots of options)
     if ($subtype == 'bordure') {
-        $ord_data = getBordure($node);
+        $ord_data = getSpecial('bordures', $node);
+    } elseif ($subtype == 'orle') {
+        $ord_data = getSpecial('orles', $node);
     } else {
         $ord_data = includeOrdinary( $node );
     }
