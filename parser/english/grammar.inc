@@ -553,6 +553,7 @@ class englishGrammar extends grammar
                 self::restore($state2);
                 break;
             }
+            self::ignore(languageDB::COMMA);
             self::ignore(languageDB::ANDD);
         }
 

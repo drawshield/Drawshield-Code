@@ -332,7 +332,7 @@ function drawHelmet($helmetNode) {
         'baronet' => 'gray'
     );
     $torse = null;
-    if ($helmetNode->hasChildNodes) {
+    if ($helmetNode->hasChildNodes()) {
         foreach($helmetNode->childNodes as $childNode) {
             if ($childNode->nodeName == blazonML::E_TORSE) {
                 $torse = drawTorse($childNode);

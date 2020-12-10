@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="testicules-pair-2.svg"
+   height="177"
+   width="151"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   version="1.1"
+   id="svg2985">
+  <metadata
+     id="metadata2991">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>https://commons.wikimedia.org/wiki/User:Elisabeth_stilton</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2989" />
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer2"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="-8"
+     inkscape:cy="-32.5"
+     inkscape:cx="-79.397175"
+     inkscape:zoom="1"
+     showgrid="false"
+     id="namedview2987"
+     inkscape:window-height="847"
+     inkscape:window-width="1600"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     bordercolor="#666666"
+     pagecolor="#ffffff" />
+  <g
+     style="display:inline"
+     inkscape:label="Testicule"
+     id="layer2"
+     inkscape:groupmode="layer">
+    <path
+       sodipodi:nodetypes="cccccccccc"
+       inkscape:connector-curvature="0"
+       id="path3783"
+       d="m 128.73123,69.683285 c 11.73383,16.374274 14.4006,52.482665 0,73.123785 -7.23298,13.56063 -33.666728,31.92146 -66.500784,11.34733 -13.634063,7.92447 -23.854647,6.24858 -31.301785,1.90587 C 14.561479,146.26556 10.246811,134.21569 8.6108343,126.12618 5.3340466,112.41548 8.77754,94.331271 13.714429,86.594115 19.698987,74.376004 30.163727,67.704792 45.322001,58.26013 52.880645,53.354837 53.39899,41.729306 46.237018,35.864015 37.857446,28.551965 35.344782,14.839648 42.965879,6.9942425 78.84409,10.122523 123.39371,56.614365 128.73123,69.683285 z"
+       style="fill:#ffff00;stroke:#808080;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1" />
+    <path
+       sodipodi:nodetypes="cccccc"
+       inkscape:connector-curvature="0"
+       id="path3785"
+       d="m 52.168159,24.122127 c 8.604805,3.697946 13.369433,8.675904 16.854038,15.787327 3.804617,7.929206 0.355428,18.845246 -3.093463,24.64103 -6.45423,12.728596 -12.387833,19.466627 -18.880789,31.574654 -5.318354,10.844912 -5.241325,19.983042 -2.666779,32.534692 1.848965,7.57365 8.391464,21.12088 17.92075,25.70774"
+       style="fill:#ffff00;stroke:#808080;stroke-width:3;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1" />
+  </g>
+</svg>

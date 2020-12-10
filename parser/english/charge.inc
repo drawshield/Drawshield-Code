@@ -160,6 +160,7 @@
       array ( 'hens?', 'livestock/hen' ),
       array ( '?dunghill cocks?', 'livestock/cock' ),
       array ( 'gamecocks?', 'livestock/cock' ),
+      array ( 'testicules?', 'livestock/testicules' ),
       array ( 'turkeycocks?', 'livestock/turkeycock' ),
       array ( '(moor|heath)cocks?', 'livestock/cock' ),
       // dogs
