@@ -703,7 +703,7 @@ class englishGrammar extends grammar
                     self::ignore(languageDB::EACH);
                     $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH, null,
                         'charged-with', self::tokens(), self::lineNo());
-                    $swapCharges = true; // turn this into case (1)
+                    $swapCharges = true; // turn this into case (1rose)
                 }
             }
 
