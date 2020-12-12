@@ -13,6 +13,7 @@ class properColour {
   static $grey;
   static $purple;
   static $blue;
+  static $pink;
   static $gold;
   static $silver;
   static $caucasian;
@@ -39,6 +40,7 @@ class properColour {
     self::$purple = rgb('purpure');
     self::$blue = rgb('azure');
     self::$caucasian = rgb('carnation');
+    self::$pink = rgb('carnation');
     self::$orange = rgb('orange');
     self::$rose = rgb('rose');
     // etc...
@@ -77,7 +79,9 @@ class properColour {
       'boar' => self::$brown,
       'chough' => self::$black,
       'crow' => self::$black,
+      'pig' => self::$pink,
         'tophat' => self::$black,
+        'cap-of-maintenance' => self::$red,
       'raven' => self::$black,
       'daisy' => self::$white,
       'deer' => self::$brown,
@@ -139,6 +143,7 @@ class properColour {
       'barbed' => self::$green,
       'seeded' => self::$yellow,
       'tusked' => self::$white,
+      'turned-up' => self::$white,
       'inflamed' => self::$yellow,
       'chough/legged' => self::$red,
       'chough/beaked' => self::$red,

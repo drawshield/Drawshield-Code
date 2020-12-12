@@ -57,6 +57,7 @@
      'drooping', 'voided', 'beaded', 'ringed', 'masonry',
      array ( 'leather(s|ed)?', 'leathered'),
      array ( 'in profile', 'in-profile'),
+     array ( 'turned up', 'turned-up'),
      array ( 'tool(s|ed)?', 'tools'),
        array ( 'with heads?', 'head'),
      array ( 'knob(s|bed)?', 'knobbed'),

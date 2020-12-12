@@ -147,6 +147,7 @@
       // livestock 
       array ( '(asse?|mule)s?', 'livestock/ass' ),
       array ( 'cows?', 'livestock/cow' ),
+      array ( 'pigs?', 'livestock/pig' ),
       array ( 'cal(f|ves)', 'livestock/calf' ),
       array ( 'goats?', 'livestock/goat' ),
       array ( 'ox(en)?', 'livestock/ox' ),
@@ -846,8 +847,8 @@
       array ( 'caps? of ?a jesters?', 'clothes/cap-jester' ),
       array ( 'jesters caps?', 'clothes/cap-jester' ),
       array ( 'ducipers?', 'clothes/cap-dignity' ),
-      array ( '(chapeaux?|capelots?)', 'clothes/chapeau' ),
-      array ( 'caps? of (estate|maintenance)', 'clothes/chapeau' ),
+      array ( '(chapeaux?|capelots?)', 'clothes/cap-of-maintenance' ),
+      array ( 'caps? of (estate|maintenance)', 'clothes/cap-of-maintenance' ),
       array ( '?gem rings?', 'clothes/gem-ring' ),
       array ( 'gloves?', 'clothes/glove' ),
        array ( 'top hats?', 'clothes/tophat' ),
