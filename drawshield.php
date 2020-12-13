@@ -197,7 +197,9 @@ if (!array_key_exists('shape',$options)) {
     // Synonyms for circle shape
     $options['shape'] = 'circle';
 } elseif ($options['shape'] == 'flag') {
-    if ($ar != null) $options['aspectRatio'] = calculateAR($ar);
+    if ($ar != null) {
+      $options['aspectRatio'] = calculateAR($ar);
+    }
     $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
 }
 
@@ -221,6 +223,7 @@ if ( $options['asFile'] ) {
     } elseif ($options['units'] == 'cm') {
 	$options['printSize'] *= 35;
     }
+  $proportion = ($options['shape'] == 'flag') ? $options['aspectRatio'] : 1.2;
   switch ($options['saveFormat']) {
     case 'svg':
         if (substr($name,-4) != '.svg') $name .= '.svg';
@@ -245,7 +248,7 @@ if ( $options['asFile'] ) {
     $maxWidth = $pageWidth - $margin - $margin;
     $imageWidth = $options['printSize'];
     if ($imageWidth > $maxWidth) $imageWidth = $maxWidth;
-    $imageHeight = $imageWidth * 1.2;
+    $imageHeight = $imageWidth * $proportion;
     $im->scaleImage($imageWidth, $imageHeight);
     $fromBottom = $pageHeight - $margin - $margin - $imageHeight;
     $fromSide = $margin + (($pageWidth - $margin - $margin - $imageWidth) / 2);
@@ -266,7 +269,7 @@ if ( $options['asFile'] ) {
       $im->setimageformat('jpeg');
       $im->setimagecompressionquality(90);
     $imageWidth = $options['printSize'];
-    $imageHeight = $imageWidth * 1.2;
+    $imageHeight = $imageWidth * $proportion;
       $im->scaleimage($imageWidth,$imageHeight);
         if (substr($name,-4) != '.jpg') $name .= '.jpg';
       header("Content-type: application/force-download");
@@ -283,7 +286,7 @@ if ( $options['asFile'] ) {
      $im->readimageblob($output);
      $im->setimageformat('png32');
     $imageWidth = $options['printSize'];
-    $imageHeight = $imageWidth * 1.2;
+    $imageHeight = $imageWidth * $proportion;
       $im->scaleimage($imageWidth,$imageHeight);
       if (substr($name,-4) != '.png') $name .= '.png';
       header("Content-type: application/force-download");
