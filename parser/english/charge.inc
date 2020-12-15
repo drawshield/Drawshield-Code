@@ -1064,12 +1064,15 @@
       array ( '(crown|coronet)s? vallary?', 'crown/vallary' ),
       array ( 'viscounts? (crown|coronet)s?', 'crown/viscount' ),
       // music
+      array ( 'musical notes?', 'emblem/musical-note' ),
       array ( '(violin|crwth|fiddle)s?', 'music/violin' ),
       array ( 'cla[vr]i(on|cord)s?', 'music/clarion' ),
       array ( 'accordions?', 'music/accordion' ),
       array ( 'hautboys?', 'music/hautboy' ),
       array ( 'shof(ars?|roth)', 'music/shofar' ),
       array ( 'rests?', 'music/clarion' ),
+      array ( 'c clefs?', 'music/c-clef' ),
+      array ( 'g clefs?', 'music/g-clef' ),
       array ( 'drums?', 'music/drum' ),
       array ( 'recorders?', 'music/recorder' ),
       array ( 'drumsticks?', 'music/drumstick' ),
@@ -1191,7 +1194,6 @@
       array ( 'heralds? (staff|stave|baton)s?', 'emblem/heralds-staff' ),
        array ( 'marshall?s? (staff|stave|baton)s?', 'emblem/baton-marshall' ),
       array ( 'labyrinths?', 'emblem/labyrinth' ),
-      array ( 'musical notes?', 'emblem/musical-note' ),
       array ( 'nesselblatt(s|er)?s?', 'emblem/nesselblatt' ),
       // playing cards
       array ( 'playing cards? backs?', 'playing-card/card-back' ),

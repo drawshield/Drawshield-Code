@@ -227,6 +227,7 @@
       array ('equal armed', 'equal-armed'),
       array ('of chain', 'of-chain'),
       array ('of rope', 'of-rope'),
+      array ('of benediction', 'of-benediction'),
       array ('busts?', 'bust'),
       array ('vorant ?of ?a child(ren)?', 'vorant-of-child'),
       array ('maintaining ?a towers? ?on ?(their|its) ?backs?', 'tower-back'),

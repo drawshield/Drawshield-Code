@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg1182"
+   height="351"
+   width="211.5"
+   viewBox="0 0 211.5 351"
+   version="1.1">
+  <defs
+     id="defs1167" />
+  <metadata
+     id="metadata1169"> Produced by OmniGraffle 7.11.5 
+    <dc:date>2020-11-28 02:54:53 +0000</dc:date>
+<rdf:RDF>
+  <cc:Work
+     rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type
+       rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:title></dc:title>
+    <dc:creator>
+      <cc:Agent>
+        <dc:title>http://heraldicart.org/musical-clef/</dc:title>
+      </cc:Agent>
+    </dc:creator>
+  </cc:Work>
+</rdf:RDF>
+</metadata>
+  <g
+     transform="translate(-76.5,-63)"
+     fill-opacity="1"
+     stroke-dasharray="none"
+     stroke-opacity="1"
+     stroke="none"
+     id="Clef,_C_(1)">
+    <title
+       id="title1171">Clef, C (1)</title>
+    <g
+       id="Clef,_C_(1): Art">
+      <title
+         id="title1173">Art</title>
+      <g
+         id="Graphic_53">
+        <path
+           style="fill:#ffff00;stroke:#808080;stroke-width:3"
+           id="path1175"
+           d="m 232.67664,205.0648 50.27478,-72.61912 c 0,0 -39.1026,-61.446955 -78.20522,-67.03304 C 148.88534,59.82655 76.26622,199.47871 81.85231,277.68392 87.43839,355.88914 132.12709,389.40565 148.88534,400.57783 165.6436,411.75 187.98795,411.75 187.98795,411.75 l 61.44695,-89.3774 c 0,0 -39.1026,5.5861 -55.86086,-5.58607 -16.75826,-11.17217 -50.27478,-55.86087 -61.44695,-78.20521 -11.17218,-22.34435 -27.93044,-83.7913 22.34434,-83.7913 50.27477,0 78.20521,50.27478 78.20521,50.27478 z" />
+      </g>
+    </g>
+  </g>
+</svg>
