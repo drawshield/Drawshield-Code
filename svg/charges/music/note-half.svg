@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg3676"
+   height="349.85242"
+   width="89.784378"
+   viewBox="0 0 89.784378 349.85242"
+   version="1.1">
+  <defs
+     id="defs3661" />
+  <metadata
+     id="metadata3663"> Produced by OmniGraffle 7.11.5 
+    <dc:date>2020-11-28 02:54:53 +0000</dc:date>
+<rdf:RDF>
+  <cc:Work
+     rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type
+       rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:title></dc:title>
+    <dc:creator>
+      <cc:Agent>
+        <dc:title>http://heraldicart.org/musical-note/</dc:title>
+      </cc:Agent>
+    </dc:creator>
+  </cc:Work>
+</rdf:RDF>
+</metadata>
+  <g
+     transform="translate(-67.607811,-64)"
+     fill-opacity="1"
+     stroke-dasharray="none"
+     stroke-opacity="1"
+     stroke="none"
+     id="Musical_Note_(2)">
+    <title
+       id="title3665">Musical Note (2)</title>
+    <g
+       clip-path="none"
+       id="Musical_Note_(2): Art">
+      <title
+         id="title3667">Art</title>
+      <g
+         id="Graphic_766">
+        <path
+           style="fill:#ffff00;stroke:#808080;stroke-width:2"
+           id="path3669"
+           d="m 116.63917,303.62832 21.283,34.34728 -29.56134,46.09817 -21.283,-34.3473 z m 2.52758,-17.53062 V 65 h -2.71609 -7.90132 -2.71609 V 286.0977 L 68.79578,343.85104 112.5,412 156.20422,343.85104 Z" />
+      </g>
+    </g>
+  </g>
+</svg>

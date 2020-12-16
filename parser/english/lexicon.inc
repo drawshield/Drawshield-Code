@@ -684,6 +684,7 @@ class languageDB extends lexicon
                 array('bends?', 'bend'),
                 array('chief', 'chief'),
                 array('fesse?', 'fess'),
+                array('(grand|great) (staff|stave)', 'grand-stave'),
                 array('fesse? between (2|two) chevrons?', 'fess-between-chevrons'),
                 array('dance', 'dance'),
                 array('ford', 'ford'),

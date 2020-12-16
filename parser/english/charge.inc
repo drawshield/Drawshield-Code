@@ -58,6 +58,7 @@
           array ( 'cross(let|lets|es)? of (8|eight|huit) points', 'quadrate/maltese-cross' ),
           array ( 'chevrons? couped', 'geometric/chevron' ),
           array ( 'saltires? couped', 'cross/saltire' ),
+          array ( 'quarter notes?', 'music/note-quarter' ),
           array ( 'cross(es)? fitch(y|ee) doubled?', 'quadrate/cross-fitchy-double' ),
           array ( 'cross(es)? fitch(y|ee)', 'quadrate/cross-fitchy' ),
         );
@@ -559,6 +560,7 @@
       array ( 'gadbees?', 'insect/gadbee' ),
       array ( 'grasshoppers?', 'insect/grasshopper' ),
       array ( 'ants?', 'insect/ant' ),
+      array ( 'moths?', 'insect/moth' ),
       array ( 'bees?', 'insect/bee' ),
       array ( 'butterfl(y|ies)', 'insect/butterfly' ),
       array ( 'crickets?', 'insect/cricket' ),
@@ -1064,7 +1066,10 @@
       array ( '(crown|coronet)s? vallary?', 'crown/vallary' ),
       array ( 'viscounts? (crown|coronet)s?', 'crown/viscount' ),
       // music
-      array ( 'musical notes?', 'emblem/musical-note' ),
+      array ( 'musical notes?', 'music/musical-note' ),
+      array ( 'musical half notes?', 'music/note-half' ),
+      array ( '?musical eighth notes?', 'music/note-eighth' ),
+      array ( 'musical quarter notes?', 'music/note-quarter' ),
       array ( '(violin|crwth|fiddle)s?', 'music/violin' ),
       array ( 'cla[vr]i(on|cord)s?', 'music/clarion' ),
       array ( 'accordions?', 'music/accordion' ),
