@@ -495,6 +495,7 @@
       array ( 'caps? of steel', 'armour/morion' ),
       array ( 'bas([sc]i)?nets?', 'armour/morion' ),
       array ( 'heaumes?', 'armour/helmet-knight' ),
+      array ( 'torses?', 'armour/torse' ),
       array ( '(esquire|gentlem[ea]n)s? helm(et)?s?', 'armour/helmet-esquire' ),
       array ( 'coif de mailles', 'armour/hood' ),
       array ( 'burgonett?e?s?', 'armour/burgonet' ),
