@@ -19,6 +19,7 @@
       'winged', 'natural', 'nude', 'fouled',
       array ( 'spread', 'displayed' ),
       array ( 'heads? of ?(a|an|the)', 'head' ),
+      array ( 'legs? of ?(a|an|the)', 'leg' ),
       array ( 'closed?', 'closed' ),
       array ( '(dem[yi]|half)', 'demi' ),
       array ( 'like', 'like' ), // not sure whether this has any real meaning, but added as mod just in case
@@ -133,7 +134,7 @@
       array ( 'faces?', 'head' ),
       array ( '(talon|claw)s?', 'claw' ),
       array ( 'ears?', 'ear' ),
-      array ( '(gambe|leg)s?', 'leg' ),
+      array ( '([gj]ambe|leg)s?', 'leg' ),
      array ( 'fired ?in ?# ?places', 'inflamed' ),
      array ( '(flammant|bursting|exploding)', 'inflamed' ),
      array ( '(en|in)flamed?', 'inflamed' ),

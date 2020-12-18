@@ -62,7 +62,7 @@ function getBestMatchFilename($folder, $base, $mods) {
       if (!$found) {
         $penalty += $currentRNPPenalty;
         // Some things we don't really care about
-        if (!in_array($requiredParts[$i], array('upper', 'lower', 'half', 'demi', 'entire', 'head' ))) {
+        if (!in_array($requiredParts[$i], array('upper', 'lower', 'half', 'demi', 'entire', 'head', 'leg' ))) {
           $missing .= $requiredParts[$i] . ' ';
         }
       }
@@ -105,6 +105,7 @@ function featuresThatAreAlsoMods($node) {
   $retval = '';
   static $features = array (
     'head',
+    'leg',
     'jessant',
       'leathered',
     'voided',
