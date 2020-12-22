@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.1"
+   id="svg3814"
+   height="315.10464"
+   width="23.408577">
+  <defs
+     id="defs3816">
+    <linearGradient
+       gradientTransform="matrix(-1,0,0,1,-1.3690185e-6,0)"
+       gradientUnits="userSpaceOnUse"
+       y2="-62.449249"
+       x2="70.101028"
+       y1="-62.449249"
+       x1="57.672455"
+       id="linearGradient4826-9"
+       xlink:href="#linearGradient4820-8" />
+    <linearGradient
+       id="linearGradient4820-8">
+      <stop
+         id="stop4822-3"
+         offset="0"
+         style="stop-color:#b3b3b3;stop-opacity:1;" />
+      <stop
+         id="stop4824-8"
+         offset="1"
+         style="stop-color:#b3b3b3;stop-opacity:0;" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient4820-8"
+       id="linearGradient4877"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-0.99999991,0,0,1,1.9278016e-7,8.6250608e-6)"
+       x1="57.672455"
+       y1="-62.449249"
+       x2="70.101028"
+       y2="-62.449249" />
+  </defs>
+  <metadata
+     id="metadata3819">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>https://commons.wikimedia.org/wiki/File:Vlaggenmast.svg</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(-52.682463,278.76818)"
+     id="layer1">
+    <rect
+       transform="scale(-1,1)"
+       y="-246.7948"
+       x="-69.660851"
+       height="282.6911"
+       width="11.548219"
+       id="rect4252"
+       style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#808080;stroke-width:0.880353;stroke-opacity:1" />
+    <rect
+       y="-252.86374"
+       x="57.272087"
+       height="14.724794"
+       width="12.957026"
+       id="rect4762"
+       style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#808080;stroke-width:1.04869;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       id="path4770"
+       d="m 70.335157,-252.82493 -13.25826,0.0631 c -4.85731,-6.26191 -5.26459,-12.04703 -0.69448,-17.29886 3.25189,-3.55848 4.65572,-5.97969 5.74525,-8.20749 h 1.51523"
+       style="fill:#ffff00;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       id="path4770-8"
+       d="m 60.874855,-252.76177 9.21764,0.0631 c 4.85731,-6.26191 5.26459,-12.04703 0.69448,-17.29886 -3.25188,-3.55848 -4.65571,-5.97969 -5.74524,-8.20749 h -1.51523"
+       style="fill:#ffff00;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       id="path4792-9"
+       d="m 70.66236,-247.69878 c 3.49997,0.16933 3.97567,5.76938 0.0631,6.566 l 4.11829,5.69543"
+       style="fill:none;stroke:#808080;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1" />
+    <rect
+       transform="scale(-1,1)"
+       y="-237.84375"
+       x="-60.21875"
+       height="272.375"
+       width="2.000001"
+       id="rect4912"
+       style="opacity:0.5;fill:#4d4d4d;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       id="path4790"
+       d="m 75.591041,0.9348085 c -1.60342,0.74821 -2.52621,2.4344 -5.35714,5.49107 -1.01725,6.5148505 -7.09796,12.2093105 -13.03571,15.1785705 -2.23812,0.84746 -1.41887,5.32278 2.5,3.21429 9.42609,-4.97995 13.93345,-14.04094 10.62762,-17.8345505"
+       style="fill:#ffff00;stroke:#808080;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       style="opacity:0.5;fill:#4d4d4d;stroke-width:0.990987"
+       d="m 61.070045,-252.86368 c -0.06242,-0.42913 -3.797958,-6e-5 -3.797958,-6e-5 -4.85731,-6.14953 -5.148198,-11.89286 -0.578088,-17.05045 3.25189,-3.49462 4.65572,-5.87238 5.74525,-8.0602 0,0 -7.112229,15.48599 -1.369204,25.11071 z"
+       id="path851" />
+    <path
+       d="m 57.709053,-252.48918 h 4.367262 v 13.8466 h -4.367262 z"
+       style="opacity:0.5;fill:#4d4d4d;fill-opacity:0.991453"
+       id="rect853" />
+  </g>
+</svg>

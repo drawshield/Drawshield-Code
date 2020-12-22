@@ -515,7 +515,6 @@
       array ( 'gauntlets?', 'armour/gauntlet' ),
       array ( '(es)?carbuncles?', 'armour/carbuncle' ),
       array ( 'charbocles?', 'armour/carbuncle' ),
-      array ( 'banners?', 'armour/banner' ),
       array ( '(bou?teroll|scabbard)s?', 'armour/scabbard' ),
       //tack
       array ( '?spur (rouelle|rowel|molet)s?', 'tack/rowel' ),
@@ -951,6 +950,8 @@
       array ( '(seat|chair)s?', 'furnishings/chair' ),
       array ( 'gonfann?ons?', 'furnishings/gonfannon' ),
       array ( '(flag|fanion)s?', 'furnishings/flag' ),
+      array ( 'flagpoles?', 'furnishings/flagpole' ),
+      array ( 'banners?', 'furnishings/banner' ),
       array ( 'wool[ps]acks?', 'furnishings/wool-pack' ),
       array ( 'wool [ps]acks?', 'furnishings/wool-pack' ),
       array ( '(garlands?|chaplets?|wreaths?)', 'furnishings/garland' ),

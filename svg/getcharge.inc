@@ -105,6 +105,7 @@ function featuresThatAreAlsoMods($node) {
   $retval = '';
   static $features = array (
     'head',
+    'claw',
     'leg',
     'jessant',
       'leathered',

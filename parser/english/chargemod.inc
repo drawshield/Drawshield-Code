@@ -19,6 +19,7 @@
       'winged', 'natural', 'nude', 'fouled',
       array ( 'spread', 'displayed' ),
       array ( 'heads? of ?(a|an|the)', 'head' ),
+      array ( 'claws? of ?(a|an|the)', 'claw' ),
       array ( 'legs? of ?(a|an|the)', 'leg' ),
       array ( 'closed?', 'closed' ),
       array ( '(dem[yi]|half)', 'demi' ),
@@ -57,6 +58,7 @@
      'shelled', 'tied', 'headed', // NOT heads
      'drooping', 'voided', 'beaded', 'ringed', 'masonry',
      array ( 'leather(s|ed)?', 'leathered'),
+     array ( 'pole(s|d)?', 'pole'),
      array ( 'in profile', 'in-profile'),
      array ( 'turned up', 'turned-up'),
      array ( 'tool(s|ed)?', 'tools'),
