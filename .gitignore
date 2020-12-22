@@ -7,3 +7,5 @@ drawshield-code.code-workspace
 
 /tests/responses/
 /tests/results.txt
+*.swp
+*.swo
