@@ -156,7 +156,7 @@ function get_placement(DOMElement $item) {
     else
       $chief = $xpath->evaluate("boolean(../../../ordinary[@keyterm='chief'] or ../ordinary[@keyterm='chief'])", $item);
     $pos = getModifiersByTypeAsArray($item,'position'); // THIS IS AN array, go through each one, appending * bounding_box as many times as required.
-    $arr = getModifierByType($item,'arrangement', true);
+    $arr = getModifierByType($item,'arrangement', false);
     $cadency = existModifierWithKeyterm($item,'difference');
     $entire = existModifierWithKeyterm($item,'entire');
     $number = $item->getAttribute('number');
@@ -467,7 +467,7 @@ function get_placement(DOMElement $item) {
           case 'insinbase': $adjustment = ($cadency) ? '600,800,200,200' : '500,750,350,400'; break;
           case 'inmidbase': $adjustment = ($cadency) ? '400,800,200,200' : '300,750,400,400'; break;
           case 'inabyss': $adjustment = ($cadency) ? '400,850,200,200' : '300,800,380,380'; break;
-          case 'inhonpoint': $adjustment = ($cadency) ? '400,250,200,200' : '200,50,500,500'; break;
+          case 'inhonpoint': $adjustment = ($cadency) ? '400,250,200,200' : '250,50,500,500'; break;
           case 'infesspoint': $adjustment = ($cadency) ? '400,400,200,200' : '200,200,600,600'; break;
           case 'innombril': $adjustment = ($cadency) ? '400,800,200,200' : '300,600,400,400'; break;
           case 'insinflank': $adjustment = ($cadency) ? '800,500,200,200' : '700,375,300,300'; break;
