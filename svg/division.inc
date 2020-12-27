@@ -79,43 +79,46 @@ function makeDivision( DOMElement $node, $counter = false ) {
   }
   $div2 = $division['div2'];
   $div3 = '';
-//  if ( array_key_exists('div3', $division)) {
-//    if ( $counter) {
-////      $messages->addMessage('blazon', 'Cannot counterchange 3 tinctures' . getLine($node) );
-////      return '<g />';
-//        $div3 = apply_tincture( $tinctures[1], $division['div3'] );
-//    }
-//  } else {
-//    $div3 = '';
-//  }
+  $div4 = '';
   // Safety checks
   if (!isset($tinctures[1]) || !is_object($tinctures[1]->firstChild)) $tinctures[1] = createColourNode('gray');
-  // if (!isset($tinctures[2])) $tinctures[2] = createColourNode('argent');
   // set the main colours
   if ($tinctures[1]->firstChild->nodeName == 'counterchanged') {
     $div1 = '';
     $div2 = apply_tincture( $tinctures[1], $div2 );
-  } elseif ( $counter ) {
-    $div1 = apply_tincture ( $tinctures[2], '<rect x="0" y="0" width="1000" height="' . $height . '" />',
+  } elseif ( $counter ) { // shuffle tinctures around for counterchanging, (depends how many colours in total)
+      
+    if ( isset($division['div4']) && isset($tinctures[4]) ) { // 4 colours, swap alternate pairs
+        $div1 = apply_tincture ( $tinctures[3], '<rect x="0" y="0" width="1000" height="' . $height . '" />',
                               '1000,' . $height );
-      if ( isset($division['div3']) && isset($tinctures[3]) ) {
-          $div2 = apply_tincture( $tinctures[3], $div2 );
-          $div3 = apply_tincture( $tinctures[1], $division['div3'] );
-      } else {
-          $div2 = apply_tincture( $tinctures[1], $div2 );
-      }
-  } else {
+        $div2 = apply_tincture( $tinctures[4], $div2 );
+        $div3 = apply_tincture( $tinctures[1], $division['div3'] );
+        $div4 = apply_tincture( $tinctures[2], $division['div4'] );
+    } elseif ( isset($division['div3']) && isset($tinctures[3]) ) { // 3 colours, move up 1
+        $div1 = apply_tincture ( $tinctures[2], '<rect x="0" y="0" width="1000" height="' . $height . '" />',
+                              '1000,' . $height );
+        $div2 = apply_tincture( $tinctures[3], $div2 );
+        $div3 = apply_tincture( $tinctures[1], $division['div3'] );
+    } else {  // 2 colours, just swap them.
+        $div1 = apply_tincture ( $tinctures[2], '<rect x="0" y="0" width="1000" height="' . $height . '" />',
+                              '1000,' . $height );
+        $div2 = apply_tincture( $tinctures[1], $div2 );
+    }
+  } else { // Not counterchanged, colour as normal
     $div1 = apply_tincture ( $tinctures[1], '<rect x="-100" y="-100" width="1200" height="' . ($height + 200) . '" />',
                               '1000,' . $height );
     $div2 = apply_tincture( $tinctures[2], $div2 );
     if ( isset($division['div3']) && isset($tinctures[3]) ) {
       $div3 = apply_tincture( $tinctures[3], $division['div3'] );
     }
+    if ( isset($division['div4']) && isset($tinctures[4]) ) {
+      $div4 = apply_tincture( $tinctures[4], $division['div4'] );
+    }
   }
-  $retval = "$div1\n$div2\n$div3\n";
+  $retval = "$div1\n$div2\n$div3\n$div4\n";
 
-  if ( array_key_exists('div4',$division) ) { // Add any extra embellishment
-    $retval .= $division['div4'];
+  if ( array_key_exists('divx',$division) ) { // Add any extra embellishment
+    $retval .= $division['divx'];
   }
   return '<g stroke-width="2" stroke="' . rgb('division-stroke') . '" >' . $retval . '</g>';
 }

@@ -26,7 +26,7 @@ if ( existModifierWithKeyterm($node, 'riveted')) {
     $rivetList .= '<g transform="translate(' . $i . ',465)">' . $rivet . '</g>';
     $rivetList .= '<g transform="translate(' . $i . ',515)">' . $rivet . '</g>';
   }
-  $division['div4'] = $rivetList;
+  $division['divx'] = $rivetList;
 }
 
 

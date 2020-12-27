@@ -33,6 +33,6 @@ if ( existModifierWithKeyterm($node, 'riveted')) {
     $rivetList .= '<g transform="translate(' . (930 - $i) . ',' . (495 + $ref) . ')">' . $rivet . '</g>';
     $ref -= 80;
   }
-  $division['div4'] = $rivetList;
+  $division['divx'] = $rivetList;
 }
 

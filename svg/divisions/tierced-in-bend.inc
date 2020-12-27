@@ -39,7 +39,7 @@ if ( existModifierWithKeyterm($node, 'riveted')) {
       $rivetList .= '<g transform="translate(' . ($i - $offset) . ',' . ($i + 350) . ')">' . $rivet . '</g>';
     }
   }
-  $division['div4'] = $rivetList;
+  $division['divx'] = $rivetList;
 }
 
 
