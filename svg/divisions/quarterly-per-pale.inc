@@ -14,3 +14,9 @@
 
 $division['div2'] = createBody( choose_fit( array ( 'NC' => 'O1Q1X500Y500C800e600g800a600   O1Q1X500Y500G600a600c600e600',  'CH' => 'O1Q1X500Y700c600e600g600a600   O1Q1X500Y700g600a600c600e600' )),
   getModifierByType($node,'linetype', false),60);
+$division['div4'] = createBody( choose_fit( array ( 'NC' => 'O1Q1X500Y{%50}C{%80}e600g{%80}a600',  
+                'CH' => 'O1Q1X500Y700C600e600g600a600' )),
+  getModifierByType($node,'linetype', false),60);
+$division['div3'] = createBody( choose_fit( array ( 'NC' => 'O1Q1X500Y{%50}a600C{%80}e600G{%80}',  
+                'CH' => 'O1Q1X500Y700a600c600e600G600' )),
+  getModifierByType($node,'linetype', false),60);
