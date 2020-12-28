@@ -51,6 +51,7 @@ class metadataMap {
         'gonfannon' => array ('superposition' => '50,35,50'),
             'hurt' => array ('superposition' => '50,50,85', 'hflex' => 1, 'wflex' => 1),
             'lozenge' => array ( 'hflex' => 1.6, 'wflex' => 1.6 ),
+            'skull' => array ( 'fimbriate' => true ),
             'orange' => array ('superposition' => '50,50,85', 'hflex' => 1, 'wflex' => 1),
             'pellet' => array ('superposition' => '50,50,85', 'hflex' => 1, 'wflex' => 1),
             'pillar' => array ('orient_to_ordinary' => -1),
