@@ -49,7 +49,7 @@
    $this->patterns[languageDB::CHARGE_FEATURES] = array ( 
      'crossed', 'fructed', 'beaked', 'hooped', 'plumed', 'wreathed',
      'seeded', 'barbed', 'gemmed', 'acorned', 'laced',
-     'muzzled', 'allume', 'tusked', 'spotted',
+     'muzzled', 'allume', 'tusked', 'spotted', 'corded',
      'chausse', 'crined', 'cuff', 'nooked', 'hooded',
      'habited', 'lined', 'maned', 'nerved', 'striped',
      'penned', 'stringed', 'aulned', 'stemmed',

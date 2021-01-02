@@ -953,6 +953,7 @@
       array ( '(flag|fanion)s?', 'furnishings/flag' ),
       array ( 'flagpoles?', 'furnishings/flagpole' ),
       array ( 'banners?', 'furnishings/banner' ),
+      array ( 'bags? of madder', 'furnishings/bag-of-madder' ),
       array ( 'wool[ps]acks?', 'furnishings/wool-pack' ),
       array ( 'wool [ps]acks?', 'furnishings/wool-pack' ),
       array ( '(garlands?|chaplets?|wreaths?)', 'furnishings/garland' ),
