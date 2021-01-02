@@ -914,7 +914,7 @@ class languageDB extends lexicon
                 array('(each|every|all|both) ?of ?the', 'each'),
             ),
             self::LOCATION => array(
-                array('chief ?point', 'chief'),
+                array('chief !throughout ?point', 'chief'),
                 array('base ?point', 'base'),
                 array('honou?r point', 'honpoint'),
                 array('fesse? point', 'fesspoint'),
