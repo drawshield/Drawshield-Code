@@ -52,6 +52,12 @@ function rgb($keyterm) {
         if ($options['useTartanColours'] == true ) {
           $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/tartan.txt','tartan'));
         }        
+        if ($options['effect'] == 'inked') { // override strokes
+            $tinctures['charge-stroke']='#000000';
+            $tinctures['ordinary-stroke']='#000000';
+            $tinctures['pattern-stroke']='#000000';
+            $tinctures['division-stroke']='#000000';
+        }
 		$loaded = true;
     }
 

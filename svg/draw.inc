@@ -297,6 +297,9 @@ function draw() {
   if (!array_key_exists('nomask', $options)) {
     $clipShield = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />' );
     $body = '<g mask="url(#' . $clipShield . ')">' . $body . '</g>';
+    if ( $options['effect'] == 'inked')
+      $body .=  '<path fill="none" stroke="#000000" stroke-width="4" d="' . $outline . '" />';
+      //$body .=  '<path fill="none" stroke="' . rgb('division-stroke') . '" stroke-width="4" d="' . $outline . '" />';
     // Add effects (if any) and Clip to shield shape
     if ($options['effect'] == 'shiny') { // this only gets applied to the escutcheon
       $body .= add_def();

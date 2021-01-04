@@ -94,6 +94,107 @@ function getEffect($item, $width=1000, $height=1200) {
     </filter>',
           'filter' => ' filter="url(#fabric)" ',
       ),
+    'inked' => array (
+        'viewbox' => array(0,0,0,0),
+        'credits' => 'Filter by Inkscape: old postcard + oil painting',
+        'defs' => '
+    <filter
+       id="inkdrawn"
+       style="color-interpolation-filters:sRGB;">
+      <feFlood
+         id="feFlood6288"
+         result="result1"
+         flood-opacity="0.1"
+         flood-color="rgb(255,204,0)" />
+      <feBlend
+         id="feBlend6290"
+         result="result6"
+         mode="darken"
+         in2="SourceGraphic" />
+      <feComposite
+         id="feComposite6292"
+         k2="1"
+         operator="arithmetic"
+         result="result8"
+         in2="result6" />
+      <feColorMatrix
+         id="feColorMatrix6294"
+         in="result8"
+         type="hueRotate"
+         values="0"
+         result="result5" />
+      <feConvolveMatrix
+         id="feConvolveMatrix6296"
+         targetY="1"
+         targetX="1"
+         in="result5"
+         divisor="1"
+         kernelMatrix="0 -1 0 -1 5.05 -1 0 -1 0 "
+         order="3 3"
+         result="result1" />
+      <feGaussianBlur
+         id="feGaussianBlur6298"
+         in="result1"
+         stdDeviation="2"
+         result="result2" />
+      <feComponentTransfer
+         id="feComponentTransfer6306"
+         in="result2"
+         result="result4">
+        <feFuncR
+           id="feFuncR6300"
+           tableValues="0 0 0.2 0.2 0.4 0.4 0.6 0.6 0.8 0.8 1 1 1"
+           type="table" />
+        <feFuncG
+           id="feFuncG6302"
+           tableValues="0 0 0.2 0.2 0.4 0.4 0.6 0.6 0.8 0.8 1 1 1"
+           type="table" />
+        <feFuncB
+           id="feFuncB6304"
+           tableValues="0 0 0.2 0.2 0.4 0.4 0.6 0.6 0.8 0.8 1 1 1"
+           type="table" />
+      </feComponentTransfer>
+      <feBlend
+         id="feBlend6308"
+         in="result4"
+         mode="darken"
+         result="result3"
+         in2="result1" />
+      <feColorMatrix
+         id="feColorMatrix6310"
+         result="result7"
+         values="1"
+         type="saturate" />
+      <feComposite
+         id="feComposite6312"
+         result="fbSourceGraphic"
+         operator="in"
+         in2="SourceGraphic" />
+      <feColorMatrix
+         id="feColorMatrix7079"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         in="fbSourceGraphic"
+         result="fbSourceGraphicAlpha" />
+      <feMorphology
+         result="result0"
+         in="fbSourceGraphic"
+         radius="2"
+         id="feMorphology7081" />
+      <feTurbulence
+         result="result91"
+         baseFrequency="0.078"
+         numOctaves="1"
+         id="feTurbulence7083" />
+      <feDisplacementMap
+         yChannelSelector="G"
+         xChannelSelector="R"
+         scale="6.3"
+         in="result0"
+         id="feDisplacementMap7085"
+         in2="result91" />
+    </filter>',
+          'filter' => ' filter="url(#inkdrawn)" ',
+    ),
     'stonework' => array (
       'viewbox' => array(0, 0, 0, 0),
       'credits' => 'Filters by Inkscape: emboss + roughen inside + rough paper',
