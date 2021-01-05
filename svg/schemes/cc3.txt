@@ -1,0 +1,24 @@
+or=#FFF0BD 
+azure=#685FFF 
+vert=#109C4E 
+gules=#E00000 
+argent=#F0F0F0 
+sable=#343434
+purpure=#AF00FF
+// additional tinctures    
+murrey=#A84A79
+sanguine=#8E0603
+carnation=#FEC3AC
+brunatre=#6D421F
+cendree=#7F7F7F
+rose=#FF00FF
+bis=#FFF0BD
+celestial-azure=#ACF1FF
+senois=#A84800
+tenne=#A3632E
+orange=#FF6700
+//Other decorative parts
+charge-stroke=#000000
+ordinary-stroke=#000000
+pattern-stroke=#000000
+division-stroke=#000000
