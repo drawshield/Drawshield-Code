@@ -1,21 +1,10 @@
-<?php
-/**
- * Drawshield PHP Source File
- *
- * Description...
- *
- * @author Karl R. Wilcox <karl@karlwilcox.com>
- * @copyright Karl R. Wilcox 2014
- * @license http://www.apache.org/licenses/LICENSE-2.0
- * Date: 06/09/14
- * Time: 19:56
- */
+<?php 
 
 $lineType = getModifierByType($node, 'linetype', false);
 if ( $lineType == 'nebuly' or $lineType == 'potenty' )
-  $div_data = array ( 'CH' =>'X-100Y700A1016c508e1016g608' , 'NC' =>'X-100Y600A1200c608e1200g608' );
+  $div_data = array ( 'CH' =>'X-100Y700A1016c508e1016g608' , 'NC' =>'X-100Y{%50}A1200c608e1200g608' );
 else
-  $div_data = array ( 'CH' =>'X-8Y700A1016c508e1016g508' , 'NC' =>'X-8Y500A1016c708e1016g708' );
+  $div_data = array ( 'CH' =>'X-8Y700A1016c508e1016g508' , 'NC' =>'X-8Y{%50}A1016c708e1016g708' );
 
 $division['div2'] = createBody(choose_fit($div_data), $lineType, 60);
 

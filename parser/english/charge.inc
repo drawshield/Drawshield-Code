@@ -87,6 +87,8 @@
       array ( 'mounted knights?', 'human/knight-mounted'),
       array ( 'knights? mounted', 'human/knight-mounted'),
       array ( 'archers?', 'human/archer'),
+      array ( 't(oo|ee)th', 'human/molar'), // default tooth
+      array ( 'molars?', 'human/molar'), 
       array ( 'bowm[ae]n', 'human/archer'),
       array ( 'falconers?', 'human/falconer' ),
       array ( 'wildm[ae]n?', 'human/savage' ),

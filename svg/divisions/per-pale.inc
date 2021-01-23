@@ -1,17 +1,5 @@
 <?php
-/**
- * Drawshield PHP Source File
- *
- * Description...
- *
- * @author Karl R. Wilcox <karl@karlwilcox.com>
- * @copyright Karl R. Wilcox 2014
- * @license http://www.apache.org/licenses/LICENSE-2.0
- * Date: 06/09/14
- * Time: 19:56
- */
-
-$div_data = array ( 'NC' => 'X500Y0a500c1200e500G1200', 'CH' => 'X500Y0a500c1300e500G1100g200' );
+$div_data = array ( 'NC' => 'X500Y0a500c{%100*}e500G{%100*}', 'CH' => 'X500Y0a500c1300e500G1100g200' );
 $division['div2'] = createBody(choose_fit($div_data), getModifierByType($node, 'linetype', false), 60);
 
 if ( existModifierWithKeyterm($node, 'riveted')) {

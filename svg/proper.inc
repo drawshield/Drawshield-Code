@@ -25,6 +25,9 @@ class properColour {
 
   public function __construct()
   {
+      global $options;
+
+      $hatching = $options['palette'] == 'hatching';
 
     self::$brown = rgb('brunatre');
     self::$red = rgb('gules');
@@ -57,7 +60,9 @@ class properColour {
       'badges' => self::$red, // dummy entry
     );
     self::$charges = array(
+        'peacock' => $hatching ? self::$blue : '#0020c2',
         'garland' => self::$green,
+        'butterfly' => self::$blue,
       'flames' => self::$yellow,
       'polar-bear' => self::$white, // overrides bear group
       'camelopard' => self::$orange,
@@ -66,6 +71,7 @@ class properColour {
       'auk' => self::$white,
       'parachute' => self::$white,
       'skull' => self::$white,
+      'molar' => self::$white,
       'bone' => self::$white,
       'snowflake' => self::$white,
       'crystal' => self::$white,
@@ -91,6 +97,7 @@ class properColour {
       'rabbit' => self::$brown,
       'log' => self::$brown,
       'fox' => self::$red,
+      'barber-pole' => self::$red,
       'hammer' => self::$black,
       'hare' => self::$brown,
       'harp' => self::$brown,

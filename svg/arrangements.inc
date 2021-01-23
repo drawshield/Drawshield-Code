@@ -308,7 +308,6 @@ function get_placement(DOMElement $item) {
         break;
       case 'incross': $placement = 'x/x/x/500,200,200,200:250,500:750,500:500,800/500,200,200,200:250,500:500,500:750,500:500,800/x'; break;
       case 'insaltire':
-        // TODO If only one thing in saltire, is there a single charge adjacent?
         $placement = 'x/500,500,750,750,45,0,1:500,500,750,750,-45,0,0/x/200,200,200,200,-45:800,200,,,45:200,800,,,45:800,800,,,-45/200,200,200,200,-45:800,200,,,45:500,500,,,0:200,800,,,45:800,800,,,-45/x';
         break;
       case 'inpile': $placement = 'x/x/250,250,300,300:500,600:750,250/x/x/250,200,200,200:500:750:333.33,500:666.67:500,800'; break;
