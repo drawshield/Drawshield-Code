@@ -317,7 +317,7 @@ function makeOrdinary( DOMElement &$node ) {
         $messages->addMessage('warning','Cannot apply compony to ' . $subtype);
     } else {
       $body2_spec = subPercent(choose_fit($ord_data['body2']));
-      if ( $body2_spec{0} != '<' ) {
+      if ( $body2_spec[0] != '<' ) {
         $linetype = null;
         // Is there a linetype here also
         if ( ($div2ord = getModifierNodeWithKeyterm($node,'div2ord')) != null )

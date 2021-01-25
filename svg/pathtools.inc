@@ -86,7 +86,7 @@ function getNumbers ( $argString ) {
   $component = 'man';
   
   for ( $count = 0; $count < $length; $count++ ) {
-    $char = $argString{$count};
+    $char = $argString[$count];
     if ( $char == 'e' ) {
       $component = 'exp';
       $messages->addMessage('warning',"Found exponent");
