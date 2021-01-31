@@ -3,7 +3,7 @@
 
 function readTinctureFile($filename, $prefix) {
     $retval = array();
-    foreach (file($filename) as $line) {
+    foreach (file(__dir__."/../".$filename) as $line) {
         // remove comments
         if (($comment = strpos($line, '//')) !== false) {
             $line = substr($line, 0, $comment);
