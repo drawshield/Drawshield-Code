@@ -149,7 +149,7 @@ function read_chg_file(DOMElement $node) {
       return $chg_data;
     }
     list($group,$chargeKey) = $splitArray;
-    $folder = "svg/charges/$group/";
+    $folder = __dir__ . "/charges/$group/";
     if ( ($title = $node->getAttribute('tokens')) == null ) $title = $chargeKey;
 
     // look for .inc file
@@ -160,7 +160,7 @@ function read_chg_file(DOMElement $node) {
     // TODO check if this still happens???
       // It is possible that some node attributes have been changed, so re-read them
     list($group,$chargeKey) = preg_split(':/:', $node->getAttribute('keyterm'));
-    $folder = "svg/charges/$group/";
+    $folder = __dir__ . "/charges/$group/";
 
     if ( !array_key_exists('svgCode',$chg_data) and !array_key_exists('file',$chg_data) ) {
       // Have to treat head feature as a mod as well sometimes, + other things
@@ -215,7 +215,7 @@ function getProper ( $group, $charge, $feature = null, $errorIfNone = true ) {
   static $proper = null;
 
   if ( !$proper ) {
-    include 'svg/proper.inc';
+    include __dir__ . '/proper.inc';
     $proper = new properColour();
   }
 
@@ -226,7 +226,7 @@ function getMetadata ( $group, $charge ) {
   static $metadata = null;
 
   if ( !$metadata ) {
-    include 'svg/metadata.inc';
+    include __dir__ . '/metadata.inc';
     $metadata = new metadataMap();
   }
 
@@ -373,7 +373,7 @@ function getCharge( DOMElement $node ) {
     // Special handling for charges "crowned"
     if ( $crown = getModifierNodeWithKeyterm($node, 'crowned', false) ) {
       $crownType = $crown->getAttribute('value');
-      $extras['crowned'] = getSvgFragment(file_get_contents('svg/components/crown-as-worn/' . $crownType . '.svg'), array(), 'crown', $crownType, array());
+      $extras['crowned'] = getSvgFragment(file_get_contents(__dir__ . '/components/crown-as-worn/' . $crownType . '.svg'), array(), 'crown', $crownType, array());
       if ($crown->hasChildNodes()) {
         $feat_cols['crowned'] = get_rgb(getTinctureNode($crown));
       }
