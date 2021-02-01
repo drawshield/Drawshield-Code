@@ -98,9 +98,15 @@ function inOrle($number, $chief = false) {
 }
 
 function inAnnulo($number) {
+  global $options;
   $cx = 500;
-  $cy = 500;
-  $radius = 400;
+  if ( $options['shape'] == 'flag' )
+    $cy = $options["flagHeight"] / 2;
+  else
+    $cy = 500;
+
+  $radius = min($cy, $cx) * 0.8;
+
   $angle = 0;
   $turn = 360 / $number;
   // Make size dependent on circumference && number
