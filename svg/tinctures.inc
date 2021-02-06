@@ -3,7 +3,7 @@
 
 function readTinctureFile($filename, $prefix) {
     $retval = array();
-    foreach (file(__dir__."/../".$filename) as $line) {
+    foreach (file($filename) as $line) {
         // remove comments
         if (($comment = strpos($line, '//')) !== false) {
             $line = substr($line, 0, $comment);
@@ -35,22 +35,22 @@ function rgb($keyterm) {
 
     if (!$loaded) {
         // always read in the drawshield colours as these are the defaults for any not given
-        $tinctures = readTinctureFile('svg/schemes/drawshield.txt','heraldic');
+        $tinctures = readTinctureFile(__dir__ . '/schemes/drawshield.txt','heraldic');
         $palette = $options['palette'];
-        if (!file_exists('svg/schemes/' . $palette . '.txt')) {
+        if (!file_exists(__dir__ . '/schemes/' . $palette . '.txt')) {
           $messages->addMessage('internal', "unknown colour scheme - $palette" );
           $palette = 'drawshield';
         } else {
-            $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/' . $palette . '.txt', 'heraldic'));
+            $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/' . $palette . '.txt', 'heraldic'));
         }
         if ($options['useWebColours'] == true || $options['shape'] == 'flag') {
-          $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/web.txt','web'));
+          $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/web.txt','web'));
         }
         if ($options['useWarhammerColours'] == true || $options['shape'] == 'pauldron') {
-          $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/warhammer.txt', 'wh'));
+          $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/warhammer.txt', 'wh'));
         }
         if ($options['useTartanColours'] == true ) {
-          $tinctures = array_merge($tinctures, readTinctureFile('svg/schemes/tartan.txt','tartan'));
+          $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/tartan.txt','tartan'));
         }        
         if ($options['effect'] == 'inked') { // override strokes
             $tinctures['charge-stroke']='#000000';
