@@ -98,9 +98,10 @@ function inOrle($number, $chief = false) {
 }
 
 function inAnnulo($number) {
+  global $aspect_ratio;
   global $options;
   $cx = 500;
-  if ( $options['shape'] == 'flag' )
+  if ( $options['shape'] == 'flag' && $aspect_ratio != "square" )
     $cy = $options["flagHeight"] / 2;
   else
     $cy = 500;
