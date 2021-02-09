@@ -137,6 +137,7 @@ function makequartered5( $children, $this_AR ) {
   $halfHeight = $halfHeights[$this_AR];
   if ( $options["shape"] == "flag" )
   {
+    $child_Scales = array ( '0.387,0.417', '0.387,0.417', '0.387,0.417', '0.5843,0.417', '0.5843,0.417' );
     $halfHeight *= get_size_multiplier()[1];
   }
   $translates = array (
@@ -253,7 +254,10 @@ function makequartered6( $children, $this_AR ) {
   }
   $halfHeight = $halfHeights[$this_AR];
   if ( $options["shape"] == "flag" )
+  {
     $halfHeight *= get_size_multiplier()[1];
+    $child_Scales = array ( '0.387,0.417', '0.387,0.417', '0.387,0.417', '0.667,0.5', '0.667,0.5', '0.667,0.5' );
+  }
   $translates = array (
     " translate($xShift0,0) ",
     " translate($xShift1,0) ",
@@ -307,8 +311,10 @@ function makequartered8( $children, $this_AR ) {
     $messages->addMessage ( 'internal', 'Unknown aspect ratio for quartered ' . $this_AR );
   }
   $thirdHeight = $thirdHeights[$this_AR];
-  if ( $options["shape"] == "flag" )
-    $thirdHeight *= get_size_multiplier()[1];
+  if ( $options["shape"] == "flag" ) {
+    $thirdHeight = get_size()[1] / 3;
+    $child_Scales = array ( '0.3333,0.3333', '0.3333,0.3333', '0.3333,0.3333', '0.3333,0.3333', '0.3333,0.3333', '0.3333,0.3333', '0.5,0.3333', '0.5,0.3333' );
+  }
   $twoThirds = $thirdHeight * 2;
   $translates = array (
     " translate($xShift0,0) ",
