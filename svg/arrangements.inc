@@ -1,5 +1,8 @@
 <?php 
-   
+
+require_once('size.inc');
+
+
    // modify a (1000x1000) placement to fit within the given bounding box
    // TODO Deal with any arrangment that extends below 1000 (is this only in pale...?)
    function adjustPlacement($placement,$boundingBox, $scaleSize = true) {
@@ -98,13 +101,9 @@ function inOrle($number, $chief = false) {
 }
 
 function inAnnulo($number) {
-  global $aspect_ratio;
-  global $options;
-  $cx = 500;
-  if ( $options['shape'] == 'flag' && $aspect_ratio != "square" )
-    $cy = $options["flagHeight"] / 2;
-  else
-    $cy = 500;
+  list($sx, $sy) = get_size();
+  $cx = $sx / 2;
+  $cy = $sy / 2;
 
   $radius = min($cy, $cx) * 0.8;
 
