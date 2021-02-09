@@ -1,4 +1,5 @@
 <?php
+require_once('size.inc');
 
 function make1Quarter($child, $xScale, $yScale, $xOffset, $yOffset, $aspect ) {
 	global $scale_factor;
@@ -18,7 +19,6 @@ function make1Quarter($child, $xScale, $yScale, $xOffset, $yOffset, $aspect ) {
 
 function makeQuartered($across, $down, $children) {
     global $options;
-
     $saveShape = $options['shape'];
     $options['shape'] = 'quarter';
 	$retval = '';
@@ -50,6 +50,7 @@ function makequarters( DOMNodeList $children, $child_ARs, $child_Scales, $transl
    */
   $saveShape = $options['shape'];
   $options['shape'] = 'quarter';
+  $scale_factor_old = $scale_factor;
   foreach ( $children as $kid ) {
     $index = $kid->getAttribute('index');
     region('push','Q' . $index ); // Can lose this soon I hope...
@@ -66,23 +67,37 @@ function makequarters( DOMNodeList $children, $child_ARs, $child_Scales, $transl
     $clipdef = add_def( 'clipPath', $clippath );
     $scale = $child_Scales[$index];
     $scale_factor = $scale; // Set the global (used in furs and treatments)
-    if ( $scale != '' ) $scale = " scale($scale) ";
+    if ( $scale != '' && $scale_factor_old == 1)
+    {
+        if ( strpos($scale, ",") !== false )
+            list($xscale, $yscale) = explode(",", $scale);
+        else
+            $xscale = $yscale = $scale;
+        $yscale *= get_size_multiplier()[1];
+        $svg_scale = " scale($xscale,$yscale) ";
+    }
+    else
+    {
+        $svg_scale = " scale($scale) ";
+    }
+
     $scaleTrans = '';
     if ( $xOffset != 0 ) $xOffset = "-$xOffset";
     if ( $yOffset != 0 ) $yOffset = "-$yOffset";
     if ( $xOffset or $yOffset ) $scaleTrans = " translate($xOffset, $yOffset) ";
     $translate = $translates[$index];
-    $transform = " transform=\" $translate $scale $scaleTrans \" ";
+    $transform = " transform=\" $translate $svg_scale $scaleTrans \" ";
     $retval .= '<g clip-path="url(#' . $clipdef . ')" ' . $transform . ' >' . makeshield( $kid, $child_AR ) . "</g>\n";
     region('pop');
   }
+  $scale_factor = $scale_factor_old;
   $options['shape'] = $saveShape;
   $retval .= add_def();
   return $retval;
 }
 
 function makequartered5( $children, $this_AR ) {
-  global $halfHeights, $messages;
+  global $halfHeights, $messages, $options;
 
   // Default values ( for 10:12 )
   $child_ARs = array ( '10:14', '10:14', '10:14', '10:14', '10:14' );
@@ -120,6 +135,10 @@ function makequartered5( $children, $this_AR ) {
     $messages->addMessage ( 'internal', 'Unknown aspect ratio for quartered ' . $this_AR );
   }
   $halfHeight = $halfHeights[$this_AR];
+  if ( $options["shape"] == "flag" )
+  {
+    $halfHeight *= get_size_multiplier()[1];
+  }
   $translates = array (
     " translate(0,0) ",
     " translate(333,0) ",
@@ -132,8 +151,7 @@ function makequartered5( $children, $this_AR ) {
 }
 
 function makequartered4( DOMNodeList $children, $this_AR ) {
-  global $halfHeights, $messages;
-
+  global $halfHeights, $messages, $options;
   // Default values ( for 10:12 )
   $child_ARs = array ( '10:10', '10:10', '10:14', '10:14' );
   $child_Scales = array ( '0.5', '0.5', '0.5843', '0.5843' );
@@ -171,7 +189,17 @@ function makequartered4( DOMNodeList $children, $this_AR ) {
   default:
     $messages->addMessage ( 'internal', 'Unknown aspect ratio for quartered ' . $this_AR );
   }
+
   $halfHeight = $halfHeights[$this_AR];
+  if ( $options["shape"] == "flag" )
+  {
+    $child_ARs = array ( '10:10', '10:10', '10:10', '10:10' );
+    $child_Scales = array ( '0.5', '0.5', '0.5', '0.5' );
+    $xShift = 0;
+    $halfHeight *= get_size_multiplier()[1];
+  }
+
+
   $translates = array (
     " translate($xShift,0) ",
     " translate(500,0) ",
@@ -183,7 +211,7 @@ function makequartered4( DOMNodeList $children, $this_AR ) {
 }
 
 function makequartered6( $children, $this_AR ) {
-  global $halfHeights, $messages;
+  global $halfHeights, $messages, $options;
   $xShift0 = 0; // fudge until finished properly
   $xShift1 = 333;
   $xShift2 = 666;
@@ -224,6 +252,8 @@ function makequartered6( $children, $this_AR ) {
     $messages->addMessage ( 'internal', 'Unknown aspect ratio for quartered ' . $this_AR );
   }
   $halfHeight = $halfHeights[$this_AR];
+  if ( $options["shape"] == "flag" )
+    $halfHeight *= get_size_multiplier()[1];
   $translates = array (
     " translate($xShift0,0) ",
     " translate($xShift1,0) ",
@@ -238,7 +268,7 @@ function makequartered6( $children, $this_AR ) {
 }
 
 function makequartered8( $children, $this_AR ) {
-  global $thirdHeights, $messages;
+  global $thirdHeights, $messages, $options;
   
   switch ( $this_AR ) {
   case '10:12':
@@ -277,6 +307,8 @@ function makequartered8( $children, $this_AR ) {
     $messages->addMessage ( 'internal', 'Unknown aspect ratio for quartered ' . $this_AR );
   }
   $thirdHeight = $thirdHeights[$this_AR];
+  if ( $options["shape"] == "flag" )
+    $thirdHeight *= get_size_multiplier()[1];
   $twoThirds = $thirdHeight * 2;
   $translates = array (
     " translate($xShift0,0) ",
