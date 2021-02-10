@@ -152,6 +152,7 @@ function rewriteAttributes($attributes, $strokeCol, $class = '', $fillSet = fals
     }
   }
   if ( $class != '' ) $retval .= ' class="' . trim($class) . '" ';
+
   return $retval;
 }
 
@@ -193,6 +194,11 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
   }
   //-------------------------------------------------------------------------
   $fillSet = false;
+  $visible = true;
+  if ( isset($element["style"]) && strpos($element["style"], "display:none") !== false )
+    $visible = false;
+
+
   $item = "<$name ";
     if ($id == 'textPath') $item .= ' id="textPath" '; // need this for the motto
     if ($id != null && substr($id, 0, 4) != 'path' && substr($id, 0, 5) != 'group') {
@@ -205,6 +211,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
       $class = "feature $id";
       $item .= ' fill="' . $featureColours[$id] . '" ';
       $fillSet = true;
+      $visible = true;
     } elseif (array_key_exists('proper', $featureColours)) { // use proper for features not otherwise coloured
       if ($foundProper = getProper($chargeGroup, $chargeName, $id, false))
         $item .= ' fill="' . $foundProper . '" '; // only set colour if known, otherwise use parent colour
@@ -214,6 +221,10 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
       $fillSet = true;
     }
   }
+
+  if ( !$visible )
+    return '';
+
   $item .= rewriteAttributes($element->attributes(), $strokeCol, $class, $fillSet);
   $subitem = '';
   if ( $name == 'text' or $name == 'tspan' or $name == 'textPath' ) {
