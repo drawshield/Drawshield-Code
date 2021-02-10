@@ -59,6 +59,7 @@
           array ( 'chevrons? couped', 'geometric/chevron' ),
           array ( 'saltires? couped', 'cross/saltire' ),
           array ( 'quarter notes?', 'music/note-quarter' ),
+          array ( 'cross(es)? and a half', 'cross/torakrzy' ),
           array ( 'cross(es)? fitch(y|ee) doubled?', 'quadrate/cross-fitchy-double' ),
           array ( 'cross(es)? fitch(y|ee)', 'quadrate/cross-fitchy' ),
         );
@@ -78,6 +79,7 @@
       array ( 'rosary cross(es)?', 'cross/paternoster' ),
       array ( 'portate cross(es)?', 'cross/portate' ),
       array ( '(latin|long|straight|passion) cross(es)?', 'cross/long' ),
+      array ( 'torakrzy ?cross', 'cross/torakrzy' ),
       array ( 'couped saltires?', 'cross/saltire' ),
      array ( 'celtic cross(es)?', 'cross/celtic' ),
      array ( 'russian cross(es)?', 'cross/russian' ),
@@ -454,6 +456,7 @@
       array ( 'killer whales?', 'fish/killer-whale' ),
       array ( 'orcas?', 'fish/killer-whale' ),
       array ( 'dolphins?', 'fish/dolphin' ), 
+      array ( '(zander|walleye)s?', 'fish/walleye' ),
       // sea life
       array ( 'e?scallops? ?shells?', 'sealife/scallop' ),
       array ( 'clams? ?shells?', 'sealife/scallop' ),
