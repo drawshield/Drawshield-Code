@@ -1,5 +1,3 @@
 <?php
 
-if (existModifierWithKeyTerm($node, 'inannulo', true)) {
-    $charge['file'] = 'chinese-dragon-in-annulo.svg';
-}
+chargeInAnnulo($node, $charge, "chinese-dragon", __dir__);

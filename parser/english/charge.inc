@@ -144,7 +144,7 @@
       array ( '(rabbit|coney)s?', 'game/rabbit' ),
       array ( 'conies', 'game/rabbit' ),
       array ( '(hare|leveret)s?', 'game/hare' ),
-      array ( 'harts?', 'game/hart' ),
+      array ( 'harts?', 'game/stag' ),
       array ( 'does?', 'game/doe' ),
       array ( 'antlers?', 'game/stag-horn'),
       array ( 'stags? horns?', 'game/stag-horn'),
