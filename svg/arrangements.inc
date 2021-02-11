@@ -553,8 +553,15 @@ function get_placement(DOMElement $item) {
       $placement = calcPlace($item,'w',$boundingBox);
        if ( $group == "quadrate" ) {
           $placement = adjustplacement($placement,'100,66,800,800');
-       } else {
-          $placement = adjustplacement($placement,'300,300,400,400');
+       }
+       else {
+          list($total_w, $total_h) = get_size();
+          $correct_h = get_size_multiplier()[1];
+          $x = $total_w / 2 - 200;
+          $y = $total_h / 2 - 200;
+          $w = $total_w * 0.4;
+          $h = $w / $correct_h;
+          $placement = adjustplacement($placement,"$x,$y,$w,$h");
       }
     }
     
@@ -580,7 +587,7 @@ function get_placement(DOMElement $item) {
       $placement = adjustDistance($item, $placement);
     }
 
-   
+
     return $placement;
 }
 
