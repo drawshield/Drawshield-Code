@@ -155,7 +155,7 @@ function getModifierNodeWithKeyterm(DOMElement $node, $keyterm, $markUsed = true
    */
   foreach ( $node->childNodes as $child ) {
     if ( $child->nodeName == 'modifier' and $child->getAttribute('keyterm') == $keyterm ) {
-      if ( $markUsed ) $child->setAttribute('value','used');
+      if ( $markUsed ) setRenderInfo($child, 'used');
       return $child;
     }
   }

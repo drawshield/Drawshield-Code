@@ -162,7 +162,7 @@ function get_placement(DOMElement $item) {
     else
       $chief = $xpath->evaluate("boolean(../../../ordinary[@keyterm='chief'] or ../ordinary[@keyterm='chief'])", $item);
     $pos = getModifiersByTypeAsArray($item,'position'); // THIS IS AN array, go through each one, appending * bounding_box as many times as required.
-    $arr = getModifierByType($item,'arrangement', false);
+    $arr = getModifierByType($item,'arrangement', true);
     $cadency = existModifierWithKeyterm($item,'difference');
     $entire = existModifierWithKeyterm($item,'entire');
     $number = $item->getAttribute('number');

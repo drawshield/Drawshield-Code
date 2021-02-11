@@ -204,6 +204,37 @@ function makeCharge($charge, $placements = null) {
   return $retval;
 }
 
+function chargeInAnnulo($node, &$charge, $base_name, $dir)
+{
+    static $attitudes = [];
+
+    if ( !isset($attitudes[$base_name]) )
+    {
+        $attitudes[$base_name] = [];
+        $re_base = preg_quote($base_name);
+        foreach ( scandir($dir) as $fname )
+        {
+            $matches = [];
+            if ( preg_match('/^'.$re_base.'-([a-z]+)\.svg/', $fname, $matches) )
+                $attitudes[$base_name][] = $matches[1];
+        }
+    }
+
+    $in_annulo = getModifierNodeWithKeyterm($node, "inannulo", false);
+
+    if ( $in_annulo )
+    {
+        foreach ( $attitudes[$base_name] as $att )
+        {
+            if ( existModifierWithKeyTerm($node, $att, false) )
+                return;
+        }
+
+        setRenderInfo($in_annulo, 'used');
+        $charge['file'] = "$base_name-in-annulo.svg";
+    }
+}
+
 // WARNINGS Accepted
 function includeCharge( DOMElement $node, $includeFile, $charge, $folder, $chargeKey ) {
   global $messages, $options;
