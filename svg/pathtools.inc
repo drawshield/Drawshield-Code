@@ -7,7 +7,7 @@ function subHeightPercent( $match ) {
   $percent = substr($match[0],2,strlen($match[0])-3);
   $len = strlen($percent);
   // Flags
-  if ($percent[$len-1] == '*') { // On a shield, use full height
+  if ($percent[$len-1] == '*' ) { // On a shield, use full height
     $height = 1200;
     $percent = substr($percent, 0, $len - 1); // strip flag
   }
