@@ -122,6 +122,13 @@
         }
     }
 
+    function table_check($title, $slug)
+    {
+        echo "<label for='$slug'><span>$title</span>";
+        echo "<input id='$slug' type='checkbox' name='$slug' />";
+        echo "</label>";
+    }
+
     function table_cat($title, $type, $items)
     {
         echo "<div class='style-head'>$title</div>";
@@ -170,6 +177,14 @@
         ["Stamp", "stamp"],
         ["Flag", "flag"],
     ]);
+
+    echo "<div class='style-head'>Additional Tinctures</div>";
+    echo "<div class='style'>";
+    table_check("Named Web", "webcols");
+    table_check("Warhammer", "whcols");
+    table_check("Tartan", "tartancols");
+    echo "</div>";
+
     echo "</div>";
 ?>
 

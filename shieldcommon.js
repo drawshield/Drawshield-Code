@@ -256,6 +256,10 @@ function getOptions() {
         options += '&printable=1';
         printable = true;
     }
+
+    for ( var misc of ["webcols", "whcols", "tartancols"] )
+        if ( document.getElementById(misc).checked )
+            options += "&" + misc;
     return options;
 }
 
