@@ -154,8 +154,8 @@ function makequartered5( $children, $this_AR ) {
 function makequartered4( DOMNodeList $children, $this_AR ) {
   global $halfHeights, $messages, $options;
   // Default values ( for 10:12 )
-  $child_ARs = array ( '10:14', '10:14', '10:14', '10:14' );
-  $child_Scales = array ( '0.6,0.417', '0.6,0.417', '0.5843', '0.5843' );
+  $child_ARs = array ( '10:12', '10:12', '10:12', '10:12' );
+  $child_Scales = array ( '0.5,0.417', '0.5,0.417', '0.5,0.5843', '0.5,0.5843' );
   $xShift = 0;
 
   switch ( $this_AR ) {
