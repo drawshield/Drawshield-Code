@@ -229,6 +229,17 @@ function getOptions() {
     }
     options += '&palette=' + radioValue;
 
+    radioValue = 'drawshield';
+    radioButtons = document.getElementsByName('shape');
+    for ( i = 0; i < radioButtons.length; i++ ) {
+        option = radioButtons[i];
+        if ( option.checked ) {
+            radioValue = option.value;
+            break;
+        }
+    }
+    options += '&shape=' + radioValue;
+
     radioValue = 'shiny';
     radioButtons = document.getElementsByName('visual');
     for ( i = 0; i < radioButtons.length; i++ ) {
