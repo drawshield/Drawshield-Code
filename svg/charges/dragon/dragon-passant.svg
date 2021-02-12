@@ -199,7 +199,10 @@
    d="m 162.133,197.016 c -3.976,1.304 -8.628,0.319 -12.05,-2.55 -0.115,-4.572 1.851,-8.658 5.3,-11.02 2.066,3.512 4.999,6.382 8.42,8.24 0.269,2.057 -0.342,4.006 -1.67,5.33 z"
    style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:2.16px" />
             </g>
-        </g>
+        </g><path
+   style="clip-rule:evenodd;display:none;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3;stroke-dasharray:none"
+   d="m 196.85368,178.49444 c -14.96138,1.51556 -21.9386,9.17441 -25.4584,16.78839 8.32521,-5.02866 28.30394,-14.12527 38.03401,-9.39319 6.71069,-8.5713 -12.57561,-7.3952 -12.57561,-7.3952 z"
+   id="pizzled" />
         <g
    id="bellied-1"
    style="display:inline;fill:#ffff00;fill-opacity:1">

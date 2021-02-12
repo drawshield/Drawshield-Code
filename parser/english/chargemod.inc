@@ -145,6 +145,7 @@
      array ( 'flames? issu(ing|ant) ?from ?each', 'inflamed' ),
      array ( '(crack|hold)ing ?an? ?ore nuts?', 'holding-nut'),
       array ( 'bellied', 'bellied' ),
+      array ( 'pizzled', 'pizzled' ),
 );
       $this->patterns[languageDB::BUNDLE] = array (
         array ( '(sheaf|sheave|bundle|bunche?)s? ?of', 'bundle' ),

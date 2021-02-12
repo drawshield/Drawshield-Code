@@ -200,7 +200,10 @@
                     </g>
                 </g>
             </g>
-        </g>
+        </g><path
+   style="clip-rule:evenodd;display:none;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3;stroke-dasharray:none"
+   d="m 169.56665,241.79794 c -13.67157,-8.62919 -30.37754,-5.77815 -38.40219,-1.66355 10.38042,1.25806 31.30328,9.26777 36.40636,19.7208 11.36054,-2.81108 1.99583,-18.05725 1.99583,-18.05725 z"
+   id="pizzled" />
         <g
    id="group31-49"
    transform="translate(123.442)">

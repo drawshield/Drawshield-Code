@@ -1,5 +1,4 @@
-<!DOCTYPE
-    html
+<!DOCTYPE html
     PUBLIC
     "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN"
     "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
@@ -9,6 +8,39 @@
     <title>
       Drawshield Demonstration
     </title>
+    <style>
+    .style label {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+    }
+    .style {
+        display: grid;
+        grid-template-columns: auto auto auto auto auto;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        padding: 1em;
+    }
+    .style:last-child {
+        border-bottom: 1px solid black;
+    }
+    .style img {
+        width: 80px;
+        height: 80px;
+    }
+    .style-head {
+        padding-top: 1em;
+        font-weight: bold;
+        text-align: center;
+        border-top: 1px solid black;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+    }
+    .style-container {
+        margin: 1em 0;
+        width: 600px;
+    }
+    </style>
   </head>
 
   <body style="background:#AAAAAA;">
@@ -68,55 +100,95 @@
           </td>
         </tr>
       </table>
+<?php
+
+    $image_url = "https://drawshield.net/create/img";
+
+    function table_items($type, $items)
+    {
+        global $image_url;
+        $first = true;
+        foreach ( $items as $item )
+        {
+            $slug = $item[1];
+            echo "<label for='$type$slug'><span>{$item[0]}</span>";
+            echo "<img src='$image_url/$slug.png' />";
+            echo "<input id='$type$slug' type='radio' name='$type' value='$slug' ";
+            if ( $first )
+                echo "checked='checked'";
+            echo " />";
+            echo "</label>";
+            $first = false;
+        }
+    }
+
+    function table_check($title, $slug)
+    {
+        echo "<label for='$slug'><span>$title</span>";
+        echo "<input id='$slug' type='checkbox' name='$slug' />";
+        echo "</label>";
+    }
+
+    function table_cat($title, $type, $items)
+    {
+        echo "<div class='style-head'>$title</div>";
+        echo "<div class='style'>";
+        table_items($type, $items);
+        echo "</div>";
+    }
+
+    echo "<div class='style-container'>";
+    table_cat("Visual Appearance", "visual", [
+        ["Shiny &amp; New", "shiny"],
+        ["Plain &amp; Flat", "plain"],
+        ["Painted Stone", "stonework"],
+        ["Plastercast", "plaster"],
+        ["Ink on Vellum", "vellum"],
+        ["Ripples", "ripples"],
+        ["Fabric", "fabric"],
+        ["Inked", "inked"],
+    ]);
+    table_cat("Colour Scheme", "scheme", [
+        ["Drawshield", "drawshield"],
+        ["Wikipedia", "wikipedia"],
+        ["Emoji", "emoji"],
+        ["Wappenwiki", "wappenwiki"],
+        ["CC3", "cc3"],
+        ["Hatching", "hatching"],
+        ["Outline", "outline"],
+    ]);
+
+    table_cat("Shape", "shape", [
+        ["Heater", "heater"],
+        ["French", "french"],
+        ["Oval", "oval"],
+        ["Lozenge", "lozenge"],
+        ["Square", "square"],
+        ["Italian", "italian"],
+        ["Swiss", "swiss"],
+        ["English", "english"],
+        ["German", "german"],
+        ["Polish", "polish"],
+        ["Spanish", "spanish"],
+        ["Circle", "circle"],
+        ["SCA", "sca"],
+        ["Swatch", "sca"],
+        ["Pauldron", "pauldron"],
+        ["Stamp", "stamp"],
+        ["Flag", "flag"],
+    ]);
+
+    echo "<div class='style-head'>Additional Tinctures</div>";
+    echo "<div class='style'>";
+    table_check("Named Web", "webcols");
+    table_check("Warhammer", "whcols");
+    table_check("Tartan", "tartancols");
+    echo "</div>";
+
+    echo "</div>";
+?>
+
       <table style="border-collapse: collapse;">
-        <tr>
-          <th colspan="5" style="border-top:1px solid #000000;border-left:1px solid #000000;border-right:1px solid #000000;border-bottom:0px none;">Visual Appearance</th>
-        </tr>
-        <tr>
-          <td style="text-align:center;width:100px;border-left:1px solid #000000;">Shiny &amp; New</td>
-          <td style="text-align:center;width:100px;">Plain &amp; Flat</td>
-          <td style="text-align:center;width:100px;">Painted Stone</td>
-          <td style="text-align:center;width:100px;">Plastercast</td>
-          <td style="text-align:center;width:100px;border-right:1px solid #000000;">Ink on Vellum</td>
-        </tr>
-        <tr>
-          <td style="text-align:center;border-left:1px solid #000000;"><img src="thumbs/effects/shiny.png" height="80px" width="80px" onclick="document.getElementById('visual1').checked='checked';" /></td>
-          <td style="text-align:center;"><img src="thumbs/effects/plain.png" height="80px" width="80px" onclick="document.getElementById('visual2').checked='checked';" /></td>
-          <td style="text-align:center;"><img src="thumbs/effects/stonework.png" height="80px" width="80px" onclick="document.getElementById('visual3').checked='checked';" /></td>
-          <td style="text-align:center;"><img src="thumbs/effects/plaster.png" height="80px" width="80px" onclick="document.getElementById('visual4').checked='checked';" /></td>
-          <td style="text-align:center;border-right:1px solid #000000;"><img src="thumbs/effects/vellum.png" height="80px" width="80px" onclick="document.getElementById('visual5').checked='checked';" /></td>
-        </tr>
-        <tr>
-          <td style="text-align:center;border-left:1px solid #000000;"><input id="visual1" type="radio" name="visual" value="shiny"  checked="checked" /></td>
-          <td style="text-align:center;"><input id="visual2" type="radio" name="visual" value="none"/></td>
-          <td style="text-align:center;"><input id="visual3" type="radio" name="visual" value="stonework" /></td>
-          <td style="text-align:center;"><input id="visual4" type="radio" name="visual" value="plaster" /></td>
-          <td style="text-align:center;border-right:1px solid #000000;"><input id="visual5" type="radio" name="visual" value="vellum" /></td>
-        </tr>
-        <tr>
-          <th colspan="5" style="border-top:1px solid #000000;border-left:1px solid #000000;border-right:1px solid #000000;border-bottom:0px none;">Colour Scheme</th>
-        </tr>
-        <tr>
-          <td style="text-align:center;border-left:1px solid #000000;">Drawshield</td>
-          <td style="text-align:center;">Pastel</td>
-          <td style="text-align:center;">Vibrant</td>
-          <td style="text-align:center;">Copic</td>
-          <td style="text-align:center;border-right:1px solid #000000;">Outlines</td>
-        </tr>
-        <tr>
-          <td style="text-align:center;border-left:1px solid #000000;"><img src="thumbs/scheme/drawshield.png" height="80px" width="80px" /></td>
-          <td style="text-align:center;"><img src="thumbs/scheme/pastel.png" height="80px" width="80px" /></td>
-          <td style="text-align:center;"><img src="thumbs/scheme/vibrant.png" height="80px" width="80px" /></td>
-          <td style="text-align:center;"><img src="thumbs/scheme/copic.png" height="80px" width="80px" /></td>
-          <td style="text-align:center;border-right:1px solid #000000;"><img src="thumbs/scheme/outline.png" height="80px" width="80px" /></td>
-        </tr>
-        <tr>
-          <td style="text-align:center;border-left:1px solid #000000;"><input type="radio" name="scheme" value="drawshield" checked="checked" /></td>
-          <td style="text-align:center;"><input type="radio" name="scheme" value="pastel" /></td>
-          <td style="text-align:center;"><input type="radio" name="scheme" value="vibrant" /></td>
-          <td style="text-align:center;"><input type="radio" name="scheme" value="copic" /></td>
-          <td style="text-align:center;border-right:1px solid #000000;"><input type="radio" name="scheme" value="outline" /></td>
-        </tr>
         <tr>
           <th colspan="3" style="border-top:1px solid #000000;border-left:1px solid #000000;border-right:1px solid #000000;border-bottom:0px none;">&quot;Save to file&quot; Format</th>
           <th colspan="2" style="border-top:1px solid #000000;border-left:1px solid #000000;border-right:1px solid #000000;border-bottom:0px none;">Make Printable</th>
