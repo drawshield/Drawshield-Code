@@ -59,13 +59,13 @@
          transform="rotate(-70,40.831896,175.22811)"
          id="group49-2"><title
            id="title10">Sheet.49</title><g
-           style="stroke:#808080;fill:#0000ff"
+           style="fill:#0000ff;stroke:#808080"
            v:groupContext="group"
            v:mID="50"
            transform="rotate(50,123.76982,214.28899)"
            id="armed-2"><title
              id="title12">Sheet.50</title><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              transform="rotate(80,39.295165,254.52619)"
              v:groupContext="shape"
              v:mID="51"
@@ -75,7 +75,7 @@
                id="path16"
                class="st1"
                d="m 8.41,259.46 a 10.7313,10.7313 -180 0 0 -3.42,19.55 8.39806,8.39806 0 0 1 5.62,-13.2 3.36573,3.36573 -180 0 0 -2.2,-6.35 z" /></g><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              transform="rotate(68,34.713644,256.60317)"
              v:groupContext="shape"
              v:mID="52"
@@ -85,7 +85,7 @@
                id="path21"
                class="st1"
                d="m 8.41,259.46 a 10.7313,10.7313 -180 0 0 -3.42,19.55 8.39806,8.39806 0 0 1 5.62,-13.2 3.36573,3.36573 -180 0 0 -2.2,-6.35 z" /></g><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              transform="rotate(60,27.25895,260.38789)"
              v:groupContext="shape"
              v:mID="53"
@@ -95,7 +95,7 @@
                id="path26"
                class="st1"
                d="m 8.41,259.46 a 10.7313,10.7313 -180 0 0 -3.42,19.55 8.39806,8.39806 0 0 1 5.62,-13.2 3.36573,3.36573 -180 0 0 -2.2,-6.35 z" /></g><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              transform="rotate(45,20.008472,268.83868)"
              v:groupContext="shape"
              v:mID="54"
@@ -105,7 +105,7 @@
                id="path31"
                class="st1"
                d="m 8.41,259.46 a 10.7313,10.7313 -180 0 0 -3.42,19.55 8.39806,8.39806 0 0 1 5.62,-13.2 3.36573,3.36573 -180 0 0 -2.2,-6.35 z" /></g><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              transform="rotate(30,6.667577,285.26743)"
              v:groupContext="shape"
              v:mID="55"
@@ -197,13 +197,13 @@
                id="path77"
                class="st1"
                d="M 8.01,260.4 A 10.2164,10.2164 -180 0 0 4.75,279.01 7.99514,7.99514 0 0 1 10.1,266.45 3.20424,3.20424 -180 0 0 8.01,260.4 Z" /></g></g><g
-           style="stroke:#808080;fill:#0000ff"
+           style="fill:#0000ff;stroke:#808080"
            id="armed-3"
            transform="translate(0,-10.4258)"
            v:mID="6"
            v:groupContext="group"><title
              id="title1234">Sheet.6</title><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              id="g1240"
              v:mID="7"
              v:groupContext="shape"
@@ -213,7 +213,7 @@
                d="M 8.01,260.4 A 10.2164,10.2164 -180 0 0 4.75,279.01 7.99514,7.99514 0 0 1 10.1,266.45 3.20424,3.20424 -180 0 0 8.01,260.4 Z"
                class="st1"
                id="path1238" /></g><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              id="g1246"
              v:mID="8"
              v:groupContext="shape"
@@ -223,7 +223,7 @@
                d="M 8.01,260.4 A 10.2164,10.2164 -180 0 0 4.75,279.01 7.99514,7.99514 0 0 1 10.1,266.45 3.20424,3.20424 -180 0 0 8.01,260.4 Z"
                class="st1"
                id="path1244" /></g><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              id="g1252"
              v:mID="9"
              v:groupContext="shape"
@@ -233,7 +233,7 @@
                d="M 8.01,260.4 A 10.2164,10.2164 -180 0 0 4.75,279.01 7.99514,7.99514 0 0 1 10.1,266.45 3.20424,3.20424 -180 0 0 8.01,260.4 Z"
                class="st1"
                id="path1250" /></g><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              id="g1258"
              v:mID="10"
              v:groupContext="shape"
@@ -243,7 +243,7 @@
                d="M 8.01,260.4 A 10.2164,10.2164 -180 0 0 4.75,279.01 7.99514,7.99514 0 0 1 10.1,266.45 3.20424,3.20424 -180 0 0 8.01,260.4 Z"
                class="st1"
                id="path1256" /></g><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              id="g1264"
              v:mID="11"
              v:groupContext="shape"
@@ -279,7 +279,7 @@
          id="shape5-36"><title
            id="title92">Lion Rampant.5</title><path
            style="fill:#ffff00;stroke:#808080;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"
-           id="path94"
+           id="pizzled"
            class="st4"
            d="M 31.79,277.23 A 8.2598,8.2598 0 0 1 19.3,267.01 49.9308,49.9308 -180 0 0 0,246.57 a 29.8535,29.8535 0 0 1 29.52,11.36 9.89384,9.89384 3.18 1 1 2.27,19.3 z" /></g><g
          style="stroke:#808080"
@@ -292,15 +292,15 @@
            id="path99"
            class="st2"
            d="m 267.31,139.92 a 25.1268,25.1268 -117.03 0 0 27.57,10.12 15.6257,15.6257 -135 0 0 -2.25,-27 44.3057,44.3057 -45 0 0 -26.44,-7.87 87.4057,87.4057 -180 0 0 -97.88,-31.5 97.8623,97.8623 0 0 1 -65.25,-2.25 54.0483,54.0483 -180 0 0 -64.68,1.12 39.2752,39.2752 0 0 1 -20.82,3.38 50.8971,50.8971 -180 0 0 -3.93,73.12 110.038,110.038 -180 0 0 52.59,27.94 31.9451,31.9451 -82.45 0 0 4.5,3.88 412.954,412.954 54.83 0 1 -2.82,42.38 601.628,601.628 -114.86 0 0 -31.83,9.93 11.5036,11.5036 -117.64 0 0 -7.97,16.11 37.3714,37.3714 -118.63 0 0 35.79,19.62 21.6057,21.6057 -118.63 0 0 9.49,-9.32 14.6425,14.6425 0 0 1 10.18,-3.96 25.2446,25.2446 -180 0 0 19.3,-16.41 l 6.93,-27.03 a 202.646,202.646 -180 0 0 8.92,12.12 228.298,228.298 -180 0 0 0.35,-25.14 l 7.59,14.8 a 274.865,274.865 -31.72 0 0 1.16,-40.17 47.8988,47.8988 -93.69 0 0 -47.25,-46.12 47.1524,47.1524 78.84 0 1 47.25,45 93.8165,93.8165 0 0 1 87.87,-5.23 61.7713,61.7605 148.1 0 1 -25.99,-40.9 61.4005,61.4005 -62.32 0 0 45.8,49.95 443.785,443.707 120 0 1 19.8,40.32 646.545,646.432 -60 0 0 -24.29,26.35 12.3624,12.3603 -60 0 0 1.24,19.27 40.1615,40.1545 -60 0 0 43.84,-0.97 23.2188,23.2147 -60 0 0 3.83,-13.77 15.7357,15.733 120 0 1 7.35,-9.16 27.1294,27.1247 -60 0 0 9.13,-25.64 l -8.06,-28.88 a 217.775,217.737 -60 0 0 14.81,6.49 245.343,245.3 -60 0 0 -13.18,-23.59 l 15.01,9.7 a 199.3,199.265 -60 0 0 -16.72,-27.25 882.805,882.651 -70.06 0 0 -20.94,-19.44 z" /></g><g
-         style="stroke:#808080;fill:#0000ff"
+         style="fill:#0000ff;stroke:#808080"
          id="armed-1"><g
-           style="stroke:#808080;fill:#0000ff"
+           style="fill:#0000ff;stroke:#808080"
            id="group59-40"
            transform="rotate(-70,80.128855,174.77968)"
            v:mID="59"
            v:groupContext="group"><title
              id="title102">Sheet.59</title><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              id="shape60-41"
              v:mID="60"
              v:groupContext="shape"
@@ -310,7 +310,7 @@
                d="m 8.41,259.46 a 10.7313,10.7313 -180 0 0 -3.42,19.55 8.39806,8.39806 0 0 1 5.62,-13.2 3.36573,3.36573 -180 0 0 -2.2,-6.35 z"
                class="st1"
                id="path106" /></g><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              id="shape61-43"
              v:mID="61"
              v:groupContext="shape"
@@ -320,7 +320,7 @@
                d="m 8.41,259.46 a 10.7313,10.7313 -180 0 0 -3.42,19.55 8.39806,8.39806 0 0 1 5.62,-13.2 3.36573,3.36573 -180 0 0 -2.2,-6.35 z"
                class="st1"
                id="path111" /></g><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              id="shape62-45"
              v:mID="62"
              v:groupContext="shape"
@@ -330,7 +330,7 @@
                d="m 8.41,259.46 a 10.7313,10.7313 -180 0 0 -3.42,19.55 8.39806,8.39806 0 0 1 5.62,-13.2 3.36573,3.36573 -180 0 0 -2.2,-6.35 z"
                class="st1"
                id="path116" /></g><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              id="shape63-47"
              v:mID="63"
              v:groupContext="shape"
@@ -340,7 +340,7 @@
                d="m 8.41,259.46 a 10.7313,10.7313 -180 0 0 -3.42,19.55 8.39806,8.39806 0 0 1 5.62,-13.2 3.36573,3.36573 -180 0 0 -2.2,-6.35 z"
                class="st1"
                id="path121" /></g><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              id="shape64-49"
              v:mID="64"
              v:groupContext="shape"
@@ -350,13 +350,13 @@
                d="m 8.41,259.46 a 10.7313,10.7313 -180 0 0 -3.42,19.55 8.39806,8.39806 0 0 1 5.62,-13.2 3.36573,3.36573 -180 0 0 -2.2,-6.35 z"
                class="st1"
                id="path126" /></g></g><g
-           style="stroke:#808080;fill:#0000ff"
+           style="fill:#0000ff;stroke:#808080"
            id="group18-51"
            transform="rotate(-100,183.09879,121.05577)"
            v:mID="18"
            v:groupContext="group"><title
              id="title130">Sheet.18</title><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              id="shape19-52"
              v:mID="19"
              v:groupContext="shape"
@@ -366,7 +366,7 @@
                d="m 8.41,259.46 a 10.7313,10.7313 -180 0 0 -3.42,19.55 8.39806,8.39806 0 0 1 5.62,-13.2 3.36573,3.36573 -180 0 0 -2.2,-6.35 z"
                class="st1"
                id="path134" /></g><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              id="shape20-54"
              v:mID="20"
              v:groupContext="shape"
@@ -376,7 +376,7 @@
                d="m 8.41,259.46 a 10.7313,10.7313 -180 0 0 -3.42,19.55 8.39806,8.39806 0 0 1 5.62,-13.2 3.36573,3.36573 -180 0 0 -2.2,-6.35 z"
                class="st1"
                id="path139" /></g><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              id="shape21-56"
              v:mID="21"
              v:groupContext="shape"
@@ -386,7 +386,7 @@
                d="m 8.41,259.46 a 10.7313,10.7313 -180 0 0 -3.42,19.55 8.39806,8.39806 0 0 1 5.62,-13.2 3.36573,3.36573 -180 0 0 -2.2,-6.35 z"
                class="st1"
                id="path144" /></g><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              id="shape22-58"
              v:mID="22"
              v:groupContext="shape"
@@ -396,7 +396,7 @@
                d="m 8.41,259.46 a 10.7313,10.7313 -180 0 0 -3.42,19.55 8.39806,8.39806 0 0 1 5.62,-13.2 3.36573,3.36573 -180 0 0 -2.2,-6.35 z"
                class="st1"
                id="path149" /></g><g
-             style="stroke:#808080;fill:#0000ff"
+             style="fill:#0000ff;stroke:#808080"
              id="shape23-60"
              v:mID="23"
              v:groupContext="shape"
@@ -698,7 +698,7 @@
                      id="title308">Circle.109</title><v:userDefs><v:ud
                        v:val="VT0(14):26"
                        v:nameU="visVersion" /></v:userDefs><path
-                     style="fill:#000000;stroke:#666666;stroke-width:0.23999999;stroke-linecap:round;stroke-linejoin:round"
+                     style="fill:#000000;stroke:#666666;stroke-width:0.24;stroke-linecap:round;stroke-linejoin:round"
                      id="path310"
                      class="st10"
                      d="m 0,276.12 a 2.88744,2.88744 0 0 1 5.77,0 2.88744,2.88744 0 0 1 -5.77,0 z" /></g><g
@@ -710,7 +710,7 @@
                      id="title313">Circle.17</title><v:userDefs><v:ud
                        v:val="VT0(14):26"
                        v:nameU="visVersion" /></v:userDefs><path
-                     style="fill:#ffffff;stroke:#666666;stroke-width:0.23999999;stroke-linecap:round;stroke-linejoin:round"
+                     style="fill:#ffffff;stroke:#666666;stroke-width:0.24;stroke-linecap:round;stroke-linejoin:round"
                      id="path315"
                      class="st11"
                      d="m 0,278.09 a 0.916395,0.916395 0 0 1 1.83279,0 0.916395,0.916395 0 1 1 -1.83279,0 z" /></g></g></g></g><g
@@ -778,7 +778,7 @@
                      id="title345">Circle.109</title><v:userDefs><v:ud
                        v:val="VT0(14):26"
                        v:nameU="visVersion" /></v:userDefs><path
-                     style="fill:#000000;stroke:#666666;stroke-width:0.23999999;stroke-linecap:round;stroke-linejoin:round"
+                     style="fill:#000000;stroke:#666666;stroke-width:0.24;stroke-linecap:round;stroke-linejoin:round"
                      id="path347"
                      class="st10"
                      d="m 0,276.12 a 2.88744,2.88744 0 0 1 5.77,0 2.88744,2.88744 0 0 1 -5.77,0 z" /></g><g
@@ -790,7 +790,7 @@
                      id="title350">Circle.17</title><v:userDefs><v:ud
                        v:val="VT0(14):26"
                        v:nameU="visVersion" /></v:userDefs><path
-                     style="fill:#ffffff;stroke:#666666;stroke-width:0.23999999;stroke-linecap:round;stroke-linejoin:round"
+                     style="fill:#ffffff;stroke:#666666;stroke-width:0.24;stroke-linecap:round;stroke-linejoin:round"
                      id="path352"
                      class="st11"
                      d="m 0,278.09 a 0.916395,0.916395 0 0 1 1.83279,0 0.916395,0.916395 0 1 1 -1.83279,0 z" /></g></g></g></g><g
