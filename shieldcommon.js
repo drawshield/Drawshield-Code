@@ -25,6 +25,7 @@ var shieldtarget = 'shieldimg';
 var captiontarget = 'shieldcaption';
 var tabletarget = 'resultstable';
 var targetURL = '/include/shield/drawshield.php?';
+var messageCallback;
 
 function updateHTML() {
 	if ( xmlhttp.readyState == 4 && xmlhttp.status == 200 ) {
@@ -71,6 +72,9 @@ function updateSVG() {
        shieldImg.appendChild(svg);
     }
     asText = xmlhttp.responseText;
+    if (messageCallback != null) {
+        messageCallback(xmlhttp.responseXML);
+    }
   }
 }
 
@@ -83,10 +87,11 @@ function requestHTML(url,id) {
   xmlhttp.send(null);
 }
 
-function requestSVG(url,id) {
+function requestSVG(url,id,messageFunc) {
   if (!xmlhttp) xmlhttp = new XMLHttpRequest();
   if (!xmlhttp) return;
   useId = id;
+  messageCallback = messageFunc;
   xmlhttp.open('GET', url, true);
   xmlhttp.onreadystatechange = updateSVG;
   xmlhttp.send(null);
@@ -270,7 +275,7 @@ function randomifempty(){
   }
 }
 
-function drawshield(url) {
+function drawshield(url, messageFunc) {
     if ( typeof(url) !== 'undefined' && url != null ) targetURL = url;
     // Isolate blazon
    shieldCaption = document.getElementById(captiontarget);
@@ -291,7 +296,7 @@ function drawshield(url) {
       window.open(targetURL + myOpts + '&size=1000' + '&blazon=' + encodeURIComponent(blazonText),'_blank');
     else
       requestSVG(targetURL + getOptions() + '&size=' + shieldsize + '&rand=' + Math.random()
-	   + '&blazon=' + encodeURIComponent(blazonText),shieldtarget);
+	   + '&blazon=' + encodeURIComponent(blazonText),shieldtarget, messageFunc);
 }
 
 function dbquery() {
@@ -319,4 +324,45 @@ function setupshield(target, size, initial, caption) {
     if (typeof(size) !== 'undefined' && size > 0) shieldsize = size;
     shieldCaption.firstChild.nodeValue = initial;
     requestSVG('/include/shield/drawshield.php?&highlight=1&size=' + shieldsize + initBlazon, shieldtarget);
+}
+
+
+function displayMessages(svg) {
+    var messageText = '';
+    var remarksHTML = '';
+    var creditHTML = '';
+    var linksHTML = '';
+    var errorList = svg.getElementsByTagNameNS('*','message');
+    for ( var i = 0; i < errorList.length; i++ ) {
+        var errorItem = errorList[i];
+        var category = errorItem.getAttribute('category');
+        var context = errorItem.getAttribute('context');
+        var lineno = errorItem.getAttribute('linerange');
+        var message = errorItem.innerHTML;
+        if (context != null) message += ' ' + context;
+        if (lineno != null) message += ' near ' + lineno;
+        switch (category) {
+            case 'licence':
+                creditHTML += "<li>" + message + "</li>";
+                break;
+            case 'links':
+                linksHTML += "<li>" + message + "</li>";
+                break;
+            case'warning':
+                remarksHTML += "<li><span style='color:orange;'>WARNING</span> " + message + "</li>";
+            break;
+            case'legal':
+                remarksHTML += "<li>" + message + "</li>";
+                break;
+            case'alert':
+                remarksHTML += "<li><span style='color:red'>" + message + "</span></li>";
+                break;
+            default:
+                messageText += message + ' ';
+        }
+    }
+    if ( messageText.length > 0 ) {
+        var messageTarget = 'messageList';
+        document.getElementById(messageTarget).innerHTML = messageText;
+    }
 }

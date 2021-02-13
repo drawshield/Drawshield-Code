@@ -92,6 +92,11 @@
           </td>
         </tr>
         <tr>
+            <td colspan="2">
+                <div name="message" id="messageList" class="form-control"></div>
+            </td>
+        </tr>
+        <tr>
           <td style="width: 459px;">
             <textarea name="searchterm" rows="2" cols="50"></textarea>
           </td>
@@ -228,7 +233,7 @@
     <script  type="text/javascript" src="randomshield.js"></script>
    <script>   //<![CDATA[
       // Set button actions
-      document.forms['myform'].createbutton.onclick = function () {randomifempty(); drawshield('drawshield.php?')};
+      document.forms['myform'].createbutton.onclick = function () {randomifempty(); drawshield('drawshield.php?', displayMessages)};
       document.forms['myform'].textbutton.onclick = function() {randomifempty(); saveshield('drawshield.php?') };
       document.forms['myform'].searchbutton.onclick = function () {
         requestHTML( 'dbquery.php?term=' + encodeURIComponent(document.forms['myform'].searchterm.value),'resultstable');
