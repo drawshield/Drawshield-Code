@@ -206,7 +206,56 @@ function PlaceCharge ( $node,  // images
               break;
           case 'very-much-rotated-sinister':
               $shownRotation = 36;
-              break;      case 'smaller':
+              break;      
+        case 'narrower':
+          $boundX *= 0.8;
+          break;
+        case 'shorter':
+          $boundY *= 0.8;
+          break;
+        case 'taller':
+          $boundY *= 1.2;
+          break;
+        case 'wider':
+          $boundX *= 1.2;
+          break;
+        case 'much-narrower':
+          $boundX *= 0.8;
+          break;
+        case 'much-shorter':
+          $boundY *= 0.8;
+          break;
+        case 'much-taller':
+          $boundY *= 1.4;
+          break;
+        case 'much-wider':
+          $boundX *= 1.4;
+          break;
+        case 'slightly-narrower':
+          $boundX *= 0.9;
+          break;
+        case 'slightly-shorter':
+          $boundY *= 0.9;
+          break;
+        case 'slightly-taller':
+          $boundY *= 1.1;
+          break;
+        case 'slightly-wider':
+          $boundX *= 1.1;
+          break;
+        case 'very-much-narrower':
+          $boundX *= 0.6;
+          break;
+        case 'very-much-shorter':
+          $boundY *= 0.6;
+          break;
+        case 'very-much-taller':
+          $boundY *= 1.6;
+          break;
+        case 'very-much-wider':
+          $boundX *= 1.6;
+          break;
+        case 'smaller':
           $boundX *= 0.8;
           $boundY *= 0.8;
           break;

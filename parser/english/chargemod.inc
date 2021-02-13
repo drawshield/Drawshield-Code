@@ -38,10 +38,10 @@
       array ( 'german ?shaped?', 'shape-german'),
       array ( 'heater ?shaped?', 'shape-heater'),
       array ( 'equal armed', 'equal-armed'),
-      array ( 'sinister (half|halves|parts?) ?of ?(a|the)', 'sinister-half'),
-      array ( 'dexter (half|halves|parts?) ?of ?(a|the)', 'dexter-half'),
-      array ( '(upper|top) (half|halves|parts?) ?of ?(a|the)', 'upper-half'),
-      array ( '(lower|bottom) (half|halves|parts?) ?of ?(a|the)', 'lower-half'),
+      array ( 'sinister (half|halves|parts?) ?of ?(a|an|the)', 'sinister-half'),
+      array ( 'dexter (half|halves|parts?) ?of ?(a|an|the)', 'dexter-half'),
+      array ( '(upper|top) (half|halves|parts?) ?of ?(a|an|the)', 'upper-half'),
+      array ( '(lower|bottom) (half|halves|parts?) ?of ?(a|an|the)', 'lower-half'),
       array ( 'leather(s|ed)?', 'leathered'),
       );
 

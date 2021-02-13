@@ -1066,6 +1066,10 @@ class languageDB extends lexicon
                 array('(lowere?d?|dropped)', 'lowered'),
                 array('further apart', 'further-apart'),
                 array('closer? together', 'closer-together'),
+                array('wide(r|nd)','wider'),
+                array('narrowe[rd]','narrower'),
+                array('taller','taller'),
+                array('shorte(r|nd)','shorter'),
             ),
             self::USING => array ( 'with', 'in', 'using'),
             self::DRAWN_MODS => array(
