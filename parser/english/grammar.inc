@@ -1022,28 +1022,52 @@ class englishGrammar extends grammar
         return $ord;
     }
 
-    protected function quartermarker()
+    protected function quartermarker($matchType = null)
+        // if matchType is null, we can match any quarterMarker
     {
         $state = self::save();
+        $foundType = null;
         self::ignore(languageDB::WORD_THE);
         // Look for an obvious quartering
-        $keyterm = self::find(languageDB::QUARTERS);
-        self::ignore(languageDB::QUARTERMARK);
-        if ($keyterm !== null) {
-            self::discard($state);
-            return $keyterm;
+        if ($matchType == null || $matchType == languageDB::QUARTERS_WORDS) {
+            $keyterm = self::find(languageDB::QUARTERS_WORDS);
+            self::ignore(languageDB::QUARTERMARK);
+            if ($keyterm !== null) {
+                self::discard($state);
+                return array($keyterm, languageDB::QUARTERS_WORDS);
+            }
+        }
+        if ($matchType == null || $matchType == languageDB::QUARTERS_ORDINAL) {
+            $keyterm = self::find(languageDB::QUARTERS_ORDINAL);
+            self::ignore(languageDB::QUARTERMARK);
+            if ($keyterm !== null) {
+                self::discard($state);
+                return array($keyterm, languageDB::QUARTERS_ORDINAL);
+            }
+        }
+        if ($matchType == null || $matchType == languageDB::QUARTERS_ROMAN) {
+            $keyterm = self::find(languageDB::QUARTERS_ROMAN);
+            self::ignore(languageDB::QUARTERMARK);
+            if ($keyterm !== null) {
+                self::discard($state);
+                return array($keyterm, languageDB::QUARTERS_ROMAN);
+            }
         }
         // Look for a number, but it MUST be followed by a quartermarker
-        $keyterm = self::find(languageDB::NUMBER);
-        if (self::find(languageDB::QUARTERMARK)) {
-            self::discard($state);
-            return $keyterm;
+        if ($matchType == null || $matchType == languageDB::NUMBER) {
+            $keyterm = self::find(languageDB::NUMBER);
+            if (self::find(languageDB::QUARTERMARK)) {
+                self::discard($state);
+                return array($keyterm, languageDB::NUMBER);
+            }
         }
         // Look for a letter, but it MUST be followed by a quartermarker
-        $keyterm = self::find(languageDB::LETTERS);
-        if (self::find(languageDB::QUARTERMARK)) {
-            self::discard($state);
-            return $keyterm;
+        if ($matchType == null || $matchType == languageDB::LETTERS) {
+            $keyterm = self::find(languageDB::LETTERS);
+            if (self::find(languageDB::QUARTERMARK)) {
+                self::discard($state);
+                return array($keyterm, languageDB::LETTERS);
+            }
         }
         self::restore($state);
         return null;
@@ -1060,6 +1084,7 @@ class englishGrammar extends grammar
         /**
          * @var DOMElement[] $subshields
          */
+        static $previousTypes = [];
         $subshields = array_fill(1, 64, null);
 
         $state = self::save();
@@ -1080,12 +1105,21 @@ class englishGrammar extends grammar
             }
 
             $foundQuarter = false;
+            $quarterType = null; // accept any type of numbering
             do { // Look for quarters
                 if (self::find(languageDB::DOUBLESEMI))
                     break;
                 $found = false;
                 $indices = array();
-                while (($keyterm = self::quartermarker()) != null) {
+                while (($quarterMark = self::quartermarker($quarterType)) != null) {
+                    $keyterm = $quarterMark[0];
+                    if ($quarterType == null ) {
+                        $quarterType = $quarterMark[1];
+                        if (in_array($quarterType, $previousTypes)) {
+                            self::raiseError(self::ERROR_ORIGIN, "Sub quarters should use different numbering scheme", true);
+                        }
+                        $previousTypes[] = $quarterType;
+                    }
                     $indices[] = $keyterm; // make a list of quarter numbers
                     if ($keyterm > $highest) $highest = $keyterm;
                     self::comma();
@@ -1112,6 +1146,7 @@ class englishGrammar extends grammar
                     }
                 } // Keep going as long as we find quarters
             } while ($found);
+            array_pop($previousTypes);
             if ($marshall == 'quarterly' and !$foundQuarter) {
                 self::restore($state); // backtrack, assume this is quarterly division
                 return null;
