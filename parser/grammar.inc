@@ -61,7 +61,7 @@ abstract class grammar  {
   public function __construct( $language = 'english', BlazonML $schema) {
     switch ( $language ) {
       case 'english':
-        include "english/lexicon.inc";
+        include_once "english/lexicon.inc";
         break;
       default:
         echo 'Urgh! No language ' . $language;

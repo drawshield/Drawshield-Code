@@ -142,11 +142,6 @@ function makeimpaled( DOMNodeList $children, $this_AR ) {
 function makedimidiated( $children, $this_AR ) {
   global $messages, $options;
   $retval = '';
-
-  if ($options['shape'] == 'flag') {
-    $messages->addMessage('blazon','Sorry, dimidiated not supported for flags');
-    return $retval;
-  }
   
   switch ( $this_AR ) {
   case '10:12':
