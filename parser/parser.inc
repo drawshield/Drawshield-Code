@@ -5,7 +5,7 @@ include "tokeniser.inc";
 include "matcher.inc";
 // abstract classes for the language data
 include "lexicon.inc";
-include "grammar.inc";
+include_once "grammar.inc";
    
 class parser {
   protected $lexer;
@@ -23,7 +23,7 @@ class parser {
     $this->xmlMaker = new blazonML('1.0',"utf-8");
     switch ( $language ) {
       case 'english':
-        include "english/grammar.inc";
+        include_once "english/grammar.inc";
         $this->grammar = new englishGrammar($language, $this->xmlMaker);
         break;
       default:
