@@ -57,6 +57,7 @@ function rgb($keyterm) {
             $tinctures['ordinary-stroke']='#000000';
             $tinctures['pattern-stroke']='#000000';
             $tinctures['division-stroke']='#000000';
+            $tinctures['stroke-width'] = 2;
         }
 		$loaded = true;
     }
@@ -88,6 +89,19 @@ function rgb($keyterm) {
       return array_pop($errorColours);
     else
       return '#ffffff';
+}
+
+function lightnessValue($hex) {
+  $prefix = '';
+  if ($hex[0] == '#') {
+    $prefix = '#';
+    $hex = substr($hex,1);
+  }
+  $red = intval('0x' . substr($hex,0,2),16);
+  $green = intval('0x' . substr($hex,2,2),16);
+  $blue = intval('0x' . substr($hex,4,2),16);
+  $hsp = sqrt(0.299 * ($red * $red) + 0.587 * ($green * $green) + 0.114 * ($blue * $blue));
+  return ($hsp);
 }
 
 function shiftRGB($hex, $direction="lighter") {

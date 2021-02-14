@@ -68,8 +68,9 @@ function splitStyle ( $styles, $attributeKeys, $strokeCol ) {
         if ( $value != '1' ) $retval .= $setting . '="' . $value . '" ';
         break;
       case 'stroke-width':
-        if ($strokeCol !== true)
-          $value = floatval($value) * 2;
+          $multiplier = rgb('stroke-width');
+          if ($multiplier != 1)
+              $value = floatval($value) * $multiplier;
         $retval .= $setting . '="' . $value . '" ';
         break;
       case 'fill-rule':
@@ -141,8 +142,9 @@ function rewriteAttributes($attributes, $strokeCol, $class = '', $fillSet = fals
         $retval .= ' transform="' . $data . '" ';
         break;
       case 'stroke-width':
-        if ($strokeCol !== true)
-          $data = floatval($data) * 2;
+          $multiplier = rgb('stroke-width');
+          if ($multiplier != 1)
+              $data = floatval($data) * $multiplier;
         $retval .= ' stroke-width="' . $data . '" ';
        break; 
       default:
@@ -156,7 +158,7 @@ function rewriteAttributes($attributes, $strokeCol, $class = '', $fillSet = fals
   return $retval;
 }
 
-function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $chargeName, $extras, $strokeCol) {
+function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $chargeName, $extras, $strokeCol ) {
   $name = $element->getName();
   if ( in_array($name, array( 'metadata', 'defs', 'title' ) ))
     return null;
@@ -235,7 +237,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
       $subitem = htmlentities((string)$element);
   }
   foreach( $element->children() as $child )
-      $subitem .= addChild($child,$featureColours, $chargeGroup, $chargeName, $extras, $strokeCol);
+      $subitem .= addChild($child,$featureColours, $chargeGroup, $chargeName, $extras, $strokeCol );
   if ( $subitem != '') {
     $item .= ">$subitem</$name>\n";
   } else {
@@ -245,7 +247,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
 }
 
 /* if $strokeCol is not set, use the default colour and normal stroke-width */
-function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol = true) {
+function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol = true ) {
   global $messages, $options;
   $retval = array();
 
@@ -299,7 +301,7 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
   }
   $fragment = '';
   foreach( $svg->children() as $child )
-    $fragment .= addChild($child, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol);
+    $fragment .= addChild($child, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol );
   // Set the global stroke colour
   // if ($addStroke){
   //   $fragment = '<g stroke="' . $addStroke . '">' . $fragment . '</g>';

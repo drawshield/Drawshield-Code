@@ -342,7 +342,6 @@ function getCharge( DOMElement $node ) {
      */
     $charge_col = null;
     $feat_cols = array();
-    $bodyTincture = null;
     /**
      * @var DOMElement $child
      */
@@ -387,11 +386,13 @@ function getCharge( DOMElement $node ) {
     // By this point, $proper contains the proper colour code for the body (if given).
     // $feat_cols contains a array of named features => colour codes
     // We will now work out the actual colours to be used for the body and any unnamed features
+    $body_col = null;
     if ( $charge_col != null ) { 
       if ( $charge_col->hasChildNodes()) {
         $col_type = $charge_col->firstChild;
         if ( $col_type->nodeName == 'proper' ) {
-          $col_type->setAttribute('spec', getProper($chargeGroup, $chargeName ));
+          $body_col = getProper($chargeGroup, $chargeName );
+          $col_type->setAttribute('spec', $body_col);
           $feat_cols['proper'] = true; // Also use proper for any features not coloured explicitly
         }
       }
@@ -416,7 +417,20 @@ function getCharge( DOMElement $node ) {
       $node->removeChild($inscribe);
     }
 
-  $strokeCol = ($charge_col != null);
+    // set a default stroke colour based on whether the body colour is light or dark
+    if ($charge_col == null || array_key_exists('fixStroke',$chg_data) ) {
+        $strokeCol = true;
+    } else {
+        if (!$body_col) $bodyCol = get_rgb($charge_col);
+        if (lightnessValue($bodyCol) > 75) {
+            // light
+            $strokeCol = '#000000'; // use black
+        } else {
+            // dark
+            $strokeCol = true; // use default colour
+        }
+    }
+  //$strokeCol = ($charge_col != null);
   // special handling for fimbriated
   if ( ($fimNode = getModifierNodeWithKeyterm($node, 'fimbriated')) != null ) {
     if (array_key_exists('fimbriate', $chg_data) && $chg_data['fimbriate'] == true) {

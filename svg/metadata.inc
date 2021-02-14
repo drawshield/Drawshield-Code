@@ -11,16 +11,16 @@ class metadataMap {
   {
 
     self::$groups = array(
-      'alchemical' => array('fimbriate' => true),
+      'alchemical' => array('fimbriate' => true, 'fixStroke' => true),
       'animal' => array( 'demi' => 'horizontal', 'hflex' => 1.5, 'wflex' => 1.5 ),
       'architecture' => array( 'demi' => 'horizontal', 'hflex' => 1.5, 'wflex' => 1.5 ),
-      'astronomical' => array('fimbriate' => true),
+      'astronomical' => array('fimbriate' => true, 'fixStroke' => true),
       'axe' => array ('orient_to_ordinary' => -1, 'hflex' => 1.4, 'wflex' => 1.22 ),
       'crown' => array('horizontal' => true, 'hflex' => 2, 'wflex' => 1.5 ),
       'fish' => array('horizontal' => true, 'orient_to_ordinary' => 1),
       'flute' => array ('orient_to_ordinary' => -1),
       'game' => array( 'demi' => 'horizontal' ),
-      'geometric' => array('fimbriate' => true, 'hflex' => 2, 'wflex' => 2),
+      'geometric' => array('fimbriate' => true, 'hflex' => 2, 'wflex' => 2, 'fixStroke' => true),
       'knot' => array ('orient_to_ordinary' => 1, 'hflex' => 1.4, 'wflex' => 1.4 ),
       'lion' => array( 'demi' => 'horizontal', 'hflex' => 2, 'wflex' => 2 ),
         'dragon' => array( 'demi' => 'horizontal', 'hflex' => 2, 'wflex' => 2 ),
@@ -29,10 +29,10 @@ class metadataMap {
       'mythical' => array( 'demi' => 'horizontal', 'hflex' => 2, 'wflex' => 2 ),
       'plant' => array ('orient_to_ordinary' => 1, 'hflex' => 1.3, 'wflex' => 1.3 ),
       'projectile' => array ('orient_to_ordinary' => -1),
-      'quadrate' => array( 'fimbriate' => true),
+      'quadrate' => array( 'fimbriate' => true, 'fixStroke' => true),
       'sword' => array ('orient_to_ordinary' => -1, 'hflex' => 1.1, 'wflex' => 1.2 ),
       'wildlife' => array( 'demi' => 'horizontal', 'hflex' => 1.2, 'wflex' => 1.2 ),
-      'zodiac' => array('fimbriate' => true),
+      'zodiac' => array('fimbriate' => true, 'fixStroke' => true),
     );
     self::$charges = array(
             'bbox' => array ('orient_to_ordinary' => 1, 'hflex' => 999, 'wflex' => 999 ),
