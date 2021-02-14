@@ -26,7 +26,7 @@ function getSvgTreatment ($filename) {
 
 function makeTreatment ( $node, $counter = false ) {
   global $messages;
-  $folder = 'svg/treatments/';
+  $folder = __dir__ . '/treatments/';
   $treatment_data = [];
 
   $name = $node->getAttribute('keyterm');
