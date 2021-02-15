@@ -182,7 +182,7 @@ function get_rgb($tinc_node) {
   // if (!$tinc_node) return ('#555555'); // but probably an error
 	$col = $tinc_node->firstChild;
 	if ( !$col or $col->nodeName != 'colour' ) {
-    $messages->addMessage('warning','plain colour expected');
+      $messages->addMessage('warning','plain colour expected');
 	  return ( '#555555' );
 	} // So now we have a colour node
 	return rgb($col->getAttribute('keyterm'));

@@ -19,6 +19,7 @@ tenne=#A75502
 orange=#FAA401
 //Other decorative parts
 charge-stroke=#696969
+stroke-width=1 // multiplier for stroke as supplied
 ordinary-stroke=none
 pattern-stroke=none
 division-stroke=none
