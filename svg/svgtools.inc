@@ -45,7 +45,6 @@ $targetColours = array (
 function splitStyle ( $styles, $attributeKeys, $strokeCol ) {
   global $targetColours, $options;
   $retval = '';
-  $strokeWidthDouble = false;
 
   $styles = explode(';', $styles . ';');
   foreach ($styles as $style) {
@@ -217,10 +216,15 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
     } elseif (array_key_exists('proper', $featureColours)) { // use proper for features not otherwise coloured
       if ($foundProper = getProper($chargeGroup, $chargeName, $id, false))
         $item .= ' fill="' . $foundProper . '" '; // only set colour if known, otherwise use parent colour
-      $fillSet = true;
+        $fillSet = true;
     } elseif ($id == 'outline') { // This is a path that is actually a stroke
-      $item .= ' fill="' . rgb('charge-stroke') . '" ';
-      $fillSet = true;
+          if ($strokeCol === true) {
+            $strokeVal = rgb('charge-stroke');
+          } else {
+            $strokeVal = $strokeCol;
+          }
+        $item .= ' fill="' . $strokeVal . '" ';
+        $fillSet = true;
     }
   }
 
@@ -299,6 +303,7 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
     $messages->addMessage('licence', "$chargeGroup/$chargeName - $licence");
 //    $retval['licence'] = $metadata[0];
   }
+  // set a default stroke colour
   $fragment = '';
   foreach( $svg->children() as $child )
     $fragment .= addChild($child, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol );
