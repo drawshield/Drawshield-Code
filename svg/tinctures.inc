@@ -246,6 +246,7 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
   $patTrans = '';
   $targetNode = $tinctureNode->parentNode;
 	$targetType = $targetNode->nodeName;
+  $tinctureNode = resolveReference($tinctureNode);
     $tinctureTypeNode = $tinctureNode->firstChild;
   $targetKeyterm = "";
   if ( $targetNode !== null) {
@@ -270,7 +271,6 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
   if ( $tinctureNode->getAttribute('origin') == 'implied' ) return $targetSVG; // Nothing to do
   // stage "raw" means leave charge colours as they are
   // if ( $targetType == 'charge' && array_key_exists('raw', $options)) return $targetSVG;
-  $tinctureNode = resolveReference($tinctureNode);
   if ( $tinctureNode === null || !$tinctureNode->hasChildNodes() 
       || $tinctureNode->getAttribute('origin') == 'pending' 
       || $tinctureNode->getAttribute('origin') == 'missing') {
