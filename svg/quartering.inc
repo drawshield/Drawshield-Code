@@ -29,14 +29,21 @@ function makeQuartered($across, $down, $children) {
 	$heightScale = 1 / $down;
 	$yPos = 0;
 	$childCount = 0;
+    $grid = "<g stroke-width=\"3\" stroke=\"" . rgb('charge-stroke') . "\">\n";
 	for ( $aCount = 0; $aCount < $across; $aCount++ ) {
 		$xPos = 0;
+        $grid .= "<path d=\"M 0 " . ($yPos - 1) . " h 1000\"/>\n";
 		for ( $dCount = 0; $dCount < $down; $dCount++ ) {
 			$retval .= make1Quarter($children[$childCount++], $widthScale, $heightScale, $xPos, $yPos, $aspect);
+            if ($yPos == 0) { // first time only
+                $grid .= "<path d=\"M " . ($xPos - 1) . " 0 v 1200\"/>\n";
+            }
 			$xPos += $subWidth;
 		}
 		$yPos += $subHeight;
-	}
+    }
+    $grid .= "</g>\n";
+    $retval .= $grid;
     $options['shape'] = $saveShape;
 	return $retval;
 }
@@ -147,8 +154,14 @@ function makequartered5( $children, $this_AR ) {
     " translate(0,$halfHeight) ",
     " translate(500,$halfHeight) ",
   );
+  $grid = "<g stroke-width=\"3\" stroke=\"" . rgb('charge-stroke') . "\">\n";
+  $grid .= "<path d=\"M 332 0 v " . $halfHeight . "\" />\n";
+  $grid .= "<path d=\"M 665 0 v " . $halfHeight . "\" />\n";
+  $grid .= "<path d=\"M 0 " . ($halfHeight - 1) . " h 1000\" />\n";
+  $grid .= "<path d=\"M 500 " . $halfHeight . " v " . $halfHeight . "\" />\n";
+  $grid .= "</g>\n";
 
-  return makequarters( $children, $child_ARs, $child_Scales, $translates );
+  return makequarters( $children, $child_ARs, $child_Scales, $translates ) . $grid;
 }
 
 function makequartered4( DOMNodeList $children, $this_AR ) {
@@ -208,7 +221,12 @@ function makequartered4( DOMNodeList $children, $this_AR ) {
     " translate(500,$halfHeight) ",
   );
 
-  return makequarters( $children, $child_ARs, $child_Scales, $translates );
+  $grid = "<g stroke-width=\"3\" stroke=\"" . rgb('charge-stroke') . "\">\n";
+  $grid .= "<path d=\"M 499 0 v 1200\" />\n";
+  $grid .= "<path d=\"M 0 " . ($halfHeight - 1) . " h 1000\" />\n";
+  $grid .= "</g>\n";
+
+  return makequarters( $children, $child_ARs, $child_Scales, $translates ) . $grid;
 }
 
 function makequartered6( $children, $this_AR ) {
@@ -267,8 +285,13 @@ function makequartered6( $children, $this_AR ) {
     " translate($xShift2,$halfHeight) ",
   );
 
-  return makequarters( $children, $child_ARs, $child_Scales, $translates );
-  return $retval;
+  $grid = "<g stroke-width=\"3\" stroke=\"" . rgb('charge-stroke') . "\">\n";
+  $grid .= "<path d=\"M 332 0 v 1200\" />\n";
+  $grid .= "<path d=\"M 665 0 v 1200\" />\n";
+  $grid .= "<path d=\"M 0 " . ($halfHeight - 1) . " h 1000\" />\n";
+  $grid .= "</g>\n";
+
+  return makequarters( $children, $child_ARs, $child_Scales, $translates ) . $grid;
 }
 
 function makequartered8( $children, $this_AR ) {
@@ -327,7 +350,13 @@ function makequartered8( $children, $this_AR ) {
     " translate(500,$twoThirds) ",
   );
 
-  return makequarters( $children, $child_ARs, $child_Scales, $translates );
-  return $retval;
+  $grid = "<g stroke-width=\"3\" stroke=\"" . rgb('charge-stroke') . "\">\n";
+  $grid .= "<path d=\"M 332 0 v " . ($thirdHeight * 2) . "\" />\n";
+  $grid .= "<path d=\"M 665 0 v " . ($thirdHeight * 2) . "\" />\n";
+  $grid .= "<path d=\"M 0 " . ($thirdHeight - 1) . " h 1000\" />\n";
+  $grid .= "<path d=\"M 0 " . (($thirdHeight * 2) - 1) . " h 1000\" />\n";
+  $grid .= "<path d=\"M 500 " . ($thirdHeight * 2) . " v $thirdHeight\" />\n";
+  $grid .= "</g>\n";
+  return makequarters( $children, $child_ARs, $child_Scales, $translates ) . $grid;
 }
 
