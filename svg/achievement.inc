@@ -146,7 +146,7 @@ function drawMantling($mantlingNode) {
     if ($hat) {
         $features['hat'] = $hat;
     }
-    $retval = getSvgFragment($svg, $features, 'mantling', $type, $extras);
+    $retval = getSvgFragment($svg, $features, 'mantling', $type, $extras, getStroke(null, true));
      return $retval['body'];
 
 }
@@ -206,7 +206,7 @@ function drawTorse($torseNode) {
             }
         }
     }
-    return getSvgFragment($svg, $features, 'torse', 'torse', $extras);
+    return getSvgFragment($svg, $features, 'torse', 'torse', $extras, getStroke(null, true));
 }
 
 function drawMotto($mottoNode) {
@@ -251,7 +251,7 @@ function drawMotto($mottoNode) {
         $svg = str_replace('%TEXT%', htmlentities($text), $svg);
         $svg = str_replace('%UP%', $up, $svg);
         $svg = str_replace('%FONT-SIZE%', "${fontSize}px", $svg);
-        $retval = getSvgFragment($svg, array(), 'scroll', 'plain', array());
+        $retval = getSvgFragment($svg, array(), 'scroll', 'plain', array(), getStroke(null, true));
         $retval['adjustments'] = $adjustments;
         return $retval;
     }
@@ -267,8 +267,6 @@ function drawCompartment($compartmentNode) {
         $messages->addMessage('internal', "Not able to draw compartment $compType");
         return null;
     }
-    $retval = getSvgFragment(file_get_contents("svg/components/compartments/$compType.svg"), array(), 'compartments', $compType,
-        array());
     $adjustments = [];
     $fill = null;
     foreach ($compartmentNode->childNodes as $child) {
@@ -295,6 +293,8 @@ function drawCompartment($compartmentNode) {
                 break;
         }
     }
+    $retval = getSvgFragment(file_get_contents("svg/components/compartments/$compType.svg"), array(), 'compartments', $compType,
+        array(), getStroke($fill));
     $retval['fill'] = $fill;
     $retval['adjustments'] = $adjustments;
     return $retval;
@@ -310,14 +310,14 @@ function drawFringe($fringeNode) {
         $messages->addMessage('blazon', "Fringe not available for $shape shaped shields");
         return null;
     }
-    $svg = getSvgFragment(file_get_contents("svg/components/fringes/$shape.svg"), array(), 'fringes', $shape,
-    array());
     if ($fringeNode->hasChildNodes() && $fringeNode->firstChild->nodeName == 'tincture') {
         $tinc = $fringeNode->firstChild;
     } else {
         $tinc = createColourNode('or' );
         $fringeNode->appendChild($tinc);
     }
+    $svg = getSvgFragment(file_get_contents("svg/components/fringes/$shape.svg"), array(), 'fringes', $shape,
+    array(), getStroke($tinc));
     return (apply_tincture($tinc, $svg['body']));
 
 }
@@ -374,13 +374,13 @@ function drawHelmet($helmetNode) {
     }
     // always draw a helmet if we are asked to
     $svg = file_get_contents("svg/components/helmet/$style.svg");
-    $retval = getSvgFragment($svg, $features, 'helmet', $style, $extras);
     if ($fill == null) {
         if (array_key_exists($style, $defaults)) 
             $fill = $defaults[$style];
         else
             $fill = 'gray';
     }
+    $retval = getSvgFragment($svg, $features, 'helmet', $style, $extras, getStroke($fill));
     $retval['fill'] = $fill;
     $retval['adjustments'] = $adjustments;
     return $retval;

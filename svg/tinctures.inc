@@ -104,6 +104,87 @@ function lightnessValue($hex) {
   return ($hsp);
 }
 
+// Algorithm for stroke colour
+// ===========================
+// The colour scheme file defines 4 values:
+// charge-stroke : the default value if the item is multi-coloured
+// stroke-light : the stroke colour to use on light coloured objects
+// stroke-dark : the stroke colour to use on dark coloured objects
+// light-dark-threshold : the point at which to switch from light to dark
+//
+// Operation
+// ---------
+// 1) if $fixedStroke is true, always return the default value
+// 2) $tincture can be two things:
+// a) A string, which should be a colour name
+//    in which case we calculate whether it is light or dark and return appropriately
+// b) A tincture node
+//    in which case we do things depending on the type of tincture this is
+//    For now, we only deal with "proper", "semyDe" and "colour", we extract the hex value
+//    and use that to return light or dark appropriately
+//
+//    In future we should probably do something with furs as well since these usually have a dominant colour
+//
+function getStroke($tincture, $fixedStroke = false) {
+    $retval = rgb('charge-stroke'); // sensible default
+    if ($fixedStroke) { // always use mid colour
+        return($retval);
+    }
+    if (is_string($tincture)) { // should be a colour name
+        $hex = rgb($tincture);
+        if (lightnessValue($hex) < rgb('light-dark-threshold')) {
+            // light
+            $retval = rgb('stroke-dark');
+        } else {
+            // dark
+            $retval = rgb('stroke-light'); 
+        }
+        return($retval);
+    }
+    // bad call protection
+    if (!is_object($tincture) || !$tincture->hasChildNodes()) {
+        return ($retval);
+    }
+    // otherwise, depends on the type of tincture
+    switch ($tincture->firstChild->nodeName) {
+    case 'proper': // should already have been resolved by now
+        if ($tincture->firstChild->hasAttribute('spec')) {
+            $bodyCol = $tincture->firstChild->getAttribute('spec');
+            if (lightnessValue($bodyCol) < rgb('light-dark-threshold')) {
+                // light
+                $retval = rgb('stroke-dark');
+            } else {
+                // dark
+                $retval = rgb('stroke-light'); 
+            }
+        }
+        break;
+    case 'treatment': // has two colours so probably mid-gray is best?
+    case 'counterChanged': // ditto
+    case 'division': // ditto
+        break;
+    case 'fur': // probably should improve this one and choose a stroke 
+        // colour depending on the main colour of the fur
+        break; // just go with default mid-gray for now
+    case 'colour':
+        $bodyCol = get_rgb($tincture);
+        if (lightnessValue($bodyCol) < rgb('light-dark-threshold')) {
+            // light
+            $retval = rgb('stroke-dark');
+        } else {
+            // dark
+            $retval = rgb('stroke-light'); // use default colour
+        }
+        break;
+      case 'semyDe': // use the main background colour
+          $retval = getStroke($tincture->firstChild->firstChild);
+          break;
+      default: // shouldn't happen
+        break;
+    }
+    return($retval);
+}
+
 function shiftRGB($hex, $direction="lighter") {
   $factor = 0.33;
   $prefix = '';
@@ -165,6 +246,7 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
   $patTrans = '';
   $targetNode = $tinctureNode->parentNode;
 	$targetType = $targetNode->nodeName;
+  $tinctureNode = resolveReference($tinctureNode);
     $tinctureTypeNode = $tinctureNode->firstChild;
   $targetKeyterm = "";
   if ( $targetNode !== null) {
@@ -189,7 +271,6 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
   if ( $tinctureNode->getAttribute('origin') == 'implied' ) return $targetSVG; // Nothing to do
   // stage "raw" means leave charge colours as they are
   // if ( $targetType == 'charge' && array_key_exists('raw', $options)) return $targetSVG;
-  $tinctureNode = resolveReference($tinctureNode);
   if ( $tinctureNode === null || !$tinctureNode->hasChildNodes() 
       || $tinctureNode->getAttribute('origin') == 'pending' 
       || $tinctureNode->getAttribute('origin') == 'missing') {

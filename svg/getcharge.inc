@@ -398,6 +398,8 @@ function getCharge( DOMElement $node ) {
       }
     }
     //------------------------------------------------------------------------------
+    // set a default stroke colour based on whether the body colour is light or dark
+    $strokeCol = getStroke($charge_col, array_key_exists('fixStroke',$chg_data)); 
 
     //------------------------------------------------------------------------------
     // Charges "internal" to this one
@@ -405,10 +407,13 @@ function getCharge( DOMElement $node ) {
     // Special handling for charges "crowned"
     if ( $crown = getModifierNodeWithKeyterm($node, 'crowned', false) ) {
       $crownType = $crown->getAttribute('value');
-      $extras['crowned'] = getSvgFragment(file_get_contents(__dir__ . '/components/crown-as-worn/' . $crownType . '.svg'), array(), 'crown', $crownType, array());
-      if ($crown->hasChildNodes()) {
-        $feat_cols['crowned'] = get_rgb(getTinctureNode($crown));
+      $crownCol = $charge_col;
+      if ($temp = getTinctureNode($crown)) {
+          $crownCol = $temp;
+          $feat_cols['crowned'] = get_rgb($crownCol);
       }
+      $extras['crowned'] = getSvgFragment(file_get_contents(__dir__ . '/components/crown-as-worn/' . $crownType . '.svg'), 
+          array(), 'crown', $crownType, array(), getStroke($crownCol), 3); // multiply size of crown strokes
     }
     if ( $inscribe = getModifierNodeWithKeyterm($node, 'inscribed' ) ) {
       $extras['inscribed']['body'] = makeSquareCharge($inscribe->firstChild);
@@ -417,21 +422,7 @@ function getCharge( DOMElement $node ) {
       $node->removeChild($inscribe);
     }
 
-    // set a default stroke colour based on whether the body colour is light or dark
-    if ($charge_col == null || array_key_exists('fixStroke',$chg_data) ) {
-        $strokeCol = true;
-    } else {
-        if (!$body_col) $bodyCol = get_rgb($charge_col);
-        if (lightnessValue($bodyCol) > 75) {
-            // light
-            $strokeCol = '#000000'; // use black
-        } else {
-            // dark
-            $strokeCol = true; // use default colour
-        }
-    }
-  //$strokeCol = ($charge_col != null);
-  // special handling for fimbriated
+  // special handling for fimbriated (overwrites strokeCol)
   if ( ($fimNode = getModifierNodeWithKeyterm($node, 'fimbriated')) != null ) {
     if (array_key_exists('fimbriate', $chg_data) && $chg_data['fimbriate'] == true) {
       $tincNode = getTinctureNode($fimNode);
@@ -616,13 +607,14 @@ function getCharge( DOMElement $node ) {
        style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:1.2478801;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline" />
   </g>
 </svg>';
-    $sunArray = getSvgFragment($sunOutline,array(),'celestial','sun-outline', array());
+    $sunArray = getSvgFragment($sunOutline,array(),'celestial','sun-outline', array(), null); // don't set stroke, we will do that below
     $enlargement = 1.4;
     $scale = (max($width,$height) / $sunArray['height']) * $enlargement;  // assume sun is square (!)
     $newSize = (max($width,$height)) * $enlargement;
     $Yshift = (($newSize - $height) / -2)/ $scale;
     $Xshift = (($newSize - $width) / -2) / $scale;
-    $sunBody = '<g fill="' . rgb('or') . ' " stroke="' . rgb('charge-stroke') . '" transform=" scale(' . $scale . ') translate(' . "$Xshift,$Yshift" . ')">' . $sunArray['body'] . '</g>';
+    // always use a light stroke as the sun is yellow
+    $sunBody = '<g fill="' . rgb('or') . ' " stroke="' . rgb('stroke-light') . '" transform=" scale(' . $scale . ') translate(' . "$Xshift,$Yshift" . ')">' . $sunArray['body'] . '</g>';
     $body = $sunBody . $body;
     $chg_data['hflex'] = $chg_data['wflex'] = 0; // don't flex, as sun must stay round!
   }

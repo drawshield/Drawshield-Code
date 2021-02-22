@@ -18,7 +18,10 @@ senois=#8D4024
 tenne=#A75502
 orange=#FAA401
 //Other decorative parts
-charge-stroke=#696969
+charge-stroke=#696969  // stroke to use with metadata fixstroke
+stroke-light=#000000   // stroke to use on light colours
+stroke-dark=#696969    // stroke to use on dark colours
+light-dark-threshold=75 // when to switch from dark (0) to light (255)
 stroke-width=1 // multiplier for stroke as supplied
 ordinary-stroke=none
 pattern-stroke=none
