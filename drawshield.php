@@ -23,27 +23,6 @@ $messages = null;
 $spareRoom = str_repeat('*', 1024 * 1024);
 $size = 500;
 
-function calculateAR($ar) {
-  if (strpos($ar, ':') > 0) {
-    $arParts = explode(':', $ar);
-    $numerator = intval($arParts[0]);
-    $denominator = 0;
-    if (count($arParts) > 1) {
-      $denominator = intval($arParts[1]);
-    }
-    if ($denominator == 0) $denominator = 1;
-    $ar = $numerator / $denominator;
-  } else {
-    $ar = floatval($ar);
-  }
-  if ($ar > 1.2) {
-    $ar = 1.2;
-  } elseif ($ar < 0.25) {
-    $ar = 0.25;
-  }
-  return $ar;  
-}
-
 //
 // Argument processing
 //
