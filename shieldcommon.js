@@ -265,6 +265,17 @@ function getOptions() {
     for ( var misc of ["webcols", "whcols", "tartancols"] )
         if ( document.getElementById(misc).checked )
             options += "&" + misc;
+
+    var customPaletteArea = document.getElementById("customPalette");
+    var paletteItems = customPaletteArea.value.split("\n").map(x => x.split("=")).map(x => x.map(a => a.trim()));
+    for ( var [key, val] of paletteItems )
+    {
+        if ( key == "" || val == "" )
+            continue;
+        if ( key.search("/") == -1 )
+            key = "heraldic/" + key;
+        options += `&customPalette[${encodeURIComponent(key)}]=${encodeURIComponent(val)}`;
+    }
     return options;
 }
 
