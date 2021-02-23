@@ -37,6 +37,9 @@ if (isset($argc)) {
 // Process arguments
 $ar = null;
 $size = null;
+
+$request = array_merge($_GET, $_POST);
+
 // For backwards compatibility we support argument in GET, but prefer POST
 if (isset($_FILES['blazonfile']) && ($_FILES['blazonfile']['name'] != "")) {
     $fileName = $_FILES['blazonfile']['name'];
@@ -47,25 +50,25 @@ if (isset($_FILES['blazonfile']) && ($_FILES['blazonfile']['name'] != "")) {
         $options['blazon'] = file_get_contents($fileTmpName);
     }
 } else {
-    if (isset($_REQUEST['blazon'])) $options['blazon'] = strip_tags(trim($_REQUEST['blazon']));
+    if (isset($request['blazon'])) $options['blazon'] = strip_tags(trim($request['blazon']));
 }
 
-if (isset($_REQUEST['outputformat'])) $options['outputFormat'] = strip_tags ($_REQUEST['outputformat']);;
-if (isset($_REQUEST['saveformat'])) $options['saveFormat'] = strip_tags ($_REQUEST['saveformat']);;
-if (isset($_REQUEST['asfile'])) $options['asFile'] = ($_REQUEST['asfile'] == "1");
-if (isset($_REQUEST['palette'])) $options['palette'] = strip_tags($_REQUEST['palette']);
-if (isset($_REQUEST['shape'])) $options['shape'] = strip_tags($_REQUEST['shape']);
-if (isset($_REQUEST['stage'])) $options['stage'] = strip_tags($_REQUEST['stage']);
-if (isset($_REQUEST['filename'])) $options['filename'] = strip_tags($_REQUEST['filename']);
-//  if (isset($_REQUEST['printable'])) $options['printable'] = ($_REQUEST['printable'] == "1");
-if (isset($_REQUEST['effect'])) $options['effect'] = strip_tags($_REQUEST['effect']);
-if (isset($_REQUEST['size'])) $options['size']= strip_tags ($_REQUEST['size']);
-if (isset($_REQUEST['units'])) $options['units']= strip_tags ($_REQUEST['units']);
-if (isset($_REQUEST['ar'])) $ar = strip_tags ($_REQUEST['ar']);
-if (isset($_REQUEST['webcols'])) $options['useWebColours'] = $_REQUEST['webcols'] == 'yes';
-if (isset($_REQUEST['tartancols'])) $options['useTartanColours'] = $_REQUEST['tartancols'] == 'yes';
-if (isset($_REQUEST['whcols'])) $options['useWarhammerColours'] = $_REQUEST['whcols'] == 'yes';
-if (isset($_REQUEST['customPalette']) && is_array($_REQUEST['customPalette'])) $options['customPalette'] = $_REQUEST['customPalette'];
+if (isset($request['outputformat'])) $options['outputFormat'] = strip_tags ($request['outputformat']);;
+if (isset($request['saveformat'])) $options['saveFormat'] = strip_tags ($request['saveformat']);;
+if (isset($request['asfile'])) $options['asFile'] = ($request['asfile'] == "1");
+if (isset($request['palette'])) $options['palette'] = strip_tags($request['palette']);
+if (isset($request['shape'])) $options['shape'] = strip_tags($request['shape']);
+if (isset($request['stage'])) $options['stage'] = strip_tags($request['stage']);
+if (isset($request['filename'])) $options['filename'] = strip_tags($request['filename']);
+//  if (isset($request['printable'])) $options['printable'] = ($request['printable'] == "1");
+if (isset($request['effect'])) $options['effect'] = strip_tags($request['effect']);
+if (isset($request['size'])) $options['size']= strip_tags ($request['size']);
+if (isset($request['units'])) $options['units']= strip_tags ($request['units']);
+if (isset($request['ar'])) $ar = strip_tags ($request['ar']);
+if (isset($request['webcols'])) $options['useWebColours'] = $request['webcols'] == 'yes';
+if (isset($request['tartancols'])) $options['useTartanColours'] = $request['tartancols'] == 'yes';
+if (isset($request['whcols'])) $options['useWarhammerColours'] = $request['whcols'] == 'yes';
+if (isset($request['customPalette']) && is_array($request['customPalette'])) $options['customPalette'] = $request['customPalette'];
 
 $options['blazon'] = preg_replace("/&#?[a-z0-9]{2,8};/i","",$options['blazon']); // strip all entities.
 $options['blazon'] = preg_replace("/\\x[0-9-a-f]{2}/i","",$options['blazon']); // strip all entities.
