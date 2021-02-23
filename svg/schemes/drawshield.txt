@@ -18,6 +18,7 @@ senois=#8D4024
 tenne=#A75502
 orange=#FAA401
 //Other decorative parts
+marshalling-stroke=#696969 // stroke used to separate marshalled shields
 charge-stroke=#696969  // stroke to use with metadata fixstroke
 stroke-light=#000000   // stroke to use on light colours
 stroke-dark=#696969    // stroke to use on dark colours

@@ -136,7 +136,7 @@ function makeimpaled( DOMNodeList $children, $this_AR ) {
   $retval .= '<g clip-path="url(#' . $clipI . ')" transform="translate(' . (500 - $xOffset) . ',0)" >' . $imp2 . "</g>\n";
   $retval .= add_def();
 
-  return $retval;
+  return $retval . "<path stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\" d=\"M 499 0 v 1200\" />\n";
 }
   
 function makedimidiated( $children, $this_AR ) {
@@ -184,7 +184,7 @@ function makedimidiated( $children, $this_AR ) {
     }
   }
   $retval .= add_def();
-  return $retval;
+  return $retval . "<path stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\" d=\"M 499 0 v 1200\" />\n";
 }
 
 function makeshield( DOMElement &$node, $this_AR ) {

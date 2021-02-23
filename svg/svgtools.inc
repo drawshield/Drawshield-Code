@@ -46,8 +46,8 @@ function splitStyle ( $styles, $attributeKeys, $strokeCol, $strokeWidth ) {
   global $targetColours, $options;
   $retval = '';
 
-  $styles = explode(';', $styles . ';');
-  foreach ($styles as $style) {
+  $styleArray = explode(';', $styles . ';');
+  foreach ($styleArray as $style) {
     if ( $style == null ) continue;
     list($setting,$value) = explode(':',$style);
     if (in_array($setting, $attributeKeys)) {
@@ -85,6 +85,7 @@ function splitStyle ( $styles, $attributeKeys, $strokeCol, $strokeWidth ) {
         break;
     }
   }
+
   return $retval;
 }
 
@@ -100,6 +101,8 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
     $existingAttributes[] = $key;
   }
   if ($fillSet) $existingAttributes[] = 'fill';
+  $fill = '';
+  $style = ''; // decide whether to use style or fill
   foreach ($attributes as $key => $data ) {
     switch ($key) {
       case 'id':
@@ -110,18 +113,18 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
         $class .= " $data ";
         break;
       case 'style':
-        $retval .= splitStyle( $data, $existingAttributes, $strokeCol, $strokeWidth);
+        $style = splitStyle( $data, $existingAttributes, $strokeCol, $strokeWidth);
         break;
       case 'href':
         $retval .= 'xlink:href="' . $data . '" ';
         break;
       case 'fill': 
         if ( array_key_exists("raw",$options) ) {
-          $retval .= ' fill="' . $data . '" '; // leave alone
+          $fill = ' fill="' . $data . '" '; // leave alone
         } else {
           // Any of the "primary" colours are just placeholders, so we ignore them (will be replaced by the charge colour)
-          if (!in_array( strtolower($data), $targetColours) )
-            $retval .= ' fill="' . $data . '" ';
+          if (!$fillSet && !in_array( strtolower($data), $targetColours) )
+            $fill = ' fill="' . $data . '" ';
         }
         break; // any other colour is left as it is
       case 'stroke':
@@ -148,13 +151,16 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
         break;
     }
   }
+  if (strpos($style,'fill=') !== false) {
+      $fill = ''; // remove fill attribute if already set in style
+  }
   if ( $class != '' ) $retval .= ' class="' . trim($class) . '" ';
-
+  $retval .= $fill . ' ' . $style;
   return $retval;
 }
 
 function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $chargeName, 
-    $extras, $strokeCol, $strokeWidth ) {
+    $extras, $strokeCol, $strokeWidth, $fillSet = false ) {
   $name = $element->getName();
   if ( in_array($name, array( 'metadata', 'defs', 'title' ) ))
     return null;
@@ -191,7 +197,6 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
     }
   }
   //-------------------------------------------------------------------------
-  $fillSet = false;
   $visible = true;
   if ( isset($element["style"]) && strpos($element["style"], "display:none") !== false )
     $visible = false;
@@ -210,12 +215,12 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
       $item .= ' fill="' . $featureColours[$id] . '" ';
       $fillSet = true;
       $visible = true;
+    } elseif (substr($id, 0, 7) == 'outline') { // This is a path that is actually a stroke
+        $item .= ' fill="' . $strokeCol . '" ';
+        $fillSet = true;
     } elseif (array_key_exists('proper', $featureColours)) { // use proper for features not otherwise coloured
       if ($foundProper = getProper($chargeGroup, $chargeName, $id, false))
         $item .= ' fill="' . $foundProper . '" '; // only set colour if known, otherwise use parent colour
-        $fillSet = true;
-    } elseif ($id == 'outline') { // This is a path that is actually a stroke
-        $item .= ' fill="' . $strokeCol . '" ';
         $fillSet = true;
     }
   }
@@ -233,7 +238,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
       $subitem = htmlentities((string)$element);
   }
   foreach( $element->children() as $child )
-      $subitem .= addChild($child,$featureColours, $chargeGroup, $chargeName, $extras, $strokeCol, $strokeWidth );
+      $subitem .= addChild($child,$featureColours, $chargeGroup, $chargeName, $extras, $strokeCol, $strokeWidth, $fillSet );
   if ( $subitem != '') {
     $item .= ">$subitem</$name>\n";
   } else {

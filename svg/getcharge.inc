@@ -107,6 +107,7 @@ function featuresThatAreAlsoMods($node) {
     'head',
     'claw',
     'leg',
+    'clasped',
     'collared',
     'jessant',
       'leathered',

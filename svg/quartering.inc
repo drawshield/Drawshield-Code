@@ -29,7 +29,7 @@ function makeQuartered($across, $down, $children) {
 	$heightScale = 1 / $down;
 	$yPos = 0;
 	$childCount = 0;
-    $grid = "<g stroke-width=\"3\" stroke=\"" . rgb('charge-stroke') . "\">\n";
+    $grid = "<g stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\">\n";
 	for ( $aCount = 0; $aCount < $across; $aCount++ ) {
 		$xPos = 0;
         $grid .= "<path d=\"M 0 " . ($yPos - 1) . " h 1000\"/>\n";
@@ -154,7 +154,7 @@ function makequartered5( $children, $this_AR ) {
     " translate(0,$halfHeight) ",
     " translate(500,$halfHeight) ",
   );
-  $grid = "<g stroke-width=\"3\" stroke=\"" . rgb('charge-stroke') . "\">\n";
+  $grid = "<g stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\">\n";
   $grid .= "<path d=\"M 332 0 v " . $halfHeight . "\" />\n";
   $grid .= "<path d=\"M 665 0 v " . $halfHeight . "\" />\n";
   $grid .= "<path d=\"M 0 " . ($halfHeight - 1) . " h 1000\" />\n";
@@ -221,7 +221,7 @@ function makequartered4( DOMNodeList $children, $this_AR ) {
     " translate(500,$halfHeight) ",
   );
 
-  $grid = "<g stroke-width=\"3\" stroke=\"" . rgb('charge-stroke') . "\">\n";
+  $grid = "<g stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\">\n";
   $grid .= "<path d=\"M 499 0 v 1200\" />\n";
   $grid .= "<path d=\"M 0 " . ($halfHeight - 1) . " h 1000\" />\n";
   $grid .= "</g>\n";
@@ -285,7 +285,7 @@ function makequartered6( $children, $this_AR ) {
     " translate($xShift2,$halfHeight) ",
   );
 
-  $grid = "<g stroke-width=\"3\" stroke=\"" . rgb('charge-stroke') . "\">\n";
+  $grid = "<g stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\">\n";
   $grid .= "<path d=\"M 332 0 v 1200\" />\n";
   $grid .= "<path d=\"M 665 0 v 1200\" />\n";
   $grid .= "<path d=\"M 0 " . ($halfHeight - 1) . " h 1000\" />\n";
@@ -350,7 +350,7 @@ function makequartered8( $children, $this_AR ) {
     " translate(500,$twoThirds) ",
   );
 
-  $grid = "<g stroke-width=\"3\" stroke=\"" . rgb('charge-stroke') . "\">\n";
+  $grid = "<g stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\">\n";
   $grid .= "<path d=\"M 332 0 v " . ($thirdHeight * 2) . "\" />\n";
   $grid .= "<path d=\"M 665 0 v " . ($thirdHeight * 2) . "\" />\n";
   $grid .= "<path d=\"M 0 " . ($thirdHeight - 1) . " h 1000\" />\n";

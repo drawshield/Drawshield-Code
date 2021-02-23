@@ -42,7 +42,7 @@
           array ( 'cross(let|lets|es)? barby', 'quadrate/cross-barby' ),
           array ( 'cross(let|lets|es)? (ve|u)rd(y|e|ee)', 'quadrate/cross-pointed' ),
           array ( 'cross(let|lets|es)? champaine', 'quadrate/cross-pointed' ), 
-          array ( 'cross(let|lets|es)? pommes?', 'quadrate/cross-pomme' ), 
+          array ( 'cross(let|lets|es)? pom(y|me)s?', 'quadrate/cross-pomme' ), 
           array ( 'cross(es)? potent crossed', 'quadrate/cross-potent-crossed' ), 
           array ( 'cross(es)? poten(t|ce)', 'quadrate/cross-potent' ), 
           array ( 'cross(es)? of jerusalem', 'quadrate/cross-jerusalem' ), 
@@ -123,6 +123,7 @@
       array ( 'locks? of ?* hair', 'human/hair' ),
       array ( '?(hu)?mans? beards?', 'human/beard' ),
       array ( 'monks?', 'human/monk' ),
+      array ( 'fois?', 'human/hand-pair-2-clasped' ),
       // ship
       array ( 'lymphads?', 'ship/galley' ),
       array ( 'oars?', 'ship/oars' ),
