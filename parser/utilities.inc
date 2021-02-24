@@ -174,8 +174,8 @@ function calculateAR($ar) {
   } else {
     $ar = floatval($ar);
   }
-  if ($ar > 1.2) {
-    $ar = 1.2;
+  if ($ar > 4) {
+    $ar = 4;
   } elseif ($ar < 0.25) {
     $ar = 0.25;
   }
