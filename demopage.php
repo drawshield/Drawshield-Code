@@ -40,6 +40,13 @@
         margin: 1em 0;
         width: 600px;
     }
+    .custom-palette {
+        display: block;
+    }
+    .custom-palette textarea {
+        width: 100%;
+        resize: horizontal;
+    }
     </style>
   </head>
 
@@ -190,6 +197,11 @@
     table_check("Tartan", "tartancols");
     echo "</div>";
 
+    echo "<div class='style-head'>Custom Palette</div>";
+    echo "<div class='style custom-palette'>";
+    echo "<textarea id='customPalette'></textarea>";
+    echo "</div>";
+
     echo "</div>";
 ?>
 
@@ -199,10 +211,10 @@
           <th colspan="2" style="border-top:1px solid #000000;border-left:1px solid #000000;border-right:1px solid #000000;border-bottom:0px none;">Make Printable</th>
         </tr>
         <tr>
-          <td style="text-align:center;border-left:1px solid #000000;"><img src="thumbs/other/dot-png.png" height="80px" width="80px" /></td>
-          <td style="text-align:center;"><img src="thumbs/other/dot-svg.png" height="80px" width="80px" /></td>
-          <td style="text-align:center;border-right:1px solid #000000;"><img src="thumbs/other/dot-jpg.png" height="80px" width="80px" /></td>
-          <td style="text-align:center;border-right:1px solid #000000;" colspan="2"><img src="thumbs/other/printable.png" height="80px" width="80px" /></td></td>
+          <td style="text-align:center;border-left:1px solid #000000;">PNG</td>
+          <td style="text-align:center;">SVG</td>
+          <td style="text-align:center;border-right:1px solid #000000;">JPG</td>
+          <td style="text-align:center;border-right:1px solid #000000;" colspan="2">Printable</td></td>
         </tr>
         <tr>
           <td style="text-align:center;border-left:1px solid #000000;"><input type="radio" name="format" value="png" checked="checked" /></td>
@@ -214,19 +226,6 @@
       </table>
     </form>
     <div id="resultstable"></div>
-    <div class="do-not-print align-right"><form id="quickShield">
-        <table style="width:260px;border-width:1px;border-style:solid;border-color:#050505;text-align:center">
-          <tr>
-            <td style="margin:auto;"><img id="quickImage" src="http://drawshield.net/include/shield/thumbs/other/yourshieldhere.png" width="250px" height="300px" alt="shield"/></td>
-          </tr>
-          <tr>
-            <td style="margin:auto;"><textarea id="quickBlazon" name="quickBlazon" rows="6" cols="31"></textarea></td>
-            </tr>
-          <tr>
-            <td style="margin:auto;"><input type="button" title="Update" style="width:200px" value="Draw This Shield!" onclick="quickshield('quickImage','quickBlazon');"/></td>
-          </tr>
-        </table>
-    </form></div>
     <?php $basedir = basename(getcwd()); ?>
     <script type="text/javascript" src="XMLHttpRequest.js"></script>
     <script  type="text/javascript" src="shieldcommon.js"></script>

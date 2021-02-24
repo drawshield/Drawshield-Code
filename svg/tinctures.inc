@@ -51,7 +51,10 @@ function rgb($keyterm) {
         }
         if ($options['useTartanColours'] == true ) {
           $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/tartan.txt','tartan'));
-        }        
+        }
+        if ( isset($options['customPalette']) && is_array($options['customPalette']) ) {
+            $tinctures = array_merge($tinctures, $options['customPalette']);
+        }
         if ($options['effect'] == 'inked') { // override strokes
             $tinctures['charge-stroke']='#000000';
             $tinctures['ordinary-stroke']='#000000';
