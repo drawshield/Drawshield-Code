@@ -154,8 +154,6 @@ function draw() {
 
   $messages = new messageStore($dom);
   
-  $outline = getShape($options['shape']);
-
   // Get all the charge data (once for each charge type)
   get_chg_data();
   $achievement = false;
@@ -169,16 +167,45 @@ function draw() {
   $shieldAdjustments = [];
   $y1Location = 0;
   $extraDefs = '';
+     $extraSpace = 0;
   if ($options['palette'] == 'hatching') {
     include("hatching.inc");
     $extraDefs = mkHatches();
   }
 
+    $blazonNode = $dom->documentElement;
   if ($options['shape'] == 'flag') {
-    $displayScale = $options['size'] / 1000;
+     $body = '';
+    foreach ( $blazonNode->childNodes as $node ) {
+        switch ( $node->nodeName ) {
+            case 'shield':
+              $body .= makeshield($node,'10:12');
+              break;
+            case 'achievement':
+              foreach ($node->childNodes as $subNode) {
+                  switch ($subNode->nodeName) {
+                      case blazonML::E_FRINGE:
+                          $fringe = drawFringe($subNode);
+                          break;
+                      // other achievement parts don't really make sense (do they?)
+                       default:
+                          break;
+                  }
+              }
+              break;
+              // other elements for future expansion
+        }
+    }
+     if ($fringe) {
+         $extraSpace = 150;
+         // $body .= "<g transform=\"translate(0," . $options['flagHeight'] . ")\">$fringe</g>";   
+         // $options['flagHeight'] += 150;
+     }
+  $outline = getShape($options['shape']);
+
+     $displayScale = $options['size'] / 1000;
     $displayWidth = $options['size'];
-    $displayHeight = (int)(($options['flagHeight'] + 40) * $displayScale);
-    $textY = ($options['flagHeight'] + 34);
+    $displayHeight = (int)(($options['flagHeight'] + 40 + $extraSpace) * $displayScale);
 
     $header = '<?xml version="1.0" encoding="utf-8" ?>
     <svg version="1.1"
@@ -187,21 +214,12 @@ function draw() {
          xmlns:xlink="http://www.w3.org/1999/xlink" 
          xmlns:blazonML="http://drawshield.net/blazonML" ' .
          'preserveAspectRatio="xMidYMid meet" height="' . $displayHeight . '" width="' . $displayWidth . '" ';
-    $header .= 'viewBox="'. getEffect('viewbox',1000,$options['flagHeight'] + 40) . ' ">';
+    $header .= 'viewBox="'. getEffect('viewbox',1000,$options['flagHeight'] + $extraSpace + 40) . ' ">';
     $meta = '';
     $defs = '<defs>' . getEffect('defs') . $extraDefs . '</defs>';
     $trailer =  "</svg>\n";
 
-    $blazonNode = $dom->documentElement;
-    $body = '';
-    foreach ( $blazonNode->childNodes as $node ) {
-        switch ( $node->nodeName ) {
-            case 'shield':
-              $body .= makeshield($node,'10:12');
-              break;
-              // other elements for future expansion
-        }
-    }
+
   } else {
     $header = '<?xml version="1.0" encoding="utf-8" ?>
     <svg version="1.1"
@@ -311,7 +329,7 @@ function draw() {
     // Rest depends on output format
     if ( !$options['asFile'] /* && !$options['printable'] */ ) { // minimal decoration, no metadata
       $y1Location = '1190';
-      if ($options['shape'] == 'flag') $y1Location = $options['flagHeight'] + 40;
+      if ($options['shape'] == 'flag') $y1Location = $options['flagHeight'] + $extraSpace + 40;
       if ( $options['outputFormat'] == 'svg') {
         $messages->addMessage('legal',"Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.");
         $messages->insertMessages();
