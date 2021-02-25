@@ -221,6 +221,7 @@ function draw() {
 
 
   } else {
+    $outline = getShape($options['shape']);
     $header = '<?xml version="1.0" encoding="utf-8" ?>
     <svg version="1.1"
         baseProfile="full"
