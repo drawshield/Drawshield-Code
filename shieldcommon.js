@@ -376,8 +376,6 @@ function displayMessages(svg) {
                 messageText += message + ' ';
         }
     }
-    if ( messageText.length > 0 ) {
-        var messageTarget = 'messageList';
-        document.getElementById(messageTarget).innerHTML = messageText;
-    }
+    var messageTarget = 'messageList';
+    document.getElementById(messageTarget).innerHTML = messageText;
 }
