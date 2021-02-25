@@ -50,44 +50,36 @@
     </style>
   </head>
 
-  <body style="background:#AAAAAA;">
-    <h1>
-      Draw a Shield
-    </h1>
-    <p>
-      Enter a
-      <strong>
-        blazon
-      </strong>
-      into the box and click the
-      <code>
-        Create!
-      </code>
-      button. 
-    </p>
-    <form action="POST" id="myform">
+<body style="background:#AAAAAA;">
+    <h1>Draw a Shield</h1>
+    <p>Enter a <strong>blazon</strong> into the box and click the <code>Create!</code> button.</p>
       <table style="width:600px" summary="shield table">
         <tr>
-          <td rowspan="4" style="width: 459px; text-align:center">
+          <td rowspan="5" style="width: 459px; text-align:center">
             <textarea id="blazon" name="blazon" rows="6" cols="50" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
           </td>
           <td style="width: 81px">
-            <input type="button" name="createbutton" value="Create!" style="width: 90px"/>
+            <input type="button" id="createbutton" value="Create!" style="width: 90px"/>
           </td>
         </tr>
         <tr>
           <td style="width: 90px">
-            <input type="button" name="textbutton" value="Save As File" style="width: 90px"/>
+            <input type="button" id="textbutton" value="Save As File" style="width: 90px"/>
           </td>
         </tr>
         <tr>
           <td style="width: 90px">
-            <input type="button" name="parsebutton" value="Parser" style="width: 90px"/>
+            <input type="button" id="parsebutton" value="Parser" style="width: 90px"/>
           </td>
         </tr>
         <tr>
           <td style="width: 90px">
-            <input type="button" name="referencesbutton" value="References" style="width: 90px"/></td>
+            <input type="button" id="referencesbutton" value="References" style="width: 90px"/></td>
+        </tr>
+        <tr>
+            <td style="width: 90px">
+                <input type="button" id="random_blazon_button" value="Random" style="width: 90px"/>
+            </td>
         </tr>
         <tr>
           <td style="text-align:center;" colspan="2">
@@ -105,7 +97,7 @@
         </tr>
         <tr>
           <td style="width: 459px;">
-            <textarea name="searchterm" rows="2" cols="50"></textarea>
+            <textarea id="searchterm" rows="2" cols="50"></textarea>
           </td>
           <td style="width: 81px;">
             <input type="button" name="searchbutton"  id="searchbutton" value="Search" style="width: 90px;"/>
@@ -205,53 +197,51 @@
     echo "</div>";
 ?>
 
-      <table style="border-collapse: collapse;">
+    <table style="border-collapse: collapse;">
         <tr>
-          <th colspan="3" style="border-top:1px solid #000000;border-left:1px solid #000000;border-right:1px solid #000000;border-bottom:0px none;">&quot;Save to file&quot; Format</th>
-          <th colspan="2" style="border-top:1px solid #000000;border-left:1px solid #000000;border-right:1px solid #000000;border-bottom:0px none;">Make Printable</th>
+            <th colspan="3" style="border-top:1px solid #000000;border-left:1px solid #000000;border-right:1px solid #000000;border-bottom:0px none;">&quot;Save to file&quot; Format</th>
+            <th colspan="2" style="border-top:1px solid #000000;border-left:1px solid #000000;border-right:1px solid #000000;border-bottom:0px none;">Make Printable</th>
         </tr>
         <tr>
-          <td style="text-align:center;border-left:1px solid #000000;">PNG</td>
-          <td style="text-align:center;">SVG</td>
-          <td style="text-align:center;border-right:1px solid #000000;">JPG</td>
-          <td style="text-align:center;border-right:1px solid #000000;" colspan="2">Printable</td></td>
+            <td style="text-align:center;border-left:1px solid #000000;">PNG</td>
+            <td style="text-align:center;">SVG</td>
+            <td style="text-align:center;border-right:1px solid #000000;">JPG</td>
+            <td style="text-align:center;border-right:1px solid #000000;" colspan="2">Printable</td></td>
         </tr>
         <tr>
-          <td style="text-align:center;border-left:1px solid #000000;"><input type="radio" name="format" value="png" checked="checked" /></td>
-          <td style="text-align:center;"><input type="radio" name="format" value="svg" /></td>
-          <td style="text-align:center;border-right:1px solid #000000;"><input type="radio" name="format" value="jpg" /></td>
-          <td style="text-align:center;border-right:1px solid #000000;" colspan="2"><input type="checkbox" id="printable" name="printable" value="on"/></td>
+            <td style="text-align:center;border-left:1px solid #000000;"><input type="radio" name="format" value="png" checked="checked" /></td>
+            <td style="text-align:center;"><input type="radio" name="format" value="svg" /></td>
+            <td style="text-align:center;border-right:1px solid #000000;"><input type="radio" name="format" value="jpg" /></td>
+            <td style="text-align:center;border-right:1px solid #000000;" colspan="2"><input type="checkbox" id="printable" name="printable" value="on"/></td>
         </tr>
         <tr><td colspan="5" style="height:1px;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: 1px solid #000000;"></td></tr>
-      </table>
-    </form>
+    </table>
     <div id="resultstable"></div>
-    <?php $basedir = basename(getcwd()); ?>
-    <script type="text/javascript" src="XMLHttpRequest.js"></script>
-    <script  type="text/javascript" src="shieldcommon.js"></script>
-    <script  type="text/javascript" src="randomshield.js"></script>
-   <script>   //<![CDATA[
-      // Set button actions
-      document.forms['myform'].createbutton.onclick = function () {randomifempty(); drawshield('drawshield.php?', displayMessages)};
-      document.forms['myform'].textbutton.onclick = function() {randomifempty(); saveshield('drawshield.php?') };
-      document.forms['myform'].searchbutton.onclick = function () {
-        requestHTML( 'dbquery.php?term=' + encodeURIComponent(document.forms['myform'].searchterm.value),'resultstable');
-      };
-     document.forms['myform'].parsebutton.onclick = function () {
-        requestHTML( 'drawshield.php?stage=parser&blazon=' + encodeURIComponent(document.forms['myform'].blazon.value),'resultstable');
-      };
-     document.forms['myform'].referencesbutton.onclick = function () {
-        requestHTML( 'drawshield.php?stage=references&blazon=' + encodeURIComponent(document.forms['myform'].blazon.value),'resultstable');
-      };
-     function quickshield(target,blazon) {
-       var thisimg = document.getElementById(target);
-       var thisblazon = document.getElementById(blazon);
-       thisimg.src = 'http://drawshield.net/include/shield/quickimage.php?size=250&outputformat=png&blazon=' + encodeURIComponent(thisblazon.value) + '&rand=' + Math.random() + '&dummy=file.png';
-     }
-
-    // Run automatically
-    //window.onload=window.onload=setupshield(null,null,null);;
- //]]>
-</script>
+    <script type="text/javascript" src="shieldcommon.js"></script>
+    <script>   //<![CDATA[
+        // Set button actions
+        document.getElementById("createbutton").onclick = function () {
+            drawshield('drawshield.php?', displayMessages);
+        };
+        document.getElementById("textbutton").onclick = function() {
+            saveshield('drawshield.php?');
+        };
+        document.getElementById("searchbutton").onclick = function () {
+            requestHTML( 'dbquery.php?term=' + encodeURIComponent(document.getElementById("searchterm").value),'resultstable');
+        };
+        document.getElementById("parsebutton").onclick = function () {
+            requestHTML( 'drawshield.php?stage=parser&blazon=' + encodeURIComponent(document.getElementById("blazon").value),'resultstable');
+        };
+        document.getElementById("referencesbutton").onclick = function () {
+            requestHTML( 'drawshield.php?stage=references&blazon=' + encodeURIComponent(document.getElementById("blazon").value),'resultstable');
+        };
+        document.getElementById("random_blazon_button").onclick = function () {
+            randomShieldCallback(function(blazon){
+                document.getElementById("blazon").value = blazon;
+                drawshield('drawshield.php?', displayMessages);
+            });
+        }
+    //]]>
+    </script>
 </body>
 </html>

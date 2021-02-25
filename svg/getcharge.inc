@@ -286,6 +286,8 @@ function getCharge( DOMElement $node ) {
     }
     list($chargeGroup, $chargeName ) = explode('/', $keyterm);
 
+    $filters = [];
+    static $filter_id = 0;
 
     //-------------------------------------------------------------
   // Special handling for escutcheons
@@ -429,7 +431,16 @@ function getCharge( DOMElement $node ) {
       $tincNode = getTinctureNode($fimNode);
       $strokeCol = get_rgb($tincNode);
     } else {
-      $messages->addMessage('warning','Only simple charges can be fimbriated');
+      $fimbTincNode = getTinctureNode($fimNode);
+      $fimbStrokeCol = get_rgb($fimbTincNode);
+      $filter_id++;
+      $svg_id = "ds_filter_fimbriated_$filter_id";
+      $filters[$svg_id] = <<<HERE
+        <feMorphology operator="dilate" in="SourceGraphic" radius="3" result="dilated" />
+        <feFlood flood-opacity="1" flood-color="$fimbStrokeCol" result="flood" />
+        <feComposite in="flood" in2="dilated" operator="in" result="back" />
+        <feComposite in="SourceGraphic" in2="back" operator="over" result="final" />
+HERE;
     }
   }
 
@@ -484,6 +495,18 @@ function getCharge( DOMElement $node ) {
     $body = '<g transform="translate(0, -' .  $half . ')" clip-path="url(#' . $clip . ')">' . $body . '</g>';
     $height = $half;
   } //----------------------------------------------------------
+
+  if ( count($filters) )
+  {
+    $filtered = "<defs>";
+    foreach ( $filters as $id => $filter )
+    {
+        $filtered .= "<filter id='$id'>$filter</filter>";
+        $body = "<g style='filter:url(#$id)'>$body</g>";
+    }
+    $filtered .= "</defs>";
+    $body = $filtered . $body;
+  }
 
   //------------------------------------------------------------
   // Charges on or around this one
