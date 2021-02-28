@@ -1,26 +1,26 @@
 <?php 
 
+$height = (isset($options['flagHeight'])) ? $options['flagHeight'] : 1200;
 
-$ordinary['body'] = '<polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" />
-             <g transform="translate(100,0)"><polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" /></g>
-             <g transform="translate(200,0)"><polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" /></g>
-             <g transform="translate(300,0)"><polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" /></g>
-             <g transform="translate(400,0)"><polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" /></g>
-             <g transform="translate(499,0)"><polygon points="49,0 50.5,0 51,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" /></g>
-             <g transform="translate(600,0)"><polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" /></g>
-             <g transform="translate(700,0)"><polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" /></g>
-             <g transform="translate(800,0)"><polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /><polygon points="98,0 102,0 102,1200 98,1200" /></g>
-             <g transform="translate(900,0)"><polygon points="49.5,0 50.5,0 50.5,1200 49.5,1200" /></g>
-             <path d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
-             <path transform="translate(0,100)" d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
-             <path transform="translate(0,200)" d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
-             <path transform="translate(0,300)" d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
-             <path transform="translate(0,400)" d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
-             <path transform="translate(0,499)" d="M0,49h1000v2h-1000z M0,98h1000v4h-1000z" />
-             <path transform="translate(0,600)" d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
-             <path transform="translate(0,700)" d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
-             <path transform="translate(0,800)" d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
-             <path transform="translate(0,900)" d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
-             <path transform="translate(0,1000)" d="M0,49.5h1000v1h-1000z M0,98h1000v4h-1000z" />
-             <path transform="translate(0,1100)" d="M0,49.5h1000v1h-1000z" />
-             ';
+$retval = '';
+// vertical lines
+for ($i = 50; $i < 1000; $i += 100) {
+    $i1 = $i-1;
+    $i2 = $i - 2 + 50;
+    // thin line at 50
+    $retval .= "<path d=\"M$i1,0 h2 v$height h-2 z\"/>\n"; 
+    // thick line at 100
+    $retval .= "<path d=\"M$i2,0 h4 v$height h-4 z\"/>\n"; 
+}
+// horizontal lines
+for ($i = 50; $i < $height; $i += 100) {
+    $i1 = $i - 1;
+    $i2 = $i - 2 + 50;
+    // thin line at 50
+    $retval .= "<path d=\"M0,$i1 v2 h1000 v-2 z\"/>\n"; 
+    // thick line at 100
+    $retval .= "<path d=\"M0,$i2 v4 h1000 v-4 z\"/>\n"; 
+}
+
+$ordinary['body'] = $retval;
+
