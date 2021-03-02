@@ -7,7 +7,7 @@ else
 
 $retval = '<path d="';
 list($width, $height, $pattern ) = $div_data;
-for ( $y = 0; $y < 1200; $y += $height )
+for ( $y = 0; $y < $calcHeight; $y += $height )
   for ( $x = 0; $x < 1000; $x += $width )
     $retval .= "M$x,$y $pattern ";
 $retval .= '" />';

@@ -16,7 +16,7 @@ $div_data = array ( 250, 433, 'm0,216.5h250l-125,-216.5z v216.5h125z m250,0v216.
 
 $retval = '<path d="';
 list($width, $height, $pattern ) = $div_data;
-for ( $y = 0; $y < 1200; $y += $height )
+for ( $y = 0; $y < $calcHeight; $y += $height )
   for ( $x = 0; $x < 1000; $x += $width )
     $retval .= "M$x,$y $pattern ";
 $retval .= '" />';

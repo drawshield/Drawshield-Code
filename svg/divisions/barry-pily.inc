@@ -14,7 +14,7 @@
 
 if ( ($num_of = getModifierValueByKeyterm($node, 'ofnum')) == null ) $num_of = 8;
 $svg = '';
-$stepV = 1200 / $num_of;
+$stepV = $calcHeight / $num_of;
 if ( existModifierWithKeyterm($node, 'sinister')) {
   for ( $i = 1; $i < $num_of; $i +=2 ) {
       $Y1 = ($i - 1) * $stepV;

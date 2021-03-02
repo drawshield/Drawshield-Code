@@ -8,8 +8,8 @@ elseif ($num_of > 24)
 $NC = '';
 $CH = '';
 $stepH = 1000 / $num_of;
-$stepC = 900 / $num_of; // with a chief
-$stepV = 1200 / $num_of;
+$stepC = floor($calcHeight / $num_of); // with a chief
+$stepV = floor($calcHeight / $num_of);
 $stepB = 1.414 * $stepH;
 if ( existModifierWithKeyterm($node, 'sinister')) {
   for ( $i = 1; $i < $num_of; $i +=2 ) {
