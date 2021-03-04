@@ -11,7 +11,7 @@ $suffix = '-of' . $num_of;
 
 
 
-$file = getBestMatchFilename("svg/charges/celestial/", 'star', $suffix);
+$file = getBestMatchFilename(__dir__, 'star', $suffix);
 if ($file != '')
     $charge['file'] = $file;
 

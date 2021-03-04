@@ -28,7 +28,7 @@ foreach($mulletMods as $aMod) {
   }   
 }
 
-$file = getBestMatchFilename("svg/charges/mullet/", 'mullet', rtrim($suffix,'-'));
+$file = getBestMatchFilename(__dir__, 'mullet', rtrim($suffix,'-'));
 if ($file != '')
   $charge['file'] = $file;
 //$charge['file'] = 'mullet-of' . $num_of . $suffix . '.svg';
