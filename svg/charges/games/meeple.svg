@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="500"
+   height="500"
+   version="1.1"
+   id="svg7">
+  <defs
+     id="defs11" />
+  <metadata
+     id="metadata2">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="" />
+        <dc:title></dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Mattia &quot;Glax&quot; Basaglia</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <path
+     id="path849"
+     style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3"
+     d="m 249.75977,10.947312 a 79.275696,79.275696 0 0 0 -79.03516,79.27539 79.275696,79.275696 0 0 0 1.84961,17.029298 h -0.30078 C 160.30601,130.65951 12.600239,152.99224 11.76172,219.40825 10.923202,285.82427 110.944,245.89282 119.40625,273.47466 127.8685,301.0565 -15.379795,489.05278 50.183596,489.05278 H 180.32031 c 42.31125,0 41.11153,-91.93945 69.67969,-91.93945 28.56816,0 27.36844,91.93945 69.67969,91.93945 h 130.13672 c 65.56339,0 -77.68491,-187.99628 -69.22266,-215.57812 8.46225,-27.58184 108.48305,12.34961 107.64453,-54.06641 -0.83848,-66.41383 -148.8385,-88.74762 -160.81445,-112.1543 A 79.275696,79.275696 0 0 0 329.27539,90.222702 79.275696,79.275696 0 0 0 250,10.947312 a 79.275696,79.275696 0 0 0 -0.24023,0 z" />
+</svg>

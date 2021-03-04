@@ -174,6 +174,7 @@
       array ( 'testicules?', 'livestock/testicules' ),
       array ( 'turkeycocks?', 'livestock/turkeycock' ),
       array ( '(moor|heath)cocks?', 'livestock/cock' ),
+      array ( 'eggs?', 'livestock/egg' ),
       // dogs
       array ( 'greyhounds?', 'dog/greyhound' ),
       array ( 'talbots?', 'dog/talbot' ),
@@ -240,6 +241,7 @@
       array ( 'zebras?', 'animal/zebra' ),
       array ( 'porcupines?', 'animal/porcupine' ),
       array ( 'camele?opards?', 'animal/camelopard' ),
+      array ( 'paws? ?prints?', 'animal/paw-print' ),
       // snakes and stuff
       array ( '(asp|serpent)s?', 'serpent/serpent' ),
       array ( 'snakes?', 'serpent/snake' ),
@@ -835,6 +837,7 @@
       array ( 'snow flakes?', 'natural/snowflake' ),
       array ( 'waves? of the sea', 'natural/sea-waves' ),
       array ( '(hurst|grove|wood|forest)s? ?of ?trees', 'natural/forest' ),
+      array ( 'teardrop', 'natural/teardrop' ),
       // celestial
       array ( '?full moons?', 'celestial/moon' ),
       array ( 'increscents?', 'celestial/moon-todexter' ),
@@ -993,6 +996,7 @@
       array ( '(twelve|12) mens? morris boards?', 'games/board-twelve-mens-morris'),
       array ( 'morris ?boards? ?of ?(9|nine)', 'games/board-nine-mens-morris'), // default
       array ( 'morris ?boards? of (twelve|12)', 'games/board-twelve-mens-morris'),
+      array ( 'meeples?', 'games/meeple' ),
       // crafts
       array ( 'spindles? ?of ?silk', 'crafts/spindle' ),
       array ( 'ribbons?', 'crafts/ribbon' ),
