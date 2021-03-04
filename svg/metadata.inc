@@ -68,6 +68,9 @@ class metadataMap {
             'trumpet' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'buckle' => array('horizontal' => true, 'orient_to_ordinary' => 1),
         'bird/wing' => array('superposition' => '50,70,70' ),
+        'livestock/egg' => array('fimbriate' => true, 'hflex' => 2, 'wflex' => 2),
+        'animal/paw-print' => array('fimbriate' => true),
+        'games/meeple' => array('fimbriate' => true),
     );
   }
   
