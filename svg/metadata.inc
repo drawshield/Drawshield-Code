@@ -71,6 +71,7 @@ class metadataMap {
         'livestock/egg' => array('fimbriate' => true, 'hflex' => 2, 'wflex' => 2),
         'animal/paw-print' => array('fimbriate' => true),
         'games/meeple' => array('fimbriate' => true),
+        'natural/teardrop' => array('fimbriate' => true),
     );
   }
   

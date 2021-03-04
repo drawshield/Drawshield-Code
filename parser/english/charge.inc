@@ -837,6 +837,7 @@
       array ( 'snow flakes?', 'natural/snowflake' ),
       array ( 'waves? of the sea', 'natural/sea-waves' ),
       array ( '(hurst|grove|wood|forest)s? ?of ?trees', 'natural/forest' ),
+      array ( 'teardrop', 'natural/teardrop' ),
       // celestial
       array ( '?full moons?', 'celestial/moon' ),
       array ( 'increscents?', 'celestial/moon-todexter' ),
