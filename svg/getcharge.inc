@@ -425,6 +425,17 @@ function getCharge( DOMElement $node ) {
       $node->removeChild($inscribe);
     }
 
+
+  if ( getModifierNodeWithKeyterm($node, 'voided') != null && strpos($chg_data["file"], "voided") === false )
+  {
+      $filter_id++;
+      $svg_id = "ds_filter_voided_$filter_id";
+      $filters[$svg_id] = <<<HERE
+        <feMorphology operator="erode" in="SourceGraphic" radius="5" result="back" />
+        <feComposite in2="SourceGraphic" in="back" operator="xor" result="final" />
+HERE;
+  }
+
   // special handling for fimbriated (overwrites strokeCol)
   if ( ($fimNode = getModifierNodeWithKeyterm($node, 'fimbriated')) != null ) {
     if (array_key_exists('fimbriate', $chg_data) && $chg_data['fimbriate'] == true) {
@@ -443,7 +454,6 @@ function getCharge( DOMElement $node ) {
 HERE;
     }
   }
-
 
     //---------------------------------------------------------
     // So we now have $charge_col set to a valid tincture node and the feat_cols array set, apply this to the svg Data
