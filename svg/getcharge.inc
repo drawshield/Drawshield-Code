@@ -62,7 +62,7 @@ function getBestMatchFilename($folder, $base, $mods) {
       if (!$found) {
         $penalty += $currentRNPPenalty;
         // Some things we don't really care about
-        if (!in_array($requiredParts[$i], array('upper', 'lower', 'half', 'demi', 'entire', 'head', 'leg' ))) {
+        if (!in_array($requiredParts[$i], array('voided', 'upper', 'lower', 'half', 'demi', 'entire', 'head', 'leg' ))) {
           $missing .= $requiredParts[$i] . ' ';
         }
       }
