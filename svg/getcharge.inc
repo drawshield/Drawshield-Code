@@ -430,15 +430,29 @@ function getCharge( DOMElement $node ) {
   {
       $filter_id++;
       $svg_id = "ds_filter_voided_$filter_id";
-      $filters[$svg_id] = <<<HERE
-        <feMorphology operator="erode" in="SourceGraphic" radius="5" result="back" />
-        <feComposite in2="SourceGraphic" in="back" operator="xor" result="final" />
+
+      if ( $charge_col->firstChild->nodeName == "colour" )
+      {
+            $solid_color = get_rgb($charge_col);
+            $filters[$svg_id] = <<<HERE
+                <feMorphology operator="erode" in="SourceGraphic" radius="5" result="back" />
+                <feFlood flood-opacity="1" flood-color="$solid_color" result="flood" />
+                <feComposite in="flood" in2="SourceGraphic" operator="in" result="filled" />
+                <feComposite in2="filled" in="back" operator="xor" result="final" />
 HERE;
+      }
+      else
+      {
+            $filters[$svg_id] = <<<HERE
+                <feMorphology operator="erode" in="SourceGraphic" radius="5" result="back" />
+                <feComposite in2="SourceGraphic" in="back" operator="xor" result="final" />
+HERE;
+      }
   }
 
   // special handling for fimbriated (overwrites strokeCol)
   if ( ($fimNode = getModifierNodeWithKeyterm($node, 'fimbriated')) != null ) {
-    if (array_key_exists('fimbriate', $chg_data) && $chg_data['fimbriate'] == true) {
+    if ( array_key_exists('fimbriate', $chg_data) && $chg_data['fimbriate'] == true && count($filters) == 0 ) {
       $tincNode = getTinctureNode($fimNode);
       $strokeCol = get_rgb($tincNode);
     } else {
