@@ -71,7 +71,7 @@ function rgb($keyterm) {
     list($type,$name) = explode('/',$keyterm);
 
     if (array_key_exists($keyterm, $tinctures)) {
-        return $tinctures[$keyterm];
+        return TinctureData::fix_url($tinctures[$keyterm]);
     } else {
         switch($type) {
           case 'heraldic': // should not happen
