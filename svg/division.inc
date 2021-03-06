@@ -37,7 +37,7 @@ function includeDivision( DOMElement &$node ) {
     if ( stream_resolve_include_path($file) === false ) $file = null;
   }    
   $calcHeight = 1200; // value to use for calculating drawing height
-  if ($options['shape'] == 'flag') {
+  if ($options['shape'] == 'flag' || $options['shape'] == 'quarter') {
     $calcHeight = $options['flagHeight'];
   }
   if ($file != null) { // calcHeight is available within the included file
@@ -59,7 +59,7 @@ function makeDivision( DOMElement $node, $counter = false ) {
   $division = includeDivision($node);
 
   $height = 1200;
-  if ($options['shape'] == 'flag') {
+  if ($options['shape'] == 'flag' || $options['shape'] == 'quarter') {
     $height = $options['flagHeight'];
   }
 

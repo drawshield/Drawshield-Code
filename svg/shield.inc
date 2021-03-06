@@ -71,7 +71,7 @@ function makePlain( &$children, $drawnAR = '10:12' ) {
       case 'field':
         // Paint the field
         if (!array_key_exists('raw', $options)) {
-          if ($options['shape'] == 'flag') {
+          if ($options['shape'] == 'flag' || $options['shape'] == 'quarter') {
             $retval .= apply_tincture ( $kid->firstChild, '<rect x="0" y="0" width="1000" height="' . $options['flagHeight'] . '" ><title>Field</title></rect>' , '1000,' . $options['flagHeight'] );
           } else {
             $retval .= apply_tincture ( $kid->firstChild, '<rect x="0" y="0" width="1000" height="1200" ><title>Field</title></rect>' , '1000,1200' );

@@ -12,7 +12,7 @@ function subHeightPercent( $match ) {
     $percent = substr($percent, 0, $len - 1); // strip flag
   }
   // Types
-	if ($options['shape'] == 'flag') {
+	if ($options['shape'] == 'flag' || $options['shape'] == 'quarter') {
 		$height = $options['flagHeight'];
 	}
 	

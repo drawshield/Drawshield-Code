@@ -188,12 +188,24 @@ function get_placement(DOMElement $item) {
     }
     
     // Figure out default bounding box size for this aspect ratio, chief presence && entire
-    if ( $options['shape'] == 'flag') {
-      if ( existModifierWithKeyterm($item,'entire') ) {
-        $boundingBox = '0,0,1000,' . $options['flagHeight'];
-      } else {
-        $boundingBox = '50,50,900,' . ($options['flagHeight'] - 100);
-      }
+    if ( $options['shape'] == 'flag' || $options['shape'] == 'quarter' ) {
+        if ( existModifierWithKeyterm($item,'entire') )
+            $xmargin = 0;
+        else
+            $xmargin = $options['shape'] == 'quarter' ? 100 : 50;
+
+        if ( $chief )
+        {
+            $chief_off = 300;
+            $ymargin = 0;
+        }
+        else
+        {
+            $chief_off = 0;
+            $ymargin = $xmargin;
+        }
+
+        $boundingBox = implode(",", [$xmargin, $ymargin + $chief_off, 1000 - $xmargin * 2, $options['flagHeight'] - $ymargin * 2 - $chief_off]);
     } elseif (in_array($options['shape'],array('circle','square', 'lozenge', 'pauldron'))) {
       if ( existModifierWithKeyterm($item,'entire') ) {
         $boundingBox = '0,0,1000,1000';
@@ -572,7 +584,7 @@ function get_placement(DOMElement $item) {
         if ($chief) {
           $placement = '500,700,600,600';
         } else {
-          if ( $options['shape'] == 'flag') {
+          if ( $options['shape'] == 'flag' || $options['shape'] == 'quarter') {
             $calcHeight = $options['flagHeight'];
             $centerY = (int)($calcHeight / 2);
             $extentY = $calcHeight - 200;
