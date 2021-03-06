@@ -81,6 +81,7 @@ function drawMantling($mantlingNode) {
 
     // switch on type here
     $svg = file_get_contents("svg/components/mantling/$type.svg");
+    $defs = [];
 
      if ($mantlingNode != null) {
         // Sort out the actual colours in use
@@ -89,10 +90,17 @@ function drawMantling($mantlingNode) {
             $colours = array();
             for($j = 0; $j < $location->childNodes->length; $j++) {
                 $tincture = $location->childNodes->item($j);
-                if ($tincture->firstChild->nodeName != 'colour') {
-                    $messages->addMessage('error',"mantling tinctures may only be plain colours");
-                } else {
-                    $colours[] = rgb($tincture->firstChild->getAttribute('keyterm'));
+                $tincture_data = new TinctureData($tincture);
+                $tincture_data->pattern_transform = "scale(0.3)";
+                $tincture_data->parse_fill();
+                if ( $tincture_data->fill )
+                {
+                    $colours[] = $tincture_data->fill;
+                    $defs = array_merge($defs, $tincture_data->defs);
+                }
+                else
+                {
+                    $messages->addMessage('error',"complex mantling tinctures are not supported");
                 }
             }
             $numCols = count($colours);
@@ -140,16 +148,22 @@ function drawMantling($mantlingNode) {
             }
         }
     }
-     if ($staff) {
+    if ($staff) {
          $features['staff'] = $staff;
-     }
+    }
     if ($hat) {
         $features['hat'] = $hat;
     }
-    $retval = getSvgFragment($svg, $features, 'mantling', $type, $extras, getStroke(null, true));
-     return $retval['body'];
 
+    $retval = getSvgFragment($svg, $features, 'mantling', $type, $extras, getStroke(null, true));
+
+    $defs_svg  = "";
+    if ( count($defs) )
+        $defs_svg  = "<defs>" . implode("", $defs) . "</defs>";
+
+    return $defs_svg . $retval['body'];
 }
+
 function drawTorse($torseNode) {
     global $messages;
 

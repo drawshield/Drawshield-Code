@@ -345,6 +345,7 @@ function getCharge( DOMElement $node ) {
      */
     $charge_col = null;
     $feat_cols = array();
+    $defs = [];
     /**
      * @var DOMElement $child
      */
@@ -364,18 +365,21 @@ function getCharge( DOMElement $node ) {
             else {
               $tinctureType = $featureTinc->firstChild;
               switch ($tinctureType->nodeName) {
-                case 'colour':
-                  $feat_cols[$featureName] = rgb($tinctureType->getAttribute('keyterm'));
-                  break;
                 case 'proper':
                   $feat_cols[$featureName] = getProper($chargeGroup, $chargeName, $featureName);
                   break;
-                default: // treatment or something
-                // Message comment out for now, spurious when feature is really 
-                // a charge modifier, e.g. wolfs head counterchaged
-                // so not helpful at present.
-                  // $messages->addMessage('Warning', "Features can only be plain colours");
-                  break;
+                default:
+                    $feat_cols[$featureName] = rgb($tinctureType->getAttribute('keyterm'));
+
+                    $tincture_data = new TinctureData($featureTinc);
+                    $tincture_data->pattern_transform = "scale(0.5)";
+                    $tincture_data->parse_fill();
+                    if ( $tincture_data->fill )
+                    {
+                        $feat_cols[$featureName] = $tincture_data->fill;
+                        $defs = array_merge($defs, $tincture_data->defs);
+                    }
+                    break;
               }
             }
           }
@@ -522,14 +526,15 @@ HERE;
 
   if ( count($filters) )
   {
-    $filtered = "<defs>";
     foreach ( $filters as $id => $filter )
     {
-        $filtered .= "<filter id='$id'>$filter</filter>";
+        $defs[] = "<filter id='$id'>$filter</filter>";
         $body = "<g style='filter:url(#$id)'>$body</g>";
     }
-    $filtered .= "</defs>";
-    $body = $filtered . $body;
+  }
+  if ( count($defs) )
+  {
+    $body = "<defs>" . implode("", $defs) . "</defs>" . $body;
   }
 
   //------------------------------------------------------------

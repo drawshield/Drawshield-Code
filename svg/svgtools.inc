@@ -1,5 +1,23 @@
 <?php 
 
+function make_def($element, $content, $name = '', $title = '', $desc = '')
+{
+    $element_words = explode(' ', $element);
+    $type = $element_words[0];
+    if ( $name == '' )
+        $name = $type;
+    $myid = unique($name);
+    $def = '<' . $element . ' id="' . $myid . '" >' . "\n";
+    if ($title != '' )
+        $def .= '<title>' . $title . "</title>\n";
+    if ($desc != '')
+        $def .= '<desc>' . $desc . "</desc>\n";
+    $def .= $content;
+    $def .= "\n</" . $type . ">\n";
+
+    return [$myid, $def];
+}
+
 function add_def($element = '', $content = '', $name = '', $title = '', $desc = ''){
   static $defs;
 
@@ -12,20 +30,8 @@ function add_def($element = '', $content = '', $name = '', $title = '', $desc = 
     }
     return $retval;
   } // else if we given some arguments, then create an approprate definition
-  $element_words = explode(' ', $element);
-  $type = $element_words[0];
-  if ( $name == '' ) { $name = $type; }
-  $myid = unique($name);
-  $def = '<' . $element . ' id="' . $myid . '" >' . "\n";
-  if ($title != '' ) {
-    $def .= '<title>' . $title . "</title>\n";
-  }
-  if ($desc != '') {
-    $def .= '<desc>' . $desc . "</desc>\n";
-  }
-  $def .= $content;
-  $def .= "\n</" . $type . ">\n";
 
+  list($myid, $def) = make_def($element, $content, $name, $title, $desc);
   $defs .= $def;
   return $myid; // and return an id unique to this SVG file
 }

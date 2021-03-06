@@ -71,7 +71,7 @@ function rgb($keyterm) {
     list($type,$name) = explode('/',$keyterm);
 
     if (array_key_exists($keyterm, $tinctures)) {
-        return $tinctures[$keyterm];
+        return TinctureData::fix_url($tinctures[$keyterm]);
     } else {
         switch($type) {
           case 'heraldic': // should not happen
@@ -234,211 +234,312 @@ function mixRGB($hex1, $hex2) {
     return $retval;
 }
 
+class TinctureData
+{
+    function __construct($tinctureNode, $rev = false, $inv = false)
+    {
+        $this->node = resolveReference($tinctureNode);
+        $this->type_node = $this->node->firstChild;
+        if ( !is_object($this->type_node) )
+            $this->type_node = createColourNode('gray','1');
+        $this->type_name = $this->type_node->nodeName;
+        $this->rev = $rev;
+        $this->inv = $inv;
+
+        $this->pattern_transform = '';
+        $this->fill = null;
+        $this->defs = [];
+        $this->mask = null;
+    }
+
+    private function add_def($element, $content)
+    {
+        list($id, $def) = make_def($element, $content);
+        $this->defs[$id] = $def;
+        return $id;
+    }
+
+    static function fix_url($fill)
+    {
+        if ( $fill && $fill[0] == '"' )
+            return "url(" . substr($fill, 1, -1) . ")";
+        return $fill;
+    }
+
+    static function id_url($id)
+    {
+        return "url(#$id)";
+    }
+
+    private function apply_inv(&$data)
+    {
+        if ( $this->inv )
+            $data['body'] = "<g transform=\"translate(0,{$data['height']}) scale(1,-1)\">{$data['body']}</g>";
+    }
+
+    private function apply_rev(&$data)
+    {
+        if ( $this->rev )
+            $data['body'] = "<g transform=\"translate({$data['width']},0) scale(-1,1)\">{$data['body']}</g>";
+    }
+
+    function parse_fill()
+    {
+        if ( $this->pattern_transform )
+            $patTrans = ' patternTransform="' . $this->pattern_transform . '" ';
+        else
+            $patTrans = '';
+
+        switch ( $this->type_name )
+        {
+            case 'colour':
+            case 'default': // don't think these two ever occur
+            case 'proper':
+                if ( $this->type_node->hasAttribute('spec') )
+                    $this->fill = $this->type_node->getAttribute('spec');
+                else
+                    $this->fill = rgb($this->type_node->getAttribute('keyterm'));
+
+                if ( $this->fill )
+                {
+                    // set if we are to use the fill found
+                    if ( substr($this->fill, 0, 4) == 'url(')
+                        $this->mask = substr($this->fill, 4, -1);
+                }
+                break;
+            case 'fur':
+                $fur_name = $this->type_node->getAttribute('keyterm');
+                $fur_data = makeFur( $fur_name );
+                // If what we are placing is inverted, we also invert the fill so it appears the "right way up"
+                // Don't need to do reversed as all furs are symmetrical
+                $this->apply_inv($fur_data);
+                $patt_id = $this->add_def(
+                    'pattern ' . $patTrans .
+                    ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="0" y="0" width="' .
+                    $fur_data['width'] . '" height="' . $fur_data['height'] . '"',
+                    '<g class="fur">' . $fur_data['body'] . '</g>'
+                );
+                $this->fill = static::id_url($patt_id);
+                break;
+            case 'treatment':
+                // A bit messy, but we handle gradients as a fill, not a pattern fill (could make this its own node type really?)
+                if (substr($this->type_node->getAttribute("keyterm"), 0, 5) == 'grady')
+                {
+                    $this->fill = static::id_url(makeGrady($this->type_node));
+                }
+                else
+                {
+                    $treat_data = makeTreatment( $this->type_node );
+                    // If what we are placing is inverted, we also invert the fill so it appears the "right way up"
+                    // Don't need to do reversed as all treatments are symmetrical
+                    $this->apply_inv($treat_data);
+                    //do we need to offset the pattern to center it?
+                    $offset = 0;
+                    if (array_key_exists('offset', $treat_data))
+                        $offset = $treat_data['offset'];
+
+                    $this->fill = static::id_url($this->add_def(
+                        'pattern ' . $patTrans .
+                        ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="' . $offset . '" y="0" width="' .
+                        $treat_data['width'] . '" height="' . $treat_data['height'] . '"',
+                        '<g class="treatment">' . $treat_data['body'] . '</g>'
+                    ));
+                }
+                break;
+            case 'semyde':
+                $treat_data = makeSemy($this->type_node);
+                // If what we are placing is inverted, we also invert the fill so it appears the "right way up"
+                $this->apply_inv($treat_data);
+                $this->apply_rev($treat_data);
+                $this->fill = static::id_url($this->add_def(
+                    'pattern ' . $patTrans .
+                    ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="0" y="0" width="' .
+                    $treat_data['width'] . '" height="' . $treat_data['height'] . '"',
+                    $treat_data['body']
+                ));
+                break;
+        }
+    }
+
+    function defs()
+    {
+        if ( count($this->defs) == 0 )
+            return "";
+        return "<defs>" . implode("", $this->defs) . "</defs>";
+    }
+
+}
+
 
 function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
         $rot = '0', $rev = false, $inv = false ) {
-  global $_SERVER, $messages, $xpath, $options;
-  $retval = '';
+    global $_SERVER, $messages, $xpath, $options;
+    $retval = '';
 
-  if (is_null($tinctureNode)) return $targetSVG; // Maybe an error? Sometimes get here from makeOrdinary()
-  if (!is_object($tinctureNode) || is_null($tinctureNode->parentNode) ) {
-    // error_log("bad tincture in " . $options['blazon']);
-    return $targetSVG;
-  }
+    if ( is_null($tinctureNode) )
+        return $targetSVG; // Maybe an error? Sometimes get here from makeOrdinary()
 
-  $patTrans = '';
-  $targetNode = $tinctureNode->parentNode;
-	$targetType = $targetNode->nodeName;
-  $tinctureNode = resolveReference($tinctureNode);
-    $tinctureTypeNode = $tinctureNode->firstChild;
-  $targetKeyterm = "";
-  if ( $targetNode !== null) {
-      $targetKeyterm = $targetNode->getAttribute('keyterm'); 
-  } else {
-      return $targetSVG;
-  }
+    if ( !is_object($tinctureNode) || is_null($tinctureNode->parentNode) ) {
+        // error_log("bad tincture in " . $options['blazon']);
+        return $targetSVG;
+    }
 
-	if ( $targetType == 'charge' && $chg_size != '' && $tinctureTypeNode != null && $tinctureTypeNode->nodeName != blazonML::E_COUNTERCHANGED ) // We make some things a wee bit smaller if on a charge, just for looks
-	{
-	  list($chgX,$chgY) = explode(',', $chg_size);
-		$scale = max ( $chgX / 1000, $chgY / 1200 ); // multiply here to adjust relative size of fur etc. on a charge
-	  $patTrans = ' scale(' . $scale . ') ';
-	} elseif ($options['shape'] == 'flag') { // adjust size based on flag AR?
-    $patTrans = ' scale(0.5) ';
-  }
-	if ( $rot != '0' ) // If the object is rotated, we rotate some of the tinctures to match_number()
-	  $patTrans .= ' rotate(' . ($rot * -1) . ') ';
-	if ( $patTrans != '' )
-	  $patTrans = ' patternTransform="' . $patTrans . '" ';
+    $targetNode = $tinctureNode->parentNode;
+    $targetType = $targetNode->nodeName;
 
-  if ( $tinctureNode->getAttribute('origin') == 'implied' ) return $targetSVG; // Nothing to do
-  // stage "raw" means leave charge colours as they are
-  // if ( $targetType == 'charge' && array_key_exists('raw', $options)) return $targetSVG;
-  if ( $tinctureNode === null || !$tinctureNode->hasChildNodes() 
-      || $tinctureNode->getAttribute('origin') == 'pending' 
-      || $tinctureNode->getAttribute('origin') == 'missing') {
-      $messages->addMessage ('blazon','Missing colour, Gray substituted.' );
-      $tinctureNode = createColourNode('gray','1');
-  }
-  $spec = false;
-  if (!is_object($tinctureTypeNode)) {
-    // error_log("non-object tincture in " . $options['blazon']);
-    $tinctureTypeNode = createColourNode('gray','1');
-  }
-  switch ( $tinctureTypeNode->nodeName ) {
-    case 'colour':
-    case 'default': // don't think these two ever occur
-    case 'proper':
-      if ($targetType == 'ordinary' && array_key_exists('raw', $options)) {
-            $spec = '#999999';
-      } elseif ( $tinctureTypeNode->hasAttribute('spec') )  {
-        $spec = $tinctureTypeNode->getAttribute('spec');
-      } else {
-        $spec = rgb($tinctureTypeNode->getAttribute('keyterm'));
-      }
-      if ($spec !== false) { // set if we are to use the fill found
-          if ($spec[0] == '"') { // mask athe element with this id
-              $patt_id = add_def('mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>');
-              $retval = '<g mask="url(#' . $patt_id . ')"  ><use xlink:href=' . $spec . ' /></g>';
-              if ( $targetType == 'charge' ) // add the outline and any shading
+    $data = new TinctureData($tinctureNode, $rev, $inv);
+    $targetKeyterm = "";
+    if ( $targetNode !== null) {
+        $targetKeyterm = $targetNode->getAttribute('keyterm');
+    } else {
+        return $targetSVG;
+    }
+
+    if ( $targetType == 'charge' && $chg_size != '' && $data->type_name != blazonML::E_COUNTERCHANGED )
+    {
+        // We make some things a wee bit smaller if on a charge, just for looks
+        list($chgX,$chgY) = explode(',', $chg_size);
+        $scale = max ( $chgX / 1000, $chgY / 1200 ); // multiply here to adjust relative size of fur etc. on a charge
+        $data->pattern_transform = ' scale(' . $scale . ') ';
+    } elseif ($options['shape'] == 'flag') { // adjust size based on flag AR?
+        $data->pattern_transform = ' scale(0.5) ';
+    }
+
+    // If the object is rotated, we rotate some of the tinctures to match_number()
+    if ( $rot != '0' )
+        $data->pattern_transform .= ' rotate(' . ($rot * -1) . ') ';
+
+    // Nothing to do
+    if ( $data->node->getAttribute('origin') == 'implied' )
+        return $targetSVG;
+
+    // stage "raw" means leave charge colours as they are
+    // if ( $targetType == 'charge' && array_key_exists('raw', $options)) return $targetSVG;
+    if ( $data->node === null || !$data->node->hasChildNodes()
+        || $data->node->getAttribute('origin') == 'pending'
+        || $data->node->getAttribute('origin') == 'missing') {
+        $messages->addMessage ('blazon','Missing colour, Gray substituted.' );
+        $data->node = createColourNode('gray','1');
+    }
+
+    switch ( $data->type_name ) {
+        case 'colour':
+        case 'default': // don't think these two ever occur
+        case 'proper':
+        case 'fur':
+        case 'treatment':
+        case 'semyde':
+            $data->parse_fill();
+
+            if ( $data->mask )
+            {
+                $patt_id = add_def('mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>');
+                $retval .= '<g mask="url(#' . $patt_id . ')"  ><use xlink:href="' . $data->mask . '" /></g>';
+                // add the outline and any shading
+                if ( $targetType == 'charge' )
                     $retval .= '<g style="fill:none;">' . $targetSVG . '</g>';
+            }
+            else if ( $data->fill )
+            {
+                $stroke = '';
 
-          } else {
-              $retval = '<g fill="' . $spec . '">' . $targetSVG . '</g>';
-          }
-      } else {
-        $retval =  $targetSVG;
-      }
-      break;
-    case 'fur':
-      $fur_name = $tinctureTypeNode->getAttribute('keyterm');
-      $fur_data = makeFur( $fur_name );
-      // If what we are placing is inverted, we also invert the fill so it appears the "right way up"
-      // Don't need to do reversed as all furs are symmetrical
-      if ( $inv ) $fur_data['body'] = "<g transform=\"translate(0,{$fur_data['height']}) scale(1,-1)\">{$fur_data['body']}</g>";
-      $patt_id = add_def ( 'pattern ' . $patTrans .
-         ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="0" y="0" width="' .
-         $fur_data['width'] . '" height="' . $fur_data['height'] . '"',
-         '<g class="fur">' . $fur_data['body'] . '</g>' );
-      $retval = add_def();
-      $stroke = ($targetType == 'ordinary') ? 'stroke="' . rgb('sable') . '" stroke-width="5"' : '';
-      $retval .= '<g ' . $stroke . ' fill="url(#' . $patt_id . ')"  >' . $targetSVG . '</g>';
-      break;
-    case 'treatment':
-      // A bit messy, but we handle gradients as a fill, not a pattern fill (could make this its own node type really?)
-      if (substr($tinctureTypeNode->getAttribute("keyterm"), 0, 5) == 'grady') {
-        $patt_id = makeGrady( $tinctureTypeNode );
-      } else {
-        $treat_data = makeTreatment( $tinctureTypeNode );
-        // If what we are placing is inverted, we also invert the fill so it appears the "right way up"
-        // Don't need to do reversed as all treatments are symmetrical
-        if ( $inv ) $treat_data['body'] = "<g transform=\"translate(0,{$treat_data['height']}) scale(1,-1)\">{$treat_data['body']}</g>";
-        //do we need to offset the pattern to center it?
-          $offset = 0;
-          if (array_key_exists('offset', $treat_data)) {
-              $offset = $treat_data['offset'];
-          }
-        $patt_id = add_def ( 'pattern ' . $patTrans .
-          ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="' . $offset . '" y="0" width="' .
-          $treat_data['width'] . '" height="' . $treat_data['height'] . '"',
-          '<g class="treatment">' . $treat_data['body'] . '</g>' );
-      }
-      $retval = add_def();
-      $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $targetSVG . '</g>';
-      break;
-    case 'semyde':
-      $treat_data = makeSemy( $tinctureTypeNode );
-      // If what we are placing is inverted, we also invert the fill so it appears the "right way up"
-      if ( $inv ) $treat_data['body'] = "<g transform=\"translate(0,{$treat_data['height']}) scale(1,-1)\">{$treat_data['body']}</g>";
-      if ( $rev ) $treat_data['body'] = "<g transform=\"translate({$treat_data['width']},0) scale(-1,1)\">{$treat_data['body']}</g>";
-      $patt_id = add_def ( 'pattern ' . $patTrans .
-         ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="0" y="0" width="' .
-         $treat_data['width'] . '" height="' . $treat_data['height'] . '"',
-         $treat_data['body'] );
-      $retval = add_def();
-      $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $targetSVG . '</g>';
-      break;
-    case 'division': 
-		  $title = '<title>' . $tinctureTypeNode->getAttribute('keyterm') . '</title>';
-	    // What we do depends on what we are filling...
-      switch ($targetType) {
-        case 'division':
-            $new_div = makeDivision( $tinctureTypeNode );
-            $mask_id = add_def ( 'mask width="1200" height="1400" maskUnits="userSpaceOnUse"',
-              $title . "<desc>Division used to fill $targetKeyterm</desc>" .
-              '<g fill="white">' . $targetSVG . '</g>' );
-          $retval = add_def();
-          $retval .= '<g mask="url(#' . $mask_id . ')"  >' . $new_div . '</g>';
-          break;
-        case 'field': // just the field of the shield
-				  $retval = '<g>' . $title . '<desc>Division used to fill field</desc>' . makeDivision( $tinctureTypeNode ) . '</g>';
-			  	break;
-        case 'ordinary':
-          if ($targetKeyterm == 'plain-cross' || $targetKeyterm == 'bend') {
-            $new_div = makeDivision( $tinctureTypeNode );
-             $mask_id = add_def ( 'mask width="1200" height="1400" maskUnits="userSpaceOnUse"',
-                $title . "<desc>Division used to fill $targetKeyterm</desc>" .
-                '<g fill="white">' . $targetSVG . '</g>' );
-            $retval = add_def();
-            $retval .= '<g mask="url(#' . $mask_id . ')"  >' . $new_div . '</g>';
+                $retval .= $data->defs();
+
+                switch ( $data->type_name )
+                {
+                    case 'fur':
+                        $stroke = ($targetType == 'ordinary') ? 'stroke="' . rgb('sable') . '" stroke-width="5"' : '';
+                        break;
+                }
+
+                $retval .= "<g $stroke fill=\"{$data->fill}\">$targetSVG</g>";
+            }
+            else
+            {
+                $retval .= $targetSVG;
+            }
             break;
-          } // else flow through
-        case 'charge':
-				  chief('push','NC');
-          $new_div = makeDivision( $tinctureTypeNode );
-          chief('pop');
-					$height = get_div_height($tinctureTypeNode);
-          $patt_id = add_def ( 'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 ' .   $height . '"',
-              $title . "<desc>Division used to fill $targetType</desc>" .
-               $new_div ); 
-          $retval = add_def();
-          $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $targetSVG . '</g>';
-				  break;
-			}
-			break;	
-	  case 'shield':
-	    $shield = makeshield( $tinctureTypeNode, '10:10' );
-	    $patt_id = add_def ( 'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 1000"',
-              "<desc>Shield used to fill $targetType</desc>" .
-               $shield ); 
-      $retval = add_def();
-      $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $targetSVG . '</g>';
-      break;
-    case 'counterchanged': // Never change anything, just fill with this pattern
-      // Try to find a field division
-      $division = $xpath->query('preceding::field/tincture/division',$tinctureNode);
-      if ( $division->length ) {
-          $counterDiv = $division->item(($division->length)-1);
-          $div_data = makeDivision( $counterDiv, true );
-          $patt_id = add_def ( 'mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>' );
-          $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $div_data . '</g>';
-      } else {
-          $treatment = $xpath->query('preceding::field/tincture/treatment',$tinctureNode);
-          if ( $treatment->length ) {
-              $counterTreatment = $treatment->item(($treatment->length) - 1);
-              $treat_data = makeTreatment($counterTreatment, true);
-              if ( $inv ) $treat_data['body'] = "<g transform=\"translate(0,{$treat_data['height']}) scale(1,-1)\">{$treat_data['body']}</g>";
-              //do we need to offset the pattern to center it?
-              $offset = 0;
-              if (array_key_exists('offset', $treat_data)) {
-                  $offset = $treat_data['offset'];
-              }
-              $treatPatt_id = add_def ( 'pattern ' . $patTrans .
-                  ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="' . $offset . '" y="0" width="' .
-                  $treat_data['width'] . '" height="' . $treat_data['height'] . '"',
-                  '<g class="treatment">' . $treat_data['body'] . '</g>' );
-//          }
-              $fill = '<g fill="url(#' . $treatPatt_id . ')"  ><path d="M0,0 h1000 v1200 h-1000 z" /></g>';
-//          $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $targetSVG . '</g>';
-              $patt_id = add_def('mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>');
-              $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $fill . '</g>';
-          } else {
-              $messages->addMessage ('error','Counterchange requires two colour field' );
-              return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $targetSVG . '</g>';
-          }
-      }
-      break;
-			// END of switch
-  }
-  return $retval;
+        case 'division':
+            $title = '<title>' . $data->type_node->getAttribute('keyterm') . '</title>';
+            // What we do depends on what we are filling...
+            switch ($targetType) {
+                case 'division':
+                    $new_div = makeDivision( $data->type_node );
+                    $mask_id = add_def ( 'mask width="1200" height="1400" maskUnits="userSpaceOnUse"',
+                    $title . "<desc>Division used to fill $targetKeyterm</desc>" .
+                    '<g fill="white">' . $targetSVG . '</g>' );
+                    $retval = add_def();
+                    $retval .= '<g mask="url(#' . $mask_id . ')"  >' . $new_div . '</g>';
+                    break;
+                case 'field': // just the field of the shield
+                    $retval = '<g>' . $title . '<desc>Division used to fill field</desc>' . makeDivision( $data->type_node ) . '</g>';
+                    break;
+                case 'ordinary':
+                    if ($targetKeyterm == 'plain-cross' || $targetKeyterm == 'bend') {
+                        $new_div = makeDivision( $data->type_node );
+                        $mask_id = add_def ( 'mask width="1200" height="1400" maskUnits="userSpaceOnUse"',
+                            $title . "<desc>Division used to fill $targetKeyterm</desc>" .
+                            '<g fill="white">' . $targetSVG . '</g>' );
+                        $retval = add_def();
+                        $retval .= '<g mask="url(#' . $mask_id . ')"  >' . $new_div . '</g>';
+                        break;
+                    } // else flow through
+                case 'charge':
+                    chief('push','NC');
+                    $new_div = makeDivision( $data->type_node );
+                    chief('pop');
+                    $height = get_div_height($data->type_node);
+                    $patt_id = add_def (
+                        'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 ' .   $height . '"',
+                        $title . "<desc>Division used to fill $targetType</desc>" .
+                        $new_div
+                    );
+                    $retval = add_def();
+                    $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $targetSVG . '</g>';
+                    break;
+            }
+            break;
+        case 'shield':
+            $shield = makeshield( $data->type_node, '10:10' );
+            $patt_id = add_def ( 'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 1000"',
+                "<desc>Shield used to fill $targetType</desc>" .
+                $shield );
+            $retval = add_def();
+            $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $targetSVG . '</g>';
+            break;
+        case 'counterchanged': // Never change anything, just fill with this pattern
+            // Try to find a field division
+            $division = $xpath->query('preceding::field/tincture/division', $data->node);
+            if ( $division->length ) {
+                $counterDiv = $division->item(($division->length)-1);
+                $div_data = makeDivision( $counterDiv, true );
+                $patt_id = add_def ( 'mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>' );
+                $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $div_data . '</g>';
+            } else {
+                $treatment = $xpath->query('preceding::field/tincture/treatment',$data->node);
+                if ( $treatment->length ) {
+                    $counterTreatment = $treatment->item(($treatment->length) - 1);
+                    $treat_data = makeTreatment($counterTreatment, true);
+                    if ( $inv ) $treat_data['body'] = "<g transform=\"translate(0,{$treat_data['height']}) scale(1,-1)\">{$treat_data['body']}</g>";
+                    //do we need to offset the pattern to center it?
+                    $offset = 0;
+                    if (array_key_exists('offset', $treat_data)) {
+                        $offset = $treat_data['offset'];
+                    }
+                    $treatPatt_id = add_def ( 'pattern ' . $patTrans .
+                        ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="' . $offset . '" y="0" width="' .
+                        $treat_data['width'] . '" height="' . $treat_data['height'] . '"',
+                        '<g class="treatment">' . $treat_data['body'] . '</g>' );
+                    $fill = '<g fill="url(#' . $treatPatt_id . ')"  ><path d="M0,0 h1000 v1200 h-1000 z" /></g>';
+                    $patt_id = add_def('mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>');
+                    $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $fill . '</g>';
+                } else {
+                    $messages->addMessage ('error','Counterchange requires two colour field' );
+                    return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $targetSVG . '</g>';
+                }
+            }
+            break;
+        // END of switch
+    }
+    return $retval;
 }
