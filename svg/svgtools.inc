@@ -1,5 +1,23 @@
 <?php 
 
+function make_def($element, $content, $name = '', $title = '', $desc = '')
+{
+    $element_words = explode(' ', $element);
+    $type = $element_words[0];
+    if ( $name == '' )
+        $name = $type;
+    $myid = unique($name);
+    $def = '<' . $element . ' id="' . $myid . '" >' . "\n";
+    if ($title != '' )
+        $def .= '<title>' . $title . "</title>\n";
+    if ($desc != '')
+        $def .= '<desc>' . $desc . "</desc>\n";
+    $def .= $content;
+    $def .= "\n</" . $type . ">\n";
+
+    return [$myid, $def];
+}
+
 function add_def($element = '', $content = '', $name = '', $title = '', $desc = ''){
   static $defs;
 
@@ -12,20 +30,8 @@ function add_def($element = '', $content = '', $name = '', $title = '', $desc = 
     }
     return $retval;
   } // else if we given some arguments, then create an approprate definition
-  $element_words = explode(' ', $element);
-  $type = $element_words[0];
-  if ( $name == '' ) { $name = $type; }
-  $myid = unique($name);
-  $def = '<' . $element . ' id="' . $myid . '" >' . "\n";
-  if ($title != '' ) {
-    $def .= '<title>' . $title . "</title>\n";
-  }
-  if ($desc != '') {
-    $def .= '<desc>' . $desc . "</desc>\n";
-  }
-  $def .= $content;
-  $def .= "\n</" . $type . ">\n";
 
+  list($myid, $def) = make_def($element, $content, $name, $title, $desc);
   $defs .= $def;
   return $myid; // and return an id unique to this SVG file
 }
@@ -220,6 +226,8 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
         $fillSet = true;
     } elseif (array_key_exists('proper', $featureColours)) { // use proper for features not otherwise coloured
       if ($foundProper = getProper($chargeGroup, $chargeName, $id, false))
+        if ( $foundProper[0] == '"' )
+            $foundProper = "url(" . substr($foundProper, 1, -1) . ")";
         $item .= ' fill="' . $foundProper . '" '; // only set colour if known, otherwise use parent colour
         $fillSet = true;
     }
