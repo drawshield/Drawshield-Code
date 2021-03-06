@@ -226,8 +226,6 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
         $fillSet = true;
     } elseif (array_key_exists('proper', $featureColours)) { // use proper for features not otherwise coloured
       if ($foundProper = getProper($chargeGroup, $chargeName, $id, false))
-        if ( $foundProper[0] == '"' )
-            $foundProper = "url(" . substr($foundProper, 1, -1) . ")";
         $item .= ' fill="' . $foundProper . '" '; // only set colour if known, otherwise use parent colour
         $fillSet = true;
     }
