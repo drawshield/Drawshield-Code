@@ -406,7 +406,7 @@ function PlaceCharge ( $node,  // images
           $temp = $Xflex; $Xflex = $Yflex; $Yflex = $temp;
         }
         break;
-      case 'haurient': 
+      case 'haurient':
         $retval = "<g transform=\"translate($chargeY,0) rotate(90)\"><desc>erect charge</desc>$retval</g>\n";
         $temp = $chargeX; $chargeX = $chargeY; $chargeY = $temp;
         $temp = $Xflex; $Xflex = $Yflex; $Yflex = $temp;
@@ -432,7 +432,7 @@ function PlaceCharge ( $node,  // images
   // If rotation is set this is because we need to turn to fit onto an ordinary
   // If we CANNOT turn then assume that the bounding box is square. This makes sure we fit even if not turned
   if ( $node->parentNode->getAttribute('keyterm') == 'on' /* || $inArrangement */) {
-    if ( $rotation != 0 ) { 
+    if ( $rotation != 0 ) {
       if ( ! array_key_exists('orient_to_ordinary', $charge) ) {
         $boundX = min( $boundX, $boundY );
         $boundY = $boundX;
