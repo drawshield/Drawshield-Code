@@ -303,11 +303,8 @@ class TinctureData
                 if ( $this->fill )
                 {
                     // set if we are to use the fill found
-                    if ( $this->fill[0] == '"')
-                    {
-                        $this->mask = $this->fill;
-                        $this->fill = null;
-                    }
+                    if ( substr($this->fill, 0, 4) == 'url(')
+                        $this->mask = substr($this->fill, 4, -1);
                 }
                 break;
             case 'fur':
@@ -437,7 +434,7 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
             if ( $data->mask )
             {
                 $patt_id = add_def('mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>');
-                $retval .= '<g mask="url(#' . $patt_id . ')"  ><use xlink:href=' . $data->mask . ' /></g>';
+                $retval .= '<g mask="url(#' . $patt_id . ')"  ><use xlink:href="' . $data->mask . '" /></g>';
                 // add the outline and any shading
                 if ( $targetType == 'charge' )
                     $retval .= '<g style="fill:none;">' . $targetSVG . '</g>';
