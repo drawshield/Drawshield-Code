@@ -17,9 +17,12 @@ if ( !existModifierWithKeyterm($node, "interlaced") )
 {
     if ( $num_of  < 4 )
         $num_of = 5;
-    $cx = 200;
-    $cy = 200;
-    $r1 = 194;
+
+    $size = 400;
+    $cx = $size / 2;
+    $cy = $size / 2;
+    $stroke = 3;
+    $r1 = $size / 2 - $stroke;
     $r_scale = min(($num_of - 5) / (64-5) * .2 + .5, 0.7);
     if ( $num_of == 4 )
         $r_scale = 0.4;
@@ -50,14 +53,16 @@ if ( !existModifierWithKeyterm($node, "interlaced") )
     $charge['file'] = "";
     $charge['svgCode'] = <<<SVG
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:dc="http://purl.org/dc/elements/1.1/"
-                xmlns:cc="http://creativecommons.org/ns#"
-                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                xmlns:svg="http://www.w3.org/2000/svg"
-                xmlns="http://www.w3.org/2000/svg"
-                width="400"
-                height="400"
-                version="1.1" >
+<svg
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:cc="http://creativecommons.org/ns#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    width="$size"
+    height="$size"
+    version="1.1"
+>
   <metadata>
     <rdf:RDF>
       <cc:Work rdf:about="">
@@ -73,7 +78,7 @@ if ( !existModifierWithKeyterm($node, "interlaced") )
       </cc:Work>
     </rdf:RDF>
   </metadata>
-<g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body">
+<g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:$stroke;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body">
     <path d="$d" />
 </g>
 </svg>
