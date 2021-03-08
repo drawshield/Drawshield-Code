@@ -54,13 +54,6 @@ class Quartering
 
     }
 
-    function add_uniform_rows($n_rows, $n_columns)
-    {
-        $h = 1 / $n_rows;
-        for ( $y = 0; $y < $n_rows; $y++ )
-            $this->add_row($n_columns, $h);
-    }
-
     function grid()
     {
         $grid = "<g fill='none' stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\">\n";
@@ -144,7 +137,8 @@ function makequartered4( DOMNodeList $children, $this_AR )
 
     if ( $options["shape"] == "flag" || $this_AR != "10:12" )
     {
-        $quartering->add_uniform_rows(2, 2);
+        $quartering->add_row(2, 0.5);
+        $quartering->add_row(2);
     }
     else
     {
