@@ -1,7 +1,6 @@
 <?php 
 // These are for scaling into quarters & dimidiations
 $aspect_ratio = '10:12';
-$scale_factor = 1.0;
 
 function get_clipdata ( $AR ) {
   $clip_data = array (
@@ -233,37 +232,37 @@ function makeshield( DOMElement &$node, $this_AR ) {
                 $retval .= makeQuartered8($children, $this_AR);
                 break;
               case 9:
-                $retval .= makeQuartered(3,3, $children);
+                $retval .= makeQuartered(3,3, $children, $this_AR);
                 break;
               case 12:
-                $retval .= makeQuartered(3,4, $children);
+                $retval .= makeQuartered(3,4, $children, $this_AR);
                 break;
               case 16:
-                $retval .= makeQuartered(4,4, $children);
+                $retval .= makeQuartered(4,4, $children, $this_AR);
                 break;
               case 20:
-                $retval .= makeQuartered(4,5, $children);
+                $retval .= makeQuartered(4,5, $children, $this_AR);
                 break;
               case 25:
-                $retval .= makeQuartered(5,5, $children);
+                $retval .= makeQuartered(5,5, $children, $this_AR);
                 break;
               case 30:
-                $retval .= makeQuartered(5,6, $children);
+                $retval .= makeQuartered(5,6, $children, $this_AR);
                 break;
               case 36:
-                $retval .= makeQuartered(6,6, $children);
+                $retval .= makeQuartered(6,6, $children, $this_AR);
                 break;
               case 42:
-                $retval .= makeQuartered(6,7, $children);
+                $retval .= makeQuartered(6,7, $children, $this_AR);
                 break;
               case 49:
-                $retval .= makeQuartered(7,7, $children);
+                $retval .= makeQuartered(7,7, $children, $this_AR);
                 break;
               case 56:
-                $retval .= makeQuartered(7,8, $children);
+                $retval .= makeQuartered(7,8, $children, $this_AR);
                 break;
               case 64:
-                $retval .= makeQuartered(8,8, $children);
+                $retval .= makeQuartered(8,8, $children, $this_AR);
                 break;
               default:
                 $messages->addMessage('internal', 'No code to draw ' . $children->length . ' quarters yet');
