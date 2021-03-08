@@ -287,5 +287,8 @@ function make_quartered_saltire( DOMNodeList $children, $this_AR )
         "M $center_x $center_y L $right $bottom_s $right $bottom 0 $bottom 0 $bottom_s z",
     ];
 
-    return $quartering->render_svg($children, $clips);
+    $grid = "<g fill='none' stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\">\n";
+    $grid .= "<path d='M 0 0 L $right $bottom_s M $right 0 L 0 $bottom_s'/>\n";
+    $grid .= "</g>";
+    return $quartering->render_svg($children, $clips) . $grid;
 }
