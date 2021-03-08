@@ -69,7 +69,7 @@ class Quartering
     }
 
 
-    function render_svg(DOMNodeList $children)
+    function render_svg(DOMNodeList $children, $clips = null)
     {
         global $options;
 
@@ -96,7 +96,6 @@ class Quartering
             $quarter = $this->quarters[$index];
             $width = $quarter->size->width;
             $height = $quarter->size->height;
-            $clipdef = add_def( 'clipPath', "<path d=\"M0,0 h$width v$height h-$width v-$height Z\" />");
 
             if ( $saveShape == "flag" )
                 $aspect_ratio = "10:10";
@@ -106,10 +105,25 @@ class Quartering
             $options['flagHeight'] = $height;
 
             $transform = $quarter->svg_transform();
-            $retval .=
-                "<g clip-path='url(#$clipdef)' $transform >"
-                . makeshield($kid, $aspect_ratio)
-                . "</g>\n";
+
+
+            if ( $clips !== null )
+            {
+                $clipdef = add_def( 'clipPath', "<path d=\"{$clips[$index]}\" />");
+                $retval .=
+                    "<g clip-path='url(#$clipdef)'><g $transform >"
+                    . makeshield($kid, $aspect_ratio)
+                    . "</g></g>\n";
+            }
+            else
+            {
+                $clipdef = add_def( 'clipPath', "<path d=\"M0,0 h$width v$height h-$width v-$height Z\" />");
+                $retval .=
+                    "<g clip-path='url(#$clipdef)' $transform >"
+                    . makeshield($kid, $aspect_ratio)
+                    . "</g>\n";
+            }
+
             region('pop');
         }
 
@@ -117,7 +131,7 @@ class Quartering
         if ( $saveHeight )
             $options['flagHeight'] = $saveHeight;
         $retval .= add_def();
-        return $retval . $this->grid();
+        return $retval . ($clips !== null ? "" : $this->grid());
     }
 
 }
@@ -213,4 +227,65 @@ function makequartered8( $children, $this_AR )
     }
 
     return $quartering->render_svg($children);
+}
+
+function make_quartered_saltire( DOMNodeList $children, $this_AR )
+{
+    global $options;
+
+    $quartering = new Quartering();
+
+    if ( $options["shape"] == "flag" || $this_AR != "10:12" )
+        $h = 0.5;
+    else
+        $h = 0.417;
+
+    $quartering->quarters[] = new Quarter(
+        0,
+        0,
+        $quartering->size->scaled(1, $h),
+        1,
+        $quartering->size->scaled(1, $h)
+    );
+
+    $side_size = $quartering->size->scaled(0.5, $h * 2);
+    $norm_factor = $side_size->normalize_factor();
+    $side_size_norm = $side_size->scaled($norm_factor);
+
+    $quartering->quarters[] = new Quarter(
+        0,
+        0,
+        $side_size_norm,
+        1/$norm_factor,
+        $side_size
+    );
+    $quartering->quarters[] = new Quarter(
+        $quartering->size->width / 2,
+        0,
+        $side_size_norm,
+        1/$norm_factor,
+        $side_size
+    );
+
+    $quartering->quarters[] = new Quarter(
+        0,
+        $h * $quartering->size->height,
+        $quartering->size->scaled(1, 1-$h),
+        1,
+        $quartering->size->scaled(1, 1-$h)
+    );
+
+    $center_x = $quartering->size->width / 2;
+    $center_y = $quartering->size->height * $h;
+    $bottom_s = $quartering->size->height * $h * 2;
+    $bottom = $quartering->size->height;
+    $right = $quartering->size->width;
+    $clips = [
+        "M 0 0 L $center_x $center_y $right 0 z",
+        "M 0 0 L $center_x $center_y 0 $bottom_s z",
+        "M $right 0 L $center_x $center_y $right $bottom_s z",
+        "M $center_x $center_y L $right $bottom_s $right $bottom 0 $bottom 0 $bottom_s z",
+    ];
+
+    return $quartering->render_svg($children, $clips);
 }

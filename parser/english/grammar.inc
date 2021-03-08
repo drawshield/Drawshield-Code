@@ -1172,8 +1172,7 @@ class englishGrammar extends grammar
                 }
             }
             if ($marshall == 'quartered-per-saltire') {
-                self::raiseError(self::ERROR_ORIGIN, 'Quarterly per saltire not supported, sorry', true);
-                // $order = '4-saltire';
+                $order = '4-saltire';
             }
             $quartered->setAttribute('order', $order);
             for ($i = 1; $i <= $highest; $i++)
