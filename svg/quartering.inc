@@ -69,7 +69,7 @@ class Quartering
     }
 
 
-    function render_svg( DOMNodeList $children, $this_AR)
+    function render_svg(DOMNodeList $children)
     {
         global $options;
 
@@ -77,17 +77,16 @@ class Quartering
         $saveShape = $options['shape'];
         $saveHeight = $options['flagHeight'] ?? null;
 
-        if ( $options["shape"] == "flag" )
-            $this_AR = "10:10";
-
         $options['shape'] = 'quarter';
 
-        foreach ( $children as $kid ) {
+        foreach ( $children as $kid )
+        {
             $index = $kid->getAttribute('index');
             $index -= 1; // Arrays are zero based
 
             // error check
-            if (!isset($this->quarters[$index])) {
+            if (!isset($this->quarters[$index]))
+            {
                 error_log("bad quarter index in " . $options['blazon'] );
                 continue;
             }
@@ -99,12 +98,17 @@ class Quartering
             $height = $quarter->size->height;
             $clipdef = add_def( 'clipPath', "<path d=\"M0,0 h$width v$height h-$width v-$height Z\" />");
 
+            if ( $saveShape == "flag" )
+                $aspect_ratio = "10:10";
+            else
+                $aspect_ratio = $quarter->size->closest_aspect_ratio();
+
             $options['flagHeight'] = $height;
 
             $transform = $quarter->svg_transform();
             $retval .=
                 "<g clip-path='url(#$clipdef)' $transform >"
-                . makeshield( $kid, $this_AR )
+                . makeshield($kid, $aspect_ratio)
                 . "</g>\n";
             region('pop');
         }
@@ -126,7 +130,7 @@ function makeQuartered($across, $down, $children, $this_AR)
     for ( $y = 0; $y < $down; $y++ )
         $quartering->add_row($across, $h);
 
-    return $quartering->render_svg($children, $this_AR);
+    return $quartering->render_svg($children);
 }
 
 function makequartered4( DOMNodeList $children, $this_AR )
@@ -146,7 +150,7 @@ function makequartered4( DOMNodeList $children, $this_AR )
         $quartering->add_row(2);
     }
 
-    return $quartering->render_svg($children, $this_AR);
+    return $quartering->render_svg($children);
 }
 
 function makequartered5( $children, $this_AR )
@@ -166,7 +170,7 @@ function makequartered5( $children, $this_AR )
         $quartering->add_row(2);
     }
 
-    return $quartering->render_svg($children, $this_AR);
+    return $quartering->render_svg($children);
 }
 
 function makequartered6( $children, $this_AR )
@@ -186,7 +190,7 @@ function makequartered6( $children, $this_AR )
         $quartering->add_row(3);
     }
 
-    return $quartering->render_svg($children, $this_AR);
+    return $quartering->render_svg($children);
 }
 
 function makequartered8( $children, $this_AR )
@@ -208,5 +212,5 @@ function makequartered8( $children, $this_AR )
         $quartering->add_row(2);
     }
 
-    return $quartering->render_svg($children, $this_AR);
+    return $quartering->render_svg($children);
 }

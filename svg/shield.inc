@@ -232,37 +232,37 @@ function makeshield( DOMElement &$node, $this_AR ) {
                 $retval .= makeQuartered8($children, $this_AR);
                 break;
               case 9:
-                $retval .= makeQuartered(3,3, $children, $this_AR);
+                $retval .= makeQuartered(3,3, $children);
                 break;
               case 12:
-                $retval .= makeQuartered(3,4, $children, $this_AR);
+                $retval .= makeQuartered(3,4, $children);
                 break;
               case 16:
-                $retval .= makeQuartered(4,4, $children, $this_AR);
+                $retval .= makeQuartered(4,4, $children);
                 break;
               case 20:
-                $retval .= makeQuartered(4,5, $children, $this_AR);
+                $retval .= makeQuartered(4,5, $children);
                 break;
               case 25:
-                $retval .= makeQuartered(5,5, $children, $this_AR);
+                $retval .= makeQuartered(5,5, $children);
                 break;
               case 30:
-                $retval .= makeQuartered(5,6, $children, $this_AR);
+                $retval .= makeQuartered(5,6, $children);
                 break;
               case 36:
-                $retval .= makeQuartered(6,6, $children, $this_AR);
+                $retval .= makeQuartered(6,6, $children);
                 break;
               case 42:
-                $retval .= makeQuartered(6,7, $children, $this_AR);
+                $retval .= makeQuartered(6,7, $children);
                 break;
               case 49:
-                $retval .= makeQuartered(7,7, $children, $this_AR);
+                $retval .= makeQuartered(7,7, $children);
                 break;
               case 56:
-                $retval .= makeQuartered(7,8, $children, $this_AR);
+                $retval .= makeQuartered(7,8, $children);
                 break;
               case 64:
-                $retval .= makeQuartered(8,8, $children, $this_AR);
+                $retval .= makeQuartered(8,8, $children);
                 break;
               default:
                 $messages->addMessage('internal', 'No code to draw ' . $children->length . ' quarters yet');
