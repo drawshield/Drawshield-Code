@@ -23,7 +23,7 @@ class metadataMap {
       'geometric' => array('fimbriate' => true, 'hflex' => 2, 'wflex' => 2, 'fixStroke' => true),
       'knot' => array ('orient_to_ordinary' => 1, 'hflex' => 1.4, 'wflex' => 1.4 ),
       'lion' => array( 'demi' => 'horizontal', 'hflex' => 2, 'wflex' => 2 ),
-        'dragon' => array( 'demi' => 'horizontal', 'hflex' => 2, 'wflex' => 2 ),
+        'dragon' => array( 'demi' => 'horizontal', 'hflex' => 0, 'wflex' => 0 ),
       'livestock' => array( 'demi' => 'horizontal' ),
       'mullet' => array('fimbriate' => true),
       'mythical' => array( 'demi' => 'horizontal', 'hflex' => 2, 'wflex' => 2 ),

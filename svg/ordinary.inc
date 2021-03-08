@@ -103,7 +103,7 @@ function includeOrdinary( DOMElement &$node ) {
     if ( stream_resolve_include_path($file) === false ) $file = null;
   }
   $calcHeight = 1200; // value to use for calculating drawing height
-  if ($options['shape'] == 'flag') {
+  if ($options['shape'] == 'flag' || $options['shape'] == 'quarter') {
     $calcHeight = $options['flagHeight'];
   }
   if ($file != null) { // calcHeight is available within the included file

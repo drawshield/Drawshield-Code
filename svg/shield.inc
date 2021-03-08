@@ -1,7 +1,6 @@
 <?php 
 // These are for scaling into quarters & dimidiations
 $aspect_ratio = '10:12';
-$scale_factor = 1.0;
 
 function get_clipdata ( $AR ) {
   $clip_data = array (
@@ -22,37 +21,6 @@ function get_clipdata ( $AR ) {
   return $retval;
 }
 
-$halfHeights = array (
-    '10:12' => 500,
-    '10:10' => 500,
-    '10:14' => 600,
-    '10:24' => 600,
-    '10:20' => 500,
-    '10:28' => 500,
-    '10:6' => 300,  
-);
-
-$quarterHeights = array (
-    '10:12' => 250,
-    '10:10' => 250,
-    '10:14' => 300,
-    '10:24' => 300,
-    '10:20' => 250,
-    '10:28' => 250,
-    '10:6' => 150, 
-);
-
-$thirdHeights = array (
-    '10:12' => 400,
-    '10:10' => 400,
-    '10:14' => 400,
-    '10:24' => 400,
-    '10:20' => 400,
-    '10:28' => 400,
-    '10:6' => 200, // ???
-);
-
-
 function makePlain( &$children, $drawnAR = '10:12' ) {
   global $aspect_ratio, $options;
   
@@ -71,7 +39,7 @@ function makePlain( &$children, $drawnAR = '10:12' ) {
       case 'field':
         // Paint the field
         if (!array_key_exists('raw', $options)) {
-          if ($options['shape'] == 'flag') {
+          if ($options['shape'] == 'flag' || $options['shape'] == 'quarter') {
             $retval .= apply_tincture ( $kid->firstChild, '<rect x="0" y="0" width="1000" height="' . $options['flagHeight'] . '" ><title>Field</title></rect>' , '1000,' . $options['flagHeight'] );
           } else {
             $retval .= apply_tincture ( $kid->firstChild, '<rect x="0" y="0" width="1000" height="1200" ><title>Field</title></rect>' , '1000,1200' );
@@ -218,8 +186,8 @@ function makeshield( DOMElement &$node, $this_AR ) {
           case 'quartered':
             switch ( $child->getAttribute('order') ) {
               case '4-saltire':
-                $messages->addMessage('warning','Quarterly per saltire not supported yet (sorry)');
-                // Flow through
+                $retval .= make_quartered_saltire($children, $this_AR);
+                break;
               case 4:
                 $retval .= makeQuartered4($children, $this_AR);
                 break;
