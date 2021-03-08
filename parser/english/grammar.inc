@@ -2,6 +2,7 @@
 
 class englishGrammar extends grammar
 {
+    private $previousTypes = [];
 
     /**
      * @return DOMElement
@@ -1084,7 +1085,6 @@ class englishGrammar extends grammar
         /**
          * @var DOMElement[] $subshields
          */
-        static $previousTypes = [];
         $subshields = array_fill(1, 64, null);
 
         $state = self::save();
@@ -1115,10 +1115,10 @@ class englishGrammar extends grammar
                     $keyterm = $quarterMark[0];
                     if ($quarterType == null ) {
                         $quarterType = $quarterMark[1];
-                        if (in_array($quarterType, $previousTypes)) {
+                        if (in_array($quarterType, $this->previousTypes)) {
                             self::raiseError(self::ERROR_ORIGIN, "Sub quarters should use different numbering scheme", true);
                         }
-                        $previousTypes[] = $quarterType;
+                        $this->previousTypes[] = $quarterType;
                     }
                     $indices[] = $keyterm; // make a list of quarter numbers
                     if ($keyterm > $highest) $highest = $keyterm;
@@ -1146,7 +1146,7 @@ class englishGrammar extends grammar
                     }
                 } // Keep going as long as we find quarters
             } while ($found);
-            array_pop($previousTypes);
+            array_pop($this->previousTypes);
             if ($marshall == 'quarterly' and !$foundQuarter) {
                 self::restore($state); // backtrack, assume this is quarterly division
                 return null;
