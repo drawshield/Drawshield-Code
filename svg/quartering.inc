@@ -209,7 +209,7 @@ function make_quartered_saltire( DOMNodeList $children, ShieldLayout $layout )
         $q1_size,
         new ShieldRect(
             new ShieldPos($q1_size->width * 0.5, $q1_size->height / 3 + 30 * $hmargin),
-            $q1_size->scaled(0.5, 0.6)
+            $q1_size->scaled(0.4, 0.6)
         )
     );
 
@@ -224,7 +224,7 @@ function make_quartered_saltire( DOMNodeList $children, ShieldLayout $layout )
         $side_size,
         new ShieldRect(
             new ShieldPos($side_size_norm->width / 3 + 50, $side_size_norm->height / 2),
-            $side_size_norm->scaled(2/3, 0.5)
+            $side_size_norm->scaled(2/3, 0.4)
         )
     );
     $quartering->quarters[] = new Quarter(
@@ -234,7 +234,7 @@ function make_quartered_saltire( DOMNodeList $children, ShieldLayout $layout )
         $side_size,
         new ShieldRect(
             new ShieldPos($side_size_norm->width * 2 / 3 - 50, $side_size_norm->height / 2),
-            $side_size_norm->scaled(2/3, 0.5)
+            $side_size_norm->scaled(2/3, 0.4)
         )
     );
 
@@ -246,7 +246,7 @@ function make_quartered_saltire( DOMNodeList $children, ShieldLayout $layout )
         $q4_size,
         new ShieldRect(
             new ShieldPos($q4_size->width * 0.5, $q4_size->height * 2 / 3 - 50 * $hmargin),
-            $q4_size->scaled(0.5, 2/3)
+            $q4_size->scaled(0.4, 2/3)
         )
     );
 
