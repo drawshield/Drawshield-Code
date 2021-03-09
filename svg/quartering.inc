@@ -3,12 +3,13 @@ require_once('size.inc');
 
 class Quarter
 {
-    function __construct($pos, $size, $scale, $rel_size)
+    function __construct($pos, $size, $scale, $rel_size, $charge_hint = null)
     {
         $this->pos = $pos;
         $this->size = $size;
         $this->scale = $scale;
         $this->rel_size = $rel_size;
+        $this->charge_hint = $charge_hint;
     }
 
     function svg_transform()
@@ -18,13 +19,13 @@ class Quarter
 
     function to_layout()
     {
-        return new ShieldLayout($this->size, "quarter");
+        return new ShieldLayout($this->size, "quarter", null, $this->charge_hint);
     }
 }
 
 class Quartering
 {
-    public $size, $quarters;
+    public $layout, $quarters;
     private $y;
 
     function __construct($layout)
@@ -198,46 +199,62 @@ function make_quartered_saltire( DOMNodeList $children, ShieldLayout $layout )
 
     $h = $layout->center_point_ratio()->y;
 
+    $q1_size = $layout->size->scaled(1, $h);
+    $hmargin = $layout->size->height / 1000;
+
     $quartering->quarters[] = new Quarter(
-        0,
-        0,
-        $quartering->size->scaled(1, $h),
+        new ShieldPos(0, 0),
+        $q1_size,
         1,
-        $quartering->size->scaled(1, $h)
+        $q1_size,
+        new ShieldRect(
+            new ShieldPos($q1_size->width * 0.5, $q1_size->height / 3 + 30 * $hmargin),
+            $q1_size->scaled(0.5, 0.6)
+        )
     );
 
-    $side_size = $quartering->size->scaled(0.5, $h * 2);
+    $side_size = $layout->size->scaled(0.5, $h * 2);
     $norm_factor = $side_size->normalize_factor();
     $side_size_norm = $side_size->scaled($norm_factor);
 
     $quartering->quarters[] = new Quarter(
-        0,
-        0,
+        new ShieldPos(0, 0),
         $side_size_norm,
         1/$norm_factor,
-        $side_size
+        $side_size,
+        new ShieldRect(
+            new ShieldPos($side_size_norm->width / 3 + 50, $side_size_norm->height / 2),
+            $side_size_norm->scaled(2/3, 0.5)
+        )
     );
     $quartering->quarters[] = new Quarter(
-        $quartering->size->width / 2,
-        0,
+        new ShieldPos($layout->size->width / 2, 0),
         $side_size_norm,
         1/$norm_factor,
-        $side_size
+        $side_size,
+        new ShieldRect(
+            new ShieldPos($side_size_norm->width * 2 / 3 - 50, $side_size_norm->height / 2),
+            $side_size_norm->scaled(2/3, 0.5)
+        )
     );
 
+    $q4_size = $layout->size->scaled(1, 1-$h);
     $quartering->quarters[] = new Quarter(
-        0,
-        $h * $quartering->size->height,
-        $quartering->size->scaled(1, 1-$h),
+        new ShieldPos(0, $h * $layout->size->height),
+        $q4_size,
         1,
-        $quartering->size->scaled(1, 1-$h)
+        $q4_size,
+        new ShieldRect(
+            new ShieldPos($q4_size->width * 0.5, $q4_size->height * 2 / 3 - 50 * $hmargin),
+            $q4_size->scaled(0.5, 2/3)
+        )
     );
 
-    $center_x = $quartering->size->width / 2;
-    $center_y = $quartering->size->height * $h;
-    $bottom_s = $quartering->size->height * $h * 2;
-    $bottom = $quartering->size->height;
-    $right = $quartering->size->width;
+    $center_x = $layout->size->width / 2;
+    $center_y = $layout->size->height * $h;
+    $bottom_s = $layout->size->height * $h * 2;
+    $bottom = $layout->size->height;
+    $right = $layout->size->width;
     $clips = [
         "M 0 0 L $center_x $center_y $right 0 z",
         "M 0 0 L $center_x $center_y 0 $bottom_s z",

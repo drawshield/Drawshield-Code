@@ -126,6 +126,9 @@ function get_placement(DOMElement $item, $layout) {
   global $xpath, $messages;
   global $aspect_ratio;
 
+  if ( $layout->charge_hint )
+    return (string)$layout->charge_hint;
+
   static $bounding_boxes = array (
     //                 no-chief, no-entire,       no-chief, entire        chief, no-entire,         chief, entire
     '10:12' => array ( '100,100,800,900',         '0,0,1000,1200',        '150,350,700,700',        '0,300,1000,900' ),
