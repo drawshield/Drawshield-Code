@@ -79,15 +79,15 @@ function adjustDistance($item, $placement) {
   return $placement;
 }
 
-function inOrle($number, $chief = false) {
-       global $options, $messages;
+function inOrle($layout, $number, $chief = false) {
+       global $messages;
 
        static $orles = array (
         'heater-11' => '///////////500,100,100,100:100,650:900,650:500,1050:100,100:900,100:100,400:900,400:200,900:800,900:300,100:700,100',
            'heater-12' => '///////////500,100,100,100:100,650:900,650:500,1050:100,100:900,100:100,400:900,400:200,900:800,900:300,100:700,100',
        );
 
-       $shape = $options['shape'];
+       $shape = $layout->shape;
        $target = $shape . '-';
        if ($chief) $target .= 'chief-';
        $target .= $number;
@@ -100,10 +100,10 @@ function inOrle($number, $chief = false) {
        return 'x';
 }
 
-function inAnnulo($number) {
-  list($sx, $sy) = get_size();
-  $cx = $sx / 2;
-  $cy = $sy / 2;
+function inAnnulo($number, $layout) {
+
+  $cx = $layout->size->width / 2;
+  $cy = $layout->size->height / 2;
 
   $radius = min($cy, $cx) * 0.8;
 
@@ -122,8 +122,8 @@ function inAnnulo($number) {
   return rtrim($placement,':');
 }
 
-function get_placement(DOMElement $item) {
-  global $xpath, $messages, $options;
+function get_placement(DOMElement $item, $layout) {
+  global $xpath, $messages;
   global $aspect_ratio;
 
   static $bounding_boxes = array (
@@ -168,7 +168,7 @@ function get_placement(DOMElement $item) {
     $number = $item->getAttribute('number');
     $overall = ($item->parentNode->parentNode->nodeName == 'overall');
     $apply_location = true;
-    $forceCentre = (!($entire) && ($options['shape'] != 'pauldron') && ($group == "quadrate" || $group == 'geometric') && $number == 1);
+    $forceCentre = (!($entire) && ($layout->shape != 'pauldron') && ($group == "quadrate" || $group == 'geometric') && $number == 1);
     $div_node = $xpath->query("parent::objects/parent::simple/field/tincture/division", $item);
     if ( $div_node->length > 0 ) {
       /**
@@ -188,11 +188,11 @@ function get_placement(DOMElement $item) {
     }
     
     // Figure out default bounding box size for this aspect ratio, chief presence && entire
-    if ( $options['shape'] == 'flag' || $options['shape'] == 'quarter' ) {
+    if ( $layout->shape == 'flag' || $layout->shape == 'quarter' ) {
         if ( existModifierWithKeyterm($item,'entire') )
             $xmargin = 0;
         else
-            $xmargin = $options['shape'] == 'quarter' ? 100 : 50;
+            $xmargin = $layout->shape == 'quarter' ? 100 : 50;
 
         if ( $chief )
         {
@@ -205,12 +205,12 @@ function get_placement(DOMElement $item) {
             $ymargin = $xmargin;
         }
 
-        $boundingBox = implode(",", [$xmargin, $ymargin + $chief_off, 1000 - $xmargin * 2, $options['flagHeight'] - $ymargin * 2 - $chief_off]);
-    } elseif (in_array($options['shape'],array('circle','square', 'lozenge', 'pauldron'))) {
+        $boundingBox = implode(",", [$xmargin, $ymargin + $chief_off, 1000 - $xmargin * 2, $layout->size->height - $ymargin * 2 - $chief_off]);
+    } elseif (in_array($layout->shape, array('circle','square', 'lozenge', 'pauldron'))) {
       if ( existModifierWithKeyterm($item,'entire') ) {
         $boundingBox = '0,0,1000,1000';
       } else {
-        switch ($options['shape']) {
+        switch ($layout->shape) {
           case 'pauldron':
             $boundingBox = '245,305,510,580';
           break;
@@ -298,7 +298,7 @@ function get_placement(DOMElement $item) {
     // explicit arrangements
     if ( $placement == '' && $arr ) {
       switch ( $arr ) { // TODO add incross + insaltire with chief,
-        case 'inannulo': $placement = inAnnulo($number); break;
+        case 'inannulo': $placement = inAnnulo($number, $layout); break;
         case 'combattant': $placement = 'x/310,550,390,800,0,0,1:690,550,,,0,0,0/x/266,333,333,400,0,0,1:734,333,,,0,0,0:266,900,,,0,0,1:734,900,,,0,0,0/x/260,220,320,240,,,1:740,220,320,240,,,0:260,550,320,240,,,1:740,550,320,240,,,0:260,880,320,240,,,1:740,880,320,240,,,0'; break;
         //case 'facing-in': $placement = ($chief) ? '' : 'x/250,600,333,1000,0,0,1:750,600,,,0,0,0/x/266,333,333,400,0,0,1:734,333,,,0,0,0:266,900,,,0,0,1:734,900,,,0,0,0/x/260,220,320,240,,,1:740,220,320,240,,,0:260,550,320,240,,,1:740,550,320,240,,,0:260,880,320,240,,,1:740,880,320,240,,,0'; break;
         case 'facing-in': $placement = 'x/250,600,333,1000,0,0,1:750,600,,,0,0,0/x/266,333,333,400,0,0,1:734,333,,,0,0,0:266,900,,,0,0,1:734,900,,,0,0,0/x/260,220,320,240,,,1:740,220,320,240,,,0:260,550,320,240,,,1:740,550,320,240,,,0:260,880,320,240,,,1:740,880,320,240,,,0'; break;
@@ -329,7 +329,7 @@ function get_placement(DOMElement $item) {
         $placement = 'x/500,500,750,750,45,0,1:500,500,750,750,-45,0,0/x/200,200,200,200,-45:800,200,,,45:200,800,,,45:800,800,,,-45/200,200,200,200,-45:800,200,,,45:500,500,,,0:200,800,,,45:800,800,,,-45/x';
         break;
       case 'inpile': $placement = 'x/x/250,250,300,300:500,600:750,250/x/x/250,200,200,200:500:750:333.33,500:666.67:500,800'; break;
-      case 'inorle': $placement = inOrle($number, $chief);  break;
+      case 'inorle': $placement = inOrle($layout, $number, $chief);  break;
       case 'counter-passant': $placement = 'x/500,333.33,800,350:500,666.67,,,,,1/500,250,800,200:500,500,,,,,1:500,750,,,,,0/500,200,600,160:500,400,,,,,1:500,600,,,,,0:500,800,,,,,1/500,166.67,160,160:500,333.33,,,,,1:500,500,,,,,0:500,666.67,,,,,1:500,833.33,,,,,0/500,142.86,500,140:500,285.71,,,,,1:500,428.57,,,,,0:500,571.43,,,,,1:500,714.29,,,,,0:500,857.14,,,,,1'; break;
       case 'pilewise': $placement = ($chief) ? 'x/300,200,200,600,-30,1:700,,,,30,1/250,750,180,550,-30,1:500,700,,,0,1:750,750,,,30,1/200,850,150,500,-38,1:400,750,,,-16,1:600,,,,16,1:800,800,,,38,1/x/x' :
         'x/300,550,200,600,-30,1:700,,,,30,1/250,600,180,550,-30,1:500,550,,,0,1:750,600,,,30,1/200,650,150,500,-38,1:400,600,,,-16,1:600,,,,16,1:800,650,,,38,1/x/x';
@@ -567,8 +567,9 @@ function get_placement(DOMElement $item) {
           $placement = adjustplacement($placement,'100,66,800,800');
        }
        else {
-          list($total_w, $total_h) = get_size();
-          $correct_h = get_size_multiplier()[1];
+          $total_w = $layout->size->width;
+          $total_h = $layout->size->height;
+          $correct_h = $total_h / 1000;
           $x = $total_w / 2 - 200;
           $y = $total_h / 2 - 200;
           $w = $total_w * 0.4;
@@ -584,8 +585,8 @@ function get_placement(DOMElement $item) {
         if ($chief) {
           $placement = '500,700,600,600';
         } else {
-          if ( $options['shape'] == 'flag' || $options['shape'] == 'quarter') {
-            $calcHeight = $options['flagHeight'];
+          if ( $layout->shape == 'flag' || $layout->shape == 'quarter') {
+            $calcHeight = $layout->size->height;
             $centerY = (int)($calcHeight / 2);
             $extentY = $calcHeight - 200;
             $placement = "500,$centerY,800,$extentY";

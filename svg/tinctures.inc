@@ -283,7 +283,7 @@ class TinctureData
             $data['body'] = "<g transform=\"translate({$data['width']},0) scale(-1,1)\">{$data['body']}</g>";
     }
 
-    function parse_fill()
+    function parse_fill($layout)
     {
         if ( $this->pattern_transform )
             $patTrans = ' patternTransform="' . $this->pattern_transform . '" ';
@@ -329,7 +329,7 @@ class TinctureData
                 }
                 else
                 {
-                    $treat_data = makeTreatment( $this->type_node );
+                    $treat_data = makeTreatment( $this->type_node, $layout );
                     // If what we are placing is inverted, we also invert the fill so it appears the "right way up"
                     // Don't need to do reversed as all treatments are symmetrical
                     $this->apply_inv($treat_data);
@@ -347,7 +347,7 @@ class TinctureData
                 }
                 break;
             case 'semyde':
-                $treat_data = makeSemy($this->type_node);
+                $treat_data = makeSemy($this->type_node, $layout);
                 // If what we are placing is inverted, we also invert the fill so it appears the "right way up"
                 $this->apply_inv($treat_data);
                 $this->apply_rev($treat_data);
@@ -371,9 +371,9 @@ class TinctureData
 }
 
 
-function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
+function apply_tincture ($tinctureNode, $targetSVG, $layout, $chg_size = '',
         $rot = '0', $rev = false, $inv = false ) {
-    global $_SERVER, $messages, $xpath, $options;
+    global $_SERVER, $messages, $xpath;
     $retval = '';
 
     if ( is_null($tinctureNode) )
@@ -401,7 +401,7 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
         list($chgX,$chgY) = explode(',', $chg_size);
         $scale = max ( $chgX / 1000, $chgY / 1200 ); // multiply here to adjust relative size of fur etc. on a charge
         $data->pattern_transform = ' scale(' . $scale . ') ';
-    } elseif ($options['shape'] == 'flag') { // adjust size based on flag AR?
+    } elseif ($layout->shape == 'flag') { // adjust size based on flag AR?
         $data->pattern_transform = ' scale(0.5) ';
     }
 
@@ -429,7 +429,7 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
         case 'fur':
         case 'treatment':
         case 'semyde':
-            $data->parse_fill();
+            $data->parse_fill($layout);
 
             if ( $data->mask )
             {
@@ -464,7 +464,7 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
             // What we do depends on what we are filling...
             switch ($targetType) {
                 case 'division':
-                    $new_div = makeDivision( $data->type_node );
+                    $new_div = makeDivision( $data->type_node, $layout );
                     $mask_id = add_def ( 'mask width="1200" height="1400" maskUnits="userSpaceOnUse"',
                     $title . "<desc>Division used to fill $targetKeyterm</desc>" .
                     '<g fill="white">' . $targetSVG . '</g>' );
@@ -472,11 +472,11 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
                     $retval .= '<g mask="url(#' . $mask_id . ')"  >' . $new_div . '</g>';
                     break;
                 case 'field': // just the field of the shield
-                    $retval = '<g>' . $title . '<desc>Division used to fill field</desc>' . makeDivision( $data->type_node ) . '</g>';
+                    $retval = '<g>' . $title . '<desc>Division used to fill field</desc>' . makeDivision( $data->type_node, $layout ) . '</g>';
                     break;
                 case 'ordinary':
                     if ($targetKeyterm == 'plain-cross' || $targetKeyterm == 'bend') {
-                        $new_div = makeDivision( $data->type_node );
+                        $new_div = makeDivision( $data->type_node, $layout );
                         $mask_id = add_def ( 'mask width="1200" height="1400" maskUnits="userSpaceOnUse"',
                             $title . "<desc>Division used to fill $targetKeyterm</desc>" .
                             '<g fill="white">' . $targetSVG . '</g>' );
@@ -486,7 +486,7 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
                     } // else flow through
                 case 'charge':
                     chief('push','NC');
-                    $new_div = makeDivision( $data->type_node );
+                    $new_div = makeDivision( $data->type_node, $layout );
                     chief('pop');
                     $height = get_div_height($data->type_node);
                     $patt_id = add_def (
@@ -500,7 +500,7 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
             }
             break;
         case 'shield':
-            $shield = makeshield( $data->type_node, '10:10' );
+            $shield = makeshield( $data->type_node, new ShieldLayout(new ShieldSize(1000, 1000), $layout->shape) );
             $patt_id = add_def ( 'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 1000"',
                 "<desc>Shield used to fill $targetType</desc>" .
                 $shield );
@@ -512,7 +512,7 @@ function apply_tincture ($tinctureNode, $targetSVG, $chg_size = '',
             $division = $xpath->query('preceding::field/tincture/division', $data->node);
             if ( $division->length ) {
                 $counterDiv = $division->item(($division->length)-1);
-                $div_data = makeDivision( $counterDiv, true );
+                $div_data = makeDivision( $counterDiv, $layout, true );
                 $patt_id = add_def ( 'mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>' );
                 $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $div_data . '</g>';
             } else {

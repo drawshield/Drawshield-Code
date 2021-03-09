@@ -7,7 +7,7 @@ if ( existModifierWithKeyterm($node, 'pointed')) {
    $ordinary['shape_spec'] = 'X-8,Y{%75*}A1016c{%26*}e1016g{%26*}';
 }
 
-if ($options['shape'] == 'flag') {
+if ($layout->shape == 'flag') {
     $ordinary['chargesOn'] = array('h', '100,{%82*},800,{%15*}');
 } else {
    $ordinary['chargesOn'] = '500,{%87*},500,{%21*}/333.33,{%87*},300,{%21*}:666.67,{%87*}/333.33,{%87*},160,{%21*}:500,{%87*}:666.67,{%87*}/x/x/x';

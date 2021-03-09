@@ -1,13 +1,13 @@
 <?php
 	 
 
-function createBody($spec, $lineType, $feature_size) {
-  $spec = subPercent($spec);
+function createBody($spec, $lineType, $feature_size, $layout) {
+  $spec = subPercent($spec, $layout);
   return '<path fill-rule="evenodd" d="' . makePath ( $spec, $lineType, $feature_size ) . '" />';
 } 
 
-function makeVoid ( $spec, $lineType = 'none', $featureSize = 50, $offsetSize = 30 ) {
-  $spec = subPercent($spec);
+function makeVoid ( $spec, $layout, $lineType = 'none', $featureSize = 50, $offsetSize = 30 ) {
+  $spec = subPercent($spec, $layout);
   $retval = '';
   // Create the outer edge as normal
   $retval .= makePath ( $spec, $lineType, $featureSize );
@@ -16,14 +16,14 @@ function makeVoid ( $spec, $lineType = 'none', $featureSize = 50, $offsetSize = 
   return $retval;
 }
 
-function createVoid($spec, $lineType, $feature_size) {
+function createVoid($spec, $lineType, $feature_size, $layout) {
   $spec = subPercent($spec);
-  $retval = '<path fill-rule="evenodd" d="' . makeVoid ( $spec, $lineType, $feature_size ) . '" />';
+  $retval = '<path fill-rule="evenodd" d="' . makeVoid ( $spec, $layout, $lineType, $feature_size ) . '" />';
   return $retval;
 }
 
-function createCotise($spec, $num, $lineType) {
-  $spec = subPercent($spec);
+function createCotise($spec, $num, $lineType, $layout) {
+  $spec = subPercent($spec, $layout);
   $cotiseSize = 40;
   $outerSize = $cotiseSize*($num*2);
   $innerSize = $cotiseSize*(($num*2)-1);
@@ -88,13 +88,13 @@ function division_to_modifier(DOMElement &$node, $type) {
 }
 
 
-function includeOrdinary( DOMElement &$node ) {
+function includeOrdinary( DOMElement &$node, $layout ) {
   global $messages, $options;
 
   $ordinaryType = $node->getAttribute('keyterm');
   $ordinary = array ();
   $file = null;
-  if ($options['shape'] == 'flag') { // look in the flag sub-directory first
+  if ($layout->shape == 'flag') { // look in the flag sub-directory first
     $file ="ordinaries/flag/$ordinaryType.inc";
     if ( stream_resolve_include_path($file) === false ) $file = null;
   }
@@ -102,10 +102,7 @@ function includeOrdinary( DOMElement &$node ) {
     $file = "ordinaries/$ordinaryType.inc";
     if ( stream_resolve_include_path($file) === false ) $file = null;
   }
-  $calcHeight = 1200; // value to use for calculating drawing height
-  if ($options['shape'] == 'flag' || $options['shape'] == 'quarter') {
-    $calcHeight = $options['flagHeight'];
-  }
+  $calcHeight = $layout->size->height; // value to use for calculating drawing height
   if ($file != null) { // calcHeight is available within the included file
     include ( $file );
   } else { // can't draw this ordinary
@@ -115,14 +112,14 @@ function includeOrdinary( DOMElement &$node ) {
   return $ordinary;
 }
 
-function getSpecial($type,$node) {
+function getSpecial($type,$node, $layout) {
     global $options, $messages;
     $special = [];
 
-    $filename = $options['shape'];
+    $filename = $layout->shape;
     if ($filename == 'swatch' || $filename == 'stamp') $filename = "quarter"; // basically the same shape
-    if ($filename == 'flag') {
-        $height = (isset($options['flagHeight'])) ? $options['flagHeight'] : 800; // just in case
+    if ($layout->shape) {
+        $height = $layout->size->height;
         $size = (int)(min(100,$height/8));
         $special['body'] = '<path fill-rule="evenodd" d="M -10,-10 h1020 v' .
             ($height + 20) . ' h-1020 v-' . ($height + 20) . ' z M' . $size . ', ' . $size .
@@ -141,7 +138,7 @@ function getSpecial($type,$node) {
     $subfile = getBestMatchFilename($folder, $filename, null);
 
     if ($subfile == null) {
-        $messages->addMessage('warning',"Cannot draw $type inside " . $options['shape']);
+        $messages->addMessage('warning',"Cannot draw $type inside " . $layout->shape);
         $subfile = 'heater.svg';
     }
 
@@ -163,7 +160,7 @@ function getSpecial($type,$node) {
         $special['body2'] = $tempBody;
     }
 
-    switch ($options['shape']) {
+    switch ($layout->shape) {
         case 'drawshield':
             break;
         case 'french':
@@ -206,7 +203,7 @@ function getSpecial($type,$node) {
 
 }
 
-function makeOrdinary( DOMElement &$node ) {
+function makeOrdinary( DOMElement &$node, $layout ) {
   /**
    * @var
    */
@@ -217,11 +214,11 @@ function makeOrdinary( DOMElement &$node ) {
     $subtype = $node->getAttribute('keyterm');
     // special handling for bordures (as lots of options)
     if ($subtype == 'bordure') {
-        $ord_data = getSpecial('bordures', $node);
+        $ord_data = getSpecial('bordures', $node, $layout);
     } elseif ($subtype == 'orle') {
-        $ord_data = getSpecial('orles', $node);
+        $ord_data = getSpecial('orles', $node, $layout);
     } else {
-        $ord_data = includeOrdinary( $node );
+        $ord_data = includeOrdinary( $node, $layout );
     }
   /**
    * @var DOMElement $rev
@@ -245,8 +242,8 @@ function makeOrdinary( DOMElement &$node ) {
 	// Some defaults (either from the ordinary data or from modifiers)
   if ( array_key_exists('feature_size', $ord_data) ) { 
     $feature_size = $ord_data['feature_size'];
-  } elseif ($options['shape'] == 'flag') {
-    $feature_size = (int)($options['flagHeight'] * 0.05);
+  } elseif ($layout->shape == 'flag') {
+    $feature_size = (int)($layout->size->height * 0.05);
   } else {
 	  $feature_size = 40;
   }
@@ -263,10 +260,10 @@ function makeOrdinary( DOMElement &$node ) {
 	  $shape_spec = choose_fit($ord_data['shape_spec']);
     if ( $voided != null ) {
       if ( ($void_col = $voided->firstChild ) != null )
-			  $bodySVG .= apply_tincture ( $void_col, createBody($shape_spec, 'none', 0 ) );
-      $bodySVG .= createVoid($shape_spec, getModifierByType($node,'linetype', false), $feature_size);
+			  $bodySVG .= apply_tincture ( $void_col, createBody($shape_spec, 'none', 0 ), $layout );
+      $bodySVG .= createVoid($shape_spec, getModifierByType($node,'linetype', false), $feature_size, $layout);
     } else {
-      $bodySVG .= createBody($shape_spec, getModifierByType($node,'linetype', false), $feature_size);
+      $bodySVG .= createBody($shape_spec, getModifierByType($node,'linetype', false), $feature_size, $layout);
     }
 		// Now do the cotises
     /**
@@ -279,22 +276,22 @@ function makeOrdinary( DOMElement &$node ) {
 			  $cot_tinc = $tinc1;
       $numberCottices = $cot_node->getAttribute('value');
       for ( $i = 1; $i <= $numberCottices; $i++ )
-			  $cotiseSVG .= createCotise( $shape_spec, $i, $cot_linetype );
-		  $cotiseSVG = apply_tincture ( $cot_tinc, $cotiseSVG );
+			  $cotiseSVG .= createCotise( $shape_spec, $i, $cot_linetype, $layout );
+		  $cotiseSVG = apply_tincture ( $cot_tinc, $cotiseSVG, $layout );
       existModifierWithKeyterm($node,'cotticing'); // mark as used
 		}
   } else { // we are given direct SVG data
     if ( $voided != null ) {
 		  if ( !array_key_exists('voided', $ord_data) ) {
         $messages->addMessage('warning','cannot draw ' . $subtype . ' as voided' . getLine($node));
-        $bodySVG .= subPercent(choose_fit($ord_data['body']));
+        $bodySVG .= subPercent(choose_fit($ord_data['body']), $layout);
 		  } else {
         if ( ($void_col = $voided->firstChild ) != null ) 
-			    $bodySVG .= apply_tincture ( $void_col, subPercent(choose_fit($ord_data['body'])) );
-			  $bodySVG .= subPercent(choose_fit($ord_data['voided']));
+			    $bodySVG .= apply_tincture ( $void_col, subPercent(choose_fit($ord_data['body'])), $layout );
+			  $bodySVG .= subPercent(choose_fit($ord_data['voided']), $layout);
 			}
     } else {
-      $bodySVG .= subPercent(choose_fit($ord_data['body']));
+      $bodySVG .= subPercent(choose_fit($ord_data['body']), $layout);
     }
 	} // We now have $body and $cotise set.
 	
@@ -307,7 +304,7 @@ function makeOrdinary( DOMElement &$node ) {
 	$inverted = existModifierWithKeyterm($node, 'inverted');
 
 	// Start to build return string
-  $retval = apply_tincture ( $tinc1, $bodySVG, '', $rot, $mirrored, $inverted );
+  $retval = apply_tincture ( $tinc1, $bodySVG, $layout, '', $rot, $mirrored, $inverted );
 
 	// Do we need to add a second tincture as an overlay
   if ( ($compNode = getModifierNodeWithKeyterm($node,'compony1', false)) != null or
@@ -316,7 +313,7 @@ function makeOrdinary( DOMElement &$node ) {
       !array_key_exists('body2', $ord_data)) {
         $messages->addMessage('warning','Cannot apply compony to ' . $subtype);
     } else {
-      $body2_spec = subPercent(choose_fit($ord_data['body2']));
+      $body2_spec = subPercent(choose_fit($ord_data['body2']), $layout);
       if ( $body2_spec[0] != '<' ) {
         $linetype = null;
         // Is there a linetype here also
@@ -324,7 +321,7 @@ function makeOrdinary( DOMElement &$node ) {
           $linetype = getModifierByType($node,'linetype', false);
         $body2_spec = '<path d="' . makePath($body2_spec, $linetype, 30) . '" />';
       }
-      $body2 = apply_tincture ( $body2_col, $body2_spec, '', $rot, $mirrored, $inverted );
+      $body2 = apply_tincture ( $body2_col, $body2_spec, $layout, '', $rot, $mirrored, $inverted );
       $body2_fill = add_def( 'pattern patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="0" ' .
                              'y="0" width="1000" height="1200"', $body2 );
       $retval .= add_def() . '<g fill="url(#' . $body2_fill . ')">' . $bodySVG . '</g>';
@@ -339,7 +336,7 @@ function makeOrdinary( DOMElement &$node ) {
   if ( existModifierWithKeyterm($node,'depressed') )
 	  $retval .= '<g stroke="#000000" stroke-width="7">' . "$bodySVG</g>";
   if ( array_key_exists('body3',$ord_data) ) { // Other embellishments
-    $retval .= subPercent($ord_data['body3']);
+    $retval .= subPercent($ord_data['body3'], $layout);
   }
 		
 
@@ -363,7 +360,7 @@ function makeOrdinary( DOMElement &$node ) {
 				}
 			  // Make a normal ordinary, ignore any chief present
         chief('push','NC');
-        $new_ord = makeOrdinary($onObject);
+        $new_ord = makeOrdinary($onObject, $layout);
         chief('pop');
 				// Does the main ordinary want this handled specially (scaling and clipping to fit entirely)?
 			if ( array_key_exists('if_ord_on',$ord_data) and $ord_data['if_ord_on'] == 'scale' ) {
@@ -390,14 +387,14 @@ function makeOrdinary( DOMElement &$node ) {
         if ( array_key_exists('chargesOn', $ord_data)) {
           $onPlacement = $ord_data['chargesOn'];
           if ( is_array($onPlacement )) { // Means we have to call calcPlace
-            $onPlacement = calcPlace($onObject,$onPlacement[0],subPercent($onPlacement[1]));
+            $onPlacement = calcPlace($onObject,$onPlacement[0],subPercent($onPlacement[1], $layout));
           } else {
-            $onPlacement = subPercent($onPlacement);
+            $onPlacement = subPercent($onPlacement, $layout);
           }
         } else {
           $onPlacement = 'n'; // error if no placement for ordinary with charges on it, but let placeCharges handle it
         }
-        $onObjectSVG = makeCharge( $onObject, $onPlacement );
+        $onObjectSVG = makeCharge( $onObject, $layout, $onPlacement );
         break;
     }
   }
@@ -424,7 +421,7 @@ function makeOrdinary( DOMElement &$node ) {
     } else {
       $withinPlacement = 'n'; // error if no placement for ordinary with charges on it, but let placeCharges handle it
     }
-    $chargeWithinSVG = makeCharge($chargesWithin, $withinPlacement);
+    $chargeWithinSVG = makeCharge($chargesWithin, $layout, $withinPlacement);
   }
   	
 	// Gather all the parts together

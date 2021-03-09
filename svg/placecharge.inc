@@ -28,7 +28,7 @@
 // It should be assumed that the charge list will be provided in order,
 // left to right then top to bottom
 
-function place_charges ( DOMElement $node, $placement ) {
+function place_charges ( DOMElement $node, $placement, $layout ) {
   global $messages;
  
   switch ($placement) {
@@ -41,7 +41,7 @@ function place_charges ( DOMElement $node, $placement ) {
       return '';
   }
 //  error_log("Using placement: " . $placement);
-  $placement = subPercent($placement);
+  $placement = subPercent($placement, $layout);
 //  error_log("Converted to: " . $placement);
   $num_of = $node->getAttribute('number');
   if ( $num_of < 1 ) $num_of = 1; // Just in case...
@@ -52,19 +52,19 @@ function place_charges ( DOMElement $node, $placement ) {
    */
   if ( $child = getModifierNodeWithKeyterm($node,'between')) {
     $between = $child->firstChild;
-    $between_placement = get_placement($between);
+    $between_placement = get_placement($between, $layout);
     // If between has its own placement, use that
     if ($between_placement != 'i' ) {
-      $retval .= place_charges( $between, $between_placement);
+      $retval .= place_charges( $between, $between_placement, $layout);
       $between = null;
     } else {
       $num_of += (integer)$between->getAttribute('number');
       $half = ($between->getAttribute('number')) / 2;
     }
   } elseif ( $child = getModifierNodeWithKeyterm($node,'above')) {
-    $retval .= place_charges( $child->firstChild, get_placement($child->firstChild));
+    $retval .= place_charges( $child->firstChild, get_placement($child->firstChild, $layout), $layout);
   } elseif ( $child = getModifierNodeWithKeyterm($node,'beside')) {
-    $retval .= place_charges( $child->firstChild, get_placement($child->firstChild));
+    $retval .= place_charges( $child->firstChild, get_placement($child->firstChild, $layout), $layout);
   }
 
   $cx = 500; // default values
@@ -136,13 +136,14 @@ function place_charges ( DOMElement $node, $placement ) {
     $item = $node;
     if ( $between && ( ($count+1) <= $half or ($count+1) > ($num_of - $half))) 
       $item = $between;
-    $retval .= PlaceCharge( $item, $bbx, $bby, $cx, $cy, $rot, $inv, $rev );
+    $retval .= PlaceCharge( $item, $layout, $bbx, $bby, $cx, $cy, $rot, $inv, $rev );
   }
   return $retval;
 }
 
 
 function PlaceCharge ( $node,  // images
+                            $layout,
                             $boundX, $boundY,  // size of bounding box
                             $centreX, $centreY,// centre of bounding box
                             $rotation = '0',
@@ -150,7 +151,7 @@ function PlaceCharge ( $node,  // images
                             $reversed = '0' ) {
   global $dom, $options;
 
-  $charge = getCharge( $node );
+  $charge = getCharge( $node, $layout );
   if ($charge == null) return '';
   $orientation = null;
   $tincture = null;
@@ -492,7 +493,7 @@ function PlaceCharge ( $node,  // images
   if (!isset($charge['title'])) $charge['title'] = 'a charge';
   $retval = "<g transform=\"$transform\" >\n<title>" . htmlentities(transliterate($charge['title'])) . '</title>' . $retval . "</g>\n";
 
-  $retval = apply_tincture( $tincture, $retval, "$chargeX,$chargeY", $rotation, $reversed, $inverted );
+  $retval = apply_tincture( $tincture, $retval, $layout, "$chargeX,$chargeY", $rotation, $reversed, $inverted );
   return $retval;
 }
 

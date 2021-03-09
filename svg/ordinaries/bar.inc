@@ -17,8 +17,8 @@ $subtype = $node->getAttribute('keyterm');
 $height = 1000;
 $palet_length = 1400;
 $bend_length = 1600; // future - adjust for flag height???
-if ($options['shape'] == 'flag') {
-  $height = $options['flagHeight'];
+if ($layout->shape == 'flag') {
+  $height = $layout->shape->height;
   $palet_length = sprintf("%d", $height + 200);
 }
 
@@ -184,7 +184,7 @@ if ($subtype == 'bar' && existModifierWithKeyterm($node,'sinister')) {
         break;
     }
 
-    $body .= createBody( $spec, $mods[$i], $linetype_size );
+    $body .= createBody( $spec, $mods[$i], $linetype_size, $layout );
     // we allow a single bar (only) to be cotticed
     if ( ($num == 1) && ($cot_node = getModifierNodeWithKeyterm($node,'cotticing', false)) != null ) {
       $cotiseSVG = '';
@@ -194,8 +194,8 @@ if ($subtype == 'bar' && existModifierWithKeyterm($node,'sinister')) {
 			//  $cot_tinc = $tinc1;
       $numberCottices = $cot_node->getAttribute('value');
       for ( $i = 1; $i <= $numberCottices; $i++ )
-			  $cotiseSVG .= createCotise( $spec, $i, $cot_linetype );
-		  $cotiseSVG = apply_tincture ( $cot_tinc, $cotiseSVG );
+			  $cotiseSVG .= createCotise( $spec, $i, $cot_linetype, $layout );
+		  $cotiseSVG = apply_tincture ( $cot_tinc, $cotiseSVG, $layout );
       existModifierWithKeyterm($node,'cotticing',true); // mark as used
       $body .= $cotiseSVG;
 		}

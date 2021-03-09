@@ -1,49 +1,30 @@
 <?php 
 
-function subHeightPercent( $match ) {
-	global $options;
+function subHeightPercent( $match, $layout ) {
 
-	$height = 1000;
-  $percent = substr($match[0],2,strlen($match[0])-3);
-  $len = strlen($percent);
-  // Flags
-  if ($percent[$len-1] == '*' ) { // On a shield, use full height
-    $height = 1200;
-    $percent = substr($percent, 0, $len - 1); // strip flag
-  }
-  // Types
-	if ($options['shape'] == 'flag' || $options['shape'] == 'quarter') {
-		$height = $options['flagHeight'];
-	}
-	
-	return (int)($height * $percent / 100);
+
+    $height = 1000;
+    $percent = substr($match[0],2,strlen($match[0])-3);
+    $len = strlen($percent);
+    // Flags
+    if ($percent[$len-1] == '*' ) { // On a shield, use full height
+        $height = 1200;
+        $percent = substr($percent, 0, $len - 1); // strip flag
+    }
+    // Types
+    if ($layout->shape == 'flag' || $layout->shape == 'quarter') {
+        $height = $layout->size->height;
+    }
+
+    return (int)($height * $percent / 100);
 }
 
-/*
-function subWidthPercent( $match ) {
-	global $options;
-
-	$width = 1000;
-  $percent = substr($match[0],2,strlen($match[0])-3);
-  $len = strlen($percent);
-  // Flags
-  if ($percent[$len-1] == '*') { // On a shield, use full height
-    $height = 1200;
-    $percent = substr($percent, 0, $len - 1); // strip flag
-  }
-  // Types
-	if ($options['shape'] == 'flag') {
-		$height = $options['flagHeight'];
-	}
-	
-	return (int)($height * $percent / 100);
-}
-*/
-
-
-function subPercent($str) {
+function subPercent($str, $layout) {
   // $str = preg_replace_callback('/{@[0-9]+}/', 'subWidthPercent', $str);
-  return preg_replace_callback('/{%[0-9]+\*?}/', 'subHeightPercent', $str);
+  $callback = function ( $match ) use ( $layout ) {
+    return subHeightPercent($match, $layout);
+  };
+  return preg_replace_callback('/{%[0-9]+\*?}/', $callback, $str);
 }
 
 function rotatePoint( $x, $y, $theta ) {

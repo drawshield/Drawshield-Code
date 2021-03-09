@@ -1,6 +1,6 @@
 <?php
 
-$height = (isset($options['flagHeight'])) ? $options['flagHeight'] : 1200;
+$height = $layout->size->height;
 
 $midX = "500";
 $midY = sprintf('%.2f',($height/2));

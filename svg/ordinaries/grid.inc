@@ -1,6 +1,6 @@
 <?php 
 
-$height = (isset($options['flagHeight'])) ? $options['flagHeight'] : 1200;
+$height = $layout->size->height;
 
 $retval = '';
 // vertical lines

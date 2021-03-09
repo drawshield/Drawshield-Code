@@ -19,7 +19,7 @@ if ( existModifierWithKeyterm($node, 'inverted') )
 else
   $div_data = array (  'NC' => 'V1X500Y500B848c500e1200g500H848', 'CH' => 'V1X0Y1275g200H707B708c200e1000' );
 
-$division['div2'] = createBody(choose_fit($div_data), $lineType, 60);
+$division['div2'] = createBody(choose_fit($div_data), $lineType, 60, $layout);
 
 
 if ( existModifierWithKeyterm($node, 'riveted')) {

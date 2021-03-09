@@ -26,5 +26,5 @@ for ( $i = 1; $i < $num_of; $i +=2 ) {
   $CH .= "X-100Y{$YC}A1200c{$stepC}E1200g{$stepC}   ";
 }
 $lineSize = (int)($calcHeight / 30);
-$division['div2'] = createBody( choose_fit (compact('NC', 'CH')), getModifierByType($node,'linetype', false), $lineSize);
+$division['div2'] = createBody( choose_fit (compact('NC', 'CH')), getModifierByType($node,'linetype', false), $lineSize, $layout);
 

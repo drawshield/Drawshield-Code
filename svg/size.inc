@@ -1,27 +1,5 @@
 <?php
 
-function get_size()
-{
-    global $aspect_ratio;
-    global $options;
-
-    $sx = 1000;
-    if ( isset($options["flagHeight"]) && $options["flagHeight"] && $aspect_ratio != "square" )
-        $sy = $options["flagHeight"];
-    else
-        $sy = 1000;
-
-    return [$sx, $sy];
-}
-
-
-function get_size_multiplier()
-{
-    list($sx, $sy) = get_size();
-    return [$sx/1000., $sy/1000.];
-}
-
-
 class ShieldSize
 {
     private static $ars = [
@@ -38,23 +16,6 @@ class ShieldSize
     {
         $this->width = $width;
         $this->height = $height;
-    }
-
-    static function current()
-    {
-        global $aspect_ratio;
-        global $options;
-
-        $w = 1000;
-
-        if ( $aspect_ratio == "square" )
-            $h = $w;
-        else if ( isset($options["flagHeight"]) && $options["flagHeight"] )
-            $h = $options["flagHeight"];
-        else
-            $h = 1200;
-
-        return new ShieldSize($w, $h);
     }
 
     function scaled($x, $y = null)
@@ -87,5 +48,79 @@ class ShieldSize
         }
 
         return $best;
+    }
+}
+
+class ShieldPos
+{
+    function __construct($x, $y)
+    {
+        $this->x = $x;
+        $this->y = $y;
+    }
+}
+
+class ShieldRect
+{
+    function __construct($pos, $size)
+    {
+        $this->pos = $pos;
+        $this->size = $size;
+    }
+}
+
+class ShieldLayout
+{
+    private static $custom_size = [
+        "lozenge" => 1000,
+        "circle" => 1000,
+        "square" => 1000,
+        // these use flagHeight
+        "flag" => 0,
+        "quarter" => 0,
+    ];
+
+    function __construct(ShieldSize $size, $shape, ShieldPos $center_point = null, ShieldRect $charge_hint = null)
+    {
+        $this->size = $size;
+        $this->shape = $shape;
+        if ( $center_point === null )
+            $this->auto_center();
+        else
+            $this->center_point = $center_point;
+        $this->charge_hint = $charge_hint;
+    }
+
+    function auto_center()
+    {
+        if ( isset(static::$custom_size[$this->shape]) )
+            $this->center_point = new ShieldPos($this->size->width / 2, $this->size->height / 2);
+        else
+            $this->center_point = new ShieldPos(500, 500);
+    }
+
+    static function from_options($options)
+    {
+        $width = 1000;
+        $height = 1200;
+        $center_point = new ShieldPos(500, 500);
+        $shape = $options["shape"];
+
+        if ( isset($options["flagHeight"]) )
+        {
+            $height = $options["flagHeight"];
+            $center_point = new ShieldPos(500, $height / 2);
+        }
+        else if ( isset(static::$custom_size[$shape]) )
+        {
+            $height = static::$custom_size[$shape];
+            $center_point = new ShieldPos(500, $height / 2);
+        }
+
+        return new ShieldLayout(
+            new ShieldSize($width, $height),
+            $shape,
+            $center_point
+        );
     }
 }

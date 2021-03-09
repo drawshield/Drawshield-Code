@@ -1,6 +1,6 @@
 <?php
 
-$height = (isset($options['flagHeight'])) ? $options['flagHeight'] : 1200;
+$height = $layout->size->height;
 $armSize = (int)$height / 5;
 $armHeight = $armSize * 2;
 $armWidth = (1000 - $armSize) / 2; // actually whatever is left over

@@ -15,10 +15,10 @@
 
 $division['div2'] = createBody( choose_fit( array ( 'NC' => 'O1Q1X500Y{%50}C{%80}e600g{%80}A600   O1Q1X500Y{%50}G{%60}a600c{%60}E600',  
                 'CH' => 'O1Q1X500Y700C600e600g600A600   O1Q1X500Y700G600a600c600E600' )),
-  getModifierByType($node,'linetype', false),60);
+  getModifierByType($node,'linetype', false),60, $layout);
 $division['div4'] = createBody( choose_fit( array ( 'NC' => 'O1Q1X500Y{%50}C{%80}e600g{%80}A600',  
                 'CH' => 'O1Q1X500Y700C600e600g600A600' )),
-  getModifierByType($node,'linetype', false),60);
+  getModifierByType($node,'linetype', false),60, $layout);
 $division['div3'] = createBody( choose_fit( array ( 'NC' => 'O1Q1X500Y{%50}A600c{%80}e600G{%80}',  
                 'CH' => 'O1Q1X500Y700A600c600e600G600' )),
-  getModifierByType($node,'linetype', false),60);
+  getModifierByType($node,'linetype', false),60, $layout);

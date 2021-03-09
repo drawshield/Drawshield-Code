@@ -3,10 +3,9 @@ require_once('size.inc');
 
 class Quarter
 {
-    function __construct($x, $y, $size, $scale, $rel_size)
+    function __construct($pos, $size, $scale, $rel_size)
     {
-        $this->x = $x;
-        $this->y = $y;
+        $this->pos = $pos;
         $this->size = $size;
         $this->scale = $scale;
         $this->rel_size = $rel_size;
@@ -14,7 +13,12 @@ class Quarter
 
     function svg_transform()
     {
-        return "transform='translate({$this->x}, {$this->y}) scale({$this->scale})'";
+        return "transform='translate({$this->pos->x}, {$this->pos->y}) scale({$this->scale})'";
+    }
+
+    function to_layout()
+    {
+        return new ShieldLayout($this->size, "quarter");
     }
 }
 
@@ -23,9 +27,9 @@ class Quartering
     public $size, $quarters;
     private $y;
 
-    function __construct()
+    function __construct($layout)
     {
-        $this->size = ShieldSize::current();
+        $this->layout = $layout;
         $this->y = 0;
         $this->quarters = [];
     }
@@ -35,15 +39,17 @@ class Quartering
         if ( $height_mult === null )
             $height_mult = 1 - $this->y;
 
-        $qsize = $this->size->scaled(1 / $n_columns, $height_mult);
+        $qsize = $this->layout->size->scaled(1 / $n_columns, $height_mult);
         $norm_factor = $qsize->normalize_factor();
         $qsize_norm = $qsize->scaled($norm_factor);
 
         for ( $i = 0; $i < $n_columns; $i++ )
         {
             array_push($this->quarters, new Quarter(
-                $i * $qsize->width,
-                $this->y * $this->size->height,
+                new ShieldPos(
+                    $i * $qsize->width,
+                    $this->y * $this->layout->size->height
+                ),
                 $qsize_norm,
                 1 / $norm_factor,
                 $qsize
@@ -74,10 +80,6 @@ class Quartering
         global $options;
 
         $retval = '';
-        $saveShape = $options['shape'];
-        $saveHeight = $options['flagHeight'] ?? null;
-
-        $options['shape'] = 'quarter';
 
         foreach ( $children as $kid )
         {
@@ -97,22 +99,17 @@ class Quartering
             $width = $quarter->size->width;
             $height = $quarter->size->height;
 
-            if ( $saveShape == "flag" )
-                $aspect_ratio = "10:10";
-            else
-                $aspect_ratio = $quarter->size->closest_aspect_ratio();
-
-            $options['flagHeight'] = $height;
-
             $transform = $quarter->svg_transform();
-
+            $layout = $quarter->layout;
+            if ( $this->layout->shape != "flag" && abs($layout->height - 1200) < 1 )
+                $layout->center_point->y = 500;
 
             if ( $clips !== null )
             {
                 $clipdef = add_def( 'clipPath', "<path d=\"{$clips[$index]}\" />");
                 $retval .=
                     "<g clip-path='url(#$clipdef)'><g $transform >"
-                    . makeshield($kid, $aspect_ratio)
+                    . makeshield($kid, $layout)
                     . "</g></g>\n";
             }
             else
@@ -120,23 +117,20 @@ class Quartering
                 $clipdef = add_def( 'clipPath', "<path d=\"M0,0 h$width v$height h-$width v-$height Z\" />");
                 $retval .=
                     "<g clip-path='url(#$clipdef)' $transform >"
-                    . makeshield($kid, $aspect_ratio)
+                    . makeshield($kid, $layout)
                     . "</g>\n";
             }
 
             region('pop');
         }
 
-        $options['shape'] = $saveShape;
-        if ( $saveHeight )
-            $options['flagHeight'] = $saveHeight;
         $retval .= add_def();
         return $retval . ($clips !== null ? "" : $this->grid());
     }
 
 }
 
-function makeQuartered($across, $down, $children, $this_AR)
+function makeQuartered($across, $down, $children, ShieldLayout $layout)
 {
     $quartering = new Quartering();
 
@@ -147,13 +141,11 @@ function makeQuartered($across, $down, $children, $this_AR)
     return $quartering->render_svg($children);
 }
 
-function makequartered4( DOMNodeList $children, $this_AR )
+function makequartered4( DOMNodeList $children, ShieldLayout $layout )
 {
-    global $options;
-
     $quartering = new Quartering();
 
-    if ( $options["shape"] == "flag" || $this_AR != "10:12" )
+    if ( $layout->shape == "flag" || $layout->size->height != 1200 )
     {
         $quartering->add_row(2, 0.5);
         $quartering->add_row(2);
@@ -167,13 +159,11 @@ function makequartered4( DOMNodeList $children, $this_AR )
     return $quartering->render_svg($children);
 }
 
-function makequartered5( $children, $this_AR )
+function makequartered5( $children, ShieldLayout $layout )
 {
-    global $options;
-
     $quartering = new Quartering();
 
-    if ( $options["shape"] == "flag" || $this_AR != "10:12" )
+    if ( $layout->shape == "flag" || $layout->size->height != 1200 )
     {
         $quartering->add_row(3, 0.5);
         $quartering->add_row(2);
@@ -187,13 +177,11 @@ function makequartered5( $children, $this_AR )
     return $quartering->render_svg($children);
 }
 
-function makequartered6( $children, $this_AR )
+function makequartered6( $children, ShieldLayout $layout )
 {
-    global $options;
-
     $quartering = new Quartering();
 
-    if ( $options["shape"] == "flag" || $this_AR != "10:12" )
+    if ( $layout->shape == "flag" || $layout->size->height != 1200 )
     {
         $quartering->add_row(3, 0.5);
         $quartering->add_row(3);
@@ -207,13 +195,11 @@ function makequartered6( $children, $this_AR )
     return $quartering->render_svg($children);
 }
 
-function makequartered8( $children, $this_AR )
+function makequartered8( $children, ShieldLayout $layout )
 {
-    global $options;
-
     $quartering = new Quartering();
 
-    if ( $options["shape"] == "flag" || $this_AR != "10:12" )
+    if ( $layout->shape == "flag" || $layout->size->height != 1200 )
     {
         $quartering->add_row(3, 1/3);
         $quartering->add_row(3, 1/3);
@@ -229,13 +215,11 @@ function makequartered8( $children, $this_AR )
     return $quartering->render_svg($children);
 }
 
-function make_quartered_saltire( DOMNodeList $children, $this_AR )
+function make_quartered_saltire( DOMNodeList $children, ShieldLayout $layout )
 {
-    global $options;
-
     $quartering = new Quartering();
 
-    if ( $options["shape"] == "flag" || $this_AR != "10:12" )
+    if ( $layout->shape == "flag" || $layout->size->height != 1200 )
         $h = 0.5;
     else
         $h = 0.417;
