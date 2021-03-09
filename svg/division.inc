@@ -101,7 +101,7 @@ function makeDivision( DOMElement $node, $layout, $counter = false ) {
   } else { // Not counterchanged, colour as normal
     $div1 = apply_tincture ( $tinctures[1], '<rect x="-100" y="-100" width="1200" height="' . ($height + 200) . '" />', $layout,
                               '1000,' . $height );
-    $div2 = apply_tincture( $tinctures[2], $div2 );
+    $div2 = apply_tincture( $tinctures[2], $div2, $layout );
     if ( isset($division['div3']) && isset($tinctures[3]) ) {
       $div3 = apply_tincture( $tinctures[3], $division['div3'], $layout );
     }
