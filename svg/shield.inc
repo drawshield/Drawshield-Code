@@ -157,7 +157,6 @@ function makeshield( DOMElement &$node, $layout ) {
     $node = $dom->getElementById($node->getAttribute('IDREF'));
   }
 
-
   $retval = '<g>';
   if (!is_object($node)) return $retval;
   /**

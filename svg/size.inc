@@ -82,12 +82,16 @@ class ShieldLayout
 
     function __construct(ShieldSize $size, $shape, ShieldPos $center_point = null, ShieldRect $charge_hint = null)
     {
+        // shield size 1000xheight
         $this->size = $size;
+        // shape name
         $this->shape = $shape;
+        // cross/quarters center point
         if ( $center_point === null )
             $this->auto_center();
         else
             $this->center_point = $center_point;
+        // rect for custom positioning
         $this->charge_hint = $charge_hint;
     }
 
@@ -121,6 +125,14 @@ class ShieldLayout
             new ShieldSize($width, $height),
             $shape,
             $center_point
+        );
+    }
+
+    function center_point_ratio()
+    {
+        return new ShieldPos(
+            $this->center_point->x / $this->size->width,
+            $this->center_point->y / $this->size->height
         );
     }
 }

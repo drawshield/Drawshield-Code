@@ -202,7 +202,7 @@ function draw() {
             $extraSpace = 150;
         }
 
-        $outline = getShape($layout->shape);
+        $outline = getShape($layout);
 
         $displayScale = $options['size'] / 1000;
         $displayWidth = $options['size'];
@@ -222,7 +222,7 @@ function draw() {
 
 
     } else {
-        $outline = getShape($layout->shape);
+        $outline = getShape($layout);
         $header = '<?xml version="1.0" encoding="utf-8" ?>
     <svg version="1.1"
         baseProfile="full"
