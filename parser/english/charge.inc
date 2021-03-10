@@ -373,7 +373,7 @@
       array ( 'wreathed sta(ff|ve)s?', 'weapon/staff-wreathed' ),
       array ( 'arba?l[ea]sts?', 'weapon/crossbow' ),
       array ( 'bourdons?', 'weapon/staff-palmer' ),
-      array ( 'palmers sta(ff|ve)s?', 'weapon/staff-palmer' ),
+      array ( 'p(ilgrim|almer)s? sta(ff|ve)s?', 'weapon/staff-palmer' ),
       array ( '[ck]atherine wheels?', 'weapon/catherine-wheel' ),
       array ( 'sword chapes?', 'weapon/sword-chape' ),
       array ( 'thors hammers?', 'weapon/thors-hammer'),
