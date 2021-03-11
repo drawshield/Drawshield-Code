@@ -17,7 +17,7 @@ function makeVoid ( $spec, $layout, $lineType = 'none', $featureSize = 50, $offs
 }
 
 function createVoid($spec, $lineType, $feature_size, $layout) {
-  $spec = subPercent($spec);
+  $spec = subPercent($spec, $layout);
   $retval = '<path fill-rule="evenodd" d="' . makeVoid ( $spec, $layout, $lineType, $feature_size ) . '" />';
   return $retval;
 }
