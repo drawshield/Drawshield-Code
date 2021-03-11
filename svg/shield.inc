@@ -1,6 +1,7 @@
 <?php 
 
 function makePlain( &$children, $layout ) {
+  global $options;
   $retval = '';
   // Does this shield contain a chief?
   $found = false;
@@ -91,9 +92,10 @@ function makedimidiated( $children, $layout ) {
 }
 
 function makeshield( DOMElement &$node, $layout ) {
-  global $dom, $messages;
+  global $messages;
   
   if ( $node->hasAttribute('IDREF') ) {
+    $dom = $node->ownerDocument;
     $node = $dom->getElementById($node->getAttribute('IDREF'));
   }
 

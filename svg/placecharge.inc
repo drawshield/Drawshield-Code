@@ -85,7 +85,7 @@ function place_charges ( DOMElement $node, $placement, $layout ) {
         if ( $num_of_list[$i] != '' ) $place_list = $num_of_list[$i];
     }
   }
-  switch($place_list{0}) {
+  switch($place_list[0]) {
     case '':
       $messages->addMessage('internal', 'Bad placement');
       return '';
@@ -149,7 +149,6 @@ function PlaceCharge ( $node,  // images
                             $rotation = '0',
                             $inverted = '0',
                             $reversed = '0' ) {
-  global $dom;
 
   $charge = getCharge( $node, $layout );
   if ($charge == null) return '';
@@ -340,12 +339,6 @@ function PlaceCharge ( $node,  // images
     } elseif ( $child->nodeName == 'tincture' ) {
       $tincture = $child;
     }
-  }
-  if ( $tincture == null ) {
-    $col = $dom->createElement('colour');
-    $col->setAttribute( 'name', 'gules');
-    $tincture = $dom->createElement('tincture');
-    $tincture->appendChild ( $col);
   }
   // If there are multiple charges, choose the one with the best match to the bounding box
   $BoundAR = 1;
