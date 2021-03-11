@@ -238,7 +238,7 @@ function chargeInAnnulo($node, &$charge, $base_name, $dir)
 
 // WARNINGS Accepted
 function includeCharge( DOMElement $node, $includeFile, $charge, $folder, $chargeKey ) {
-  global $messages, $options;
+  global $messages;
   include ( $includeFile );
   return $charge;
 }

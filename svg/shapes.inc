@@ -1,7 +1,7 @@
 <?php
 
 function getShape($layout) {
-  global $messages, $options;
+  global $messages;
 
   switch ($layout->shape) {
       case 'stamp':

@@ -11,8 +11,8 @@
  * Time: 19:07
  */
 
-function getEffect($item, $width=1000, $height=1200) {
-  global $options, $messages;
+function getEffect($effect, $item, $width=1000, $height=1200) {
+  global $messages;
 
   /*
    * 'viewbox' is as per SVG definition, allows for larger borders etc.
@@ -447,7 +447,6 @@ function getEffect($item, $width=1000, $height=1200) {
   ),
   );
 
-  $effect = $options['effect'];
   // Some synonyms
   switch ($effect) {
      case 'waving':

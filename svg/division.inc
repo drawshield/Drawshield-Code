@@ -51,7 +51,7 @@ function makeDivision( DOMElement $node, $layout, $counter = false ) {
   /*
    * @var messageStore
    */
-  global $messages, $options;
+  global $messages;
 
   $division = includeDivision($node, $layout);
 

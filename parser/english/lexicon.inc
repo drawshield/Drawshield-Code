@@ -99,8 +99,6 @@ class languageDB extends lexicon
 
     public function __construct()
     {
-        global $options;
-
         $this->language = 'english';
 
         // Each top level element of the patterns array is a named sub-array

@@ -149,7 +149,7 @@ function PlaceCharge ( $node,  // images
                             $rotation = '0',
                             $inverted = '0',
                             $reversed = '0' ) {
-  global $dom, $options;
+  global $dom;
 
   $charge = getCharge( $node, $layout );
   if ($charge == null) return '';

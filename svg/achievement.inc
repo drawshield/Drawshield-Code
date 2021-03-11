@@ -274,7 +274,7 @@ function drawMotto($mottoNode, $layout) {
 }
 
 function drawCompartment($compartmentNode) {
-    global $messages, $options;
+    global $messages;
 
     $compType = $compartmentNode->getAttribute(blazonML::A_KEYTERM);
     if (!file_exists("svg/components/compartments/$compType.svg")) {

@@ -12,7 +12,7 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-global $svg_chief, $options;
+global $svg_chief;
 $subtype = $node->getAttribute('keyterm');
 $height = 1000;
 $palet_length = 1400;

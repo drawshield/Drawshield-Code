@@ -175,6 +175,7 @@ function draw() {
 
     $blazonNode = $dom->documentElement;
     $layout = ShieldLayout::from_options($options);
+    $effect = $options['effect'];
 
     if ($layout->shape == 'flag') {
         $body = '';
@@ -215,9 +216,9 @@ function draw() {
          xmlns:xlink="http://www.w3.org/1999/xlink" 
          xmlns:blazonML="http://drawshield.net/blazonML" ' .
          'preserveAspectRatio="xMidYMid meet" height="' . $displayHeight . '" width="' . $displayWidth . '" ';
-        $header .= 'viewBox="'. getEffect('viewbox',1000, $layout->size->height + $extraSpace + 40) . ' ">';
+        $header .= 'viewBox="'. getEffect($effect, 'viewbox',1000, $layout->size->height + $extraSpace + 40) . ' ">';
         $meta = '';
-        $defs = '<defs>' . getEffect('defs') . $extraDefs . '</defs>';
+        $defs = '<defs>' . getEffect($effect, 'defs') . $extraDefs . '</defs>';
         $trailer =  "</svg>\n";
 
 
@@ -229,9 +230,9 @@ function draw() {
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink" ' .
         'preserveAspectRatio="xMidYMid meet" height="' . (int)($options['size'] * 1.2) . '" width="' . $options['size'];
-        $header .= '" viewBox="'. getEffect('viewbox') . ' ">';
+        $header .= '" viewBox="'. getEffect($effect, 'viewbox') . ' ">';
         $meta = '';
-        $defs = '<defs>' . getEffect('defs') . $extraDefs .  '</defs>';
+        $defs = '<defs>' . getEffect($effect, 'defs') . $extraDefs .  '</defs>';
         $trailer =  "</svg>\n";
 
         $blazonNode = $dom->documentElement;
@@ -324,7 +325,7 @@ function draw() {
         // Add effects (if any) and Clip to shield shape
         if ($options['effect'] == 'shiny') { // this only gets applied to the escutcheon
             $body .= add_def();
-            $body = getEffect('below') . '<g ' . getEffect('filter') . '>' . $body . getEffect('above') . '</g>';
+            $body = getEffect($effect, 'below') . '<g ' . getEffect($effect, 'filter') . '>' . $body . getEffect($effect, 'above') . '</g>';
         }
         // Add outline of shield shape, only if required
         if ( $options['palette'] == 'outline')
@@ -398,9 +399,9 @@ function draw() {
     if (!$options['asFile']) {
         $body .= '<text id="test1" x="10" y="' . $y1Location . '" font-size="30" >' . $version['website'] . '</text><text id="release-id" x="990" y="' . $y1Location . '" text-anchor="end" font-size="30" >' . $version['release'] . '</text>';
     }
-    if ($options['effect'] != 'shiny') { // other effects are applied everywhere
+    if ($effect != 'shiny') { // other effects are applied everywhere
         $body .= add_def();
-        $body = getEffect('below') . '<g ' . getEffect('filter') . '>' . $body . getEffect('above') . '</g>';
+        $body = getEffect($effect, 'below') . '<g ' . getEffect($effect, 'filter') . '>' . $body . getEffect($effect, 'above') . '</g>';
     }
 
     // Uncomment following 3 lines for an overall grid

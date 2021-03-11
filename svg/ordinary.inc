@@ -89,7 +89,7 @@ function division_to_modifier(DOMElement &$node, $type) {
 
 
 function includeOrdinary( DOMElement &$node, $layout ) {
-  global $messages, $options;
+  global $messages;
 
   $ordinaryType = $node->getAttribute('keyterm');
   $ordinary = array ();

@@ -2,16 +2,6 @@
 
 class ShieldSize
 {
-    private static $ars = [
-        '10:12' => 1.2,
-        '10:10' => 1,
-        '10:14' => 1.4,
-        '10:24' => 2.4,
-        '10:20' => 2,
-        '10:28' => 2.8,
-        '10:6' => 0.6,
-    ];
-
     function __construct($width, $height)
     {
         $this->width = $width;
