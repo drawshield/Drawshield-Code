@@ -12,5 +12,5 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-include 'svg/ordinaries/bar.inc';
+include __dir__ . '/bar.inc';
 

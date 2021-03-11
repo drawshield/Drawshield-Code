@@ -18,7 +18,7 @@ $height = 1000;
 $palet_length = 1400;
 $bend_length = 1600; // future - adjust for flag height???
 if ($layout->shape == 'flag') {
-  $height = $layout->shape->height;
+  $height = $layout->size->height;
   $palet_length = sprintf("%d", $height + 200);
 }
 
