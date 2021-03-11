@@ -533,7 +533,7 @@ HERE;
         $body = "<g style='filter:url(#$id)'>$body</g>";
     }
   }
-  if ( count($defs) )
+  if ( isset($defs) && count($defs) )
   {
     $body = "<defs>" . implode("", $defs) . "</defs>" . $body;
   }
