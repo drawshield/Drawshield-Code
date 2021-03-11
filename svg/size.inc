@@ -51,6 +51,11 @@ class ShieldSize
     }
 }
 
+function lerp($a, $b, $factor)
+{
+    return $a * (1-$factor) + $b * $factor;
+}
+
 class ShieldPos
 {
     function __construct($x, $y)
@@ -58,19 +63,71 @@ class ShieldPos
         $this->x = $x;
         $this->y = $y;
     }
+
+    function lerp(ShieldPos $other, $factor_x, $factor_y = null)
+    {
+        if ( $factor_y === null )
+            $factor_y = $factor_x;
+
+        return new ShieldPos(
+            lerp($this->x, $other->x, $factor_x),
+            lerp($this->y, $other->y, $factor_y)
+        );
+    }
+
+    function translated($dx, $dy)
+    {
+        return new ShieldPos($this->x + $dx, $this->y + $dy);
+    }
 }
 
 class ShieldRect
 {
-    function __construct($pos, $size)
+    function __construct(ShieldPos $pos, ShieldSize $size)
     {
         $this->pos = $pos;
         $this->size = $size;
     }
 
+    function left()
+    {
+        return $this->pos->x - $this->size->width / 2;
+    }
+
+    function right()
+    {
+        return $this->pos->x + $this->size->width / 2;
+    }
+
+    function top()
+    {
+        return $this->pos->y - $this->size->height / 2;
+    }
+
+    function bottom()
+    {
+        return $this->pos->y + $this->size->height / 2;
+    }
+
     function __toString()
     {
         return "{$this->pos->x},{$this->pos->y},{$this->size->width},{$this->size->height}";
+    }
+
+    /**
+     * Returns a box relative to the current one
+     * The parameters define the new box and are scaling factors
+     * $x and $y are defined as interpolation factors between top-left and bottom-right
+     */
+    function relative_box($x, $y, $width, $height)
+    {
+        return new ShieldRect(
+            new ShieldPos(
+                lerp($this->left(), $this->right(), $x),
+                lerp($this->top(), $this->bottom(), $y)
+            ),
+            $this->size->scaled($width, $height)
+        );
     }
 }
 
@@ -126,10 +183,26 @@ class ShieldLayout
             $center_point = new ShieldPos(500, $height / 2);
         }
 
+        $charge_hint = null;
+
+        $size = new ShieldSize($width, $height);
+
+        switch ( $shape )
+        {
+            case 'pauldron':
+                $charge_hint = new ShieldRect(new ShieldPos(245, 305), new ShieldSize(510, 580));
+                break;
+            case 'lozenge':
+                $charge_hint = new ShieldRect(clone $center_point, $size->scaled(0.8));
+                break;
+            break;
+        }
+
         return new ShieldLayout(
-            new ShieldSize($width, $height),
+            $size,
             $shape,
-            $center_point
+            $center_point,
+            $charge_hint
         );
     }
 

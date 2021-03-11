@@ -100,17 +100,17 @@ function inOrle($layout, $number, $chief = false) {
        return 'x';
 }
 
-function inAnnulo($number, $layout) {
+function inAnnulo($number, $box) {
 
-  $cx = $layout->size->width / 2;
-  $cy = $layout->size->height / 2;
+  $cx = $box->pos->x;
+  $cy = $box->pos->y;
 
-  $radius = min($cy, $cx) * 0.8;
+  $radius = min($box->size->height, $box->size->width) * 0.4;
 
   $angle = 0;
   $turn = 360 / $number;
   // Make size dependent on circumference && number
-  $size = intval(($radius * 3.1412) / ($number * 0.9));
+  $size = intval(($radius * M_PI) / ($number * 0.9));
   if ($size > 150) $size = 200;
   $placement = str_repeat('/',$number - 1);
   for ($i = 0; $i < $number; $i++) {
@@ -122,33 +122,210 @@ function inAnnulo($number, $layout) {
   return rtrim($placement,':');
 }
 
+function box_placement($box, $rot = 0, $inv = 0, $rev = 0)
+{
+    if ( $box == null )
+        return "x";
+    return "$box,$rot,$inv,$rev";
+}
+
+function array_to_placement_impl($array)
+{
+    if ( count($array) == 0 )
+        return "x";
+    return implode(":", $array);
+}
+
+function array_to_placement($array)
+{
+    return implode("/", array_map("array_to_placement_impl", $array));
+}
+
+function placement_in_bend($boundingBox, $sinister)
+{
+    // ensure we are working with a square
+    $min_extent = min($boundingBox->size->width, $boundingBox->size->height);
+    $mult = $sinister ? 1 : -1;
+    if ( $boundingBox->size->width > $boundingBox->size->height )
+        $boundingBox->pos->x += $mult * ($boundingBox->size->width - $min_extent) / 2;
+    else
+        $boundingBox->pos->y -= ($boundingBox->size->height - $min_extent) / 2;
+
+    $boundingBox->size->width = $boundingBox->size->height = $min_extent;
+
+    $placement_arr = [];
+    for ( $n = 1; $n <= 8; $n++ )
+    {
+        $plac = [];
+        $size = 1 / $n * 0.8;
+        $start = 0.1 + $size / 2;
+        for ( $i = 0; $i < $n; $i++ )
+        {
+            $pos = $start + $size * $i;
+            $plac[] = $boundingBox->relative_box(
+                $sinister ? 1 - $pos : $pos,
+                $pos,
+                .23,
+                .23
+            );
+        }
+        $placement_arr[] = $plac;
+
+    }
+    return array_to_placement($placement_arr);
+}
+
+function placement_combattant($boundingBox, $gap, $flip)
+{
+    $placement_arr = [];
+
+    $width = (1 - $gap) / 2;
+    $off_l = $width / 2;
+    $off_r = 1 - $off_l;
+
+
+    for ( $n = 2; $n <= 6; $n += 2 )
+    {
+        $placement_arr[] = []; // skip odds
+
+        $per_side = $n / 2;
+        $height = 1 / $per_side;
+        $plac = [];
+        $off_y = $height / 2;
+        for ( $i = 0; $i < $per_side; $i++ )
+        {
+            $plac[] = box_placement($boundingBox->relative_box($off_l, $off_y + $height * $i, .5, $height), 0, 0, 1-$flip);
+            $plac[] = box_placement($boundingBox->relative_box($off_r, $off_y + $height * $i, .5, $height), 0, 0, $flip);
+        }
+        $placement_arr[] = $plac;
+    }
+
+    return array_to_placement($placement_arr);
+}
+
+function placement_cross($boundingBox, $layout, $chief, $saltire)
+{
+    if ( !$chief )
+        $center = $layout->center_point;
+    else if ( !$saltire )
+        $center = new ShieldPos(500, 700);
+    else
+        $center = $boundingBox->pos;
+
+
+    $size = new ShieldSize(200, 200);
+    $angle = 45 * $saltire;
+
+    $dx = ($center->x + 100 - $boundingBox->left()) / 2;
+    $dy = ($center->y + 100 - $boundingBox->top()) / 2;
+
+    $cross = [
+        box_placement(new ShieldRect($center->translated(-$dx, $dy * $saltire), $size), $angle, 0, 0),
+        box_placement(new ShieldRect($center->translated($dx, -$dy * $saltire), $size), $angle, 0, 0),
+        box_placement(new ShieldRect($center->translated(-$dx * $saltire, -$dy), $size), -$angle, 0, 0),
+        box_placement(new ShieldRect($center->translated($dx * $saltire, $dy), $size), -$angle, 0, 0),
+    ];
+
+    return array_to_placement([
+        [],
+        [],
+        [],
+        $cross,
+        array_merge($cross, [box_placement(new ShieldRect($center, $size))]),
+        [],
+    ]);
+}
+
+function placement_counter_passant($boundingBox)
+{
+    $placement_arr = [];
+
+    for ( $n = 1; $n <= 8; $n++ )
+    {
+        $height = 1 / $n;
+        $off = $height / 2;
+
+        $plac = [];
+        for ( $i = 0; $i < $n; $i++ )
+        {
+            $plac[] = box_placement($boundingBox->relative_box(.5, $off + $height * $i, 1, $height), 0, 0, $i % 2);
+        }
+        $placement_arr[] = $plac;
+    }
+
+    return array_to_placement($placement_arr);
+}
+
+
+function placement_pilewise($boundingBox)
+{
+    $cx = $boundingBox->pos->x;
+    $cy = lerp($boundingBox->pos->y, $boundingBox->bottom(), 0.8);
+    $r = $boundingBox->size->height / 2;
+
+    $placement_arr = [[]];
+
+    for ( $n = 2; $n <= 8; $n++ )
+    {
+        $angle_step = 64 / ($n - 1);
+        $angle_start = -32;
+        $size = $boundingBox->size->scaled(1/ ($n+1), 0.5);
+
+        $plac = [];
+        for ( $i = 0; $i < $n; $i++ )
+        {
+            $angle = $angle_start + $angle_step * $i;
+            $plac[] = box_placement(
+                new ShieldRect(
+                    new ShieldPos(
+                        $cx + $r * sin(deg2rad($angle)),
+                        $cy - $r * cos(deg2rad($angle))
+                    ),
+                    $size
+                ),
+                $angle,
+                1,
+                0
+            );
+
+        }
+        $placement_arr[] = $plac;
+    }
+    return array_to_placement($placement_arr);
+}
+
+function placement_quadrangle($boundingBox, $layout, $chief)
+{
+    if ( !$chief )
+        $center = $layout->center_point;
+    else
+        $center = new ShieldPos(500, 700);
+
+
+    $size = $boundingBox->size->scaled(.4);
+    $dx = $size->width / 2 + 50;
+    $dy = $size->height / 2 + 50;
+
+    $cross = [
+        new ShieldRect($center->translated(-$dx, -$dy), $size),
+        new ShieldRect($center->translated($dx, -$dy), $size),
+        new ShieldRect($center->translated(-$dx, $dy), $size),
+        new ShieldRect($center->translated($dx, $dy), $size),
+    ];
+
+    return array_to_placement([
+        [],
+        [],
+        [],
+        $cross,
+        [],
+    ]);
+}
+
+
 function get_placement(DOMElement $item, $layout) {
-  global $xpath, $messages;
-  global $aspect_ratio;
-
-  if ( $layout->charge_hint )
-    return (string)$layout->charge_hint;
-
-  static $bounding_boxes = array (
-    //                 no-chief, no-entire,       no-chief, entire        chief, no-entire,         chief, entire
-    '10:12' => array ( '100,100,800,900',         '0,0,1000,1200',        '150,350,700,700',        '0,300,1000,900' ),
-    '10:10' => array ( '100,100,800,800',         '0,0,1000,1000',        '100,400,800,500',        '0,300,1000,900' ),
-    'square' => array ( '0,0,1000,1000',          '0,0,1000,1000',        '0,0,1000,1000',          '0,0,1000,1000' ),
-    '10:14' => array ( '170,100,660,900',         '70,0,860,1200',        '170,400,660,600',        '70,300,860,900' ),
-    '10:24' => array ( '300,100,400,1000',        '250,0,500,1200',        '300,400,400,700',        '250,300,500,900' ),
-    '10:20' => array ( '300,100,400,800',         '250,0,500,1000',        '300,400,400,500',        '250,300,500,700' ),
-    '10:28' => array ( '300,100,400,900',         '285,0,430,1200',        '300,400,400,600',        '285,300,430,900' ),
-    );
-  
-/*  $aspect_groups = array (
-    '10:12' => 'wide',
-    '10:10' => 'wide',
-    '10:14' => 'wide',
-    '10:24' => 'narrow',
-    '10:20' => 'narrow',
-    '10:28' => 'narrow',
-  ); */
-  // $aspect_group = $aspect_groups[$aspect_ratio];
+    global $xpath, $messages;
+    global $aspect_ratio;
 
     $placement = ''; // This is what we are after, keep going until we find one
     $adjustment = ''; // && we might also have an adjustment once we have found it
@@ -189,95 +366,85 @@ function get_placement(DOMElement $item, $layout) {
     } else {
       $underlying_div = null;
     }
-    
+
+
+
     // Figure out default bounding box size for this aspect ratio, chief presence && entire
-    if ( $layout->shape == 'flag' || $layout->shape == 'quarter' ) {
-        if ( existModifierWithKeyterm($item,'entire') )
-            $xmargin = 0;
-        else
-            $xmargin = $layout->shape == 'quarter' ? 100 : 50;
+    $center = new ShieldPos($layout->size->width / 2, $layout->size->height / 2);
+    static $full_box_arrangements = ["inannulo", "inbend", "inbendsin", "inpalethrough", 'infessthrough', 'incross'];
+    if ( $entire || in_array($arr, $full_box_arrangements) )
+    {
+        $boundingBox = new ShieldRect($center, clone $layout->size);
+    }
+    else if ( $layout->charge_hint )
+    {
+        $boundingBox = $layout->charge_hint;
+    }
+    else
+    {
+        $margin = 100;
 
-        if ( $chief )
-        {
-            $chief_off = 300;
-            $ymargin = 0;
-        }
-        else
-        {
-            $chief_off = 0;
-            $ymargin = $xmargin;
-        }
+        if ( $layout->shape == "flag" )
+            $margin = 50;
 
-        $boundingBox = implode(",", [$xmargin, $ymargin + $chief_off, 1000 - $xmargin * 2, $layout->size->height - $ymargin * 2 - $chief_off]);
-    } elseif (in_array($layout->shape, array('circle','square', 'lozenge', 'pauldron'))) {
-      if ( existModifierWithKeyterm($item,'entire') ) {
-        $boundingBox = '0,0,1000,1000';
-      } else {
-        switch ($layout->shape) {
-          case 'pauldron':
-            $boundingBox = '245,305,510,580';
-          break;
-          case 'lozenge':
-            $boundingBox = '100,100,800,800';
-          break;
-          case 'square':
-          default:
-            $boundingBox = '50,50,900,900';
-          break;
-        }
-      }
-    } else {
-      $bounding_index = 0;
-      if ( $chief ) $bounding_index += 2;
-      if ( $entire ) $bounding_index += 1;
-      $boundingBox = $bounding_boxes[$aspect_ratio][$bounding_index];
+        $boundingBox = new ShieldRect(
+            $center,
+            new ShieldSize($layout->size->width - 2 * $margin, $layout->size->height - 2 * $margin)
+        );
+    }
+
+    if ( $chief )
+    {
+        $chief_offset = 300;
+        if ( $boundingBox->top() != 0 )
+            $chief_offset -= $boundingBox->top() / 2;
+
+        $boundingBox->pos->y += $chief_offset / 2;
+        $boundingBox->size->height -= $chief_offset;
     }
 
     // Try various placement regimes
 
+    if ( $name == 'label' && $entire)
+    {
+        $placement = '500,150,1000,200';
+        $boundingBox = 'x';
+    }
     // strewn on a field (don't need any placement)
-    if ( $item->parentNode->nodeName == 'semyde' )
-      $placement = 'i';
+    else if ( $item->parentNode->nodeName == 'semyde' )
+    {
+        $placement = 'i';
+    }
+    else
+    {
+        // Are we above or below another charge?
+        // If so, occupy only half the bounding box
+        if ( $xpath->evaluate("boolean(parent::modifier[@keyterm='above']/parent::charge)",$item) )
+        {
+            $boundingBox->pos->y += $boundingBox->size->height / 2;
+            $boundingBox->size->height /= 2;
+            $forceCentre = false;
+        }
+        else if ( existModifierWithKeyterm($item,'above') )
+        {
+            $boundingBox->size->height /= 2;
+            $forceCentre = false;
+        }
 
-    if ( $name == 'label' && $entire) {
-      $placement = '500,150,1000,200';
-      $boundingBox = 'x';
+        // similarly for charge beside charge
+        if ( $xpath->evaluate("boolean(parent::modifier[@keyterm='beside']/parent::charge)",$item) )
+        {
+            $boundingBox->pos->y += $boundingBox->size->width / 2;
+            $boundingBox->size->width /= 2;
+            $forceCentre = false;
+        }
+        else if ( existModifierWithKeyterm($item,'beside') )
+        {
+            $boundingBox->size->width /= 2;
+            $forceCentre = false;
+        }
     }
 
-    // Are we above or below another charge?
-    // If so, occupy only half the bounding box
-    if ( $xpath->evaluate("boolean(parent::modifier[@keyterm='above']/parent::charge)",$item) ) {
-      list($x1,$y1,$x2,$y2) = explode(',',$boundingBox);
-      $half = (int)($y2/2);
-      $y1 += $half;
-      $y2 = $half;
-      $boundingBox = "$x1,$y1,$x2,$y2";
-      $forceCentre = false;
-    } elseif ( existModifierWithKeyterm($item,'above') ) {
-      list($x1,$y1,$x2,$y2) = explode(',',$boundingBox);
-      $half = (int)($y2/2);
-      $y2 = $half;
-      $boundingBox = "$x1,$y1,$x2,$y2";  
-      $forceCentre = false;    
-    }
-
-    // similarly for charge beside charge
-    if ( $xpath->evaluate("boolean(parent::modifier[@keyterm='beside']/parent::charge)",$item) ) {
-      list($x1,$y1,$x2,$y2) = explode(',',$boundingBox);
-      $half = (int)($x2/2);
-      $x1 += $half;
-      $x2 = $half;
-      $boundingBox = "$x1,$y1,$x2,$y2";
-      $forceCentre = false;
-    } elseif ( existModifierWithKeyterm($item,'beside') ) {
-      list($x1,$y1,$x2,$y2) = explode(',',$boundingBox);
-      $half = (int)($x2/2);
-      $x2 = $half;
-      $boundingBox = "$x1,$y1,$x2,$y2";  
-      $forceCentre = false;    
-    }
-    
-    
     // Are we around another charge?
     if ( $placement == '' && $xpath->evaluate("boolean(parent::modifier[@keyterm='between']/parent::charge)",$item) ) {
       // If our parent charge is "on" an ordinary, we don't need to do anything
@@ -301,44 +468,74 @@ function get_placement(DOMElement $item, $layout) {
     // explicit arrangements
     if ( $placement == '' && $arr ) {
       switch ( $arr ) { // TODO add incross + insaltire with chief,
-        case 'inannulo': $placement = inAnnulo($number, $layout); break;
-        case 'combattant': $placement = 'x/310,550,390,800,0,0,1:690,550,,,0,0,0/x/266,333,333,400,0,0,1:734,333,,,0,0,0:266,900,,,0,0,1:734,900,,,0,0,0/x/260,220,320,240,,,1:740,220,320,240,,,0:260,550,320,240,,,1:740,550,320,240,,,0:260,880,320,240,,,1:740,880,320,240,,,0'; break;
-        //case 'facing-in': $placement = ($chief) ? '' : 'x/250,600,333,1000,0,0,1:750,600,,,0,0,0/x/266,333,333,400,0,0,1:734,333,,,0,0,0:266,900,,,0,0,1:734,900,,,0,0,0/x/260,220,320,240,,,1:740,220,320,240,,,0:260,550,320,240,,,1:740,550,320,240,,,0:260,880,320,240,,,1:740,880,320,240,,,0'; break;
-        case 'facing-in': $placement = 'x/250,600,333,1000,0,0,1:750,600,,,0,0,0/x/266,333,333,400,0,0,1:734,333,,,0,0,0:266,900,,,0,0,1:734,900,,,0,0,0/x/260,220,320,240,,,1:740,220,320,240,,,0:260,550,320,240,,,1:740,550,320,240,,,0:260,880,320,240,,,1:740,880,320,240,,,0'; break;
-        //case 'facing-in': $placement = ($chief) ? '' : 'x/250,600,333,1000,0,0,1:750,600,,,0,0,0/x/266,333,333,400,0,0,1:734,333,,,0,0,0:266,900,,,0,0,1:734,900,,,0,0,0/x/260,220,320,240,,,1:740,220,320,240,,,0:260,550,320,240,,,1:740,550,320,240,,,0:260,880,320,240,,,1:740,880,320,240,,,0'; break;
-        case 'facing-out': $placement =  'x/250,600,333,1000,0,0,0:750,600,,,0,0,1/x/266,333,333,400,0,0,0:734,333,,,0,0,1:266,900,,,0,0,0:734,900,,,0,0,1/x/290,443,280,187:710,443,280,187,,,1:290,700,280,187,,,0:710,700,280,187,,,1:290,957,280,187,,,0:710,957,280,187,,,1'; break;
-       // case 'facing-out': $placement = ($chief) ? '' : 'x/250,600,333,1000,0,0,0:750,600,,,0,0,1/x/266,333,333,400,0,0,0:734,333,,,0,0,1:266,900,,,0,0,0:734,900,,,0,0,1/x/290,443,280,187:710,443,280,187,,,1:290,700,280,187,,,0:710,700,280,187,,,1:290,957,280,187,,,0:710,957,280,187,,,1'; break;
-      case 'inbend': $placement = ($chief) ? '500,800,350,700/333.33,633.33,180,180:666.67,966.67/200,500,180,180:400,700:600,900/166.67,466.67,180,180:333.33,633.33:500,800:666.67,966.67/142.86,442.86,180,180:285.71,585.71:428.57,728.57:571.43,871.43:714.29,1014.29/s' :
-        '500,500,400,800/333.33,333.33,180,180:666.67,666.67/250,250,200,200:500,500:750,750/200,200,200,200:400,400:600,600:800,800/166.67,166.67,160,160:333.33,333.33:500,500:666.67,666.67:833.33,833.33/142.86,142.86,140,140:285.71,285.71:428.57,428.57:571.43,571.43:714.29,714.29:857.14,857.14';
-        break;
-      case 'inbendsin': $placement = ($chief) ? '500,200,350,700/333.33,966.67,180,180:666.67,633.33/200,900,180,180:400,700:600,500/833.33,466.67,180,180:666.67,633.33:500,800:333.33,966.67/242.86,1014.29,180,180:385.71,871.43:528.57,728.57:671.43,585.71:814.29,442.86/s' :
-        '500,500,400,800/333.33,666.67,180,180:666.67,333.33/250,750,200,200:500,500:750,250/200,800,200,200:400,600:600,400:800,200/166.67,833.33,160,160:333.33,666.67:500,500:666.67,333.33:833.33,166.67/142.86,857.14,140,140:285.71,714.29:428.57,571.43:571.43,428.57:714.29,285.71:857.14,142.86';
-        break;
-      case 'inbar': $placement = calcPlace($item,'v',$boundingBox);
-                    $item->appendChild(createModifierNode('chargemod','fesswise'));
-          break;
-      case 'inpale': $placement = calcPlace($item,'v',$boundingBox);
-        break;
-      case 'inchiefthrough': $placement = calcPlace($item,'h','0,25,1000,250'); break;
-      case 'inpall': $placement = ($chief) ? 'x/x/250,550,180,400,-45:750,550,,,45:500,950,,,0/s/s/s' : 'x/x/250,250,180,400,-45:750,250,,,45:500,750,,,0/s/s/s' ; break;
-      case 'inpalethrough': $placement = calcPlace($item,'v',($chief) ? '350,300,300,900' : '350,0,300,1200'); break;
-      case 'infess': $placement = calcPlace($item,'h','100,300,800,300'); break;
-      case 'infessthrough': $placement = calcPlace($item,'h','0,300,1000,300'); break;
-      case 'inchevron': $placement = ($chief) ? 'x/250,725,160,160,45:750,725,,,-45/250,725,150,150,45:500,500,,,0:750,725,,,-45/200,775,140,140,45:400,575:600,575,,,-45:800,775/200,775,140,140,45:350,625:500,500,,,0:650,625,,,-45:800,775/150,825,120,120,45:250,725:350,625:650,625,,,-45:750,725:850,825' :
-        'x/250,625,160,160,45:750,625,,,-45/250,625,150,150,45:500,400,,,0:750,625,,,-45/200,675,140,140,45:400,475:600,475,,,-45:800,675/200,675,140,140,45:350,525:500,400,,,0:650,525,,,-45:800,675/150,725,120,120,45:250,625:350,525:650,525,,,-45:750,625:850,725';
-        break;
-      case 'incross': $placement = 'x/x/x/500,200,200,200:250,500:750,500:500,800/500,200,200,200:250,500:500,500:750,500:500,800/x'; break;
-      case 'insaltire':
-        $placement = 'x/500,500,750,750,45,0,1:500,500,750,750,-45,0,0/x/200,200,200,200,-45:800,200,,,45:200,800,,,45:800,800,,,-45/200,200,200,200,-45:800,200,,,45:500,500,,,0:200,800,,,45:800,800,,,-45/x';
-        break;
-      case 'inpile': $placement = 'x/x/250,250,300,300:500,600:750,250/x/x/250,200,200,200:500:750:333.33,500:666.67:500,800'; break;
-      case 'inorle': $placement = inOrle($layout, $number, $chief);  break;
-      case 'counter-passant': $placement = 'x/500,333.33,800,350:500,666.67,,,,,1/500,250,800,200:500,500,,,,,1:500,750,,,,,0/500,200,600,160:500,400,,,,,1:500,600,,,,,0:500,800,,,,,1/500,166.67,160,160:500,333.33,,,,,1:500,500,,,,,0:500,666.67,,,,,1:500,833.33,,,,,0/500,142.86,500,140:500,285.71,,,,,1:500,428.57,,,,,0:500,571.43,,,,,1:500,714.29,,,,,0:500,857.14,,,,,1'; break;
-      case 'pilewise': $placement = ($chief) ? 'x/300,200,200,600,-30,1:700,,,,30,1/250,750,180,550,-30,1:500,700,,,0,1:750,750,,,30,1/200,850,150,500,-38,1:400,750,,,-16,1:600,,,,16,1:800,800,,,38,1/x/x' :
-        'x/300,550,200,600,-30,1:700,,,,30,1/250,600,180,550,-30,1:500,550,,,0,1:750,600,,,30,1/200,650,150,500,-38,1:400,600,,,-16,1:600,,,,16,1:800,650,,,38,1/x/x';
-        break;
-      case 'quadrangle': $placement = ($chief) ? 'x/x/x/250,500,400,300:750,500:250,900:750,900' : 'x/x/x/250,250,400,400:750,250:250,750:750,750/x' ; break;
-      default: $placement = 'i'; break; // internal error, no placement
+        case 'inannulo':
+            if ( !$chief && $layout->size == $boundingBox->size )
+                $boundingBox->pos = $layout->center_point;
+            $placement = inAnnulo($number, $boundingBox);
+            break;
+        case 'combattant':
+            $placement = placement_combattant($boundingBox, 0, 0);
+            break;
+        case 'facing-in':
+            $placement = placement_combattant($boundingBox, 0.1, 0);
+            break;
+        case 'facing-out':
+            $placement = placement_combattant($boundingBox, 0, 1);
+            break;
+        case 'inbend':
+            $placement = placement_in_bend($boundingBox, false);
+            break;
+        case 'inbendsin':
+            $placement = placement_in_bend($boundingBox, true);
+            break;
+        case 'inbar':
+            $placement = calcPlace($item,'v',$boundingBox);
+            $item->appendChild(createModifierNode('chargemod','fesswise'));
+            break;
+        case 'inpale':
+        case 'inpalethrough':
+            $placement = calcPlace($item,'v',$boundingBox);
+            break;
+        case 'inchiefthrough':
+            $placement = calcPlace($item,'h','0,25,1000,250');
+            break;
+        case 'inpall':
+            $placement = ($chief) ? 'x/x/250,550,180,400,-45:750,550,,,45:500,950,,,0/s/s/s' : 'x/x/250,250,180,400,-45:750,250,,,45:500,750,,,0/s/s/s' ;
+            break;
+        case 'infess':
+        case 'infessthrough':
+            $placement = calcPlace($item,'h',$boundingBox);
+            break;
+        case 'inchevron':
+            $placement = ($chief) ?
+                'x/250,725,160,160,45:750,725,,,-45/250,725,150,150,45:500,500,,,0:750,725,,,-45/200,775,140,140,45:400,575:600,575,,,-45:800,775/200,775,140,140,45:350,625:500,500,,,0:650,625,,,-45:800,775/150,825,120,120,45:250,725:350,625:650,625,,,-45:750,725:850,825' :
+                'x/250,625,160,160,45:750,625,,,-45/250,625,150,150,45:500,400,,,0:750,625,,,-45/200,675,140,140,45:400,475:600,475,,,-45:800,675/200,675,140,140,45:350,525:500,400,,,0:650,525,,,-45:800,675/150,725,120,120,45:250,625:350,525:650,525,,,-45:750,625:850,725'
+            ;
+            break;
+        case 'incross':
+            $placement = placement_cross($boundingBox, $layout, $chief, 0);
+            break;
+        case 'insaltire':
+            $placement = placement_cross($boundingBox, $layout, $chief, 1);
+            break;
+        case 'inpile':
+            $placement = 'x/x/250,250,300,300:500,600:750,250/x/x/250,200,200,200:500:750:333.33,500:666.67:500,800';
+            break;
+        case 'inorle':
+            $placement = inOrle($layout, $number, $chief);
+            break;
+        case 'counter-passant':
+            $placement = placement_counter_passant($boundingBox);
+            break;
+        case 'pilewise':
+            $placement = placement_pilewise($boundingBox);
+            break;
+        case 'quadrangle':
+            $placement = placement_quadrangle($boundingBox, $layout, $chief);
+            break;
+        default:
+            $placement = 'i';
+            break; // internal error, no placement
       }
     }
 
@@ -585,24 +782,16 @@ function get_placement(DOMElement $item, $layout) {
     if ( $placement == '' ) {
       // special case placements, put some charges in exact centre of cross
       if ( $forceCentre ) {
+        $boundingBox->pos = clone $layout->center_point;
+        $boundingBox->size = new ShieldSize(800, 800);
         if ($chief) {
-          $placement = '500,700,600,600';
-        } else {
-          if ( $layout->shape == 'flag' || $layout->shape == 'quarter') {
-            $calcHeight = $layout->size->height;
-            $centerY = (int)($calcHeight / 2);
-            $extentY = $calcHeight - 200;
-            $placement = "500,$centerY,800,$extentY";
-          } else {
-            $placement = '500,500,800,800';
-          }
+            $boundingBox->pos->y += 200;
+            $boundingBox->size = $boundingBox->size->scaled(.75);
         }
-      } else {
-        $placement = calcPlace($item,'w',$boundingBox);
       }
+      $placement = calcPlace($item,'w',$boundingBox);
       $placement = adjustDistance($item, $placement);
     }
-
 
     return $placement;
 }
@@ -705,10 +894,26 @@ function calcPlace( $node, $aspect, $bb = '100,100,800,900'  ) {
 
 
   );
-  if (is_null($bb) || strpos( $bb, ',') === false) {
+
+  if ( $bb instanceof ShieldRect )
+  {
+    $bb_x = $bb->left();
+    $bb_y = $bb->top();
+    $bb_w = $bb->size->width;
+    $bb_h = $bb->size->height;
+  }
+  else if ( is_string($bb) )
+  {
+    list($bb_x,$bb_y,$bb_w,$bb_h) = explode(',',$bb);
+  }
+  else if (is_null($bb) || strpos( $bb, ',') === false)
+  {
       error_log("Bad bounding box - $bb");
-      $bb = '100,100,800,900';
-    }
+      $bb_x = $bb_y = 100;
+      $bb_h = 800;
+      $bb_w = 900;
+  }
+
   $number = getNumberOfCharges($node);
  // $number = $node->getAttribute('number');
   $conjoined = existModifierWithKeyterm($node,'conjoined');
@@ -746,7 +951,7 @@ function calcPlace( $node, $aspect, $bb = '100,100,800,900'  ) {
   $space_pct = 0.2;
   $max_row = max($row_list);
   $num_rows = count($row_list);
-  list($bb_x,$bb_y,$bb_w,$bb_h) = explode(',',$bb);
+
   if ( $conjoined == 'true' ) {
     // Calculate the charge bounding box (same size for all)
     $cbb_height = $bb_h / $num_rows;
