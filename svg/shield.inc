@@ -1,31 +1,6 @@
 <?php 
-// These are for scaling into quarters & dimidiations
-$aspect_ratio = '10:12';
-
-function get_clipdata ( $AR ) {
-  $clip_data = array (
-    '10:12' => '0,0,1000,1200',
-    '10:10' => '0,0,1000,1000',
-    '10:14' => '70,0,860,1200',
-    '10:24' => '250,0,500,1200',
-    '10:20' => '250,0,500,1000',
-    '10:28' => '285,0,430,1200',
-    '10:6' => '0,200,1000,600',
-  );
-
-  $retval = array();
-  list($x1,$y1,$w,$h) = explode(',',$clip_data[$AR]);
-  $retval['clippath'] = "<path d=\"M$x1,$y1 h$w v$h h-$w v-$h Z\" />";
-  $retval['xOffset'] = $x1;
-  $retval['yOffset'] = $y1;
-  return $retval;
-}
 
 function makePlain( &$children, $layout ) {
-  global $aspect_ratio, $options;
-  
-  $aspect_ratio = $layout->size->closest_aspect_ratio();
-  
   $retval = '';
   // Does this shield contain a chief?
   $found = false;
@@ -151,7 +126,6 @@ function makedimidiated( $children, $layout ) {
 
 function makeshield( DOMElement &$node, $layout ) {
   global $dom, $messages;
-  global $aspect_ratio;
   
   if ( $node->hasAttribute('IDREF') ) {
     $node = $dom->getElementById($node->getAttribute('IDREF'));
@@ -235,7 +209,6 @@ function makeshield( DOMElement &$node, $layout ) {
       case 'missing':
         break;
       case 'overall':
-        $aspect_ratio = '10:12';
         $retval .= makeOrdChgs($child->firstChild, $layout);
         break;
     }

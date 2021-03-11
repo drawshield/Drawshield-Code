@@ -266,17 +266,12 @@ function getMetadata ( $group, $charge ) {
 }
 
 function makeSquareCharge(DOMElement $node ) {
-  global $aspect_ratio;
-
-  $oldAspect = $aspect_ratio;
-  $aspect_ratio = 'square';
-  $retval = makeCharge($node, new ShieldLayout(new ShieldSize(1000, 1000), "square"));
-  $aspect_ratio = $oldAspect;
+  $retval = makeCharge($node, new ShieldLayout(new ShieldSize(1000, 1000), "square", null, null, false));
   return $retval;
 }
 
 function getCharge( DOMElement $node, $layout ) {
-  global $chg_data_cache, $messages, $aspect_ratio;
+  global $chg_data_cache, $messages;
   if (is_null($node)) return null;
 
     $keyterm = $node->getAttribute('keyterm');
@@ -595,10 +590,10 @@ HERE;
         break;
       // TODO Add more of the above!
       default:
-        $tempAR = $aspect_ratio;
-        $aspect_ratio = 'square'; // make sure any chief is ignored when placing charges
-        $charges = makeCharge($chargeToAdd, $layout);
-        $aspect_ratio = $tempAR;
+        $new_layout = clone $layout;
+        // make sure any chief is ignored when placing charges
+        $new_layout->accepts_chief = false;
+        $charges = makeCharge($chargeToAdd, $new_layout);
         // We now have one or more superposed charges scaled to fit into a 1000x1000 box
         // We want to shrink the superposed charges by a factor (so they leave plenty of space
         // to allow the underlying charge to be seen)

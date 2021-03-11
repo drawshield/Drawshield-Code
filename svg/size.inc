@@ -142,7 +142,7 @@ class ShieldLayout
         "quarter" => 0,
     ];
 
-    function __construct(ShieldSize $size, $shape, ShieldPos $center_point = null, ShieldRect $charge_hint = null)
+    function __construct(ShieldSize $size, $shape, ShieldPos $center_point = null, ShieldRect $charge_hint = null, $accepts_chief = true)
     {
         // shield size 1000xheight
         $this->size = $size;
@@ -155,6 +155,8 @@ class ShieldLayout
             $this->center_point = $center_point;
         // rect for custom positioning
         $this->charge_hint = $charge_hint;
+        // Should use chief spacing
+        $this->accepts_chief = $accepts_chief;
     }
 
     function auto_center()
@@ -202,7 +204,8 @@ class ShieldLayout
             $size,
             $shape,
             $center_point,
-            $charge_hint
+            $charge_hint,
+            true
         );
     }
 

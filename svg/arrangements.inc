@@ -325,7 +325,6 @@ function placement_quadrangle($boundingBox, $layout, $chief)
 
 function get_placement(DOMElement $item, $layout) {
     global $xpath, $messages;
-    global $aspect_ratio;
 
     $placement = ''; // This is what we are after, keep going until we find one
     $adjustment = ''; // && we might also have an adjustment once we have found it
@@ -337,10 +336,10 @@ function get_placement(DOMElement $item, $layout) {
     list($group,$name) = explode('/', $keyterm);
     
     // Set up parameters for this charge
-    if ($aspect_ratio == 'square')
-      $chief = false; // special layout arrangement, always ignore chief
-    else
+    if ( $layout->accepts_chief )
       $chief = $xpath->evaluate("boolean(../../../ordinary[@keyterm='chief'] or ../ordinary[@keyterm='chief'])", $item);
+    else
+      $chief = false; // special layout arrangement, always ignore chief
     $pos = getModifiersByTypeAsArray($item,'position'); // THIS IS AN array, go through each one, appending * bounding_box as many times as required.
     $arr = getModifierByType($item,'arrangement', true);
     $cadency = existModifierWithKeyterm($item,'difference');
