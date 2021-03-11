@@ -117,8 +117,9 @@ function getSpecial($type,$node, $layout) {
     $special = [];
 
     $filename = $layout->shape;
+
     if ($filename == 'swatch' || $filename == 'stamp') $filename = "quarter"; // basically the same shape
-    if ($layout->shape) {
+    if ($layout->shape == 'flag') {
         $height = $layout->size->height;
         $size = (int)(min(100,$height/8));
         $special['body'] = '<path fill-rule="evenodd" d="M -10,-10 h1020 v' .
@@ -133,7 +134,7 @@ function getSpecial($type,$node, $layout) {
     $compony = getModifierByType($node,'compony');
     if ($compony != null) $filename .= '-' . $compony;
 // $filename .= '.svg';
-    $folder = "svg/ordinaries/$type/";
+    $folder = __dir__ . "/ordinaries/$type/";
 
     $subfile = getBestMatchFilename($folder, $filename, null);
 
