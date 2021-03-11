@@ -30,25 +30,6 @@ class ShieldSize
     {
         return 1000 / $this->width;
     }
-
-    function closest_aspect_ratio()
-    {
-        $rel_h = $this->height / $this->width;
-        $min_diff = 1000;
-        $best = null;
-
-        foreach ( static::$ars as $name => $h )
-        {
-            $diff = abs($rel_h - $h);
-            if ( $diff < $min_diff )
-            {
-                $min_diff = $diff;
-                $best = $name;
-            }
-        }
-
-        return $best;
-    }
 }
 
 function lerp($a, $b, $factor)

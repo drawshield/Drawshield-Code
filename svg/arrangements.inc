@@ -381,7 +381,7 @@ function get_placement(DOMElement $item, $layout) {
     }
     else
     {
-        $margin = 100;
+        $margin = min($layout->size->width, $layout->size->height) / 10;
 
         if ( $layout->shape == "flag" )
             $margin = 50;

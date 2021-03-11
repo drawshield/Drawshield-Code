@@ -33,28 +33,11 @@ function makePlain( &$children, $layout ) {
 function makeimpaled( DOMNodeList $children, $layout ) {
   global $messages;
   $retval = '';
-  switch ( $layout->size->closest_aspect_ratio() ) {
-  case '10:12':
-    $clipI = add_def( 'clipPath', '<path d="M250,0h500v1200h-500v-1200z" />' );
-    $xOffset = 250;
-    break;
-  case '10:10':
-    $clipI = add_def( 'clipPath', '<path d="M250,0h500v1000h-500v-1000z" />' );
-    $xOffset = 250;
-    break;
-  case '10:14':
-    $clipI = add_def( 'clipPath', '<path d="M285,0h430v1200h-430v-1200z" />' );
-    $xOffset = 285;
-    break;
-  default:
-    //$messages->addMessage('warning', "Impaled shield too narrow" );
-    $clipI = add_def( 'clipPath', '<path d="M285,0h430v1200h-430v-1200z" />' );
-    $xOffset = 285;
-    break;
-  }
   $imp1 = $imp2 = null; // remove warnings
 
-  $child_layout = new ShieldLayout($layout->size->scaled(0.5, 1), $layout->shape);
+  $size = $layout->size->scaled(0.5, 1);
+  $clipI = add_def( 'clipPath', "<rect x='0' y='0' width='{$size->width}'  height='{$size->height}'/>" );
+  $child_layout = new ShieldLayout($size, $layout->shape);
   /**
    * @var DOMElement $kid
    */
@@ -72,36 +55,19 @@ function makeimpaled( DOMNodeList $children, $layout ) {
       break;
     }
   }
-  $retval .= '<g clip-path="url(#' . $clipI . ')" transform="translate(-' . (500 - $xOffset) . ',0)" >' .  $imp1  . "</g>\n";
-  $retval .= '<g clip-path="url(#' . $clipI . ')" transform="translate(' . (500 - $xOffset) . ',0)" >' . $imp2 . "</g>\n";
+  $retval .= '<g clip-path="url(#' . $clipI . ')"  >' .  $imp1  . "</g>\n";
+  $retval .= "<g clip-path='url(#$clipI)' transform='translate({$size->width},0)' >$imp2</g>\n";
   $retval .= add_def();
 
-  return $retval . "<path stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\" d=\"M 499 0 v 1200\" />\n";
+  return $retval . "<path stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\" d=\"M {$size->width} 0 v {$layout->size->height}\" />\n";
 }
   
 function makedimidiated( $children, $layout ) {
-  global $messages, $options;
   $retval = '';
   
-  switch ( $this_AR ) {
-  case '10:12':
-    $clip1 = add_def( 'clipPath', '<path d="m0,0L500,0 500,1200 0,1200Z" />' );
-    $clip2 = add_def( 'clipPath', '<path d="m500,0L1000,0 1000,1200 500,1200Z" />' );
-    break;
-  case '10:10':
-    $clip1 = add_def( 'clipPath', '<path d="m0,0L500,0 500,1000 0,1000Z" />' );
-    $clip2 = add_def( 'clipPath', '<path d="m500,0L1000,0 1000,1000 500,1000Z" />' );
-    break;
-  case '10:14':
-    $clip1 = add_def( 'clipPath', '<path d="m70,0L430,0 430,1200 0,1200Z" />' );
-    $clip2 = add_def( 'clipPath', '<path d="m500,0L860,0 860,1200 500,1200Z" />' );
-    break;
-  default:
-    $messages->addMessage('warning', "Dimidiated shield too narrow" );
-    $clip1 = add_def( 'clipPath', '<path d="m70,0L430,0 430,1200 0,1200Z" />' );
-    $clip2 = add_def( 'clipPath', '<path d="m500,0L860,0 860,1200 500,1200Z" />' );
-    break;
-  }
+  $size = $layout->size->scaled(0.5, 1);
+  $clip1 = add_def( 'clipPath', "<rect x='0' y='0' width='{$size->width}'  height='{$size->height}'/>" );
+  $clip2 = add_def( 'clipPath', "<rect x='{$size->width}' y='0' width='{$size->width}'  height='{$size->height}'/>" );
 
   /**
    * @var DOMElement $kid
