@@ -174,6 +174,45 @@ if ($options['palette'] == 'default') $options['palette'] = 'drawshield';
 
 
 include "svg/draw.inc";
+
+function report_errors_svg($errno, $errstr, $errfile, $errline)
+{
+    global $messages;
+    if ( $messages )
+    {
+        $dirname = __dir__;
+        if ( substr($errfile, 0, strlen($dirname)) == $dirname )
+            $errfile = substr($errfile, strlen($dirname));
+
+
+        switch ($errno)
+        {
+            case E_ERROR:
+            case E_PARSE:
+            case E_CORE_ERROR:
+            case E_COMPILE_ERROR:
+            case E_USER_ERROR:
+            case E_RECOVERABLE_ERROR:
+                $err_type = "error";
+                break;
+            case E_COMPILE_WARNING:
+            case E_WARNING:
+            case E_USER_WARNING:
+                $err_type = "warning";
+                break;
+            default:
+                $err_type = "notice";
+                break;
+        }
+
+        $messages->addMessage("$err_type", "$errfile:$errline : $errstr\n");
+    }
+    return false;
+}
+
+if ( strpos($_SERVER["HTTP_REFERER"], "demopage.php") !== false )
+    set_error_handler(report_errors_svg);
+
 $output = draw();
 
 
