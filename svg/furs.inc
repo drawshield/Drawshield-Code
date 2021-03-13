@@ -15,7 +15,6 @@
 
 function makeFur ( $name ) {
   global $messages;
-    global $svg_context;
   $fur_data = array (
     'counter-ermine' => array (  'width' => 222, 'height' => 400, 'body' => '<polygon points="0,0 222,0 222,400 0,400" fill="' . rgb('sable') . '"/>
         <g fill="' . rgb('argent') . ' ">
