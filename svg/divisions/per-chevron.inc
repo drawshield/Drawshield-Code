@@ -17,7 +17,7 @@ if ( $rev = getModifierNodeWithKeyterm($node,'reversed',true)) // reversed means
 if ( existModifierWithKeyterm($node, 'inverted') )
   $div_data = array ( 'NC' => 'V1X-100Y300a100B707H708c900a100e1200g900', 'CH' => 'V1X-100Y500a100B707H708c900a100e1200g900' );
 else
-  $div_data = array (  'NC' => 'V1X500Y500B848c500e1200g500H848', 'CH' => 'V1X0Y1275g200H707B708c200e1000' );
+  $div_data = array (  'NC' => 'V1X500Y366B848c500e1200g500H848', 'CH' => 'V1X0Y1275g200H707B708c200e1000' );
 
 $division['div2'] = createBody(choose_fit($div_data), $lineType, 60);
 
