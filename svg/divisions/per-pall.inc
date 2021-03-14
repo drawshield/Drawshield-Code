@@ -21,7 +21,7 @@ if ( existModifierWithKeyterm($node, 'inverted') ) {
   $div2_data = array ( 'NC' => 'X1000Y0c1200e600g700a100H707', 'CH' => 'X1000Y300c900e600g400a100H707' );
   $div3_data = array ( 'NC' => 'X0Y0B707C700e500g1200', 'CH' => 'X0Y300B707C400e500g900' );
 }
-$division['div2'] = createBody(choose_fit($div2_data), $lineType, 60);
-$division['div3'] = createBody(choose_fit($div3_data), $lineType, 60);
+$division['div2'] = createBody(choose_fit($div2_data), $lineType, 60, $layout);
+$division['div3'] = createBody(choose_fit($div3_data), $lineType, 60, $layout);
 
 

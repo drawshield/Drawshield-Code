@@ -24,7 +24,7 @@ function getSvgTreatment ($filename) {
 }
 
 
-function makeTreatment ( $node, $counter = false ) {
+function makeTreatment ( $node, $layout, $counter = false ) {
   global $messages;
   $folder = __dir__ . '/treatments/';
   $treatment_data = [];
@@ -64,12 +64,12 @@ function makeTreatment ( $node, $counter = false ) {
         $size_y = $treatment_data['height'];
         if ($counter) {
             $base = apply_tincture($tinctures[2], '<rect x="0" y="0" width="' .
-                $size_x . '" height="' . $size_y . '" />', "$size_x,$size_y");
-            $pattern = apply_tincture($tinctures[1], $treatment, "$size_x,$size_y");
+                $size_x . '" height="' . $size_y . '" />', $layout, "$size_x,$size_y");
+            $pattern = apply_tincture($tinctures[1], $treatment, $layout, "$size_x,$size_y");
         } else {
             $base = apply_tincture($tinctures[1], '<rect x="0" y="0" width="' .
-                $size_x . '" height="' . $size_y . '" />', "$size_x,$size_y");
-            $pattern = apply_tincture($tinctures[2], $treatment, "$size_x,$size_y");
+                $size_x . '" height="' . $size_y . '" />', $layout, "$size_x,$size_y");
+            $pattern = apply_tincture($tinctures[2], $treatment, $layout, "$size_x,$size_y");
         }
   }
   // Do we need to offset to make treatment symmetrical on the field?
@@ -80,7 +80,7 @@ function makeTreatment ( $node, $counter = false ) {
   return $retval;
 }
 
-function makeSemy( $node ) {
+function makeSemy( $node, $layout ) {
   global $messages;
   $children = $node->childNodes;
   $background = $charge1 = $charge2 = null;
@@ -98,29 +98,30 @@ function makeSemy( $node ) {
       $messages->addMessage('internal', 'Bad semyde element');
       return null;
   }
+
   if ($charge2 == null) {
 //    $semy = PlaceCharge($charge1, 100, 100, 100, 100);
 //    $semy .= PlaceCharge($charge1, 100, 100, 0, 0);
 //    $semy .= PlaceCharge($charge1, 100, 100, 200, 0);
 //    $semy .= PlaceCharge($charge1, 100, 100, 0, 200);
 //    $semy .= PlaceCharge($charge1, 100, 100, 200, 200);
-    $semy = PlaceCharge($charge1, 100, 100, 100, 0);
-    $semy .= PlaceCharge($charge1, 100, 100, 100, 200);
-    $semy .= PlaceCharge($charge1, 100, 100, 0, 100);
-    $semy .= PlaceCharge($charge1, 100, 100, 200, 100);
-    $base = apply_tincture ( $background, '<rect x="0" y="0" width="200" height="200" />' );
+    $semy = PlaceCharge($charge1, $layout, 100, 100, 100, 0);
+    $semy .= PlaceCharge($charge1, $layout, 100, 100, 100, 200);
+    $semy .= PlaceCharge($charge1, $layout, 100, 100, 0, 100);
+    $semy .= PlaceCharge($charge1, $layout, 100, 100, 200, 100);
+    $base = apply_tincture ( $background, '<rect x="0" y="0" width="200" height="200" />', $layout );
     return array (  'width' => 200, 'height' => 200, 'body' => $base . $semy );
  } // else we have 2 charges, different pattern
-    $semy = PlaceCharge($charge1, 100, 100, 200, 150);
-    $semy .= PlaceCharge($charge1, 100, 100, 50, 0);
-    $semy .= PlaceCharge($charge1, 100, 100, 350, 0);
-    $semy .= PlaceCharge($charge1, 100, 100, 50, 300);
-    $semy .= PlaceCharge($charge1, 100, 100, 350, 300);
-    $semy .= PlaceCharge($charge2, 100, 100, 200, 0);
-    $semy .= PlaceCharge($charge2, 100, 100, 200, 300);
-    $semy .= PlaceCharge($charge2, 100, 100, 50, 150);
-    $semy .= PlaceCharge($charge2, 100, 100, 350, 150);
-    $base = apply_tincture ( $background, '<rect x="0" y="0" width="300" height="300" />' );
+    $semy = PlaceCharge($charge1, $layout, 100, 100, 200, 150);
+    $semy .= PlaceCharge($charge1, $layout, 100, 100, 50, 0);
+    $semy .= PlaceCharge($charge1, $layout, 100, 100, 350, 0);
+    $semy .= PlaceCharge($charge1, $layout, 100, 100, 50, 300);
+    $semy .= PlaceCharge($charge1, $layout, 100, 100, 350, 300);
+    $semy .= PlaceCharge($charge2, $layout, 100, 100, 200, 0);
+    $semy .= PlaceCharge($charge2, $layout, 100, 100, 200, 300);
+    $semy .= PlaceCharge($charge2, $layout, 100, 100, 50, 150);
+    $semy .= PlaceCharge($charge2, $layout, 100, 100, 350, 150);
+    $base = apply_tincture ( $background, '<rect x="0" y="0" width="300" height="300" />', $layout );
     return array (  'width' => 300, 'height' => 300, 'body' => $base . $semy );
 }
 

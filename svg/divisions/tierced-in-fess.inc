@@ -13,8 +13,8 @@
 $lineType = getModifierByType($node, 'linetype', false);
 $div2_data = array ( 'NC' => 'X0Y{%33*}A1000c{%66*}e1000g{%66*}',  'CH' => 'X0Y600A1000c600e1000g600' );
 $div3_data = array ( 'NC' => 'X0Y{%67*}A1000c{%34*}e1000g{%34*}',  'CH' => 'X0Y900A1000c300e1000g300' );
-$division['div2'] = createBody(choose_fit($div2_data), $lineType, 60);
-$division['div3'] = createBody(choose_fit($div3_data), $lineType, 60);
+$division['div2'] = createBody(choose_fit($div2_data), $lineType, 60, $layout);
+$division['div3'] = createBody(choose_fit($div3_data), $lineType, 60, $layout);
 if ( existModifierWithKeyterm($node, 'riveted')) {
 	include '_rivet.inc';
 	$rivetList = '';

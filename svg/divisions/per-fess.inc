@@ -6,7 +6,7 @@ if ( $lineType == 'nebuly' or $lineType == 'potenty' )
 else
   $div_data = array ( 'CH' =>'X-8Y700A1016c508e1016g508' , 'NC' =>'X-8Y{%50}A1016c708e1016g708' );
 
-$division['div2'] = createBody(choose_fit($div_data), $lineType, 60);
+$division['div2'] = createBody(choose_fit($div_data), $lineType, 60, $layout);
 
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';

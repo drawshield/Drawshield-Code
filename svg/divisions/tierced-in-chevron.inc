@@ -19,8 +19,8 @@ if ( existModifierWithKeyterm($node, 'inverted')) {
     $div2_data = array('NC' => 'V1X-100Y1200g500H848B849c500e1200', 'CH' => 'V1X-100Y1300g400H848B849c400e1000');
     $div3_data = array('NC' => 'V1X-100Y1300g100H848B849c100e1200', 'CH' => 'V1X-100Y1400g100H848B849c100e1000');
 }
-$division['div2'] = createBody(choose_fit($div2_data), $lineType, 60);
-$division['div3'] = createBody(choose_fit($div3_data), $lineType, 60);
+$division['div2'] = createBody(choose_fit($div2_data), $lineType, 60, $layout);
+$division['div3'] = createBody(choose_fit($div3_data), $lineType, 60, $layout);
 
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';

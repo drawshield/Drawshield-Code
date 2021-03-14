@@ -204,7 +204,7 @@ function getTinctureNode(DOMElement $node,$index=null) {
 }
 
 function resolveReference(DOMElement $node) {
-  global $xpath, $options;
+  global $xpath;
   $visitedNodes = [];
 
   while ( $node != null && ($idRef = $node->getAttribute('IDREF')) != null ) {

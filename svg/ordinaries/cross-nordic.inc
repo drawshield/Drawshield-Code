@@ -1,6 +1,6 @@
 <?php
 
-$height = (isset($options['flagHeight'])) ? $options['flagHeight'] : 1200;
+$height = $layout->size->height;
 $unit = (int)$height / 7;
 $unit3 = $unit * 3;
 $unit5 = 1000 - $unit - $unit3; // actually whatever is left over

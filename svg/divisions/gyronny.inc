@@ -32,7 +32,7 @@ $allowed = array ( '6', '8', '10', '12', '14', '16' );
 $num_of = getModifierValueByKeyterm($node,'ofnum', false);
 if ( !in_array($num_of, $allowed) ) $num_of = '8';
 
-$chosenPath = subPercent(choose_fit($g_data[('gyronny-of-' . $num_of)]));
+$chosenPath = subPercent(choose_fit($g_data[('gyronny-of-' . $num_of)]), $layout);
 
 if (chiefPresent()) { // TODO this is a fudge, just move the paths upwards above!
  $chosenPath = translatePath($chosenPath,0,-50);

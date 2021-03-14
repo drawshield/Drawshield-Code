@@ -1,31 +1,7 @@
 <?php 
-// These are for scaling into quarters & dimidiations
-$aspect_ratio = '10:12';
 
-function get_clipdata ( $AR ) {
-  $clip_data = array (
-    '10:12' => '0,0,1000,1200',
-    '10:10' => '0,0,1000,1000',
-    '10:14' => '70,0,860,1200',
-    '10:24' => '250,0,500,1200',
-    '10:20' => '250,0,500,1000',
-    '10:28' => '285,0,430,1200',
-    '10:6' => '0,200,1000,600',
-  );
-
-  $retval = array();
-  list($x1,$y1,$w,$h) = explode(',',$clip_data[$AR]);
-  $retval['clippath'] = "<path d=\"M$x1,$y1 h$w v$h h-$w v-$h Z\" />";
-  $retval['xOffset'] = $x1;
-  $retval['yOffset'] = $y1;
-  return $retval;
-}
-
-function makePlain( &$children, $drawnAR = '10:12' ) {
-  global $aspect_ratio, $options;
-  
-  $aspect_ratio = $drawnAR;
-  
+function makePlain( &$children, $layout ) {
+  global $options;
   $retval = '';
   // Does this shield contain a chief?
   $found = false;
@@ -39,16 +15,15 @@ function makePlain( &$children, $drawnAR = '10:12' ) {
       case 'field':
         // Paint the field
         if (!array_key_exists('raw', $options)) {
-          if ($options['shape'] == 'flag' || $options['shape'] == 'quarter') {
-            $retval .= apply_tincture ( $kid->firstChild, '<rect x="0" y="0" width="1000" height="' . $options['flagHeight'] . '" ><title>Field</title></rect>' , '1000,' . $options['flagHeight'] );
-          } else {
-            $retval .= apply_tincture ( $kid->firstChild, '<rect x="0" y="0" width="1000" height="1200" ><title>Field</title></rect>' , '1000,1200' );
-          }
+            $retval .= apply_tincture ( $kid->firstChild,
+            '<rect x="0" y="0" width="1000" height="' . $layout->size->height . '" ><title>Field</title></rect>' ,
+            $layout,
+            '1000,' . $layout->size->height );
         }
         break;
       case 'objects':
         // process ordinaries and charges
-        $retval .= makeOrdChgs($kid);
+        $retval .= makeOrdChgs($kid, $layout);
         break;
     }
   }
@@ -56,33 +31,14 @@ function makePlain( &$children, $drawnAR = '10:12' ) {
   return $retval;
 }
 
-function makeimpaled( DOMNodeList $children, $this_AR ) {
+function makeimpaled( DOMNodeList $children, $layout ) {
   global $messages;
   $retval = '';
-  switch ( $this_AR ) {
-  case '10:12':
-    $clipI = add_def( 'clipPath', '<path d="M250,0h500v1200h-500v-1200z" />' );
-    $xOffset = 250;
-    $child_AR = '10:24';
-    break;
-  case '10:10':
-    $clipI = add_def( 'clipPath', '<path d="M250,0h500v1000h-500v-1000z" />' );
-    $xOffset = 250;
-    $child_AR = '10:20';
-    break;
-  case '10:14':
-    $clipI = add_def( 'clipPath', '<path d="M285,0h430v1200h-430v-1200z" />' );
-    $xOffset = 285;
-    $child_AR = '10:28';
-    break;
-  default:
-    //$messages->addMessage('warning', "Impaled shield too narrow" );
-    $clipI = add_def( 'clipPath', '<path d="M285,0h430v1200h-430v-1200z" />' );
-    $xOffset = 285;
-    $child_AR = '10:28';
-    break;
-  }
   $imp1 = $imp2 = null; // remove warnings
+
+  $size = $layout->size->scaled(0.5, 1);
+  $clipI = add_def( 'clipPath', "<rect x='0' y='0' width='{$size->width}'  height='{$size->height}'/>" );
+  $child_layout = new ShieldLayout($size, $layout->shape);
   /**
    * @var DOMElement $kid
    */
@@ -90,50 +46,30 @@ function makeimpaled( DOMNodeList $children, $this_AR ) {
     switch( $kid->getAttribute('index') ) {
     case '1':
       region('push','I1');
-      $imp1 = makeshield( $kid, $child_AR ); 
+      $imp1 = makeshield( $kid, $child_layout );
       region('pop');
       break;
     case '2':
       region('push','I2');
-      $imp2 = makeshield( $kid, $child_AR );
+      $imp2 = makeshield( $kid, $child_layout );
       region('pop');
       break;
     }
   }
-  $retval .= '<g clip-path="url(#' . $clipI . ')" transform="translate(-' . (500 - $xOffset) . ',0)" >' .  $imp1  . "</g>\n";
-  $retval .= '<g clip-path="url(#' . $clipI . ')" transform="translate(' . (500 - $xOffset) . ',0)" >' . $imp2 . "</g>\n";
+  $retval .= '<g clip-path="url(#' . $clipI . ')"  >' .  $imp1  . "</g>\n";
+  $retval .= "<g clip-path='url(#$clipI)' transform='translate({$size->width},0)' >$imp2</g>\n";
   $retval .= add_def();
 
-  return $retval . "<path stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\" d=\"M 499 0 v 1200\" />\n";
+  return $retval . "<path stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\" d=\"M {$size->width} 0 v {$layout->size->height}\" />\n";
 }
   
-function makedimidiated( $children, $this_AR ) {
-  global $messages, $options;
+function makedimidiated( $children, $layout ) {
   $retval = '';
   
-  switch ( $this_AR ) {
-  case '10:12':
-    $clip1 = add_def( 'clipPath', '<path d="m0,0L500,0 500,1200 0,1200Z" />' );
-    $clip2 = add_def( 'clipPath', '<path d="m500,0L1000,0 1000,1200 500,1200Z" />' );
-    $child_AR = '10:12';
-    break;
-  case '10:10':
-    $clip1 = add_def( 'clipPath', '<path d="m0,0L500,0 500,1000 0,1000Z" />' );
-    $clip2 = add_def( 'clipPath', '<path d="m500,0L1000,0 1000,1000 500,1000Z" />' );
-    $child_AR = '10:12';
-    break;
-  case '10:14':
-    $clip1 = add_def( 'clipPath', '<path d="m70,0L430,0 430,1200 0,1200Z" />' );
-    $clip2 = add_def( 'clipPath', '<path d="m500,0L860,0 860,1200 500,1200Z" />' );
-    $child_AR = '10:14';
-    break;
-  default:
-    $messages->addMessage('warning', "Dimidiated shield too narrow" );
-    $clip1 = add_def( 'clipPath', '<path d="m70,0L430,0 430,1200 0,1200Z" />' );
-    $clip2 = add_def( 'clipPath', '<path d="m500,0L860,0 860,1200 500,1200Z" />' );
-    $child_AR = '10:14';
-    break;
-  }
+  $size = $layout->size->scaled(0.5, 1);
+  $clip1 = add_def( 'clipPath', "<rect x='0' y='0' width='{$size->width}'  height='{$size->height}'/>" );
+  $clip2 = add_def( 'clipPath', "<rect x='{$size->width}' y='0' width='{$size->width}'  height='{$size->height}'/>" );
+
   /**
    * @var DOMElement $kid
    */
@@ -141,12 +77,12 @@ function makedimidiated( $children, $this_AR ) {
     switch( $kid->getAttribute('index') ) {
     case '1':
       region('push','D1');
-      $retval .= '<g clip-path="url(#' . $clip1 . ')" >' . makeshield( $kid, $child_AR ) . "</g>\n";
+      $retval .= '<g clip-path="url(#' . $clip1 . ')" >' . makeshield( $kid, $layout ) . "</g>\n";
       region('pop');
       break;
     case '2':
       region('push','D2');
-      $retval .= '<g clip-path="url(#' . $clip2 . ')" >' . makeshield( $kid, $child_AR ) . "</g>\n";
+      $retval .= '<g clip-path="url(#' . $clip2 . ')" >' . makeshield( $kid, $layout ) . "</g>\n";
       region('pop');
       break;
     }
@@ -155,14 +91,13 @@ function makedimidiated( $children, $this_AR ) {
   return $retval . "<path stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\" d=\"M 499 0 v 1200\" />\n";
 }
 
-function makeshield( DOMElement &$node, $this_AR ) {
-  global $dom, $messages;
-  global $aspect_ratio;
+function makeshield( DOMElement &$node, $layout ) {
+  global $messages;
   
   if ( $node->hasAttribute('IDREF') ) {
+    $dom = $node->ownerDocument;
     $node = $dom->getElementById($node->getAttribute('IDREF'));
   }
-
 
   $retval = '<g>';
   if (!is_object($node)) return $retval;
@@ -173,65 +108,65 @@ function makeshield( DOMElement &$node, $this_AR ) {
     $children = $child->childNodes;
     switch ( $child->nodeName ) {
       case 'simple':
-        $retval .= makePlain($children, $this_AR);
+        $retval .= makePlain($children, $layout);
         break;
       case 'complex':
         switch ( $child->getAttribute('keyterm') ) {
           case 'dimidiated':
-            $retval .= makeDimidiated( $children, $this_AR );
+            $retval .= makeDimidiated( $children, $layout );
             break;
           case 'impaled':
-            $retval .= makeImpaled( $children, $this_AR );
+            $retval .= makeImpaled( $children, $layout );
             break;
           case 'quartered':
             switch ( $child->getAttribute('order') ) {
               case '4-saltire':
-                $retval .= make_quartered_saltire($children, $this_AR);
+                $retval .= make_quartered_saltire($children, $layout);
                 break;
               case 4:
-                $retval .= makeQuartered4($children, $this_AR);
+                $retval .= makeQuartered4($children, $layout);
                 break;
               case 5:
-                $retval .= makeQuartered5($children, $this_AR);
+                $retval .= makeQuartered5($children, $layout);
                 break;
               case 6:
-                $retval .= makeQuartered6($children, $this_AR);
+                $retval .= makeQuartered6($children, $layout);
                 break;
               case 8:
-                $retval .= makeQuartered8($children, $this_AR);
+                $retval .= makeQuartered8($children, $layout);
                 break;
               case 9:
-                $retval .= makeQuartered(3,3, $children, $this_AR);
+                $retval .= makeQuartered(3,3, $children, $layout);
                 break;
               case 12:
-                $retval .= makeQuartered(3,4, $children, $this_AR);
+                $retval .= makeQuartered(3,4, $children, $layout);
                 break;
               case 16:
-                $retval .= makeQuartered(4,4, $children, $this_AR);
+                $retval .= makeQuartered(4,4, $children, $layout);
                 break;
               case 20:
-                $retval .= makeQuartered(4,5, $children, $this_AR);
+                $retval .= makeQuartered(4,5, $children, $layout);
                 break;
               case 25:
-                $retval .= makeQuartered(5,5, $children, $this_AR);
+                $retval .= makeQuartered(5,5, $children, $layout);
                 break;
               case 30:
-                $retval .= makeQuartered(5,6, $children, $this_AR);
+                $retval .= makeQuartered(5,6, $children, $layout);
                 break;
               case 36:
-                $retval .= makeQuartered(6,6, $children, $this_AR);
+                $retval .= makeQuartered(6,6, $children, $layout);
                 break;
               case 42:
-                $retval .= makeQuartered(6,7, $children, $this_AR);
+                $retval .= makeQuartered(6,7, $children, $layout);
                 break;
               case 49:
-                $retval .= makeQuartered(7,7, $children, $this_AR);
+                $retval .= makeQuartered(7,7, $children, $layout);
                 break;
               case 56:
-                $retval .= makeQuartered(7,8, $children, $this_AR);
+                $retval .= makeQuartered(7,8, $children, $layout);
                 break;
               case 64:
-                $retval .= makeQuartered(8,8, $children, $this_AR);
+                $retval .= makeQuartered(8,8, $children, $layout);
                 break;
               default:
                 $messages->addMessage('internal', 'No code to draw ' . $children->length . ' quarters yet');
@@ -242,8 +177,7 @@ function makeshield( DOMElement &$node, $this_AR ) {
       case 'missing':
         break;
       case 'overall':
-        $aspect_ratio = '10:12';
-        $retval .= makeOrdChgs($child->firstChild);
+        $retval .= makeOrdChgs($child->firstChild, $layout);
         break;
     }
   }

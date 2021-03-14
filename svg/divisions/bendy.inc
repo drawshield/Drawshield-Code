@@ -32,4 +32,4 @@ if ( existModifierWithKeyterm($node, 'sinister')) {
   }
 }
 
-$division['div2'] = createBody( choose_fit (compact('NC', 'CH')), getModifierByType($node,'linetype', false), 40);
+$division['div2'] = createBody( choose_fit (compact('NC', 'CH')), getModifierByType($node,'linetype', false), 40, $layout);

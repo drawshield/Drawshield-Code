@@ -22,13 +22,13 @@ function get_div_height ( DOMElement $node ) {
 	  return 1200;
  }
 
-function includeDivision( DOMElement &$node ) {
-  global $messages, $options;
+function includeDivision( DOMElement &$node, $layout ) {
+  global $messages;
 
   $divisionType = $node->getAttribute('keyterm');
   $division = array ();
   $file = null;
-  if ($options['shape'] == 'flag') { // look in the flag sub-directory first
+  if ($layout->shape == 'flag') { // look in the flag sub-directory first
     $file ="divisions/flag/$divisionType.inc";
     if ( stream_resolve_include_path($file) === false ) $file = null;
   }
@@ -36,10 +36,7 @@ function includeDivision( DOMElement &$node ) {
     $file = "divisions/$divisionType.inc";
     if ( stream_resolve_include_path($file) === false ) $file = null;
   }    
-  $calcHeight = 1200; // value to use for calculating drawing height
-  if ($options['shape'] == 'flag' || $options['shape'] == 'quarter') {
-    $calcHeight = $options['flagHeight'];
-  }
+  $calcHeight = $layout->size->height;
   if ($file != null) { // calcHeight is available within the included file
     include ( $file );
   } else { // can't draw this ordinary
@@ -50,18 +47,15 @@ function includeDivision( DOMElement &$node ) {
 }
 
 
-function makeDivision( DOMElement $node, $counter = false ) {
+function makeDivision( DOMElement $node, $layout, $counter = false ) {
   /*
    * @var messageStore
    */
-  global $messages, $options;
+  global $messages;
 
-  $division = includeDivision($node);
+  $division = includeDivision($node, $layout);
 
-  $height = 1200;
-  if ($options['shape'] == 'flag' || $options['shape'] == 'quarter') {
-    $height = $options['flagHeight'];
-  }
+  $height = $layout->size->height;
 
   // Collect the required shapes
   $children = $node->childNodes;
@@ -85,34 +79,34 @@ function makeDivision( DOMElement $node, $counter = false ) {
   // set the main colours
   if ($tinctures[1]->firstChild->nodeName == 'counterchanged') {
     $div1 = '';
-    $div2 = apply_tincture( $tinctures[1], $div2 );
+    $div2 = apply_tincture( $tinctures[1], $div2, $layout );
   } elseif ( $counter ) { // shuffle tinctures around for counterchanging, (depends how many colours in total)
       
     if ( isset($division['div4']) && isset($tinctures[4]) ) { // 4 colours, swap alternate pairs
-        $div1 = apply_tincture ( $tinctures[3], '<rect x="0" y="0" width="1000" height="' . $height . '" />',
+        $div1 = apply_tincture ( $tinctures[3], '<rect x="0" y="0" width="1000" height="' . $height . '" />', $layout,
                               '1000,' . $height );
-        $div2 = apply_tincture( $tinctures[4], $div2 );
-        $div3 = apply_tincture( $tinctures[1], $division['div3'] );
-        $div4 = apply_tincture( $tinctures[2], $division['div4'] );
+        $div2 = apply_tincture( $tinctures[4], $div2, $layout );
+        $div3 = apply_tincture( $tinctures[1], $division['div3'], $layout );
+        $div4 = apply_tincture( $tinctures[2], $division['div4'], $layout );
     } elseif ( isset($division['div3']) && isset($tinctures[3]) ) { // 3 colours, move up 1
-        $div1 = apply_tincture ( $tinctures[2], '<rect x="0" y="0" width="1000" height="' . $height . '" />',
+        $div1 = apply_tincture ( $tinctures[2], '<rect x="0" y="0" width="1000" height="' . $height . '" />', $layout,
                               '1000,' . $height );
-        $div2 = apply_tincture( $tinctures[3], $div2 );
-        $div3 = apply_tincture( $tinctures[1], $division['div3'] );
+        $div2 = apply_tincture( $tinctures[3], $div2, $layout );
+        $div3 = apply_tincture( $tinctures[1], $division['div3'], $layout );
     } else {  // 2 colours, just swap them.
-        $div1 = apply_tincture ( $tinctures[2], '<rect x="0" y="0" width="1000" height="' . $height . '" />',
+        $div1 = apply_tincture ( $tinctures[2], '<rect x="0" y="0" width="1000" height="' . $height . '" />', $layout,
                               '1000,' . $height );
-        $div2 = apply_tincture( $tinctures[1], $div2 );
+        $div2 = apply_tincture( $tinctures[1], $div2, $layout );
     }
   } else { // Not counterchanged, colour as normal
-    $div1 = apply_tincture ( $tinctures[1], '<rect x="-100" y="-100" width="1200" height="' . ($height + 200) . '" />',
+    $div1 = apply_tincture ( $tinctures[1], '<rect x="-100" y="-100" width="1200" height="' . ($height + 200) . '" />', $layout,
                               '1000,' . $height );
-    $div2 = apply_tincture( $tinctures[2], $div2 );
+    $div2 = apply_tincture( $tinctures[2], $div2, $layout );
     if ( isset($division['div3']) && isset($tinctures[3]) ) {
-      $div3 = apply_tincture( $tinctures[3], $division['div3'] );
+      $div3 = apply_tincture( $tinctures[3], $division['div3'], $layout );
     }
     if ( isset($division['div4']) && isset($tinctures[4]) ) {
-      $div4 = apply_tincture( $tinctures[4], $division['div4'] );
+      $div4 = apply_tincture( $tinctures[4], $division['div4'], $layout );
     }
   }
   $retval = "$div1\n$div2\n$div3\n$div4\n";

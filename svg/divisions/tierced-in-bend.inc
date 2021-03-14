@@ -19,8 +19,8 @@ if ( ($sinister = existModifierWithKeyterm($node, 'sinister'))) {
   $div2_data = array ( 'NC' => 'X-100Y-100a1200c1500F1696g300', 'CH' => 'X-100Y100a1200c1500F1696g300' );
   $div3_data = array ( 'NC' => 'X200Y-100a1000c1000F1414',  'CH' => 'X200Y100a1000c1000F1414' );
 }
-$division['div2'] = createBody(choose_fit($div2_data), $lineType, 60);
-$division['div3'] = createBody(choose_fit($div3_data), $lineType, 60);
+$division['div2'] = createBody(choose_fit($div2_data), $lineType, 60, $layout);
+$division['div3'] = createBody(choose_fit($div3_data), $lineType, 60, $layout);
 
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';

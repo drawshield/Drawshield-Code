@@ -11,16 +11,11 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License. */
-global $aspect_ratio;
 
 $num = $node->getAttribute('number');
 if ( $num < 1 ) $num = 1;
 if ( existModifierWithKeyterm($node,'throughout') ) {
-  if ( $aspect_ratio == '10:10') {
-    $ordinary['body'] = '<path d="M50,-100 500,1000 950,-100z" />';
-  } else {
-    $ordinary['body'] = '<path d="M50,-100 500,1200 950,-100z" />';
-  }
+  $ordinary['body'] = "<path d=\"M50,-100 500,{$layout->size->height} 950,-100z\" />";
 } elseif ( existModifierWithKeyterm($node, 'depressed')) {
   $ordinary['body'] = '<path d="M350,-100 500,900 650,-100z" />';
 } elseif ( existModifierWithKeyterm($node, 'wavy')) {

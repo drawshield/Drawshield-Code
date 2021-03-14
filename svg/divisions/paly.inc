@@ -23,5 +23,5 @@ for ( $i = 1; $i < $num_of; $i +=2 ) {
       $NC .= "X{$X1}Y-100a{$stepH}C1400e{$stepH}G1400   ";
       $CH .= "X{$X1}Y200a{$stepH}C1200e{$stepH}G1200   ";
 }
-$division['div2'] = createBody( choose_fit (compact('NC', 'CH')), getModifierByType($node,'linetype', false), 40);
+$division['div2'] = createBody( choose_fit (compact('NC', 'CH')), getModifierByType($node,'linetype', false), 40, $layout);
 

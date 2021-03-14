@@ -92,7 +92,7 @@ function drawMantling($mantlingNode) {
                 $tincture = $location->childNodes->item($j);
                 $tincture_data = new TinctureData($tincture);
                 $tincture_data->pattern_transform = "scale(0.3)";
-                $tincture_data->parse_fill();
+                $tincture_data->parse_fill(new ShieldLayout(new ShieldSize(1000, 1000), "square"));
                 if ( $tincture_data->fill )
                 {
                     $colours[] = $tincture_data->fill;
@@ -223,13 +223,13 @@ function drawTorse($torseNode) {
     return getSvgFragment($svg, $features, 'torse', 'torse', $extras, getStroke(null, true));
 }
 
-function drawMotto($mottoNode) {
-    global $messages, $options;
+function drawMotto($mottoNode, $layout) {
+    global $messages;
 
     if (is_null($mottoNode)) return '';
 
     $text = $mottoNode->getAttribute('text');
-    if ($options['shape'] == 'pauldron') {
+    if ($layout->shape == 'pauldron') {
         $svg = file_get_contents('svg/components/scroll/plaque.svg');
         $svg .= "<g transform=\"translate(50,1000)\">\n" .
             getWords('hooge', $text, 160, 900) . "</g>\n";
@@ -274,7 +274,7 @@ function drawMotto($mottoNode) {
 }
 
 function drawCompartment($compartmentNode) {
-    global $messages, $options;
+    global $messages;
 
     $compType = $compartmentNode->getAttribute(blazonML::A_KEYTERM);
     if (!file_exists("svg/components/compartments/$compType.svg")) {
@@ -316,10 +316,10 @@ function drawCompartment($compartmentNode) {
 }
 
 
-function drawFringe($fringeNode) {
-    global $messages, $options;
+function drawFringe($fringeNode, $layout) {
+    global $messages;
 
-    $shape = $options['shape'];
+    $shape = $layout->shape;
     if (!file_exists("svg/components/fringes/$shape.svg")) {
         $messages->addMessage('blazon', "Fringe not available for $shape shaped shields");
         return null;
@@ -332,7 +332,7 @@ function drawFringe($fringeNode) {
     }
     $svg = getSvgFragment(file_get_contents("svg/components/fringes/$shape.svg"), array(), 'fringes', $shape,
     array(), getStroke($tinc));
-    return (apply_tincture($tinc, $svg['body']));
+    return (apply_tincture($tinc, $svg['body'], $layout));
 
 }
 

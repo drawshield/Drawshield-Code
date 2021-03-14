@@ -10,7 +10,7 @@ $div_data = array (
 $item = 'per-bend';
 if ( existModifierWithKeyterm($node, 'sinister')) $item .= '-sinister';
 if ( existModifierWithKeyterm($node, 'fracted')) $item .= '-fracted';
-$division['div2'] = createBody(choose_fit($div_data[$item]),getModifierByType($node, 'linetype', false),60);
+$division['div2'] = createBody(choose_fit($div_data[$item]),getModifierByType($node, 'linetype', false),60, $layout);
 
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';

@@ -1,6 +1,6 @@
 <?php
 
-$h = $options['flagHeight'];
+$h = $layout->size->height;
 $d = intval(sqrt(1000000 + ($h * $h))); // diagonal length
 $feature_size = $h / 20;
 $theta = atan($h/1000);
@@ -12,7 +12,7 @@ if ( existModifierWithKeyterm($node, 'sinister'))
     $shape_spec = "X${startX}Y${startY}A" . ($d + 200) . "c${h}e" . ($d + 200) . "g${h}";
 else
     $shape_spec = "X${startX}Y${startY}A" . ($d + 200) . "c${h}e" . ($d + 200) . "g${h}";
-$shape_spec = subPercent($shape_spec);
+$shape_spec = subPercent($shape_spec, $layout);
 // turn that into an SVG path
 $path_spec = makePath($shape_spec, getModifierByType($node,'linetype', false), $feature_size);
 // rotate that path to run down the diagonal

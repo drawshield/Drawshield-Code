@@ -345,6 +345,7 @@ function setupshield(target, size, initial, caption) {
 function displayMessages(svg) {
     var messageText = '';
     var remarksHTML = '';
+    var legalHTML = '';
     var creditHTML = '';
     var linksHTML = '';
     var errorList = svg.getElementsByTagNameNS('*','message');
@@ -365,17 +366,17 @@ function displayMessages(svg) {
                 break;
             case'warning':
                 remarksHTML += "<li><span style='color:orange;'>WARNING</span> " + message + "</li>";
-            break;
+                break;
             case'legal':
-                remarksHTML += "<li>" + message + "</li>";
+                legalHTML += "<li>" + message + "</li>";
                 break;
             case'alert':
                 remarksHTML += "<li><span style='color:red'>" + message + "</span></li>";
                 break;
             default:
-                messageText += message + ' ';
+                messageText += "<li>" + message + "</li>";
         }
     }
     var messageTarget = 'messageList';
-    document.getElementById(messageTarget).innerHTML = messageText;
+    document.getElementById(messageTarget).innerHTML = "<ul>" + messageText + remarksHTML + "</ul>";
 }

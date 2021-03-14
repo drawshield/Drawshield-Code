@@ -196,11 +196,11 @@ function read_chg_file(DOMElement $node) {
 }
 
 
-function makeCharge($charge, $placements = null) {
-  if ( !$placements ) $placements = get_placement($charge);
+function makeCharge($charge, $layout, $placements = null) {
+  if ( !$placements ) $placements = get_placement($charge, $layout);
   $retval = '';
   foreach ( explode('*',$placements) as $placement ) {
-    $retval .= place_charges ( $charge, $placement );
+    $retval .= place_charges ( $charge, $placement, $layout );
   }
   return $retval;
 }
@@ -238,7 +238,7 @@ function chargeInAnnulo($node, &$charge, $base_name, $dir)
 
 // WARNINGS Accepted
 function includeCharge( DOMElement $node, $includeFile, $charge, $folder, $chargeKey ) {
-  global $messages, $options;
+  global $messages;
   include ( $includeFile );
   return $charge;
 }
@@ -266,17 +266,12 @@ function getMetadata ( $group, $charge ) {
 }
 
 function makeSquareCharge(DOMElement $node ) {
-  global $aspect_ratio;
-
-  $oldAspect = $aspect_ratio;
-  $aspect_ratio = 'square';
-  $retval = makeCharge($node);
-  $aspect_ratio = $oldAspect;
+  $retval = makeCharge($node, new ShieldLayout(new ShieldSize(1000, 1000), "square", null, null, false));
   return $retval;
 }
 
-function getCharge( DOMElement $node ) {
-  global $chg_data_cache, $messages, $options, $aspect_ratio;
+function getCharge( DOMElement $node, $layout ) {
+  global $chg_data_cache, $messages;
   if (is_null($node)) return null;
 
     $keyterm = $node->getAttribute('keyterm');
@@ -317,14 +312,15 @@ function getCharge( DOMElement $node ) {
       $messages->addMessage('Warning',"No data found for escutcheon");
       // just carry on with a blank escutcheon
     } else {
-      $clipPath = getShape($shape);
+      $child_layout = new ShieldLayout(new ShieldSize($width, $height), $shape);
+
+      $clipPath = getShape($child_layout);
       $clip = add_def( 'clipPath', '<path d="' . $clipPath . '" />' );
-      $savedShape = $options['shape'];
-      $options['shape'] = $shape;
-      $body = '<g clip-path="url(#' . $clip . ')" >' . makeshield( $shield, '10:12' ) . "</g>\n";
-      $options['shape'] = $savedShape;
+
       $width = 1000;
       $height = 1200;
+      $body = '<g clip-path="url(#' . $clip . ')" >' . makeshield( $shield, $child_layout ) . "</g>\n";
+
       // return $chg_data;
     }
   } else {
@@ -373,7 +369,7 @@ function getCharge( DOMElement $node ) {
 
                     $tincture_data = new TinctureData($featureTinc);
                     $tincture_data->pattern_transform = "scale(0.5)";
-                    $tincture_data->parse_fill();
+                    $tincture_data->parse_fill($layout);
                     if ( $tincture_data->fill )
                     {
                         $feat_cols[$featureName] = $tincture_data->fill;
@@ -556,7 +552,7 @@ HERE;
     if ( $chargeToAdd->nodeName == 'ordinary') {
       //$messages->addMessage('Warning', "Charge charged with ordinary not supported");
       chief('push','NC');
-      $new_ord = makeOrdinary( $chargeToAdd );
+      $new_ord = makeOrdinary( $chargeToAdd, $layout );
       chief('pop'); 
       $patt_id = add_def ( 'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 1000"',
       "<desc>Ordinary used to fill $chargeName</desc>" . $new_ord ); 
@@ -594,10 +590,10 @@ HERE;
         break;
       // TODO Add more of the above!
       default:
-        $tempAR = $aspect_ratio;
-        $aspect_ratio = 'square'; // make sure any chief is ignored when placing charges
-        $charges = makeCharge($chargeToAdd);
-        $aspect_ratio = $tempAR;
+        $new_layout = clone $layout;
+        // make sure any chief is ignored when placing charges
+        $new_layout->accepts_chief = false;
+        $charges = makeCharge($chargeToAdd, $new_layout);
         // We now have one or more superposed charges scaled to fit into a 1000x1000 box
         // We want to shrink the superposed charges by a factor (so they leave plenty of space
         // to allow the underlying charge to be seen)
