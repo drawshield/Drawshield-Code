@@ -270,7 +270,7 @@ function draw() {
                     foreach ($node->childNodes as $subNode) {
                         switch ($subNode->nodeName) {
                         case blazonML::E_SUPPORTERS:
-                            $supports = drawSupporters($subNode);
+                            $supports = drawSupporters($subNode, $layout);
                             break;
                         case blazonML::E_MANTLING:
                             $mantling = drawMantling($subNode);
@@ -380,7 +380,7 @@ function draw() {
     if ($achievement) {
         foreach ($crests as $crest) {
             if ($crest == null) continue;  // some helmets may not have crests
-            $body .= placeCharge($crest->firstChild, 300, 300, 500, (count($helmets) ? 150 : 270));
+            $body .= placeCharge($crest->firstChild, $layout, 300, 300, 500, (count($helmets) ? 150 : 270));
         }
         if (count($helmets)) {
             $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 500, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
