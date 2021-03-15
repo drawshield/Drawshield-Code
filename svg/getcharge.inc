@@ -312,13 +312,13 @@ function getCharge( DOMElement $node, $layout ) {
       $messages->addMessage('Warning',"No data found for escutcheon");
       // just carry on with a blank escutcheon
     } else {
+      $width = 1000;
+      $height = 1200;
       $child_layout = new ShieldLayout(new ShieldSize($width, $height), $shape);
 
       $clipPath = getShape($child_layout);
       $clip = add_def( 'clipPath', '<path d="' . $clipPath . '" />' );
 
-      $width = 1000;
-      $height = 1200;
       $body = '<g clip-path="url(#' . $clip . ')" >' . makeshield( $shield, $child_layout ) . "</g>\n";
 
       // return $chg_data;
