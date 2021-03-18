@@ -47,15 +47,31 @@
         width: 100%;
         resize: horizontal;
     }
+    #resultstable {
+        white-space: pre;
+        font-family: monospace;
+    }
+    #resultstable div {
+        display: flex;
+        flex-flow: column;
+    }
+    #resultstable > div div, #resultstable span {
+        padding-left: 4ex;
+        border-left: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    #table-container {
+        display: flex;
+    }
     </style>
   </head>
 
 <body style="background:#AAAAAA;">
     <h1>Draw a Shield</h1>
     <p>Enter a <strong>blazon</strong> into the box and click the <code>Create!</code> button.</p>
+    <div id="table-container">
       <table style="width:600px" summary="shield table">
         <tr>
-          <td rowspan="5" style="width: 459px; text-align:center">
+          <td rowspan="6" style="width: 459px; text-align:center">
             <textarea id="blazon" name="blazon" rows="6" cols="50" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
           </td>
           <td style="width: 81px">
@@ -82,6 +98,11 @@
             </td>
         </tr>
         <tr>
+            <td style="width: 90px">
+                <input type="button" id="show_ast_button" value="AST" style="width: 90px"/>
+            </td>
+        </tr>
+        <tr>
           <td style="text-align:center;" colspan="2">
             <div id="shieldimg">
             </div>
@@ -104,6 +125,8 @@
           </td>
         </tr>
       </table>
+      <div id="resultstable" style="display:none"></div>
+    </div>
 <?php
 
     $image_url = "https://drawshield.net/create/img";
@@ -216,9 +239,24 @@
         </tr>
         <tr><td colspan="5" style="height:1px;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: 1px solid #000000;"></td></tr>
     </table>
-    <div id="resultstable"></div>
+
     <script type="text/javascript" src="shieldcommon.js"></script>
     <script>   //<![CDATA[
+
+        function request_blazon_ml(url, id)
+        {
+            var xmlhttp = new XMLHttpRequest();
+            if (!xmlhttp)
+                return;
+            xmlhttp.open('GET', url, true);
+            xmlhttp.onreadystatechange = function()
+            {
+                if ( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
+                    format_blazon_ml(xmlhttp.responseXML.documentElement, id);
+            };
+            xmlhttp.send(null);
+        }
+
         // Set button actions
         document.getElementById("createbutton").onclick = function () {
             drawshield('drawshield.php?', displayMessages);
@@ -227,13 +265,16 @@
             saveshield('drawshield.php?');
         };
         document.getElementById("searchbutton").onclick = function () {
+            document.getElementById("resultstable").style.display = "block";
             requestHTML( 'dbquery.php?term=' + encodeURIComponent(document.getElementById("searchterm").value),'resultstable');
         };
         document.getElementById("parsebutton").onclick = function () {
-            requestHTML( 'drawshield.php?stage=parser&blazon=' + encodeURIComponent(document.getElementById("blazon").value),'resultstable');
+            document.getElementById("resultstable").style.display = "block";
+            request_blazon_ml( 'drawshield.php?stage=parser&blazon=' + encodeURIComponent(document.getElementById("blazon").value),'resultstable');
         };
         document.getElementById("referencesbutton").onclick = function () {
-            requestHTML( 'drawshield.php?stage=references&blazon=' + encodeURIComponent(document.getElementById("blazon").value),'resultstable');
+            document.getElementById("resultstable").style.display = "block";
+            request_blazon_ml( 'drawshield.php?stage=references&blazon=' + encodeURIComponent(document.getElementById("blazon").value),'resultstable');
         };
         document.getElementById("random_blazon_button").onclick = function () {
             randomShieldCallback(function(blazon){
@@ -241,6 +282,13 @@
                 drawshield('drawshield.php?', displayMessages);
             });
         }
+        document.getElementById("show_ast_button").onclick = function () {
+            var target = document.getElementById("resultstable");
+            if ( target.style.display == "none" )
+                target.style.display = "block";
+            else
+                target.style.display = "none";
+        };
     //]]>
     </script>
 </body>

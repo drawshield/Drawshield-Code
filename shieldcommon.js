@@ -379,4 +379,62 @@ function displayMessages(svg) {
     }
     var messageTarget = 'messageList';
     document.getElementById(messageTarget).innerHTML = "<ul>" + messageText + remarksHTML + "</ul>";
+    format_blazon_ml(svg.querySelector("blazon"), 'resultstable');
+}
+
+function format_blazon_ml(element, target_id)
+{
+    var target = document.getElementById(target_id);
+    while ( target.hasChildNodes() )
+        target.removeChild(target.firstChild);
+
+    if ( !element )
+        return;
+
+    function add_text(target, text)
+    {
+        target.appendChild(document.createTextNode(text));
+    }
+
+    function add_text_element(target, tag, text)
+    {
+        add_text(target.appendChild(document.createElement(tag)), text);
+    }
+
+    function add_element(target, tag)
+    {
+        return target.appendChild(document.createElement(tag));
+    }
+
+    function format_impl(parent, element, indent)
+    {
+        var target = add_element(parent, "div");
+
+        add_text_element(target, "strong", element.tagName);
+
+        for ( var att of element.attributes )
+        {
+            var row = add_element(target, "span");
+            add_text_element(row, "em", att.name);
+            add_text(row, " = " + att.value);
+        }
+
+        for ( var child of element.childNodes )
+        {
+            if ( child instanceof Element )
+            {
+                format_impl(target, child, indent+1);
+            }
+            else if ( child instanceof Text )
+            {
+                var text = child.textContent.trim();
+                if ( text != "" )
+                {
+                    add_text_element(target, "span", text);
+                }
+            }
+        }
+    }
+
+    format_impl(target, element, 0);
 }
