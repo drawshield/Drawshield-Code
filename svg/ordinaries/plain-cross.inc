@@ -1,12 +1,34 @@
 <?php 
 
+
 if ( existModifierWithKeyterm($node, 'nowy')) { // special handling for some linetypes
   $ordinary['body'] = '<path d="m 350,-100 v 342.74 c -43.63,25.5 -80.8,62.09 -107.12,107.26 h -492.88 v 300 h 492.95 c 26.3,45.14 63.45,81.72 107.05,107.22 v 542.78 h 300 v -542.74 c 43.63,-25.5 80.8,-62.09 107.12,-107.26 h 492.88 v -300 h -492.95 c -26.3,-45.14 -63.45,-81.72 -107.05,-107.22 v -342.78 z" />';
 } elseif ( existModifierWithKeyterm($node, 'quadrate')) { // special handling for some linetypes
   $ordinary['body'] = '<path d="m -243.73,411.73 v 199.97 h 415.45 v 200.02 h 200.01 v 528.58 h 199.97 v -528.58 h 200.01 v -200.01 h 484.59 v -199.97 h -484.59 v -200.01 h -200.01 v -415.45 h -199.97 v 415.45 h -200.01 v 200.01 z" />';
 } else {
-  $ordinary['shape_spec'] = array ( 'NC' => 'X-100Y400A500G500a200C500A500c200E500C700e200G700E500g200',
-                                  'CH' => 'X400Y200a200C400A500c200E500C500e200G500E500g200A500G400' );
+    $width = 200;
+    $cx = $layout->center_point->x;
+    $cy = $layout->center_point->y;
+    $margin = 100;
+    $arm_l = $cx - $width / 2 + $margin;
+    $arm_r = ($layout->size->width - $cx) - $width / 2 + $margin;
+    $arm_u = $cy - $width / 2 + $margin;
+    $arm_d = ($layout->size->height - $cy) - $width / 2 + $margin;
+
+    $ordinary['shape_spec'] = (string)path_builder(-$margin, $cy-$width/2)
+                ->right($arm_l)
+                ->up($arm_u)
+                ->right_plain($width)
+                ->down($arm_u)
+                ->right($arm_r)
+                ->down_plain($width)
+                ->left($arm_r)
+                ->down($arm_d)
+                ->left_plain($width)
+                ->up($arm_d)
+                ->left($arm_l)
+                ->up_plain($width)
+    ;
 }
 
 $ordinary['chargesOn'] = chiefPresent() ? '500,700,160,160////250,700,160,160:750,700:500,450:500,700:500,950/x' :
