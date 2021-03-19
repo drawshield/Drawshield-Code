@@ -129,6 +129,17 @@
      <xs:element name="simple">
       <xs:complexType>
        <xs:sequence>
+        <xs:element minOccurs="0" name="chief">
+         <xs:complexType>
+          <xs:sequence>
+           <xs:element ref="ordinary">
+            <xs:annotation>
+             <xs:documentation>The only ordinary valid here is the chief (NOT chief triangular). Note that with the "chief voided [tincture]" the field should NOT be rendered in a reduced area, but the charges SHOULD </xs:documentation>
+            </xs:annotation>
+           </xs:element>
+          </xs:sequence>
+         </xs:complexType>
+        </xs:element>
         <xs:element name="field">
          <xs:complexType>
           <xs:sequence>
@@ -290,7 +301,9 @@
    <xs:sequence>
     <xs:element ref="tincture"/>
     <xs:element minOccurs="0" ref="tincture"/>
-    <xs:element maxOccurs="unbounded" minOccurs="0" ref="modifier"/>
+    <xs:choice minOccurs="0">
+     <xs:element maxOccurs="unbounded" minOccurs="0" ref="modifier"/>
+    </xs:choice>
    </xs:sequence>
    <xs:attribute name="number" type="xs:positiveInteger"/>
    <xs:attributeGroup ref="common"/>
