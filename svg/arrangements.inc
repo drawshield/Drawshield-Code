@@ -99,26 +99,36 @@ function inOrle($layout, $number) {
        return 'x';
 }
 
-function inAnnulo($number, $box) {
+function inAnnulo($number, $box, $layout)
+{
+    if ( $layout->size == $box->size )
+    {
+        $box->size->height = min($box->size->height, $layout->center_point->y * 2);
+        $box->pos = $layout->center_point;
+    }
 
-  $cx = $box->pos->x;
-  $cy = $box->pos->y;
+    $cx = $box->pos->x;
+    $cy = $box->pos->y;
 
-  $radius = min($box->size->height, $box->size->width) * 0.4;
+    $radius = min($box->size->height, $box->size->width) / 2;
 
-  $angle = 0;
-  $turn = 360 / $number;
-  // Make size dependent on circumference && number
-  $size = intval(($radius * M_PI) / ($number * 0.9));
-  if ($size > 150) $size = 200;
-  $placement = str_repeat('/',$number - 1);
-  for ($i = 0; $i < $number; $i++) {
-    $x = intval($cx + sin(deg2rad($angle)) * $radius);
-    $y = intval($cy + cos(deg2rad($angle)) * ($radius * -1));
-    $placement .= "$x,$y,$size,$size:";
-    $angle += $turn;
-  }
-  return rtrim($placement,':');
+    $angle = 0;
+    $turn = 360 / $number;
+    // Make size dependent on circumference && number
+    $size = intval(($radius * M_PI) / ($number * 0.9));
+    if ($size > 150)
+        $size = 200;
+
+    $radius -= $size / 2;
+
+    $placement = str_repeat('/',$number - 1);
+    for ($i = 0; $i < $number; $i++) {
+        $x = intval($cx + sin(deg2rad($angle)) * $radius);
+        $y = intval($cy + cos(deg2rad($angle)) * ($radius * -1));
+        $placement .= "$x,$y,$size,$size:";
+        $angle += $turn;
+    }
+    return rtrim($placement,':');
 }
 
 function box_placement($box, $rot = 0, $inv = 0, $rev = 0)
@@ -443,9 +453,7 @@ function get_placement(DOMElement $item, $layout) {
     if ( $placement == '' && $arr ) {
       switch ( $arr ) { // TODO add incross + insaltire with chief,
         case 'inannulo':
-            if ( $layout->size == $boundingBox->size )
-                $boundingBox->pos = $layout->center_point;
-            $placement = inAnnulo($number, $boundingBox);
+            $placement = inAnnulo($number, $boundingBox, $layout);
             break;
         case 'combattant':
             $placement = placement_combattant($boundingBox, 0, 0);
@@ -516,9 +524,9 @@ function get_placement(DOMElement $item, $layout) {
         // If we have other charges around us (i.e. charge between charges), shrink a bit to make room
     if ( $xpath->evaluate("boolean(modifier[@keyterm='between']/charge)",$item ) && $item->getAttribute('type') != 'quadrate' ) {
         if ( $placement == '' )
-            $placement = adjustplacement(calcPlace($item,'w',$boundingBox), ($chief ? '150,210,700,700' : '150,150,700,700'));
+            $placement = adjustplacement(calcPlace($item, 'w', $boundingBox), '150,150,700,700');
         else
-            $placement = adjustplacement($placement, ($chief ? '150,210,700,700' : '150,150,700,700'));
+            $placement = adjustplacement($placement, '150,150,700,700');
     }
 
 

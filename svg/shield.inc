@@ -27,7 +27,6 @@ function makePlain( &$children, $layout ) {
         }
     }
 
-
     // Paint the field
     if ( $field && !array_key_exists('raw', $options) )
     {
