@@ -360,9 +360,7 @@ function makeOrdinary( DOMElement &$node, $layout ) {
 					  $onObject->appendChild(createModifierNode('chargemod','sinister'));
 				}
 			  // Make a normal ordinary, ignore any chief present
-        chief('push','NC');
         $new_ord = makeOrdinary($onObject, $layout);
-        chief('pop');
 				// Does the main ordinary want this handled specially (scaling and clipping to fit entirely)?
 			if ( array_key_exists('if_ord_on',$ord_data) and $ord_data['if_ord_on'] == 'scale' ) {
         $type = $onObject->getAttribute('keyterm'); // TODO can we find this out from a flag?

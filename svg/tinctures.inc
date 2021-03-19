@@ -485,9 +485,7 @@ function apply_tincture ($tinctureNode, $targetSVG, $layout, $chg_size = '',
                         break;
                     } // else flow through
                 case 'charge':
-                    chief('push','NC');
                     $new_div = makeDivision( $data->type_node, $layout );
-                    chief('pop');
                     $height = get_div_height($data->type_node);
                     $patt_id = add_def (
                         'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 ' .   $height . '"',

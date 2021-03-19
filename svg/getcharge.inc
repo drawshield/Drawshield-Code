@@ -551,9 +551,7 @@ HERE;
     $chargeToAddType = $chargeToAdd->getAttribute('keyterm');
     if ( $chargeToAdd->nodeName == 'ordinary') {
       //$messages->addMessage('Warning', "Charge charged with ordinary not supported");
-      chief('push','NC');
       $new_ord = makeOrdinary( $chargeToAdd, $layout );
-      chief('pop'); 
       $patt_id = add_def ( 'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 1000"',
       "<desc>Ordinary used to fill $chargeName</desc>" . $new_ord ); 
       $body = add_def() . $body;

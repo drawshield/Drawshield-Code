@@ -198,6 +198,20 @@ class englishGrammar extends grammar
             $simple->appendChild($field);
             if (($ordChgs = self::objects())) {
                 $simple->appendChild($ordChgs);
+                // HACK
+                foreach ( $ordChgs->childNodes as $oc )
+                {
+                    if ( $oc instanceof DOMElement && $oc->getAttribute("keyterm") == "chief" )
+                    {
+                        $chief = $this->schema->makeNode("chief");
+                        $ordChgs->removeChild($oc);
+                        $chief->appendChild($oc);
+                        $simple->appendChild($chief);
+                        if ( !$ordChgs->hasChildNodes() )
+                            $simple->removeChild($ordChgs);
+                        break;
+                    }
+                }
             }
             $node = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
             $node->appendChild($simple);
@@ -793,6 +807,8 @@ class englishGrammar extends grammar
                 $found = true;
                 $assume_num = false; // reset if it was true
                 $node->appendChild($item);
+                if ( $item->getAttribute("keyterm") == "chief" )
+
                 self::comma();
                 if (self::find(languageDB::ANDD)) $assume_num = true;
             } else {

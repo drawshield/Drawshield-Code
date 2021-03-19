@@ -100,6 +100,28 @@ class ShieldRect
             $this->size->scaled($width, $height)
         );
     }
+
+    function margin($x1, $y1 = null, $x2 = null, $y2 = null)
+    {
+        if ( $y1 === null )
+            $y1 = $x1;
+
+        if ( $x2 === null )
+            $x2 = $x1;
+
+        if ( $y2 === null )
+            $y2 = $y1;
+
+        $l = $this->left() + $x1;
+        $r = $this->right() - $x2;
+        $t = $this->top() + $y1;
+        $b = $this->bottom() - $y2;
+
+        return new ShieldRect(
+            new ShieldPos(($l+$r)/2, ($t+$b)/2),
+            new ShieldSize($r-$l, $b-$t)
+        );
+    }
 }
 
 class ShieldLayout
@@ -113,7 +135,7 @@ class ShieldLayout
         "quarter" => 0,
     ];
 
-    function __construct(ShieldSize $size, $shape, ShieldPos $center_point = null, ShieldRect $charge_hint = null, $accepts_chief = true)
+    function __construct(ShieldSize $size, $shape, ShieldPos $center_point = null, ShieldRect $charge_hint = null, $chief = true)
     {
         // shield size 1000xheight
         $this->size = $size;
@@ -127,7 +149,10 @@ class ShieldLayout
         // rect for custom positioning
         $this->charge_hint = $charge_hint;
         // Should use chief spacing
-        $this->accepts_chief = $accepts_chief;
+        $this->chief = $chief;
+        if ( $this->chief === true )
+            $this->auto_chief();
+
     }
 
     function auto_center()
@@ -136,6 +161,14 @@ class ShieldLayout
             $this->center_point = new ShieldPos($this->size->width / 2, $this->size->height / 2);
         else
             $this->center_point = new ShieldPos(500, 500);
+    }
+
+    function auto_chief()
+    {
+        $this->chief = new ShieldRect(
+            new ShieldPos(0, 0),
+            new ShieldSize($this->size->width, min($this->size->height * 0.3, 300))
+        );
     }
 
     static function from_options($options)

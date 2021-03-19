@@ -94,8 +94,6 @@ class Quartering
                 continue;
             }
 
-            region('push','Q' . $index ); // Can lose this soon I hope...
-
             $quarter = $this->quarters[$index];
             $width = $quarter->size->width;
             $height = $quarter->size->height;
@@ -119,8 +117,6 @@ class Quartering
                     . makeshield($kid, $layout)
                     . "</g>\n";
             }
-
-            region('pop');
         }
 
         $retval .= add_def();

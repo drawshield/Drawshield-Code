@@ -1,34 +1,73 @@
 <?php 
 
 function makePlain( &$children, $layout ) {
-  global $options;
-  $retval = '';
-  // Does this shield contain a chief?
-  $found = false;
-  foreach ( $children as $kid ) {
-    if ( !$found and $kid->nodeName == 'objects' ) $found = find_chief ( $kid );
-  }
-  chief('push', $found ? 'CH' : 'NC');
-  // Process the shield parts
-  foreach ( $children as $kid ) {
-    switch ( $kid->nodeName ) {
-      case 'field':
-        // Paint the field
-        if (!array_key_exists('raw', $options)) {
-            $retval .= apply_tincture ( $kid->firstChild,
-            '<rect x="0" y="0" width="1000" height="' . $layout->size->height . '" ><title>Field</title></rect>' ,
-            $layout,
-            '1000,' . $layout->size->height );
+    global $options;
+    $retval = '';
+
+    // Does this shield contain a chief?
+    $chief = null;
+    $field = null;
+    $objects = null;
+
+    // Process the shield parts
+    foreach ( $children as $kid )
+    {
+        switch ( $kid->nodeName ) {
+            case 'field':
+                $field = $kid;
+                break;
+            case 'objects':
+                $objects = $kid;
+                break;
+            case "chief":
+                if ( $layout->chief )
+                    $chief = $kid;
+                break;
+
         }
-        break;
-      case 'objects':
-        // process ordinaries and charges
-        $retval .= makeOrdChgs($kid, $layout);
-        break;
     }
-  }
-  chief('pop');
-  return $retval;
+
+
+    // Paint the field
+    if ( $field && !array_key_exists('raw', $options) )
+    {
+        $retval .= apply_tincture(
+            $field->firstChild,
+            "<rect x='0' y='0' width='1000' height='{$layout->size->height}'><title>Field</title></rect>",
+            $layout,
+            "1000,{$layout->size->height}"
+        );
+    }
+
+    $chief_lay = null;
+    $off = 0;
+    if ( $chief )
+    {
+        $chief_lay = new ShieldLayout($layout->chief->size, "shape", null, null, false);
+        $new_size = new ShieldSize($layout->size->width, $layout->size->height - $layout->chief->size->height);
+        $cross_c = new ShieldPos($new_size->width / 2, $new_size->height / 2);
+        if ( $layout->center_point->y < $layout->size->height /2 )
+            $cross_c->y = 400;
+        $layout = new ShieldLayout($new_size, $layout->shape, $cross_c, null, false);
+        $off = $chief_lay->size->height;
+    }
+
+    if ( $objects )
+    {
+        // process ordinaries and charges
+        $retval .= "<g transform='translate(0,$off)'>" . makeOrdChgs($objects, $layout) . "</g>";
+    }
+
+
+    if ( $chief )
+        $retval .= makeChief($chief, $chief_lay);
+
+    return $retval;
+}
+
+function makeChief($node, $layout)
+{
+    return makeOrdinary($node->firstChild, $layout);
 }
 
 function makeimpaled( DOMNodeList $children, $layout ) {
@@ -45,14 +84,10 @@ function makeimpaled( DOMNodeList $children, $layout ) {
   foreach ( $children as $kid ) {
     switch( $kid->getAttribute('index') ) {
     case '1':
-      region('push','I1');
       $imp1 = makeshield( $kid, $child_layout );
-      region('pop');
       break;
     case '2':
-      region('push','I2');
       $imp2 = makeshield( $kid, $child_layout );
-      region('pop');
       break;
     }
   }
@@ -76,14 +111,10 @@ function makedimidiated( $children, $layout ) {
   foreach ( $children as $kid ) {
     switch( $kid->getAttribute('index') ) {
     case '1':
-      region('push','D1');
       $retval .= '<g clip-path="url(#' . $clip1 . ')" >' . makeshield( $kid, $layout ) . "</g>\n";
-      region('pop');
       break;
     case '2':
-      region('push','D2');
       $retval .= '<g clip-path="url(#' . $clip2 . ')" >' . makeshield( $kid, $layout ) . "</g>\n";
-      region('pop');
       break;
     }
   }
