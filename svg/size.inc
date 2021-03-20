@@ -122,6 +122,19 @@ class ShieldRect
             new ShieldSize($r-$l, $b-$t)
         );
     }
+
+    function translated($x, $y)
+    {
+        return new ShieldRect(new ShieldPos($x + $this->pos->x, $y + $this->pos->y), clone $this->size);
+    }
+
+    static function from_corners($x1, $y1, $x2, $y2)
+    {
+        return new ShieldRect(
+            new ShieldPos(($x1 + $x2) / 2, ($y1 + $y2) / 2),
+            new ShieldSize($x2 - $x1, $y2 - $y1)
+        );
+    }
 }
 
 class ShieldLayout

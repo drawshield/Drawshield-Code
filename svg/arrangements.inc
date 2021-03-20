@@ -140,6 +140,8 @@ function box_placement($box, $rot = 0, $inv = 0, $rev = 0)
 
 function array_to_placement_impl($array)
 {
+    if ( is_string($array) )
+        return $array;
     if ( count($array) == 0 )
         return "x";
     return implode(":", $array);
@@ -212,8 +214,17 @@ function placement_combattant($boundingBox, $gap, $flip)
     return array_to_placement($placement_arr);
 }
 
-function placement_cross($boundingBox, $layout, $saltire)
+function placement_cross($boundingBox, $layout)
 {
+    $node = null;
+    $ordinary = [];
+    include "ordinaries/plain-cross.inc";
+    return $ordinary['chargesOn'];
+}
+
+function placement_saltire($boundingBox, $layout)
+{
+    $saltire = 1;
     $center = $layout->center_point;
 
     $size = new ShieldSize(200, 200);
@@ -365,7 +376,7 @@ function get_placement(DOMElement $item, $layout) {
 
     // Figure out default bounding box size for this aspect ratio, chief presence && entire
     $center = new ShieldPos($layout->size->width / 2, $layout->size->height / 2);
-    static $full_box_arrangements = ["inannulo", "inbend", "inbendsin", "inpalethrough", 'infessthrough', 'incross', "inchiefthrough"];
+    static $full_box_arrangements = ["inannulo", "inbend", "inbendsin", "inpalethrough", 'infessthrough', 'incross'];
     if ( $entire || in_array($arr, $full_box_arrangements) )
     {
         $boundingBox = new ShieldRect($center, clone $layout->size);
@@ -496,7 +507,7 @@ function get_placement(DOMElement $item, $layout) {
             $placement = placement_cross($boundingBox, $layout, 0);
             break;
         case 'insaltire':
-            $placement = placement_cross($boundingBox, $layout, 1);
+            $placement = placement_saltire($boundingBox, $layout);
             break;
         case 'inpile':
             $placement = 'x/x/250,250,300,300:500,600:750,250/x/x/250,200,200,200:500:750:333.33,500:666.67:500,800';
