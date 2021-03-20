@@ -214,40 +214,12 @@ function placement_combattant($boundingBox, $gap, $flip)
     return array_to_placement($placement_arr);
 }
 
-function placement_cross($boundingBox, $layout)
+function placement_from_ordinary($ordinary_file, $boundingBox, $layout)
 {
     $node = null;
     $ordinary = [];
-    include "ordinaries/plain-cross.inc";
+    include "ordinaries/$ordinary_file.inc";
     return $ordinary['chargesOn'];
-}
-
-function placement_saltire($boundingBox, $layout)
-{
-    $saltire = 1;
-    $center = $layout->center_point;
-
-    $size = new ShieldSize(200, 200);
-    $angle = 45 * $saltire;
-
-    $dx = ($center->x + 100 - $boundingBox->left()) / 2;
-    $dy = ($center->y + 100 - $boundingBox->top()) / 2;
-
-    $cross = [
-        box_placement(new ShieldRect($center->translated(-$dx, $dy * $saltire), $size), $angle, 0, 0),
-        box_placement(new ShieldRect($center->translated($dx, -$dy * $saltire), $size), $angle, 0, 0),
-        box_placement(new ShieldRect($center->translated(-$dx * $saltire, -$dy), $size), -$angle, 0, 0),
-        box_placement(new ShieldRect($center->translated($dx * $saltire, $dy), $size), -$angle, 0, 0),
-    ];
-
-    return array_to_placement([
-        [],
-        [],
-        [],
-        $cross,
-        array_merge($cross, [box_placement(new ShieldRect($center, $size))]),
-        [],
-    ]);
 }
 
 function placement_counter_passant($boundingBox)
@@ -504,10 +476,10 @@ function get_placement(DOMElement $item, $layout) {
             ;
             break;
         case 'incross':
-            $placement = placement_cross($boundingBox, $layout, 0);
+            $placement = placement_from_ordinary("plain-cross", $boundingBox, $layout);
             break;
         case 'insaltire':
-            $placement = placement_saltire($boundingBox, $layout);
+            $placement = placement_from_ordinary("saltire", $boundingBox, $layout);
             break;
         case 'inpile':
             $placement = 'x/x/250,250,300,300:500,600:750,250/x/x/250,200,200,200:500:750:333.33,500:666.67:500,800';

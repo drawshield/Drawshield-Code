@@ -850,7 +850,7 @@ class PathBuilder
         return $this;
     }
 
-    function op_left_plain($length)
+    function up_left_plain($length)
     {
         $this->spec .= "f$length";
         return $this;
@@ -876,7 +876,7 @@ class PathBuilder
 
     function up_right_plain($length)
     {
-        $this->spec .= "$length";
+        $this->spec .= "h$length";
         return $this;
     }
 

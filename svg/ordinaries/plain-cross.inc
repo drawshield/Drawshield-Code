@@ -9,11 +9,6 @@ if ( $fillet )
 {
     $width = 100;
     $ordinary['feature_size'] = 15;
-    $ordinary['chargesWithin'] = 'x/250,750,180,180:750,750/x/250,250,180,180:750,250:250,750:750,750/x/x';
-}
-else
-{
-    $ordinary['chargesWithin'] = 'x/175,750,180,300:825,750/x/175,200,180,160:825,200:175,840:825:840/s/s';
 }
 
 $cx = $layout->center_point->x;
@@ -49,8 +44,7 @@ if ( !$fillet && existModifierWithKeyterm($node, 'nowy')) { // special handling 
 
 if ( !$fillet )
 {
-    $on_extent = 200;
-    $on_size = new ShieldSize($on_extent, $on_extent);
+    $on_size = new ShieldSize($width, $width);
     $on_center = new ShieldRect(clone $layout->center_point, $on_size);
 
     $dx = ($layout->center_point->x + 100) / 2;
