@@ -42,7 +42,7 @@ function makePlain( &$children, $layout ) {
     $off = 0;
     if ( $chief )
     {
-        $chief_lay = new ShieldLayout($layout->chief->size, "shape", null, null, false);
+        $chief_lay = new ShieldLayout($layout->chief->size, "chief", null, null, false);
         $new_size = new ShieldSize($layout->size->width, $layout->size->height - $layout->chief->size->height);
         $cross_c = new ShieldPos($new_size->width / 2, $new_size->height / 2);
         if ( $layout->center_point->y < $layout->size->height /2 )

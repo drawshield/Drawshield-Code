@@ -365,7 +365,7 @@ function get_placement(DOMElement $item, $layout) {
 
     // Figure out default bounding box size for this aspect ratio, chief presence && entire
     $center = new ShieldPos($layout->size->width / 2, $layout->size->height / 2);
-    static $full_box_arrangements = ["inannulo", "inbend", "inbendsin", "inpalethrough", 'infessthrough', 'incross'];
+    static $full_box_arrangements = ["inannulo", "inbend", "inbendsin", "inpalethrough", 'infessthrough', 'incross', "inchiefthrough"];
     if ( $entire || in_array($arr, $full_box_arrangements) )
     {
         $boundingBox = new ShieldRect($center, clone $layout->size);
@@ -440,8 +440,6 @@ function get_placement(DOMElement $item, $layout) {
       } else { // Arrange on an open field
         if ( substr($item->parentNode->parentNode->getAttribute('keyterm'),0,8) == 'quadrate' ) // Special placement for items around a quadrate cross
           $placement = '///300,300,160,160:700,300,160,160:300,700:700,700';
-        elseif ( $chief )
-          $placement = 'x/125,700,200,600:875:700/250,450,160,160:750,450,160,160:500,950/250,450,160,160:500,700,700,300:750,450,160,160:250,950:750,950/250,450,160,160:500,700,700,300:750,450,160,160:500,200:250,950:750,950';
         else
           $placement = 'x/125,500,200,800:875,500/250,200,300,280:750,200,300,280:500,1000/250,200,280,280:750,200,280,280:250,900:750,900/250,200,240,240:750,200,240,240:500,200:250,900:750,900';
       }

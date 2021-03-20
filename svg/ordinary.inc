@@ -350,54 +350,59 @@ function makeOrdinary( DOMElement &$node, $layout ) {
     /**
      * @var DOMElement $onObject
      */
-    switch ( $onObject->nodeName ) {
-      case 'ordinary':
-			  // If the underlying ordinary is mirrored, we need to mirror the "on" item so it ends up back the right way
-				if ( $mirrored ) {
-  				if ( ($sin = getModifierNodeWithKeyterm($onObject,'sinister')) != null )
-					  $onObject->removeChild($sin);
-					else
-					  $onObject->appendChild(createModifierNode('chargemod','sinister'));
-				}
-			  // Make a normal ordinary, ignore any chief present
-        $new_ord = makeOrdinary($onObject, $layout);
-				// Does the main ordinary want this handled specially (scaling and clipping to fit entirely)?
-			if ( array_key_exists('if_ord_on',$ord_data) and $ord_data['if_ord_on'] == 'scale' ) {
-        $type = $onObject->getAttribute('keyterm'); // TODO can we find this out from a flag?
-			  $height = ($type == 'per-bend' || $type == 'per-bend-sinister' || $type == 'quarterly') ? 1000 : 1200;
-			  $patt_id = add_def ( 'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 ' .   $height . '"',
-               "<desc>Ordinary on ordinary</desc>" . $new_ord );
-          $onObjectSVG = '<g fill="url(#' . $patt_id . ')"  >' . $bodySVG . '</g>';
-			  } else {
-          $fill = add_def( 'pattern patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="0" ' .
-                             'y="0" width="1000" height="1200"', $new_ord );
-					// TODO should this be a mask? Or a clip path?
-          $onObjectSVG = '<g fill="url(#' . $fill . ')">' . $bodySVG . '</g>';
-			  } 
-        break;
-      case 'charge':
- 			  // If the underlying ordinary is mirrored, we need to mirror the "on" item so it ends up back the right way
-				if ( $mirrored ) {
-  				if ( ($sin = getModifierNodeWithKeyterm($onObject,'reversed')) != null )
-					  $onObject->removeChild($sin);
-					else
-					  $onObject->appendChild(createModifierNode('chargemod','reversed'));
-				}
-        if ( array_key_exists('chargesOn', $ord_data)) {
-          $onPlacement = $ord_data['chargesOn'];
-          if ( is_array($onPlacement )) { // Means we have to call calcPlace
-            $onPlacement = calcPlace($onObject,$onPlacement[0],subPercent($onPlacement[1], $layout));
-          } else {
-            $onPlacement = subPercent($onPlacement, $layout);
-          }
-        } else {
-          $onPlacement = 'n'; // error if no placement for ordinary with charges on it, but let placeCharges handle it
+    foreach ( $on_ord->childNodes as $onObject ) {
+        switch ( $onObject->nodeName ) {
+        case 'ordinary':
+            // If the underlying ordinary is mirrored, we need to mirror the "on" item so it ends up back the right way
+            if ( $mirrored ) {
+                if ( ($sin = getModifierNodeWithKeyterm($onObject,'sinister')) != null )
+                    $onObject->removeChild($sin);
+                else
+                    $onObject->appendChild(createModifierNode('chargemod','sinister'));
+            }
+            // Make a normal ordinary, ignore any chief present
+            $new_ord = makeOrdinary($onObject, $layout);
+            // Does the main ordinary want this handled specially (scaling and clipping to fit entirely)?
+            if ( array_key_exists('if_ord_on',$ord_data) and $ord_data['if_ord_on'] == 'scale' ) {
+                $type = $onObject->getAttribute('keyterm'); // TODO can we find this out from a flag?
+                $height = ($type == 'per-bend' || $type == 'per-bend-sinister' || $type == 'quarterly') ? 1000 : 1200;
+                $patt_id = add_def ( 'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 ' .   $height . '"',
+                "<desc>Ordinary on ordinary</desc>" . $new_ord );
+                $onObjectSVG .= '<g fill="url(#' . $patt_id . ')"  >' . $bodySVG . '</g>';
+            } else {
+                $fill = add_def( 'pattern patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="0" ' .
+                                'y="0" width="1000" height="1200"', $new_ord );
+                // TODO should this be a mask? Or a clip path?
+                $onObjectSVG .= '<g fill="url(#' . $fill . ')">' . $bodySVG . '</g>';
+            }
+            break;
+        case 'charge':
+            // If the underlying ordinary is mirrored, we need to mirror the "on" item so it ends up back the right way
+            if ( $mirrored ) {
+                if ( ($sin = getModifierNodeWithKeyterm($onObject,'reversed')) != null )
+                    $onObject->removeChild($sin);
+                else
+                    $onObject->appendChild(createModifierNode('chargemod','reversed'));
+            }
+            if ( array_key_exists('chargesOn', $ord_data)) {
+                $onPlacement = $ord_data['chargesOn'];
+                $arr = getModifierByType($onObject, 'arrangement', true);
+                if ( $arr == "inchiefthrough" && $subtype == "chief" && $layout->shape == "chief" ) {
+                    $onPlacement = calcPlace($onObject, 'h', $layout->rect_area());
+                } if ( is_array($onPlacement) ) { // Means we have to call calcPlace
+                    $onPlacement = calcPlace($onObject,$onPlacement[0],subPercent($onPlacement[1], $layout));
+                } else {
+                    $onPlacement = subPercent($onPlacement, $layout);
+                }
+            } else {
+                $onPlacement = 'n'; // error if no placement for ordinary with charges on it, but let placeCharges handle it
+            }
+            $onObjectSVG .= makeCharge( $onObject, $layout, $onPlacement );
+            break;
         }
-        $onObjectSVG = makeCharge( $onObject, $layout, $onPlacement );
-        break;
     }
   }
-  
+
   // Is this ordinary "between" anything?
   $chargeWithinSVG = '';
   /**

@@ -222,4 +222,12 @@ class ShieldLayout
             $this->center_point->y / $this->size->height
         );
     }
+
+    function rect_area()
+    {
+        return new ShieldRect(
+            new ShieldPos($this->size->width / 2, $this->size->height / 2),
+            clone $this->size
+        );
+    }
 }

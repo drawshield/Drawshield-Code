@@ -178,6 +178,58 @@ class englishGrammar extends grammar
         return $found;
     }
 
+    private function chief_on($chief_ordinary)
+    {
+        $xpath = new DOMXPath($chief_ordinary->ownerDocument);
+        $on_list = $xpath->query("modifier[@type='wordon']", $chief_ordinary);
+        if ( count($on_list) != 0 )
+            return $on_list[0];
+
+        $mod = $this->schema->makeMod(languageDB::WORD_ON, null, "on", null, null);
+        $chief_ordinary->appendChild($mod);
+        return $mod;
+    }
+
+    // HACK
+    protected function adjust_chief($simple, $ordChgs)
+    {
+        foreach ( $ordChgs->childNodes as $oc )
+        {
+            if ( $oc instanceof DOMElement && $oc->getAttribute("keyterm") == "chief" )
+            {
+                $chief = $this->schema->makeNode("chief");
+                $ordChgs->removeChild($oc);
+                $chief->appendChild($oc);
+                $simple->appendChild($chief);
+                $on = null;
+                for ( $i = 0; $i < count($ordChgs->childNodes); )
+                {
+                    $child = $ordChgs->childNodes[$i];
+                    $pos = getModifierByType($child, 'position', false);
+                    $arr = getModifierByType($child, 'arrangement', false);
+                    if ( $pos == "inchief" || $arr == "inchiefthrough" )
+                    {
+                        $ordChgs->removeChild($child);
+                        if ( $on == null )
+                            $on = $this->chief_on($oc);
+                        $on->appendChild($child);
+                    }
+                    else
+                    {
+                        $i++;
+                    }
+                }
+
+                if ( !$ordChgs->hasChildNodes() )
+                {
+                    $simple->removeChild($ordChgs);
+                }
+
+                break;
+            }
+        }
+    }
+
     /**
      * @return DOMElement
      */
@@ -198,20 +250,7 @@ class englishGrammar extends grammar
             $simple->appendChild($field);
             if (($ordChgs = self::objects())) {
                 $simple->appendChild($ordChgs);
-                // HACK
-                foreach ( $ordChgs->childNodes as $oc )
-                {
-                    if ( $oc instanceof DOMElement && $oc->getAttribute("keyterm") == "chief" )
-                    {
-                        $chief = $this->schema->makeNode("chief");
-                        $ordChgs->removeChild($oc);
-                        $chief->appendChild($oc);
-                        $simple->appendChild($chief);
-                        if ( !$ordChgs->hasChildNodes() )
-                            $simple->removeChild($ordChgs);
-                        break;
-                    }
-                }
+                $this->adjust_chief($simple, $ordChgs);
             }
             $node = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
             $node->appendChild($simple);
