@@ -788,6 +788,7 @@ class englishGrammar extends grammar
             // We treat a counterchanged division a bit like an ordinary
             if ($counterchangedDivision = self::division(true)) {
                 $node->appendChild($counterchangedDivision);
+                self::comma();
                 $found = true;
             } elseif ($item = self::ordinary() or $item = self::charge($assume_num)) {
                 $found = true;

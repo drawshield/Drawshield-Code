@@ -1069,7 +1069,7 @@ class languageDB extends lexicon
                 array('taller','taller'),
                 array('shorte(r|nd)','shorter'),
             ),
-            self::USING => array ( 'with', 'in', 'using'),
+            self::USING => array ( 'with', 'in', 'using', 'on'),
             self::DRAWN_MODS => array(
                 array('drawn', 'drawn'),
                 array('?(a|an|the) * (palette|tinctures|colou?rs)', 'palette'),
