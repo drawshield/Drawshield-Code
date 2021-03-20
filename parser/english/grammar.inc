@@ -190,13 +190,25 @@ class englishGrammar extends grammar
          * @var DOMElement $node
          */
         $node = null;
+        $chief = null;
         if (($tinc = self::tincture()) != null) {
             $field = $this->schema->makeNode(blazonML::E_FIELD);
             $simple = $this->schema->makeNode(blazonML::E_PLAIN);
             self::comma();
             $field->appendChild($tinc);
+            $ordChgs = self::objects();
+            // if there is a top-level chief pull it out into its own element
+            foreach ($ordChgs->childNodes as $ordChg) {
+                if (($ordChg->nodeName == blazonML::E_ORDINARY) && ($ordChg->getAttribute(blazonML::A_KEYTERM) == 'chief')) {
+                    $chief = $this->schema->makeNode(blazonML::E_CHIEF);
+                    $chief->appendChild($ordChgs->removeChild($ordChg));
+                }
+            }
+            if ($chief) {
+                $simple->appendChild($chief);
+            }
             $simple->appendChild($field);
-            if (($ordChgs = self::objects())) {
+            if ($ordChgs && $ordChgs->hasChildNodes()) {
                 $simple->appendChild($ordChgs);
             }
             $node = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
