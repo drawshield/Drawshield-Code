@@ -1,6 +1,7 @@
 <?php 
 
 require_once('size.inc');
+require_once('ordinaries/bend-helper.inc');
 
 
    // modify a (1000x1000) placement to fit within the given bounding box
@@ -150,40 +151,6 @@ function array_to_placement_impl($array)
 function array_to_placement($array)
 {
     return implode("/", array_map("array_to_placement_impl", $array));
-}
-
-function placement_in_bend($boundingBox, $sinister)
-{
-    // ensure we are working with a square
-    $min_extent = min($boundingBox->size->width, $boundingBox->size->height);
-    $mult = $sinister ? 1 : -1;
-    if ( $boundingBox->size->width > $boundingBox->size->height )
-        $boundingBox->pos->x += $mult * ($boundingBox->size->width - $min_extent) / 2;
-    else
-        $boundingBox->pos->y -= ($boundingBox->size->height - $min_extent) / 2;
-
-    $boundingBox->size->width = $boundingBox->size->height = $min_extent;
-
-    $placement_arr = [];
-    for ( $n = 1; $n <= 8; $n++ )
-    {
-        $plac = [];
-        $size = 1 / $n * 0.8;
-        $start = 0.1 + $size / 2;
-        for ( $i = 0; $i < $n; $i++ )
-        {
-            $pos = $start + $size * $i;
-            $plac[] = $boundingBox->relative_box(
-                $sinister ? 1 - $pos : $pos,
-                $pos,
-                .23,
-                .23
-            );
-        }
-        $placement_arr[] = $plac;
-
-    }
-    return array_to_placement($placement_arr);
 }
 
 function placement_combattant($boundingBox, $gap, $flip)
@@ -446,10 +413,10 @@ function get_placement(DOMElement $item, $layout) {
             $placement = placement_combattant($boundingBox, 0, 1);
             break;
         case 'inbend':
-            $placement = placement_in_bend($boundingBox, false);
+            $placement = placement_in_bend($boundingBox, false, 0);
             break;
         case 'inbendsin':
-            $placement = placement_in_bend($boundingBox, true);
+            $placement = placement_in_bend($boundingBox, true, 0);
             break;
         case 'inbar':
             $placement = calcPlace($item,'v',$boundingBox);

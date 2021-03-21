@@ -12,18 +12,6 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-
-$base = min($layout->center_point->x, $layout->center_point->y) - 100;
-$length = $base * M_SQRT2 * 2;
-$width = 56;
-
-$ordinary['shape_spec'] = (string)
-    path_builder($layout->center_point->x - $base, $layout->center_point->y - $base)
-    ->up_right_plain($width/2)
-    ->down_right($length)
-    ->down_left_plain($width)
-    ->up_left($length)
-    ->up_right_plain($width/2)
-;
+require_once("bend-helper.inc");
+$ordinary['shape_spec'] = (string)build_bend($layout, 56, 100);
 $ordinary['feature_size'] = 18;
-

@@ -774,9 +774,12 @@ class PathBuilder
 {
     public $spec = "";
 
-    function __construct($x, $y)
+    function move($x, $y)
     {
-        $this->spec = "X{$x}Y$y";
+        if ( $this->spec != "" )
+            $this->spec .= "   ";
+        $this->spec .= "X{$x}Y$y";
+        return $this;
     }
 
     function __toString()
@@ -914,5 +917,5 @@ class PathBuilder
 
 function path_builder($x, $y)
 {
-    return new PathBuilder($x, $y);
+    return (new PathBuilder())->move($x, $y);
 }
