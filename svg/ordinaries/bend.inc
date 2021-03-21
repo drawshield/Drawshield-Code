@@ -94,42 +94,7 @@ $ordinary['rotate_pattern'] = 45;
 
 $ordinary['chargesOn'] = placement_in_bend($layout->rect_area(), false, 45);
 
-
-$cx = $layout->center_point->x;
-$cy = $layout->center_point->y;
-$lw = $layout->size->width;
-$lh = min($layout->size->height, $layout->size->width);
-$width_delta = $width / 2 / M_SQRT2 + 10;
-$within_margin = 50;
-$within_2 = [
-    ShieldRect::from_corners($cx + $width_delta, $within_margin, $lw - $within_margin, $cy - $width_delta),
-    ShieldRect::from_corners($within_margin, $cy + $width_delta, $cx - $width_delta, $lh - $within_margin)
-];
-$within_4 = [
-    ShieldRect::from_corners($cx, $within_margin, $within_2[0]->left() + $within_2[0]->size->width / 3, $within_2[0]->bottom() - $within_2[0]->size->height / 3),
-    ShieldRect::from_corners($within_2[0]->left() + $within_2[0]->size->width / 3, $within_2[0]->bottom() - $within_2[0]->size->height / 3, $lw - $within_margin, $cy),
-
-    ShieldRect::from_corners($within_margin, $cy, $within_2[1]->right() - $within_2[1]->size->width / 3, $within_2[1]->top() + $within_2[1]->size->height / 3),
-    ShieldRect::from_corners($within_2[1]->right() - $within_2[1]->size->width / 3, $within_2[1]->top() + $within_2[1]->size->height / 3, $cx, $lh - $within_margin),
-];
-
-$ordinary['chargesWithin'] = array_to_placement([
-    [],
-    $within_2,
-    [],
-    $within_4,
-    [],
-    [
-        new ShieldRect($within_4[0]->pos, $within_4[0]->size->scaled(0.8)),
-        new ShieldRect($within_4[1]->pos, $within_4[1]->size->scaled(0.8)),
-        new ShieldRect(new ShieldPos($within_4[1]->pos->x, $within_4[0]->pos->y), $within_4[0]->size->scaled(0.8)),
-
-        new ShieldRect($within_4[2]->pos, $within_4[2]->size->scaled(0.8)),
-        new ShieldRect($within_4[3]->pos, $within_4[3]->size->scaled(0.8)),
-        new ShieldRect(new ShieldPos($within_4[2]->pos->x, $within_4[3]->pos->y), $within_4[0]->size->scaled(0.8)),
-    ]
-
-]);
+$ordinary['chargesWithin'] = bend_within($layout, $width);
 
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';
