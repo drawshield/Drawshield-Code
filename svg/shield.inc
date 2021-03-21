@@ -2,12 +2,11 @@
 
 function makePlain( &$children, $layout ) {
   global $options;
-  $retval = '';
+  $field = '';
+  $objects = '';
+  $chief = '';
   // Does this shield contain a chief?
-  $found = false;
-  foreach ( $children as $kid ) {
-    if ( !$found and $kid->nodeName == 'objects' ) $found = find_chief ( $kid );
-  }
+  $found = $children->item(0)->nodeName == blazonML::E_CHIEF;
   chief('push', $found ? 'CH' : 'NC');
   // Process the shield parts
   foreach ( $children as $kid ) {
@@ -15,20 +14,23 @@ function makePlain( &$children, $layout ) {
       case 'field':
         // Paint the field
         if (!array_key_exists('raw', $options)) {
-            $retval .= apply_tincture ( $kid->firstChild,
+            $field .= apply_tincture ( $kid->firstChild,
             '<rect x="0" y="0" width="1000" height="' . $layout->size->height . '" ><title>Field</title></rect>' ,
             $layout,
             '1000,' . $layout->size->height );
         }
         break;
       case 'objects':
+        $objects .= makeOrdChgs($kid, $layout);
+        break;
+      case 'chief':
         // process ordinaries and charges
-        $retval .= makeOrdChgs($kid, $layout);
+        $chief .= makeOrdChgs($kid, $layout);
         break;
     }
   }
   chief('pop');
-  return $retval;
+  return $field . $objects . $chief; // chief always goes on top
 }
 
 function makeimpaled( DOMNodeList $children, $layout ) {

@@ -777,6 +777,8 @@ class languageDB extends lexicon
                 array('base', 'base'),
                 array('bends?', 'bend'),
                 array('chief', 'chief'),
+                array('chief triangular', 'chief-triangular'),
+                array('triangular chief ', 'chief-triangular'),
                 array('fesse?', 'fess'),
                 array('(grand|great) (staff|stave)', 'grand-stave'),
                 array('fesse? between (2|two) chevrons?', 'fess-between-chevrons'),

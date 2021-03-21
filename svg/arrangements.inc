@@ -336,7 +336,7 @@ function get_placement(DOMElement $item, $layout) {
     
     // Set up parameters for this charge
     if ( $layout->accepts_chief )
-      $chief = $xpath->evaluate("boolean(../../../ordinary[@keyterm='chief'] or ../ordinary[@keyterm='chief'])", $item);
+      $chief = $xpath->evaluate("boolean(../../../../chief or ../../chief)", $item);
     else
       $chief = false; // special layout arrangement, always ignore chief
     $pos = getModifiersByTypeAsArray($item,'position'); // THIS IS AN array, go through each one, appending * bounding_box as many times as required.
