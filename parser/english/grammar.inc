@@ -190,12 +190,11 @@ class englishGrammar extends grammar
         return $mod;
     }
 
-    // HACK
     protected function adjust_chief($simple, $ordChgs)
     {
         foreach ( $ordChgs->childNodes as $oc )
         {
-            if ( $oc instanceof DOMElement && $oc->getAttribute("keyterm") == "chief" )
+            if ( $oc->nodeName == blazonML::E_ORDINARY && $oc->getAttribute(blazonML::A_KEYTERM) == 'chief' )
             {
                 $chief = $this->schema->makeNode("chief");
                 $ordChgs->removeChild($oc);
@@ -220,14 +219,11 @@ class englishGrammar extends grammar
                     }
                 }
 
-                if ( !$ordChgs->hasChildNodes() )
-                {
-                    $simple->removeChild($ordChgs);
-                }
-
-                break;
+                return $chief;
             }
         }
+
+        return null;
     }
 
     /**
@@ -242,15 +238,18 @@ class englishGrammar extends grammar
          * @var DOMElement $node
          */
         $node = null;
+        $chief = null;
         if (($tinc = self::tincture()) != null) {
             $field = $this->schema->makeNode(blazonML::E_FIELD);
             $simple = $this->schema->makeNode(blazonML::E_PLAIN);
             self::comma();
             $field->appendChild($tinc);
+            $ordChgs = self::objects();
             $simple->appendChild($field);
-            if (($ordChgs = self::objects())) {
-                $simple->appendChild($ordChgs);
-                $this->adjust_chief($simple, $ordChgs);
+            if ( $ordChgs ) {
+                $chief = $this->adjust_chief($simple, $ordChgs);
+                if ( $ordChgs->hasChildNodes() )
+                    $simple->appendChild($ordChgs);
             }
             $node = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
             $node->appendChild($simple);
@@ -841,6 +840,7 @@ class englishGrammar extends grammar
             // We treat a counterchanged division a bit like an ordinary
             if ($counterchangedDivision = self::division(true)) {
                 $node->appendChild($counterchangedDivision);
+                self::comma();
                 $found = true;
             } elseif ($item = self::ordinary() or $item = self::charge($assume_num)) {
                 $found = true;

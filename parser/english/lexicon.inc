@@ -777,6 +777,8 @@ class languageDB extends lexicon
                 array('base', 'base'),
                 array('bends?', 'bend'),
                 array('chief', 'chief'),
+                array('chief triangular', 'chief-triangular'),
+                array('triangular chief ', 'chief-triangular'),
                 array('fesse?', 'fess'),
                 array('(grand|great) (staff|stave)', 'grand-stave'),
                 array('fesse? between (2|two) chevrons?', 'fess-between-chevrons'),
@@ -1069,7 +1071,7 @@ class languageDB extends lexicon
                 array('taller','taller'),
                 array('shorte(r|nd)','shorter'),
             ),
-            self::USING => array ( 'with', 'in', 'using'),
+            self::USING => array ( 'with', 'in', 'using', 'on'),
             self::DRAWN_MODS => array(
                 array('drawn', 'drawn'),
                 array('?(a|an|the) * (palette|tinctures|colou?rs)', 'palette'),
