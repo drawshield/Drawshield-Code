@@ -13,11 +13,67 @@
    limitations under the License. */
 
 
-$ordinary['body'] =  array (
-            'NC' => '<path d="M190.99 -18.013C327.87443566 73.0662704523 406.265013877 229.844763258 397.0 394.0C232.845459248 403.264288656 76.0679014705 324.873797436 -15.011 187.99C-15.011 187.99 -15.011 806.0 -15.011 806.0C76.0703012924 669.120008737 232.847424097 590.733540177 397.0 600.0C421.654561705 733.179239721 402.939592341 873.146974389 344.978278653 989.066225475C287.016964966 1104.98547656 194.565025228 1187.34508454 87.991 1218.0C87.991 1218.0 912.01 1218.0 912.01 1218.0C805.435790136 1187.34536313 712.983606959 1104.98587104 655.022089513 989.066587579C597.060572067 873.147304121 578.345466988 733.179414756 603.0 600.0C767.148747967 590.737528788 923.92072819 669.123518899 1015.0 806.0C1015.0 806.0 1015.0 187.99 1015.0 187.99C923.923127964 324.870287274 767.150712785 403.26030002 603.0 394.0C593.734986123 229.844763258 672.12556434 73.0662704523 809.01 -18.013C809.01 -18.013 190.99 -18.013 190.99 -18.013" />',
-            'CH' => '<path d="m 190,180.01 a 464.99,464.99 0 0 1 206.67,413.33 464.99,464.99 0 0 1 -413.329,-206.67 v 620.03 a 464.99,464.99 0 0 1 413.329,-206.7 413.33,516.66 0 0 1 -309.997,620 h 826.657 a 413.33,516.66 0 0 1 -310,-620 464.99,464.99 0 0 1 413.37,206.7 v -620.03 a 464.99,464.99 0 0 1 -413.37,206.67 464.99,464.99 0 0 1 206.67,-413.33 z" />');
+$old_ordinary = $ordinary;
+include "plain-cross.inc";
+$old_ordinary["chargesOn"] = $ordinary["chargesOn"];
+$old_ordinary["chargesWithin"] = $ordinary["chargesWithin"];
+$ordinary = $old_ordinary;
 
-$ordinary['chargesOn'] = chiefPresent() ? 'x///100,700,120,120:900,700:500,400:500,1100/s/s' : 'x///100,500,120,120:900,500:500,100:500,900/s/s';
+$tan_out_1 = 136.88444;
+$tan_out_2 = 91.07927;
+$tan_in_1 = 9;
+$tan_in_2 = 166;
+$width_top = $layout->size->height / 1.2 * 0.618;
+$width_side = $layout->size->width * 0.618;
+$width_bottom = $layout->size->height *  0.718;
+$margin = 18;
+$center_off = 103;
 
-$ordinary['chargesWithin'] = chiefPresent() ? 'x/250,950,180,180:750,950/x/250,450,180,180:750,450:250,950:750,950/x/x' : 'x/250,750,180,180:750,750/x/250,250,180,180:750,250:250,750:750,750/x/x';
-
+$ordinary['body'] = (new SvgPathBuilder)
+    ->move($layout->center_point->x - $width_top / 2, -$margin)
+    ->line($layout->center_point->x + $width_top / 2, -$margin)
+    ->cubic(
+        $layout->center_point->x + $width_top / 2 - $tan_out_1, -$margin + $tan_out_2,
+        $layout->center_point->x + $center_off - $tan_in_1, $layout->center_point->y - $center_off - $tan_in_2,
+        $layout->center_point->x + $center_off, $layout->center_point->y - $center_off
+    )
+    ->cubic(
+        $layout->center_point->x + $center_off + $tan_in_2, $layout->center_point->y - $center_off - $tan_in_1,
+        $layout->size->width + $margin - $tan_out_2, $layout->center_point->y - $width_side / 2 + $tan_out_1,
+        $layout->size->width + $margin, $layout->center_point->y - $width_side / 2
+    )
+    ->line($layout->size->width + $margin, $layout->center_point->y + $width_side / 2)
+    ->cubic(
+        $layout->size->width + $margin - $tan_out_2, $layout->center_point->y + $width_side / 2 - $tan_out_1,
+        $layout->center_point->x + $center_off + $tan_in_2, $layout->center_point->y + $center_off - $tan_in_1,
+        $layout->center_point->x + $center_off, $layout->center_point->y + $center_off
+    )
+    ->cubic(
+        $layout->center_point->x + $center_off - $tan_in_1, $layout->center_point->y + $center_off + $tan_in_2,
+        $layout->center_point->x + $width_bottom / 2 - $tan_out_1 * 1.5, $layout->size->height + $margin - $tan_out_2 / 1.5,
+        $layout->center_point->x + $width_bottom / 2, $layout->size->height + $margin
+    )
+    ->line($layout->center_point->x - $width_bottom / 2, $layout->size->height + $margin)
+    ->cubic(
+        $layout->center_point->x - $width_bottom / 2 + $tan_out_1 * 1.5, $layout->size->height + $margin - $tan_out_2 / 1.5,
+        $layout->center_point->x - $center_off + $tan_in_1, $layout->center_point->y + $center_off + $tan_in_2,
+        $layout->center_point->x - $center_off, $layout->center_point->y + $center_off
+    )
+    ->cubic(
+        $layout->center_point->x - $center_off - $tan_in_2, $layout->center_point->y + $center_off -  $tan_in_1,
+        -$margin + $tan_out_2, $layout->center_point->y + $width_side / 2 - $tan_out_1,
+        -$margin, $layout->center_point->y + $width_side / 2
+    )
+    ->line(-$margin, $layout->center_point->y - $width_side / 2)
+    ->cubic(
+        -$margin + $tan_out_2, $layout->center_point->y - $width_side / 2 + $tan_out_1,
+        $layout->center_point->x - $center_off - $tan_in_2, $layout->center_point->y - $center_off + $tan_in_1,
+        $layout->center_point->x - $center_off, $layout->center_point->y - $center_off
+    )
+    ->cubic(
+        $layout->center_point->x - $center_off + $tan_in_1, $layout->center_point->y - $center_off - $tan_in_2,
+        $layout->center_point->x - $width_top / 2 + $tan_out_1, -$margin + $tan_out_2,
+        $layout->center_point->x - $width_top / 2, -$margin
+    )
+    ->to_path();
+;
