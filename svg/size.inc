@@ -50,6 +50,12 @@ class ShieldPos
     {
         return new ShieldPos($this->x + $dx, $this->y + $dy);
     }
+
+    function distance($other)
+    {
+        return hypot($other->x - $this->x, $other->y - $this->y);
+
+    }
 }
 
 class ShieldRect

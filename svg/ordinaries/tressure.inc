@@ -12,6 +12,10 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
+
+require_once("shield_shape_utils.inc");
+
+
 if ( existModifierWithKeyterm($node,'flory-counter-flory')) {
     $messages->addMessage('licence','Tressure flory - http://commons.wikimedia.org/wiki/User:Balmung0731');
     if ( $layout->size->height >= 1000 )
@@ -63,150 +67,22 @@ else
 
     $margin = 24.2;
     $width = 40.4;
-    $point_out_up = 328;
-    $point_in_up = 294;
 
     if ( strpos($layout->section, "quarter") !== false )
     {
-        $point_out_up *= 2;
-        $point_in_up *= 2;
         $width *= 2;
         $margin *= 2;
     }
 
-    $path_builder = new SvgPathBuilder();
-    $top_left_out = new ShieldPos($margin, $margin);
-    $top_right_out = new ShieldPos($layout->size->width - $margin, $margin);
-    $top_left_in = new ShieldPos($margin + $width, $margin + $width);
-    $top_right_in = new ShieldPos($layout->size->width - $margin - $width, $margin + $width);
-
-    $point_out = new ShieldPos($layout->center_point->x, $layout->size->height - $margin);
-    $bottom_left_out = new ShieldPos($margin, $point_out->y - $point_out_up);
-    $bottom_right_out = new ShieldPos($layout->size->width - $margin, $bottom_left_out->y);
-
-    $point_in = $point_out->translated(0, -$width);
-    $bottom_left_in = new ShieldPos($margin + $width, $point_in->y - $point_in_up);
-    $bottom_right_in = new ShieldPos($layout->size->width - $margin - $width, $bottom_left_in->y);
-
-
-    $out_bw = $bottom_right_out->x - $point_out->x;
-    $out_bh = $point_out->y - $bottom_right_out->y;
-    $in_bw = $bottom_right_in->x - $point_in->x;
-    $in_bh = $point_in->y - $bottom_right_in->y;
-
-    if ( $layout->section == "dexter" || $layout->section == "sinister" )
-    {
-        $out_bw *= 2;
-        $in_bw *= 2;
-    }
-
-    $out_t1_dx = $out_bw / 4;
-    $out_t1_dy = $out_bh / 6.56;
-    $out_t2_dx = $out_bw / 7.5;
-    $out_t2_dy = $out_bh / 1.44;
-
-    $in_t1_dx = $in_bw / 4.5;
-    $in_t1_dy = $in_bh / 14.7;
-    $in_t2_dx = $in_bw / 7.8;
-    $in_t2_dy = $in_bh / 1.6;
-
-
-    $rects = ["flag", "chief", "square", "stamp", "swatch"];
-
-    if ( in_array($layout->shape, $rects) || $layout->section == "quarter" )
-    {
-        $path_builder
-            ->move($top_left_out->x, $top_left_out->y)
-            ->line($top_right_out->x, $top_right_out->y)
-            ->line($top_right_out->x, $point_out->y)
-            ->line($top_left_out->x, $point_out->y)
-            ->close()
-            ->move($top_left_in->x, $top_left_in->y)
-            ->line($top_left_in->x, $point_in->y)
-            ->line($top_right_in->x, $point_in->y)
-            ->line($top_right_in->x, $top_right_in->y)
-            ->close()
-        ;
-    }
-    else if ( strpos($layout->section, "sinister") !== false )
-    {
-        $path_builder
-            ->move($bottom_left_out->x, $point_out->y)
-            ->line($top_left_out->x, $top_left_out->y)
-            ->line($top_right_out->x, $top_right_out->y)
-            ->line($bottom_right_out->x, $bottom_right_out->y)
-            ->cubic(
-                $bottom_right_out->x - $out_t2_dx, $bottom_right_out->y + $out_t2_dy,
-                $bottom_left_out->x + $out_t1_dx, $point_out->y - $out_t1_dy,
-                $bottom_left_out->x, $point_out->y
-            )
-            ->move($bottom_left_in->x, $point_in->y - $width / 2)
-            ->cubic(
-                $bottom_left_in->x + $in_t1_dx, $point_in->y - $in_t1_dy,
-                $bottom_right_in->x - $in_t2_dx, $bottom_right_in->y + $in_t2_dy,
-                $bottom_right_in->x, $bottom_right_in->y
-            )
-            ->line($top_right_in->x, $top_right_in->y)
-            ->line($top_left_in->x, $top_left_in->y)
-            ->line($bottom_left_in->x, $point_in->y - $width / 2)
-        ;
-    }
-    else if ( strpos($layout->section, "dexter") !== false )
-    {
-        $path_builder
-            ->move($bottom_right_out->x, $point_out->y)
-            ->cubic(
-                $bottom_right_out->x - $out_t1_dx, $point_out->y - $out_t1_dy,
-                $bottom_left_out->x + $out_t2_dx, $bottom_left_out->y + $out_t2_dy,
-                $bottom_left_out->x, $bottom_left_out->y
-            )
-            ->line($top_left_out->x, $top_left_out->y)
-            ->line($top_right_out->x, $top_right_out->y)
-            ->line($bottom_right_out->x, $point_out->y)
-            ->move($bottom_right_in->x, $point_in->y - $width / 2)
-            ->line($top_right_in->x, $top_right_in->y)
-            ->line($top_left_in->x, $top_left_in->y)
-            ->line($bottom_left_in->x, $bottom_left_in->y)
-            ->cubic(
-                $bottom_left_in->x + $in_t2_dx, $bottom_left_in->y + $in_t2_dy,
-                $bottom_right_in->x - $in_t1_dx, $point_in->y - $in_t1_dy,
-                $bottom_right_in->x, $point_in->y - $width / 2
-            )
-        ;
-    }
+    if ( $layout->section == "quarter" )
+        $shape = new RectShieldShape();
     else
-    {
-        $path_builder
-            ->move($point_out->x, $point_out->y)
-            ->cubic(
-                $point_out->x - $out_t1_dx, $point_out->y - $out_t1_dy,
-                $bottom_left_out->x + $out_t2_dx, $bottom_left_out->y + $out_t2_dy,
-                $bottom_left_out->x, $bottom_left_out->y
-            )
-            ->line($top_left_out->x, $top_left_out->y)
-            ->line($top_right_out->x, $top_right_out->y)
-            ->line($bottom_right_out->x, $bottom_right_out->y)
-            ->cubic(
-                $bottom_right_out->x - $out_t2_dx, $bottom_right_out->y + $out_t2_dy,
-                $point_out->x + $out_t1_dx, $point_out->y - $out_t1_dy,
-                $point_out->x, $point_out->y
-            )
-            ->move($point_in->x, $point_in->y)
-            ->cubic(
-                $point_in->x + $in_t1_dx, $point_in->y - $in_t1_dy,
-                $bottom_right_in->x - $in_t2_dx, $bottom_right_in->y + $in_t2_dy,
-                $bottom_right_in->x, $bottom_right_in->y
-            )
-            ->line($top_right_in->x, $top_right_in->y)
-            ->line($top_left_in->x, $top_left_in->y)
-            ->line($bottom_left_in->x, $bottom_left_in->y)
-            ->cubic(
-                $bottom_left_in->x + $in_t2_dx, $bottom_left_in->y + $in_t2_dy,
-                $point_in->x - $in_t1_dx, $point_in->y - $in_t1_dy,
-                $point_in->x, $point_in->y
-            )
-        ;
-    }
+        $shape = ShieldShape::from_name($layout->shape);
+
+    $path_builder = new SvgPathBuilder();
+
+    $shape->svg_path($layout, $margin, $layout->section, false, $path_builder);
+    $shape->svg_path($layout, $margin + $width, $layout->section, true, $path_builder);
 
     $ordinary['body'] = $path_builder->to_path();
 }
