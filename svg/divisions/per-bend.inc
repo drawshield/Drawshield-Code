@@ -1,9 +1,9 @@
 <?php
 
 $div_data = array (
-  'per-bend' => array ( 'NC' => 'X-106Y-106B1714c100e1212g1312', 'CH' => 'X0Y300B1414e1000g900'),
+  'per-bend' => array ( 'NC' => 'X-106Y-106B1714c300e1212g1512', 'CH' => 'X0Y300B1414c200e1000g1100'),
   'per-bend-fracted' => array ( 'NC' => 'X200Y0B717e500B1131c100e1010g1410', 'CH' => 'X200Y300B717e500B717e1010g1310' ),
-  'per-bend-sinister' => array ( 'NC' => 'X1000Y0c1200e1000g200H1414', 'CH' => 'X1000Y300c1000e1000H1414' ),
+  'per-bend-sinister' => array ( 'NC' => 'X1000Y0c1400e1000g400H1414', 'CH' => 'X1000Y300c1200e1000g200H1414' ),
   'per-bend-sinister-fracted' => array ( 'NC' => 'X800Y0a200c1300e1000H1131e500H717', 'CH' => 'X800Y300a200c1000e800H717e500H717' ),
 );
 
