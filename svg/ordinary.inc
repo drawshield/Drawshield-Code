@@ -118,29 +118,26 @@ function getSpecial($type,$node, $layout) {
 
     $filename = $layout->shape;
 
-    if ($filename == 'swatch' || $filename == 'stamp') $filename = "quarter"; // basically the same shape
-    if ($layout->shape == 'flag') {
-        $height = $layout->size->height;
-        $size = (int)(min(100,$height/8));
-        $special['body'] = '<path fill-rule="evenodd" d="M -10,-10 h1020 v' .
-            ($height + 20) . ' h-1020 v-' . ($height + 20) . ' z M' . $size . ', ' . $size .
-            ' h ' . (1000 - $size - $size) . ' v ' . ($height - $size - $size) . ' h-' .
-            (1000 - $size - $size) . ' z"/>';
-        return ($special);
-    } // else
-    if (chiefPresent()) $filename .= '-chief';
     $linetype = getModifierByType($node, 'linetype', false);
-    if ($linetype != null) $filename .= '-' . $linetype;
+
+    if ($linetype != null)
+        $filename .= '-' . $linetype;
+
+    if ( $layout->size->height < 1000 )
+        $filename .= '-chief';
+
     $compony = getModifierByType($node,'compony');
-    if ($compony != null) $filename .= '-' . $compony;
-// $filename .= '.svg';
+
+    if ($compony != null)
+        $filename .= '-' . $compony;
+
     $folder = __dir__ . "/ordinaries/$type/";
 
     $subfile = getBestMatchFilename($folder, $filename, null);
 
-    if ($subfile == null) {
-        $messages->addMessage('warning',"Cannot draw $type inside " . $layout->shape);
-        $subfile = 'heater.svg';
+    if ($subfile == null)
+    {
+        return includeOrdinary($node, $layout);;
     }
 
     $svg = simplexml_load_file( $folder . $subfile);
@@ -195,10 +192,9 @@ function getSpecial($type,$node, $layout) {
             break;
     }
 
-    $special['chargesWithin'] = array ('w',chiefPresent() ? '120,420,760,560' : '120,120,760,860');
+    $special['chargesWithin'] = $layout->rect_area()->margin(250, 0, 250, 350);
 
-// only really applies to drawshield
-    $special['chargesOn'] = chiefPresent() ? 'x///////////500,330,55,55:250,330:750,330:500,1150:35,700:965,700:35,450:965,450:50,900:950,900:200,1050:800,1047' : 'x///////////500,30,55,55:250,30:750,30:500,1150:35,500:965,500:35,200:965,200:35,800:965,800:200,1050:800,1050';
+    $special['chargesOn'] = 'x///////////500,30,55,55:250,30:750,30:500,1150:35,500:965,500:35,200:965,200:35,800:965,800:200,1050:800,1050';
 
     return ($special);
 
