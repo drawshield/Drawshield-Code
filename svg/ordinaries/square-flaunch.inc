@@ -16,15 +16,21 @@
 $builder = new SvgPathBuilder();
 
 $margin = 8;
+$w = $layout->size->width / 3;
+$h = $layout->center_point->y * 2;
 $builder
     ->move(-$margin, -$margin)
-    ->line($layout->size->width / 3, $layout->center_point->y)
-    ->line(-$margin, $layout->center_point->y * 2 + $margin)
+    ->line($w, $layout->center_point->y)
+    ->line(-$margin, $h + $margin)
     ->close()
 ;
 
+$charge = new ShieldRect(new ShieldPos($w / 3, $layout->center_point->y), new ShieldSize($w * 2/3, $h/3));
+$ordinary['chargesOn'] = (string)$charge;
+
 if ( $node->getAttribute('number') == '2')
 {
+    $ordinary['chargesOn'] .= "/$charge:" . $charge->translated($layout->size->width - $charge->size->width, 0);
     $builder
         ->move($layout->size->width + $margin, -$margin)
         ->line($layout->size->width * 2 / 3, $layout->center_point->y)
@@ -35,4 +41,4 @@ if ( $node->getAttribute('number') == '2')
 
 $ordinary['body'] = $builder->to_path();
 
-$ordinary['chargesWithin'] = array ('n','300,300,400,600');
+// $ordinary['chargesWithin'] = array ('n','300,300,400,600');
