@@ -189,6 +189,44 @@ function placement_from_ordinary($ordinary_file, $boundingBox, $layout)
     return $ordinary['chargesOn'];
 }
 
+function placement_chevron(ShieldLayout $layout, $chev_width, $relative_size)
+{
+    $placement = [];
+    $plac_size = $chev_width * $relative_size;
+    $plac_base = new ShieldRect(
+        new ShieldPos($layout->center_point->x, $layout->center_point->y - $chev_width / M_SQRT2),
+        new ShieldSize($plac_size, $plac_size)
+    );
+
+    $min_ext = min($layout->center_point->x, $layout->size->height - $layout->center_point->y);
+    $off = $chev_width / M_SQRT2 * 1.1;
+
+    for ( $n = 1; $n <= 8; $n++ )
+    {
+        $plac = [];
+        if ( $n % 2 )
+        {
+            if ( $n > 1 )
+                $plac = $placement[count($placement)-1];
+            $plac[] = box_placement($plac_base->translated(0, 1/5 * $chev_width / M_SQRT2), 0);
+        }
+        else
+        {
+            $delta = $min_ext / ($n/2+1);
+            for ( $i = 0; $i < $n / 2; $i++ )
+            {
+                $d = $off + $delta * $i;
+                $plac[] = box_placement($plac_base->translated(-$d, $d), 45);
+                $plac[] = box_placement($plac_base->translated($d, $d), -45);
+            }
+        }
+
+        $placement[] = $plac;
+    }
+
+    return array_to_placement($placement);
+}
+
 function placement_counter_passant($boundingBox)
 {
     $placement_arr = [];
@@ -438,9 +476,7 @@ function get_placement(DOMElement $item, $layout) {
             $placement = calcPlace($item,'h',$boundingBox);
             break;
         case 'inchevron':
-            $placement =
-                'x/250,625,160,160,45:750,625,,,-45/250,625,150,150,45:500,400,,,0:750,625,,,-45/200,675,140,140,45:400,475:600,475,,,-45:800,675/200,675,140,140,45:350,525:500,400,,,0:650,525,,,-45:800,675/150,725,120,120,45:250,625:350,525:650,525,,,-45:750,625:850,725'
-            ;
+            $placement = placement_chevron($layout, 200, 0.8);
             break;
         case 'incross':
             $placement = placement_from_ordinary("plain-cross", $boundingBox, $layout);

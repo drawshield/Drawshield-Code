@@ -14,84 +14,154 @@
 
 
 if ( existModifierWithKeyterm($node,'throughout') )
-  // $ordinary['shape_spec'] = array ( 'NC' => 'V1X500Y0K1200l200M1000L1000m200J1200', 'CH' => 'V1X500Y300K1000l200M800L800m200J1000');
-  $ordinary['body'] = array ( 'NC' => '<path fill-rule="evenodd" d="M500,0l600,1039 -100,173 -500,-866 -500,866 -100,-173 600,-1039z" />', 'CH' => '<path fill-rule="evenodd" d="M500,300l600,1039 -100,173 -500,-866 -500,866 -100,-173 600,-1039z" />');
+{
+    $delta_y = $layout->size->height * 0.28;
+    $ordinary['body'] = (new SvgPathBuilder())
+        ->move($layout->size->width/2, 0)
+        ->line($layout->size->width, $layout->size->height - $delta_y)
+        ->line($layout->size->width, $layout->size->height)
+        ->line($layout->size->width/2, $delta_y)
+        ->line(0, $layout->size->height)
+        ->line(0, $layout->size->height - $delta_y)
+        ->close()
+        ->to_path()
+    ;
+}
 elseif ( existModifierWithKeyterm($node,'rompu') )
-  $ordinary['shape_spec'] = array ( 'NC' => 'V1X500Y200B100c282B800d200F600g282f100d100c282D600f200H800g282H100', 'CH' => 'V1X500Y300B100c282B800d200F600g282f100d100c282D600f200H800g282H100');
+{
+    $y = max(0, $layout->size->height - 1000);
+    $ordinary['shape_spec'] = "V1X500Y{$y}B100c282B800d200F600g282f100d100c282D600f200H800g282H100";
+}
 elseif ( existModifierWithKeyterm($node,'burst') )
-  $ordinary['shape_spec'] = array ( "NC" => 'X-65.6Y1065.6f200H800b200h200B800d200F800D800', 'CH' => 'X-65.6Y1165.6f200H800b200h200B800d200F800D800' );
+{
+    $ordinary['shape_spec'] = (string)path_builder($layout->center_point->x, $layout->center_point->y)
+        ->up_right_plain(200)
+        ->down_right(800)
+        ->down_left_plain(200)
+        ->up_left(800)
+        ->down_left(800)
+        ->up_left_plain(200)
+        ->up_right(800)
+        ->down_right_plain(200)
+    ;
+}
 elseif ( existModifierWithKeyterm($node,'ploye') )
-  $ordinary['body'] = array ( "NC" => '<path
-  d="M 1017,976.3 V 728 C 900.6,691 791.3,626.5 699.1,534.3 602.3,437.5 536,321.7 500.1,199 h 0 C 464.2,321.7 397.8,437.5 301,534.3 208.8,626.5 99.44,691.1 -16.79,728 V 976.3 C 161.7,933.8 331,842.8 470.3,703.6 480.5,693.4 490.4,683 500.1,672.5 l 0,0 c 9.6,10.5 19.6,20.9 29.8,31.1 139.2,139.2 308.5,230.1 487.1,272.7 h 0"
-  />', 'CH' => '<path
-  d="M 1017,1076 V 828 C 900.6,791 791.3,726.5 699.1,634.3 602.3,537.5 536,421.7 500.1,299 h 0 C 464.2,421.7 397.8,537.5 301,634.3 208.8,726.5 99.44,791.1 -16.79,828 v 248 C 161.7,1034 331,942.8 470.3,803.6 480.5,793.4 490.4,783 500.1,772.5 l 0,0 c 9.6,10.5 19.6,20.9 29.8,31.1 C 669.1,942.8 838.4,1034 1017,1076 h 0" />' );
+{
+    $y = max(0, $layout->size->height - 1000);
+  $ordinary['body'] = "<path
+  d='M 500,$y c -72.76993,254.89798 -279.24912,466.23116 -532.396698,544.87 0,85.24966 0,170.49933 0,255.74899 203.487968,-47.94427 391.259858,-158.79523 532.396698,-312.91399 141.09407,154.18423 328.93916,264.91397 532.40702,312.91399 0,-85.24966 0,-170.49933 0,-255.74899 -253.66335,-79.02684 -459.28469,-289.37357 -532.40702,-544.87 z'
+  />";
+}
 elseif ( existModifierWithKeyterm($node,'fracted') )
-  $ordinary['body'] = array ( "NC" => '<path d="m 500,500 -100,100 v 231.67 l 100,-91.67 100,100 v -240 z m -100,-140 -500,500 v 240 l 500,-500 z m 200,0 v 240 l 500,500 v -240 z" />', 'CH' => '<path d="m 500,650 -100,100 v 231.7 l 100,-91.7 100,100 v -240 z m -100,-140 -500,500 v 240 l 500,-500 z m 200,0 v 240 l 500,500 v -240 z" />' );
+{
+    $y = $layout->center_point->y;
+    $ordinary['body'] = "<path d='M 500,$y l -100,100 v 231.67 l 100,-91.67 100,100 v -240 z m -100,-140 -500,500 v 240 l 500,-500 z m 200,0 v 240 l 500,500 v -240 z' />";
+}
 elseif ( existModifierWithKeyterm($node,'disjointed') )
-  $ordinary['body'] = array ( "NC" => '<path d="m 400,360 -500,500 v 240 l 500,-500 z m 200,0 v 240 l 500,500 v -240 z" />', 'CH' => '<path d="m 400,510 -500,500 v 240 l 500,-500 z m 200,0 v 240 l 500,500 v -240 z" />' );
+{
+    $y = $layout->center_point->y - 140;
+    $ordinary['body'] = "<path d='m 400,$y l -500,500 v 240 l 500,-500 z m 200,0 v 240 l 500,500 v -240 z' />";
+}
 elseif ( existModifierWithKeyterm($node,'removed') )
-  $ordinary['body'] = array ( "NC" => '<path d="m 500,550 -600,600 v 240 l 600,-600 z m 0,-240 v 240 l 600,600 v -240 z" />', 'CH' => '<path d="m 500,600 -600,600 v 240 l 600,-600 z m 0,-240 v 240 l 600,600 v -240 z" />' );
-elseif ( existModifierWithKeyterm($node,'couped') )
-  $ordinary['shape_spec'] = array ( "NC" => 'V1X200Y800f200H624B624d200F424D424', "CH" => 'V1X200Y1000f200H624B624d200F424D424' );
+{
+    $y = $layout->center_point->y;
+    $ordinary['body'] = "<path d='m 500,$y -600,600 v 240 l 600,-600 z m 0,-240 v 240 l 600,600 v -240 z' />";
+}
 elseif ( existModifierWithKeyterm($node,'inarched') )
-  $ordinary['body'] = array (
-                "NC" => '<path fill-rule="evenodd" d="m 720,900 c 0,300 -100,500 -220,500 -120,0 -220,-200 -220,-500 0,-250 100,-460 220,-460 120,0 220,210 220,460 z m -80,-10 c 0,210 -60,310 -140,310 -80,0 -140,-100 -140,-310 0,-200 60,-350 140,-350 80,0 140,150 140,350 z" />
-                      <path fill-rule="evenodd" d="M-65.6,1065.6l-141.4,-141.4l707,-707l707,707l-141.4,141.4l-565.6,-565.6l-565.6,565.6Z" />',
-                'CH' => '<path fill-rule="evenodd" d="m 720,1100 c 0,300 -100,500 -220,500 -120,0 -220,-200 -220,-500 0,-250 100,-460 220,-460 120,0 220,210 220,460 z m -80,-10 c 0,210 -60,310 -140,310 -80,0 -140,-100 -140,-310 0,-200 60,-350 140,-350 80,0 140,150 140,350 z" />
-                         <path fill-rule="evenodd" d="M-65.6,1215.6l-141.4,-141.4l707,-707l707,707l-141.4,141.4l-565.6,-565.6l-565.6,565.6Z" />' );
-else  {
-  switch ( $node->getAttribute('number') ) {
-    case '2':
-      $ordinary['shape_spec'] = array("NC" => 'V1X500Y400D800f200H1000B1000d200F800     V1X500Y800D800f200H1000B1000d200F800', "CH" => 'V1X500Y500D800f141H941B941d141F800  V1X500Y850D800f141H941B941d141F8');
-      break;
-    case '3':
-      $ordinary['shape_spec'] = array("NC" => 'V1X500Y200D800f141H941B941d141F800  V1X500Y550D800f141H941B941d141F800   V1X500Y900D800f141H941B941d141F800', "CH" => 'V1X500Y500D800f141H941B941d141F800   V1X500Y800D800f141H941B941d141F800   V1X500Y1100D800f141H941B941d141F800');
-      break;
-    default: // just do one
-      $ordinary['shape_spec'] = array("NC" => 'V1X500Y500D800f200H1000B1000d200F800', "CH" => 'V1X500Y650D800f200H1000B1000d200F800');
-      break;
-  }
-  if ( existModifierWithKeyterm($node,'compony1') )
-    $ordinary['body2'] = array ( 'NC' => '<path d="M 957,542 672,828 797,953 1080,668 z M 45,542 331,828 205,953 -80,668 z M 296,292 171,417 456,702 501,657 546,702 832,417 706,292 501,497 296,292 z" />',
-                                  'CH' => '<path d="M 957,692 672,978 797,1100 1080,818 z M 45,692 331,978 205,1100 -80,818 z M 296,442 171,567 456,852 501,807 546,852 832,567 706,442 501,647 z" />' );
-  elseif (existModifierWithKeyterm($node,'compony2') )
-     $ordinary['body2'] = array ( 'NC' => '<path d="M 941,810 1070,684 1190,810 1070,935 941,810 M 815,684 690,810 815,935 941,810 z M 690,559 815,434 941,559 815,684 690,559 M 62.7,810 -62.7,684 -188,810 -62.7,935 z M 188,684 314,810 188,935 62.7,810 188,684 M 314,559 188,434 62.7,559 188,684 z M 439,434 502,496 564,434 690,559 502,747 314,559 439,434 m 0,0 L 314,308 502,120 690,308 564,434 502,371 z" />',
-                                  'CH' => '<path d="M 941,960 1070,834 1190,960 1070,1090 941,960 M 815,834 690,960 815,1090 941,960 z M 690,709 815,584 941,709 815,834 690,709 M 62.7,960 -62.7,834 -188,960 -62.7,1090 z M 188,834 314,960 188,1090 62.7,960 188,834 M 314,709 188,584 62.7,709 188,834 z M 439,584 502,646 564,584 690,709 502,897 314,709 439,584 m 0,0 L 314,458 502,270 690,458 564,584 502,521 z" />');
+{
+    $y = $layout->center_point->y - 283;
+    $ordinary['body'] = "<path fill-rule='evenodd'
+    d='m 500,$y -707,707 141.4,141.4 369,-369 c -15,61.6 -23,130.78424 -23.3,203.3 0,300 100,500 220,500 120,0 220,-200 220,-500 0,-72.5 -8.4,-141.7 -23.3,-203.3 l 369,369 141.4,-141.4 -707,-707 m 0,323 c 80,0 140,150 140,350 0,210 -60,310 -140,310 -80,0 -140,-100 -140,-310 0,-200 60,-350 140,-350 z'
+    />";
+}
+else
+{
+    if ( !function_exists("build_chevron") )
+    {
+        function build_chevron(ShieldLayout $layout, $width, $offset, PathBuilder $builder)
+        {
+            $extent = max($layout->size->width, $layout->size->height);
 
-  if ( division_to_modifier($node, 'quarterly') )
-    $ordinary['body2'] = array ( 'NC' => 'V1X500Y100C259D848g259h848   V1X1100Y958c259f849G259B849',
-                                  'CH' => 'V1X500Y250C259D848g259h848   V1X1100Y1108c259f849G259B849' );
+            return $builder
+                ->move($layout->center_point->x, $layout->center_point->y + $offset)
+                ->chevron()
+                ->down_right($extent)
+                ->up_right_plain($width)
+                ->up_left($extent + $width)
+                ->down_left($extent + $width)
+                ->down_right_plain($width)
+                ->up_right($extent);
+        }
+    }
+
+    $builder = new PathBuilder();
+    $number = (int)$node->getAttribute('number');
+    $width = min(200, $layout->center_point->y / ($number+0.5));
+    switch ( $number )
+    {
+        case '2':
+            $sep = $width * 2;
+            build_chevron($layout, $width, -$sep/4, $builder);
+            build_chevron($layout, $width, $sep*3/4, $builder);
+            break;
+        case '3':
+            $sep = $layout->center_point->y / M_SQRT2;
+            build_chevron($layout, $width, -$sep + 50, $builder);
+            build_chevron($layout, $width, 50, $builder);
+            build_chevron($layout, $width, $sep + 50, $builder);
+            break;
+        default: // just do one
+            build_chevron($layout, $width, 0, $builder);
+            break;
+    }
+    $ordinary['shape_spec'] = (string)$builder;
+
+    if ( existModifierWithKeyterm($node,'compony1') )
+    {
+        $y = $layout->center_point->y + 42;
+        $ordinary['body2'] = "<path d='m 957,$y -285,286 125,125 283,-285 z m -912,0 286,286 -126,125 -285,-285 z m 456,-45 -205,-205 -125,125 285,285 45,-45 45,45 286,-285 -126,-125 -205,205' />";
+    }
+    elseif (existModifierWithKeyterm($node,'compony2') )
+    {
+        $y = $layout->center_point->y - 130;
+        $ordinary['body2'] = "<path d='m 500,$y -565,565 -125,-125 125,-125 250,250 125,-125 -250,-250 126,-127 314,313 313,-313 127,127 -260,260 130,130 260,-260 120,120 -125,125 -565,-565 m 0,125 -188,-188 188,-187 188,187 z' />";
+    }
+
+    if ( division_to_modifier($node, 'quarterly') )
+        $ordinary['body2'] = 'V1X500Y100C259D848g259h848   V1X1100Y958c259f849G259B849';
 }
 
-$ordinary['chargesOn'] = chiefPresent() ? '500,550,100,100/250,775,100,100,45:750,775,,,-45/250,775,100,100,45:500,550,,,0:750,775,,,-45/200,825,100,100,45:400,625:600,625,,,-45:800,825/200,825,100,100,45:350,675:500,550,,,0:650,675,,,-45:800,825/150,875,100,100,45:250,775:350,675:650,675,,,-45:750,775:850,875/150,875,100,100,45:250,775:350,675:500,550,100,100,0:650,675,,,-45:750,775:850,875' :
-  '500,400,100,100/250,625,100,100,45:750,625,,,-45/250,625,100,100,45:500,400,,,0:750,625,,,-45/200,675,100,100,45:400,475:600,475,,,-45:800,675/200,675,100,100,45:350,525:500,400,,,0:650,525,,,-45:800,675/150,725,100,100,45:250,625:350,525:650,525,,,-45:750,625:850,725/150,725,100,100,45:250,625:350,525:500,400,100,100,0:650,525,,,-45:750,625:850,725';
+$chevron_width = 200;
 
-if ( existModifierWithKeyterm($node,'fracted'))
-  $ordinary['chargeWithin'] = chiefPresent() ? 'x/200,500,300,300:800,500,300,300/200,500,340,340:500,1050,200,200:800,500,340,340/s/s/s' :
-    'x/200,500,300,300:800,500,300,300/200,500,340,340:500,1050,200,200:800,500,340,340/200,500,200,240:500,140,200,160:500,1050,200,200:800,500,200,240/s/s';
-else
-  $ordinary['chargesWithin'] = chiefPresent() ? 'x/x/180,480,180,180:500,950,280,280:820,480,180,180/s/s' :
-    'x/500,140,300,180:500,850,300,300/200,200,240,240:500,850,300,300:800,200,240,240/200,240,200,240:500,140,200,160:500,850,300,300:800,240,200,240/200,240,200,240:500,140,200,160:400,900,160,200:600,900:800,240,200,240/200,240,200,240:500,140,200,160:400,950,160,200:500,720:600,950:800,240,200,240';
+$ordinary['chargesOn'] = placement_chevron($layout, $chevron_width, 0.6);
 
-// TODO See original (unfinished) code below, about aspect groups?
-/*
- *
-      case 'chevron':
-        if (get_mod($ordinary,'throughout'))
-          $placement = 'n';
-        elseif (get_mod($ordinary,'rompu'))
-          $placement = ($chief)? 'x/200,500,300,300:800,500,300,300/200,500,340,340:500,1050,200,200:800,500,340,340/s/s/s' :
-                                 'x/200,500,300,300:800,500,300,300/200,500,340,340:500,1050,200,200:800,500,340,340/200,500,200,240:500,140,200,160:500,1050,200,200:800,500,200,240/s/s';
-        else {
-          if ( $aspect_group == 'wide' )
-            $placement = ($chief) ? 'x/x/180,480,180,180:500,950,280,280:820,480,180,180/s/s' :
-                                'x/500,140,300,180:500,850,300,300/200,200,240,240:500,850,300,300:800,200,240,240/200,240,200,240:500,140,200,160:500,850,300,300:800,240,200,240/200,240,200,240:500,140,200,160:400,900,160,200:600,900:800,240,200,240/200,240,200,240:500,140,200,160:400,950,160,200:500,720:600,950:800,240,200,240';
-          else
-            $placement = ($chief) ? 'x/x/180,480,180,180:500,950,280,280:820,480,180,180/s/s' : // TODO FINISH THESE (only 3 below is done)
-                                'x/500,140,300,180:500,850,300,300/360,150,200,240:500,850,300,300:640,150,200,240/200,240,200,240:500,140,200,160:500,850,300,300:800,240,200,240/200,240,200,240:500,140,200,160:400,900,160,200:600,900:800,240,200,240/200,240,200,240:500,140,200,160:400,950,160,200:500,720:600,950:800,240,200,240';
-        }
-        break; *
- */
+$within_margin = 80;
+
+$within_top_height = ($layout->center_point->y - $chevron_width * M_SQRT2);
+$within_top_margin = $within_top_height > 200 ? $within_margin / 2 : 0;
+$within_top = new ShieldRect(
+    new ShieldPos($layout->center_point->x, ($within_top_height - $within_top_margin) / 2 + $within_top_margin),
+    new ShieldSize($layout->size->width * 0.3, $within_top_height - $within_top_margin)
+);
+
+$within_bottom_height = ($layout->size->height - $layout->center_point->y - $within_margin) * 2/3;
+$within_bottom = new ShieldRect(
+    new ShieldPos($layout->center_point->x, $layout->center_point->y + $within_bottom_height),
+    new ShieldSize($within_bottom_height, $within_bottom_height)
+);
+$side_off = $chevron_width / M_SQRT2 + $within_margin / 2 / M_SQRT2;
+$within_left = ShieldRect::from_corners($within_margin, $within_margin, $layout->center_point->x - $side_off, $layout->center_point->y - $side_off);
+$within_right = ShieldRect::from_corners($layout->center_point->x + $side_off, $within_margin, $layout->size->width - $within_margin, $layout->center_point->y - $side_off);
+
+$ordinary['chargesWithin'] = array_to_placement([
+    [],
+    [$within_top, $within_bottom],
+    [$within_left, $within_right, $within_bottom],
+    [$within_top, $within_left, $within_right, $within_bottom],
+    [$within_top, $within_left, $within_right, $within_bottom->relative_box(0.25, 0.5, 0.45, 1), $within_bottom->relative_box(0.75, 0.5, 0.45, 1)],
+    [$within_top, $within_left, $within_right, $within_bottom->relative_box(0.25, 0.7, 0.45, 0.45), $within_bottom->relative_box(0.75, 0.7, 0.45, 0.45), $within_bottom->relative_box(0.5, 0.2, 0.5, 0.45)]
+]);
+
 
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';

@@ -560,7 +560,7 @@ c
   list($repeat,$length,$defaultStart,$defaultEnd,$spec,$options) = explode(':',$lineSpec . ': ' ); // options are optional(!)
   // Process any flags for this lineSpec
   foreach ( str_split($options,2) as $option ) {
-    switch ( $option{0} ) {
+    switch ( $option[0] ) {
       case 'R':
         $whenRotated = 'reflected';
         break;
@@ -578,7 +578,7 @@ c
   $edges = array();
   foreach ($edgeSpecs[0] as $edgeSpec) {
     $doMirror = false;
-    $dir = $edgeSpec{0};
+    $dir = $edgeSpec[0];
     $dist = floatval(substr($edgeSpec,1));
     if ( $dir == 'X' ) {
       $Xstart = $dist;
@@ -705,7 +705,7 @@ Function reverseSpec ( $shapeSpec ) {
   $shape = array();
   foreach ( array_reverse($matches[0]) as $match ) {
     // Get direction and distance
-    $dir = $match{0};
+    $dir = $match[0];
     $dist = substr($match,1);
     if ( strpos ( "XYZQVOU", $dir ) !== false ) {
       $retval .= $match;
@@ -729,7 +729,7 @@ function parallelSpec ( $shapeSpec, $io, $size ) {
   $flags = '';
   foreach ( $matches[0] as $match ) {
     // Get direction and distance
-    $dir = $match{0};
+    $dir = $match[0];
     $dist = floatval(substr($match,1));
     // Get the line spec for this direction
     if ( $dir == 'X' ) {
@@ -774,10 +774,15 @@ class PathBuilder
 {
     public $spec = "";
 
+    function next()
+    {
+        if ( $this->spec != "" && $this->spec[strlen($this->spec)-1] != " ")
+            $this->spec .= "   ";
+    }
+
     function move($x, $y)
     {
-        if ( $this->spec != "" )
-            $this->spec .= "   ";
+        $this->next();
         $this->spec .= "X{$x}Y$y";
         return $this;
     }
@@ -918,4 +923,38 @@ class PathBuilder
 function path_builder($x, $y)
 {
     return (new PathBuilder())->move($x, $y);
+}
+
+
+class SvgPathBuilder
+{
+    public $d = "";
+
+    private function add($letter, $args, $relative)
+    {
+        $this->d .= $relative ? $letter : strtoupper($letter);
+        $this->d .= implode(" ", array_map(function($x){return(string)$x;}, $args));
+        return $this;
+    }
+
+    function move($x, $y, $relative = false)
+    {
+        return $this->add("m", [$x, $y], $relative);
+    }
+
+    function line($x, $y, $relative = false)
+    {
+        return $this->add("l", [$x, $y], $relative);
+    }
+
+    function close()
+    {
+        $this->d .= "z";
+        return $this;
+    }
+
+    function to_path()
+    {
+        return "<path fillrule='evenodd' d='{$this->d}' />";
+    }
 }
