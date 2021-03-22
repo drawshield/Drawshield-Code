@@ -15,14 +15,62 @@
 
 // This shape cannot be simply inverted, we actually need a different shaped to match per-pall inverted.
 if ( ($inv = getModifierNodeWithKeyterm($node,'inverted')) != null ) {
-  $node->removeChild($inv);
-  $ordinary['shape_spec'] = array ( 'NC' => 'X430Y-100a141C589B889d141F847D847f141H889G589', 'CH' => 'X450Y200a141C289B889d141F847D847f141H889G289' );
-  $ordinary['chargesWithin'] = chiefPresent() ?  'x/220,440,200,300:780,440/220,440,200,300:500,950,180,180:780,440,200,300/220,600,200,160:780,600:220,660:720,1120/220,600,200,180:720,900:500,1150,180,180:220,380,200,160:780,380/x' :
-  'x/220,340,240,400:780,340/220,340,240,400:500,950,180,180:780,340,240,400/220,500,200,180:780,500:220,360:780,260/220,500,200,180:680,600:500,950,180,180:220,260,200,180:780,260/x';
+    $node->removeChild($inv);
+    $width = 141;
+    $height = $layout->center_point->y - $width / M_SQRT2;
+    $arm_l = 1000;
+    $ordinary['shape_spec'] = (string)path_builder($layout->center_point->x, $layout->center_point->y)
+        ->down_left($arm_l - $width / 2 / M_SQRT2)
+        ->up_left_plain($width)
+        ->up_right($arm_l)
+        ->up($height)
+        ->right_plain($width)
+        ->down($height)
+        ->down_right($arm_l)
+        ->down_left_plain($width)
+        ->up_left($arm_l - $width / 2 / M_SQRT2)
+    ;
+
+
+    $within_margin = 80;
+    $within_bottom_height = ($layout->size->height - $layout->center_point->y - $within_margin) * 2/3;
+    $within_bottom = new ShieldRect(
+        new ShieldPos($layout->center_point->x, $layout->center_point->y + $within_bottom_height),
+        new ShieldSize($within_bottom_height, $within_bottom_height)
+    );
+    $side_off = $width / M_SQRT2;
+    $within_left = ShieldRect::from_corners($within_margin, $within_margin, $layout->center_point->x - $side_off * 2, $layout->center_point->y - $side_off / 2);
+    $within_right = ShieldRect::from_corners($layout->center_point->x + $side_off * 2, $within_margin, $layout->size->width - $within_margin, $layout->center_point->y - $side_off / 2);
+
+    $ordinary['chargesWithin'] = array_to_placement([
+        [],
+        [$within_left, $within_right],
+        [$within_left, $within_right, $within_bottom],
+        [
+            $within_left->relative_box(0.5, 0.2, 1, 0.5),
+            $within_left->relative_box(0.5, 0.8, 1, 0.5),
+            $within_right->relative_box(0.5, 0.2, 1, 0.5),
+            $within_right->relative_box(0.5, 0.8, 1, 0.5),
+        ],
+        [
+            $within_left->relative_box(0.5, 0.2, 1, 0.5),
+            $within_left->relative_box(0.5, 0.8, 1, 0.5),
+            $within_right->relative_box(0.5, 0.2, 1, 0.5),
+            $within_right->relative_box(0.5, 0.8, 1, 0.5),
+            $within_bottom
+        ],
+        [
+            $within_left->relative_box(0.5, 0.2, 1, 0.5),
+            $within_left->relative_box(0.5, 0.8, 1, 0.5),
+            $within_right->relative_box(0.5, 0.2, 1, 0.5),
+            $within_right->relative_box(0.5, 0.8, 1, 0.5),
+            $within_bottom->relative_box(0.5, 0.2, 1, 0.5),
+            $within_bottom->relative_box(0.5, 0.8, 1, 0.5),
+        ]
+    ]);
 } else {
-  $ordinary['shape_spec'] = array ( 'NC' => 'X92Y-8B577H577a100c100D618C670e141G670F618g100a100', 'CH' => 'X92Y292B577H577a100c100D618C370e141G370F618g100a100' );
-  $ordinary['chargesWithin'] = chiefPresent() ?  'x/220,1060,200,300:780,1060/220,1060,200,300:500,450,180,180:780,1060,200,300/220,900,200,160:780,900:220,840:780,1120/220,900,200,180:780,900:500,350,180,180:220,1120,200,160:780,1120/x' :
-  'x/220,760,240,400:780,760/220,760,240,400:500,150,180,180:780,760,240,400/220,600,200,180:780,600:220,840:780,840/220,600,200,180:780,600:500,150,180,180:220,840,200,180:780,840/x';
+  $ordinary['shape_spec'] = 'X92Y-8B577H577a100c100D618C670e141G670F618g100a100';
+  $ordinary['chargesWithin'] =  'x/220,760,240,400:780,760/220,760,240,400:500,150,180,180:780,760,240,400/220,600,200,180:780,600:220,840:780,840/220,600,200,180:780,600:500,150,180,180:220,840,200,180:780,840/x';
 }
 
 

@@ -62,8 +62,10 @@ if ( existModifierWithKeyterm($node, 'braced')) {
   }
 }
 
+$dy = 500 - $layout->center_point->y;
+if ( $dy != 0 )
+    $bodySpec = "<g transform='translate(0,-$dy)'>$bodySpec</g>";
 
-
-$ordinary['body'] = array( 'NC' => $bodySpec, 'CH' => '<g transform="translate(0,180)">' . $bodySpec . '</g>');
+$ordinary['body'] = $bodySpec;
 unset($bodySpec);
 $ordinary['chargesWithin'] = 'x/x/200,200,180,180:500,900,240,240:800,200,180,180/x/x/x';
