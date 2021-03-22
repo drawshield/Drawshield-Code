@@ -2,18 +2,19 @@
 
 function subHeightPercent( $match, $layout ) {
 
-
-    $height = 1000;
     $percent = substr($match[0],2,strlen($match[0])-3);
     $len = strlen($percent);
     // Flags
     if ($percent[$len-1] == '*' ) { // On a shield, use full height
-        $height = 1200;
+        $height = $layout->size->height;
         $percent = substr($percent, 0, $len - 1); // strip flag
     }
     // Types
-    if ($layout->shape == 'flag' || $layout->shape == 'quarter') {
+    else if ($layout->shape == 'flag' || $layout->shape == 'quarter') {
         $height = $layout->size->height;
+    }
+    else {
+        $height = $layout->size->height / 1.2;
     }
 
     return (int)($height * $percent / 100);
@@ -24,7 +25,7 @@ function subPercent($str, $layout) {
   $callback = function ( $match ) use ( $layout ) {
     return subHeightPercent($match, $layout);
   };
-  return preg_replace_callback('/{%[0-9]+\*?}/', $callback, $str);
+  return preg_replace_callback('/{%[0-9.]+\*?}/', $callback, $str);
 }
 
 function rotatePoint( $x, $y, $theta ) {
