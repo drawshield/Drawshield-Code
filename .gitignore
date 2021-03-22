@@ -2,6 +2,9 @@
 .idea/*
 .gitignore
 debug.inc
+.htaccess
+/test/.htaccess
+release.txt
 
 drawshield-code.code-workspace
 
