@@ -13,8 +13,9 @@
    limitations under the License. */
 
 if ( existModifierWithKeyterm($node,'flory-counter-flory')) {
-  $messages->addMessage('licence','Tressure flory - http://commons.wikimedia.org/wiki/User:Balmung0731');
-  $ordinary['body'] = array ( 'NC' => '<g  >
+    $messages->addMessage('licence','Tressure flory - http://commons.wikimedia.org/wiki/User:Balmung0731');
+    if ( $layout->size->height >= 1000 )
+            $ordinary['body'] = '<g  >
           <path d="m76.1, 83.26   c0,0 -10.89,-25 -1.485,-34.27 9.415,-9.263 20.1,4.196 20.1,4.196 0,0 6.643,-36.18 -21.24,-30.92 -27.88,5.272 -14.66,39.89 -14.66,39.89 0,0 -27.07,-32.29 -46.41,-27.62 -1.575,21.88 30.73,47.01 30.73,47.01 0,0 -32.75,-9.834 -33.73,21.44 -0.976,31.28 30.52,19.13 30.52,19.13 0,0 -13.49,-9.918 -6.453,-21.48 7.025,-11.57 31.34,-3.53 31.34,-3.53   "  />
           <path d="m106.4, 142.4   c0,0 61.39,44.05 23.4,-10.82   l-23.15,0 -0.2616,10.82   z "  />
           <path d="m492.2, 130.4   c0,0 -10.87,25.02 -23.74,23.72 -12.88,-1.308 -10.2,-18.57 -10.2,-18.57 0,0 -30.48,18.59 -8.347,37.02 22.14,18.44 38.42,-14.71 38.42,-14.71 0,0 -5.5,42.52 10.61,54.67 16.81,-13.15 13.7,-55.09 13.7,-55.09 0,0 14.45,32.22 37.66,12.41 23.22,-19.81 -6.29,-36.58 -6.29,-36.58 0,0 1.715,17.13 -11.26,19.2 -12.97,2.09 -23.17,-22.3 -23.17,-22.3   "  />
@@ -33,8 +34,9 @@ if ( existModifierWithKeyterm($node,'flory-counter-flory')) {
           <path d="m896.4, 141.1   c0,0 -61.39,44.05 -23.4,-10.82   l23.15,0 0.2616,10.82   z "  />
         <path d="m61.22, 77.71 0,8.628 0,416.5 0,0.05905   c-2.15,307.4 107.2,471.1 217.7,556.5 110.4,85.43 221.9,93.19 221.9,93.19   l0.5661,0.05905 0.5661,-0.05905   c0,0 107.3,-8.386 215.4,-94.09 108.2,-85.7 217.5,-249 224.1,-555.3   l0,-0.05905 0,-1.193 0,-415.6 0,-8.628 -8.265,0 -863.7,0 -8.265,0   z m36.42,43.07 810,4.301 0,379.4   c8.602,-2.09 -1.074,-2.035 -1.075,-1.974 -6.448,302.1 -107.7,433.2 -212.2,515.9 -103.6,82.06 -191.5,95.29 -193.8,97.05 -6.464,0.42 -94.48,-11.25 -200.2,-93.05 -106.6,-82.45 -199.1,-219.9 -204.4,-518.8   l-1.075,0.4786 2.15,-383.8   z "  />
         <path d="m93.81, 116.4 -0.05656,8.568 -2.152,394.7 0,0.05905 0.05656,0.1183   c3.252,272.2 104.5,422.9 205.3,504.4 100.8,81.59 201.4,94.6 201.4,94.6   l1.246,0.1181 1.189,-0.1774   c0,0 103.6,-18.99 206.2,-104.8 102.6,-85.84 204.4,-239.3 202.3,-505.2 0,-0.02031 0,-0.03894 0,-0.05905   l0,-383.8 0,-8.628 -8.265,0 -798.9,0 -8.265,0   z m16.48,17.26 782.4,0 0,375.4 0,0.05905   c1.359,166.6 -38.37,286.8 -93.08,373.5 -31.1,49.33 -67.05,87.88 -103,118 -97.57,81.64 -194.1,100.3 -197.5,101 -3.514,-0.4751 -96.56,-13.57 -192,-90.83 -97.28,-78.71 -195.7,-223.2 -198.9,-491   l0,-0.1774 2.096,-385.9   z "  />
-      </g>',
-  'CH' => '<g  >
+      </g>';
+    else
+        $ordinary['body'] = '<g  transform="translate(0, -300)">
           <path d="m76.1, 360.1   c0,0 -10.89,-18.65 -1.485,-25.57 9.415,-6.912 20.1,3.131 20.1,3.131 0,0 6.643,-27 -21.24,-23.07 -27.88,3.934 -14.66,29.77 -14.66,29.77 0,0 -27.07,-24.1 -46.41,-20.61 -1.575,16.33 30.73,35.08 30.73,35.08 0,0 -32.75,-7.338 -33.73,16 -0.976,23.34 30.52,14.27 30.52,14.27 0,0 -13.49,-7.4 -6.453,-16.03 7.025,-8.634 31.34,-2.634 31.34,-2.634   "  />
           <path d="m106.4, 404.3   c0,0 61.39,32.87 23.4,-8.075   l-23.15,0 -0.2616,8.075   z "  />
           <path d="m492.2, 395.3   c0,0 -10.87,18.67 -23.74,17.7 -12.88,-0.9757 -10.2,-13.86 -10.2,-13.86 0,0 -30.48,13.87 -8.347,27.62 22.14,13.76 38.42,-10.98 38.42,-10.98 0,0 -5.5,31.72 10.61,40.79 16.81,-9.81 13.7,-41.11 13.7,-41.11 0,0 14.45,24.04 37.66,9.257 23.22,-14.78 -6.29,-27.3 -6.29,-27.3 0,0 1.715,12.78 -11.26,14.33 -12.97,1.56 -23.17,-16.64 -23.17,-16.64   "  />
@@ -53,177 +55,161 @@ if ( existModifierWithKeyterm($node,'flory-counter-flory')) {
           <path d="m896.4, 403.3   c0,0 -61.39,32.87 -23.4,-8.075   l23.15,0 0.2616,8.075   z "  />
         <path d="m61.22, 356 0,6.438 0,310.8 0,0.04407   c-2.15,229.4 107.2,351.5 217.7,415.2 110.4,63.75 221.9,69.53 221.9,69.53   l0.5661,0.04407 0.5661,-0.04407   c0,0 107.3,-6.258 215.4,-70.2 108.2,-63.95 217.5,-185.8 224.1,-414.4   l0,-0.04407 0,-0.8904 0,-310.1 0,-6.438 -8.265,0 -863.7,0 -8.265,0   z m36.42,32.14 810,3.21 0,283.1   c8.602,-1.56 -1.074,-1.518 -1.075,-1.473 -6.448,225.4 -107.7,323.2 -212.2,384.9 -103.6,61.23 -191.5,71.1 -193.8,72.42 -6.464,0.3134 -94.48,-8.392 -200.2,-69.43 -106.6,-61.52 -199.1,-164.1 -204.4,-387.1   l-1.075,0.3571 2.15,-286.4   z "  />
         <path d="m93.81, 384.8 -0.05656,6.393 -2.152,294.5 0,0.04407 0.05656,0.08827   c3.252,203.1 104.5,315.5 205.3,376.4 100.8,60.88 201.4,70.59 201.4,70.59   l1.246,0.08813 1.189,-0.1323   c0,0 103.6,-14.17 206.2,-78.22 102.6,-64.05 204.4,-178.5 202.3,-376.9 0,-0.01515 0,-0.02905 0,-0.04407   l0,-286.4 0,-6.438 -8.265,0 -798.9,0 -8.265,0   z m16.48,12.88 782.4,0 0,280.1 0,0.04407   c1.359,124.3 -38.37,214 -93.08,278.7 -31.1,36.81 -67.05,65.58 -103,88.04 -97.57,60.92 -194.1,74.87 -197.5,75.36 -3.514,-0.3545 -96.56,-10.13 -192,-67.78 -97.28,-58.73 -195.7,-166.5 -198.9,-366.4   l0,-0.1323 2.096,-288   z "  />
-      </g>' );
-} else
-
-
-$margin = 24.2;
-$width = 40.4;
-$point_out_up = 328;
-$point_in_up = 294;
-
-if ( strpos($layout->section, "quarter") !== false )
-{
-    $point_out_up *= 2;
-    $point_in_up *= 2;
-    $width *= 2;
-    $margin *= 2;
-}
-
-$path_builder = new SvgPathBuilder();
-$top_left_out = new ShieldPos($margin, $margin);
-$top_right_out = new ShieldPos($layout->size->width - $margin, $margin);
-$top_left_in = new ShieldPos($margin + $width, $margin + $width);
-$top_right_in = new ShieldPos($layout->size->width - $margin - $width, $margin + $width);
-
-$point_out = new ShieldPos($layout->center_point->x, $layout->size->height - $margin);
-$bottom_left_out = new ShieldPos($margin, $point_out->y - $point_out_up);
-$bottom_right_out = new ShieldPos($layout->size->width - $margin, $bottom_left_out->y);
-
-$point_in = $point_out->translated(0, -$width);
-$bottom_left_in = new ShieldPos($margin + $width, $point_in->y - $point_in_up);
-$bottom_right_in = new ShieldPos($layout->size->width - $margin - $width, $bottom_left_in->y);
-
-
-$out_bw = $bottom_right_out->x - $point_out->x;
-$out_bh = $point_out->y - $bottom_right_out->y;
-$in_bw = $bottom_right_in->x - $point_in->x;
-$in_bh = $point_in->y - $bottom_right_in->y;
-
-if ( $layout->section == "dexter" || $layout->section == "sinister" )
-{
-    $out_bw *= 2;
-    $in_bw *= 2;
-}
-
-$out_t1_dx = $out_bw / 4;
-$out_t1_dy = $out_bh / 6.56;
-$out_t2_dx = $out_bw / 7.5;
-$out_t2_dy = $out_bh / 1.44;
-
-$in_t1_dx = $in_bw / 4.5;
-$in_t1_dy = $in_bh / 14.7;
-$in_t2_dx = $in_bw / 7.8;
-$in_t2_dy = $in_bh / 1.6;
-
-
-$rects = ["flag", "chief", "square", "stamp", "swatch"];
-
-if ( in_array($layout->shape, $rects) || $layout->section == "quarter" )
-{
-    $path_builder
-        ->move($top_left_out->x, $top_left_out->y)
-        ->line($top_right_out->x, $top_right_out->y)
-        ->line($top_right_out->x, $point_out->y)
-        ->line($top_left_out->x, $point_out->y)
-        ->close()
-        ->move($top_left_in->x, $top_left_in->y)
-        ->line($top_left_in->x, $point_in->y)
-        ->line($top_right_in->x, $point_in->y)
-        ->line($top_right_in->x, $top_right_in->y)
-        ->close()
-    ;
-}
-else if ( strpos($layout->section, "sinister") !== false )
-{
-    $path_builder
-        ->move($bottom_left_out->x, $point_out->y)
-        ->line($top_left_out->x, $top_left_out->y)
-        ->line($top_right_out->x, $top_right_out->y)
-        ->line($bottom_right_out->x, $bottom_right_out->y)
-        ->cubic(
-            $bottom_right_out->x - $out_t2_dx, $bottom_right_out->y + $out_t2_dy,
-            $bottom_left_out->x + $out_t1_dx, $point_out->y - $out_t1_dy,
-            $bottom_left_out->x, $point_out->y
-        )
-        ->move($bottom_left_in->x, $point_in->y - $width / 2)
-        ->cubic(
-            $bottom_left_in->x + $in_t1_dx, $point_in->y - $in_t1_dy,
-            $bottom_right_in->x - $in_t2_dx, $bottom_right_in->y + $in_t2_dy,
-            $bottom_right_in->x, $bottom_right_in->y
-        )
-        ->line($top_right_in->x, $top_right_in->y)
-        ->line($top_left_in->x, $top_left_in->y)
-        ->line($bottom_left_in->x, $point_in->y - $width / 2)
-    ;
-}
-else if ( strpos($layout->section, "dexter") !== false )
-{
-    $path_builder
-        ->move($bottom_right_out->x, $point_out->y)
-        ->cubic(
-            $bottom_right_out->x - $out_t1_dx, $point_out->y - $out_t1_dy,
-            $bottom_left_out->x + $out_t2_dx, $bottom_left_out->y + $out_t2_dy,
-            $bottom_left_out->x, $bottom_left_out->y
-        )
-        ->line($top_left_out->x, $top_left_out->y)
-        ->line($top_right_out->x, $top_right_out->y)
-        ->line($bottom_right_out->x, $point_out->y)
-        ->move($bottom_right_in->x, $point_in->y - $width / 2)
-        ->line($top_right_in->x, $top_right_in->y)
-        ->line($top_left_in->x, $top_left_in->y)
-        ->line($bottom_left_in->x, $bottom_left_in->y)
-        ->cubic(
-            $bottom_left_in->x + $in_t2_dx, $bottom_left_in->y + $in_t2_dy,
-            $bottom_right_in->x - $in_t1_dx, $point_in->y - $in_t1_dy,
-            $bottom_right_in->x, $point_in->y - $width / 2
-        )
-    ;
+      </g>';
 }
 else
 {
-    $path_builder
-        ->move($point_out->x, $point_out->y)
-        ->cubic(
-            $point_out->x - $out_t1_dx, $point_out->y - $out_t1_dy,
-            $bottom_left_out->x + $out_t2_dx, $bottom_left_out->y + $out_t2_dy,
-            $bottom_left_out->x, $bottom_left_out->y
-        )
-        ->line($top_left_out->x, $top_left_out->y)
-        ->line($top_right_out->x, $top_right_out->y)
-        ->line($bottom_right_out->x, $bottom_right_out->y)
-        ->cubic(
-            $bottom_right_out->x - $out_t2_dx, $bottom_right_out->y + $out_t2_dy,
-            $point_out->x + $out_t1_dx, $point_out->y - $out_t1_dy,
-            $point_out->x, $point_out->y
-        )
-        ->move($point_in->x, $point_in->y)
-        ->cubic(
-            $point_in->x + $in_t1_dx, $point_in->y - $in_t1_dy,
-            $bottom_right_in->x - $in_t2_dx, $bottom_right_in->y + $in_t2_dy,
-            $bottom_right_in->x, $bottom_right_in->y
-        )
-        ->line($top_right_in->x, $top_right_in->y)
-        ->line($top_left_in->x, $top_left_in->y)
-        ->line($bottom_left_in->x, $bottom_left_in->y)
-        ->cubic(
-            $bottom_left_in->x + $in_t2_dx, $bottom_left_in->y + $in_t2_dy,
-            $point_in->x - $in_t1_dx, $point_in->y - $in_t1_dy,
-            $point_in->x, $point_in->y
-        )
-    ;
+
+
+    $margin = 24.2;
+    $width = 40.4;
+    $point_out_up = 328;
+    $point_in_up = 294;
+
+    if ( strpos($layout->section, "quarter") !== false )
+    {
+        $point_out_up *= 2;
+        $point_in_up *= 2;
+        $width *= 2;
+        $margin *= 2;
+    }
+
+    $path_builder = new SvgPathBuilder();
+    $top_left_out = new ShieldPos($margin, $margin);
+    $top_right_out = new ShieldPos($layout->size->width - $margin, $margin);
+    $top_left_in = new ShieldPos($margin + $width, $margin + $width);
+    $top_right_in = new ShieldPos($layout->size->width - $margin - $width, $margin + $width);
+
+    $point_out = new ShieldPos($layout->center_point->x, $layout->size->height - $margin);
+    $bottom_left_out = new ShieldPos($margin, $point_out->y - $point_out_up);
+    $bottom_right_out = new ShieldPos($layout->size->width - $margin, $bottom_left_out->y);
+
+    $point_in = $point_out->translated(0, -$width);
+    $bottom_left_in = new ShieldPos($margin + $width, $point_in->y - $point_in_up);
+    $bottom_right_in = new ShieldPos($layout->size->width - $margin - $width, $bottom_left_in->y);
+
+
+    $out_bw = $bottom_right_out->x - $point_out->x;
+    $out_bh = $point_out->y - $bottom_right_out->y;
+    $in_bw = $bottom_right_in->x - $point_in->x;
+    $in_bh = $point_in->y - $bottom_right_in->y;
+
+    if ( $layout->section == "dexter" || $layout->section == "sinister" )
+    {
+        $out_bw *= 2;
+        $in_bw *= 2;
+    }
+
+    $out_t1_dx = $out_bw / 4;
+    $out_t1_dy = $out_bh / 6.56;
+    $out_t2_dx = $out_bw / 7.5;
+    $out_t2_dy = $out_bh / 1.44;
+
+    $in_t1_dx = $in_bw / 4.5;
+    $in_t1_dy = $in_bh / 14.7;
+    $in_t2_dx = $in_bw / 7.8;
+    $in_t2_dy = $in_bh / 1.6;
+
+
+    $rects = ["flag", "chief", "square", "stamp", "swatch"];
+
+    if ( in_array($layout->shape, $rects) || $layout->section == "quarter" )
+    {
+        $path_builder
+            ->move($top_left_out->x, $top_left_out->y)
+            ->line($top_right_out->x, $top_right_out->y)
+            ->line($top_right_out->x, $point_out->y)
+            ->line($top_left_out->x, $point_out->y)
+            ->close()
+            ->move($top_left_in->x, $top_left_in->y)
+            ->line($top_left_in->x, $point_in->y)
+            ->line($top_right_in->x, $point_in->y)
+            ->line($top_right_in->x, $top_right_in->y)
+            ->close()
+        ;
+    }
+    else if ( strpos($layout->section, "sinister") !== false )
+    {
+        $path_builder
+            ->move($bottom_left_out->x, $point_out->y)
+            ->line($top_left_out->x, $top_left_out->y)
+            ->line($top_right_out->x, $top_right_out->y)
+            ->line($bottom_right_out->x, $bottom_right_out->y)
+            ->cubic(
+                $bottom_right_out->x - $out_t2_dx, $bottom_right_out->y + $out_t2_dy,
+                $bottom_left_out->x + $out_t1_dx, $point_out->y - $out_t1_dy,
+                $bottom_left_out->x, $point_out->y
+            )
+            ->move($bottom_left_in->x, $point_in->y - $width / 2)
+            ->cubic(
+                $bottom_left_in->x + $in_t1_dx, $point_in->y - $in_t1_dy,
+                $bottom_right_in->x - $in_t2_dx, $bottom_right_in->y + $in_t2_dy,
+                $bottom_right_in->x, $bottom_right_in->y
+            )
+            ->line($top_right_in->x, $top_right_in->y)
+            ->line($top_left_in->x, $top_left_in->y)
+            ->line($bottom_left_in->x, $point_in->y - $width / 2)
+        ;
+    }
+    else if ( strpos($layout->section, "dexter") !== false )
+    {
+        $path_builder
+            ->move($bottom_right_out->x, $point_out->y)
+            ->cubic(
+                $bottom_right_out->x - $out_t1_dx, $point_out->y - $out_t1_dy,
+                $bottom_left_out->x + $out_t2_dx, $bottom_left_out->y + $out_t2_dy,
+                $bottom_left_out->x, $bottom_left_out->y
+            )
+            ->line($top_left_out->x, $top_left_out->y)
+            ->line($top_right_out->x, $top_right_out->y)
+            ->line($bottom_right_out->x, $point_out->y)
+            ->move($bottom_right_in->x, $point_in->y - $width / 2)
+            ->line($top_right_in->x, $top_right_in->y)
+            ->line($top_left_in->x, $top_left_in->y)
+            ->line($bottom_left_in->x, $bottom_left_in->y)
+            ->cubic(
+                $bottom_left_in->x + $in_t2_dx, $bottom_left_in->y + $in_t2_dy,
+                $bottom_right_in->x - $in_t1_dx, $point_in->y - $in_t1_dy,
+                $bottom_right_in->x, $point_in->y - $width / 2
+            )
+        ;
+    }
+    else
+    {
+        $path_builder
+            ->move($point_out->x, $point_out->y)
+            ->cubic(
+                $point_out->x - $out_t1_dx, $point_out->y - $out_t1_dy,
+                $bottom_left_out->x + $out_t2_dx, $bottom_left_out->y + $out_t2_dy,
+                $bottom_left_out->x, $bottom_left_out->y
+            )
+            ->line($top_left_out->x, $top_left_out->y)
+            ->line($top_right_out->x, $top_right_out->y)
+            ->line($bottom_right_out->x, $bottom_right_out->y)
+            ->cubic(
+                $bottom_right_out->x - $out_t2_dx, $bottom_right_out->y + $out_t2_dy,
+                $point_out->x + $out_t1_dx, $point_out->y - $out_t1_dy,
+                $point_out->x, $point_out->y
+            )
+            ->move($point_in->x, $point_in->y)
+            ->cubic(
+                $point_in->x + $in_t1_dx, $point_in->y - $in_t1_dy,
+                $bottom_right_in->x - $in_t2_dx, $bottom_right_in->y + $in_t2_dy,
+                $bottom_right_in->x, $bottom_right_in->y
+            )
+            ->line($top_right_in->x, $top_right_in->y)
+            ->line($top_left_in->x, $top_left_in->y)
+            ->line($bottom_left_in->x, $bottom_left_in->y)
+            ->cubic(
+                $bottom_left_in->x + $in_t2_dx, $bottom_left_in->y + $in_t2_dy,
+                $point_in->x - $in_t1_dx, $point_in->y - $in_t1_dy,
+                $point_in->x, $point_in->y
+            )
+        ;
+    }
+
+    $ordinary['body'] = $path_builder->to_path();
 }
 
-$ordinary['body'] = $path_builder->to_path();
-
-/*
-$ordinary['body'] = array (
-        'NC' => '<path fill-rule="nonzero" d="m 24.2, 24.2 c 0,0 2.3,811.8 4.1,817.8 63.6,228 355.7,278 474.7,328 116,-50 402,-100 465,-317 1,-4 4,-826.8 4,-826.8 l -947.8,-2 z M 927, 64.6 c 0,0 -1,758.4 -2,761.4 C 915,998 594,1100 497,1120 390,1090 97,988 74.7,826 74.5,824 68.7,64.6 68.7,64.6 z" />',
-        'PLCH' => '<path fill-rule="nonzero" d="m 24.2,324 c 0,0 2.3,512 4.1,518 63.6,228 355.7,278 474.7,328 116,-50 402,-100 465,-317 1,-4 4,-527 4,-527 L 24.2,324 z M 927,365 c 0,0 -1,458 -2,461 C 915,998 594,1100 497,1120 390,1090 97,988 74.7,826 c -0.2,-2 -6,-461 -6,-461 z" />',
-        // 'PLNC' => '<path fill-rule="evenodd" d="M 24.24, 24.18 C 24.24, 24.18 26.53,836.26 28.28,842.40 C 91.94,1065.58 383.85,1121.20 503.05,1171.71 C 619.15,1119.58 905.09,1067.45 967.72,852.50 C 968.85,848.62 971.76, 26.20 971.76, 26.20 L 24.24, 24.18 z M 68.69, 64.58 C 68.69, 64.58 74.47,824.24 74.75,826.24 C 96.97,988.24 389.91,1092.92 496.99,1123.22 C 593.96,1094.94 914.82,998.29 925.29,826.24 C 925.50,822.90 927.32,64.58 927.32,64.58 L 68.69,64.58 z" />',
-        // 'PLCH' => '<path fill-rule="evenodd" d="M 24.24,324.18 C 24.24,324.18 26.53,836.26 28.28,842.40 C 91.94,1065.58 383.85,1121.20 503.05,1171.71 C 619.15,1119.58 905.09,1067.45 967.72,852.50 C 968.85,848.62 971.76,326.20 971.76,326.20 L 24.24,324.18 z M 68.69,364.58 C 68.69,364.58 74.47,824.24 74.75,826.24 C 96.97,988.24 389.91,1092.92 496.99,1123.22 C 593.96,1094.94 914.82,998.29 925.29,826.24 C 925.50,822.90 927.32,364.58 927.32,364.58 L 68.69,364.58 z" />',
-        'Q1NC' => '<path fill-rule="evenodd" d="M25,25 h950v1150h-950z M75,75 h850v1050h-850z" />',
-        'Q1CH' => '<path fill-rule="evenodd" d="M25,325 h950v850h-950z M75,375 h850v750h-850z" />',
-        'Q2NC' => '<path fill-rule="evenodd" d="M25,25 h950v1150h-950z M75,75 h850v1050h-850z" />',
-        'Q2CH' => '<path fill-rule="evenodd" d="M25,325 h950v850h-950z M75,375 h850v750h-850z" />',
-        'Q3NC' => '<path fill-rule="evenodd" d="M25,25 L25,500 A1550,850 0,0,0 975,1155 L 975,25Z M75,75 L 75,500 A1550,850 0,0,0 925,1105 L 925,75Z" />',
-        'Q3CH' => '<path fill-rule="evenodd" d="M25,325 L25,500 A1550,850 0,0,0 975,1155 L 975,325Z M75,375 L 75,500 A1550,850 0,0,0 925,1105 L 925,375Z" />',
-        'Q4NC' => '<path fill-rule="evenodd" d="M25,25 L25,1155 A1550,850 0,0,0 975,500 L 975,25Z M75,75 L 75,1105 A1550,850 0,0,0 925,500 L 925,75Z" />',
-        'Q4CH' => '<path fill-rule="evenodd" d="M25,325 L25,1155 A1550,850 0,0,0 975,500 L 975,325Z M75,375 L 75,1105 A1550,850 0,0,0 925,500 L 925,375Z" />',
-        'I1NC' => '<path fill-rule="evenodd" d="M25,13 L25,870 A1450,850 0,0,0 975,1168 L 975,13Z M75,50 L 75,870 A1450,850 0,0,0 925,1130 L 925,50Z" />',
-        'I1CH' => '<path fill-rule="evenodd" d="M25,313 L25,870 A1450,850 0,0,0 975,1168 L 975,313Z M75,350 L 75,870 A1450,850 0,0,0 925,1130 L 925,350Z" />',
-        'I2NC' => '<path fill-rule="evenodd" d="M25,13 L25,1168 A1450,850 0,0,0 975,870 L 975,13Z M75,50 L 75,1130 A1450,850 0,0,0 925,870 L 925,50Z" />',
-        'I2CH' => '<path fill-rule="evenodd" d="M25,313 L25,1168 A1450,850 0,0,0 975,870 L 975,313Z M75,350 L 75,1130 A1450,850 0,0,0 925,870 L 925,350Z" />', );
-    */
 
 $ordinary['chargesWithin'] = array ('w','300,300,400,500');
