@@ -1,7 +1,5 @@
 <?php
 
-  $ordinary['shape_spec'] = 'X-100Y-8U1a1200c308E1200g308';
-  $ordinary['chargesOn'] = array ('h','100,50,800,200');
 if ( existModifierWithKeyterm($node,'couped') ) {
   $ordinary['shape_spec'] = 'X100Y-8U1a800c408E800g408';
   $ordinary['chargesOn'] = array ('h','200,50,600,200');
