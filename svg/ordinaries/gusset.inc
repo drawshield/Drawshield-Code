@@ -14,6 +14,6 @@
 
 
 if ( $node->getAttribute('number') == '2')
-  $ordinary['shape_spec'] =  array( 'NC' => 'X-8Y-8B577C816e408g1216    X1008Y-8c1216e408G816H577', 'CH' => 'X-8Y292B577C616e408g916   X1008Y292c916e408G616H577' );
+  $ordinary['shape_spec'] =  'X-8Y-8B577C816e408g1216    X1008Y-8c1216e408G816H577';
 else
-  $ordinary['shape_spec'] =  array( 'NC' => 'X-8Y-8B577C816e408g1216', 'CH' => 'X-8Y292B577C616e408g916' );
+  $ordinary['shape_spec'] =  'X-8Y-8B577C816e408g1216';
