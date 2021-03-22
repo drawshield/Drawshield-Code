@@ -47,7 +47,7 @@ function makePlain( &$children, $layout ) {
         $cross_c = new ShieldPos($new_size->width / 2, $new_size->height / 2);
         if ( $layout->center_point->y < $layout->size->height /2 )
             $cross_c->y = 400;
-        $layout = new ShieldLayout($new_size, $layout->shape, $cross_c, null, false);
+        $layout = new ShieldLayout($new_size, $layout->shape, $cross_c, null, false, $layout->section);
         $off = $chief_lay->size->height;
     }
 
@@ -76,17 +76,18 @@ function makeimpaled( DOMNodeList $children, $layout ) {
 
   $size = $layout->size->scaled(0.5, 1);
   $clipI = add_def( 'clipPath', "<rect x='0' y='0' width='{$size->width}'  height='{$size->height}'/>" );
-  $child_layout = new ShieldLayout($size, $layout->shape);
+  $child_layout_1 = new ShieldLayout($size, $layout->shape, null, null, true, "dexter");
+  $child_layout_2 = new ShieldLayout($size, $layout->shape, null, null, true, "sinister");
   /**
    * @var DOMElement $kid
    */
   foreach ( $children as $kid ) {
     switch( $kid->getAttribute('index') ) {
     case '1':
-      $imp1 = makeshield( $kid, $child_layout );
+      $imp1 = makeshield( $kid, $child_layout_1 );
       break;
     case '2':
-      $imp2 = makeshield( $kid, $child_layout );
+      $imp2 = makeshield( $kid, $child_layout_2 );
       break;
     }
   }

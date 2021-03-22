@@ -3,13 +3,14 @@ require_once('size.inc');
 
 class Quarter
 {
-    function __construct($pos, $size, $scale, $rel_size, $charge_hint = null)
+    function __construct($pos, $size, $scale, $rel_size, $charge_hint = null, $section = "quarter")
     {
         $this->pos = $pos;
         $this->size = $size;
         $this->scale = $scale;
         $this->rel_size = $rel_size;
         $this->charge_hint = $charge_hint;
+        $this->section = "quarter";
     }
 
     function svg_transform()
@@ -19,7 +20,7 @@ class Quarter
 
     function to_layout()
     {
-        return new ShieldLayout($this->size, "quarter", null, $this->charge_hint);
+        return new ShieldLayout($this->size, "quarter", null, $this->charge_hint, true, $this->section);
     }
 }
 
@@ -143,6 +144,8 @@ function makequartered4( DOMNodeList $children, ShieldLayout $layout )
     $h = $layout->center_point_ratio()->y;
     $quartering->add_row(2, $h);
     $quartering->add_row(2);
+    $quartering->quarters[2]->section = "quarter-dexter";
+    $quartering->quarters[3]->section = "quarter-sinister";
 
     return $quartering->render_svg($children);
 }

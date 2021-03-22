@@ -947,6 +947,11 @@ class SvgPathBuilder
         return $this->add("l", [$x, $y], $relative);
     }
 
+    function cubic($t1x, $t1y, $t2x, $t2y, $x, $y, $relative = false)
+    {
+        return $this->add("c", [$t1x, $t1y, $t2x, $t2y, $x, $y], $relative);
+    }
+
     function close()
     {
         $this->d .= "z";

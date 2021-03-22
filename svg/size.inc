@@ -148,7 +148,7 @@ class ShieldLayout
         "quarter" => 0,
     ];
 
-    function __construct(ShieldSize $size, $shape, ShieldPos $center_point = null, ShieldRect $charge_hint = null, $chief = true)
+    function __construct(ShieldSize $size, $shape, ShieldPos $center_point = null, ShieldRect $charge_hint = null, $chief = true, $section = null)
     {
         // shield size 1000xheight
         $this->size = $size;
@@ -166,6 +166,9 @@ class ShieldLayout
         if ( $this->chief === true )
             $this->auto_chief();
 
+        // To determine the border area
+        $this->section = $section;
+
     }
 
     function auto_center()
@@ -173,7 +176,7 @@ class ShieldLayout
         if ( isset(static::$custom_size[$this->shape]) )
             $this->center_point = new ShieldPos($this->size->width / 2, $this->size->height / 2);
         else
-            $this->center_point = new ShieldPos(500, 500);
+            $this->center_point = new ShieldPos($this->size->width / 2, 500);
     }
 
     function auto_chief()
