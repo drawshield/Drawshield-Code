@@ -13,8 +13,14 @@
    limitations under the License. */
 
 
-$ordinary['body'] = array ( 'NC' => '<path stroke="none" d="m 500,0l500,500 -500,700 -500,-700 z" />',
-                   'CH' => '<path stroke="none" d="m 500,300l500,400 -500,500 -500,-500 z" />',
-             );
+$ordinary['body'] = (new SvgPathBuilder())
+    ->move($layout->center_point->x, 0)
+    ->line($layout->size->width, $layout->center_point->y)
+    ->line($layout->center_point->x, $layout->size->height)
+    ->line(0, $layout->center_point->y)
+    ->close()
+    ->to_path()
+
+;
 
 
