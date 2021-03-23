@@ -12,20 +12,27 @@
  */
 
 $lineType = getModifierByType($node, 'linetype', false);
-if ( $rev = getModifierNodeWithKeyterm($node,'reversed',true)) // reversed means inverted
-  $rev->setAttribute('keyterm','inverted');
-if ( existModifierWithKeyterm($node, 'inverted') )
-  $div_data = array ( 'NC' => 'V1X-100Y300a100B707H708c900a100e1200g900', 'CH' => 'V1X-100Y500a100B707H708c900a100e1200g900' );
-else
-  $div_data = array (  'NC' => 'V1X500Y366B848c500e1200g500H848', 'CH' => 'V1X0Y1275g200H707B708c200e1000' );
 
-$division['div2'] = createBody(choose_fit($div_data), $lineType, 60, $layout);
+if ( $rev = getModifierNodeWithKeyterm($node,'reversed',true)) // reversed means inverted
+    $rev->setAttribute('keyterm','inverted');
+
+$extent = max($layout->size->width, $layout->size->height);
+
+$div_data = path_builder($layout->center_point->x, $layout->center_point->y)->chevron();
+
+if ( existModifierWithKeyterm($node, 'inverted') )
+    $div_data->up_right($extent)->left_plain($extent*M_SQRT2)->down_right($extent);
+else
+    $div_data->down_right($extent)->left_plain($extent*M_SQRT2)->up_right($extent);
+
+
+$division['div2'] = createBody((string)$div_data, $lineType, 60, $layout);
 
 
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';
   $rivetList = '';
-  $ref = chiefPresent() ? 545 : 475;
+  $ref = $layout->center_point->y + -25;
   for ($i = 5; $i < 450; $i += 80) {
     $rivetList .= '<g transform="translate(' . $i . ',' . (455 + $ref) . ')">' . $rivet . '</g>';
     $rivetList .= '<g transform="translate(' . ($i + 40) . ',' . (495 + $ref) . ')">' . $rivet . '</g>';
