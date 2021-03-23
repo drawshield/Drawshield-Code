@@ -50,6 +50,6 @@ foreach ( $points as $p )
 }
 $div_data .=  "' />";
 
-$division['div2'] = choose_fit($div_data);
+$division['div2'] = $div_data;
 
 
