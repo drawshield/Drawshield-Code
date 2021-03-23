@@ -159,11 +159,17 @@ function makeshield( DOMElement &$node, $layout ) {
           case 'impaled':
             $retval .= makeImpaled( $children, $layout );
             break;
+          case 'per-saltire':
+            $retval .= make_quartered_saltire($children, $layout);
+            break;
+          case "per-pale":
+            $retval .= makeQuartered($child->getAttribute('order'), 1, $children, $layout);
+            break;
+          case "per-fess":
+            $retval .= makeQuartered(1, $child->getAttribute('order'), $children, $layout);
+            break;
           case 'quartered':
             switch ( $child->getAttribute('order') ) {
-              case '4-saltire':
-                $retval .= make_quartered_saltire($children, $layout);
-                break;
               case 4:
                 $retval .= makeQuartered4($children, $layout);
                 break;
