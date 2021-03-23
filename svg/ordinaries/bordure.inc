@@ -20,7 +20,8 @@ $width = 200;
 
 if ( strpos($layout->section, "quarter") !== false )
 {
-    $width *= 2;
+    $width /= 1.3;
+    $margin /= 2;
 }
 
 if ( $layout->section == "quarter" )
