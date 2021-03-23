@@ -12,13 +12,6 @@
  */
 
 $lineType = getModifierByType($node, 'linetype', false);
-/*if ( ($sinister = existModifierWithKeyterm($node, 'sinister'))) {
-  $div2_data = array ( 'NC' => 'X-100Y800H1696c1700e1200g500', 'CH' => 'X-100Y1000H1696c1700e1200g500' );
-  $div3_data = array ( 'NC' => 'X1100Y200c1100e1100H1696', 'CH' => 'X1100Y400c1100e1100H1696' );
-} else {
-  $div2_data = array ( 'NC' => 'X-100Y-100a1200c1500F1696g300', 'CH' => 'X-100Y100a1200c1500F1696g300' );
-  $div3_data = array ( 'NC' => 'X200Y-100a1000c1000F1414',  'CH' => 'X200Y100a1000c1000F1414' );
-}*/
 
 $base = max($layout->size->width, $layout->size->height);
 $length = $base * M_SQRT2 * 2;
