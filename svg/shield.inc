@@ -27,39 +27,44 @@ function makePlain( &$children, $layout ) {
         }
     }
 
+    $layout_field = $layout;
+    $layout_objects = $layout;
+    $layout_chief = null;
+
+    $off = 0;
+    if ( $chief )
+    {
+        $layout_chief = new ShieldLayout($layout->chief->size, "chief", null, null, false);
+        $new_size = new ShieldSize($layout->size->width, $layout->size->height - $layout->chief->size->height);
+        $cross_c = new ShieldPos($new_size->width / 2, $new_size->height / 2);
+        if ( $layout->center_point->y < $layout->size->height /2 )
+            $cross_c->y = 400;
+        $layout_objects = new ShieldLayout($new_size, $layout->shape, $cross_c, null, false, $layout->section);
+        $layout_field = clone $layout;
+        $off = $layout_chief->size->height;
+        $layout_field->center_point = $layout_objects->center_point->translated(0, $off);
+    }
+
     // Paint the field
     if ( $field && !array_key_exists('raw', $options) )
     {
         $retval .= apply_tincture(
             $field->firstChild,
-            "<rect x='0' y='0' width='1000' height='{$layout->size->height}'><title>Field</title></rect>",
-            $layout,
-            "1000,{$layout->size->height}"
+            "<rect x='0' y='0' width='1000' height='{$layout_field->size->height}'><title>Field</title></rect>",
+            $layout_field,
+            $layout_field->size
         );
-    }
-
-    $chief_lay = null;
-    $off = 0;
-    if ( $chief )
-    {
-        $chief_lay = new ShieldLayout($layout->chief->size, "chief", null, null, false);
-        $new_size = new ShieldSize($layout->size->width, $layout->size->height - $layout->chief->size->height);
-        $cross_c = new ShieldPos($new_size->width / 2, $new_size->height / 2);
-        if ( $layout->center_point->y < $layout->size->height /2 )
-            $cross_c->y = 400;
-        $layout = new ShieldLayout($new_size, $layout->shape, $cross_c, null, false, $layout->section);
-        $off = $chief_lay->size->height;
     }
 
     if ( $objects )
     {
         // process ordinaries and charges
-        $retval .= "<g transform='translate(0,$off)'>" . makeOrdChgs($objects, $layout) . "</g>";
+        $retval .= "<g transform='translate(0,$off)'>" . makeOrdChgs($objects, $layout_objects) . "</g>";
     }
 
 
     if ( $chief )
-        $retval .= makeChief($chief, $chief_lay);
+        $retval .= makeChief($chief, $layout_chief);
 
     return $retval;
 }

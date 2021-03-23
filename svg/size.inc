@@ -141,6 +141,11 @@ class ShieldRect
             new ShieldSize($x2 - $x1, $y2 - $y1)
         );
     }
+
+    function svg_rect()
+    {
+        return "<rect x='{$this->left()}' y='{$this->top()}' width='{$this->size->width}' height='{$this->size->height}' />";
+    }
 }
 
 class ShieldLayout

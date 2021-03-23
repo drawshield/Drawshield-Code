@@ -371,7 +371,7 @@ class TinctureData
 }
 
 
-function apply_tincture ($tinctureNode, $targetSVG, $layout, $chg_size = '',
+function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, ShieldSize $chg_size = null,
         $rot = '0', $rev = false, $inv = false ) {
     global $_SERVER, $messages, $xpath;
     $retval = '';
@@ -395,10 +395,11 @@ function apply_tincture ($tinctureNode, $targetSVG, $layout, $chg_size = '',
         return $targetSVG;
     }
 
-    if ( $targetType == 'charge' && $chg_size != '' && $data->type_name != blazonML::E_COUNTERCHANGED )
+    if ( $targetType == 'charge' && $chg_size != null && $data->type_name != blazonML::E_COUNTERCHANGED )
     {
         // We make some things a wee bit smaller if on a charge, just for looks
-        list($chgX,$chgY) = explode(',', $chg_size);
+        $chgX = $chg_size->width;
+        $chgY = $chg_size->height;
         $scale = max ( $chgX / 1000, $chgY / 1200 ); // multiply here to adjust relative size of fur etc. on a charge
         $data->pattern_transform = ' scale(' . $scale . ') ';
     } elseif ($layout->shape == 'flag') { // adjust size based on flag AR?

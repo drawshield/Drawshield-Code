@@ -823,6 +823,7 @@ class languageDB extends lexicon
                 array('pall', 'pall'),
 //            array( '(shake|hay)fork', 'shakefork' ),
                 array('pale furche', 'shakefork'),
+                array('square flau?nche?s?', 'square-flaunch'),
                 array('square (flanks?|flanques?|flasques?)', 'square-flaunch'),
                 array('?royal trea?s?sure', 'tressure'),
                 array('lozenge throughout', 'vetu'),
@@ -957,7 +958,6 @@ class languageDB extends lexicon
                 array('fillet cross', 'fillet-cross'),
                 array('cross fillet', 'fillet-cross'),
                 array('frets? couped', 'fret-couped'),
-                array('square flau?nche?s?', 'square-flaunch'),
             ),
             self::ARRANGEMENT => array(
                 array('in ann?ull?o', 'inannulo',),

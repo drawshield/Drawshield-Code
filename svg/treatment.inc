@@ -62,14 +62,15 @@ function makeTreatment ( $node, $layout, $counter = false ) {
         $treatment = $treatment_data['body'];
         $size_x = $treatment_data['width'];
         $size_y = $treatment_data['height'];
+        $size = new ShieldSize($size_x, $size_y);
         if ($counter) {
             $base = apply_tincture($tinctures[2], '<rect x="0" y="0" width="' .
-                $size_x . '" height="' . $size_y . '" />', $layout, "$size_x,$size_y");
-            $pattern = apply_tincture($tinctures[1], $treatment, $layout, "$size_x,$size_y");
+                $size_x . '" height="' . $size_y . '" />', $layout, $size);
+            $pattern = apply_tincture($tinctures[1], $treatment, $layout, $size);
         } else {
             $base = apply_tincture($tinctures[1], '<rect x="0" y="0" width="' .
-                $size_x . '" height="' . $size_y . '" />', $layout, "$size_x,$size_y");
-            $pattern = apply_tincture($tinctures[2], $treatment, $layout, "$size_x,$size_y");
+                $size_x . '" height="' . $size_y . '" />', $layout, $size);
+            $pattern = apply_tincture($tinctures[2], $treatment, $layout, $size);
         }
   }
   // Do we need to offset to make treatment symmetrical on the field?

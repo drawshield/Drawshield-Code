@@ -902,7 +902,7 @@ class PathBuilder
 
     function offset($flag=true)
     {
-        $this->spec .= "Z" . (!$flag ? 1 : 0);
+        $this->spec .= "O" . (!$flag ? 1 : 0);
         return $this;
     }
 
