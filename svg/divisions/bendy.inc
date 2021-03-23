@@ -6,7 +6,6 @@ if ($num_of < 1)
 elseif ($num_of > 24)
     $num_of = 24;
 $NC = '';
-$CH = '';
 $stepH = 1000 / $num_of;
 $stepC = floor($calcHeight / $num_of); // with a chief
 $stepV = floor($calcHeight / $num_of);
@@ -18,8 +17,6 @@ if ( existModifierWithKeyterm($node, 'sinister')) {
     $X2 = 1500 - (($i-1) * $stepC);
     $Y2 = 600 - (($i-1) * $stepC);
     $NC .= "X{$X1}Y{$Y1}D1700f{$stepB}H1700b{$stepB}   ";
-      $CH .= "X{$X2}Y{$Y2}D1400f{$stepB}H1400b{$stepB}   ";
-    //$CH .= "X{$X2}Y{$Y2}b{$stepB}D1300f{$stepB}H1300   ";
     }
 } else {
   for ( $i = 1; $i < $num_of; $i +=2 ) {
@@ -28,8 +25,7 @@ if ( existModifierWithKeyterm($node, 'sinister')) {
     $X2 = (($i-1) * $stepC) - 500;
     $Y2 = 600 - (($i-1) * $stepC);
     $NC .= "X{$X1}Y{$Y1}h{$stepB}B1700d{$stepB}F1700   ";
-    $CH .= "X{$X2}Y{$Y2}h{$stepB}B1400d{$stepB}F1400   ";
   }
 }
 
-$division['div2'] = createBody( choose_fit (compact('NC', 'CH')), getModifierByType($node,'linetype', false), 40, $layout);
+$division['div2'] = createBody( $NC, getModifierByType($node,'linetype', false), 40, $layout);
