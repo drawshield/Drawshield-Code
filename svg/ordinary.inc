@@ -210,9 +210,9 @@ function makeOrdinary( DOMElement &$node, $layout ) {
 	// We do this first in case the ordinary code changes any of the modifiers, e.g. a bend quarterly
     $subtype = $node->getAttribute('keyterm');
     // special handling for bordures (as lots of options)
-    if ($subtype == 'bordure') {
+    if ($subtype == 'bordure' && getModifierByType($node,'linetype', false) != null) {
         $ord_data = getSpecial('bordures', $node, $layout);
-    } elseif ($subtype == 'orle') {
+    } elseif ($subtype == 'orle' && getModifierByType($node,'linetype', false) != null) {
         $ord_data = getSpecial('orles', $node, $layout);
     } else {
         $ord_data = includeOrdinary( $node, $layout );
