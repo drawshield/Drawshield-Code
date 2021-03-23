@@ -17,7 +17,7 @@ $division['div2'] = createBody($div_data[$item], getModifierByType($node, 'linet
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';
   $rivetList = '';
-  $offset = chiefPresent() ? 300 : 0;
+  $offset = $layout->division_offset->y;
   for ($i = 995; $i > 0; $i -= 80) {
     if ( $item == 'per-bend-sinister' ) {
       $rivetList .= '<g transform="translate(' . (930 - $i) . ',' . ($i  + $offset). ')">' . $rivet . '</g>';

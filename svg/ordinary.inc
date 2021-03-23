@@ -254,7 +254,7 @@ function makeOrdinary( DOMElement &$node, $layout ) {
 	// Create the basic shape
 	$bodySVG = '';
 	if ( array_key_exists('shape_spec', $ord_data) ) { //  we are given a path specification to convert to SVG
-	  $shape_spec = choose_fit($ord_data['shape_spec']);
+	  $shape_spec = $ord_data['shape_spec'];
     if ( $voided != null ) {
       if ( ($void_col = $voided->firstChild ) != null )
 			  $bodySVG .= apply_tincture ( $void_col, createBody($shape_spec, 'none', 0 ), $layout );
@@ -281,14 +281,14 @@ function makeOrdinary( DOMElement &$node, $layout ) {
     if ( $voided != null ) {
 		  if ( !array_key_exists('voided', $ord_data) ) {
         $messages->addMessage('warning','cannot draw ' . $subtype . ' as voided' . getLine($node));
-        $bodySVG .= subPercent(choose_fit($ord_data['body']), $layout);
+        $bodySVG .= subPercent($ord_data['body'], $layout);
 		  } else {
         if ( ($void_col = $voided->firstChild ) != null ) 
-			    $bodySVG .= apply_tincture ( $void_col, subPercent(choose_fit($ord_data['body'])), $layout );
-			  $bodySVG .= subPercent(choose_fit($ord_data['voided']), $layout);
+			    $bodySVG .= apply_tincture ( $void_col, subPercent($ord_data['body']), $layout );
+			  $bodySVG .= subPercent($ord_data['voided'], $layout);
 			}
     } else {
-      $bodySVG .= subPercent(choose_fit($ord_data['body']), $layout);
+      $bodySVG .= subPercent($ord_data['body'], $layout);
     }
 	} // We now have $body and $cotise set.
 	
@@ -310,7 +310,7 @@ function makeOrdinary( DOMElement &$node, $layout ) {
       !array_key_exists('body2', $ord_data)) {
         $messages->addMessage('warning','Cannot apply compony to ' . $subtype);
     } else {
-      $body2_spec = subPercent(choose_fit($ord_data['body2']), $layout);
+      $body2_spec = subPercent($ord_data['body2'], $layout);
       if ( $body2_spec[0] != '<' ) {
         $linetype = null;
         // Is there a linetype here also

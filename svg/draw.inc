@@ -30,29 +30,6 @@ function getLine($node) {
   return $retval;
 }
 
-function chiefPresent()
-{
-    return false;
-}
-function choose_fit( $choices ) {
-  global $messages;
-  $retval = null;
-
-
-  if ( !is_array($choices) ) {
-      $retval = $choices;
-  }
-  else
-    $retval = $choices["NC"];
-
-  if ( $retval == null ) {
-      $messages->addMessage('internal', 'Cannot find placement for region');     
-  }
-  
-  // raise error
-  return $retval;
-}
-
 
 function makeOrdChgs( $node, $layout ) {
   $retval = '';

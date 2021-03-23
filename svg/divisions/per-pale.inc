@@ -1,6 +1,6 @@
 <?php
 $div_data = 'X500Y0a500c{%100*}e500G{%100*}';
-$division['div2'] = createBody(choose_fit($div_data), getModifierByType($node, 'linetype', false), 60, $layout);
+$division['div2'] = createBody($div_data, getModifierByType($node, 'linetype', false), 60, $layout);
 
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';

@@ -166,7 +166,7 @@ $ordinary['chargesWithin'] = array_to_placement([
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';
   $rivetList = '';
-  $ref = chiefPresent() ? 625 : 475;
+  $ref = 475;
   for ($i = 5; $i < 450; $i += 80) {
     $rivetList .= '<g transform="translate(' . $i . ',' . (245 + $ref) . ')">' . $rivet . '</g>';
     $rivetList .= '<g transform="translate(' . $i . ',' . (455 + $ref) . ')">' . $rivet . '</g>';
@@ -174,7 +174,7 @@ if ( existModifierWithKeyterm($node, 'riveted')) {
     $rivetList .= '<g transform="translate(' . (970 - $i) . ',' . (455 + $ref) . ')">' . $rivet . '</g>';
     $ref -= 80;
   }
-  $ref = chiefPresent() ? 150 : 0;
+  $ref = 0;
   $rivetList .= '<g transform="translate(485,' . (245 + $ref) . ')">' . $rivet . '</g>';
   $rivetList .= '<g transform="translate(485,' . (455 + $ref) . ')">' . $rivet . '</g>';
   $ordinary['body3'] = $rivetList;
