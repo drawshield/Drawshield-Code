@@ -180,6 +180,8 @@ class ShieldLayout
         // To determine the border area
         $this->section = $section;
 
+        $this->division_offset = new ShieldPos(0, 0);
+
     }
 
     function auto_center()

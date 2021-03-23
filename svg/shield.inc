@@ -43,6 +43,7 @@ function makePlain( &$children, $layout ) {
         $layout_field = clone $layout;
         $off = $layout_chief->size->height;
         $layout_field->center_point = $layout_objects->center_point->translated(0, $off);
+        $layout_field->division_offset = new ShieldPos(0, $off);
     }
 
     // Paint the field
