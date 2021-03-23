@@ -45,7 +45,7 @@ function makePlain( &$children, $layout ) {
         $off = $layout_chief->size->height;
         $layout_field->center_point = $layout_objects->center_point->translated(0, $off);
         $layout_field->division_offset = new ShieldPos(0, $off);
-        list($clip_id, $clip) = make_def("clipPath", $layout_objects->rect_area()->svg_rect());
+        list($clip_id, $clip) = make_def("clipPath", $layout_objects->rect_area()->margin(-100, 0, -100, -100)->svg_rect());
         $retval .= "<defs>$clip</defs>";
         $clip_attr = " clip-path='url(#$clip_id)'";
     }
