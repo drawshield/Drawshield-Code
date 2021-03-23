@@ -1,10 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="400" height="400" viewBox="0, 0, 400, 400">
-  <g id="Layer_1">
-    <g>
-      <path d="M200.5,0.5 L251,51 L251,150.5 L350.5,150.5 L400.5,200.5 L350.5,250.5 L251,250.5 L251,350 L200.5,400.5 L150,350 L150,250.5 L50.5,250.5 L0.5,200.5 L50.5,150.5 L150,150.5 L150,51 L200.5,0.5 z M200.5,170.5 C183.931,170.5 170.5,183.931 170.5,200.5 C170.5,217.069 183.931,230.5 200.5,230.5 C217.069,230.5 230.5,217.069 230.5,200.5 C230.5,183.931 217.069,170.5 200.5,170.5 z" fill="#FF0000"/>
-      <path d="M200.5,0.5 L251,51 L251,150.5 L350.5,150.5 L400.5,200.5 L350.5,250.5 L251,250.5 L251,350 L200.5,400.5 L150,350 L150,250.5 L50.5,250.5 L0.5,200.5 L50.5,150.5 L150,150.5 L150,51 L200.5,0.5 z M200.5,170.5 C183.931,170.5 170.5,183.931 170.5,200.5 C170.5,217.069 183.931,230.5 200.5,230.5 C217.069,230.5 230.5,217.069 230.5,200.5 C230.5,183.931 217.069,170.5 200.5,170.5 z" fill-opacity="0" stroke="#858585" stroke-width="3"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg9"
+   viewBox="0, 0, 400, 400"
+   height="400"
+   width="400"
+   y="0"
+   x="0"
+   version="1.1">
+  <metadata
+     id="metadata15">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs13" />
+  <g
+     style="stroke:#808080;stroke-width:4"
+     id="Layer_1">
+    <g
+       id="g6">
+      <path
+         id="path2"
+         fill="#ff0000"
+         d="M 200.5,0.5 235,51 v 115.5 h 115.5 l 50,34 -50,34 H 235 V 350 L 200.5,400.5 166,350 V 234.5 H 50.5 l -50,-34 50,-34 H 166 V 51 Z m 0,170 c -16.569,0 -30,13.431 -30,30 0,16.569 13.431,30 30,30 16.569,0 30,-13.431 30,-30 0,-16.569 -13.431,-30 -30,-30 z" />
     </g>
   </g>
 </svg>
