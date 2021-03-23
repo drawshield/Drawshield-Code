@@ -32,6 +32,7 @@ function makePlain( &$children, $layout ) {
     $layout_chief = null;
 
     $off = 0;
+    $clip_attr = "";
     if ( $chief )
     {
         $layout_chief = new ShieldLayout($layout->chief->size, "chief", null, null, false);
@@ -44,6 +45,9 @@ function makePlain( &$children, $layout ) {
         $off = $layout_chief->size->height;
         $layout_field->center_point = $layout_objects->center_point->translated(0, $off);
         $layout_field->division_offset = new ShieldPos(0, $off);
+        list($clip_id, $clip) = make_def("clipPath", $layout_objects->rect_area()->svg_rect());
+        $retval .= "<defs>$clip</defs>";
+        $clip_attr = " clip-path='url(#$clip_id)'";
     }
 
     // Paint the field
@@ -60,7 +64,7 @@ function makePlain( &$children, $layout ) {
     if ( $objects )
     {
         // process ordinaries and charges
-        $retval .= "<g transform='translate(0,$off)'>" . makeOrdChgs($objects, $layout_objects) . "</g>";
+        $retval .= "<g transform='translate(0,$off)'$clip_attr>" . makeOrdChgs($objects, $layout_objects) . "</g>";
     }
 
 
