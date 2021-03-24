@@ -1,7 +1,6 @@
 <?php
 
 $width = 100;
-$margin = 0;
 $angle = atan2($layout->center_point->y, $layout->center_point->x);
 $length = hypot($layout->center_point->y, $layout->center_point->x);
 

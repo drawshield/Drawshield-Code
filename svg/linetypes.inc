@@ -929,11 +929,19 @@ function path_builder($x, $y)
 class SvgPathBuilder
 {
     public $d = "";
+    private $last = "";
 
     private function add($letter, $args, $relative)
     {
-        $this->d .= $relative ? $letter : strtoupper($letter);
-        $this->d .= implode(" ", array_map(function($x){return(string)$x;}, $args));
+        $cap_letter = $relative ? $letter : strtoupper($letter);
+        if ( $cap_letter != $this->last )
+            $this->d .= $cap_letter;
+
+        $this->last = $cap_letter;
+        if ( $letter == "m" )
+            $this->last = $relative ? "l" : "L";
+
+        $this->d .= implode(",", array_map(function($x){return(string)$x;}, $args)) . " ";
         return $this;
     }
 
@@ -961,5 +969,15 @@ class SvgPathBuilder
     function to_path()
     {
         return "<path fillrule='evenodd' d='{$this->d}' />";
+    }
+
+    function vertical($ext, $relative = false)
+    {
+        return $this->add("v", [$ext], $relative);
+    }
+
+    function horizontal($ext, $relative = false)
+    {
+        return $this->add("h", [$ext], $relative);
     }
 }
