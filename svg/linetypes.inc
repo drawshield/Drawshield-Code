@@ -980,4 +980,9 @@ class SvgPathBuilder
     {
         return $this->add("h", [$ext], $relative);
     }
+
+    function arc($rx, $ry, $x_rot, $large, $sweep, $x, $y, $relative = false)
+    {
+        return $this->add("a", [$rx, $ry, $x_rot, $large, $sweep, $x, $y], $relative);
+    }
 }

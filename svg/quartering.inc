@@ -3,7 +3,7 @@ require_once('size.inc');
 
 class Quarter
 {
-    function __construct($pos, $size, $scale, $rel_size, $charge_hint = null, $section = "quarter")
+    function __construct($pos, $size, $scale, $rel_size, $shape, $charge_hint = null, $section = "quarter")
     {
         $this->pos = $pos;
         $this->size = $size;
@@ -11,6 +11,7 @@ class Quarter
         $this->rel_size = $rel_size;
         $this->charge_hint = $charge_hint;
         $this->section = "quarter";
+        $this->shape = $shape;
     }
 
     function svg_transform()
@@ -20,7 +21,7 @@ class Quarter
 
     function to_layout()
     {
-        return new ShieldLayout($this->size, "quarter", null, $this->charge_hint, true, $this->section);
+        return new ShieldLayout($this->size, $this->shape, null, $this->charge_hint, true, $this->section);
     }
 }
 
@@ -54,7 +55,8 @@ class Quartering
                 ),
                 $qsize_norm,
                 1 / $norm_factor,
-                $qsize
+                $qsize,
+                $this->layout->shape
             ));
         }
 
@@ -144,8 +146,10 @@ function makequartered4( DOMNodeList $children, ShieldLayout $layout )
     $h = $layout->center_point_ratio()->y;
     $quartering->add_row(2, $h);
     $quartering->add_row(2);
-    $quartering->quarters[2]->section = "quarter-dexter";
-    $quartering->quarters[3]->section = "quarter-sinister";
+    $quartering->quarters[0]->section = "quarter-chief-dexter";
+    $quartering->quarters[1]->section = "quarter-chief-sinister";
+    $quartering->quarters[2]->section = "quarter-base-dexter";
+    $quartering->quarters[3]->section = "quarter-base-sinister";
 
     return $quartering->render_svg($children);
 }
@@ -157,6 +161,11 @@ function makequartered5( $children, ShieldLayout $layout )
     $h = $layout->center_point_ratio()->y;
     $quartering->add_row(3, $h);
     $quartering->add_row(2);
+
+    $quartering->quarters[0]->section = "quarter-chief-dexter";
+    $quartering->quarters[2]->section = "quarter-chief-sinister";
+    $quartering->quarters[3]->section = "quarter-base-dexter";
+    $quartering->quarters[4]->section = "quarter-base-sinister";
 
     return $quartering->render_svg($children);
 }
@@ -206,6 +215,7 @@ function make_quartered_saltire( DOMNodeList $children, ShieldLayout $layout )
         $q1_size,
         1,
         $q1_size,
+        $layout->size,
         new ShieldRect(
             new ShieldPos($q1_size->width * 0.5, $q1_size->height / 3 + 30 * $hmargin),
             $q1_size->scaled(0.4, 0.6)
@@ -221,6 +231,7 @@ function make_quartered_saltire( DOMNodeList $children, ShieldLayout $layout )
         $side_size_norm,
         1/$norm_factor,
         $side_size,
+        $layout->size,
         new ShieldRect(
             new ShieldPos($side_size_norm->width / 3 + 50, $side_size_norm->height / 2),
             $side_size_norm->scaled(2/3, 0.4)
@@ -231,6 +242,7 @@ function make_quartered_saltire( DOMNodeList $children, ShieldLayout $layout )
         $side_size_norm,
         1/$norm_factor,
         $side_size,
+        $layout->size,
         new ShieldRect(
             new ShieldPos($side_size_norm->width * 2 / 3 - 50, $side_size_norm->height / 2),
             $side_size_norm->scaled(2/3, 0.4)
@@ -243,6 +255,7 @@ function make_quartered_saltire( DOMNodeList $children, ShieldLayout $layout )
         $q4_size,
         1,
         $q4_size,
+        $layout->size,
         new ShieldRect(
             new ShieldPos($q4_size->width * 0.5, $q4_size->height * 2 / 3 - 50 * $hmargin),
             $q4_size->scaled(0.4, 2/3)

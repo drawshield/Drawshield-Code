@@ -24,10 +24,7 @@ if ( strpos($layout->section, "quarter") !== false )
     $margin *= 2;
 }
 
-if ( $layout->section == "quarter" )
-    $shape = new RectShieldShape();
-else
-    $shape = ShieldShape::from_name($layout->shape);
+$shape = ShieldShape::from_name($layout->shape);
 
 $path_builder = new SvgPathBuilder();
 

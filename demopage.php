@@ -199,7 +199,7 @@
         ["Spanish", "spanish"],
         ["Circle", "circle"],
         ["SCA", "sca"],
-        ["Swatch", "sca"],
+        ["Swatch", "swatch"],
         ["Pauldron", "pauldron"],
         ["Stamp", "stamp"],
         ["Flag", "flag"],

@@ -12,6 +12,21 @@ abstract class ShieldShape
             case "stamp":
             case "swatch":
                 return new RectShieldShape();
+            case "swiss":
+                return new HeatherShieldShape(new ShieldPos(276.37,-146.6), new ShieldPos(500,-590.97), new ShieldPos(500,-931.29), 0, 70);
+            case "spanish":
+                return new HeatherShieldShape(new ShieldPos(272.06,0), new ShieldPos(492.86,-199.37), new ShieldPos(492.86,-445.07));
+            case "sca":
+                return new HeatherShieldShape(new ShieldPos(111.40432,-72.288697), new ShieldPos(440.8494,-378.93457), new ShieldPos(482.89269,-692.96463), 10);
+//             case "english":
+//                 return new HeatherShieldShape(new ShieldPos(13,-26.5), new ShieldPos(375.5,169), new ShieldPos(413,-3.3830906), 0);
+            case "french":
+                return new HeatherShieldShape(new ShieldPos(2,-60), new ShieldPos(493,-52), new ShieldPos(500,-122.7), 30);
+            case "circle":
+            case "oval":
+                return new EllipseShieldShape();
+            case "lozenge":
+                return new LozengeShieldShape();
             case "heather":
             default:
                 return new HeatherShieldShape(new ShieldPos(258, -60), new ShieldPos(501,-180), new ShieldPos(500, -378));
@@ -35,27 +50,29 @@ abstract class ShieldShape
 class HeatherShieldShape extends ShieldShape
 {
 
-    function __construct(ShieldPos $tan1, ShieldPos $tan2, ShieldPos $dest)
+    function __construct(ShieldPos $tan1, ShieldPos $tan2, ShieldPos $dest, $margin_bottom = 0, $margin_top = 0)
     {
         // Cubic parameters from the tip, right side
         $this->tan1 = $tan1;
         $this->tan2 = $tan2;
         $this->dest = $dest;
+
+        $this->margin_bottom = $margin_bottom;
+        $this->margin_top = $margin_top;
     }
 
     protected function on_svg_path_full(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder)
     {
-        $tip = new ShieldPos($layout->center_point->x, $layout->size->height - $inset);
+        $tip = new ShieldPos($layout->center_point->x, $layout->size->height - $inset - $this->margin_bottom);
         $scale = ($layout->size->width - 2*$inset) / 1000;
         list($br_t1, $br_t2, $br) = $this->scaled_curve($tip, $scale, 1);
         list($bl_t1, $bl_t2, $bl) = $this->scaled_curve($tip, $scale, -1);
 
-
         if ( $reversed )
         {
             $builder
-                ->move($layout->size->width - $inset, $inset)
-                ->line($inset, $inset)
+                ->move($layout->size->width - $inset, $inset + $this->margin_top)
+                ->line($inset, $inset + $this->margin_top)
                 ->line($bl->x, $bl->y)
                 ->cubic($bl_t2->x, $bl_t2->y, $bl_t1->x, $bl_t1->y, $tip->x, $tip->y)
                 ->cubic($br_t1->x, $br_t1->y, $br_t2->x, $br_t2->y, $br->x, $br->y)
@@ -65,8 +82,8 @@ class HeatherShieldShape extends ShieldShape
         else
         {
             $builder
-                ->move($inset, $inset)
-                ->line($layout->size->width - $inset, $inset)
+                ->move($inset, $inset + $this->margin_top)
+                ->line($layout->size->width - $inset, $inset + $this->margin_top)
                 ->line($br->x, $br->y)
                 ->cubic($br_t2->x, $br_t2->y, $br_t1->x, $br_t1->y, $tip->x, $tip->y)
                 ->cubic($bl_t1->x, $bl_t1->y, $bl_t2->x, $bl_t2->y, $bl->x, $bl->y)
@@ -75,17 +92,21 @@ class HeatherShieldShape extends ShieldShape
         }
     }
 
-    protected function on_svg_path_sinister(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder)
+    protected function on_svg_path_sinister(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder, $margin_top)
     {
         $scale = ($layout->size->width - 2*$inset) / 500;
-        $tip = new ShieldPos($inset, $layout->size->height - $inset * 1.5);
+        $tip = new ShieldPos($inset, $layout->size->height - ($inset + $this->margin_bottom) * 1.5 );
         list($br_t1, $br_t2, $br) = $this->scaled_curve($tip, $scale, 1);
+
+        if ( $br->y < $inset + $margin_top + 50 )
+            $br = new  ShieldPos($layout->size->width - $inset, $inset + $margin_top);
+
 
         if ( $reversed )
         {
             $builder
-                ->move($layout->size->width - $inset, $inset)
-                ->line($inset, $inset)
+                ->move($layout->size->width - $inset, $inset + $margin_top)
+                ->line($inset, $inset + $margin_top)
                 ->line($tip->x, $tip->y)
                 ->cubic($br_t1->x, $br_t1->y, $br_t2->x, $br_t2->y, $br->x, $br->y)
                 ->close()
@@ -94,8 +115,8 @@ class HeatherShieldShape extends ShieldShape
         else
         {
             $builder
-                ->move($inset, $inset)
-                ->line($layout->size->width - $inset, $inset)
+                ->move($inset, $inset + $margin_top)
+                ->line($layout->size->width - $inset, $inset + $margin_top)
                 ->line($br->x, $br->y)
                 ->cubic($br_t2->x, $br_t2->y, $br_t1->x, $br_t1->y, $tip->x, $tip->y)
                 ->close()
@@ -103,17 +124,20 @@ class HeatherShieldShape extends ShieldShape
         }
     }
 
-    protected function on_svg_path_dexter(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder)
+    protected function on_svg_path_dexter(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder, $margin_top)
     {
         $scale = ($layout->size->width - 2*$inset) / 500;
-        $tip = new ShieldPos($layout->size->width - $inset, $layout->size->height - $inset * 1.5);
+        $tip = new ShieldPos($layout->size->width - $inset, $layout->size->height - ($inset + $this->margin_bottom) * 1.5 );
         list($bl_t1, $bl_t2, $bl) = $this->scaled_curve($tip, $scale, -1);
+
+        if ( $bl->y < $inset + $margin_top + 50 )
+            $bl = new  ShieldPos($inset + $margin_top, $inset);
 
         if ( $reversed )
         {
             $builder
-                ->move($layout->size->width - $inset, $inset)
-                ->line($inset, $inset)
+                ->move($layout->size->width - $inset, $inset + $margin_top)
+                ->line($inset, $inset + $margin_top)
                 ->line($bl->x, $bl->y)
                 ->cubic($bl_t2->x, $bl_t2->y, $bl_t1->x, $bl_t1->y, $tip->x, $tip->y)
                 ->close()
@@ -122,8 +146,8 @@ class HeatherShieldShape extends ShieldShape
         else
         {
             $builder
-                ->move($inset, $inset)
-                ->line($layout->size->width - $inset, $inset)
+                ->move($inset, $inset + $margin_top)
+                ->line($layout->size->width - $inset, $inset + $margin_top)
                 ->line($tip->x, $tip->y)
                 ->cubic($bl_t1->x, $bl_t1->y, $bl_t2->x, $bl_t2->y, $bl->x, $bl->y)
                 ->close()
@@ -133,12 +157,23 @@ class HeatherShieldShape extends ShieldShape
 
     protected function on_svg_path(ShieldLayout $layout, $inset, $region, $reversed, SvgPathBuilder $builder)
     {
-        if ( strpos($region, "dexter") !== false )
-            $this->on_svg_path_dexter($layout, $inset, $reversed, $builder);
-        else if ( strpos($region, "sinister") !== false )
-            $this->on_svg_path_sinister($layout, $inset, $reversed, $builder);
-        else
-            $this->on_svg_path_full($layout, $inset, $reversed, $builder);
+        switch ( $region )
+        {
+            case "dexter":
+                return $this->on_svg_path_dexter($layout, $inset, $reversed, $builder, $this->margin_top);
+            case "sinister":
+                return $this->on_svg_path_sinister($layout, $inset, $reversed, $builder, $this->margin_top);
+            case "quarter-chief-dexter":
+            case "quarter-chief-sinister":
+                $ratio = $layout->size->height / $layout->size->width * 1.5;
+                return RectShieldShape::rect_path($layout->rect_area()->margin(0, $this->margin_top * $ratio, 0, 0), $inset, $reversed, $builder);
+            case "quarter-base-dexter":
+                return $this->on_svg_path_dexter($layout, $inset, $reversed, $builder, 0);
+            case "quarter-base-sinister":
+                return $this->on_svg_path_sinister($layout, $inset, $reversed, $builder, 0);
+            default:
+                return $this->on_svg_path_full($layout, $inset, $reversed, $builder);
+        }
     }
 
     protected function scaled_curve($tip, $scale, $direction)
@@ -153,28 +188,305 @@ class HeatherShieldShape extends ShieldShape
 
 class RectShieldShape extends ShieldShape
 {
-
-    protected function on_svg_path(ShieldLayout $layout, $inset, $region, $reversed, SvgPathBuilder $builder)
+    static function rect_path(ShieldRect $area, $inset, $reversed, SvgPathBuilder $builder)
     {
         if ( $reversed )
         {
             $builder
-                ->move($layout->size->width - $inset, $inset)
-                ->line($inset, $inset)
-                ->line($inset, $layout->size->height - $inset)
-                ->line($layout->size->width - $inset, $layout->size->height - $inset)
+                ->move($area->right() - $inset, $area->top() + $inset)
+                ->line($area->left() + $inset, $area->top() + $inset)
+                ->line($area->left() + $inset, $area->bottom() - $inset)
+                ->line($area->right() - $inset, $area->bottom() - $inset)
                 ->close()
             ;
         }
         else
         {
             $builder
-                ->move($inset, $inset)
-                ->line($layout->size->width - $inset, $inset)
-                ->line($layout->size->width - $inset, $layout->size->height - $inset)
-                ->line($inset, $layout->size->height - $inset)
+                ->move($area->left() + $inset, $area->top() + $inset)
+                ->line($area->right() - $inset, $area->top() + $inset)
+                ->line($area->right() - $inset, $area->bottom() - $inset)
+                ->line($area->left() + $inset, $area->bottom() - $inset)
                 ->close()
             ;
         }
+    }
+
+    protected function on_svg_path(ShieldLayout $layout, $inset, $region, $reversed, SvgPathBuilder $builder)
+    {
+        self::rect_path($layout->rect_area(), $inset, $reversed, $builder);
+    }
+}
+
+
+class EllipseShieldShape extends ShieldShape
+{
+    protected function on_svg_path_dexter(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder)
+    {
+        $left = $inset;
+        $right = $layout->size->width - $inset;
+
+        $top = $inset;
+        $bottom = $layout->size->height - $inset;
+
+        $rx = ($right - $left);
+        $ry = ($bottom - $top) / 2;
+
+
+        if ( $reversed )
+            $builder->move($right, $bottom)
+                ->arc($rx, $ry, 0, 0, 1, 0, -2 * $ry, true)
+                ->close()
+            ;
+        else
+            $builder->move($right, $top)
+                ->arc($rx, $ry, 0, 0, 0, 0, 2 * $ry, true)
+                ->close()
+            ;
+    }
+
+    protected function on_svg_path_sinister(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder)
+    {
+        $left = $inset;
+        $right = $layout->size->width - $inset;
+
+        $top = $inset;
+        $bottom = $layout->size->height - $inset;
+
+        $rx = ($right - $left);
+        $ry = ($bottom - $top) / 2;
+
+
+        if ( $reversed )
+            $builder->move($left, $bottom)
+                ->arc($rx, $ry, 0, 0, 0, 0, -2 * $ry, true)
+                ->close()
+            ;
+        else
+            $builder->move($left, $top)
+                ->arc($rx, $ry, 0, 0, 1, 0, 2 * $ry, true)
+                ->close()
+            ;
+    }
+
+    protected function on_svg_path_full(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder)
+    {
+        $left = $inset;
+        $right = $layout->size->width - $inset;
+
+        $top = $inset;
+        $bottom = $layout->size->height - $inset;
+
+        $rx = ($right - $left) / 2;
+        $ry = ($bottom - $top) / 2;
+        $imult = $reversed ? -1 : 1;
+        $sweep = $reversed ? 1 : 0;
+        $builder->move($right, ($top + $bottom) / 2)
+            ->arc($rx, $ry, 0, 0, $sweep, -$rx, -$imult * $ry, true)
+            ->arc($rx, $ry, 0, 0, $sweep, -$rx, $imult * $ry, true)
+            ->arc($rx, $ry, 0, 0, $sweep, $rx, $imult * $ry, true)
+            ->arc($rx, $ry, 0, 0, $sweep, $rx, -$imult * $ry, true)
+            ->close()
+        ;
+    }
+
+    protected function on_svg_path_quarter(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder, $quarter)
+    {
+        $left = $inset;
+        $right = $layout->size->width - $inset;
+
+        $top = $inset;
+        $bottom = $layout->size->height - $inset;
+
+        $rx = ($right - $left) + $inset;
+        $ry = ($bottom - $top) + $inset;
+
+        $dx = $rx - $inset;
+        $dy = $ry - $inset;
+
+        switch ( $quarter )
+        {
+            case 1:
+                $sweep = 0;
+                $ymult = 1;
+                $xmult = 1;
+                break;
+            case 2:
+                $sweep = 1;
+                $ymult = 1;
+                $xmult = -1;
+                break;
+            case 3:
+                $sweep = 1;
+                $ymult = -1;
+                $xmult = 1;
+                break;
+            case 4:
+                $sweep = 0;
+                $ymult = -1;
+                $xmult = -1;
+                break;
+        }
+
+        if ( $xmult == -1 )
+            list($left, $right) = [$right, $left];
+
+        if ( $ymult == -1 )
+            list($top, $bottom) = [$bottom, $top];
+
+        if ( $reversed )
+            $builder->move($left, $bottom)
+                ->arc($rx, $ry, 0, 0, 1-$sweep, $xmult * $dx, -$ymult * $dy, true)
+                ->vertical($bottom)
+                ->close()
+            ;
+        else
+            $builder->move($right, $top)
+                ->arc($rx, $ry, 0, 0, $sweep, -$xmult * $dx, $ymult * $dy, true)
+                ->horizontal($right)
+                ->close()
+            ;
+    }
+
+    protected function on_svg_path(ShieldLayout $layout, $inset, $region, $reversed, SvgPathBuilder $builder)
+    {
+        switch ( $region )
+        {
+            case "dexter":
+                return $this->on_svg_path_dexter($layout, $inset, $reversed, $builder);
+            case "sinister":
+                return $this->on_svg_path_sinister($layout, $inset, $reversed, $builder);
+            case "quarter-chief-dexter":
+                return $this->on_svg_path_quarter($layout, $inset, $reversed, $builder, 1);
+            case "quarter-chief-sinister":
+                return $this->on_svg_path_quarter($layout, $inset, $reversed, $builder, 2);
+            case "quarter-base-dexter":
+                return $this->on_svg_path_quarter($layout, $inset, $reversed, $builder, 3);
+            case "quarter-base-sinister":
+                return $this->on_svg_path_quarter($layout, $inset, $reversed, $builder, 4);
+            default:
+                return $this->on_svg_path_full($layout, $inset, $reversed, $builder);
+        }
+    }
+}
+
+
+class LozengeShieldShape extends ShieldShape
+{
+    protected function on_svg_path_dexter(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder)
+    {
+        $left = $inset;
+        $right = $layout->size->width - $inset;
+
+        $top = $inset;
+        $bottom = $layout->size->height - $inset;
+
+        $rx = ($right - $left);
+        $ry = ($bottom - $top) / 2;
+
+
+        if ( $reversed )
+            $builder->move($right, $bottom)
+                ->arc($rx, $ry, 0, 0, 1, 0, -2 * $ry, true)
+                ->close()
+            ;
+        else
+            $builder->move($right, $top)
+                ->arc($rx, $ry, 0, 0, 0, 0, 2 * $ry, true)
+                ->close()
+            ;
+    }
+
+    protected function on_svg_path_sinister(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder)
+    {
+        $left = $inset;
+        $right = $layout->size->width - $inset;
+
+        $top = $inset;
+        $bottom = $layout->size->height - $inset;
+
+        $rx = ($right - $left);
+        $ry = ($bottom - $top) / 2;
+
+
+        if ( $reversed )
+            $builder->move($left, $bottom)
+                ->arc($rx, $ry, 0, 0, 0, 0, -2 * $ry, true)
+                ->close()
+            ;
+        else
+            $builder->move($left, $top)
+                ->arc($rx, $ry, 0, 0, 1, 0, 2 * $ry, true)
+                ->close()
+            ;
+    }
+
+    protected function on_svg_path_full(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder)
+    {
+    }
+
+    protected function on_svg_path(ShieldLayout $layout, $inset, $region, $reversed, SvgPathBuilder $builder)
+    {
+        switch ( $region )
+        {
+            case "dexter":
+                $points = [
+                    new ShieldPos($layout->size->width - $inset, 2 * $inset),
+                    new ShieldPos($inset, $layout->size->height / 2),
+                    new ShieldPos($layout->size->width - $inset, $layout->size->height - 2 * $inset),
+                ];
+                break;
+            case "sinister":
+                $points = [
+                    new ShieldPos($inset, 2 * $inset),
+                    new ShieldPos($layout->size->width - $inset, $layout->size->height / 2),
+                    new ShieldPos($inset, $layout->size->height - 2 * $inset),
+                ];
+                break;
+            case "quarter-chief-dexter":
+                $points = [
+                    new ShieldPos($layout->size->width - $inset, $inset * 2),
+                    new ShieldPos($inset * 2, $layout->size->height - $inset),
+                    new ShieldPos($layout->size->width - $inset, $layout->size->height - $inset),
+                ];
+                break;
+            case "quarter-chief-sinister":
+                $points = [
+                    new ShieldPos($inset, $inset * 2),
+                    new ShieldPos($layout->size->width - $inset * 2, $layout->size->height - $inset),
+                    new ShieldPos($inset, $layout->size->height - $inset),
+                ];
+                break;
+            case "quarter-base-dexter":
+                $points = [
+                    new ShieldPos($layout->size->width - $inset, $layout->size->height - $inset * 2),
+                    new ShieldPos($inset * 2, $inset),
+                    new ShieldPos($layout->size->width - $inset, $inset),
+                ];
+                break;
+            case "quarter-base-sinister":
+                $points = [
+                    new ShieldPos($inset, $layout->size->height - $inset * 2),
+                    new ShieldPos($layout->size->width - $inset * 2, $inset),
+                    new ShieldPos($inset, $inset),
+                ];
+                break;
+            default:
+                $points = [
+                    new ShieldPos($layout->size->width / 2, $inset),
+                    new ShieldPos($layout->size->width - $inset, $layout->size->height / 2),
+                    new ShieldPos($layout->size->width / 2, $layout->size->height - $inset),
+                    new ShieldPos($inset, $layout->size->height / 2),
+                ];
+                break;
+        }
+
+        if ( $reversed )
+            $points = array_reverse($points);
+
+        $builder->d .= "M";
+        foreach ( $points as $p )
+            $builder->d .= " {$p->x},{$p->y}";
+        $builder->d .= " z";
     }
 }
