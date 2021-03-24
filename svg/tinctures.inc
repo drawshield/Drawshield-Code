@@ -518,14 +518,14 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
                 $treatment = $xpath->query('preceding::field/tincture/treatment',$data->node);
                 if ( $treatment->length ) {
                     $counterTreatment = $treatment->item(($treatment->length) - 1);
-                    $treat_data = makeTreatment($counterTreatment, true);
+                    $treat_data = makeTreatment($counterTreatment, $layout, true);
                     if ( $inv ) $treat_data['body'] = "<g transform=\"translate(0,{$treat_data['height']}) scale(1,-1)\">{$treat_data['body']}</g>";
                     //do we need to offset the pattern to center it?
                     $offset = 0;
                     if (array_key_exists('offset', $treat_data)) {
                         $offset = $treat_data['offset'];
                     }
-                    $treatPatt_id = add_def ( 'pattern ' . $patTrans .
+                    $treatPatt_id = add_def ( 'pattern ' . $data->pattern_transform .
                         ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="' . $offset . '" y="0" width="' .
                         $treat_data['width'] . '" height="' . $treat_data['height'] . '"',
                         '<g class="treatment">' . $treat_data['body'] . '</g>' );
