@@ -264,7 +264,7 @@ function getOptions() {
 
     for ( var misc of ["webcols", "whcols", "tartancols"] )
         if ( document.getElementById(misc).checked )
-            options += "&" + misc;
+            options += `&${misc}=yes`;
 
     var customPaletteArea = document.getElementById("customPalette");
     var paletteItems = customPaletteArea.value.split("\n").map(x => x.split("=")).map(x => x.map(a => a.trim()));
