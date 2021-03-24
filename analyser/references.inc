@@ -233,66 +233,76 @@ class references {
     }
 
     // Fixup quarterings to the nearest known number
-    $nodeList = $this->xpath->query("//complex[@keyterm='quartered']");
+    $nodeList = $this->xpath->query("//complex");
     foreach ($nodeList as $node) {
-      //error_log("Testing quartering");
-      // Work out the preferred number of quarterings (depends on what we can draw)
-      //                   0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
-      $newOrders = array ( 4,4,4,4,4,5,6,8,8,9,16,16,16,16,16,16,16,20,20,20,20,
-        //                21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,
-                          25,25,25,25,25,30,30,30,30,30,36,36,36,36,36,36,42,42,
-                      //  39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,
-                          42,42,42,42,49,49,49,49,49,49,49,56,56,56,56,56,56,56,
-                      //  57,58,59,60,61,62,63,64
-                          64,64,64,64,64,64,64,64
-                        );
-      $newOrder = $newOrders[$node->getAttribute('order')];
-      $node->setAttribute('order',"$newOrder");
-      // get a list of the existing quartering IDs
-      $existingIDs = array();
-      $children = $node->childNodes;
-      foreach ($children as $subShield) {
-        $child = $subShield->firstChild;
-        if ($child != null && $child->nodeName != blazonML::E_PENDING) {
-          $thisID = $subShield->getAttribute('ID');
-          if ($thisID != null) $existingIDs[] = $thisID;
-          // error_log("Noting existing ID $thisID");
+        $keyterm = $node->getAttribute("keyterm");
+        if ( $keyterm == "dimidiated" || $keyterm == "impaled" )
+            continue;
+
+        $newOrder = (int)$node->getAttribute('order');
+
+        if ( $keyterm == "quartered" )
+        {
+            // Work out the preferred number of quarterings (depends on what we can draw)
+            //                   0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+            $newOrders = array ( 4,4,4,4,4,5,6,8,8,9,16,16,16,16,16,16,16,20,20,20,20,
+                //                21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,
+                                25,25,25,25,25,30,30,30,30,30,36,36,36,36,36,36,42,42,
+                            //  39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,
+                                42,42,42,42,49,49,49,49,49,49,49,56,56,56,56,56,56,56,
+                            //  57,58,59,60,61,62,63,64
+                                64,64,64,64,64,64,64,64
+                                );
+            $newOrder = $newOrders[$newOrder];
+            $node->setAttribute('order',"$newOrder");
         }
-      }
-      // Idiot check no quarterings given at all
-      if (count($existingIDs) == 0) {
-        $simple = $this->greyShield();
-        $firstChild = $node->firstChild; // the shield element
-        if ($firstChild != null) {
-          $theID = unique('N1-');
-          $firstChild->setAttribute('ID', $theID);
-          $existingIDs[] = $theID;
-          $pending = $firstChild->firstChild;
-          $firstChild->replaceChild($simple,$pending);
+
+        // get a list of the existing quartering IDs
+        $existingIDs = array();
+        $children = $node->childNodes;
+        foreach ($children as $subShield) {
+            $child = $subShield->firstChild;
+            if ($child != null && $child->nodeName != blazonML::E_PENDING) {
+            $thisID = $subShield->getAttribute('ID');
+            if ($thisID != null) $existingIDs[] = $thisID;
+            // error_log("Noting existing ID $thisID");
+            }
         }
-      }
-      // start counting through the available IDs
-      $currentID = 0;
-      // Add any additional quarterings that are needed, as pending
-      // (There may already been some pending nodes from the parser)
-      for($i = $children->length; $i < $newOrder; $i++ ) {
-        //error_log("Setting quarter $i to pending");
-        $shield = $this->dom->createElement(blazonML::E_SHIELD);
-        $shield->setAttribute('index',$i + 1);
-        $shield->setAttribute('ID',unique('P1-'));
-        $shield->appendChild($this->dom->createElement(blazonML::E_PENDING));
-        $node->appendChild($shield);
-      }
-      // Now go through the children, replacing any pending nodes with references
-      // to existing subshields
-      foreach ($children as $subShield) {
-        $child = $subShield->firstChild;
-        if ($child != null && $child->nodeName == blazonML::E_PENDING && isset($existingIDs[$currentID])) {
-          $subShield->setAttribute('IDREF', $existingIDs[$currentID]);
-          if (++$currentID >= count($existingIDs)) $currentID = 0; 
-          $subShield->removeChild($child);
+        // Idiot check no quarterings given at all
+        if (count($existingIDs) == 0) {
+            $simple = $this->greyShield();
+            $firstChild = $node->firstChild; // the shield element
+            if ($firstChild != null) {
+            $theID = unique('N1-');
+            $firstChild->setAttribute('ID', $theID);
+            $existingIDs[] = $theID;
+            $pending = $firstChild->firstChild;
+            $firstChild->replaceChild($simple,$pending);
+            }
         }
-      }
+        // start counting through the available IDs
+        $currentID = 0;
+        // Add any additional quarterings that are needed, as pending
+        // (There may already been some pending nodes from the parser)
+        for($i = $children->length; $i < $newOrder; $i++ ) {
+            //error_log("Setting quarter $i to pending");
+            $shield = $this->dom->createElement(blazonML::E_SHIELD);
+            $shield->setAttribute('index',$i + 1);
+            $shield->setAttribute('ID',unique('P1-'));
+            $shield->appendChild($this->dom->createElement(blazonML::E_PENDING));
+            $node->appendChild($shield);
+        }
+        // Now go through the children, replacing any pending nodes with references
+        // to existing subshields
+        foreach ($children as $subShield) {
+            $child = $subShield->firstChild;
+            if ($child != null && $child->nodeName == blazonML::E_PENDING && isset($existingIDs[$currentID])) {
+                $subShield->setAttribute('IDREF', $existingIDs[$currentID]);
+                if (++$currentID >= count($existingIDs))
+                    $currentID = 0;
+                $subShield->removeChild($child);
+            }
+        }
     }
 
     // If there are lots of quarterings, force a squarish shape
