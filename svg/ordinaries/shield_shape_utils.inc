@@ -100,7 +100,8 @@ abstract class ShieldShape
                 $builder->line($step_x, 0, true);
                 $builder->line(0, $width * ($i % 2 ? -1 : 1), true);
             }
-            $builder->line($step_x, 0, true);
+//             $builder->move($rect->right() - $width, $rect->top() + $width);
+//             $builder->line($width, -$width, true);
             $builder->close();
         }
 

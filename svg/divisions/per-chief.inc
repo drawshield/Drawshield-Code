@@ -9,7 +9,7 @@ else if ( $layout->division_offset->y > 0 )
 else
     $y = $layout->size->height * 0.3;
 
-$margin = -100;
+$margin = 100;
 
 $builder = new PathBuilder();
 $builder->move(-$margin, -$margin)
