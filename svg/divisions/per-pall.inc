@@ -18,7 +18,7 @@ if ( $rev = getModifierNodeWithKeyterm($node,'reversed',true)) // reversed means
 $builder_2 = path_builder($layout->center_point->x, $layout->center_point->y);
 $builder_3 = path_builder($layout->center_point->x, $layout->center_point->y);
 $margin = 100;
-$up = max($layout->center_point->x, $layout->center_point->y) + $margin;
+$up = (max($layout->center_point->x, $layout->center_point->y) + $margin)  * M_SQRT2;
 $down = $layout->size->height - $layout->center_point->y + $margin;
 $side = $up / M_SQRT2;
 
