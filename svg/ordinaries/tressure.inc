@@ -81,11 +81,22 @@ else
 
     $path_builder = new SvgPathBuilder();
 
-    $shape->svg_path($layout, $margin, $layout->section, false, $path_builder);
-    $shape->svg_path($layout, $margin + $width, $layout->section, true, $path_builder);
+    $shape->svg_path($layout, $margin, false, $path_builder);
+    $shape->svg_path($layout, $margin + $width, true, $path_builder);
 
     $ordinary['body'] = $path_builder->to_path();
 }
 
 
 $ordinary['chargesWithin'] = array ('w','300,300,400,500');
+
+if ( existModifierWithKeyterm($node,'compony1') )
+{
+    $ordinary['body2'] = $shape->compony($layout, $margin)->to_path();
+}
+elseif (existModifierWithKeyterm($node,'compony2') )
+{
+    $body2 = $shape->compony($layout, $margin);
+    $shape->svg_path($layout, $margin + $width / 2, true, $body2);
+    $ordinary['body2'] = $body2->to_path();
+}

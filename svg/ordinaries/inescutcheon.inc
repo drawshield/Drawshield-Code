@@ -11,6 +11,6 @@ if ($node->parentNode->parentNode->nodeName == 'overall')
 
 $shape = ShieldShape::from_name($layout->shape);
 
-$ordinary['body'] = $shape->svg_path($layout, $margin, $layout->section)->to_path();
+$ordinary['body'] = $shape->svg_path($layout, $margin)->to_path();
 
 $ordinary['chargesOn'] = $layout->rect_area()->margin($margin+(400-$margin)/2);

@@ -34,17 +34,119 @@ abstract class ShieldShape
 
     }
 
-    function svg_path(ShieldLayout $layout, $inset, $region = "", $reversed = false, SvgPathBuilder $builder = null)
+    function svg_path(ShieldLayout $layout, $inset, $reversed = false, SvgPathBuilder $builder = null)
     {
         if ( $builder == null )
             $builder = new SvgPathBuilder();
 
-        $this->on_svg_path($layout, $inset, $region, $reversed, $builder);
+        $this->on_svg_path($layout, $inset, $reversed, $builder);
 
         return $builder;
     }
 
-    abstract protected function on_svg_path(ShieldLayout $layout, $inset, $region, $reversed, SvgPathBuilder $builder);
+    abstract protected function on_svg_path(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder);
+
+    function compony(ShieldLayout $layout, $inset, SvgPathBuilder $builder = null)
+    {
+        if ( $builder == null )
+            $builder = new SvgPathBuilder();
+
+        $this->on_compony($layout, $inset, $builder);
+
+        return $builder;
+    }
+
+    protected static function radial_compony(ShieldLayout $layout, SvgPathBuilder $builder, $count = 16, $angle_start = 0, $angle_delta = 0, $direction = 1)
+    {
+        $cx = $layout->center_point->x;
+        $cy = $layout->center_point->y;
+
+        $length = 2000;
+        $angle_step = M_PI * 2 / $count;
+        if ( $angle_delta == 0 )
+            $angle_delta = M_PI * 2;
+        $builder->move($cx, $cy);
+
+        for ( $i = 0; $angle_step * $i < $angle_delta; $i += 2 )
+        {
+            $builder->line(
+                $cx + cos($direction * $angle_step * $i + $angle_start) * $length,
+                $cy + sin($direction * $angle_step * $i + $angle_start) * $length
+            );
+            $builder->line(
+                $cx + cos($direction * $angle_step * ($i+1) + $angle_start) * $length,
+                $cy + sin($direction * $angle_step * ($i+1) + $angle_start) * $length
+            );
+            $builder->line($cx, $cy);
+        }
+
+        $builder->close();
+    }
+
+    protected static function rect_compony(ShieldRect $rect, SvgPathBuilder $builder, $top = true, $bottom = true, $left = true, $right = true)
+    {
+        $count_x = 4;
+        $count_y = 4;
+        $step_x = $rect->size->width / $count_x;
+        $step_y = $rect->size->height / $count_y;
+        $min = min($rect->size->width, $rect->size->height) / 2;
+
+        if ( $top )
+        {
+            $builder->move($min + $rect->left(), $min + $rect->top());
+            $builder->line(-$min, -$min, true);
+            for ( $i = 0; $i < $count_x - 1; $i++ )
+            {
+                $builder->line($step_x, 0, true);
+                $builder->line(0, $min * ($i % 2 ? -1 : 1), true);
+            }
+            $builder->line($step_x, 0, true);
+            $builder->close();
+        }
+
+        if ( $left )
+        {
+            $builder->line($rect->left() + $min, $rect->bottom() - $min);
+            $builder->line(-$min, $min, true);
+            for ( $i = 0; $i < $count_y -1; $i++ )
+            {
+                $builder->line(0, -$step_y, true);
+                $builder->line($min * ($i % 2 ? -1 : 1), 0, true);
+            }
+            $builder->close();
+        }
+
+        if ( $bottom )
+        {
+            $builder->move($step_x + $rect->left(), $rect->bottom());
+            for ( $i = 1; $i < $count_x; $i++ )
+            {
+                $builder->line(0, $min * ($i % 2 ? -1 : 1), true);
+                $builder->line($step_x, 0, true);
+            }
+            $builder->line($rect->right() - $min, $rect->bottom() - $min);
+            $builder->line($min, $min, true);
+            $builder->close();
+        }
+
+        if ( $right )
+        {
+            $builder->move($rect->right(), $rect->bottom() - $step_y);
+            for ( $i = 1; $i < $count_x; $i++ )
+            {
+                $builder->line($min * ($i % 2 ? -1 : 1), 0, true);
+                $builder->line(0, -$step_y, true);
+            }
+            $builder->line($rect->right() - $min, $min + $rect->top());
+            $builder->line($min, -$min, true);
+            $builder->close();
+        }
+    }
+
+    protected function on_compony(ShieldLayout $layout, $inset, SvgPathBuilder $builder)
+    {
+        return self::radial_compony($layout, $builder);
+    }
 }
 
 class HeatherShieldShape extends ShieldShape
@@ -155,9 +257,9 @@ class HeatherShieldShape extends ShieldShape
         }
     }
 
-    protected function on_svg_path(ShieldLayout $layout, $inset, $region, $reversed, SvgPathBuilder $builder)
+    protected function on_svg_path(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder)
     {
-        switch ( $region )
+        switch ( $layout->section )
         {
             case "dexter":
                 return $this->on_svg_path_dexter($layout, $inset, $reversed, $builder, $this->margin_top);
@@ -183,6 +285,35 @@ class HeatherShieldShape extends ShieldShape
             new ShieldPos($tip->x + $direction * $this->tan2->x * $scale, $tip->y + $this->tan2->y * $scale),
             new ShieldPos($tip->x + $direction * $this->dest->x * $scale, $tip->y + $this->dest->y * $scale)
         ];
+    }
+
+    protected function on_compony(ShieldLayout $layout, $inset, SvgPathBuilder $builder)
+    {
+        switch ( $layout->section )
+        {
+            case "dexter":
+            case "quarter-base-dexter":
+                self::rect_compony($layout->rect_area()->margin($inset), $builder, true, false, false, false);
+                $start = atan2(-$layout->center_point->y, $layout->size->width - $layout->center_point->x);
+                $finish = atan2(-$layout->center_point->y, -$layout->center_point->x) + M_PI * 2;
+                self::radial_compony($layout, $builder, 16, $start, $finish - $start);
+                break;
+            case "sinister":
+            case "quarter-base-sinister":
+                self::rect_compony($layout->rect_area()->margin($inset), $builder, true, false, false, false);
+                $start1 = atan2(-$layout->center_point->y, $layout->size->width - $layout->center_point->x);
+                $finish = atan2(-$layout->center_point->y, -$layout->center_point->x) + M_PI * 2;
+                self::radial_compony($layout, $builder, 16, $start1, $finish - $start1 - M_PI / 36);
+                break;
+            case "quarter-chief-dexter":
+            case "quarter-chief-sinister":
+                self::rect_compony($layout->rect_area()->margin($inset), $builder);
+                break;
+            default:
+                self::rect_compony($layout->rect_area()->margin($inset), $builder, true, false, false, false);
+                self::radial_compony($layout, $builder, 16, -M_PI/4, M_PI * 3 / 2);
+                break;
+        }
     }
 }
 
@@ -212,9 +343,14 @@ class RectShieldShape extends ShieldShape
         }
     }
 
-    protected function on_svg_path(ShieldLayout $layout, $inset, $region, $reversed, SvgPathBuilder $builder)
+    protected function on_svg_path(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder)
     {
         self::rect_path($layout->rect_area(), $inset, $reversed, $builder);
+    }
+
+    protected function on_compony(ShieldLayout $layout, $inset, SvgPathBuilder $builder)
+    {
+        self::rect_compony($layout->rect_area()->margin($inset), $builder);
     }
 }
 
@@ -348,9 +484,9 @@ class EllipseShieldShape extends ShieldShape
             ;
     }
 
-    protected function on_svg_path(ShieldLayout $layout, $inset, $region, $reversed, SvgPathBuilder $builder)
+    protected function on_svg_path(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder)
     {
-        switch ( $region )
+        switch ( $layout->section )
         {
             case "dexter":
                 return $this->on_svg_path_dexter($layout, $inset, $reversed, $builder);
@@ -425,9 +561,9 @@ class LozengeShieldShape extends ShieldShape
     {
     }
 
-    protected function on_svg_path(ShieldLayout $layout, $inset, $region, $reversed, SvgPathBuilder $builder)
+    protected function on_svg_path(ShieldLayout $layout, $inset, $reversed, SvgPathBuilder $builder)
     {
-        switch ( $region )
+        switch ( $layout->section )
         {
             case "dexter":
                 $points = [

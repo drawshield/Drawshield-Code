@@ -232,8 +232,8 @@
             <td style="text-align:center;border-right:1px solid #000000;" colspan="2">Printable</td></td>
         </tr>
         <tr>
-            <td style="text-align:center;border-left:1px solid #000000;"><input type="radio" name="format" value="png" checked="checked" /></td>
-            <td style="text-align:center;"><input type="radio" name="format" value="svg" /></td>
+            <td style="text-align:center;border-left:1px solid #000000;"><input type="radio" name="format" value="png" /></td>
+            <td style="text-align:center;"><input type="radio" name="format" value="svg" checked="checked" /></td>
             <td style="text-align:center;border-right:1px solid #000000;"><input type="radio" name="format" value="jpg" /></td>
             <td style="text-align:center;border-right:1px solid #000000;" colspan="2"><input type="checkbox" id="printable" name="printable" value="on"/></td>
         </tr>

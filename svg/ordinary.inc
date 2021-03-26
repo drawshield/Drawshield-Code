@@ -320,7 +320,7 @@ function makeOrdinary( DOMElement &$node, $layout ) {
       }
       $body2 = apply_tincture ( $body2_col, $body2_spec, $layout, null, $rot, $mirrored, $inverted );
       $body2_fill = add_def( 'pattern patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="0" ' .
-                             'y="0" width="1000" height="1200"', $body2 );
+                             'y="0" width="'.$layout->size->width.'" height="'.$layout->size->height.'"', $body2 );
       $retval .= add_def() . '<g fill="url(#' . $body2_fill . ')">' . $bodySVG . '</g>';
     }
   }

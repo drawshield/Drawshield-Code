@@ -22,14 +22,16 @@ if ( strpos($layout->section, "quarter") !== false )
 {
     $width *= 2;
     $margin *= 2;
+    $ext = min($layout->size->width, $layout->size->height) - 2 * $margin;
+    $width = min($ext / 4, $width);
 }
 
 $shape = ShieldShape::from_name($layout->shape);
 
 $path_builder = new SvgPathBuilder();
 
-$shape->svg_path($layout, $margin, $layout->section, false, $path_builder);
-$shape->svg_path($layout, $margin + $width, $layout->section, true, $path_builder);
+$shape->svg_path($layout, $margin, false, $path_builder);
+$shape->svg_path($layout, $margin + $width, true, $path_builder);
 
 $ordinary['body'] = $path_builder->to_path();
 
@@ -69,4 +71,18 @@ if ( $tinc->hasChildNodes() and $tinc->firstChild->nodeName == 'fur' ) {
     $node->appendChild($on);
   }
 }
+
+
+
+if ( existModifierWithKeyterm($node,'compony1') )
+{
+    $ordinary['body2'] = $shape->compony($layout, $margin)->to_path();
+}
+elseif (existModifierWithKeyterm($node,'compony2') )
+{
+    $body2 = $shape->compony($layout, $margin);
+    $shape->svg_path($layout, $margin + $width / 2, true, $body2);
+    $ordinary['body2'] = $body2->to_path();
+}
+
 

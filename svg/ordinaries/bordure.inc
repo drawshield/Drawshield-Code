@@ -24,14 +24,24 @@ if ( strpos($layout->section, "quarter") !== false )
     $margin /= 2;
 }
 
-if ( $layout->section == "quarter" )
-    $shape = new RectShieldShape();
-else
-    $shape = ShieldShape::from_name($layout->shape);
+$shape = ShieldShape::from_name($layout->shape);
 
 $path_builder = new SvgPathBuilder();
 
-$shape->svg_path($layout, $margin, $layout->section, false, $path_builder);
-$shape->svg_path($layout, $margin + $width, $layout->section, true, $path_builder);
+$shape->svg_path($layout, $margin, false, $path_builder);
+$shape->svg_path($layout, $margin + $width, true, $path_builder);
 
 $ordinary['body'] = $path_builder->to_path();
+
+
+
+if ( existModifierWithKeyterm($node,'compony1') )
+{
+    $ordinary['body2'] = $shape->compony($layout, 0)->to_path();
+}
+elseif (existModifierWithKeyterm($node,'compony2') )
+{
+    $body2 = $shape->compony($layout, 0);
+    $shape->svg_path($layout, ($width + $margin) / 2, true, $body2);
+    $ordinary['body2'] = $body2->to_path();
+}
