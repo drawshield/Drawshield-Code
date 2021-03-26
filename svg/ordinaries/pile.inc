@@ -18,7 +18,7 @@ if ( $num < 1 ) $num = 1;
 if ( existModifierWithKeyterm($node,'throughout') )
     $bottom = $layout->size->height;
 else
-    $bottom = $layout->size->height * 0.65;
+    $bottom = $layout->size->height * 0.9;
 
 if ( existModifierWithKeyterm($node, 'depressed')) {
   $ordinary['body'] = '<path d="M350,-100 500,900 650,-100z" />';
