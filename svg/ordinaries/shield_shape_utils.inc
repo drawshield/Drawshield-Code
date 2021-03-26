@@ -147,6 +147,24 @@ abstract class ShieldShape
     {
         return self::radial_compony($layout, $builder);
     }
+
+    function charge_placement(ShieldLayout $layout, $margin, $width)
+    {
+        $points = $this->on_charge_placement($layout, $margin, $width);
+        if ( count($points) == 0 )
+            return "x";
+        $plac = [];
+        $padding = $width / 5;
+        $size = new ShieldSize($width-$padding, $width-$padding);
+        foreach ( $points as $point )
+            $plac[] = new ShieldRect($point, $size);
+        return str_repeat("/", count($points)-1) . implode(":", $plac);
+    }
+
+    protected function on_charge_placement(ShieldLayout $layout, $margin, $width)
+    {
+        return [];
+    }
 }
 
 class HeatherShieldShape extends ShieldShape
@@ -283,7 +301,7 @@ class HeatherShieldShape extends ShieldShape
         return [
             new ShieldPos($tip->x + $direction * $this->tan1->x * $scale, $tip->y + $this->tan1->y * $scale),
             new ShieldPos($tip->x + $direction * $this->tan2->x * $scale, $tip->y + $this->tan2->y * $scale),
-            new ShieldPos($tip->x + $direction * $this->dest->x * $scale, $tip->y + $this->dest->y * $scale)
+            new ShieldPos($tip->x + $direction * $this->dest->x * $scale, $tip->y + $this->dest->y * $scale),
         ];
     }
 
@@ -314,6 +332,88 @@ class HeatherShieldShape extends ShieldShape
                 self::radial_compony($layout, $builder, 16, -M_PI/4, M_PI * 3 / 2);
                 break;
         }
+    }
+
+
+    protected function on_charge_placement(ShieldLayout $layout, $margin, $width)
+    {
+        $w = $layout->size->width - 2 * $margin;
+        $dy = ($layout->center_point->y - $this->margin_top - $margin) / 2;
+        $mid = $margin + $width / 2;
+        $tip = new ShieldPos($layout->size->width / 2, $layout->size->height - $this->margin_bottom - $mid);
+        $scale = ($layout->size->width - 2 * $mid) / 1000;
+        $bottom = $layout->size->height - $this->margin_bottom - $mid + $this->dest->y * $scale;
+        $n_bez = 2;
+        $spots = [
+            new ShieldPos($w * 1 / 4 + $margin, $mid + $this->margin_top),
+            new ShieldPos($w * 2 / 4 + $margin, $mid + $this->margin_top),
+            new ShieldPos($w * 3 / 4 + $margin, $mid + $this->margin_top),
+
+            $tip,
+        ];
+
+        if ( $layout->center_point->y < $bottom )
+        {
+            $spots[] = new ShieldPos($mid, $layout->center_point->y );
+            $spots[] = new ShieldPos($layout->size->width - $mid, $layout->center_point->y );
+        }
+        else
+            $n_bez++;
+
+        if ( $layout->center_point->y - $dy < $bottom )
+        {
+            $spots[] = new ShieldPos($mid, $layout->center_point->y - $dy );
+            $spots[] = new ShieldPos($layout->size->width - $mid, $layout->center_point->y - $dy );
+        }
+        else
+            $n_bez++;
+
+        if ( $layout->center_point->y + $dy < $bottom )
+        {
+            $spots[] = new ShieldPos($mid, $layout->center_point->y + $dy );
+            $spots[] = new ShieldPos($layout->size->width - $mid, $layout->center_point->y + $dy );
+        }
+        else
+            $n_bez++;
+
+        $bez_l = $this->scaled_curve($tip, $scale, -1);
+        $bez_r = $this->scaled_curve($tip, $scale, 1);
+        $t_step = 1 / $n_bez;
+        for ( $i = 1; $i <= $n_bez; $i++ )
+        {
+            $spots[] = self::bezier_solve($t_step * $i, $tip, $bez_r);
+            $spots[] = self::bezier_solve($t_step * $i, $tip, $bez_l);
+        }
+
+        return $spots;
+    }
+
+    private static function bezier_a($k0, $k1, $k2, $k3)
+    {
+        return -$k0 + $k1*3 + $k2 * -3 + $k3;
+    }
+    private static function bezier_b($k0, $k1, $k2)
+    {
+        return $k0 * 3 + $k1 * -6 + $k2 * 3;
+    }
+    private static function bezier_c($k0, $k1)
+    {
+        return $k0 * -3 + $k1 * 3;
+    }
+    private static function bezier_d($k0)
+    {
+        return $k0;
+    }
+    private static function bezier_component($t, $k0, $k1, $k2, $k3)
+    {
+        return ((self::bezier_a($k0, $k1, $k2, $k3) * $t + self::bezier_b($k0, $k1, $k2) ) * $t +  self::bezier_c($k0, $k1) ) * $t + self::bezier_d($k0);
+    }
+    private function bezier_solve($t, $tip, $curve)
+    {
+        return new ShieldPos(
+            self::bezier_component($t, $tip->x, $curve[0]->x, $curve[1]->x, $curve[2]->x),
+            self::bezier_component($t, $tip->y, $curve[0]->y, $curve[1]->y, $curve[2]->y)
+        );
     }
 }
 
@@ -351,6 +451,32 @@ class RectShieldShape extends ShieldShape
     protected function on_compony(ShieldLayout $layout, $inset, SvgPathBuilder $builder)
     {
         self::rect_compony($layout->rect_area()->margin($inset), $builder);
+    }
+
+    protected function on_charge_placement(ShieldLayout $layout, $margin, $width)
+    {
+        $w = $layout->size->width - 2 * $margin;
+        $h = $layout->size->height - 2 * $margin;
+        $mid = $margin + $width / 2;
+        return [
+            new ShieldPos($w * 1 / 4 + $margin, $mid),
+            new ShieldPos($w * 2 / 4 + $margin, $mid),
+            new ShieldPos($w * 3 / 4 + $margin, $mid),
+
+            new ShieldPos($layout->size->width / 2, $layout->size->height - $mid),
+
+            new ShieldPos($mid, $h * 2 / 4 + $margin),
+            new ShieldPos($layout->size->width - $mid, $h * 2 / 4 + $margin),
+
+            new ShieldPos($mid, $h * 1 / 4 + $margin),
+            new ShieldPos($layout->size->width - $mid, $h * 1 / 4 + $margin),
+
+            new ShieldPos($mid, $h * 3 / 4 + $margin),
+            new ShieldPos($layout->size->width - $mid, $h * 3 / 4 + $margin),
+
+            new ShieldPos($w * 1 / 4 + $margin, $layout->size->height - $mid),
+            new ShieldPos($w * 3 / 4 + $margin, $layout->size->height - $mid),
+        ];
     }
 }
 

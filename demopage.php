@@ -69,6 +69,7 @@
     <h1>Draw a Shield</h1>
     <p>Enter a <strong>blazon</strong> into the box and click the <code>Create!</code> button.</p>
     <div id="table-container">
+      <div>
       <table style="width:600px" summary="shield table">
         <tr>
           <td rowspan="6" style="width: 459px; text-align:center">
@@ -124,7 +125,7 @@
             <input type="button" name="searchbutton"  id="searchbutton" value="Search" style="width: 90px;"/>
           </td>
         </tr>
-      </table>
+      </table><div></div></div>
       <div id="resultstable" style="display:none"></div>
     </div>
 <?php

@@ -86,3 +86,4 @@ elseif (existModifierWithKeyterm($node,'compony2') )
 }
 
 
+$ordinary['chargesOn'] = $shape->charge_placement($layout, $margin, $width);

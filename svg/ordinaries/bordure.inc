@@ -45,3 +45,6 @@ elseif (existModifierWithKeyterm($node,'compony2') )
     $shape->svg_path($layout, ($width + $margin) / 2, true, $body2);
     $ordinary['body2'] = $body2->to_path();
 }
+
+$ordinary['chargesWithin'] = $layout->rect_area()->margin(250, 0, 250, 350);
+$ordinary['chargesOn'] = $shape->charge_placement($layout, 0, $width + $margin);
