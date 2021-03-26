@@ -37,11 +37,11 @@ $ordinary['body'] = $path_builder->to_path();
 
 if ( existModifierWithKeyterm($node,'compony1') )
 {
-    $ordinary['body2'] = $shape->compony($layout, 0)->to_path();
+    $ordinary['body2'] = $shape->compony($layout, 0, $width + $margin)->to_path();
 }
 elseif (existModifierWithKeyterm($node,'compony2') )
 {
-    $body2 = $shape->compony($layout, 0);
+    $body2 = $shape->compony($layout, 0, $width + $margin);
     $shape->svg_path($layout, ($width + $margin) / 2, true, $body2);
     $ordinary['body2'] = $body2->to_path();
 }

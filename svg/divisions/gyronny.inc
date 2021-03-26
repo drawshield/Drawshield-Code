@@ -14,7 +14,9 @@
 
 
 $num_of = (int)getModifierValueByKeyterm($node, 'ofnum', false);
-if ( $num_of < 6 )
+if ( $num_of == null )
+    $num_of = 8;
+else if ( $num_of < 6 )
     $num_of = 6;
 else if ( $num_of % 2 )
     $num_of += 1;

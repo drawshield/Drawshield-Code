@@ -92,11 +92,11 @@ $ordinary['chargesWithin'] = array ('w','300,300,400,500');
 
 if ( existModifierWithKeyterm($node,'compony1') )
 {
-    $ordinary['body2'] = $shape->compony($layout, $margin)->to_path();
+    $ordinary['body2'] = $shape->compony($layout, $margin, $width)->to_path();
 }
 elseif (existModifierWithKeyterm($node,'compony2') )
 {
-    $body2 = $shape->compony($layout, $margin);
+    $body2 = $shape->compony($layout, $margin, $width);
     $shape->svg_path($layout, $margin + $width / 2, true, $body2);
     $ordinary['body2'] = $body2->to_path();
 }

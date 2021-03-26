@@ -92,5 +92,5 @@ $ordinary['chargesWithin'] = $layout->rect_area()->relative_box(0.5, 0.45, 0.5, 
 
 if ( existModifierWithKeyterm($node,'compony1') )
 {
-    $ordinary['body2'] = $shape->compony($layout, $margin)->to_path();
+    $ordinary['body2'] = $shape->compony($layout, $margin, $width)->to_path();
 }
