@@ -80,11 +80,15 @@ function bend_within($layout, $width)
     ];
 
     return array_to_placement([
-        [],
+        "",
         $within_2,
-        [],
+        [
+            $within_2[0],
+            $within_4[2],
+            $within_4[3],
+        ],
         $within_4,
-        [],
+        "",
         [
             new ShieldRect($within_4[0]->pos, $within_4[0]->size->scaled(0.8)),
             new ShieldRect($within_4[1]->pos, $within_4[1]->size->scaled(0.8)),

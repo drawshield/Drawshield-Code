@@ -430,7 +430,7 @@ function makeOrdinary( DOMElement &$node, $layout ) {
 	// Are there any modifiers that affect over all position?
 	$transform = '';
   if ( $mirrored ) {
-    $transform .= "translate($layout->size->width},0) scale(-1,1) ";
+    $transform .= "translate({$layout->size->width},0) scale(-1,1) ";
   }
   if ( $inverted ) {
       $transform .= "translate(0,{$layout->size->height}) scale(1,-1) ";

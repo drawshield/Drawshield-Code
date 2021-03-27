@@ -96,6 +96,7 @@ $ordinary['chargesOn'] = placement_in_bend($layout->rect_area(), false, 45);
 
 $ordinary['chargesWithin'] = bend_within($layout, $width);
 
+
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';
   $rivetList = '';
