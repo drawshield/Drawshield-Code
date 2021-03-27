@@ -13,7 +13,7 @@ if ( $layout->section != "quarter" )
 {
     switch ( $layout->shape )
     {
-        case "heater":  $diag_off1 = 135; break;
+        case "heater":  $diag_off1 = 100; break;
         case "french":  $diag_off1 = 70; break;
         case "oval":    $diag_off1 = $diag_off2 = 170; break;
         case "lozenge": $diag_off1 = $diag_off2 = $layout->size->width / 4; break;
