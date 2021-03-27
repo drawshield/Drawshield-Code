@@ -13,7 +13,7 @@
 
 $line_type = getModifierByType($node, 'linetype', false);
 $margin = 100;
-$arm = max($layout->center_point->x, $layout->center_point->y) + $margin;
+$arm = (max($layout->center_point->x, $layout->center_point->y) + $margin) * M_SQRT2;
 $side = $arm * M_SQRT2;
 
 $builder_2 = path_builder($layout->center_point->x, $layout->center_point->y)->offset(false)->quarterly();
