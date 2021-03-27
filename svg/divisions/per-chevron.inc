@@ -16,15 +16,20 @@ $lineType = getModifierByType($node, 'linetype', false);
 if ( $rev = getModifierNodeWithKeyterm($node,'reversed',true)) // reversed means inverted
     $rev->setAttribute('keyterm','inverted');
 
-$y = $layout->center_point->y - 150 / M_SQRT2;
 $extent = max($layout->size->width, $layout->size->height);
 
-$div_data = path_builder($layout->center_point->x, $y)->chevron();
-
 if ( existModifierWithKeyterm($node, 'inverted') )
-    $div_data->up_right($extent)->left_plain($extent*M_SQRT2)->down_right($extent);
+{
+    $y = $layout->center_point->y + 300 / M_SQRT2;
+    $div_data = path_builder($layout->center_point->x, $y)->chevron();
+    $div_data->up_right($extent)->down_plain(2000)->left_plain($extent*M_SQRT2)->up_plain(2000)->down_right($extent);
+}
 else
+{
+    $y = $layout->center_point->y - 150 / M_SQRT2;
+    $div_data = path_builder($layout->center_point->x, $y)->chevron();
     $div_data->down_right($extent)->left_plain($extent*M_SQRT2)->up_right($extent);
+}
 
 
 $division['div2'] = createBody((string)$div_data, $lineType, 60, $layout);
