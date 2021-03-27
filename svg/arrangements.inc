@@ -439,7 +439,7 @@ function get_placement(DOMElement $item, $layout) {
 
     // explicit arrangements
     if ( $placement == '' && $arr ) {
-      switch ( $arr ) { // TODO add incross + insaltire with chief,
+      switch ( $arr ) {
         case 'inannulo':
             $placement = inAnnulo($number, $boundingBox, $layout);
             break;
@@ -484,7 +484,10 @@ function get_placement(DOMElement $item, $layout) {
             $placement = placement_from_ordinary("plain-cross", $boundingBox, $layout);
             break;
         case 'insaltire':
-            $placement = placement_from_ordinary("saltire", $boundingBox, $layout);
+            $placement_arr = explode("/", placement_from_ordinary("saltire", $boundingBox, $layout));
+            $placement_arr[1] = box_placement($boundingBox->relative_box(0.5, 0.5, 0.75, 0.75), 45, 0, 1) . ":" .
+                box_placement($boundingBox->relative_box(0.5, 0.5, 0.75, 0.75), -45, 0, 0);
+            $placement = implode("/", $placement_arr);
             break;
         case 'inpile':
             $placement = 'x/x/250,250,300,300:500,600:750,250/x/x/250,200,200,200:500:750:333.33,500:666.67:500,800';
