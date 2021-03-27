@@ -84,7 +84,7 @@ function makeimpaled( DOMNodeList $children, $layout ) {
   $retval = '';
   $imp1 = $imp2 = null; // remove warnings
 
-  $size = $layout->size->scaled(0.5, 1);
+  $size = $layout->size->scaled(1, 2);
   $clipI = add_def( 'clipPath', "<rect x='0' y='0' width='{$size->width}'  height='{$size->height}'/>" );
   $child_layout_1 = new ShieldLayout($size, $layout->shape, null, null, true, "dexter");
   $child_layout_2 = new ShieldLayout($size, $layout->shape, null, null, true, "sinister");
@@ -101,8 +101,8 @@ function makeimpaled( DOMNodeList $children, $layout ) {
       break;
     }
   }
-  $retval .= '<g clip-path="url(#' . $clipI . ')"  >' .  $imp1  . "</g>\n";
-  $retval .= "<g clip-path='url(#$clipI)' transform='translate({$size->width},0)' >$imp2</g>\n";
+  $retval .= "<g clip-path='url(#$clipI)' transform='scale(0.5, 1)' >$imp1</g>\n";
+  $retval .= "<g clip-path='url(#$clipI)' transform='scale(0.5, 1) translate({$size->width},0)' >$imp2</g>\n";
   $retval .= add_def();
 
   return $retval . "<path stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\" d=\"M {$size->width} 0 v {$layout->size->height}\" />\n";
