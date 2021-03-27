@@ -430,17 +430,17 @@ function makeOrdinary( DOMElement &$node, $layout ) {
 	// Are there any modifiers that affect over all position?
 	$transform = '';
   if ( $mirrored ) {
-    $transform .= 'translate(1000,0) scale(-1,1) ';
+    $transform .= "translate($layout->size->width},0) scale(-1,1) ";
   }
   if ( $inverted ) {
-    $transform .= 'translate(0,1200) scale(1,-1) ';
+      $transform .= "translate(0,{$layout->size->height}) scale(1,-1) ";
   }
   if ( existModifierWithKeyterm($node,'enhanced') ) {
-    $yshift = -200; // Adjust to change movement for enhanced (match in layout.inc)
+    $yshift = $layout->size->height * -0.1666; // Adjust to change movement for enhanced (match in layout.inc)
     $transform .= 'translate(0,' . $yshift . ') ';
   }
   if ( existModifierWithKeyterm($node,'abased' )) {
-    $yshift = 200; // As above
+    $yshift = $layout->size->height * 0.1666; // As above
     $transform .= 'translate(0, ' . $yshift . ') ';
   }
   if ( $transform != '' )
