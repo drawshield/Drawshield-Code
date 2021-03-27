@@ -12,6 +12,8 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
+require_once("chevron-helper.inc");
+
 
 if ( existModifierWithKeyterm($node,'throughout') )
 {
@@ -76,27 +78,10 @@ elseif ( existModifierWithKeyterm($node,'inarched') )
 }
 else
 {
-    if ( !function_exists("build_chevron") )
-    {
-        function build_chevron(ShieldLayout $layout, $width, $offset, PathBuilder $builder)
-        {
-            $extent = max($layout->size->width, $layout->size->height);
-
-            return $builder
-                ->move($layout->center_point->x, $layout->center_point->y + $offset)
-                ->chevron()
-                ->down_right($extent)
-                ->up_right_plain($width)
-                ->up_left($extent + $width)
-                ->down_left($extent + $width)
-                ->down_right_plain($width)
-                ->up_right($extent);
-        }
-    }
 
     $builder = new PathBuilder();
     $number = (int)$node->getAttribute('number');
-    $width = min(200, $layout->center_point->y / ($number+0.5));
+    $width = chevron_width($layout, $number);
     switch ( $number )
     {
         case '2':

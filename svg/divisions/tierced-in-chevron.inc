@@ -11,6 +11,8 @@
  * Time: 19:56
  */
 
+require_once(__dir__ . "/../ordinaries/chevron-helper.inc");
+
 $lineType = getModifierByType($node, 'linetype', false);
 
 
@@ -36,7 +38,8 @@ if ( existModifierWithKeyterm($node, 'inverted'))
 }
 else
 {
-    $y = $layout->center_point->y - 150 / M_SQRT2;
+    $ordinary_width = chevron_width($layout, 1);;
+    $y = $layout->center_point->y - $ordinary_width / M_SQRT2;
 
     $builder_2 = path_builder($layout->center_point->x, $y - $width / M_SQRT2)
         ->chevron()
