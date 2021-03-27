@@ -8,12 +8,12 @@ function build_chevron(ShieldLayout $layout, $width, $offset, PathBuilder $build
     return $builder
         ->move($layout->center_point->x, $layout->center_point->y + $offset + $y_align * $width * M_SQRT2)
         ->chevron()
-        ->down_right($extent)
-        ->up_right_plain($width)
-        ->up_left($extent + $width)
-        ->down_left($extent + $width)
-        ->down_right_plain($width)
-        ->up_right($extent);
+        ->down_left($extent)
+        ->up_left_plain($width)
+        ->up_right($extent + $width)
+        ->down_right($extent + $width)
+        ->down_left_plain($width)
+        ->up_left($extent);
 }
 
 
