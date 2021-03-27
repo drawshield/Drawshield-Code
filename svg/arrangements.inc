@@ -393,12 +393,13 @@ function get_placement(DOMElement $item, $layout) {
         // If so, occupy only half the bounding box
         if ( $xpath->evaluate("boolean(parent::modifier[@keyterm='above']/parent::charge)",$item) )
         {
-            $boundingBox->pos->y += $boundingBox->size->height / 2;
+            $boundingBox->pos->y += $boundingBox->size->height / 4;
             $boundingBox->size->height /= 2;
             $forceCentre = false;
         }
         else if ( existModifierWithKeyterm($item,'above') )
         {
+            $boundingBox->pos->y -= $boundingBox->size->height / 4;
             $boundingBox->size->height /= 2;
             $forceCentre = false;
         }
@@ -406,12 +407,13 @@ function get_placement(DOMElement $item, $layout) {
         // similarly for charge beside charge
         if ( $xpath->evaluate("boolean(parent::modifier[@keyterm='beside']/parent::charge)",$item) )
         {
-            $boundingBox->pos->y += $boundingBox->size->width / 2;
+            $boundingBox->pos->x += $boundingBox->size->width / 4;
             $boundingBox->size->width /= 2;
             $forceCentre = false;
         }
         else if ( existModifierWithKeyterm($item,'beside') )
         {
+            $boundingBox->pos->x -= $boundingBox->size->width / 4;
             $boundingBox->size->width /= 2;
             $forceCentre = false;
         }
