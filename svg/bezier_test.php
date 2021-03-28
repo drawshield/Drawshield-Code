@@ -42,18 +42,25 @@ $edge_path_debug
 ;
 $edge = new EdgeType($edge_path_wavy);
 $bez = SvgDParser::parse_d(getShape(new ShieldLayout(new ShieldSize(1, 1), "heater")));
+$bez->sub_paths()[0]->segment_tags[0] = BezierSegmentFlags::NORMAL;
+$bez->sub_paths()[0]->segment_tags[4] = BezierSegmentFlags::PLAIN;
+// $bez->sub_paths()[0]->segment_tags[5] = BezierSegmentFlags::NORMAL;
+$bez->sub_paths()[0]->segment_tags[6] = BezierSegmentFlags::REVERSE;
+$bez->sub_paths()[0]->segment_tags[10] = BezierSegmentFlags::PLAIN;
+/*
 $bez1 = clone $bez;
 $bez1->scale(0.5);
 $bez1->translate(new ShieldPos(250, 250));
 $bez1->reverse();
 $bez->combine_from($bez1);
+*/
 $comp = $bez->compile();
 
 $p1 = new ShieldPos(400, 50);
 $p2 = new ShieldPos(300, 120);
 $edge_test = new MutableShape();
 $edge_test->move_to($p1);
-$edge->apply_segment($p1, $p2, $edge_test);
+$edge->apply_line_segment($p1, $p2, $edge_test);
 
 $modified = new MutableShape();
 $edge->apply($comp, $modified, 200, 200);

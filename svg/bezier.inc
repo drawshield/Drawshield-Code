@@ -7,7 +7,7 @@ require_once("size.inc");
  * @brief A cubic bezier with precompiled lengths
  * @note This should be treated as a read-only object
  */
-class BezierSegment
+class CubicBezier
 {
     /// @var ShieldPos
     public $start;
@@ -187,6 +187,7 @@ class PolyBezier
 {
     public $points = [];
     public $closed = false;
+    public $segment_tags = [];
 
     function start() : BezierPoint
     {
@@ -286,24 +287,39 @@ class PolyBezier
 
     function compile()
     {
-        $segments = [];
+        $compiled = new CompiledPolyBezier($this->closed);
         if ( $this->size() > 1 )
         {
+            $flags = $this->segment_tags[0] ?? BezierSegmentFlags::NORMAL;
+            $cubics = [];
+
             $p0 = $this->points[0];
             for ( $i = 1; $i < $this->size(); $i++ )
             {
                 $p1 = $this->points[$i];
-                $segments[] = new BezierSegment($p0->pos, $p0->tan_out, $p1->tan_in, $p1->pos);
+                $cubics[] = new CubicBezier($p0->pos, $p0->tan_out, $p1->tan_in, $p1->pos);
                 $p0 = $p1;
+
+
+                if ( isset($this->segment_tags[$i]) )
+                {
+                    if ( count($cubics) )
+                        $compiled->add_segment(new CompiledBezierSegment($cubics, $flags));
+                    $cubics = [];
+                    $flags = $this->segment_tags[$i];
+                }
             }
+
             if ( $this->closed )
             {
                 $p1 = $this->points[0];
-                $segments[] = new BezierSegment($p0->pos, $p0->tan_out, $p1->tan_in, $p1->pos);
+                $cubics[] = new CubicBezier($p0->pos, $p0->tan_out, $p1->tan_in, $p1->pos);
             }
-        }
 
-        return new CompiledPolyBezier($segments, $this->closed);
+            if ( count($cubics) )
+                $compiled->add_segment(new CompiledBezierSegment($cubics, $flags));
+        }
+        return $compiled;
     }
 
     function translate(ShieldPos $p)
@@ -632,40 +648,49 @@ class SvgDParser
     }
 }
 
-/**
- * @brief Compiled version of PolyBezier
- */
-class CompiledPolyBezier
+class BezierSegmentFlags
 {
-    private $segments = [];
-    private $closed = false;
-    private $length = 0;
+    const NORMAL    = 0x00;
+    const PLAIN     = 0x01;
+    const STRAIGHT  = 0x02;
+    const REVERSE   = 0x10;
+}
 
-    function __construct($segments, $closed)
+/**
+ * @brief A continuous sequence of compiled bezier data
+ */
+class CompiledBezierSegment
+{
+    /// @var CubicBezier[]
+    private $sub_segments = [];
+    private $length = 0;
+    private $flags;
+
+    function __construct($sub_segments, $flags)
     {
-        $this->segments = $segments;
-        $this->closed = $closed;
-        foreach ( $segments as $seg )
+        $this->sub_segments = $sub_segments;
+        $this->flags = $flags;
+        foreach ( $sub_segments as $seg )
             $this->length += $seg->length;
     }
 
     function start()
     {
-        if ( count($this->segments) )
-            return $this->segments[0]->start;
+        if ( count($this->sub_segments) )
+            return $this->sub_segments[0]->start;
         return null;
     }
 
     function finish()
     {
-        if ( count($this->segments) )
-            return $this->segments[count($this->segments)-1]->finish;
+        if ( count($this->sub_segments) )
+            return $this->sub_segments[count($this->sub_segments)-1]->finish;
         return null;
     }
 
     function empty()
     {
-        return count($this->segments) == 0;
+        return count($this->sub_segments) == 0;
     }
 
     function to_svg_d()
@@ -673,10 +698,9 @@ class CompiledPolyBezier
         if ( $this->empty() )
             return "";
 
-        $p0 = $this->segments[0];
-        $d = "M {$p0->start->x} {$p0->start->y} ";
-        $letter = "L";
-        foreach ( $this->segments as $segment )
+        $d = "";
+        $letter = "";
+        foreach ( $this->sub_segments as $segment )
         {
             if ( $segment->linear )
             {
@@ -694,15 +718,12 @@ class CompiledPolyBezier
             }
         }
 
-        if ( $this->closed )
-            $d .= " Z";
-
         return $d;
     }
 
-    function segments()
+    function sub_segments()
     {
-        return $this->segments;
+        return $this->sub_segments;
     }
 
     function point_at_length($length)
@@ -710,7 +731,7 @@ class CompiledPolyBezier
         if ( $length >= $this->length )
             return $this->finish();
 
-        foreach ( $this->segments as $seg )
+        foreach ( $this->sub_segments as $seg )
         {
             if ( $length < $seg->length )
                 return $seg->point_at_length($length);
@@ -725,12 +746,71 @@ class CompiledPolyBezier
         return $this->length;
     }
 
+    function flags()
+    {
+        return $this->flags;
+    }
+}
+
+class CompiledPolyBezier
+{
+    private $closed = false;
+    private $segments = [];
+
+    function __construct($closed, $segments = [])
+    {
+        $this->segments = $segments;
+        $this->closed = $closed;
+    }
+
     function closed()
     {
         return $this->closed;
     }
-}
 
+    function to_svg_d()
+    {
+        $d = "";
+
+        $p0 = $this->start();
+        if ( $p0 )
+            $d .= "M {$p0->x} {$p0->y}";
+
+        foreach ( $this->segments as $segment )
+        {
+            $d .= $segment->to_svg_d();
+        }
+
+        if ( $this->closed )
+            $d .= " Z";
+
+        return $d;
+    }
+
+    function segments()
+    {
+        return $this->segments;
+    }
+
+    function add_segment(CompiledBezierSegment $segment)
+    {
+        $this->segments[] = $segment;
+    }
+
+    function start()
+    {
+        if ( count($this->segments) )
+            return $this->segments[0]->start();
+        return null;
+    }
+
+    function finish()
+    {
+        if ( count($this->segments) )
+            return $this->segments[count($this->segments)-1]->finish();
+        return null;
+    }
+}
 
 /**
  * @brief A shape made up of CompiledPolyBezier objects
@@ -758,10 +838,10 @@ class EdgeType
         $this->shape = clone $shape;
         $this->shape->translate(new ShieldPos(-$this->shape->start()->pos->x, $this->shape->start()->pos->y));
         $this->shape->scale(1/$this->shape->finish()->pos->x);
-        $this->shape = $this->shape->compile();
+        $this->shape = $this->shape->compile()->segments()[0];
     }
 
-    function apply_segment(ShieldPos $p1, ShieldPos $p2, MutableShape $target, $height = null)
+    function apply_line_segment(ShieldPos $p1, ShieldPos $p2, MutableShape $target, $height = null)
     {
         if ( $height === null  )
             $height = $p1->distance($p2);
@@ -769,7 +849,7 @@ class EdgeType
         $normal_angle = $angle + M_PI/2;
         $normal = new ShieldPos(cos($normal_angle), sin($normal_angle));
 
-        foreach ( $this->shape->segments() as $seg )
+        foreach ( $this->shape->sub_segments() as $seg )
         {
             if ( $seg->linear )
                 $target->line_to($this->relpoint($seg->finish, $p1, $p2, $height, $normal));
@@ -789,24 +869,46 @@ class EdgeType
         return new ShieldPos($p1->x + $normal->x * $y, $p1->y + $normal->y * $y);
     }
 
-    function apply_bezier(CompiledPolyBezier $source, MutableShape $target, $feature_width, $feature_height = null)
+    function apply_bezier_segment(CompiledBezierSegment $source, MutableShape $target, $feature_width, $feature_height = null)
     {
+        if ( $source->flags() & BezierSegmentFlags::PLAIN )
+        {
+            foreach ( $source->sub_segments() as $bez )
+                $target->cubic_to($bez->tan1, $bez->tan2, $bez->finish);
+
+            return;
+        }
+
+        if ( $feature_height == null )
+            $feature_height = $feature_width;
+
+        if ( $source->flags() & BezierSegmentFlags::REVERSE )
+            $feature_height = -$feature_height;
+
         $count = round($source->length() / $feature_width);
         $size = $source->length() / $count;
 
-        $p0 = $source->point_at_length(0);
-        $target->move_to($p0);
-
+        $p0 = $source->start();
         for ( $i = 1; $i <= $count; $i++ )
         {
             $p1 = $source->point_at_length($i * $size);
-            $this->apply_segment($p0, $p1, $target, $feature_height);
+            $this->apply_line_segment($p0, $p1, $target, $feature_height);
             $p0 = $p1;
         }
+    }
+
+    function apply_bezier(CompiledPolyBezier $source, MutableShape $target, $feature_width, $feature_height = null)
+    {
+        $p0 = $source->start();
+        $target->move_to($p0);
+
+        foreach( $source->segments() as $path )
+            $this->apply_bezier_segment($path, $target, $feature_width, $feature_height);
 
         if ( $source->closed() )
             $target->close();
     }
+
 
     function apply(CompiledShape $source, MutableShape $target, $feature_width, $feature_height = null)
     {
