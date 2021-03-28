@@ -285,6 +285,12 @@ class PolyBezier
         return $d;
     }
 
+    function tag_segment($flags)
+    {
+        $this->segment_tags[$this->size()] = $flags;
+        return $this;
+    }
+
     function compile()
     {
         $compiled = new CompiledPolyBezier($this->closed);
@@ -526,6 +532,14 @@ class MutableShape extends ShapeInterface
         foreach ( $this->sub_paths as $p )
             $cloned[] = clone $p;
         $this->sub_paths = $cloned;
+    }
+
+    function tag_segment($flags)
+    {
+        if ( $this->empty() )
+            $this->sub_paths[] = new PolyBezier();
+        $this->last_bez()->tag_segment($flags);
+        return $this;
     }
 }
 

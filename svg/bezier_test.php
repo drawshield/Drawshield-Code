@@ -46,8 +46,8 @@ $edge_path_flory
     ->line_to(new ShieldPos(5, 10))
     ->line_to(new ShieldPos(10, 0))
 ;
-// $edge = new EdgeType($edge_path_flory);
-$edge = new EdgeTypeFlory($edge_path_flory);
+$edge = new EdgeType($edge_path_wavy);
+// $edge = new EdgeTypeFlory($edge_path_flory);
 $bez = SvgDParser::parse_d(getShape(new ShieldLayout(new ShieldSize(1, 1), "heater")));
 $bez->sub_paths()[0]->segment_tags[0] = BezierSegmentFlags::NORMAL;
 // $bez->sub_paths()[0]->segment_tags[4] = BezierSegmentFlags::PLAIN;
@@ -70,7 +70,7 @@ $edge_test->move_to($p1);
 $edge->apply_line_segment($p1, $p2, $edge_test);
 
 $modified = new MutableShape();
-$edge->apply($comp, $modified, 500, 200);
+$edge->apply($comp, $modified, 200, 200);
 
 
 header("content-type: image/svg+xml");
