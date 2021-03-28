@@ -54,7 +54,6 @@ class ShieldPos
     function distance($other)
     {
         return hypot($other->x - $this->x, $other->y - $this->y);
-
     }
 }
 
