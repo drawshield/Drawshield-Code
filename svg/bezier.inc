@@ -713,10 +713,17 @@ class SvgDParser
 
 class BezierSegmentFlags
 {
-    const NORMAL    = 0x00;
-    const PLAIN     = 0x01;
-    const STRAIGHT  = 0x02;
-    const REVERSE   = 0x10;
+    // Paint the pattern normally
+    const NORMAL        = 0x00;
+    // Don't paint the pattern
+    const PLAIN         = 0x01;
+    // Safe to paint the pattern on the whole segment (rather than repeating)
+    const STRAIGHT      = 0x02;
+
+    // Mirror the y component of the pattern
+    const REVERSE       = 0x10;
+    // Try to make it look the same on both ends of the edge
+    const SYMMETRICAL   = 0x20;
 }
 
 /**

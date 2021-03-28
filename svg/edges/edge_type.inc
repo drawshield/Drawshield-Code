@@ -63,16 +63,23 @@ abstract class EdgeTypeBezier extends EdgeType
         $this->shape = $this->shape->compile()->segments()[0];
     }
 
-    function apply_line_segment(ShieldPos $p1, ShieldPos $p2, MutableShape $target, $height = null)
+    function apply_line_segment(ShieldPos $p1, ShieldPos $p2, MutableShape $target, $height = null, $scale = 1)
     {
+        if ( $scale != 1 )
+            $p2 = $p1->lerp($p2, $scale);
+
         if ( $height === null  )
             $height = $p1->distance($p2);
+
         $angle = atan2($p2->y - $p1->y, $p2->x - $p1->x);
         $normal_angle = $angle + M_PI/2;
         $normal = new ShieldPos(cos($normal_angle), sin($normal_angle));
 
-        foreach ( $this->shape->sub_segments() as $seg )
+        $count = floor(count($this->shape->sub_segments()) / $scale);
+
+        for ( $i = 0;  $i < $count; $i++ )
         {
+            $seg = $this->shape->sub_segments()[$i];
             if ( $seg->linear )
                 $target->line_to($this->relpoint($seg->finish, $p1, $p2, $height, $normal));
             else
@@ -108,6 +115,10 @@ class EdgeTypeRepeating extends EdgeTypeBezier
             $feature_height = -$feature_height;
 
         $count = round($source->length() / $feature_width);
+
+        if ( $source->flags() & BezierSegmentFlags::SYMMETRICAL )
+            $count -= 0.5;
+
         $size = $source->length() / $count;
 
         $p0 = $source->start();
@@ -116,6 +127,13 @@ class EdgeTypeRepeating extends EdgeTypeBezier
             $p1 = $source->point_at_length($i * $size);
             $this->apply_line_segment($p0, $p1, $target, $feature_height);
             $p0 = $p1;
+        }
+
+        if ( $source->flags() & BezierSegmentFlags::SYMMETRICAL )
+        {
+            $p1 = $source->finish();
+            $this->apply_line_segment($p0, $p1, $target, $feature_height, 2);
+            $target->line_to($p1);
         }
     }
 }

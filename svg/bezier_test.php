@@ -51,9 +51,9 @@ $edge_path_flory
 // $edge = new EdgeTypeFlory($edge_path_flory);
 $edge = EdgeType::load("dancetty-floretty");
 $bez = SvgDParser::parse_d(getShape(new ShieldLayout(new ShieldSize(1, 1), "heater")));
-$bez->sub_paths()[0]->segment_tags[0] = BezierSegmentFlags::NORMAL;
-$bez->sub_paths()[0]->segment_tags[5] = BezierSegmentFlags::NORMAL;
-$bez->sub_paths()[0]->segment_tags[10] = BezierSegmentFlags::NORMAL;
+$bez->sub_paths()[0]->segment_tags[0] = BezierSegmentFlags::SYMMETRICAL;
+// $bez->sub_paths()[0]->segment_tags[5] = BezierSegmentFlags::NORMAL;
+$bez->sub_paths()[0]->segment_tags[10] = BezierSegmentFlags::SYMMETRICAL;
 /*
 $bez1 = clone $bez;
 $bez1->scale(0.5);
@@ -64,7 +64,7 @@ $bez->combine_from($bez1);
 $comp = $bez->compile();
 
 $modified = new MutableShape();
-$edge->apply($comp, $modified, 100, 100);
+$edge->apply($comp, $modified, 100, -100);
 
 
 
