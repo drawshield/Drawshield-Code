@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   viewBox="0 0 1000 1200"
+   width="1000"
+   height="1200"
+   preserveAspectRatio="xMidYMid meet"
+   version="1.1"><path stroke-width="1" fill="none" stroke="black" d="M0,0 
+  h105.000v-90.000h-75.000
+  v60h45.000v-30.000
+  h-15.000v15.000h-15.000
+  v-30.000h45.000v60
+  h-75.000v-90.000h105.000
+  v105.000" />
+</svg>
