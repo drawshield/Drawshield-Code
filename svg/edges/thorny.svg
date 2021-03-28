@@ -4,9 +4,31 @@
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
    viewBox="0 0 1000 1200"
    width="1000"
    height="1200"
    preserveAspectRatio="xMidYMid meet"
-   version="1.1"><path stroke-width="1" fill="none" stroke="black" d="M0,0 c 0,-64.800 -19.200,-64.800 -19.200,-64.800 h 90.000 c 0,0 19.200,0 19.200,64.800 0,64.800 -19.200,64.800 -19.200,64.800 h 90.000 c 0,0 19.200,0 19.200,-64.800 " />
+   version="1.1"
+   id="svg3243">
+  <metadata
+     id="metadata3249">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3247" />
+  <path
+     stroke-width="1"
+     fill="none"
+     stroke="#000000"
+     d="m 0,0 c 0,-64.8 -19.2,-64.8 -19.2,-64.8 h 90 c 0,0 19.2,0 19.2,64.8 0,64.8 -19.2,64.8 -19.2,64.8 h 90 c 0,0 19.2,0 19.2,-64.8"
+     id="path3241" />
 </svg>
