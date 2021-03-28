@@ -787,6 +787,11 @@ class CompiledPolyBezier
         return $d;
     }
 
+    function size()
+    {
+        return count($this->segments);
+    }
+
     function segments()
     {
         return $this->segments;
@@ -869,7 +874,7 @@ class EdgeType
         return new ShieldPos($p1->x + $normal->x * $y, $p1->y + $normal->y * $y);
     }
 
-    function apply_bezier_segment(CompiledBezierSegment $source, MutableShape $target, $feature_width, $feature_height = null)
+    function apply_bezier_segment(CompiledBezierSegment $source, MutableShape $target, $feature_width, $feature_height)
     {
         if ( $source->flags() & BezierSegmentFlags::PLAIN )
         {
@@ -878,9 +883,6 @@ class EdgeType
 
             return;
         }
-
-        if ( $feature_height == null )
-            $feature_height = $feature_width;
 
         if ( $source->flags() & BezierSegmentFlags::REVERSE )
             $feature_height = -$feature_height;
@@ -897,7 +899,7 @@ class EdgeType
         }
     }
 
-    function apply_bezier(CompiledPolyBezier $source, MutableShape $target, $feature_width, $feature_height = null)
+    function apply_bezier(CompiledPolyBezier $source, MutableShape $target, $feature_width, $feature_height)
     {
         $p0 = $source->start();
         $target->move_to($p0);
@@ -912,7 +914,61 @@ class EdgeType
 
     function apply(CompiledShape $source, MutableShape $target, $feature_width, $feature_height = null)
     {
+        if ( $feature_height == null )
+            $feature_height = $feature_width;
+
         foreach( $source->sub_paths() as $path )
             $this->apply_bezier($path, $target, $feature_width, $feature_height);
+    }
+}
+
+
+class EdgeTypeFlory extends EdgeType
+{
+    function apply_bezier_segment(CompiledBezierSegment $source, MutableShape $target, $feature_width, $feature_height, $direction = 1)
+    {
+        if ( $source->flags() & BezierSegmentFlags::PLAIN )
+        {
+            foreach ( $source->sub_segments() as $bez )
+                $target->cubic_to($bez->tan1, $bez->tan2, $bez->finish);
+
+            return;
+        }
+
+        $count = round($source->length() / $feature_width);
+        $size = $source->length() / $count;
+
+        for ( $i = 1; $i < $count; $i++ )
+        {
+            $direction *= -1;
+            $p0 = $source->point_at_length($i * $size - $feature_height / 2);
+            $p1 = $source->point_at_length($i * $size + $feature_height / 2);
+            $target->line_to($p0);
+            $this->apply_line_segment($p0, $p1, $target, $feature_height * $direction);
+        }
+
+        return $direction;
+    }
+
+    function apply_bezier(CompiledPolyBezier $source, MutableShape $target, $feature_width, $feature_height)
+    {
+        $direction = 1;
+        $prev_segment = $source->segments()[$source->size()-1];
+        $p0 = $prev_segment->point_at_length($prev_segment->length() - $feature_height/M_SQRT2);
+        $target->move_to($p0);
+
+        foreach ( $source->segments() as $seg )
+        {
+            $p0 = $prev_segment->point_at_length($prev_segment->length() - $feature_height/M_SQRT2);
+            $p1 = $seg->point_at_length($feature_height/M_SQRT2);
+            $target->line_to($p0);
+            $this->apply_line_segment($p0, $p1, $target, $feature_height * $direction);
+            $prev_segment = $seg;
+            $direction = $this->apply_bezier_segment($seg, $target, $feature_width, $feature_height, $direction);
+            $direction *= -1;
+        }
+
+
+        $target->close();
     }
 }
