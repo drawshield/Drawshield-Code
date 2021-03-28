@@ -356,6 +356,44 @@ class PolyBezier
             $cloned[] = clone $p;
         $this->points = $cloned;
     }
+
+    private function closest_get_vt($closest_index, ShieldPos $current, $round_distance, $round_corner)
+    {
+        if ( $closest_index < 0 )
+            $closest_index += count($this->points);
+        $closer_v = $this->points[$closest_index]->pos;
+        $distance = $current->distance($closer_v);
+        $new_pos_perc = $distance != 0 ? min($distance/2, $round_distance) / $distance : 0;
+        $vert = $current->lerp($closer_v, $new_pos_perc);
+        $tan_x = - ($vert->x - $current->x) * $round_corner;
+        $tan_y = - ($vert->y - $current->y) * $round_corner;
+        return [$vert, new ShieldPos($tan_x + $vert->x, $tan_y + $vert->y)];
+    }
+
+    function rounded($round_distance)
+    {
+        $cloned = new PolyBezier();
+        $cloned->closed = $this->closed;
+        $round_corner = 0.5519;
+
+        for ( $i = 0; $i < $this->size(); $i++ )
+        {
+            $current = $this->points[$i]->pos;
+            if ( !$this->closed  && ($i == 0 || $i == count($this->points) - 1) )
+            {
+                $cloned->add_point($this->points[$i]);
+            }
+            else
+            {
+                list($vert1, $out_t) = $this->closest_get_vt($i - 1, $current, $round_distance, $round_corner);
+                $cloned->add_point(new BezierPoint($vert1, $vert1, $out_t));
+                list($vert2, $in_t) = $this->closest_get_vt(($i+1) % count($this->points), $current, $round_distance, $round_corner);
+                $cloned->add_point(new BezierPoint($vert2, $in_t, $vert2));
+            }
+        }
+
+        return $cloned;
+    }
 }
 
 /**
@@ -541,6 +579,15 @@ class MutableShape extends ShapeInterface
         $this->last_bez()->tag_segment($flags);
         return $this;
     }
+
+    function rounded($round_distance)
+    {
+        $clone = new MutableShape();
+        foreach ( $this->sub_paths as $bez )
+            $clone->add_path($bez->rounded($round_distance));
+        return $clone;
+    }
+
 }
 
 /**
@@ -605,7 +652,7 @@ class SvgDParser
             case 'M':
                 $this->relpoint = $this->point();
                 $this->bezier->move_to(clone $this->relpoint);
-                $this->letter = $this->relative ? "l" : "L";
+                $this->letter = "L";
                 return;
             case 'L':
                 $this->relpoint = $this->point();
@@ -637,6 +684,7 @@ class SvgDParser
                 $this->bezier->cubic_to($handle1, $handle2, clone $this->relpoint);
                 return;
             default:
+                user_error("SVG path {$this->letter} not supported", E_USER_WARNING);
                 $this->tokpos++;
                 return;
         }

@@ -48,12 +48,10 @@ $edge_path_flory
 ;
 $edge = new EdgeType($edge_path_wavy);
 // $edge = new EdgeTypeFlory($edge_path_flory);
-$bez = SvgDParser::parse_d(getShape(new ShieldLayout(new ShieldSize(1, 1), "heater")));
-$bez->sub_paths()[0]->segment_tags[0] = BezierSegmentFlags::NORMAL;
-// $bez->sub_paths()[0]->segment_tags[4] = BezierSegmentFlags::PLAIN;
-$bez->sub_paths()[0]->segment_tags[5] = BezierSegmentFlags::NORMAL;
-// $bez->sub_paths()[0]->segment_tags[6] = BezierSegmentFlags::REVERSE;
-$bez->sub_paths()[0]->segment_tags[10] = BezierSegmentFlags::NORMAL;
+$bez = SvgDParser::parse_d(getShape(new ShieldLayout(new ShieldSize(1, 1), "french")));
+// $bez->sub_paths()[0]->segment_tags[0] = BezierSegmentFlags::NORMAL;
+// $bez->sub_paths()[0]->segment_tags[5] = BezierSegmentFlags::NORMAL;
+// $bez->sub_paths()[0]->segment_tags[10] = BezierSegmentFlags::NORMAL;
 /*
 $bez1 = clone $bez;
 $bez1->scale(0.5);
@@ -61,7 +59,7 @@ $bez1->translate(new ShieldPos(250, 250));
 $bez1->reverse();
 $bez->combine_from($bez1);
 */
-$comp = $bez->compile();
+$comp = $bez->rounded(300)->compile();
 
 $p1 = new ShieldPos(400, 50);
 $p2 = new ShieldPos(300, 120);
