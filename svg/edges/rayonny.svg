@@ -8,5 +8,8 @@
    width="1000"
    height="1200"
    preserveAspectRatio="xMidYMid meet"
-   version="1.1"><path stroke-width="1" fill="none" stroke="black" d="M0,0 a30.000,48.000-30,0,0,30.000,60a30.000,48.000-30,0,1,30.000,60a30.000,48.000,30,0,0,30.000,-60a30.000,48.000,30,0,1,30.000,-60" />
+   version="1.1"><path
+       data-drawshield-symmetrical="1"
+       data-drawshield-flip-y="1"
+       stroke-width="1" fill="none" stroke="black" d="M 0,0 C -2.4306925,20.841763 10.914275,47.531699 30,60 49.085725,72.468301 62.430692,99.158237 60,120 79.085725,107.5317 92.430692,80.841763 90,60 87.569308,39.158237 100.91428,12.468301 120,0" />
 </svg>

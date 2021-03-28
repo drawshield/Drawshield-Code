@@ -14,5 +14,8 @@
   h-15.000v15.000h-15.000
   v-30.000h45.000v60
   h-75.000v-90.000h105.000
-  v105.000" />
+  v105.000"
+       data-drawshield-symmetrical="0"
+       data-drawshield-flip-y="1"
+       />
 </svg>

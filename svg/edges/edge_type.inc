@@ -29,6 +29,18 @@ abstract class EdgeType
             $this->apply_bezier($path, $target, $feature_width, $feature_height);
     }
 
+    private static function get_meta_flag($element, $attribute, $default = 0)
+    {
+        if ( $element->hasAttribute("data-drawshield-$attribute") )
+        {
+            $val = $element->getAttribute("data-drawshield-$attribute");
+            if ( is_numeric($default) )
+                return (float)$val;
+            return $val;
+        }
+        return $default;
+    }
+
     static function load($name) : EdgeType
     {
         static $cache = [];
@@ -38,16 +50,50 @@ abstract class EdgeType
 
         $filename = __dir__ . "/$name.svg";
         if ( !file_exists($filename) )
+        {
+            user_error("No edge type file for $name", E_USER_WARNING);
             return new EdgeTypeNull();
+        }
 
         $dom = new DOMDocument();
         $dom->load($filename);
         $xpath = new DOMXPath($dom);
-        $d = $xpath->evaluate("string(//path[1]/@d)");
-        if ( !$d )
-            return new EdgeTypeNull();
+        $element = $xpath->evaluate("//*[local-name()='path'][1]")[0];
 
-        $edge = new EdgeTypeRepeating(SvgDParser::parse_d($d)->sub_paths()[0]);
+        if ( !$element || !$element->hasAttribute("d") )
+        {
+            user_error("No path data in $filename", E_USER_WARNING);
+            return new EdgeTypeNull();
+        }
+
+        $path = SvgDParser::parse_d($element->getAttribute("d"));
+        if ( $path->empty() || $path->sub_paths()[0]->empty() )
+        {
+            user_error("Empty path data in $filename", E_USER_WARNING);
+            return new EdgeTypeNull();
+        }
+
+        // Flip y coordinates before applying
+        if ( self::get_meta_flag($element, "flip-y") )
+            $path->scale(1, -1);
+
+        // Reverse the order of the points
+        if ( self::get_meta_flag($element, "reverse") )
+            $path->reverse();
+
+        // Edge class ["full", "repeating"]
+        $type = self::get_meta_flag($element, "type", "repeating");
+        if ( $type != "repeating" )
+            user_error("$type edge types are not supported yet", E_USER_WARNING);
+
+
+        // What to do on reverse edges (see constants in EdgeTypeRepeating)
+        $reverse_behaviour = self::get_meta_flag($element, "reverse-behaviour", EdgeTypeRepeating::REVERSE_NORMAL);
+
+        // Pattern is symmetrical (can be cut in half if needed)
+        $symmetrical = self::get_meta_flag($element, "symmetrical");
+
+        $edge = new EdgeTypeRepeating($path->sub_paths()[0], $symmetrical, $reverse_behaviour);
         $cache[$name] = $edge;
         return $edge;
     }
@@ -101,22 +147,40 @@ abstract class EdgeTypeBezier extends EdgeType
 
 class EdgeTypeRepeating extends EdgeTypeBezier
 {
+    const REVERSE_NORMAL = "normal";
+    const REVERSE_FLIP = "flip";
+    const REVERSE_PLAIN = "plain";
+
+    function __construct(PolyBezier $shape, $can_be_halved, $reverse_behaviour)
+    {
+        parent::__construct($shape);
+        $this->can_be_halved = $can_be_halved;
+        $this->reverse_behaviour = $reverse_behaviour;
+    }
+
+    private function skip_segment(CompiledBezierSegment $source, MutableShape $target)
+    {
+        foreach ( $source->sub_segments() as $bez )
+            $target->cubic_to($bez->tan1, $bez->tan2, $bez->finish);
+    }
+
     function apply_bezier_segment(CompiledBezierSegment $source, MutableShape $target, $feature_width, $feature_height)
     {
         if ( $source->flags() & BezierSegmentFlags::PLAIN )
-        {
-            foreach ( $source->sub_segments() as $bez )
-                $target->cubic_to($bez->tan1, $bez->tan2, $bez->finish);
-
-            return;
-        }
+            return $this->skip_segment($source, $target);
 
         if ( $source->flags() & BezierSegmentFlags::REVERSE )
-            $feature_height = -$feature_height;
+        {
+            if ( $this->reverse_behaviour == self::REVERSE_FLIP )
+                $feature_height = -$feature_height;
+            else if ( $this->reverse_behaviour == self::REVERSE_PLAIN )
+                return $this->skip_segment($source, $target);
+        }
 
         $count = round($source->length() / $feature_width);
 
-        if ( $source->flags() & BezierSegmentFlags::SYMMETRICAL )
+        $half = $this->can_be_halved && ($source->flags() & BezierSegmentFlags::SYMMETRICAL);
+        if ( $half )
             $count -= 0.5;
 
         $size = $source->length() / $count;
@@ -129,7 +193,7 @@ class EdgeTypeRepeating extends EdgeTypeBezier
             $p0 = $p1;
         }
 
-        if ( $source->flags() & BezierSegmentFlags::SYMMETRICAL )
+        if ( $half )
         {
             $p1 = $source->finish();
             $this->apply_line_segment($p0, $p1, $target, $feature_height, 2);

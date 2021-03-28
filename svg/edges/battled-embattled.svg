@@ -8,5 +8,7 @@
    width="1000"
    height="1200"
    preserveAspectRatio="xMidYMid meet"
-   version="1.1"><path stroke-width="1" fill="none" stroke="black" d="M0,0 l20.400,0 0,-20.000 39.600,0 0,-20.000 40.200,0 0,-20.000 39.600,0 0,20.000 40.200,0 0,20.000 39.600,0 0,20.000 20.400,0" />
+   version="1.1"><path stroke-width="1" fill="none" stroke="black" d="M0,0 l20.400,0 0,-20.000 39.600,0 0,-20.000 40.200,0 0,-20.000 39.600,0 0,20.000 40.200,0 0,20.000 39.600,0 0,20.000 20.400,0"
+       data-drawshield-reverse-behaviour="plain"
+       />
 </svg>

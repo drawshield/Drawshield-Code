@@ -620,7 +620,7 @@ class SvgDParser
     private function on_parse_d($d) : MutableShape
     {
         $this->relpoint = new ShieldPos(0, 0);
-        $add_spaces = preg_replace(["/([a-zA-Z])([-+0-9.])/", "/([-+0-9.])([a-zA-Z])/"], "$1 $2", $d);
+        $add_spaces = preg_replace(["/([a-zA-Z])([-+0-9.])/", "/([-+0-9.])([-a-zA-Z])/"], "$1 $2", $d);
         $this->tokens = preg_split('/(,|\s)+/', $add_spaces);
         $this->bezier = new MutableShape();
         $this->bezier->move_to(clone $this->relpoint);
@@ -687,6 +687,8 @@ class SvgDParser
             default:
                 user_error("SVG path {$this->letter} not supported", E_USER_WARNING);
                 $this->tokpos++;
+                while ( $this->tokpos < count($this->tokens) && !ctype_alpha($this->tokpos) )
+                    $this->tokpos++;
                 return;
         }
     }
