@@ -41,6 +41,12 @@ abstract class EdgeType
         return $default;
     }
 
+    protected function skip_segment(CompiledBezierSegment $source, MutableShape $target)
+    {
+        foreach ( $source->sub_segments() as $bez )
+            $target->cubic_to($bez->tan1, $bez->tan2, $bez->finish);
+    }
+
     static function load($name) : EdgeType
     {
         static $cache = [];
@@ -83,17 +89,31 @@ abstract class EdgeType
 
         // Edge class ["full", "repeating"]
         $type = self::get_meta_flag($element, "type", "repeating");
-        if ( $type != "repeating" )
-            user_error("$type edge types are not supported yet", E_USER_WARNING);
+        switch ( $type )
+        {
+            default:
+                user_error("$type edge types are not supported yet", E_USER_WARNING);
 
+            case "repeating":
+                // What to do on reverse edges (see constants in EdgeTypeRepeating)
+                $reverse_behaviour = self::get_meta_flag($element, "reverse-behaviour", EdgeTypeRepeating::REVERSE_NORMAL);
 
-        // What to do on reverse edges (see constants in EdgeTypeRepeating)
-        $reverse_behaviour = self::get_meta_flag($element, "reverse-behaviour", EdgeTypeRepeating::REVERSE_NORMAL);
+                // Pattern is symmetrical (can be cut in half if needed)
+                $symmetrical = self::get_meta_flag($element, "symmetrical");
 
-        // Pattern is symmetrical (can be cut in half if needed)
-        $symmetrical = self::get_meta_flag($element, "symmetrical");
+                // How much to stretch the pattern by along the path
+                $scale_x = self::get_meta_flag($element, "scale-x", 1);
+                // How much to stretch the pattern by along the normal
+                $scale_y = self::get_meta_flag($element, "scale-y", 1);
 
-        $edge = new EdgeTypeRepeating($path->sub_paths()[0], $symmetrical, $reverse_behaviour);
+                $edge = new EdgeTypeRepeating($path->sub_paths()[0], $symmetrical, $reverse_behaviour, $scale_x, $scale_y);
+                break;
+
+            case "full":
+                $edge = new EdgeTypeFull($path->sub_paths()[0]);
+                break;
+        }
+
         $cache[$name] = $edge;
         return $edge;
     }
@@ -151,21 +171,20 @@ class EdgeTypeRepeating extends EdgeTypeBezier
     const REVERSE_FLIP = "flip";
     const REVERSE_PLAIN = "plain";
 
-    function __construct(PolyBezier $shape, $can_be_halved, $reverse_behaviour)
+    function __construct(PolyBezier $shape, $can_be_halved, $reverse_behaviour, $scale_x, $scale_y)
     {
         parent::__construct($shape);
         $this->can_be_halved = $can_be_halved;
         $this->reverse_behaviour = $reverse_behaviour;
-    }
-
-    private function skip_segment(CompiledBezierSegment $source, MutableShape $target)
-    {
-        foreach ( $source->sub_segments() as $bez )
-            $target->cubic_to($bez->tan1, $bez->tan2, $bez->finish);
+        $this->scale_x = $scale_x;
+        $this->scale_y = $scale_y;
     }
 
     function apply_bezier_segment(CompiledBezierSegment $source, MutableShape $target, $feature_width, $feature_height)
     {
+        $feature_width *= $this->scale_x;
+        $feature_height *= $this->scale_y;
+
         if ( $source->flags() & BezierSegmentFlags::PLAIN )
             return $this->skip_segment($source, $target);
 
@@ -211,8 +230,7 @@ class EdgeTypeNull extends EdgeType
 {
     function apply_bezier_segment(CompiledBezierSegment $source, MutableShape $target, $feature_width, $feature_height)
     {
-        foreach ( $source->sub_segments() as $bez )
-            $target->cubic_to($bez->tan1, $bez->tan2, $bez->finish);
+        $this->skip_segment($source, $target);
     }
 }
 
@@ -223,9 +241,7 @@ class EdgeTypeFlory extends EdgeTypeBezier
     {
         if ( $source->flags() & BezierSegmentFlags::PLAIN )
         {
-            foreach ( $source->sub_segments() as $bez )
-                $target->cubic_to($bez->tan1, $bez->tan2, $bez->finish);
-
+            $this->skip_segment($source, $target);
             return;
         }
 
@@ -263,5 +279,27 @@ class EdgeTypeFlory extends EdgeTypeBezier
         }
 
         $target->close();
+    }
+}
+
+
+
+class EdgeTypeFull extends EdgeTypeBezier
+{
+    function apply_bezier_segment(CompiledBezierSegment $source, MutableShape $target, $feature_width, $feature_height)
+    {
+        if ( $source->flags() & BezierSegmentFlags::STRAIGHT )
+        {
+            if ( $source->flags() & BezierSegmentFlags::UNDERSIDE )
+                $feature_height *= -1;
+            $p0 = $source->start();
+            $p1 = $source->finish();
+            $target->line_to($p0);
+            $this->apply_line_segment($p0, $p1, $target, $feature_height);
+        }
+        else
+        {
+            $this->skip_segment($source, $target);
+        }
     }
 }
