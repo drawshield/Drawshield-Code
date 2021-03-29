@@ -300,6 +300,12 @@ class PolyBezier
         return $this;
     }
 
+    function make_plain()
+    {
+        $this->segment_tags = [BezierSegmentFlags::PLAIN];
+        return $this;
+    }
+
     function compile()
     {
         $compiled = new CompiledPolyBezier($this->closed);

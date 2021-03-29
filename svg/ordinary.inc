@@ -8,7 +8,7 @@ function createBody($spec, $lineType, $feature_size, $layout) {
     {
         $compiled = $spec->compile();
 
-        $feature_size *= 3;
+        $feature_size *= 4;
         if ( $lineType )
         {
             $edge = EdgeType::load($lineType);
@@ -47,8 +47,7 @@ function createVoid($spec, $lineType, $feature_size, $layout) {
             $new_shape->add_path($path);
             $off = $path->offset_copy(-$offsetSize);
             $off->reverse();
-            $off->clear_tags();
-            $off->segment_tags[0] = BezierSegmentFlags::PLAIN;
+            $off->make_plain();
             $new_shape->add_path($off);
         }
         return createBody($new_shape, $lineType, $feature_size, $layout);
@@ -59,19 +58,59 @@ function createVoid($spec, $lineType, $feature_size, $layout) {
   return $retval;
 }
 
-function createCotise($spec, $num, $lineType, $layout) {
+function createCotise($spec, $num, $lineType, $layout, $cotiseSize, $feature_size) {
   $spec = subPercent($spec, $layout);
-  $cotiseSize = 40;
   $outerSize = $cotiseSize*($num*2);
   $innerSize = $cotiseSize*(($num*2)-1);
   $outerSpec = parallelSpec ( $spec, 'o', $outerSize );
   $innerSpec = parallelSpec ( $spec, 'o', $innerSize );
   $innerSpec = reverseSpec ( $innerSpec );
   $retval = '<path fill-rule="evenodd" d="';
-  $retval .= makePath ( $outerSpec, $lineType, 18 );
-  $retval .= ' ' . makePath ( $innerSpec, $lineType, 18 );
+  $retval .= makePath ( $outerSpec, $lineType, $feature_size );
+  $retval .= ' ' . makePath ( $innerSpec, $lineType, $feature_size );
   $retval .= '" />';
   return $retval;
+}
+
+
+function createCottices($spec, $numberCottices, $lineType, $layout)
+{
+    $cotiseSize = 40;
+    $feature_size = 18;
+
+    if ( $spec instanceof MutableShape )
+    {
+        $new_shape = new MutableShape();
+        foreach ( $spec->sub_paths() as $path )
+        {
+            $off = $cotiseSize;
+
+            for ( $i = 0; $i < $numberCottices; $i++ )
+            {
+                $inner = $path->offset_copy($off);
+                $inner->reverse();
+                $inner->make_plain();
+
+                $outer = $path->offset_copy($cotiseSize + $off);
+                if ( $i != $numberCottices - 1 )
+                    $outer->make_plain();
+
+                $new_shape->add_path($inner);
+                $new_shape->add_path($outer);
+
+                $off += $cotiseSize * 2;
+            }
+
+            $path->make_plain();
+            $new_shape->add_path($path);
+        }
+        return createBody($new_shape, $lineType, $feature_size, $layout);
+    }
+
+    $cotiseSVG = '';
+    for ( $i = 1; $i <= $numberCottices; $i++ )
+        $cotiseSVG .= createCotise($spec, $i, $lineType, $layout, $cotiseSize, $feature_size);
+    return $cotiseSVG;
 }
 
 function division_to_modifier(DOMElement &$node, $type) {
@@ -308,12 +347,11 @@ function makeOrdinary( DOMElement &$node, $layout ) {
 			$cot_tinc = getTinctureNode($cot_node);
 			if ( !$cot_tinc )
 			  $cot_tinc = $tinc1;
-      $numberCottices = $cot_node->getAttribute('value');
-      for ( $i = 1; $i <= $numberCottices; $i++ )
-			  $cotiseSVG .= createCotise( $shape_spec, $i, $cot_linetype, $layout );
-		  $cotiseSVG = apply_tincture ( $cot_tinc, $cotiseSVG, $layout );
-      existModifierWithKeyterm($node,'cotticing'); // mark as used
-		}
+        $numberCottices = $cot_node->getAttribute('value');
+        $cotiseSVG .= createCottices($shape_spec, $numberCottices, $cot_linetype, $layout);
+        $cotiseSVG = apply_tincture ( $cot_tinc, $cotiseSVG, $layout );
+        existModifierWithKeyterm($node,'cotticing'); // mark as used
+    }
   } else { // we are given direct SVG data
     if ( $voided != null ) {
 		  if ( !array_key_exists('voided', $ord_data) ) {
