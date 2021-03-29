@@ -49,7 +49,7 @@ $edge_path_flory
 ;
 // $edge = new EdgeType($edge_path_wavy);
 // $edge = new EdgeTypeFlory($edge_path_flory);
-$edge = EdgeType::load("indented-pommetty");
+$edge = EdgeType::load("dancetty");
 $bez = SvgDParser::parse_d(getShape(new ShieldLayout(new ShieldSize(1, 1), "heater")));
 $bez->reverse();
 $bez
@@ -79,7 +79,12 @@ $comp = $bez->compile();
 $modified = new MutableShape();
 $edge->apply($comp, $modified, 100, 100);
 
-
+// $bez->remove_path(0);
+$bez1 = new MutableShape();
+$bez1->add_path($bez->sub_paths()[0]->offset_copy(-60));
+$bez->sub_paths()[1]->reverse();
+$bez1->add_path($bez->sub_paths()[1]->offset_copy(-60));
+$bez = $bez1;
 
 header("content-type: image/svg+xml");
 ?>
@@ -88,12 +93,12 @@ header("content-type: image/svg+xml");
     width='3000'
     height='3000'>
 <?php
-echo "<path d='" . $bez->to_svg_d() . "' fillrule='evenodd' fill='red' transform='translate(100, 150) scale(.5, .5)' />";
 
-echo "<g transform='translate(700, 150) scale(.5, .5)' >";
+echo "<g transform='translate(500, 200) scale(.5, .5)' >";
 echo "<path d='" . $comp->to_svg_d() . "' fill='blue' />";
 echo "<path d='" . $modified->to_svg_d() . "' fill='none' stroke='orange' stroke-width='4' />";
 echo "</g>";
+echo "<path d='" . $bez->to_svg_d() . "' fillrule='evenodd' fill='red' opacity='0.4' transform='translate(500, 200) scale(.5, .5)' />";
 
 if ( $edge instanceof EdgeTypeBezier )
 {

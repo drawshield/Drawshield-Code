@@ -294,6 +294,12 @@ class PolyBezier
         return $this;
     }
 
+    function clear_tags()
+    {
+        $this->segment_tags = [];
+        return $this;
+    }
+
     function compile()
     {
         $compiled = new CompiledPolyBezier($this->closed);
@@ -350,6 +356,11 @@ class PolyBezier
         foreach ( $this->points as $point )
             $point->reverse();
         $this->points = array_reverse($this->points);
+
+        $tags = [];
+        foreach ( $this->segment_tags as $index => $tag )
+            $tags[$this->size() - 2 - $index] = $tag;
+        $this->segment_tags = $tags;
     }
 
     function __clone()
@@ -360,6 +371,7 @@ class PolyBezier
         $this->points = $cloned;
     }
 
+/*
     private function closest_get_vt($closest_index, ShieldPos $current, $round_distance, $round_corner)
     {
         if ( $closest_index < 0 )
@@ -372,7 +384,6 @@ class PolyBezier
         $tan_y = - ($vert->y - $current->y) * $round_corner;
         return [$vert, new ShieldPos($tan_x + $vert->x, $tan_y + $vert->y)];
     }
-
     function rounded($round_distance)
     {
         $cloned = new PolyBezier();
@@ -396,6 +407,153 @@ class PolyBezier
         }
 
         return $cloned;
+    }
+*/
+
+    private function offset_side($segment_start, $segment_finish, $amount)
+    {
+        $angle = $segment_start->angle_to($segment_finish);
+        $normal_angle = $angle - M_PI/2;
+        $dx = cos($normal_angle);
+        $dy = sin($normal_angle);
+        return [
+            $segment_start->translated($amount * $dx, $amount * $dy),
+            $segment_finish->translated($amount * $dx, $amount * $dy)
+        ];
+    }
+
+    private function offset_helper($p_left, $c, $p_right, $amount, &$points)
+    {
+        $l = $this->offset_side($p_left->pos, $c->pos, $amount);
+        $r = $this->offset_side($c->pos, $p_right->pos, $amount);
+
+        $inter = $this->insersect($l[0], $l[1], $r[0], $r[1]);
+        $vals = [];
+        if ( $inter )
+        {
+            $new_p_left = $new_p_right = new BezierPoint($inter);
+            $vals = [$new_p_left];
+        }
+        else
+        {
+
+            $new_p_left = new BezierPoint($l[1]);
+            $new_p_right = new BezierPoint($r[0]);
+            $vals = [$new_p_left, $new_p_right];
+        }
+
+        $new_p_left->tan_in->x = $c->tan_in->x - $c->pos->x + $new_p_left->pos->x;
+        $new_p_left->tan_in->y = $c->tan_in->y - $c->pos->y + $new_p_left->pos->y;
+
+        $new_p_right->tan_out->x = $c->tan_out->x - $c->pos->x + $new_p_right->pos->x;
+        $new_p_right->tan_out->y = $c->tan_out->y - $c->pos->y + $new_p_right->pos->y;
+
+        return $vals;
+    }
+
+    private function insersect($lp1, $lp2, $rp1, $rp2, $max_distance = 100)
+    {
+        $a = $lp2->translated(-$lp1->x, -$lp1->y);
+        $b = $rp1->translated(-$rp2->x, -$rp2->y);
+        $c = $lp1->translated(-$rp1->x, -$rp1->y);
+
+        $denominator = $a->y * $b->x - $a->x * $b->y;
+        if ( $denominator == 0 )
+            return null;
+
+        $na = ($b->y * $c->x - $b->x * $c->y) / $denominator;
+
+        if ( $na > $max_distance )
+            return null;
+
+        return $lp1->translated($a->x * $na, $a->y * $na);
+    }
+
+    function offset_copy($amount)
+    {
+        $bez = new PolyBezier();
+
+        if ( $this->size() < 3 )
+            return $bez;
+
+        $tag = BezierSegmentFlags::NORMAL;
+
+        if ( isset($this->segment_tags[0]) )
+            $bez->segment_tags[0] = $tag = $this->segment_tags[0];
+
+        $bez->add_point(clone $this->points[0]);
+
+        $points = $this->points;
+        $n_points = count($points);
+        if ( $points[0]->pos->distance($points[$n_points - 1]->pos) > 1 )
+        {
+            $points[] = $points[0];
+            $n_points++;
+        }
+
+        for ( $i = 1; $i < $n_points - 1; $i++ )
+        {
+            $p_left = $points[$i - 1];
+            $c = $points[$i];
+            $p_right = $points[$i+1];
+            $vals = $this->offset_helper($p_left, $c, $p_right, $amount, $points);
+
+            if ( count($vals) == 2 )
+            {
+                if ( $tag != BezierSegmentFlags::PLAIN )
+                    $bez->segment_tags[$bez->size()] = BezierSegmentFlags::PLAIN;
+
+                $tag = BezierSegmentFlags::PLAIN;
+
+                $bez->add_point($vals[0]);
+
+                if ( isset($this->segment_tags[$i]) )
+                {
+                    $tag = $this->segment_tags[$i];
+
+                    if ( $tag != BezierSegmentFlags::PLAIN )
+                        $bez->segment_tags[$bez->size()] = $tag;
+                }
+
+                $bez->add_point($vals[1]);
+            }
+            else
+            {
+                if ( isset($this->segment_tags[$i]) )
+                {
+                    $tag = $this->segment_tags[$i];
+                    $bez->segment_tags[$bez->size()] = $tag;
+                }
+                $bez->add_point($vals[0]);
+            }
+        }
+
+        if ( $this->closed )
+        {
+            $c = $points[0];
+            $p_right = $points[1];
+
+            $p_left = $points[$n_points - 2];
+
+            $vals = $this->offset_helper($p_left, $c, $p_right, $amount, $points);
+
+            if ( count($vals) == 2 )
+            {
+                $bez->points[0] = $vals[1];
+                $bez->points[] = $vals[0];
+            }
+            else
+            {
+                $bez->points[0] = $vals[0];
+                $bez->points[] = clone $vals[0];
+            }
+        }
+        else
+        {
+            $bez->points[] = clone $points[$this->size() - 1];
+        }
+
+        return $bez;
     }
 }
 
@@ -566,6 +724,11 @@ class MutableShape extends ShapeInterface
     function add_path(PolyBezier $path)
     {
         $this->sub_paths[] = $path;
+    }
+
+    function remove_path($index)
+    {
+        array_splice($this->sub_paths, $index, 1);
     }
 
     function combine_from(MutableShape $other)

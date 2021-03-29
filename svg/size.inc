@@ -55,6 +55,11 @@ class ShieldPos
     {
         return hypot($other->x - $this->x, $other->y - $this->y);
     }
+
+    function angle_to($other)
+    {
+        return atan2($other->y - $this->y, $other->x - $this->x);
+    }
 }
 
 class ShieldRect

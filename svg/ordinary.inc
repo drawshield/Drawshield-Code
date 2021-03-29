@@ -5,20 +5,19 @@ require_once("edges/edge_type.inc");
 function createBody($spec, $lineType, $feature_size, $layout) {
 
     if ( $spec instanceof MutableShape )
-        $spec = $spec->compile();
-
-    if ( $spec instanceof CompiledShape )
     {
+        $compiled = $spec->compile();
+
         $feature_size *= 3;
         if ( $lineType )
         {
             $edge = EdgeType::load($lineType);
             $modified = new MutableShape();
-            $edge->apply($spec, $modified, $feature_size, $feature_size);
+            $edge->apply($compiled, $modified, $feature_size, $feature_size);
         }
         else
         {
-            $modified = $spec;
+            $modified = $compiled;
         }
 
         return $modified->to_svg_path(["fill-rule" => "evenodd"]);
@@ -39,6 +38,22 @@ function makeVoid ( $spec, $layout, $lineType = 'none', $featureSize = 50, $offs
 }
 
 function createVoid($spec, $lineType, $feature_size, $layout) {
+    if ( $spec instanceof MutableShape )
+    {
+        $new_shape = new MutableShape();
+        $offsetSize = 30;
+        foreach ( $spec->sub_paths() as $path )
+        {
+            $new_shape->add_path($path);
+            $off = $path->offset_copy(-$offsetSize);
+            $off->reverse();
+            $off->clear_tags();
+            $off->segment_tags[0] = BezierSegmentFlags::PLAIN;
+            $new_shape->add_path($off);
+        }
+        return createBody($new_shape, $lineType, $feature_size, $layout);
+    }
+
   $spec = subPercent($spec, $layout);
   $retval = '<path fill-rule="evenodd" d="' . makeVoid ( $spec, $layout, $lineType, $feature_size ) . '" />';
   return $retval;
