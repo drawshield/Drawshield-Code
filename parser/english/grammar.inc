@@ -1786,6 +1786,9 @@ class englishGrammar extends grammar
       self::tokens(),
       self::lineno()
     );
+    if (($colour = self::colour()) != null) {
+        $mottoNode->appendChild($colour);
+    }
       if (($adjust = $this->getAdjustments()) != null) {
           foreach ($adjust as $adj) {
               $mottoNode->appendChild($adj);
