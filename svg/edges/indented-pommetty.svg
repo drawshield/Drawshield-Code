@@ -41,5 +41,7 @@ c
 l
 30.000,-108.000" 
        data-drawshield-symmetrical="1"
+       data-drawshield-scale-y="0.5"
+       data-drawshield-scale-x="0.5"
 />
 </svg>

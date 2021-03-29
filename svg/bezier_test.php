@@ -49,7 +49,7 @@ $edge_path_flory
 ;
 // $edge = new EdgeType($edge_path_wavy);
 // $edge = new EdgeTypeFlory($edge_path_flory);
-$edge = EdgeType::load("angled");
+$edge = EdgeType::load("indented-pommetty");
 $bez = SvgDParser::parse_d(getShape(new ShieldLayout(new ShieldSize(1, 1), "heater")));
 $bez->reverse();
 $bez
