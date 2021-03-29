@@ -340,6 +340,7 @@ function getCharge( DOMElement $node, $layout ) {
      * @var DOMElement $charge_col
      */
     $charge_col = null;
+    $strokeCol = null;
     $feat_cols = array();
     $defs = [];
     /**
@@ -378,6 +379,8 @@ function getCharge( DOMElement $node, $layout ) {
                     break;
               }
             }
+          } elseif ($child->getAttribute(blazonML::A_KEYTERM) == 'stroked') {
+              $strokeCol = rgb($child->getAttribute(blazonML::A_PARAM));
           }
           break;
       }
@@ -402,7 +405,8 @@ function getCharge( DOMElement $node, $layout ) {
     }
     //------------------------------------------------------------------------------
     // set a default stroke colour based on whether the body colour is light or dark
-    $strokeCol = getStroke($charge_col, array_key_exists('fixStroke',$chg_data)); 
+    if (!$strokeCol)
+        $strokeCol = getStroke($charge_col, array_key_exists('fixStroke',$chg_data)); 
 
     //------------------------------------------------------------------------------
     // Charges "internal" to this one

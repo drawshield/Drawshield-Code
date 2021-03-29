@@ -601,6 +601,12 @@ class englishGrammar extends grammar
                 case 'shown':
                     $foundShown = true;
                     break;
+                case 'stroked':
+                    if (($colour = self::colour()) != null) {
+                        $adjustments[] = $this->schema->makeMod(languageDB::SHOWN_MODS,
+                            $colour->getAttribute(blazonML::A_KEYTERM), $keyterm, self::tokens(), self::lineNo());
+                    }
+                    break;
                 case 'much':
                 case 'slightly':
                 case 'very-much':
