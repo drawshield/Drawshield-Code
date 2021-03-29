@@ -287,7 +287,10 @@ class PolyBezier
 
     function tag_segment($flags)
     {
-        $this->segment_tags[$this->size()] = $flags;
+        if ( $this->empty() )
+            $this->segment_tags[0] = $flags;
+        else
+            $this->segment_tags[$this->size()-1] = $flags;
         return $this;
     }
 
@@ -417,6 +420,15 @@ abstract class ShapeInterface
         return $d;
     }
 
+    function to_svg_path($attrs=[])
+    {
+        $attrs["d"] = $this->to_svg_d();
+        $path = "<path";
+        foreach ( $attrs as $name => $val )
+            $path .= " $name='$val'";
+        return $path . "/>";
+    }
+
     /**
      * @brief Whether the shape has no sub paths
      */
@@ -461,8 +473,23 @@ class MutableShape extends ShapeInterface
         return !$this->empty() && !$this->last_bez()->empty();
     }
 
-    function move_to(ShieldPos $p)
+    private function get_args($args, $n)
     {
+        if ( count($args) == $n )
+            return $args;
+
+        if ( count($args) != 2*$n )
+            throw new Exception("Must pass $n points");
+
+        $new_args = [];
+        for ( $i = 0; $i < $n; $i++ )
+            $new_args[] = new ShieldPos($args[$i*2], $args[2*$i+1]);
+        return $new_args;
+    }
+
+    function move_to()
+    {
+        list($p) = $this->get_args(func_get_args(), 1);
         if ( !$this->empty() && $this->last_bez()->size() < 2 )
         {
             $this->last_bez()->points = [new BezierPoint($p)];
@@ -476,20 +503,23 @@ class MutableShape extends ShapeInterface
         return $this;
     }
 
-    function line_to(ShieldPos $p)
+    function line_to()
     {
+        list($p) = $this->get_args(func_get_args(), 1);
         $this->last_bez()->line_to($p);
         return $this;
     }
 
-    function quadratic_to(ShieldPos $handle, ShieldPos $dest)
+    function quadratic_to()
     {
+        list($handle, $dest) = $this->get_args(func_get_args(), 2);
         $this->last_bez()->quadratic_to($handle, $dest);
         return $this;
     }
 
-    function cubic_to(ShieldPos $handle1, ShieldPos $handle2, ShieldPos $dest)
+    function cubic_to()
     {
+        list($handle1, $handle2, $dest) = $this->get_args(func_get_args(), 3);
         $this->last_bez()->cubic_to($handle1, $handle2, $dest);
         return $this;
     }
@@ -722,10 +752,12 @@ class BezierSegmentFlags
     // Safe to paint the pattern on the whole segment (rather than repeating)
     const STRAIGHT      = 0x02;
 
-    // Mirror the y component of the pattern
-    const REVERSE       = 0x10;
+    // Mark the "under" side for embattled
+    const UNDERSIDE     = 0x10;
     // Try to make it look the same on both ends of the edge
     const SYMMETRICAL   = 0x20;
+    // Mirror the y component of the pattern
+    const MIRROR        = 0x40;
 }
 
 /**

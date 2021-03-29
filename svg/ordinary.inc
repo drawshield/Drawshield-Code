@@ -1,7 +1,29 @@
 <?php
-	 
+
+require_once("edges/edge_type.inc");
 
 function createBody($spec, $lineType, $feature_size, $layout) {
+
+    if ( $spec instanceof MutableShape )
+        $spec = $spec->compile();
+
+    if ( $spec instanceof CompiledShape )
+    {
+        $feature_size *= 3;
+        if ( $lineType )
+        {
+            $edge = EdgeType::load($lineType);
+            $modified = new MutableShape();
+            $edge->apply($spec, $modified, $feature_size, $feature_size);
+        }
+        else
+        {
+            $modified = $spec;
+        }
+
+        return $modified->to_svg_path(["fill-rule" => "evenodd"]);
+    }
+
   $spec = subPercent($spec, $layout);
   return '<path fill-rule="evenodd" d="' . makePath ( $spec, $lineType, $feature_size ) . '" />';
 } 

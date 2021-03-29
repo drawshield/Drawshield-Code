@@ -1,18 +1,46 @@
 <?php
 
-$height = $layout->size->height;
 
-$midX = "500";
-$midY = sprintf('%.2f',($height/2));
-$topCenterY = sprintf('%.2f',($height/2)-141.4);
-$lowerCenterY = sprintf('%.2f',($height/2)+141.4);
-$lowerY = sprintf('%.2f',$height + 141.4);
-$leftX = "358.6";
-$rightX = "641.4";
-$path = "<path d=\"M 0,-141.4 ";
-$path .= "L $midX,$topCenterY 1000,-141.4 1141.4,0 $rightX,$midY 1141.4,$height ";
-$path .= " 1000,$lowerY $midX,$lowerCenterY 0,$lowerY -141.4,$height ";
-$path .= "$leftX,$midY -141.4,0 z\" />";
+$width = 200;
 
-$ordinary['body'] = $path;
+$angle = atan2($layout->size->height, $layout->size->width);
+
+$top = $left = 0;
+$bottom = $layout->size->height;
+$right = $layout->size->width;
+
+$cx = $layout->size->width / 2;
+$cy = $layout->size->height / 2;
+$dx = $width * cos($angle);
+$dy = $width * sin($angle);
+
+$path = new MutableShape();
+$path->move_to($cx,             $cy - $dy)
+     ->line_to($right,          $top - $dy)
+     ->tag_segment(BezierSegmentFlags::PLAIN)
+     ->line_to($right + $dx,    $top)
+     ->tag_segment(BezierSegmentFlags::UNDERSIDE)
+     ->line_to($cx + $dx,       $cy)
+     ->tag_segment(BezierSegmentFlags::NORMAL|BezierSegmentFlags::MIRROR)
+     ->line_to($right + $dx,    $bottom)
+     ->tag_segment(BezierSegmentFlags::PLAIN)
+     ->line_to($right,          $bottom + $dy)
+     ->tag_segment(BezierSegmentFlags::UNDERSIDE)
+     ->line_to($cx,             $cy + $dy)
+     ->tag_segment(BezierSegmentFlags::UNDERSIDE)
+     ->line_to($left,           $bottom + $dy)
+     ->tag_segment(BezierSegmentFlags::PLAIN)
+     ->line_to($left - $dx,     $bottom)
+     ->tag_segment(BezierSegmentFlags::NORMAL)
+     ->line_to($cx - $dx,       $cy)
+     ->tag_segment(BezierSegmentFlags::UNDERSIDE|BezierSegmentFlags::MIRROR)
+     ->line_to($left - $dx,     $top)
+     ->tag_segment(BezierSegmentFlags::PLAIN)
+     ->line_to($left,           $top - $dy)
+     ->tag_segment(BezierSegmentFlags::NORMAL)
+     ->line_to($cx,             $cy - $dy)
+     ->close();
+
+
+$ordinary['shape_spec'] = $path;
 

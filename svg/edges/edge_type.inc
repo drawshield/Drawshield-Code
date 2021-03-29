@@ -169,12 +169,17 @@ class EdgeTypeRepeating extends EdgeTypeBezier
         if ( $source->flags() & BezierSegmentFlags::PLAIN )
             return $this->skip_segment($source, $target);
 
-        if ( $source->flags() & BezierSegmentFlags::REVERSE )
+        if ( $source->flags() & BezierSegmentFlags::UNDERSIDE )
         {
             if ( $this->reverse_behaviour == self::REVERSE_FLIP )
                 $feature_height = -$feature_height;
             else if ( $this->reverse_behaviour == self::REVERSE_PLAIN )
                 return $this->skip_segment($source, $target);
+        }
+
+        if ( $this->reverse_behaviour == self::REVERSE_NORMAL && $source->flags() & BezierSegmentFlags::MIRROR )
+        {
+            $feature_height = -$feature_height;
         }
 
         $count = round($source->length() / $feature_width);

@@ -49,17 +49,17 @@ $edge_path_flory
 ;
 // $edge = new EdgeType($edge_path_wavy);
 // $edge = new EdgeTypeFlory($edge_path_flory);
-$edge = EdgeType::load("wavy");
+$edge = EdgeType::load("meander");
 $bez = SvgDParser::parse_d(getShape(new ShieldLayout(new ShieldSize(1, 1), "heater")));
 $bez->reverse();
 $bez->tag_segment(BezierSegmentFlags::NORMAL)
     ->move_to(new ShieldPos(200, 400))
-    ->tag_segment(BezierSegmentFlags::PLAIN)
     ->line_to(new ShieldPos(800, 400))
-    ->tag_segment(BezierSegmentFlags::REVERSE)
-    ->line_to(new ShieldPos(800, 600))
     ->tag_segment(BezierSegmentFlags::PLAIN)
+    ->line_to(new ShieldPos(800, 600))
+    ->tag_segment(BezierSegmentFlags::UNDERSIDE)
     ->line_to(new ShieldPos(200, 600))
+    ->tag_segment(BezierSegmentFlags::PLAIN)
     ->line_to(new ShieldPos(200, 400))
     ->close()
 ;
