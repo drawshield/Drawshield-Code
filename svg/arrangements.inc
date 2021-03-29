@@ -329,8 +329,8 @@ function get_placement(DOMElement $item, $layout) {
     $entire = existModifierWithKeyterm($item,'entire');
     $number = $item->getAttribute('number');
     $overall = ($item->parentNode->parentNode->nodeName == 'overall');
-    $apply_location = true;
-    $forceCentre = (!($entire) && !count(pos) && ($layout->shape != 'pauldron') && ($group == "quadrate" || $group == 'geometric') && $number == 1);
+    // $apply_location = true;
+    $forceCentre = (!($entire) && !count($pos) && ($layout->shape != 'pauldron') && ($group == "quadrate" || $group == 'geometric') && $number == 1);
     $div_node = $xpath->query("parent::objects/parent::simple/field/tincture/division", $item);
     if ( $div_node->length > 0 ) {
       /**
@@ -376,9 +376,9 @@ function get_placement(DOMElement $item, $layout) {
         );
     }
     if ( count($pos) > 0 ) {
-        if ( !$apply_location ) {
-            $messages->addMessage('warning','"in" location conflicts with "on" or "between"');
-        } else {
+        // if ( !$apply_location ) {
+            // $messages->addMessage('warning','"in" location conflicts with "on" or "between"');
+        // } else {
             $bigOrdinary = $xpath->evaluate("boolean(../ordinary[@keyterm='fess'] or ../ordinary[@keyterm='pale'] or ../ordinary[@keyterm='plain-cross'])", $item);
             $orig_placement = $placement;
             $adjustment = null;
@@ -565,237 +565,236 @@ function get_placement(DOMElement $item, $layout) {
                     default: $messages->addMessage('warning','no division for "in third"'); break;
                     }
                     break;
-                case 'inQ1':  $adjustment = ($underlying_div == 'per-saltire') ? '350,50,300,300':'0,0,500,500'; break;
+                case 'inQ1': // $newCenter = new ShieldPos ($layout->size->width * 0.25, $layout->size->height * 0.25);
+                    ////$boundingBox = new ShieldRect ($newCenter, new ShieldSize (
+                            //$layout->size->width * 0.45, $layout->size->height * 0.45));  
+                             //break;
+                    $adjustment = ($underlying_div == 'per-saltire') ? '350,50,300,300':'0,0,500,500'; break;
                 case 'inQ2': $adjustment = ($underlying_div == 'per-saltire') ? '650,350,300,300':'500,0,500,500'; break;
                 case 'inQ3': $adjustment = ($underlying_div == 'per-saltire') ? '350,650,300,300':'0,500,500,500'; break;
                 case 'inQ4': $adjustment = ($underlying_div == 'per-saltire') ? '50,350,300,300':'500,500,500,500'; break;
                 default: break;
                 }
-                // If we don't have a placement yet the default is just to arrange in wide rows
-                //if ( $placement == '' )
-                //   $placement = calcPlace($item,'w',$boundingBox);
-                //$placement = adjustDistance($item, $placement);
-                //foreach ( explode('*',$adjustment) as $adjust ) {
-
-                    //$placements[] = adjustPlacement($placement,$adjust);
-                //}
-                //    $placements[] = adjustPlacement($placement,$adjust);
-                // $placement = $orig_placement;
             }
-             // $placement = implode('*',$placements);
-        }
+        // }
+    }
 
-        // at this point, if $adjustment is not null it contains the 4 coordinates of a bounding box on 
-        // a 1000 x 1000 area. We need to map this bounding box onto the area we are actually given in
-        // the current $boundingBox
+    $placementList = [];
+    if ($adjustment) {
+        $adjustmentList = explode('*',$adjustment);
+    } else {
+        $adjustmentList = [''];
+    }
+    foreach ( $adjustmentList as $adjust ) {
+        if ($adjust) {
+            // at this point, if $adjustment is not null it contains the 4 coordinates of a bounding box on 
+            // a 1000 x 1000 area. We need to map this bounding box onto the area we are actually given in
+            // the current $boundingBox
 
-        // TODO account for multiple positions
-        error_log("{$boundingBox->size->width}x{$boundingBox->size->height}");
-        if ($adjustment) {
-            list($adjX, $adjY, $adjWidth, $adjHeight) = explode(',',$adjustment);
+            list($adjX, $adjY, $adjWidth, $adjHeight) = explode(',',$adjust);
             // Find the center of that adjustment bounding box as a ratio
             $adjCenterX = ($adjX + ($adjWidth / 2)) / 1000;
             $adjCenterY = ($adjY + ($adjHeight/ 2)) / 1000;
-            // scale against 1000 x 1200 area
-            $adjX /= 1000; $adjY /=1000; $adjWidth /= 1000; $adjHeight /= 1000;
+            // scale against 1000 x 1000 area
+            $adjWidth /= 1000; $adjHeight /= 1000;
             $newCenter = new ShieldPos( $layout->size->width * $adjCenterX, $layout->size->height * $adjCenterY);
-            $newMargin = $margin * min($adjWidth, $adjHeight);
-            $boundingBox = new ShieldRect ($newCenter, new ShieldSize(($layout->size->width * $adjWidth) - 2 * $newMargin,
-                ($layout->size->height * $adjHeight) - 2 * $newMargin)); 
+            $boundingBox = new ShieldRect ($newCenter, new ShieldSize(($layout->size->width * $adjWidth * 0.9),
+                ($layout->size->height * $adjHeight *0.9))); 
         }
-        error_log("{$boundingBox->size->width}x{$boundingBox->size->height}");
-    }
 
+        // Now try various placement regimes
 
-    // Try various placement regimes
-
-    if ( $name == 'label' && $entire)
-    {
-        $placement = '500,150,1000,200';
-        $boundingBox = 'x';
-    }
-    // strewn on a field (don't need any placement)
-    else if ( $item->parentNode->nodeName == 'semyde' )
-    {
-        $placement = 'i';
-    }
-    else
-    {
-        // Are we above or below another charge?
-        // If so, occupy only half the bounding box
-        if ( $xpath->evaluate("boolean(parent::modifier[@keyterm='above']/parent::charge)",$item) )
+        if ( $name == 'label' && $entire)
         {
-            $boundingBox->pos->y += $boundingBox->size->height / 4;
-            $boundingBox->size->height /= 2;
-            $forceCentre = false;
+            $placement = '500,150,1000,200';
+            $boundingBox = 'x';
         }
-        else if ( existModifierWithKeyterm($item,'above') )
+        // strewn on a field (don't need any placement)
+        else if ( $item->parentNode->nodeName == 'semyde' )
         {
-            $boundingBox->pos->y -= $boundingBox->size->height / 4;
-            $boundingBox->size->height /= 2;
-            $forceCentre = false;
-        }
-
-        // similarly for charge beside charge
-        if ( $xpath->evaluate("boolean(parent::modifier[@keyterm='beside']/parent::charge)",$item) )
-        {
-            $boundingBox->pos->x += $boundingBox->size->width / 4;
-            $boundingBox->size->width /= 2;
-            $forceCentre = false;
-        }
-        else if ( existModifierWithKeyterm($item,'beside') )
-        {
-            $boundingBox->pos->x -= $boundingBox->size->width / 4;
-            $boundingBox->size->width /= 2;
-            $forceCentre = false;
-        }
-    }
-
-    // Are we around another charge?
-    if ( $placement == '' && $xpath->evaluate("boolean(parent::modifier[@keyterm='between']/parent::charge)",$item) ) {
-      // If our parent charge is "on" an ordinary, we don't need to do anything
-      if ( $xpath->evaluate("boolean(parent::modifier/parent::charge/parent::modifier[@keyterm='on'])",$item) ) {
-        $placement = 'i';
-        // similarly, if our parent charge has an explicit arrangement
-      } elseif ( $xpath->evaluate("boolean(parent::modifier/parent::charge/modifier[@keyterm='arrangement'])",$item) ) {
-        $placement = 'i';        
-      } else { // Arrange on an open field
-        if ( substr($item->parentNode->parentNode->getAttribute('keyterm'),0,8) == 'quadrate' ) // Special placement for items around a quadrate cross
-          $placement = '///300,300,160,160:700,300,160,160:300,700:700,700';
-        else
-          $placement = 'x/125,500,200,800:875,500/250,200,300,280:750,200,300,280:500,1000/250,200,280,280:750,200,280,280:250,900:750,900/250,200,240,240:750,200,240,240:500,200:250,900:750,900';
-      }
-      // If our parent charge has a position, then we need to apply it to ourselves also
-      $pos = getModifiersByTypeAsArray($item->parentNode->parentNode,'position');
-    }
-
-    // explicit arrangements
-    if ( $placement == '' && $arr ) {
-      switch ( $arr ) {
-        case 'inannulo':
-            $placement = inAnnulo($number, $boundingBox, $layout);
-            break;
-        case 'combattant':
-            $placement = placement_combattant($boundingBox, 0, 0);
-            break;
-        case 'facing-in':
-            $placement = placement_combattant($boundingBox, 0.1, 0);
-            break;
-        case 'facing-out':
-            $placement = placement_combattant($boundingBox, 0, 1);
-            break;
-        case 'inbend':
-            $placement = placement_in_bend($boundingBox, false, 0);
-            break;
-        case 'inbendsin':
-            $placement = placement_in_bend($boundingBox, true, 0);
-            break;
-        case 'inbar':
-            $placement = calcPlace($item,'v',$boundingBox);
-            $item->appendChild(createModifierNode('chargemod','fesswise'));
-            break;
-        case 'inpale':
-        case 'inpalethrough':
-            $placement = calcPlace($item,'v',$boundingBox);
-            break;
-        case 'inchiefthrough':
-            if ( $layout->chief )
-                $placement = calcPlace($item,'h', $layout->chief);
-            break;
-        case 'inpall':
-            $placement = 'x/x/250,250,180,400,-45:750,250,,,45:500,750,,,0/s/s/s' ;
-            break;
-        case 'infess':
-        case 'infessthrough':
-            $placement = calcPlace($item,'h',$boundingBox);
-            break;
-        case 'inchevron':
-            $placement = placement_chevron($layout, 200, 0.8);
-            break;
-        case 'incross':
-            $placement = placement_from_ordinary("plain-cross", $boundingBox, $layout);
-            break;
-        case 'insaltire':
-            $placement_arr = explode("/", placement_from_ordinary("saltire", $boundingBox, $layout));
-            $placement_arr[1] = box_placement($boundingBox->relative_box(0.5, 0.5, 0.75, 0.75), 45, 0, 1) . ":" .
-                box_placement($boundingBox->relative_box(0.5, 0.5, 0.75, 0.75), -45, 0, 0);
-            $placement = implode("/", $placement_arr);
-            break;
-        case 'inpile':
-            $placement = 'x/x/250,250,300,300:500,600:750,250/x/x/250,200,200,200:500:750:333.33,500:666.67:500,800';
-            break;
-        case 'inorle':
-            $placement = inOrle($layout, $number);
-            break;
-        case 'counter-passant':
-            $placement = placement_counter_passant($boundingBox);
-            break;
-        case 'pilewise':
-            $placement = placement_pilewise($boundingBox);
-            break;
-        case 'quadrangle':
-            $placement = placement_quadrangle($boundingBox, $layout);
-            break;
-        default:
             $placement = 'i';
-            break; // internal error, no placement
-      }
-    }
-
-        // If we have other charges around us (i.e. charge between charges), shrink a bit to make room
-    if ( $xpath->evaluate("boolean(modifier[@keyterm='between']/charge)",$item ) && $item->getAttribute('type') != 'quadrate' ) {
-        if ( $placement == '' )
-            $placement = adjustplacement(calcPlace($item, 'w', $boundingBox), '150,150,700,700');
+        }
         else
-            $placement = adjustplacement($placement, '150,150,700,700');
+        {
+            // Are we above or below another charge?
+            // If so, occupy only half the bounding box
+            if ( $xpath->evaluate("boolean(parent::modifier[@keyterm='above']/parent::charge)",$item) )
+            {
+                $boundingBox->pos->y += $boundingBox->size->height / 4;
+                $boundingBox->size->height /= 2;
+                $forceCentre = false;
+            }
+            else if ( existModifierWithKeyterm($item,'above') )
+            {
+                $boundingBox->pos->y -= $boundingBox->size->height / 4;
+                $boundingBox->size->height /= 2;
+                $forceCentre = false;
+            }
+
+            // similarly for charge beside charge
+            if ( $xpath->evaluate("boolean(parent::modifier[@keyterm='beside']/parent::charge)",$item) )
+            {
+                $boundingBox->pos->x += $boundingBox->size->width / 4;
+                $boundingBox->size->width /= 2;
+                $forceCentre = false;
+            }
+            else if ( existModifierWithKeyterm($item,'beside') )
+            {
+                $boundingBox->pos->x -= $boundingBox->size->width / 4;
+                $boundingBox->size->width /= 2;
+                $forceCentre = false;
+            }
+        }
+
+        // Are we around another charge?
+        if ( $placement == '' && $xpath->evaluate("boolean(parent::modifier[@keyterm='between']/parent::charge)",$item) ) {
+          // If our parent charge is "on" an ordinary, we don't need to do anything
+          if ( $xpath->evaluate("boolean(parent::modifier/parent::charge/parent::modifier[@keyterm='on'])",$item) ) {
+            $placement = 'i';
+            // similarly, if our parent charge has an explicit arrangement
+          } elseif ( $xpath->evaluate("boolean(parent::modifier/parent::charge/modifier[@keyterm='arrangement'])",$item) ) {
+            $placement = 'i';        
+          } else { // Arrange on an open field
+            if ( substr($item->parentNode->parentNode->getAttribute('keyterm'),0,8) == 'quadrate' ) // Special placement for items around a quadrate cross
+              $placement = '///300,300,160,160:700,300,160,160:300,700:700,700';
+            else
+              $placement = 'x/125,500,200,800:875,500/250,200,300,280:750,200,300,280:500,1000/250,200,280,280:750,200,280,280:250,900:750,900/250,200,240,240:750,200,240,240:500,200:250,900:750,900';
+          }
+          // If our parent charge has a position, then we need to apply it to ourselves also
+          $pos = getModifiersByTypeAsArray($item->parentNode->parentNode,'position');
+        }
+
+        // explicit arrangements
+        if ( $placement == '' && $arr ) {
+          switch ( $arr ) {
+            case 'inannulo':
+                $placement = inAnnulo($number, $boundingBox, $layout);
+                break;
+            case 'combattant':
+                $placement = placement_combattant($boundingBox, 0, 0);
+                break;
+            case 'facing-in':
+                $placement = placement_combattant($boundingBox, 0.1, 0);
+                break;
+            case 'facing-out':
+                $placement = placement_combattant($boundingBox, 0, 1);
+                break;
+            case 'inbend':
+                $placement = placement_in_bend($boundingBox, false, 0);
+                break;
+            case 'inbendsin':
+                $placement = placement_in_bend($boundingBox, true, 0);
+                break;
+            case 'inbar':
+                $placement = calcPlace($item,'v',$boundingBox);
+                $item->appendChild(createModifierNode('chargemod','fesswise'));
+                break;
+            case 'inpale':
+            case 'inpalethrough':
+                $placement = calcPlace($item,'v',$boundingBox);
+                break;
+            case 'inchiefthrough':
+                if ( $layout->chief )
+                    $placement = calcPlace($item,'h', $layout->chief);
+                break;
+            case 'inpall':
+                $placement = 'x/x/250,250,180,400,-45:750,250,,,45:500,750,,,0/s/s/s' ;
+                break;
+            case 'infess':
+            case 'infessthrough':
+                $placement = calcPlace($item,'h',$boundingBox);
+                break;
+            case 'inchevron':
+                $placement = placement_chevron($layout, 200, 0.8);
+                break;
+            case 'incross':
+                $placement = placement_from_ordinary("plain-cross", $boundingBox, $layout);
+                break;
+            case 'insaltire':
+                $placement_arr = explode("/", placement_from_ordinary("saltire", $boundingBox, $layout));
+                $placement_arr[1] = box_placement($boundingBox->relative_box(0.5, 0.5, 0.75, 0.75), 45, 0, 1) . ":" .
+                    box_placement($boundingBox->relative_box(0.5, 0.5, 0.75, 0.75), -45, 0, 0);
+                $placement = implode("/", $placement_arr);
+                break;
+            case 'inpile':
+                $placement = 'x/x/250,250,300,300:500,600:750,250/x/x/250,200,200,200:500:750:333.33,500:666.67:500,800';
+                break;
+            case 'inorle':
+                $placement = inOrle($layout, $number);
+                break;
+            case 'counter-passant':
+                $placement = placement_counter_passant($boundingBox);
+                break;
+            case 'pilewise':
+                $placement = placement_pilewise($boundingBox);
+                break;
+            case 'quadrangle':
+                $placement = placement_quadrangle($boundingBox, $layout);
+                break;
+            default:
+                $placement = 'i';
+                break; // internal error, no placement
+          }
+        }
+
+            // If we have other charges around us (i.e. charge between charges), shrink a bit to make room
+        if ( $xpath->evaluate("boolean(modifier[@keyterm='between']/charge)",$item ) && $item->getAttribute('type') != 'quadrate' ) {
+            if ( $placement == '' )
+                $placement = adjustplacement(calcPlace($item, 'w', $boundingBox), '150,150,700,700');
+            else
+                $placement = adjustplacement($placement, '150,150,700,700');
+        }
+
+
+
+        // On an underlying division (but ignore if in a specific location)
+        if ( $placement == '' && count($pos)==0 && $underlying_div != null ) {
+            if ($underlying_div=='per-bend' && $number==2) $placement = 'x/300,700,350,350:700,300/x/x/x/x';
+            elseif ($underlying_div=='per-bend-sinister' && $number==2) $placement = 'x/300,300,350,350:700,700/x/x/x/x';
+            elseif (substr($underlying_div,0,9)=='quarterly' && $number==4 ) $placement = 'x/x/x/250,250,300,300:750,250:250,750:750,750/x/x/';
+            elseif ($underlying_div=='gyronny_of_8' && ($number==8 or $number==4) ) $placement = 'x/x/x/200,500,300,300:500,200:800,500:500,800/x/x/x/200,400,160,160:400,200:600,200:800,400:800,600:600,800:400,800:200,600';
+            elseif ($underlying_div=='gyronny_of_6' && ($number==6 or $number==3) ) $placement = 'x/200,500,300,600:800,500/x/x/x/350,200,200,200:650,200:150,500:850,500:350,800:650,800';
+            elseif ($underlying_div=='per-chevron' && $number==3 ) $placement = 'x/x/250,200,240,240:500,750,300,300:750,200,240,240';
+            elseif ($underlying_div=='per-pall-reversed' && $number==3 ) $placement = 'x/x/250,300,300,300:500,900:750,300/x/x/x/';
+            elseif ($underlying_div=='per-pall' && $number==3 ) $placement = 'x/x/250,700,300,300:500,200,300,300:750,700,300,300:/x/x/x/';
+            elseif ($underlying_div=='per-saltire' && $number==3 ) $placement = 'x/200,500,240,240:800,500/200,500,240,240:500,850,300,300:800,500,240,240/200,500,240,240:500,850,300,300:800,500,240,240:500,200,240,240/x/x';
+        }
+
+        if ( $cadency ) { // unless there is a specific location, put in the center, but small
+            $placement = calcPlace($item,'w',$boundingBox);
+            $placement = adjustplacement($placement,'400,400,200,200');
+        } elseif ( $overall && !($name == 'label' && $entire)) { // like cadency, but a bit bigger, fudge for label overall, already moved
+            $placement = calcPlace($item,'w',$boundingBox);
+            if ( $group == "quadrate" ) {
+                $placement = adjustplacement($placement,'100,66,800,800');
+            }
+            else {
+                $total_w = $layout->size->width;
+                $total_h = $layout->size->height;
+                $correct_h = $total_h / 1000;
+                $x = $total_w / 2 - 200;
+                $y = $total_h / 2 - 200;
+                $w = $total_w * 0.4;
+                $h = $w / $correct_h;
+                $placement = adjustplacement($placement,"$x,$y,$w,$h");
+            }
+        } 
+
+        // If we don't have a placement yet the default is just to arrange in wide rows
+        if ( $placement == '' ) {
+            // special case placements, put some charges in exact centre of cross
+            if ( $forceCentre ) {
+                $boundingBox->pos = clone $layout->center_point;
+            }
+            $placement = calcPlace($item,'w',$boundingBox);
+            $placement = adjustDistance($item, $placement);
+        }
+        $placementList[] = $placement;
+        $placement = '';
     }
 
-
-
-    // On an underlying division (but ignore if in a specific location)
-    if ( $placement == '' && count($pos)==0 && $underlying_div != null ) {
-        if ($underlying_div=='per-bend' && $number==2) $placement = 'x/300,700,350,350:700,300/x/x/x/x';
-        elseif ($underlying_div=='per-bend-sinister' && $number==2) $placement = 'x/300,300,350,350:700,700/x/x/x/x';
-        elseif (substr($underlying_div,0,9)=='quarterly' && $number==4 ) $placement = 'x/x/x/250,250,300,300:750,250:250,750:750,750/x/x/';
-        elseif ($underlying_div=='gyronny_of_8' && ($number==8 or $number==4) ) $placement = 'x/x/x/200,500,300,300:500,200:800,500:500,800/x/x/x/200,400,160,160:400,200:600,200:800,400:800,600:600,800:400,800:200,600';
-        elseif ($underlying_div=='gyronny_of_6' && ($number==6 or $number==3) ) $placement = 'x/200,500,300,600:800,500/x/x/x/350,200,200,200:650,200:150,500:850,500:350,800:650,800';
-        elseif ($underlying_div=='per-chevron' && $number==3 ) $placement = 'x/x/250,200,240,240:500,750,300,300:750,200,240,240';
-        elseif ($underlying_div=='per-pall-reversed' && $number==3 ) $placement = 'x/x/250,300,300,300:500,900:750,300/x/x/x/';
-        elseif ($underlying_div=='per-pall' && $number==3 ) $placement = 'x/x/250,700,300,300:500,200,300,300:750,700,300,300:/x/x/x/';
-        elseif ($underlying_div=='per-saltire' && $number==3 ) $placement = 'x/200,500,240,240:800,500/200,500,240,240:500,850,300,300:800,500,240,240/200,500,240,240:500,850,300,300:800,500,240,240:500,200,240,240/x/x';
-    }
-
-    if ( $cadency ) { // unless there is a specific location, put in the center, but small
-        $placement = calcPlace($item,'w',$boundingBox);
-        $placement = adjustplacement($placement,'400,400,200,200');
-    } elseif ( $overall && !($name == 'label' && $entire)) { // like cadency, but a bit bigger, fudge for label overall, already moved
-        $placement = calcPlace($item,'w',$boundingBox);
-        if ( $group == "quadrate" ) {
-            $placement = adjustplacement($placement,'100,66,800,800');
-        }
-        else {
-            $total_w = $layout->size->width;
-            $total_h = $layout->size->height;
-            $correct_h = $total_h / 1000;
-            $x = $total_w / 2 - 200;
-            $y = $total_h / 2 - 200;
-            $w = $total_w * 0.4;
-            $h = $w / $correct_h;
-            $placement = adjustplacement($placement,"$x,$y,$w,$h");
-        }
-    } 
-
-    // If we don't have a placement yet the default is just to arrange in wide rows
-    if ( $placement == '' ) {
-        // special case placements, put some charges in exact centre of cross
-        if ( $forceCentre ) {
-            $boundingBox->pos = clone $layout->center_point;
-        }
-        $placement = calcPlace($item,'w',$boundingBox);
-//         $placement = adjustDistance($item, $placement);
-    }
-
-    return $placement;
+    $retval = implode('*',$placementList);
+    return $retval;
 }
 
 
