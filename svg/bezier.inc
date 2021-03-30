@@ -835,6 +835,16 @@ class MutableShape extends ShapeInterface
             $path->reverse();
     }
 
+    function reverse_last()
+    {
+        if ( $this->sub_paths[$this->size()-1]->size() < 2 )
+            $this->sub_paths[$this->size()-2]->reverse();
+        else
+            $this->sub_paths[$this->size()-1]->reverse();
+
+        return $this;
+    }
+
     function __clone()
     {
         $cloned = [];

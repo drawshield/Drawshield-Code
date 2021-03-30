@@ -101,8 +101,8 @@ function makeimpaled( DOMNodeList $children, $layout ) {
       break;
     }
   }
-  $retval .= "<g clip-path='url(#$clipI)' transform='scale(0.5, 1)' >$imp1</g>\n";
-  $retval .= "<g clip-path='url(#$clipI)' transform='scale(0.5, 1) translate({$size->width},0)' >$imp2</g>\n";
+  $retval .= "<g clip-path='url(#$clipI)' transform='scale(0.5)' >$imp1</g>\n";
+  $retval .= "<g clip-path='url(#$clipI)' transform='scale(0.5) translate({$size->width},0)' >$imp2</g>\n";
   $retval .= add_def();
 
   return $retval . "<path stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\" d=\"M {$size->width} 0 v {$layout->size->height}\" />\n";

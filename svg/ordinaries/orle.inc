@@ -28,12 +28,12 @@ if ( strpos($layout->section, "quarter") !== false )
 
 $shape = ShieldShape::from_name($layout->shape);
 
-$path_builder = new SvgPathBuilder();
+$path_builder = new MutableShape();
 
 $shape->svg_path($layout, $margin, false, $path_builder);
 $shape->svg_path($layout, $margin + $width, true, $path_builder);
 
-$ordinary['body'] = $path_builder->to_path();
+$ordinary['body'] = $path_builder->to_svg_path();
 
 $ordinary['chargesOn'] = 'x///////////125,300,80,80:875,300:500,120:500,1070:125,700:875,700:250,120:750,120:250,970:750,970:125,500:875,500';
 
@@ -76,13 +76,13 @@ if ( $tinc->hasChildNodes() and $tinc->firstChild->nodeName == 'fur' ) {
 
 if ( existModifierWithKeyterm($node,'compony1') )
 {
-    $ordinary['body2'] = $shape->compony($layout, $margin, $width)->to_path();
+    $ordinary['body2'] = $shape->compony($layout, $margin, $width)->to_svg_path();
 }
 elseif (existModifierWithKeyterm($node,'compony2') )
 {
     $body2 = $shape->compony($layout, $margin, $width);
     $shape->svg_path($layout, $margin + $width / 2, true, $body2);
-    $ordinary['body2'] = $body2->to_path();
+    $ordinary['body2'] = $body2->to_svg_path();
 }
 
 

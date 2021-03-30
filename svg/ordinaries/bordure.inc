@@ -26,24 +26,24 @@ if ( strpos($layout->section, "quarter") !== false )
 
 $shape = ShieldShape::from_name($layout->shape);
 
-$path_builder = new SvgPathBuilder();
+$path_builder = new MutableShape();
 
 $shape->svg_path($layout, $margin, false, $path_builder);
 $shape->svg_path($layout, $margin + $width, true, $path_builder);
 
-$ordinary['body'] = $path_builder->to_path();
+$ordinary['body'] = $path_builder->to_svg_path();
 
 
 
 if ( existModifierWithKeyterm($node,'compony1') )
 {
-    $ordinary['body2'] = $shape->compony($layout, 0, $width + $margin)->to_path();
+    $ordinary['body2'] = $shape->compony($layout, 0, $width + $margin)->to_svg_path();
 }
 elseif (existModifierWithKeyterm($node,'compony2') )
 {
     $body2 = $shape->compony($layout, 0, $width + $margin);
     $shape->svg_path($layout, ($width + $margin) / 2, true, $body2);
-    $ordinary['body2'] = $body2->to_path();
+    $ordinary['body2'] = $body2->to_svg_path();
 }
 
 $ordinary['chargesWithin'] = $layout->rect_area()->margin(250, 0, 250, 350);

@@ -79,12 +79,12 @@ else
     else
         $shape = ShieldShape::from_name($layout->shape);
 
-    $path_builder = new SvgPathBuilder();
+    $path_builder = new MutableShape();
 
     $shape->svg_path($layout, $margin, false, $path_builder);
     $shape->svg_path($layout, $margin + $width, true, $path_builder);
 
-    $ordinary['body'] = $path_builder->to_path();
+    $ordinary['body'] = $path_builder->to_svg_path();
 }
 
 
@@ -92,11 +92,11 @@ $ordinary['chargesWithin'] = array ('w','300,300,400,500');
 
 if ( existModifierWithKeyterm($node,'compony1') )
 {
-    $ordinary['body2'] = $shape->compony($layout, $margin, $width)->to_path();
+    $ordinary['body2'] = $shape->compony($layout, $margin, $width)->to_svg_path();
 }
 elseif (existModifierWithKeyterm($node,'compony2') )
 {
     $body2 = $shape->compony($layout, $margin, $width);
     $shape->svg_path($layout, $margin + $width / 2, true, $body2);
-    $ordinary['body2'] = $body2->to_path();
+    $ordinary['body2'] = $body2->to_svg_path();
 }
