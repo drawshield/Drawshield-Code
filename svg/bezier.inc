@@ -430,13 +430,27 @@ class PolyBezier
         ];
     }
 
-    private function offset_helper($p_left, $c, $p_right, $amount, &$points)
+    private function offset_helper($p_left, $c, $p_right, $amount, &$points, $miter_limit)
     {
         $l = $this->offset_side($p_left->pos, $c->pos, $amount);
         $r = $this->offset_side($c->pos, $p_right->pos, $amount);
 
-        $inter = $this->insersect($l[0], $l[1], $r[0], $r[1]);
+        $inter = $this->insersect($l[0], $l[1], $r[0], $r[1], $miter_limit);
         $vals = [];
+
+        if ( $inter && $c->pos->distance($inter) > abs($amount) * $miter_limit )
+        {
+            $d = $c->pos->distance($inter);
+            $dx = ($inter->x - $c->pos->x) / $d;
+            $dy = ($inter->y - $c->pos->y) / $d;
+            if ( $amount < 0 )
+            {
+                $dx = -$dx;
+                $dy = -$dy;
+            }
+            $inter = $c->pos->translated($dx * $amount, $dy * $amount);
+        }
+
         if ( $inter )
         {
             $new_p_left = $new_p_right = new BezierPoint($inter);
@@ -459,7 +473,7 @@ class PolyBezier
         return $vals;
     }
 
-    private function insersect($lp1, $lp2, $rp1, $rp2, $max_distance = 100)
+    private function insersect($lp1, $lp2, $rp1, $rp2)
     {
         $a = $lp2->translated(-$lp1->x, -$lp1->y);
         $b = $rp1->translated(-$rp2->x, -$rp2->y);
@@ -471,13 +485,10 @@ class PolyBezier
 
         $na = ($b->y * $c->x - $b->x * $c->y) / $denominator;
 
-        if ( $na > $max_distance )
-            return null;
-
         return $lp1->translated($a->x * $na, $a->y * $na);
     }
 
-    function offset_copy($amount)
+    function offset_copy($amount, $miter_limit = 3)
     {
         $bez = new PolyBezier();
 
@@ -504,7 +515,7 @@ class PolyBezier
             $p_left = $points[$i - 1];
             $c = $points[$i];
             $p_right = $points[$i+1];
-            $vals = $this->offset_helper($p_left, $c, $p_right, $amount, $points);
+            $vals = $this->offset_helper($p_left, $c, $p_right, $amount, $points, $miter_limit);
 
             if ( count($vals) == 2 )
             {
@@ -543,7 +554,7 @@ class PolyBezier
 
             $p_left = $points[$n_points - 2];
 
-            $vals = $this->offset_helper($p_left, $c, $p_right, $amount, $points);
+            $vals = $this->offset_helper($p_left, $c, $p_right, $amount, $points, $miter_limit);
 
             if ( count($vals) == 2 )
             {
@@ -555,6 +566,8 @@ class PolyBezier
                 $bez->points[0] = $vals[0];
                 $bez->points[] = clone $vals[0];
             }
+
+            $bez->closed = true;
         }
         else
         {
@@ -819,7 +832,10 @@ class SvgDParser
         $this->tokpos++;
         $this->relative = ctype_lower($tok);
         if ( strtolower($tok) == "z" )
+        {
             $this->bezier->close();
+            $this->letter = "M";
+        }
     }
 
     private function on_parse_d($d) : MutableShape
@@ -839,6 +855,10 @@ class SvgDParser
             if ( ctype_alpha($tok) )
             {
                 $this->parse_alpha($tok);
+            }
+            else if ( $tok == "" )
+            {
+                $this->tokpos++;
             }
             else
             {
