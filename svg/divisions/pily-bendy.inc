@@ -15,7 +15,7 @@
 $top = $layout->division_offset->y;
 $bottom = $layout->size->height;
 
-$builder = new SvgPathBuilder();
+$builder = new MutableShape();
 $points = [
     [0,923],
     [241,1111],
@@ -33,23 +33,27 @@ $points = [
     [1000,175],
     [902,0],
     [1000,0],
-    [1000,1200]
 ];
 
 $sinister = existModifierWithKeyterm($node, 'sinister');
 
 $x = $sinister ? $layout->size->width : 0;
-$div_data = "<path d='M $x, $bottom L";
+$builder->move_to($x, $bottom);
 foreach ( $points as $p )
 {
     $x = $p[0];
     if ( $sinister )
         $x = $layout->size->width - $x;
     $y = $p[1]/1200 * ($bottom - $top) + $top;
-    $div_data .= " $x,$y";
+    $builder->tag_segment(BezierSegmentFlags::NORMAL);
+    $builder->line_to($x, $y);
 }
-$div_data .=  "' />";
 
-$division['div2'] = $div_data;
+$builder->tag_segment(BezierSegmentFlags::PLAIN);
+$builder->line_to($layout->size->width+100, $bottom+100);
+$builder->close();
+
+$lineType = getModifierByType($node, 'linetype', false);
+$division['div2'] = createBody($builder, $lineType, 30, $layout);
 
 

@@ -21,7 +21,7 @@ else if ( $num_of < 6 )
 else if ( $num_of % 2 )
     $num_of += 1;
 
-$builder = new SvgPathBuilder();
+$builder = new MutableShape();
 
 $angle = M_PI * 2 / $num_of;
 $radius = 2000;
@@ -29,11 +29,14 @@ for ( $i = 0; $i < $num_of; $i += 2 )
 {
     $a1 = $angle * $i;
     $a2 = $angle * ($i+1);
-    $builder->move($layout->center_point->x, $layout->center_point->y)
-        ->line($layout->center_point->x + $radius * sin($a1), $layout->center_point->y - $radius * cos($a1))
-        ->line($layout->center_point->x + $radius * sin($a2), $layout->center_point->y - $radius * cos($a2))
+    $builder->move_to($layout->center_point->x, $layout->center_point->y)
+        ->line_to($layout->center_point->x + $radius * sin($a1), $layout->center_point->y - $radius * cos($a1))
+        ->tag_segment(BezierSegmentFlags::PLAIN)
+        ->line_to($layout->center_point->x + $radius * sin($a2), $layout->center_point->y - $radius * cos($a2))
+        ->tag_segment(BezierSegmentFlags::NORMAL)
         ->close();
     ;
 }
 
-$division['div2'] = $builder->to_path();
+$lineType = getModifierByType($node, 'linetype', false);
+$division['div2'] = createBody($builder, $lineType, 40, $layout);
