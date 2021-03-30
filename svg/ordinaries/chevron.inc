@@ -18,15 +18,14 @@ require_once("chevron-helper.inc");
 if ( existModifierWithKeyterm($node,'throughout') )
 {
     $delta_y = $layout->size->height * 0.28;
-    $ordinary['body'] = (new SvgPathBuilder())
-        ->move($layout->size->width/2, 0)
-        ->line($layout->size->width, $layout->size->height - $delta_y)
-        ->line($layout->size->width, $layout->size->height)
-        ->line($layout->size->width/2, $delta_y)
-        ->line(0, $layout->size->height)
-        ->line(0, $layout->size->height - $delta_y)
+    $ordinary['shape_spec'] = (new MutableShape())
+        ->move_to($layout->size->width/2, 0)
+        ->line_to($layout->size->width, $layout->size->height - $delta_y)
+        ->line_to($layout->size->width, $layout->size->height)
+        ->line_to($layout->size->width/2, $delta_y)
+        ->line_to(0, $layout->size->height)
+        ->line_to(0, $layout->size->height - $delta_y)
         ->close()
-        ->to_path()
     ;
 }
 elseif ( existModifierWithKeyterm($node,'rompu') )

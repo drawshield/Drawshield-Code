@@ -13,14 +13,16 @@
    limitations under the License. */
 
 
-$ordinary['body'] = (new SvgPathBuilder())
-    ->move($layout->center_point->x, 0)
-    ->line($layout->size->width, $layout->center_point->y)
-    ->line($layout->center_point->x, $layout->size->height)
-    ->line(0, $layout->center_point->y)
+$ordinary['shape_spec'] = (new MutableShape())
+    ->move_to($layout->center_point->x, 0)
+    ->tag_segment(BezierSegmentFlags::SYMMETRICAL)
+    ->line_to($layout->size->width, $layout->center_point->y)
+    ->tag_segment(BezierSegmentFlags::SYMMETRICAL)
+    ->line_to($layout->center_point->x, $layout->size->height)
+    ->tag_segment(BezierSegmentFlags::SYMMETRICAL)
+    ->line_to(0, $layout->center_point->y)
+    ->tag_segment(BezierSegmentFlags::SYMMETRICAL)
     ->close()
-    ->to_path()
-
 ;
 
 

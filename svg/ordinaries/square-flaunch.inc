@@ -13,15 +13,16 @@
    limitations under the License. */
 
 
-$builder = new SvgPathBuilder();
+$builder = new MutableShape();
 
 $margin = 8;
 $w = $layout->size->width / 3;
 $h = $layout->center_point->y * 2;
 $builder
-    ->move(-$margin, -$margin)
-    ->line($w, $layout->center_point->y)
-    ->line(-$margin, $h + $margin)
+    ->move_to(-$margin, -$margin)
+    ->line_to($w, $layout->center_point->y)
+    ->line_to(-$margin, $h + $margin)
+    ->tag_segment(BezierSegmentFlags::PLAIN)
     ->close()
 ;
 
@@ -32,13 +33,14 @@ if ( $node->getAttribute('number') == '2')
 {
     $ordinary['chargesOn'] .= "/$charge:" . $charge->translated($layout->size->width - $charge->size->width, 0);
     $builder
-        ->move($layout->size->width + $margin, -$margin)
-        ->line($layout->size->width * 2 / 3, $layout->center_point->y)
-        ->line($layout->size->width + $margin, $layout->center_point->y * 2 + $margin)
+        ->move_to($layout->size->width + $margin, -$margin)
+        ->line_to($layout->size->width * 2 / 3, $layout->center_point->y)
+        ->line_to($layout->size->width + $margin, $layout->center_point->y * 2 + $margin)
+        ->tag_segment(BezierSegmentFlags::PLAIN)
         ->close()
     ;
 }
 
-$ordinary['body'] = $builder->to_path();
+$ordinary['shape_spec'] = $builder;
 
 // $ordinary['chargesWithin'] = array ('n','300,300,400,600');

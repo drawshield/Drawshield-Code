@@ -316,7 +316,7 @@ function makeOrdinary( DOMElement &$node, $layout ) {
   if ( array_key_exists('feature_size', $ord_data) ) { 
     $feature_size = $ord_data['feature_size'];
   } elseif ($layout->shape == 'flag') {
-    $feature_size = (int)($layout->size->width * 0.04);
+    $feature_size = (int)($layout->size->height * 0.05);
   } else {
 	  $feature_size = 40;
   }
