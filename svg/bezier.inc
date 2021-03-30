@@ -668,18 +668,40 @@ class MutableShape extends ShapeInterface
         return !$this->empty() && !$this->last_bez()->empty();
     }
 
+    private function relpoint()
+    {
+        return $this->has_finish() ? $this->finish()->pos : new ShieldPos(0, 0);
+    }
+
     private function get_args($args, $n)
     {
+        $relative = false;
+
+        if ( is_bool($args[count($args)-1]) )
+            $relative = array_pop($args);
+
         if ( count($args) == $n )
-            return $args;
+        {
+            $new_args = $args;
+        }
+        else
+        {
+            if ( count($args) != 2*$n )
+                throw new Exception("Must pass $n points");
 
-        if ( count($args) != 2*$n )
-            throw new Exception("Must pass $n points");
+            $new_args = [];
+            for ( $i = 0; $i < $n; $i++ )
+                $new_args[] = new ShieldPos($args[$i*2], $args[2*$i+1]);
+        }
 
-        $new_args = [];
-        for ( $i = 0; $i < $n; $i++ )
-            $new_args[] = new ShieldPos($args[$i*2], $args[2*$i+1]);
-        return $new_args;
+        if ( !$relative )
+            return $new_args;
+
+        $last_pos = $this->relpoint();
+        $offset_args = [];
+        foreach ( $new_args as $a )
+            $offset_args[] = $a->translated($last_pos->x, $last_pos->y);
+        return $offset_args;
     }
 
     function move_to()
@@ -716,6 +738,24 @@ class MutableShape extends ShapeInterface
     {
         list($handle1, $handle2, $dest) = $this->get_args(func_get_args(), 3);
         $this->last_bez()->cubic_to($handle1, $handle2, $dest);
+        return $this;
+    }
+
+    function horizontal($x, $relative = false)
+    {
+        if ( $relative )
+            $x += $this->relpoint()->x;
+        $y = $this->relpoint()->y;
+        $this->line_to($x, $y);
+        return $this;
+    }
+
+    function vertical($y, $relative = false)
+    {
+        if ( $relative )
+            $y += $this->relpoint()->y;
+        $x = $this->relpoint()->x;
+        $this->line_to($x, $y);
         return $this;
     }
 
@@ -836,7 +876,7 @@ class MutableShape extends ShapeInterface
  */
 class SvgDParser
 {
-    private $tokens, $tokpos, $letter, $relative, $relpoint;
+    private $tokens, $tokpos, $letter, $relative;
     public $bezier;
 
     static function parse_d($d) : MutableShape
@@ -863,11 +903,10 @@ class SvgDParser
 
     private function on_parse_d($d) : MutableShape
     {
-        $this->relpoint = new ShieldPos(0, 0);
         $add_spaces = preg_replace(["/([a-zA-Z])([-+0-9.])/", "/([-+0-9.])([-a-zA-Z])/"], "$1 $2", $d);
         $this->tokens = preg_split('/(,|\s)+/', $add_spaces);
         $this->bezier = new MutableShape();
-        $this->bezier->move_to(clone $this->relpoint);
+        $this->bezier->move_to(new ShieldPos(0, 0));
         $this->tokpos = 0;
         $this->letter = "M";
         $this->relative = false;
@@ -899,38 +938,23 @@ class SvgDParser
         switch ( $this->letter )
         {
             case 'M':
-                $this->relpoint = $this->point();
-                $this->bezier->move_to(clone $this->relpoint);
+                $this->bezier->move_to($this->point(), $this->relative);
                 $this->letter = "L";
                 return;
             case 'L':
-                $this->relpoint = $this->point();
-                $this->bezier->line_to(clone $this->relpoint);
+                $this->bezier->line_to($this->point(), $this->relative);
                 return;
             case 'H':
-                $x = $this->coord();
-                if ( $this->relative )
-                    $x += $this->relpoint->x;
-                $this->relpoint = new ShieldPos($x, $this->relpoint->y);
-                $this->bezier->line_to(clone $this->relpoint);
+                $this->bezier->horizontal($this->coord(), $this->relative);
                 return;
             case 'V':
-                $y = $this->coord();
-                if ( $this->relative )
-                    $y += $this->relpoint->y;
-                $this->relpoint = new ShieldPos($this->relpoint->x, $y);
-                $this->bezier->line_to(clone $this->relpoint);
+                $this->bezier->vertical($this->coord(), $this->relative);
                 return;
             case 'Q':
-                $handle = $this->point();
-                $this->relpoint = $this->point();
-                $this->bezier->quadratic_to($handle, clone $this->relpoint);
+                $this->bezier->quadratic_to($this->point(), $this->point(), $this->relative);
                 return;
             case 'C':
-                $handle1 = $this->point();
-                $handle2 = $this->point();
-                $this->relpoint = $this->point();
-                $this->bezier->cubic_to($handle1, $handle2, clone $this->relpoint);
+                $this->bezier->cubic_to($this->point(), $this->point(), $this->point(), $this->relative);
                 return;
             default:
                 user_error("SVG path {$this->letter} not supported", E_USER_WARNING);
@@ -952,11 +976,6 @@ class SvgDParser
     {
         $x = $this->coord();
         $y = $this->coord();
-        if ( $this->relative )
-        {
-            $x += $this->relpoint->x;
-            $y += $this->relpoint->y;
-        }
         return new ShieldPos($x, $y);
     }
 }
