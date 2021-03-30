@@ -318,9 +318,9 @@ class PolyBezier
             for ( $i = 1; $i < $this->size(); $i++ )
             {
                 $p1 = $this->points[$i];
+
                 $cubics[] = new CubicBezier($p0->pos, $p0->tan_out, $p1->tan_in, $p1->pos);
                 $p0 = $p1;
-
 
                 if ( isset($this->segment_tags[$i]) )
                 {
@@ -430,10 +430,14 @@ class PolyBezier
         ];
     }
 
-    private function offset_helper($p_left, $c, $p_right, $amount, &$points, $miter_limit)
+    private function offset_helper(BezierPoint $p_left, BezierPoint $c, BezierPoint $p_right, $amount, $miter_limit)
     {
-        $l = $this->offset_side($p_left->pos, $c->pos, $amount);
-        $r = $this->offset_side($c->pos, $p_right->pos, $amount);
+//         $seg_left = $c->tan_in->distance($c->pos) < 1 ? $p_left->pos : $c->tan_in;
+//         $seg_right = $c->tan_out->distance($c->pos) < 1 ? $p_right->pos : $c->tan_out;
+        $seg_left = $p_left->pos;
+        $seg_right = $p_right->pos;
+        $l = $this->offset_side($seg_left, $c->pos, $amount);
+        $r = $this->offset_side($c->pos, $seg_right, $amount);
 
         $inter = $this->insersect($l[0], $l[1], $r[0], $r[1], $miter_limit);
         $vals = [];
@@ -449,6 +453,7 @@ class PolyBezier
                 $dy = -$dy;
             }
             $inter = $c->pos->translated($dx * $amount, $dy * $amount);
+
         }
 
         if ( $inter )
@@ -464,17 +469,25 @@ class PolyBezier
             $vals = [$new_p_left, $new_p_right];
         }
 
-        $new_p_left->tan_in->x = $c->tan_in->x - $c->pos->x + $new_p_left->pos->x;
-        $new_p_left->tan_in->y = $c->tan_in->y - $c->pos->y + $new_p_left->pos->y;
-
-        $new_p_right->tan_out->x = $c->tan_out->x - $c->pos->x + $new_p_right->pos->x;
-        $new_p_right->tan_out->y = $c->tan_out->y - $c->pos->y + $new_p_right->pos->y;
+        $new_p_left->tan_in = $this->adjust_tangent($c->tan_in, $c->pos, $new_p_left->pos);
+        $new_p_right->tan_out = $this->adjust_tangent($c->tan_out, $c->pos, $new_p_right->pos);
 
         return $vals;
     }
 
+    private function adjust_tangent($tangent, $pos_old, $pos_new)
+    {
+        return new ShieldPos(
+            $tangent->x - $pos_old->x + $pos_new->x,
+            $tangent->y - $pos_old->y + $pos_new->y
+        );
+    }
+
     private function insersect($lp1, $lp2, $rp1, $rp2)
     {
+        if ( $lp2->distance($rp1) < 1 )
+            return $lp2;
+
         $a = $lp2->translated(-$lp1->x, -$lp1->y);
         $b = $rp1->translated(-$rp2->x, -$rp2->y);
         $c = $lp1->translated(-$rp1->x, -$rp1->y);
@@ -488,7 +501,7 @@ class PolyBezier
         return $lp1->translated($a->x * $na, $a->y * $na);
     }
 
-    function offset_copy($amount, $miter_limit = 3)
+    function offset_copy($amount, $miter_limit = 2)
     {
         $bez = new PolyBezier();
 
@@ -515,7 +528,7 @@ class PolyBezier
             $p_left = $points[$i - 1];
             $c = $points[$i];
             $p_right = $points[$i+1];
-            $vals = $this->offset_helper($p_left, $c, $p_right, $amount, $points, $miter_limit);
+            $vals = $this->offset_helper($p_left, $c, $p_right, $amount, $miter_limit);
 
             if ( count($vals) == 2 )
             {
@@ -554,7 +567,7 @@ class PolyBezier
 
             $p_left = $points[$n_points - 2];
 
-            $vals = $this->offset_helper($p_left, $c, $p_right, $amount, $points, $miter_limit);
+            $vals = $this->offset_helper($p_left, $c, $p_right, $amount, $miter_limit);
 
             if ( count($vals) == 2 )
             {
@@ -571,7 +584,16 @@ class PolyBezier
         }
         else
         {
-            $bez->points[] = clone $points[$this->size() - 1];
+            $last = $points[$n_points - 1];
+            $off = $this->offset_side($points[$n_points - 2]->pos, $last->pos, $amount);
+            $tan = $this->adjust_tangent($last->tan_in, $last->pos, $off[1]);
+            $bez->points[] = new BezierPoint($off[1], $tan);
+
+
+            $first = $points[0];
+            $off = $this->offset_side($first->pos, $points[1]->pos, $amount);
+            $tan = $this->adjust_tangent($first->tan_out, $first->pos, $off[0]);
+            $bez->points[0] = new BezierPoint($off[0], $tan);
         }
 
         return $bez;
@@ -729,8 +751,9 @@ class MutableShape extends ShapeInterface
         $compiled = [];
         foreach ( $this->sub_paths as $bez )
         {
-            if ( $bez->size() > 1 )
-                $compiled[] = $bez->compile();
+            $cb = $bez->compile();
+            if ( $cb->size() != 0 )
+                $compiled[] = $cb;
         }
 
         return new CompiledShape($compiled);
