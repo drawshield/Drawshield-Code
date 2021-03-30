@@ -271,11 +271,11 @@ class PolyBezier
 
 
         $p0 = $this->points[0];
-        $d = "M {$p0->pos->x} {$p0->pos->y} C";
+        $d = "M {$p0->pos->x} {$p0->pos->y} \nC";
         for ( $i = 1; $i < count($this->points); $i++ )
         {
             $p1 = $this->points[$i];
-            $d .= " {$p0->tan_out->x},{$p0->tan_out->y} {$p1->tan_in->x},{$p1->tan_in->y} {$p1->pos->x},{$p1->pos->y}";
+            $d .= " {$p0->tan_out->x},{$p0->tan_out->y} {$p1->tan_in->x},{$p1->tan_in->y} {$p1->pos->x},{$p1->pos->y}\n";
             $p0 = $p1;
         }
 
@@ -373,7 +373,9 @@ class PolyBezier
     {
         $cloned = [];
         foreach ( $this->points as $p )
+        {
             $cloned[] = clone $p;
+        }
         $this->points = $cloned;
     }
 
@@ -576,13 +578,7 @@ abstract class ShapeInterface
     /**
      * @brief Converts to the 'd' attribute for a svg path element
      */
-    function to_svg_d()
-    {
-        $d = "";
-        foreach ( $this->sub_paths() as $bez )
-            $d .= $bez->to_svg_d();
-        return $d;
-    }
+    abstract function to_svg_d();
 
     function to_svg_path($attrs=[])
     {
@@ -787,6 +783,16 @@ class MutableShape extends ShapeInterface
         return $clone;
     }
 
+    function to_svg_d()
+    {
+        $d = "";
+        foreach ( $this->sub_paths() as $bez )
+        {
+            if ( $bez->size() > 1 )
+                $d .= $bez->to_svg_d();
+        }
+        return $d;
+    }
 }
 
 /**
@@ -1029,11 +1035,14 @@ class CompiledPolyBezier
 {
     private $closed = false;
     private $segments = [];
+    private $length = 0;
 
     function __construct($closed, $segments = [])
     {
         $this->segments = $segments;
         $this->closed = $closed;
+        foreach ( $segments as $seg )
+            $this->length += $seg->length();
     }
 
     function closed()
@@ -1073,6 +1082,7 @@ class CompiledPolyBezier
     function add_segment(CompiledBezierSegment $segment)
     {
         $this->segments[] = $segment;
+        $this->length += $segment->length();
     }
 
     function start()
@@ -1087,6 +1097,28 @@ class CompiledPolyBezier
         if ( count($this->segments) )
             return $this->segments[count($this->segments)-1]->finish();
         return null;
+    }
+
+    function point_at_length($length)
+    {
+        if ( $length <= 0 )
+            return $this->start();
+        if ( $length >= $this->length )
+            return $this->finish();
+
+        foreach ( $this->segments as $seg )
+        {
+            if ( $length < $seg->length() )
+                return $seg->point_at_length($length);
+            $length -= $seg->length();
+        }
+
+        return $this->finish();
+    }
+
+    function length()
+    {
+        return $this->length;
     }
 }
 
@@ -1105,6 +1137,17 @@ class CompiledShape extends ShapeInterface
     function __construct($sub_paths)
     {
         $this->sub_paths = $sub_paths;
+    }
+
+
+    function to_svg_d()
+    {
+        $d = "";
+        foreach ( $this->sub_paths() as $bez )
+        {
+            $d .= $bez->to_svg_d();
+        }
+        return $d;
     }
 }
 
