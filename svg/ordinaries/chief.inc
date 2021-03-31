@@ -25,7 +25,9 @@ if ( existModifierWithKeyterm($node,'couped') ) {
     ->down_plain($layout->size->height+8)
     ->left($layout->size->width+200)
     ->up_plain($layout->size->height+8);
-  $ordinary['chargesOn'] = array ('h','100,50,800,200');
+
+    $rect = $layout->rect_area()->margin($layout->size->height / 6);
+    $ordinary['chargesOn'] = array("h", $rect);
 }
 
  if ( existModifierWithKeyterm($node,'compony1') )

@@ -26,7 +26,7 @@ if ( strpos($layout->section, "quarter") !== false )
     $width = min($ext / 4, $width);
 }
 
-$shape = ShieldShape::from_name($layout->shape);
+$shape = ShieldShape::from_layout($layout);
 
 $path_builder = new MutableShape();
 

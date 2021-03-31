@@ -13,6 +13,6 @@
 
 // This is a fess dancetty
 
-include 'svg/ordinaries/fess.inc';
+include 'fess.inc';
 
 $node->appendChild(createModifierNode('linetype','dancetty'));

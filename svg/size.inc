@@ -199,7 +199,7 @@ class ShieldLayout
     function auto_chief()
     {
         $width = $this->size->width;
-        $height = min($this->size->height * 0.3, 300);
+        $height = $this->size->height * 0.3;
         $this->chief = new ShieldRect(
             new ShieldPos($width / 2, $height / 2),
             new ShieldSize($width, $height)

@@ -38,7 +38,22 @@ elseif ( existModifierWithKeyterm($node,'couped-sinister')) {
 } elseif ( existModifierWithKeyterm($node, 'quadrate')) { 
   $ordinary['body'] = '<path d="m 250,250 v 100 h -300 v 300 h 300 v 100 h 500 v -100 h 300 v -300 h -300 v -100 z" />';
 } else {
-  $ordinary['shape_spec'] = 'X-100Y{%35}A1200c{%30}E1200g{%30}';
+    $margin = 100;
+    $width = $layout->size->height * 0.3;
+    $builder = new MutableShape();
+    $builder->move_to(-$margin, $layout->center_point->y - $width / 2)
+        ->tag_segment(BezierSegmentFlags::STRAIGHT|BezierSegmentFlags::SYMMETRICAL)
+        ->horizontal($layout->size->width + $margin)
+        ->tag_segment(BezierSegmentFlags::PLAIN)
+        ->vertical($width, true)
+        ->tag_segment(BezierSegmentFlags::STRAIGHT|BezierSegmentFlags::SYMMETRICAL|BezierSegmentFlags::UNDERSIDE)
+        ->horizontal(-$margin)
+        ->tag_segment(BezierSegmentFlags::PLAIN)
+        ->vertical(-$width, true)
+        ->close()
+    ;
+
+  $ordinary['shape_spec'] = $builder;
 }
 
 // Add extra layer if compony

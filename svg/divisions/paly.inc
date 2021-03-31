@@ -18,9 +18,10 @@ if ( ($num_of = getModifierValueByKeyterm($node, 'ofnum', false)) == null ) $num
 $NC = '';
 $CH = '';
 $stepH = 1000 / $num_of;
+$height = $layout->size->height + 200;
 for ( $i = 1; $i < $num_of; $i +=2 ) {
       $X1 = $i * $stepH;
-      $NC .= "X{$X1}Y-100a{$stepH}C1400e{$stepH}G1400   ";
+      $NC .= "X{$X1}Y-100a{$stepH}C{$height}e{$stepH}G{$height}   ";
 }
 $division['div2'] = createBody( $NC, getModifierByType($node,'linetype', false), 40, $layout);
 

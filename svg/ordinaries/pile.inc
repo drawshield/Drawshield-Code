@@ -27,29 +27,35 @@ if ( existModifierWithKeyterm($node, 'depressed')) {
 } elseif (existModifierWithKeyterm($node,'embowed')) {
   $ordinary['body'] = '<path d="m -150,-100 c 300,0 650,800 650,800 0,0 350,-800 650,-800 z" />';
 } else {
+    $builder = new MutableShape();
+
   switch ( $num ) {
     case 1:
-      $ordinary['body'] = "<path d='M 50,-8 V 0 L 500,$bottom 950,0 V -8 Z' />";
+        $builder->combine_from(SvgDParser::parse_d("M 50,-8 V 0 L 500,$bottom 950,0 V -8 Z"));
       break;
     case 2:
-      $ordinary['body'] = "<path d='M 464.67,$bottom L 345.47,-38.44 L -24.24,-38.44 L 464.67,$bottom z' />
-      <path d='M 535.75,$bottom L 654.95,-38.44 L 1024.67,-38.44 L 535.75,$bottom z' />";
+        $builder->combine_from(SvgDParser::parse_d("M 464.67,$bottom L 345.47,-38.44 L -24.24,-38.44 L 464.67,$bottom z"));
+        $builder->combine_from(SvgDParser::parse_d("M 535.75,$bottom L 654.95,-38.44 L 1024.67,-38.44 L 535.75,$bottom z"));
       break;
     case 3:
-      $ordinary['body'] = "<path d='M 359.61,$bottom L 256.57,-38.44 L -24.24,-38.44 L 359.61,$bottom z' />
-      <path d='M 635.75,$bottom L 738.79,-38.44 L 1019.61,-38.44 L 635.75,$bottom z' />
-      <path d='M 321.22,-38.44 L 496.99,$bottom L 670.74,-38.44 L 321.22,-38.44 z' />";
+      $builder->combine_from(SvgDParser::parse_d("M 359.61,$bottom L 256.57,-38.44 L -24.24,-38.44 L 359.61,$bottom z"));
+      $builder->combine_from(SvgDParser::parse_d("M 635.75,$bottom L 738.79,-38.44 L 1019.61,-38.44 L 635.75,$bottom z"));
+      $builder->combine_from(SvgDParser::parse_d("M 321.22,-38.44 L 496.99,$bottom L 670.74,-38.44 L 321.22,-38.44 z"));
       break;
     case 4:
     default:
-      $ordinary['body'] = "<path d='M 422.24,$bottom L 191.92,-38.44 L -24.24,-38.44 L 422.24,$bottom z' />
-      <path d='M 262.51,-38.44 L 474.64,$bottom L 460.50,-38.44 L 262.51,-38.44 z' />
-      <path d='M 574.16,$bottom L 804.47,-38.44 L 1020.64,-38.44 L 574.16,$bottom z' />
-      <path d='M 733.88,-38.44 L 521.75,$bottom L 535.89,-38.44 L 733.88,-38.44 z' />";
+      $builder->combine_from(SvgDParser::parse_d("M 422.24,$bottom L 191.92,-38.44 L -24.24,-38.44 L 422.24,$bottom z"));
+      $builder->combine_from(SvgDParser::parse_d("M 262.51,-38.44 L 474.64,$bottom L 460.50,-38.44 L 262.51,-38.44 z"));
+      $builder->combine_from(SvgDParser::parse_d("M 574.16,$bottom L 804.47,-38.44 L 1020.64,-38.44 L 574.16,$bottom z"));
+      $builder->combine_from(SvgDParser::parse_d("M 733.88,-38.44 L 521.75,$bottom L 535.89,-38.44 L 733.88,-38.44 z"));
       break;
   }
+  $ordinary['shape_spec'] = $builder;
 }
 
-$ordinary['chargesOn'] = '300,100,400,300';
+$ordinary['chargesOn'] = (string)new ShieldRect(
+    new ShieldPos($layout->size->width / 2, $bottom / 3),
+    new ShieldSize($bottom / 2, $bottom / 2)
+);
 
 $ordinary['chargesWithin'] = 'x/150,700,180,180:850,700/x/130,600,160,160:870,600:200,840:800,840/x/x';

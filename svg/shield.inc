@@ -86,8 +86,9 @@ function makeimpaled( DOMNodeList $children, $layout ) {
 
   $size = $layout->size->scaled(1, 2);
   $clipI = add_def( 'clipPath', "<rect x='0' y='0' width='{$size->width}'  height='{$size->height}'/>" );
-  $child_layout_1 = new ShieldLayout($size, $layout->shape, null, null, true, "dexter");
-  $child_layout_2 = new ShieldLayout($size, $layout->shape, null, null, true, "sinister");
+  $cp = $layout->center_point->translated(0, $layout->center_point->y);
+  $child_layout_1 = new ShieldLayout($size, $layout->shape, $cp, null, true, "dexter");
+  $child_layout_2 = new ShieldLayout($size, $layout->shape, $cp, null, true, "sinister");
   /**
    * @var DOMElement $kid
    */

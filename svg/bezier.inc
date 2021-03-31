@@ -785,8 +785,9 @@ class MutableShape extends ShapeInterface
             $this->add_path(clone $bez);
     }
 
-    function translate(ShieldPos $p)
+    function translate()
     {
+        list($p) = $this->get_args(func_get_args(), 1);
         foreach ( $this->sub_paths as $path )
             $path->translate($p);
     }
