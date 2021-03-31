@@ -469,13 +469,10 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
             }
             break;
         case 'inbase':
-            if ( $orig_placement == '' ) {
-                $placement = calcPlace($item,'h','100,825,800,250');
-//              $placement = '500,950,500,240/333.33,950,300,200:666.67,950/333.33,900,160,160:666.67,900:500,1050/x/x/x';
-                return [];
-            } else
-                return ['400,850,200,200'];
-            break;
+            return [new ShieldRect(
+                new ShieldPos($layout->size->width/2, $layout->size->height - 300),
+                new ShieldSize(800, 250)
+            )];
         case 'inflank': return ['0,375,300,300', '700,375,300,300'];
         case 'indexchief': return [($cadency) ? '0,0,200,200' : '0,0,350,300'];
         case 'insinchief': return [($cadency) ? '800,0,200,200' : '650,0,350,300'];
