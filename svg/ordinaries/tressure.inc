@@ -84,7 +84,7 @@ else
     $shape->svg_path($layout, $margin, false, $path_builder);
     $shape->svg_path($layout, $margin + $width, true, $path_builder);
 
-    $ordinary['body'] = $path_builder->to_svg_path();
+    $ordinary['shape_spec'] = $path_builder;
 }
 
 
@@ -100,3 +100,5 @@ elseif (existModifierWithKeyterm($node,'compony2') )
     $shape->svg_path($layout, $margin + $width / 2, true, $body2);
     $ordinary['body2'] = $body2->to_svg_path();
 }
+
+$ordinary['feature_size'] = 20;

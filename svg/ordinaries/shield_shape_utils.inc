@@ -222,27 +222,24 @@ class HeaterShieldShape extends ShieldShape
         if ( $br->y < $inset + $margin_top + 50 )
             $br = new  ShieldPos($layout->size->width - $inset, $inset + $margin_top);
 
+        $flags = BezierSegmentFlags::SYMMETRICAL;
 
         if ( $reversed )
-        {
-            $builder
-                ->move_to($layout->size->width - $inset, $inset + $margin_top)
-                ->line_to($inset, $inset + $margin_top)
-                ->line_to($tip->x, $tip->y)
-                ->cubic_to($br_t1->x, $br_t1->y, $br_t2->x, $br_t2->y, $br->x, $br->y)
-                ->close()
-            ;
-        }
-        else
-        {
-            $builder
-                ->move_to($inset, $inset + $margin_top)
-                ->line_to($layout->size->width - $inset, $inset + $margin_top)
-                ->line_to($br->x, $br->y)
-                ->cubic_to($br_t2->x, $br_t2->y, $br_t1->x, $br_t1->y, $tip->x, $tip->y)
-                ->close()
-            ;
-        }
+            $flags |= BezierSegmentFlags::UNDERSIDE;
+
+        $builder
+            ->move_to($inset, $inset + $margin_top)
+            ->tag_segment($flags)
+            ->line_to($layout->size->width - $inset, $inset + $margin_top)
+            ->tag_segment($flags)
+            ->line_to($br->x, $br->y)
+            ->cubic_to($br_t2->x, $br_t2->y, $br_t1->x, $br_t1->y, $tip->x, $tip->y)
+            ->tag_segment($flags)
+            ->close()
+        ;
+
+        if ( $reversed )
+            $builder->reverse_last();
     }
 
     protected function on_svg_path_dexter(ShieldLayout $layout, $inset, $reversed, MutableShape $builder, $margin_top)
@@ -254,26 +251,27 @@ class HeaterShieldShape extends ShieldShape
         if ( $bl->y < $inset + $margin_top + 50 )
             $bl = new  ShieldPos($inset + $margin_top, $inset);
 
+        $flags = BezierSegmentFlags::SYMMETRICAL;
+
         if ( $reversed )
-        {
-            $builder
-                ->move_to($layout->size->width - $inset, $inset + $margin_top)
-                ->line_to($inset, $inset + $margin_top)
-                ->line_to($bl->x, $bl->y)
-                ->cubic_to($bl_t2->x, $bl_t2->y, $bl_t1->x, $bl_t1->y, $tip->x, $tip->y)
-                ->close()
-            ;
-        }
-        else
-        {
-            $builder
-                ->move_to($inset, $inset + $margin_top)
-                ->line_to($layout->size->width - $inset, $inset + $margin_top)
-                ->line_to($tip->x, $tip->y)
-                ->cubic_to($bl_t1->x, $bl_t1->y, $bl_t2->x, $bl_t2->y, $bl->x, $bl->y)
-                ->close()
-            ;
-        }
+            $flags |= BezierSegmentFlags::UNDERSIDE;
+
+        $builder
+            ->move_to($inset, $inset + $margin_top)
+            ->tag_segment($flags)
+            ->line_to($layout->size->width - $inset, $inset + $margin_top)
+            ->tag_segment($flags)
+            ->line_to($tip->x, $tip->y)
+            ->tag_segment($flags)
+            ->cubic_to($bl_t1->x, $bl_t1->y, $bl_t2->x, $bl_t2->y, $bl->x, $bl->y)
+            ->line_to($inset, $inset + $margin_top)
+            ->tag_segment($flags)
+            ->close()
+        ;
+
+
+        if ( $reversed )
+            $builder->reverse_last();
     }
 
     protected function on_svg_path(ShieldLayout $layout, $inset, $reversed, MutableShape $builder)

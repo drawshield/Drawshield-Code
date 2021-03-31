@@ -80,10 +80,12 @@ else {
 
     $shape->svg_path($layout, $margin, false, $path_builder);
     $shape->svg_path($layout, $margin + $width, true, $path_builder);
+    $path_builder->last_path()->make_plain();
     $shape->svg_path($layout, 2 * $margin + $width, false, $path_builder);
+    $path_builder->last_path()->make_plain();
     $shape->svg_path($layout, 2 * $margin + 2 * $width, true, $path_builder);
 
-    $ordinary['body'] = $path_builder->to_svg_path();
+    $ordinary['shape_spec'] = $path_builder;
 }
 
 $ordinary['chargesWithin'] = $layout->rect_area()->relative_box(0.5, 0.45, 0.5, 0.5);
@@ -94,3 +96,6 @@ if ( existModifierWithKeyterm($node,'compony1') )
 {
     $ordinary['body2'] = $shape->compony($layout, $margin, $width)->to_svg_path();
 }
+
+
+$ordinary['feature_size'] = $width / 2;

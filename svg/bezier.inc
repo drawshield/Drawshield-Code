@@ -614,19 +614,19 @@ class MutableShape extends ShapeInterface
         return $this->sub_paths;
     }
 
-    private function last_bez() : PolyBezier
+    function last_path() : PolyBezier
     {
         return $this->sub_paths[count($this->sub_paths)-1];
     }
 
     private function finish() : BezierPoint
     {
-        return $this->last_bez()->finish();
+        return $this->last_path()->finish();
     }
 
     private function has_finish()
     {
-        return !$this->empty() && !$this->last_bez()->empty();
+        return !$this->empty() && !$this->last_path()->empty();
     }
 
     private function relpoint()
@@ -667,7 +667,7 @@ class MutableShape extends ShapeInterface
 
     private function new_path_if_needed()
     {
-        if ( $this->empty() || $this->last_bez()->closed )
+        if ( $this->empty() || $this->last_path()->closed )
         {
             $new_bez = new PolyBezier();
             $new_bez->add_point($this->relpoint());
@@ -678,9 +678,9 @@ class MutableShape extends ShapeInterface
     function move_to()
     {
         list($p) = $this->get_args(func_get_args(), 1);
-        if ( !$this->empty() && $this->last_bez()->size() < 2 )
+        if ( !$this->empty() && $this->last_path()->size() < 2 )
         {
-            $this->last_bez()->points = [new BezierPoint($p)];
+            $this->last_path()->points = [new BezierPoint($p)];
         }
         else
         {
@@ -695,7 +695,7 @@ class MutableShape extends ShapeInterface
     {
         list($p) = $this->get_args(func_get_args(), 1);
         $this->new_path_if_needed();
-        $this->last_bez()->line_to($p);
+        $this->last_path()->line_to($p);
         return $this;
     }
 
@@ -703,7 +703,7 @@ class MutableShape extends ShapeInterface
     {
         list($handle, $dest) = $this->get_args(func_get_args(), 2);
         $this->new_path_if_needed();
-        $this->last_bez()->quadratic_to($handle, $dest);
+        $this->last_path()->quadratic_to($handle, $dest);
         return $this;
     }
 
@@ -711,7 +711,7 @@ class MutableShape extends ShapeInterface
     {
         list($handle1, $handle2, $dest) = $this->get_args(func_get_args(), 3);
         $this->new_path_if_needed();
-        $this->last_bez()->cubic_to($handle1, $handle2, $dest);
+        $this->last_path()->cubic_to($handle1, $handle2, $dest);
         return $this;
     }
 
@@ -738,7 +738,7 @@ class MutableShape extends ShapeInterface
     function close()
     {
         if ( !$this->empty() )
-            $this->last_bez()->close();
+            $this->last_path()->close();
         return $this;
     }
 
@@ -829,7 +829,7 @@ class MutableShape extends ShapeInterface
             $this->sub_paths[] = new PolyBezier();
         else
             $this->new_path_if_needed();
-        $this->last_bez()->tag_segment($flags);
+        $this->last_path()->tag_segment($flags);
         return $this;
     }
 
