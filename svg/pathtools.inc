@@ -21,6 +21,8 @@ function subHeightPercent( $match, $layout ) {
 }
 
 function subPercent($str, $layout) {
+    if ( !is_string($str) )
+        return $str;
   // $str = preg_replace_callback('/{@[0-9]+}/', 'subWidthPercent', $str);
   $callback = function ( $match ) use ( $layout ) {
     return subHeightPercent($match, $layout);

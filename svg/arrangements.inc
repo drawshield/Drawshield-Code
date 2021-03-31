@@ -208,7 +208,9 @@ function placement_chevron(ShieldLayout $layout, $chev_width, $relative_size)
         {
             if ( $n > 1 )
                 $plac = $placement[count($placement)-1];
-            $plac[] = box_placement($plac_base->translated(0, 1/5 * $chev_width / M_SQRT2), 0);
+
+            array_splice($plac, ($n-1)/2, 0, [box_placement($plac_base->translated(0, 1/5 * $chev_width / M_SQRT2), 0)]);
+
         }
         else
         {
@@ -223,6 +225,7 @@ function placement_chevron(ShieldLayout $layout, $chev_width, $relative_size)
 
         $placement[] = $plac;
     }
+
 
     return array_to_placement($placement);
 }
@@ -475,7 +478,9 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
         case 'inmidbase': return [($cadency) ? '400,800,200,200' : '300,750,400,400'];
         case 'inabyss': return [($cadency) ? '400,850,200,200' : '300,800,380,380'];
         case 'inhonpoint': return [($cadency) ? '400,250,200,200' : '250,50,500,500'];
-        case 'infesspoint': return [($cadency) ? '400,400,200,200' : '200,200,600,600'];
+        case 'infesspoint':
+            $size = $cadency ? 400 : 600;
+            return [new ShieldRect(clone $layout->center_point, new ShieldSize($size, $size))];
         case 'innombril': return [($cadency) ? '400,800,200,200' : '300,600,400,400'];
         case 'insinflank': return [($cadency) ? '800,500,200,200' : '700,375,300,300'];
         case 'indexflank': return [($cadency) ? '0,500,200,200' : '0,375,300,300'];

@@ -136,6 +136,7 @@ function place_charges ( DOMElement $node, $placement, $layout ) {
     $item = $node;
     if ( $between && ( ($count+1) <= $half or ($count+1) > ($num_of - $half))) 
       $item = $between;
+
     $retval .= PlaceCharge( $item, $layout, $bbx, $bby, $cx, $cy, $rot, $inv, $rev );
   }
   return $retval;
