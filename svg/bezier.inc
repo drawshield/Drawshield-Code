@@ -365,7 +365,7 @@ class PolyBezier
 
         $tags = [];
         foreach ( $this->segment_tags as $index => $tag )
-            $tags[$this->size() - 2 - $index] = $tag;
+            $tags[$this->size() - 1 - $index] = $tag;
         $this->segment_tags = $tags;
     }
 

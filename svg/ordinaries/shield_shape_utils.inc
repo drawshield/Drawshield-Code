@@ -191,28 +191,26 @@ class HeaterShieldShape extends ShieldShape
         list($br_t1, $br_t2, $br) = $this->scaled_curve($tip, $scale, 1);
         list($bl_t1, $bl_t2, $bl) = $this->scaled_curve($tip, $scale, -1);
 
-        /*if ( $reversed )
-        {
-            $builder
-                ->move_to($layout->size->width - $inset, $inset + $this->margin_top)
-                ->line_to($inset, $inset + $this->margin_top)
-                ->line_to($bl->x, $bl->y)
-                ->cubic_to($bl_t2->x, $bl_t2->y, $bl_t1->x, $bl_t1->y, $tip->x, $tip->y)
-                ->cubic_to($br_t1->x, $br_t1->y, $br_t2->x, $br_t2->y, $br->x, $br->y)
-                ->close()
-            ;
-        }
-        else
-        {*/
-            $builder
-                ->move_to($inset, $inset + $this->margin_top)
-                ->line_to($layout->size->width - $inset, $inset + $this->margin_top)
-                ->line_to($br->x, $br->y)
-                ->cubic_to($br_t2->x, $br_t2->y, $br_t1->x, $br_t1->y, $tip->x, $tip->y)
-                ->cubic_to($bl_t1->x, $bl_t1->y, $bl_t2->x, $bl_t2->y, $bl->x, $bl->y)
-                ->close()
-            ;
-        //}
+        $flags = BezierSegmentFlags::SYMMETRICAL;
+
+        if ( $reversed )
+            $flags |= BezierSegmentFlags::UNDERSIDE;
+
+        $builder
+            ->move_to($inset, $inset + $this->margin_top)
+            ->tag_segment($flags)
+            ->line_to($layout->size->width - $inset, $inset + $this->margin_top)
+            ->tag_segment($flags)
+            ->line_to($br->x, $br->y)
+            ->cubic_to($br_t2->x, $br_t2->y, $br_t1->x, $br_t1->y, $tip->x, $tip->y)
+            ->cubic_to($bl_t1->x, $bl_t1->y, $bl_t2->x, $bl_t2->y, $bl->x, $bl->y)
+            ->line_to($inset, $inset + $this->margin_top)
+            ->tag_segment($flags)
+            ->close()
+        ;
+
+        if ( $reversed )
+            $builder->reverse_last();
     }
 
     protected function on_svg_path_sinister(ShieldLayout $layout, $inset, $reversed, MutableShape $builder, $margin_top)
@@ -396,26 +394,25 @@ class RectShieldShape extends ShieldShape
 {
     static function rect_path(ShieldRect $area, $inset, $reversed, MutableShape $builder)
     {
+        $flags = BezierSegmentFlags::SYMMETRICAL;
+
         if ( $reversed )
-        {
-            $builder
-                ->move_to($area->right() - $inset, $area->top() + $inset)
-                ->line_to($area->left() + $inset, $area->top() + $inset)
-                ->line_to($area->left() + $inset, $area->bottom() - $inset)
-                ->line_to($area->right() - $inset, $area->bottom() - $inset)
-                ->close()
-            ;
-        }
-        else
-        {
-            $builder
-                ->move_to($area->left() + $inset, $area->top() + $inset)
-                ->line_to($area->right() - $inset, $area->top() + $inset)
-                ->line_to($area->right() - $inset, $area->bottom() - $inset)
-                ->line_to($area->left() + $inset, $area->bottom() - $inset)
-                ->close()
-            ;
-        }
+            $flags |= BezierSegmentFlags::UNDERSIDE;
+
+        $builder
+            ->move_to($area->left() + $inset, $area->top() + $inset)
+            ->tag_segment($flags)
+            ->line_to($area->right() - $inset, $area->top() + $inset)
+            ->tag_segment($flags)
+            ->line_to($area->right() - $inset, $area->bottom() - $inset)
+            ->tag_segment($flags)
+            ->line_to($area->left() + $inset, $area->bottom() - $inset)
+            ->tag_segment($flags)
+            ->close()
+        ;
+
+        if ( $reversed )
+            $builder->reverse_last();
     }
 
     protected function on_svg_path(ShieldLayout $layout, $inset, $reversed, MutableShape $builder)
@@ -717,11 +714,18 @@ class LozengeShieldShape extends ShieldShape
         if ( $reversed )
             $points = array_reverse($points);
 
+
+        $flags = BezierSegmentFlags::SYMMETRICAL;
+
+        if ( $reversed )
+            $flags |= BezierSegmentFlags::UNDERSIDE;
+
         $builder->move_to(array_shift($points));
 
         foreach ( $points as $p )
-            $builder->line_to($p);
+            $builder->tag_segment($flags)->line_to($p);
 
+        $builder->tag_segment($flags);
         $builder->close();
     }
 }

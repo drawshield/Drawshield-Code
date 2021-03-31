@@ -33,7 +33,7 @@ $path_builder = new MutableShape();
 $shape->svg_path($layout, $margin, false, $path_builder);
 $shape->svg_path($layout, $margin + $width, true, $path_builder);
 
-$ordinary['body'] = $path_builder->to_svg_path();
+$ordinary['shape_spec'] = $path_builder;
 
 $ordinary['chargesOn'] = 'x///////////125,300,80,80:875,300:500,120:500,1070:125,700:875,700:250,120:750,120:250,970:750,970:125,500:875,500';
 
@@ -87,3 +87,4 @@ elseif (existModifierWithKeyterm($node,'compony2') )
 
 
 $ordinary['chargesOn'] = $shape->charge_placement($layout, $margin, $width);
+$ordinary['feature_size'] = 30;
