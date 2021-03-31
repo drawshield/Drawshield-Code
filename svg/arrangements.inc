@@ -462,7 +462,11 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
                 new ShieldPos($layout->size->width/2, $layout->size->height - 300),
                 new ShieldSize(800, 250)
             )];
-        case 'inflank': return ['0,375,300,300', '700,375,300,300'];
+        case 'inflank':
+            return [
+                new ShieldRect(new ShieldPos(170, $layout->center_point->y), new ShieldSize(300, 300)),
+                new ShieldRect(new ShieldPos($layout->size->width - 170, $layout->center_point->y), new ShieldSize(300, 300))
+            ];
         case 'indexchief': return [($cadency) ? '0,0,200,200' : '0,0,350,300'];
         case 'insinchief': return [($cadency) ? '800,0,200,200' : '650,0,350,300'];
         case 'inmidchief': return [($cadency) ? '400,0,200,200' : '300,0,400,400'];
