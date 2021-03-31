@@ -310,12 +310,256 @@ function placement_quadrangle($boundingBox, $layout)
     ]);
 }
 
+function adjustment_quarter($number, ShieldLayout $layout, $bigOrdinary)
+{
+    if ( $bigOrdinary )
+    {
+        $margin_out = 25;
+        $margin_cross = 125;
+    }
+    else
+    {
+        $margin_out = $margin_cross = 50;
+    }
+
+    switch ( $number )
+    {
+        case 1:
+            return ShieldRect::from_corners(
+                $margin_out, $margin_out,
+                $layout->center_point->x - $margin_cross, $layout->center_point->y - $margin_cross);
+        case 2:
+            return ShieldRect::from_corners(
+                $layout->center_point->x + $margin_cross, $margin_out,
+                $layout->size->width - $margin_out, $layout->center_point->y - $margin_cross);
+        case 3:
+            return ShieldRect::from_corners(
+                $margin_out, $layout->center_point->y + $margin_cross,
+                $layout->center_point->x - $margin_cross, $layout->size->height - $margin_out);
+        case 4:
+            return ShieldRect::from_corners(
+                $layout->center_point->x + $margin_cross, $layout->center_point->y + $margin_cross,
+                $layout->size->width - $margin_out, $layout->size->height - $margin_out);
+    }
+
+}
+
+
+function adjustment_from_position($position, $layout, $underlying_div, $bigOrdinary, $orig_placement, $cadency, $item, &$placement)
+{
+    global $messages;
+
+    switch ( $position )
+    {
+        case 'ineach':
+            // TODO more divisions!
+            if ( !$underlying_div )
+            {
+                $messages->addMessage('warning','Need a division for "in each"');
+                break;
+            }
+            switch ( $underlying_div )
+            {
+                case 'quarterly':
+                case 'quarterly-per-fess':
+                case 'quarterly-per-pale':
+                    return [
+                        adjustment_quarter(1, $layout, false),
+                        adjustment_quarter(2, $layout, false),
+                        adjustment_quarter(3, $layout, false),
+                        adjustment_quarter(4, $layout, false),
+                    ];
+                case 'tierced-in-pale':
+                    return ['50,100,233,1000', '383,100,233,1000', '716,100,233,1000'];
+                case 'tierced-in-fess':
+                    return ['100,100,800,200', '100,500,800,200', '100,900,800,200'];
+                case 'tierced-in-bend':
+                    return ['650,50,300,300', '350,350,300,300', '50,700,300,300'];
+                case 'tierced-in-bend-sinister':
+                    return ['50,50,300,300', '350,350,300,300', '650,700,300,300'];
+                case 'tierced-in-chevron':
+                    return ['400,0,200,200', '350,250,300,300', '350,850,300,300'];
+                case 'per-pall':
+                    return ['50,550,400,400', '350,50,300,300', '550,550,400,400'];
+                case 'per-pile':
+                    return ['50,700,250,250', '300,100,400,400', '700,700,250,250'];
+                case 'per-pall-inverted':
+                    return ['50,50,400,400', '550,50,400,400', '350,750,300,300'];
+                case 'gyronny_of_8':
+                    return ['50,250,200,200', '250,50,200,200', '550,50,200,200', '750,250,200,200', '750,550,200,200', '550,750,200,200', '250,750,200,200', '50,550,200,200'];
+                default:
+                    $messages->addMessage('warning','"in each" for ' . $underlying_div . 'not available' );
+                    return [];
+            }
+            break;
+        case 'ineach1st':
+            if ( !$underlying_div ) {
+                $messages->addMessage('warning','Need a division for "in each"');
+                break;
+            } // else
+            switch ( $underlying_div ) {
+                case 'quarterly':
+                case 'quarterly-per-fess':
+                case 'quarterly-per-pale':
+                    return [
+                        adjustment_quarter(1, $layout, false),
+                        adjustment_quarter(4, $layout, false),
+                    ];
+                case 'gyronny_of_8':
+                    return ['250,50,200,200', '750,250,200,200', '550,750,200,200', '50,550,200,200'];
+            }
+            break;
+        case 'ineach2nd':
+            if ( !$underlying_div ) {
+                $messages->addMessage('warning','Need a division for "in each"');
+                break;
+            } // else
+            switch ( $underlying_div ) {
+                case 'quarterly':
+                case 'quarterly-per-fess':
+                case 'quarterly-per-pale':
+                    return [
+                        adjustment_quarter(2, $layout, false),
+                        adjustment_quarter(3, $layout, false),
+                    ];
+                case 'gyronny_of_8':
+                    return ['50,250,200,200', '550,50,200,200', '750,550,200,200', '250,750,200,200'];
+            }
+            break;
+        case 'ineachQ':
+            return [
+                adjustment_quarter(1, $layout, $bigOrdinary),
+                adjustment_quarter(2, $layout, $bigOrdinary),
+                adjustment_quarter(3, $layout, $bigOrdinary),
+                adjustment_quarter(4, $layout, $bigOrdinary),
+            ];
+        case 'ineachQ12':
+            return [
+                adjustment_quarter(1, $layout, $bigOrdinary),
+                adjustment_quarter(2, $layout, $bigOrdinary),
+            ];
+        case 'ineachQ13':
+            return [
+                adjustment_quarter(1, $layout, $bigOrdinary),
+                adjustment_quarter(3, $layout, $bigOrdinary),
+            ];
+        case 'ineachQ24':
+            return [
+                adjustment_quarter(2, $layout, $bigOrdinary),
+                adjustment_quarter(4, $layout, $bigOrdinary),
+            ];
+        case 'ineachQ34':
+            return [
+                adjustment_quarter(3, $layout, $bigOrdinary),
+                adjustment_quarter(4, $layout, $bigOrdinary),
+            ];
+        case 'inchief':
+            if ( $layout->chief )
+            {
+                // no placement yet,
+                if ( $orig_placement == '' )
+                {
+                    $placement = calcPlace($item,'h', $layout->chief->margin(100, 25));
+                    return [];
+                }
+                else
+                {
+                    return [$layout->chief->margin(50, 50)];
+                }
+            }
+            break;
+        case 'inbase':
+            if ( $orig_placement == '' ) {
+                $placement = calcPlace($item,'h','100,825,800,250');
+//              $placement = '500,950,500,240/333.33,950,300,200:666.67,950/333.33,900,160,160:666.67,900:500,1050/x/x/x';
+                return [];
+            } else
+                return ['400,850,200,200'];
+            break;
+        case 'inflank': return ['0,375,300,300', '700,375,300,300'];
+        case 'indexchief': return [($cadency) ? '0,0,200,200' : '0,0,350,300'];
+        case 'insinchief': return [($cadency) ? '800,0,200,200' : '650,0,350,300'];
+        case 'inmidchief': return [($cadency) ? '400,0,200,200' : '300,0,400,400'];
+        case 'indexbase': return [($cadency) ? '200,800,200,200' : '150,750,350,400'];
+        case 'insinbase': return [($cadency) ? '600,800,200,200' : '500,750,350,400'];
+        case 'inmidbase': return [($cadency) ? '400,800,200,200' : '300,750,400,400'];
+        case 'inabyss': return [($cadency) ? '400,850,200,200' : '300,800,380,380'];
+        case 'inhonpoint': return [($cadency) ? '400,250,200,200' : '250,50,500,500'];
+        case 'infesspoint': return [($cadency) ? '400,400,200,200' : '200,200,600,600'];
+        case 'innombril': return [($cadency) ? '400,800,200,200' : '300,600,400,400'];
+        case 'insinflank': return [($cadency) ? '800,500,200,200' : '700,375,300,300'];
+        case 'indexflank': return [($cadency) ? '0,500,200,200' : '0,375,300,300'];
+        case 'insinside': return ['550,50,400,900'];
+        case 'indexside': return ['50,50,400,900'];
+        case 'inupperhalf': return ['50,50,900,400'];
+        case 'inlowerhalf': return ['50,550,900,400'];
+        case 'infirst':
+            switch ( $underlying_div ) {
+                case 'tierced-in-pale': return ['50,100,233,1000'];
+                case 'tierced-in-fess': return ['100,100,800,200'];
+                case 'tierced-in-bend': return ['650,50,300,300'];
+                case 'tierced-in-bend-sinister': return ['50,50,300,300'];
+                case 'tierced-in-chevron': return ['400,0,200,200'];
+                case 'per-pile': return ['50,700,250,250'];
+                case 'per-pall': return ['50,550,400,400'];
+                case 'per-pall-inverted': return ['50,50,400,400'];
+                // case 'per-saltire': return ['300,50,400,400'];
+                case 'quarterly':
+                case 'quarterly-per-pale':
+                case 'quarterly-per-fess': return ['50,50,400,400'];
+                default: $messages->addMessage('warning','no division for "in first"'); break;
+            }
+            break;
+        case 'insecond':
+            switch ( $underlying_div ) {
+                case 'tierced-in-pale': return ['383,100,233,1000'];
+                case 'tierced-in-fess': return ['100,500,800,200'];
+                case 'tierced-in-bend':  // same as sinister
+                case 'tierced-in-bend-sinister': return ['350,350,300,300'];
+                case 'tierced-in-chevron':  return ['350,250,300,300'];
+                case 'per-pall': return ['350,50,300,300'];
+                case 'per-pile': return ['300,100,400,400'];
+                case 'per-pall-inverted': return ['550,50,400,400'];
+                case 'quarterly':
+                case 'quarterly-per-pale':
+                case 'quarterly-per-fess': return ['550,50,400,400'];
+                default: $messages->addMessage('warning','no division for "in second"'); break;
+            }
+            break;
+        case 'inthird':
+            switch ( $underlying_div ) {
+                case 'tierced-in-pale': return ['716,100,233,1000'];
+                case 'tierced-in-fess': return ['100,900,800,200'];
+                case 'tierced-in-bend': return ['50,700,300,300'];
+                case 'tierced-in-bend-sinister': return ['650,700,300,300'];
+                case 'tierced-in-chevron':  return ['350,850,300,300'];
+                case 'per-pall': return ['550,550,400,400'];
+                case 'per-pile': return ['700,700,250,250'];
+                case 'per-pall-inverted': return ['350,750,300,300'];
+                case 'quarterly':
+                case 'quarterly-per-pale':
+                case 'quarterly-per-fess': return ['50,550,400,400'];
+                default: $messages->addMessage('warning','no division for "in third"'); break;
+            }
+            break;
+        case 'inQ1':
+            return [adjustment_quarter(1, $layout, $bigOrdinary)];
+        case 'inQ2':
+            return [adjustment_quarter(2, $layout, $bigOrdinary)];
+        case 'inQ3':
+            return [adjustment_quarter(3, $layout, $bigOrdinary)];
+        case 'inQ4':
+            return [adjustment_quarter(4, $layout, $bigOrdinary)];
+        default:
+            break;
+    }
+    return [];
+}
 
 function get_placement(DOMElement $item, $layout) {
     global $xpath, $messages;
 
     $placement = ''; // This is what we are after, keep going until we find one
-    $adjustment = ''; // && we might also have an adjustment once we have found it
     $keyterm = $item->getAttribute('keyterm');
     if (is_null($keyterm) || strpos($keyterm,'/') === false) {
       return 'x';
@@ -375,231 +619,47 @@ function get_placement(DOMElement $item, $layout) {
             new ShieldSize($layout->size->width - 2 * $margin, $layout->size->height - 2 * $margin)
         );
     }
+
+    $adjustmentList = [];
     if ( count($pos) > 0 ) {
         // if ( !$apply_location ) {
             // $messages->addMessage('warning','"in" location conflicts with "on" or "between"');
         // } else {
             $bigOrdinary = $xpath->evaluate("boolean(../ordinary[@keyterm='fess'] or ../ordinary[@keyterm='pale'] or ../ordinary[@keyterm='plain-cross'])", $item);
             $orig_placement = $placement;
-            $adjustment = null;
-            $placements = array();
             foreach ( array_keys($pos) as $position ) {
-                switch ( $position ) {
-                 case 'ineach': // TODO more divisions!
-                    if ( !$underlying_div ) {
-                        $messages->addMessage('warning','Need a division for "in each"');
-                        break;
-                    }
-                    switch ( $underlying_div ) {
-                    case 'quarterly':
-                    case 'quarterly-per-fess':
-                    case 'quarterly-per-pale':
-                        $adjustment = '0,0,500,500*500,0,500,500*0,500,500,500*500,500,500,500';
-                        break;
-                    case 'tierced-in-pale':
-                        $adjustment = '50,100,233,1000*383,100,233,1000*716,100,233,1000';
-                        break;
-                    case 'tierced-in-fess':
-                        $adjustment = '100,100,800,200*100,500,800,200*100,900,800,200';
-                        break;
-                    case 'tierced-in-bend':
-                        $adjustment = '650,50,300,300*350,350,300,300*50,700,300,300';
-                        break;
-                    case 'tierced-in-bend-sinister':
-                        $adjustment = '50,50,300,300*350,350,300,300*650,700,300,300';
-                        break;
-                    case 'tierced-in-chevron':
-                        $adjustment = '400,0,200,200*350,250,300,300*350,850,300,300';
-                        break;
-                    case 'per-pall':
-                        $adjustment = '50,550,400,400*350,50,300,300*550,550,400,400';
-                        break;
-                    case 'per-pile':
-                        $adjustment = '50,700,250,250*300,100,400,400*700,700,250,250';
-                        break;
-                    case 'per-pall-inverted':
-                        $adjustment = '50,50,400,400*550,50,400,400*350,750,300,300';
-                        break;
-                    case 'gyronny_of_8':
-                        $adjustment = '50,250,200,200*250,50,200,200*550,50,200,200*750,250,200,200*750,550,200,200*550,750,200,200*250,750,200,200*50,550,200,200';
-                        break;
-                    default:
-                        $messages->addMessage('warning','"in each" for ' . $underlying_div . 'not available' );
-                        $adjustment = null;
-                        break;
-                    }
-                    break;
-                case 'ineach1st':
-                    if ( !$underlying_div ) {
-                        $messages->addMessage('warning','Need a division for "in each"');
-                        break;
-                    } // else
-                    switch ( $underlying_div ) {
-                    case 'quarterly':
-                    case 'quarterly-per-fess':
-                    case 'quarterly-per-pale':
-                        $adjustment = '0,0,500,500*500,500,500,500';
-                        break;
-                    case 'gyronny_of_8':
-                        $adjustment = '250,50,200,200*750,250,200,200*550,750,200,200*50,550,200,200';
-                        break;
-                    }
-                    break;
-                case 'ineach2nd':
-                    if ( !$underlying_div ) {
-                        $messages->addMessage('warning','Need a division for "in each"');
-                        break;
-                    } // else
-                    switch ( $underlying_div ) {
-                    case 'quarterly':
-                    case 'quarterly-per-fess':
-                    case 'quarterly-per-pale':
-                        $adjustment = '500,0,500,500*0,500,500,500';
-                        break;
-                    case 'gyronny_of_8':
-                        $adjustment = '50,250,200,200*550,50,200,200*750,550,200,200*250,750,200,200';
-                        break;
-                    }
-                    break;
-                case 'ineachQ':
-                    $adjustment = $bigOrdinary ? '0,0,350,300*650,0,350,300*0,650,350,400*650,650,350,400' : '0,0,500,500*500,0,500,500*0,500,500,500*500,500,500,500';
-                    break;
-                case 'ineachQ12':
-                    $adjustment = $bigOrdinary ? '0,0,350,300*650,0,350,300' : '0,0,500,500*500,0,500,500';
-                    break;
-                case 'ineachQ13':
-                    $adjustment = $bigOrdinary ? '0,0,350,300*0,650,350,400' : '0,0,500,500*0,500,500,500';
-                    break;
-                case 'ineachQ24':
-                    $adjustment = $bigOrdinary ? '650,0,350,300*650,650,350,400' : '650,0,350,300*500,500,500,500';
-                    break;
-                case 'ineachQ34':
-                    $adjustment = $bigOrdinary ? '0,650,350,400*650,650,350,400' : '0,500,500,500*500,500,500,500';
-                    break;
-                case 'inchief':
-                    if ( $layout->chief )
-                    {
-                        // no placement yet,
-                        if ( $orig_placement == '' )
-                        {
-                            $placement = calcPlace($item,'h', $layout->chief->margin(100, 25));
-                            $adjustment = null;
-                        }
-                        else
-                        {
-                            $adjustment = (string)$layout->chief->margin(50, 50);
-                        }
-                    }
-                    break;
-                case 'inbase':
-                    if ( $orig_placement == '' ) {
-                        $placement = calcPlace($item,'h','100,825,800,250');
-        //              $placement = '500,950,500,240/333.33,950,300,200:666.67,950/333.33,900,160,160:666.67,900:500,1050/x/x/x';
-                        $adjustment = null;
-                    } else
-                        $adjustment = '400,850,200,200';
-                    break;
-                case 'inflank': $adjustment = '0,375,300,300*700,375,300,300'; break;
-                case 'indexchief': $adjustment = ($cadency) ? '0,0,200,200' : '0,0,350,300'; break;
-                case 'insinchief': $adjustment = ($cadency) ? '800,0,200,200' : '650,0,350,300'; break;
-                case 'inmidchief': $adjustment = ($cadency) ? '400,0,200,200' : '300,0,400,400'; break;
-                case 'indexbase': $adjustment = ($cadency) ? '200,800,200,200' : '150,750,350,400'; break;
-                case 'insinbase': $adjustment = ($cadency) ? '600,800,200,200' : '500,750,350,400'; break;
-                case 'inmidbase': $adjustment = ($cadency) ? '400,800,200,200' : '300,750,400,400'; break;
-                case 'inabyss': $adjustment = ($cadency) ? '400,850,200,200' : '300,800,380,380'; break;
-                case 'inhonpoint': $adjustment = ($cadency) ? '400,250,200,200' : '250,50,500,500'; break;
-                case 'infesspoint': $adjustment = ($cadency) ? '400,400,200,200' : '200,200,600,600'; break;
-                case 'innombril': $adjustment = ($cadency) ? '400,800,200,200' : '300,600,400,400'; break;
-                case 'insinflank': $adjustment = ($cadency) ? '800,500,200,200' : '700,375,300,300'; break;
-                case 'indexflank': $adjustment = ($cadency) ? '0,500,200,200' : '0,375,300,300'; break;
-                case 'insinside': $adjustment = '550,50,400,900'; break;
-                case 'indexside': $adjustment = '50,50,400,900'; break;
-                case 'inupperhalf': $adjustment = '50,50,900,400'; break;
-                case 'inlowerhalf': $adjustment = '50,550,900,400'; break;
-                case 'infirst':
-                    switch ( $underlying_div ) {
-                    case 'tierced-in-pale': $adjustment = '50,100,233,1000'; break;
-                    case 'tierced-in-fess': $adjustment = '100,100,800,200'; break;
-                    case 'tierced-in-bend': $adjustment = '650,50,300,300'; break;
-                    case 'tierced-in-bend-sinister': $adjustment = '50,50,300,300'; break;
-                    case 'tierced-in-chevron': $adjustment = '400,0,200,200'; break;
-                    case 'per-pile': $adjustment = '50,700,250,250'; break;
-                    case 'per-pall': $adjustment = '50,550,400,400'; break;
-                    case 'per-pall-inverted': $adjustment = '50,50,400,400'; break;
-                    // case 'per-saltire': $adjustment = '300,50,400,400'; break;
-                    case 'quarterly':
-                    case 'quarterly-per-pale':
-                    case 'quarterly-per-fess': $adjustment = '50,50,400,400'; break;
-                    default: $messages->addMessage('warning','no division for "in first"'); break;
-                    }
-                    break;
-                case 'insecond':
-                    switch ( $underlying_div ) {
-                    case 'tierced-in-pale': $adjustment = '383,100,233,1000'; break;
-                    case 'tierced-in-fess': $adjustment = '100,500,800,200'; break;
-                    case 'tierced-in-bend':  // same as sinister
-                    case 'tierced-in-bend-sinister': $adjustment = '350,350,300,300'; break;
-                    case 'tierced-in-chevron':  $adjustment = '350,250,300,300'; break;
-                    case 'per-pall': $adjustment = '350,50,300,300'; break;
-                    case 'per-pile': $adjustment = '300,100,400,400'; break;
-                    case 'per-pall-inverted': $adjustment = '550,50,400,400'; break;
-                    case 'quarterly':
-                    case 'quarterly-per-pale':
-                    case 'quarterly-per-fess': $adjustment = '550,50,400,400'; break;
-                    default: $messages->addMessage('warning','no division for "in second"'); break;
-                    }
-                    break;
-                case 'inthird':
-                    switch ( $underlying_div ) {
-                    case 'tierced-in-pale': $adjustment = '716,100,233,1000'; break;
-                    case 'tierced-in-fess': $adjustment = '100,900,800,200'; break;
-                    case 'tierced-in-bend': $adjustment = '50,700,300,300'; break;
-                    case 'tierced-in-bend-sinister': $adjustment = '650,700,300,300'; break;
-                    case 'tierced-in-chevron':  $adjustment = '350,850,300,300'; break;
-                    case 'per-pall': $adjustment = '550,550,400,400'; break;
-                    case 'per-pile': $adjustment = '700,700,250,250'; break;
-                    case 'per-pall-inverted': $adjustment = '350,750,300,300'; break;
-                    case 'quarterly':
-                    case 'quarterly-per-pale':
-                    case 'quarterly-per-fess': $adjustment = '50,550,400,400'; break;
-                    default: $messages->addMessage('warning','no division for "in third"'); break;
-                    }
-                    break;
-                case 'inQ1': // $newCenter = new ShieldPos ($layout->size->width * 0.25, $layout->size->height * 0.25);
-                    ////$boundingBox = new ShieldRect ($newCenter, new ShieldSize (
-                            //$layout->size->width * 0.45, $layout->size->height * 0.45));  
-                             //break;
-                    $adjustment = ($underlying_div == 'per-saltire') ? '350,50,300,300':'0,0,500,500'; break;
-                case 'inQ2': $adjustment = ($underlying_div == 'per-saltire') ? '650,350,300,300':'500,0,500,500'; break;
-                case 'inQ3': $adjustment = ($underlying_div == 'per-saltire') ? '350,650,300,300':'0,500,500,500'; break;
-                case 'inQ4': $adjustment = ($underlying_div == 'per-saltire') ? '50,350,300,300':'500,500,500,500'; break;
-                default: break;
-                }
+                $pos_adjust = adjustment_from_position($position, $layout, $underlying_div, $bigOrdinary, $orig_placement, $cadency, $item, $placement);
+                $adjustmentList = array_merge($adjustmentList, $pos_adjust);
             }
         // }
     }
 
     $placementList = [];
-    if ($adjustment) {
-        $adjustmentList = explode('*',$adjustment);
-    } else {
-        $adjustmentList = [''];
-    }
+    if ( count($adjustmentList) == 0 )
+        $adjustmentList = [$boundingBox];
+
     foreach ( $adjustmentList as $adjust ) {
         if ($adjust) {
             // at this point, if $adjustment is not null it contains the 4 coordinates of a bounding box on 
             // a 1000 x 1000 area. We need to map this bounding box onto the area we are actually given in
             // the current $boundingBox
 
-            list($adjX, $adjY, $adjWidth, $adjHeight) = explode(',',$adjust);
-            // Find the center of that adjustment bounding box as a ratio
-            $adjCenterX = ($adjX + ($adjWidth / 2)) / 1000;
-            $adjCenterY = ($adjY + ($adjHeight/ 2)) / 1000;
-            // scale against 1000 x 1000 area
-            $adjWidth /= 1000; $adjHeight /= 1000;
-            $newCenter = new ShieldPos( $layout->size->width * $adjCenterX, $layout->size->height * $adjCenterY);
-            $boundingBox = new ShieldRect ($newCenter, new ShieldSize(($layout->size->width * $adjWidth * 0.9),
-                ($layout->size->height * $adjHeight *0.9))); 
+            if ( $adjust instanceof ShieldRect )
+            {
+                $boundingBox = $adjust;
+            }
+            else
+            {
+                list($adjX, $adjY, $adjWidth, $adjHeight) = explode(',',$adjust);
+                // Find the center of that adjustment bounding box as a ratio
+                $adjCenterX = ($adjX + ($adjWidth / 2)) / 1000;
+                $adjCenterY = ($adjY + ($adjHeight/ 2)) / 1000;
+                // scale against 1000 x 1000 area
+                $adjWidth /= 1000; $adjHeight /= 1000;
+                $newCenter = new ShieldPos( $layout->size->width * $adjCenterX, $layout->size->height * $adjCenterY);
+                $boundingBox = new ShieldRect ($newCenter, new ShieldSize(($layout->size->width * $adjWidth * 0.9),
+                    ($layout->size->height * $adjHeight *0.9)));
+            }
         }
 
         // Now try various placement regimes
