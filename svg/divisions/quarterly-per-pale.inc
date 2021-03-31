@@ -12,11 +12,9 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-$division['div2'] = createBody( choose_fit( array ( 'NC' => 'O1Q1X500Y500C800e600g800a600   O1Q1X500Y500G600a600c600e600',  'CH' => 'O1Q1X500Y700c600e600g600a600   O1Q1X500Y700g600a600c600e600' )),
+$division['div2'] = createBody( 'O1Q1X500Y500C800e600g800a600   O1Q1X500Y500G600a600c600e600',
   getModifierByType($node,'linetype', false),60, $layout);
-$division['div4'] = createBody( choose_fit( array ( 'NC' => 'O1Q1X500Y{%50}C{%80}e600g{%80}a600',  
-                'CH' => 'O1Q1X500Y700C600e600g600a600' )),
+$division['div4'] = createBody( 'O1Q1X500Y{%50}C{%80}e600g{%80}a600',
   getModifierByType($node,'linetype', false),60, $layout);
-$division['div3'] = createBody( choose_fit( array ( 'NC' => 'O1Q1X500Y{%50}a600C{%80}e600G{%80}',  
-                'CH' => 'O1Q1X500Y700a600c600e600G600' )),
+$division['div3'] = createBody( 'O1Q1X500Y{%50}a600C{%80}e600G{%80}',
   getModifierByType($node,'linetype', false),60, $layout);

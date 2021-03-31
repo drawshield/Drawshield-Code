@@ -12,9 +12,35 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-if ( $node->getAttribute('number') == '2')
-  $ordinary['body'] = array ( 'NC' => '<path d="M-8,-8l308,508 -308,508 0,-1016z" /><path d="M1008,-8l-308,508 308,508 0,-1016z" />', 'CH' => '<path d="M-8,292l308,508 -308,508 0,-1016z" /><path d="M1008,292l-308,508 308,508 0,-1016z" />' );
-else
-  $ordinary['body'] = array ( 'NC' => '<path d="M-8,-8l308,508 -308,508 0,-1016z" />', 'CH' => '<path d="M-8,292l308,508 -308,508 0,-1016z" />' );
 
-$ordinary['chargesWithin'] = array ('n','300,300,400,600');
+$builder = new MutableShape();
+
+$margin = 8;
+$w = $layout->size->width / 3;
+$h = $layout->center_point->y * 2;
+$builder
+    ->move_to(-$margin, -$margin)
+    ->line_to($w, $layout->center_point->y)
+    ->line_to(-$margin, $h + $margin)
+    ->tag_segment(BezierSegmentFlags::PLAIN)
+    ->close()
+;
+
+$charge = new ShieldRect(new ShieldPos($w / 3, $layout->center_point->y), new ShieldSize($w * 2/3, $h/3));
+$ordinary['chargesOn'] = (string)$charge;
+
+if ( $node->getAttribute('number') == '2')
+{
+    $ordinary['chargesOn'] .= "/$charge:" . $charge->translated($layout->size->width - $charge->size->width, 0);
+    $builder
+        ->move_to($layout->size->width + $margin, -$margin)
+        ->line_to($layout->size->width * 2 / 3, $layout->center_point->y)
+        ->line_to($layout->size->width + $margin, $layout->center_point->y * 2 + $margin)
+        ->tag_segment(BezierSegmentFlags::PLAIN)
+        ->close()
+    ;
+}
+
+$ordinary['shape_spec'] = $builder;
+
+// $ordinary['chargesWithin'] = array ('n','300,300,400,600');

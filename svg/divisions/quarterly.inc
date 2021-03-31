@@ -12,13 +12,55 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
+$margin = 100;
+$cx = $layout->center_point->x;
+$cy = $layout->center_point->y;
+$down = $layout->size->height - $layout->center_point->y + $margin;
+$right = $layout->size->width - $layout->center_point->x + $margin;
+$up = $cy + $margin;
+$left = $cx + $margin;
+$modifier = getModifierByType($node, 'linetype', false);
 
-$division['div2'] = createBody( choose_fit( array ( 'NC' => 'O1Q1X500Y{%50}C{%80}e600g{%80}A600   O1Q1X500Y{%50}G{%60}a600c{%60}E600',  
-                'CH' => 'O1Q1X500Y700C600e600g600A600   O1Q1X500Y700G600a600c600E600' )),
-  getModifierByType($node,'linetype', false),60, $layout);
-$division['div4'] = createBody( choose_fit( array ( 'NC' => 'O1Q1X500Y{%50}C{%80}e600g{%80}A600',  
-                'CH' => 'O1Q1X500Y700C600e600g600A600' )),
-  getModifierByType($node,'linetype', false),60, $layout);
-$division['div3'] = createBody( choose_fit( array ( 'NC' => 'O1Q1X500Y{%50}A600c{%80}e600G{%80}',  
-                'CH' => 'O1Q1X500Y700A600c600e600G600' )),
-  getModifierByType($node,'linetype', false),60, $layout);
+$division['div2'] = createBody(
+    (string)(new PathBuilder)
+        ->move($cx, $cy)
+        ->offset(false)
+        ->quarterly()
+        ->down($down)
+        ->left_plain($left)
+        ->up_plain($down)
+        ->right($left)
+
+        ->move($cx, $cy)
+        ->offset(false)
+        ->quarterly()
+        ->up($up)
+        ->right_plain($right)
+        ->down_plain($up)
+        ->left($right)
+    ,
+    $modifier, 60, $layout
+);
+$division['div3'] = createBody(
+    (string)path_builder($cx, $cy)
+        ->offset(false)
+        ->quarterly()
+        ->down($down)
+        ->right_plain($right)
+        ->up_plain($down)
+        ->left($right)
+    ,
+    $modifier, 60, $layout
+);
+
+$division['div4'] = createBody(
+    (string)path_builder($cx, $cy)
+        ->offset(false)
+        ->quarterly()
+        ->down($down)
+        ->left_plain($left)
+        ->up_plain($down)
+        ->right($left)
+    ,
+    $modifier, 60, $layout
+);

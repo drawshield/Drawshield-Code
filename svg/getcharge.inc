@@ -18,7 +18,7 @@
    }
  }
 
-function getBestMatchFilename($folder, $base, $mods) {
+function getBestMatchFilename($folder, $base, $mods, $warn = true) {
   global $messages;
   $lowestPenalty = 9999;
   $bestFilename = '';
@@ -96,7 +96,8 @@ function getBestMatchFilename($folder, $base, $mods) {
     }
   }
   closedir($dh);
-  if ($bestMissing) $messages->addMessage('warning', $base . ' may not be drawn with ' . $bestMissing);
+  if ($bestMissing && $warn )
+    $messages->addMessage('warning', $base . ' may not be drawn with ' . $bestMissing);
   // if ($bestExtra) $messages->addMessage('other', $base . ' is also ' . $bestExtra);
   return $bestFilename;
 }
@@ -555,9 +556,7 @@ HERE;
     $chargeToAddType = $chargeToAdd->getAttribute('keyterm');
     if ( $chargeToAdd->nodeName == 'ordinary') {
       //$messages->addMessage('Warning', "Charge charged with ordinary not supported");
-      chief('push','NC');
       $new_ord = makeOrdinary( $chargeToAdd, $layout );
-      chief('pop'); 
       $patt_id = add_def ( 'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 1000"',
       "<desc>Ordinary used to fill $chargeName</desc>" . $new_ord ); 
       $body = add_def() . $body;

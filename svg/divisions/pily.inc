@@ -11,8 +11,36 @@
  * Time: 19:56
  */
 
-$div_data = array ('NC' => '<path d="m 0,1200 L 0,0 125,800 250,0 375,1100 500,0 625,1100 750,0 875,800 1000,0 1000,1200 Z" />',
-    'CH' => '<path d="m 0,1200 L 0,300 125,800 250,300 375,1100 500,300 625,1100 750,300 875,800 1000,300 1000,1200 Z" />');
-$division['div2'] = choose_fit($div_data);
 
+$top = $layout->division_offset->y;
+$bottom = $layout->size->height;
 
+$builder = new MutableShape();
+$points = [
+    [125,800],
+    [250,0],
+    [375,1100],
+    [500,0],
+    [625,1100],
+    [750,0],
+    [875,800],
+    [1000,0],
+];
+
+$builder->move_to(0, $bottom);
+$builder->tag_segment(BezierSegmentFlags::PLAIN);
+$builder->line_to(0, 0);
+foreach ( $points as $p )
+{
+    $x = $p[0];
+    $y = $p[1]/1200 * ($bottom - $top) + $top;
+    $builder->tag_segment(BezierSegmentFlags::NORMAL);
+    $builder->line_to($x,$y);
+}
+
+$builder->tag_segment(BezierSegmentFlags::PLAIN);
+$builder->line_to($layout->size->width+100, $bottom+100);
+$builder->close();
+
+$lineType = getModifierByType($node, 'linetype', false);
+$division['div2'] = createBody($builder, $lineType, 30, $layout);

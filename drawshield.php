@@ -211,7 +211,7 @@ function report_errors_svg($errno, $errstr, $errfile, $errline)
 }
 
 if ( strpos($_SERVER["HTTP_REFERER"], "demopage.php") !== false )
-    set_error_handler(report_errors_svg);
+    set_error_handler("report_errors_svg");
 
 $output = draw();
 

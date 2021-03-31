@@ -5,31 +5,70 @@ if ($num_of < 1)
     $num_of = 4;
 elseif ($num_of > 24)
     $num_of = 24;
-$NC = '';
-$CH = '';
-$stepH = 1000 / $num_of;
-$stepC = floor($calcHeight / $num_of); // with a chief
-$stepV = floor($calcHeight / $num_of);
-$stepB = 1.414 * $stepH;
-if ( existModifierWithKeyterm($node, 'sinister')) {
-  for ( $i = 1; $i < $num_of; $i +=2 ) {
-    $X1 = 1500 - (($i-1) * $stepH);
-    $Y1 = 500 -(($i-1) * $stepH);
-    $X2 = 1500 - (($i-1) * $stepC);
-    $Y2 = 600 - (($i-1) * $stepC);
-    $NC .= "X{$X1}Y{$Y1}D1700f{$stepB}H1700b{$stepB}   ";
-      $CH .= "X{$X2}Y{$Y2}D1400f{$stepB}H1400b{$stepB}   ";
-    //$CH .= "X{$X2}Y{$Y2}b{$stepB}D1300f{$stepB}H1300   ";
+
+
+$diag_off1 = 0;
+$diag_off2 = 0;
+if ( $layout->section != "quarter" )
+{
+    switch ( $layout->shape )
+    {
+        case "heater":  $diag_off1 = 100; break;
+        case "french":  $diag_off1 = 70; break;
+        case "oval":    $diag_off1 = $diag_off2 = 170; break;
+        case "lozenge": $diag_off1 = $diag_off2 = $layout->size->width / 4; break;
+        case "italian": $diag_off1 = 190; $diag_off2 = 110; break;
+        case "swiss":   $diag_off1 = 220; break;
+        case "english": $diag_off1 = 100; break;
+        case "german":  $diag_off1 = 150; $diag_off2 = 40; break;
+        case "polish":  $diag_off1 = 170; $diag_off2 = 140; break;
+        case "spanish": $diag_off1 = 120; break;
+        case "circle":  $diag_off1 = $diag_off2 = 130; break;
+        case "sca":   $diag_off1 = 220; break;
+        case "pauldron":  $diag_off1 = 125; $diag_off2 = 260; break;
     }
-} else {
-  for ( $i = 1; $i < $num_of; $i +=2 ) {
-    $X1 = (($i-1) * $stepH) - 500;
-    $Y1 = 500 - (($i-1) * $stepH);
-    $X2 = (($i-1) * $stepC) - 500;
-    $Y2 = 600 - (($i-1) * $stepC);
-    $NC .= "X{$X1}Y{$Y1}h{$stepB}B1700d{$stepB}F1700   ";
-    $CH .= "X{$X2}Y{$Y2}h{$stepB}B1400d{$stepB}F1400   ";
-  }
 }
 
-$division['div2'] = createBody( choose_fit (compact('NC', 'CH')), getModifierByType($node,'linetype', false), 40, $layout);
+$diag_off2 = max(0, $diag_off2-$layout->division_offset->y);
+
+$area_width = $layout->size->width - $diag_off1 - $diag_off2;
+$area_height = $layout->size->height - $layout->division_offset->y - $diag_off1 - $diag_off2;
+$area_diag = hypot($area_width, $area_height);
+$bend_width = $area_diag / $num_of;
+$bend_length = max($layout->size->width, $layout->size->height) * M_SQRT2 + 100;
+$bend_diag_off = $bend_length / M_SQRT2 / 2;
+
+$builder = new PathBuilder();
+
+if ( !existModifierWithKeyterm($node, 'sinister') )
+{
+    for ( $i = 0; $i < $num_of; $i += 2 )
+    {
+        $x = $area_width / $num_of * $i;
+        $y = $area_height / $num_of * $i;
+        $builder
+            ->move($x - $bend_diag_off + $diag_off1, $layout->size->height - $y - $bend_diag_off - $diag_off1)
+            ->down_right($bend_length)
+            ->up_right_plain($bend_width)
+            ->up_left($bend_length)
+            ->down_left_plain($bend_width)
+        ;
+    }
+}
+else
+{
+    for ( $i = 0; $i < $num_of; $i += 2 )
+    {
+        $x = $area_width / $num_of * $i;
+        $y = $area_height / $num_of * $i;
+        $builder
+            ->move($layout->size->width - $x + $bend_diag_off - $diag_off1, $layout->size->height - $y - $bend_diag_off - $diag_off1)
+            ->down_left($bend_length)
+            ->up_left_plain($bend_width)
+            ->up_right($bend_length)
+            ->down_right_plain($bend_width)
+        ;
+    }
+}
+
+$division['div2'] = createBody((string)$builder, getModifierByType($node,'linetype', false), 40, $layout);

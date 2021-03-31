@@ -1,21 +1,23 @@
 <?php
 
+$y = $layout->division_offset->y - 106;
+
 $div_data = array (
-  'per-bend' => array ( 'NC' => 'X-106Y-106B1714c300e1212g1512', 'CH' => 'X0Y300B1414c200e1000g1100'),
-  'per-bend-fracted' => array ( 'NC' => 'X200Y0B717e500B1131c100e1010g1410', 'CH' => 'X200Y300B717e500B717e1010g1310' ),
-  'per-bend-sinister' => array ( 'NC' => 'X1000Y0c1400e1000g400H1414', 'CH' => 'X1000Y300c1200e1000g200H1414' ),
-  'per-bend-sinister-fracted' => array ( 'NC' => 'X800Y0a200c1300e1000H1131e500H717', 'CH' => 'X800Y300a200c1000e800H717e500H717' ),
+  'per-bend' => "X-106Y{$y}B1714c300e1212g1512",
+  'per-bend-fracted' => "X200Y{$layout->division_offset->y}B717e500B1131c100e1010g1410",
+  'per-bend-sinister' => "X1000Y{$layout->division_offset->y}c1400e1000g400H1414",
+  'per-bend-sinister-fracted' => "X800Y{$layout->division_offset->y}a200c1300e1000H1131e500H717",
 );
 
 $item = 'per-bend';
 if ( existModifierWithKeyterm($node, 'sinister')) $item .= '-sinister';
 if ( existModifierWithKeyterm($node, 'fracted')) $item .= '-fracted';
-$division['div2'] = createBody(choose_fit($div_data[$item]),getModifierByType($node, 'linetype', false),60, $layout);
+$division['div2'] = createBody($div_data[$item], getModifierByType($node, 'linetype', false),60, $layout);
 
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';
   $rivetList = '';
-  $offset = chiefPresent() ? 300 : 0;
+  $offset = $layout->division_offset->y;
   for ($i = 995; $i > 0; $i -= 80) {
     if ( $item == 'per-bend-sinister' ) {
       $rivetList .= '<g transform="translate(' . (930 - $i) . ',' . ($i  + $offset). ')">' . $rivet . '</g>';

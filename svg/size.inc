@@ -50,6 +50,16 @@ class ShieldPos
     {
         return new ShieldPos($this->x + $dx, $this->y + $dy);
     }
+
+    function distance($other)
+    {
+        return hypot($other->x - $this->x, $other->y - $this->y);
+    }
+
+    function angle_to($other)
+    {
+        return atan2($other->y - $this->y, $other->x - $this->x);
+    }
 }
 
 class ShieldRect
@@ -100,6 +110,46 @@ class ShieldRect
             $this->size->scaled($width, $height)
         );
     }
+
+    function margin($x1, $y1 = null, $x2 = null, $y2 = null)
+    {
+        if ( $y1 === null )
+            $y1 = $x1;
+
+        if ( $x2 === null )
+            $x2 = $x1;
+
+        if ( $y2 === null )
+            $y2 = $y1;
+
+        $l = $this->left() + $x1;
+        $r = $this->right() - $x2;
+        $t = $this->top() + $y1;
+        $b = $this->bottom() - $y2;
+
+        return new ShieldRect(
+            new ShieldPos(($l+$r)/2, ($t+$b)/2),
+            new ShieldSize($r-$l, $b-$t)
+        );
+    }
+
+    function translated($x, $y)
+    {
+        return new ShieldRect(new ShieldPos($x + $this->pos->x, $y + $this->pos->y), clone $this->size);
+    }
+
+    static function from_corners($x1, $y1, $x2, $y2)
+    {
+        return new ShieldRect(
+            new ShieldPos(($x1 + $x2) / 2, ($y1 + $y2) / 2),
+            new ShieldSize($x2 - $x1, $y2 - $y1)
+        );
+    }
+
+    function svg_rect()
+    {
+        return "<rect x='{$this->left()}' y='{$this->top()}' width='{$this->size->width}' height='{$this->size->height}' />";
+    }
 }
 
 class ShieldLayout
@@ -113,7 +163,7 @@ class ShieldLayout
         "quarter" => 0,
     ];
 
-    function __construct(ShieldSize $size, $shape, ShieldPos $center_point = null, ShieldRect $charge_hint = null, $accepts_chief = true)
+    function __construct(ShieldSize $size, $shape, ShieldPos $center_point = null, ShieldRect $charge_hint = null, $chief = true, $section = null)
     {
         // shield size 1000xheight
         $this->size = $size;
@@ -127,7 +177,15 @@ class ShieldLayout
         // rect for custom positioning
         $this->charge_hint = $charge_hint;
         // Should use chief spacing
-        $this->accepts_chief = $accepts_chief;
+        $this->chief = $chief;
+        if ( $this->chief === true )
+            $this->auto_chief();
+
+        // To determine the border area
+        $this->section = $section;
+
+        $this->division_offset = new ShieldPos(0, 0);
+
     }
 
     function auto_center()
@@ -135,7 +193,17 @@ class ShieldLayout
         if ( isset(static::$custom_size[$this->shape]) )
             $this->center_point = new ShieldPos($this->size->width / 2, $this->size->height / 2);
         else
-            $this->center_point = new ShieldPos(500, 500);
+            $this->center_point = new ShieldPos($this->size->width / 2, 500);
+    }
+
+    function auto_chief()
+    {
+        $width = $this->size->width;
+        $height = min($this->size->height * 0.3, 300);
+        $this->chief = new ShieldRect(
+            new ShieldPos($width / 2, $height / 2),
+            new ShieldSize($width, $height)
+        );
     }
 
     static function from_options($options)
@@ -185,6 +253,14 @@ class ShieldLayout
         return new ShieldPos(
             $this->center_point->x / $this->size->width,
             $this->center_point->y / $this->size->height
+        );
+    }
+
+    function rect_area()
+    {
+        return new ShieldRect(
+            new ShieldPos($this->size->width / 2, $this->size->height / 2),
+            clone $this->size
         );
     }
 }

@@ -47,7 +47,7 @@ function includeDivision( DOMElement &$node, $layout ) {
 }
 
 
-function makeDivision( DOMElement $node, $layout, $counter = false ) {
+function makeDivision( DOMElement $node, ShieldLayout $layout, $counter = false ) {
   /*
    * @var messageStore
    */
@@ -83,24 +83,20 @@ function makeDivision( DOMElement $node, $layout, $counter = false ) {
   } elseif ( $counter ) { // shuffle tinctures around for counterchanging, (depends how many colours in total)
       
     if ( isset($division['div4']) && isset($tinctures[4]) ) { // 4 colours, swap alternate pairs
-        $div1 = apply_tincture ( $tinctures[3], '<rect x="0" y="0" width="1000" height="' . $height . '" />', $layout,
-                              '1000,' . $height );
+        $div1 = apply_tincture ( $tinctures[3], $layout->rect_area()->svg_rect(), $layout, $layout->size );
         $div2 = apply_tincture( $tinctures[4], $div2, $layout );
         $div3 = apply_tincture( $tinctures[1], $division['div3'], $layout );
         $div4 = apply_tincture( $tinctures[2], $division['div4'], $layout );
     } elseif ( isset($division['div3']) && isset($tinctures[3]) ) { // 3 colours, move up 1
-        $div1 = apply_tincture ( $tinctures[2], '<rect x="0" y="0" width="1000" height="' . $height . '" />', $layout,
-                              '1000,' . $height );
+        $div1 = apply_tincture ( $tinctures[2], $layout->rect_area()->svg_rect(), $layout, $layout->size );
         $div2 = apply_tincture( $tinctures[3], $div2, $layout );
         $div3 = apply_tincture( $tinctures[1], $division['div3'], $layout );
     } else {  // 2 colours, just swap them.
-        $div1 = apply_tincture ( $tinctures[2], '<rect x="0" y="0" width="1000" height="' . $height . '" />', $layout,
-                              '1000,' . $height );
+        $div1 = apply_tincture ( $tinctures[2], $layout->rect_area()->svg_rect(), $layout, $layout->size );
         $div2 = apply_tincture( $tinctures[1], $div2, $layout );
     }
   } else { // Not counterchanged, colour as normal
-    $div1 = apply_tincture ( $tinctures[1], '<rect x="-100" y="-100" width="1200" height="' . ($height + 200) . '" />', $layout,
-                              '1000,' . $height );
+    $div1 = apply_tincture ( $tinctures[1], $layout->rect_area()->margin(-100)->svg_rect(), $layout, $layout->size);
     $div2 = apply_tincture( $tinctures[2], $div2, $layout );
     if ( isset($division['div3']) && isset($tinctures[3]) ) {
       $div3 = apply_tincture( $tinctures[3], $division['div3'], $layout );

@@ -16,15 +16,12 @@
 if ( ($num_of = getModifierValueByKeyterm($node, 'ofnum', false)) == null ) $num_of = 8;
 if (!is_numeric($num_of)) $num_of = 8;
 $NC = '';
-$CH = '';
 $stepC = 900 / $num_of; // with a chief
 $stepV = $calcHeight / $num_of;
 for ( $i = 1; $i < $num_of; $i +=2 ) {
-  $Y1 = $i * $stepV;
-  $YC = 300 + $i * $stepC;
+  $Y1 = $layout->division_offset->y + $i * $stepV;
   $NC .= "X-100Y{$Y1}A1200c{$stepV}E1200g{$stepV}   ";
-  $CH .= "X-100Y{$YC}A1200c{$stepC}E1200g{$stepC}   ";
 }
 $lineSize = (int)($calcHeight / 30);
-$division['div2'] = createBody( choose_fit (compact('NC', 'CH')), getModifierByType($node,'linetype', false), $lineSize, $layout);
+$division['div2'] = createBody( $NC, getModifierByType($node,'linetype', false), $lineSize, $layout);
 

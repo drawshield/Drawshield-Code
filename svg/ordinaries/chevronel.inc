@@ -12,6 +12,7 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
+require_once("chevron-helper.inc");
 
 $num = $node->getAttribute('number');
 if ( $num < 1 ) $num = 1;
@@ -44,26 +45,34 @@ if ( existModifierWithKeyterm($node, 'braced')) {
       <path d="M 745.49,785.83 L 703.06,624.21 L 798.02,218.13 L 1038.43,1274.75 L 957.62,1274.75 L 800.04,553.50 L 745.49,785.83 z" />';
       break;
   }
+
+    $dy = 500 - $layout->center_point->y;
+    if ( $dy != 0 )
+        $bodySpec = "<g transform='translate(0,-$dy)'>$bodySpec</g>";
+
+    $ordinary['body'] = (string)$bodySpec;
 } else {
-  switch ( $num ) {
-    case 1:
-      $bodySpec = '<path d="m 1100,890 -600,-600 -600,600 0,-80 600,-600 600,600 z" />';
-      break;
-    case 2:
-      $bodySpec = '<path d="m 1100,990 -600,-600 -600,600 0,-80 600,-600 600,600 z m 0,-200 -600,-600 -600,600 0,-80 600,-600 600,600 z" />';
-      break;
-    case 3:
-      $bodySpec = '<path d="m 1100,1240 -600,-600 -600,600 0,-80 600,-600 600,600 z m 0,-250 -600,-600 -600,600 0,-80 600,-600 600,600 z m 0,-250 -600,-600 -600,600 0,-80 600,-600 600,600 z" />';
-      break;
-    case 4:
-    default:
-      $bodySpec = '<path d="m 1100,1140 -600,-600 -600,600 0,-80 600,-600 600,600 z m 0,200 -600,-600 -600,600 0,-80 600,-600 600,600 z m 0,-400 -600,-600 -600,600 0,-80 600,-600 600,600 z m 0,-200 -600,-600 -600,600 0,-80 600,-600 600,600 z" />';
-      break;
-  }
+
+$chevron_width = chevron_width($layout, 1);
+$width = 50;
+$dy = 300 / M_SQRT2;
+$cy = -$chevron_width / M_SQRT2;
+$dy0 = $dy / 2;
+
+$builder = new PathBuilder();
+if ( $num % 2 )
+{
+    $dy0 = $dy;
+    build_chevron($layout, $width, $cy, $builder, 0.5);
 }
 
+ for ( $i = 0; $i < floor($num / 2); $i++ )
+{
+     build_chevron($layout, $width, $cy + $dy0 + $dy * $i, $builder, 0.5);
+     build_chevron($layout, $width, $cy - $dy0 - $dy * $i, $builder, 0.5);
+}
 
+    $ordinary['shape_spec'] = (string)$builder;
+}
 
-$ordinary['body'] = array( 'NC' => $bodySpec, 'CH' => '<g transform="translate(0,180)">' . $bodySpec . '</g>');
-unset($bodySpec);
 $ordinary['chargesWithin'] = 'x/x/200,200,180,180:500,900,240,240:800,200,180,180/x/x/x';

@@ -371,7 +371,7 @@ class TinctureData
 }
 
 
-function apply_tincture ($tinctureNode, $targetSVG, $layout, $chg_size = '',
+function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, ShieldSize $chg_size = null,
         $rot = '0', $rev = false, $inv = false ) {
     global $_SERVER, $messages, $xpath;
     $retval = '';
@@ -395,10 +395,11 @@ function apply_tincture ($tinctureNode, $targetSVG, $layout, $chg_size = '',
         return $targetSVG;
     }
 
-    if ( $targetType == 'charge' && $chg_size != '' && $data->type_name != blazonML::E_COUNTERCHANGED )
+    if ( $targetType == 'charge' && $chg_size != null && $data->type_name != blazonML::E_COUNTERCHANGED )
     {
         // We make some things a wee bit smaller if on a charge, just for looks
-        list($chgX,$chgY) = explode(',', $chg_size);
+        $chgX = $chg_size->width;
+        $chgY = $chg_size->height;
         $scale = max ( $chgX / 1000, $chgY / 1200 ); // multiply here to adjust relative size of fur etc. on a charge
         $data->pattern_transform = ' scale(' . $scale . ') ';
     } elseif ($layout->shape == 'flag') { // adjust size based on flag AR?
@@ -485,12 +486,10 @@ function apply_tincture ($tinctureNode, $targetSVG, $layout, $chg_size = '',
                         break;
                     } // else flow through
                 case 'charge':
-                    chief('push','NC');
                     $new_div = makeDivision( $data->type_node, $layout );
-                    chief('pop');
                     $height = get_div_height($data->type_node);
                     $patt_id = add_def (
-                        'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 ' .   $height . '"',
+                        'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 '  .   $layout->width . ' ' .   $layout->height . '"',
                         $title . "<desc>Division used to fill $targetType</desc>" .
                         $new_div
                     );
@@ -519,14 +518,14 @@ function apply_tincture ($tinctureNode, $targetSVG, $layout, $chg_size = '',
                 $treatment = $xpath->query('preceding::field/tincture/treatment',$data->node);
                 if ( $treatment->length ) {
                     $counterTreatment = $treatment->item(($treatment->length) - 1);
-                    $treat_data = makeTreatment($counterTreatment, true);
+                    $treat_data = makeTreatment($counterTreatment, $layout, true);
                     if ( $inv ) $treat_data['body'] = "<g transform=\"translate(0,{$treat_data['height']}) scale(1,-1)\">{$treat_data['body']}</g>";
                     //do we need to offset the pattern to center it?
                     $offset = 0;
                     if (array_key_exists('offset', $treat_data)) {
                         $offset = $treat_data['offset'];
                     }
-                    $treatPatt_id = add_def ( 'pattern ' . $patTrans .
+                    $treatPatt_id = add_def ( 'pattern ' . $data->pattern_transform .
                         ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="' . $offset . '" y="0" width="' .
                         $treat_data['width'] . '" height="' . $treat_data['height'] . '"',
                         '<g class="treatment">' . $treat_data['body'] . '</g>' );

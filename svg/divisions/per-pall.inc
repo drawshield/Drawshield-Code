@@ -13,15 +13,49 @@
 
 $lineType = getModifierByType($node, 'linetype', false);
 if ( $rev = getModifierNodeWithKeyterm($node,'reversed',true)) // reversed means inverted
-  $rev->setAttribute('keyterm','inverted');
-if ( existModifierWithKeyterm($node, 'inverted') ) {
-  $div2_data = array ( 'NC' => 'O1X500Y0a500c1100f707G600', 'CH' => 'O1X500Y200a500c800f707G400' );
-  $div3_data = array ( 'NC' => 'O1X0Y1000H708B707c200e1000g200', 'CH' => 'O1X0Y1000H708B707c200e1000g200' );
-} else {
-  $div2_data = array ( 'NC' => 'X1000Y0c1200e600g700a100H707', 'CH' => 'X1000Y300c900e600g400a100H707' );
-  $div3_data = array ( 'NC' => 'X0Y0B707C700e500g1200', 'CH' => 'X0Y300B707C400e500g900' );
+    $rev->setAttribute('keyterm','inverted');
+
+$builder_2 = path_builder($layout->center_point->x, $layout->center_point->y);
+$builder_3 = path_builder($layout->center_point->x, $layout->center_point->y);
+$margin = 100;
+$up = (max($layout->center_point->x, $layout->center_point->y) + $margin)  * M_SQRT2;
+$down = $layout->size->height - $layout->center_point->y + $margin;
+$side = $up / M_SQRT2;
+
+if ( existModifierWithKeyterm($node, 'inverted') )
+{
+    $down = $layout->center_point->y + $margin;
+    $builder_2
+        ->offset(false)
+        ->down_right($up)
+        ->up_plain($down + $side)
+        ->left_plain($side)
+        ->down($down)
+    ;
+    $builder_3
+        ->offset(false)
+        ->down_right($up)
+        ->left_plain(2 * $side)
+        ->up_right($up)
+    ;
 }
-$division['div2'] = createBody(choose_fit($div2_data), $lineType, 60, $layout);
-$division['div3'] = createBody(choose_fit($div3_data), $lineType, 60, $layout);
+else
+{
+    $builder_2
+        ->up_right($up)
+        ->down_plain($down + $side)
+        ->left_plain($side + $margin)
+        ->up_plain($down)
+        ->right_plain($margin)
+    ;
+    $builder_3
+        ->up_left($up)
+        ->down_plain($down + $side)
+        ->right_plain($side)
+        ->up($down)
+    ;
+}
+$division['div2'] = createBody((string)$builder_2, $lineType, 60, $layout);
+$division['div3'] = createBody((string)$builder_3, $lineType, 60, $layout);
 
 
