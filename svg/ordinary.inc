@@ -209,7 +209,7 @@ function getSpecial($type,$node, $layout) {
 
     $folder = __dir__ . "/ordinaries/$type/";
 
-    $subfile = getBestMatchFilename($folder, $filename, null);
+    $subfile = getBestMatchFilename($folder, $filename, null, false);
 
     if ( $subfile == null )
         return includeOrdinary($node, $layout);;
