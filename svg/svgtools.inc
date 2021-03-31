@@ -48,8 +48,12 @@ $targetColours = array (
   '#0ff', '#f0f'
 );
 
+$strokeColours = array (
+    '#cccccc',
+);
+
 function splitStyle ( $styles, $attributeKeys, $strokeCol, $strokeWidth ) {
-  global $targetColours, $options;
+  global $targetColours, $options, $strokeColours;
   $retval = '';
 
   $styleArray = explode(';', $styles . ';');
@@ -63,9 +67,13 @@ function splitStyle ( $styles, $attributeKeys, $strokeCol, $strokeWidth ) {
       case 'fill': 
        if ( array_key_exists("raw",$options) ) {
           $retval .= ' fill="' . $value . '" '; // leave alone
-        } else {
+       } else {
+            if (in_array(strtolower($value), $strokeColours)) {
+                $retval .= 'fill="' . $strokeCol . '" ';
           // Any of the "primary" colours are just placeholders, to be replaced by the charge colour
-            if (!in_array( $value, $targetColours )) $retval .= 'fill="' . $value . '" ';
+            } elseif (!in_array( $value, $targetColours )) {
+                $retval .= 'fill="' . $value . '" ';
+            }
         }
         break; // any other colour is left as it is
       case 'fill-opacity':
@@ -98,7 +106,7 @@ function splitStyle ( $styles, $attributeKeys, $strokeCol, $strokeWidth ) {
 
 function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $fillSet = false) {
 //  global $messages;
-  global $targetColours, $options;
+  global $targetColours, $options, $strokeColours;
   $retval = '';
 
   // Collect names of all the attributes
@@ -128,9 +136,12 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
         if ( array_key_exists("raw",$options) ) {
           $fill = ' fill="' . $data . '" '; // leave alone
         } else {
+            if (in_array(strtolower($data), $strokeColours)) {
+                $fill = ' fill="' . $strokeCol . '" ';
+            } elseif (!$fillSet && !in_array( strtolower($data), $targetColours) ) {
           // Any of the "primary" colours are just placeholders, so we ignore them (will be replaced by the charge colour)
-          if (!$fillSet && !in_array( strtolower($data), $targetColours) )
-            $fill = ' fill="' . $data . '" ';
+                $fill = ' fill="' . $data . '" ';
+            }
         }
         break; // any other colour is left as it is
       case 'stroke':

@@ -979,6 +979,7 @@
       array ( 'breadloa(f|ves)', 'food/breadloaf' ),
       array ( 'loa(f|ves) ?of ?bread', 'food/breadloaf' ),
       array ( 'cakes?', 'food/cake'),
+      array ( '?legs? ?of hams?', 'food/ham'),
        array ( 'slices? of cakes?', 'food/cake-slice'),
        array ( 'cake slices?', 'food/cake-slice'),
       //games

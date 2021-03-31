@@ -1,6 +1,6 @@
 <?php
 
-function getWords($fontName,$text,$height, $width) {
+function getWords($fontName,$text,$height, $width, $fill = "#3f3f3f") {
     //global $messages;
 
     if (!file_exists("svg/fonts/$fontName.svg")) {
@@ -78,7 +78,7 @@ function getWords($fontName,$text,$height, $width) {
         }
         $scale = min($width / $xOffset, $height / $lineCount / $ySize);
         $centering = ($width - ($xOffset * $scale)) / 2;
-        $temp = "<g fill=\"#3f3f3f\" transform=\"translate($centering,$yShift) scale($scale, -$scale)\">\n" .
+        $temp = "<g fill=\"$fill\" transform=\"translate($centering,$yShift) scale($scale, -$scale)\">\n" .
             $temp . "</g>\n";
         $yShift += $height / $lineCount;
         $retval .= $temp;

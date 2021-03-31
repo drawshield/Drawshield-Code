@@ -1076,6 +1076,7 @@ class languageDB extends lexicon
                 array('narrowe[rd]','narrower'),
                 array('taller','taller'),
                 array('shorte(r|nd)','shorter'),
+                array('stroke[sd]','stroked'),
             ),
             self::USING => array ( 'with', 'in', 'using', 'on'),
             self::DRAWN_MODS => array(

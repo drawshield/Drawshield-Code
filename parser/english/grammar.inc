@@ -641,6 +641,12 @@ class englishGrammar extends grammar
                 case 'shown':
                     $foundShown = true;
                     break;
+                case 'stroked':
+                    if (($colour = self::colour()) != null) {
+                        $adjustments[] = $this->schema->makeMod(languageDB::SHOWN_MODS,
+                            $colour->getAttribute(blazonML::A_KEYTERM), $keyterm, self::tokens(), self::lineNo());
+                    }
+                    break;
                 case 'much':
                 case 'slightly':
                 case 'very-much':
@@ -1833,6 +1839,9 @@ class englishGrammar extends grammar
       self::tokens(),
       self::lineno()
     );
+    if (($colour = self::colour()) != null) {
+        $mottoNode->appendChild($colour);
+    }
       if (($adjust = $this->getAdjustments()) != null) {
           foreach ($adjust as $adj) {
               $mottoNode->appendChild($adj);

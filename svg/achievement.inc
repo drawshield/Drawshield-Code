@@ -229,24 +229,28 @@ function drawMotto($mottoNode, $layout) {
     if (is_null($mottoNode)) return '';
 
     $text = $mottoNode->getAttribute('text');
+    $colour = rgb('sable');
+    $adjustments = null;
+    foreach($mottoNode->childNodes as $child) {
+        switch($child->nodeName) {
+            case 'modifier':
+                $adjustments[] = $child->getAttribute(blazonML::A_KEYTERM);
+                break;
+            case 'colour':
+                $colour = rgb($child->getAttribute(blazonML::A_KEYTERM));
+                break;
+            default:
+                break;
+        }
+    }
     if ($layout->shape == 'pauldron') {
         $svg = file_get_contents('svg/components/scroll/plaque.svg');
         $svg .= "<g transform=\"translate(50,1000)\">\n" .
-            getWords('hooge', $text, 160, 900) . "</g>\n";
+        getWords('hooge', $text, 160, 900, $colour) . "</g>\n";
         $svg = '<g transform="scale(0.9,0.9) translate(50,180)">' . $svg . "</g>\n";
         return $svg;
     } else {
-        $adjustments = null;
         $retval = [];
-        foreach($mottoNode->childNodes as $child) {
-            switch($child->nodeName) {
-                case 'modifier':
-                    $adjustments[] = $child->getAttribute('keyterm');
-                    break;
-                default:
-                    break;
-            }
-        }
 
         $fontSize = 45;
         $up = 2;
@@ -264,6 +268,7 @@ function drawMotto($mottoNode, $layout) {
         $svg = file_get_contents('svg/components/scroll/plain.svg');
         $svg = str_replace('%TEXT%', htmlentities($text), $svg);
         $svg = str_replace('%UP%', $up, $svg);
+        $svg = str_replace('%COLOUR%', $colour, $svg);
         $svg = str_replace('%FONT-SIZE%', "${fontSize}px", $svg);
         $retval = getSvgFragment($svg, array(), 'scroll', 'plain', array(), getStroke(null, true));
         $retval['adjustments'] = $adjustments;
