@@ -345,7 +345,7 @@ function adjustment_quarter($number, ShieldLayout $layout, $bigOrdinary)
 }
 
 
-function adjustment_from_position($position, $layout, $underlying_div, $bigOrdinary, $orig_placement, $cadency, $item, &$placement)
+function adjustment_from_position($position, $layout, $underlying_div, $bigOrdinary, $cadency, $item)
 {
     global $messages;
 
@@ -455,18 +455,7 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
             ];
         case 'inchief':
             if ( $layout->chief )
-            {
-                // no placement yet,
-                if ( $orig_placement == '' )
-                {
-                    $placement = calcPlace($item,'h', $layout->chief->margin(100, 25));
-                    return [];
-                }
-                else
-                {
-                    return [$layout->chief->margin(50, 50)];
-                }
-            }
+                return [$layout->chief->margin(50, 50)];
             break;
         case 'inbase':
             return [new ShieldRect(
@@ -623,9 +612,8 @@ function get_placement(DOMElement $item, $layout) {
             // $messages->addMessage('warning','"in" location conflicts with "on" or "between"');
         // } else {
             $bigOrdinary = $xpath->evaluate("boolean(../ordinary[@keyterm='fess'] or ../ordinary[@keyterm='pale'] or ../ordinary[@keyterm='plain-cross'])", $item);
-            $orig_placement = $placement;
             foreach ( array_keys($pos) as $position ) {
-                $pos_adjust = adjustment_from_position($position, $layout, $underlying_div, $bigOrdinary, $orig_placement, $cadency, $item, $placement);
+                $pos_adjust = adjustment_from_position($position, $layout, $underlying_div, $bigOrdinary, $cadency, $item);
                 $adjustmentList = array_merge($adjustmentList, $pos_adjust);
             }
         // }
