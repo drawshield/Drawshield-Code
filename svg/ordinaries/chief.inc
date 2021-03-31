@@ -26,7 +26,7 @@ if ( existModifierWithKeyterm($node,'couped') ) {
     ->left($layout->size->width+200)
     ->up_plain($layout->size->height+8);
 
-    $rect = $layout->rect_area()->margin(50);
+    $rect = $layout->rect_area()->margin($layout->size->height / 6);
     $ordinary['chargesOn'] = array("h", $rect);
 }
 

@@ -476,7 +476,7 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
         case 'indexbase': return [($cadency) ? '200,800,200,200' : '150,750,350,400'];
         case 'insinbase': return [($cadency) ? '600,800,200,200' : '500,750,350,400'];
         case 'inmidbase': return [($cadency) ? '400,800,200,200' : '300,750,400,400'];
-        case 'inabyss': return [($cadency) ? '400,850,200,200' : '300,800,380,380'];
+        case 'inabyss': return [];
         case 'inhonpoint': return [($cadency) ? '400,250,200,200' : '250,50,500,500'];
         case 'infesspoint':
             $size = $cadency ? 400 : 600;
