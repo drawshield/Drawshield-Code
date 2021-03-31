@@ -379,45 +379,6 @@ class PolyBezier
         $this->points = $cloned;
     }
 
-/*
-    private function closest_get_vt($closest_index, ShieldPos $current, $round_distance, $round_corner)
-    {
-        if ( $closest_index < 0 )
-            $closest_index += count($this->points);
-        $closer_v = $this->points[$closest_index]->pos;
-        $distance = $current->distance($closer_v);
-        $new_pos_perc = $distance != 0 ? min($distance/2, $round_distance) / $distance : 0;
-        $vert = $current->lerp($closer_v, $new_pos_perc);
-        $tan_x = - ($vert->x - $current->x) * $round_corner;
-        $tan_y = - ($vert->y - $current->y) * $round_corner;
-        return [$vert, new ShieldPos($tan_x + $vert->x, $tan_y + $vert->y)];
-    }
-    function rounded($round_distance)
-    {
-        $cloned = new PolyBezier();
-        $cloned->closed = $this->closed;
-        $round_corner = 0.5519;
-
-        for ( $i = 0; $i < $this->size(); $i++ )
-        {
-            $current = $this->points[$i]->pos;
-            if ( !$this->closed  && ($i == 0 || $i == count($this->points) - 1) )
-            {
-                $cloned->add_point($this->points[$i]);
-            }
-            else
-            {
-                list($vert1, $out_t) = $this->closest_get_vt($i - 1, $current, $round_distance, $round_corner);
-                $cloned->add_point(new BezierPoint($vert1, $vert1, $out_t));
-                list($vert2, $in_t) = $this->closest_get_vt(($i+1) % count($this->points), $current, $round_distance, $round_corner);
-                $cloned->add_point(new BezierPoint($vert2, $in_t, $vert2));
-            }
-        }
-
-        return $cloned;
-    }
-*/
-
     private function offset_side($segment_start, $segment_finish, $amount)
     {
         $angle = $segment_start->angle_to($segment_finish);
@@ -704,6 +665,16 @@ class MutableShape extends ShapeInterface
         return $offset_args;
     }
 
+    private function new_path_if_needed()
+    {
+        if ( $this->empty() || $this->last_bez()->closed )
+        {
+            $new_bez = new PolyBezier();
+            $new_bez->add_point($this->relpoint());
+            $this->sub_paths[] = $new_bez;
+        }
+    }
+
     function move_to()
     {
         list($p) = $this->get_args(func_get_args(), 1);
@@ -723,6 +694,7 @@ class MutableShape extends ShapeInterface
     function line_to()
     {
         list($p) = $this->get_args(func_get_args(), 1);
+        $this->new_path_if_needed();
         $this->last_bez()->line_to($p);
         return $this;
     }
@@ -730,6 +702,7 @@ class MutableShape extends ShapeInterface
     function quadratic_to()
     {
         list($handle, $dest) = $this->get_args(func_get_args(), 2);
+        $this->new_path_if_needed();
         $this->last_bez()->quadratic_to($handle, $dest);
         return $this;
     }
@@ -737,6 +710,7 @@ class MutableShape extends ShapeInterface
     function cubic_to()
     {
         list($handle1, $handle2, $dest) = $this->get_args(func_get_args(), 3);
+        $this->new_path_if_needed();
         $this->last_bez()->cubic_to($handle1, $handle2, $dest);
         return $this;
     }
@@ -746,6 +720,7 @@ class MutableShape extends ShapeInterface
         if ( $relative )
             $x += $this->relpoint()->x;
         $y = $this->relpoint()->y;
+        $this->new_path_if_needed();
         $this->line_to($x, $y);
         return $this;
     }
@@ -755,20 +730,15 @@ class MutableShape extends ShapeInterface
         if ( $relative )
             $y += $this->relpoint()->y;
         $x = $this->relpoint()->x;
+        $this->new_path_if_needed();
         $this->line_to($x, $y);
         return $this;
     }
 
     function close()
     {
-        $new_bez = new PolyBezier();
         if ( !$this->empty() )
-        {
             $this->last_bez()->close();
-            if ( !$this->last_bez()->empty() )
-                $new_bez->add_point($this->last_bez()->finish());
-        }
-        $this->sub_paths[] = $new_bez;
         return $this;
     }
 
@@ -857,16 +827,10 @@ class MutableShape extends ShapeInterface
     {
         if ( $this->empty() )
             $this->sub_paths[] = new PolyBezier();
+        else
+            $this->new_path_if_needed();
         $this->last_bez()->tag_segment($flags);
         return $this;
-    }
-
-    function rounded($round_distance)
-    {
-        $clone = new MutableShape();
-        foreach ( $this->sub_paths as $bez )
-            $clone->add_path($bez->rounded($round_distance));
-        return $clone;
     }
 
     function to_svg_d()

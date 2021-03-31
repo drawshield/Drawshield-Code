@@ -15,23 +15,23 @@ abstract class ShieldShape
             case "swatch":
                 return new RectShieldShape();
             case "swiss":
-                return new HeatherShieldShape(new ShieldPos(276.37,-146.6), new ShieldPos(500,-590.97), new ShieldPos(500,-931.29), 0, 70);
+                return new HeaterShieldShape(new ShieldPos(276.37,-146.6), new ShieldPos(500,-590.97), new ShieldPos(500,-931.29), 0, 70);
             case "spanish":
-                return new HeatherShieldShape(new ShieldPos(272.06,0), new ShieldPos(492.86,-199.37), new ShieldPos(492.86,-445.07));
+                return new HeaterShieldShape(new ShieldPos(272.06,0), new ShieldPos(492.86,-199.37), new ShieldPos(492.86,-445.07));
             case "sca":
-                return new HeatherShieldShape(new ShieldPos(111.40432,-72.288697), new ShieldPos(440.8494,-378.93457), new ShieldPos(482.89269,-692.96463), 10);
+                return new HeaterShieldShape(new ShieldPos(111.40432,-72.288697), new ShieldPos(440.8494,-378.93457), new ShieldPos(482.89269,-692.96463), 10);
 //             case "english":
-//                 return new HeatherShieldShape(new ShieldPos(13,-26.5), new ShieldPos(375.5,169), new ShieldPos(413,-3.3830906), 0);
+//                 return new HeaterShieldShape(new ShieldPos(13,-26.5), new ShieldPos(375.5,169), new ShieldPos(413,-3.3830906), 0);
             case "french":
-                return new HeatherShieldShape(new ShieldPos(2,-60), new ShieldPos(493,-52), new ShieldPos(500,-122.7), 30);
+                return new HeaterShieldShape(new ShieldPos(2,-60), new ShieldPos(493,-52), new ShieldPos(500,-122.7), 30);
             case "circle":
             case "oval":
                 return new EllipseShieldShape();
             case "lozenge":
                 return new LozengeShieldShape();
-            case "heather":
+            case "heater":
             default:
-                return new HeatherShieldShape(new ShieldPos(258, -60), new ShieldPos(501,-180), new ShieldPos(500, -378));
+                return new HeaterShieldShape(new ShieldPos(258, -60), new ShieldPos(501,-180), new ShieldPos(500, -378));
         }
 
     }
@@ -170,7 +170,7 @@ abstract class ShieldShape
     }
 }
 
-class HeatherShieldShape extends ShieldShape
+class HeaterShieldShape extends ShieldShape
 {
 
     function __construct(ShieldPos $tan1, ShieldPos $tan2, ShieldPos $dest, $margin_bottom = 0, $margin_top = 0)
@@ -191,7 +191,7 @@ class HeatherShieldShape extends ShieldShape
         list($br_t1, $br_t2, $br) = $this->scaled_curve($tip, $scale, 1);
         list($bl_t1, $bl_t2, $bl) = $this->scaled_curve($tip, $scale, -1);
 
-        if ( $reversed )
+        /*if ( $reversed )
         {
             $builder
                 ->move_to($layout->size->width - $inset, $inset + $this->margin_top)
@@ -203,7 +203,7 @@ class HeatherShieldShape extends ShieldShape
             ;
         }
         else
-        {
+        {*/
             $builder
                 ->move_to($inset, $inset + $this->margin_top)
                 ->line_to($layout->size->width - $inset, $inset + $this->margin_top)
@@ -212,7 +212,7 @@ class HeatherShieldShape extends ShieldShape
                 ->cubic_to($bl_t1->x, $bl_t1->y, $bl_t2->x, $bl_t2->y, $bl->x, $bl->y)
                 ->close()
             ;
-        }
+        //}
     }
 
     protected function on_svg_path_sinister(ShieldLayout $layout, $inset, $reversed, MutableShape $builder, $margin_top)
