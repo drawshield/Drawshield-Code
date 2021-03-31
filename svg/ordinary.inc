@@ -205,16 +205,18 @@ function getSpecial($type,$node, $layout) {
     $compony = getModifierByType($node,'compony');
 
     if ($compony != null)
-        $filename .= '-' . $compony;
+        $filename .= '-compony1-of16';
 
     $folder = __dir__ . "/ordinaries/$type/";
 
     $subfile = getBestMatchFilename($folder, $filename, null);
 
-    if ($subfile == null)
-    {
+    if ( $subfile == null )
         return includeOrdinary($node, $layout);;
-    }
+
+    $basename = basename($subfile, ".svg");
+    if ( strpos($basename, "-") !== false && (strpos($filename, "-") === false || $basename != $filename) )
+        return includeOrdinary($node, $layout);;
 
     $svg = simplexml_load_file( $folder . $subfile);
 
@@ -286,7 +288,7 @@ function makeOrdinary( DOMElement &$node, $layout ) {
 	// We do this first in case the ordinary code changes any of the modifiers, e.g. a bend quarterly
     $subtype = $node->getAttribute('keyterm');
     // special handling for bordures (as lots of options)
-    if ($subtype == 'bordure' && getModifierByType($node,'linetype', false) != null) {
+    if ( $subtype == 'bordure' ) {
         $ord_data = getSpecial('bordures', $node, $layout);
     } else {
         $ord_data = includeOrdinary( $node, $layout );

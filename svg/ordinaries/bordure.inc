@@ -31,7 +31,7 @@ $path_builder = new MutableShape();
 $shape->svg_path($layout, $margin, false, $path_builder);
 $shape->svg_path($layout, $margin + $width, true, $path_builder);
 
-$ordinary['body'] = $path_builder->to_svg_path();
+$ordinary['shape_spec'] = $path_builder;
 
 
 
@@ -48,3 +48,4 @@ elseif (existModifierWithKeyterm($node,'compony2') )
 
 $ordinary['chargesWithin'] = $layout->rect_area()->margin(250, 0, 250, 350);
 $ordinary['chargesOn'] = $shape->charge_placement($layout, 0, $width + $margin);
+$ordinary['feature_size'] = 30;
