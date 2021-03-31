@@ -24,7 +24,7 @@ if ( strpos($layout->section, "quarter") !== false )
     $margin /= 2;
 }
 
-$shape = ShieldShape::from_name($layout->shape);
+$shape = ShieldShape::from_layout($layout);
 
 $path_builder = new MutableShape();
 

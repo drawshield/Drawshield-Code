@@ -4,6 +4,15 @@ require_once(__dir__ . "/../bezier.inc");
 
 abstract class ShieldShape
 {
+
+    static function from_layout($layout)
+    {
+        if ( $layout->section == "quarter" )
+            return new RectShieldShape();
+        else
+            return ShieldShape::from_name($layout->shape);
+    }
+
     static function from_name($name)
     {
         switch ( $name )
