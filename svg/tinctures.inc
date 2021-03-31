@@ -489,7 +489,7 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
                     $new_div = makeDivision( $data->type_node, $layout );
                     $height = get_div_height($data->type_node);
                     $patt_id = add_def (
-                        'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 '  .   $layout->width . ' ' .   $layout->height . '"',
+                        'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 '  .   $layout->size->width . ' ' .   $layout->size->height . '"',
                         $title . "<desc>Division used to fill $targetType</desc>" .
                         $new_div
                     );
