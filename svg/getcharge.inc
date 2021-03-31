@@ -593,9 +593,7 @@ HERE;
         break;
       // TODO Add more of the above!
       default:
-        $new_layout = clone $layout;
-        // make sure any chief is ignored when placing charges
-        $new_layout->accepts_chief = false;
+        $new_layout = new ShieldLayout(new ShieldSize(1000, 1000), "square", null, null, false);
         $charges = makeCharge($chargeToAdd, $new_layout);
         // We now have one or more superposed charges scaled to fit into a 1000x1000 box
         // We want to shrink the superposed charges by a factor (so they leave plenty of space
