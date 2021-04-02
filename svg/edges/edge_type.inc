@@ -330,6 +330,8 @@ class EdgeTypeFlory extends EdgeTypeBezier
                 $line_p0 = $seg_outer->point();
                 $line_p1 = $seg_outer->polar_relative(-300, M_PI/2);
                 $seg = $source->line_single_intersection($line_p0, $line_p1);
+                if ( !$seg )
+                    continue;
 
                 $p0 = $seg->polar_relative($feature_width / 2, 0);
                 $p1 = $seg->polar_relative($feature_width / 2, M_PI);
