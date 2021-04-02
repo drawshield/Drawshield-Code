@@ -263,7 +263,6 @@ class EdgeTypeNull extends EdgeType
     }
 }
 
-
 class EdgeTypeFlory extends EdgeTypeBezier
 {
     function __construct(PolyBezier $top, PolyBezier $bottom, PolyBezier $bottom_small)
@@ -279,24 +278,27 @@ class EdgeTypeFlory extends EdgeTypeBezier
         $this->skip_segment($source, $target);
     }
 
+    private function is_tight_corner(ShieldPos $p0, ShieldPos $p1, ShieldPos $pm)
+    {
+        $angle_in = $p0->angle_to($pm);
+        if ( $angle_in < 0 )
+            $angle_in += 2 * M_PI;
+
+        $angle_out = $pm->angle_to($p1);
+        if ( $angle_out < 0 )
+            $angle_out += 2 * M_PI;
+
+        $delta_angle = abs($angle_out-$angle_in);
+        return $delta_angle >= M_PI * 0.45;
+    }
+
     private function add_flory(ShieldPos $p0, ShieldPos $p1, ShieldPos $pm, MutableShape $target, $feature_height, $direction)
     {
         $shape = $this->shape;
 
         if ( $direction == -1 )
         {
-            $shape = $this->bottom;
-
-            $angle_in = $p0->angle_to($pm);
-            $angle_out = $pm->angle_to($p1);
-            if ( $angle_in < 0 )
-                $angle_in += 2 * M_PI;
-            if ( $angle_out < 0 )
-                $angle_out += 2 * M_PI;
-            $delta_angle = abs($angle_out-$angle_in);
-
-            if ( $delta_angle >= M_PI / 2 )
-                $shape = $this->bottom_small;
+            $shape = $this->is_tight_corner($p0, $p1, $pm) ? $shape = $this->bottom_small : $this->bottom;
         }
 
         $target->move_to($p0);
@@ -373,7 +375,7 @@ class EdgeTypeFlory extends EdgeTypeBezier
         {
             foreach ( $segments as $seg )
             {
-                $n = round($seg->length() / $feature_gap);
+                $n = max(2, round($seg->length() / $feature_gap));
                 $tot_counts += $n;
                 $data[] = ["count" => $n, "lines" => []];
             }
@@ -382,16 +384,27 @@ class EdgeTypeFlory extends EdgeTypeBezier
         for ( $i = 0; $i < count($segments); $i++ )
         {
             $seg = $segments[$i];
+            $pm = $seg->start();
+
+            if ( $this->is_tight_corner(
+                $prev_segment->point_at_length($prev_segment->length() - $feature_height),
+                $seg->point_at_length($feature_height),
+                $pm
+            ) )
+            {
+                $direction = $underside ? -1 : 1;
+            }
+
             $feature_width = $direction == 1 ? $feature_height : $feature_height * $this->size_mult;
             $p0 = $prev_segment->point_at_length($prev_segment->length() - $feature_width/M_SQRT2);
             $p1 = $seg->point_at_length($feature_width/M_SQRT2);
             if ( $underside )
                 list($p0, $p1) = [$p1, $p0];
-            $pm = $seg->start();
             $this->add_flory($p0, $p1, $pm, $target, $feature_width, $direction);
+
+
             $direction = $this->add_flory_segment($seg, $target, $feature_height, $direction, $data[$i]);
-            if ( $tot_counts % 2 == 0 || $i < count($segments) - 2 )
-                $direction *= -1;
+            $direction *= -1;
             $prev_segment = $seg;
         }
     }
