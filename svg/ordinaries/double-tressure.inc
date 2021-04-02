@@ -73,9 +73,11 @@ else {
         $margin *= 2;
     }
 
+    $gap = $margin;
+
     $flory = existModifierWithKeyterm($node,'flory-counter-flory');
     if ( $flory )
-        $margin += 50;
+        $margin += 60;
 
     $shape = ShieldShape::from_layout($layout);
 
@@ -84,19 +86,21 @@ else {
     $shape->svg_path($layout, $margin, false, $path_builder);
     $shape->svg_path($layout, $margin + $width, true, $path_builder);
     $path_builder->last_path()->make_plain();
-    $shape->svg_path($layout, 2 * $margin + $width, false, $path_builder);
+    $shape->svg_path($layout, $gap + $margin + $width, false, $path_builder);
     $path_builder->last_path()->make_plain();
-    $shape->svg_path($layout, 2 * $margin + 2 * $width, true, $path_builder);
+    $shape->svg_path($layout, $gap + $margin + 2 * $width, true, $path_builder);
 
     if ( $flory )
     {
+        // tag heater tip
+        if ( $shape instanceof HeaterShieldShape && !$layout->section )
+        {
+            $path_builder->sub_paths()[0]->segment_tags[2] = BezierSegmentFlags::NORMAL;
+            $path_builder->sub_paths()[3]->segment_tags[3] = BezierSegmentFlags::NORMAL;
+        }
+
         $edge = EdgeType::load("flory-counter-flory");
         $flory = new MutableShape();
-
-        $path_builder = new MutableShape();
-        $shape->svg_path($layout, $margin, false, $path_builder);
-        $path_builder->last_path()->clear_tags();
-
         $edge->apply($path_builder->compile(), $flory, 500, 20);
         $ordinary['body'] = $flory->to_svg_path();
     }

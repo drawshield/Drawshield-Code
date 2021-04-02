@@ -424,6 +424,14 @@ class PolyBezier
 
     function reverse()
     {
+        $sub = 0;
+        if ( $this->closed && $this->size() > 2 )
+        {
+            $sub = 1;
+            if ( $this->start()->pos->distance($this->finish()->pos) > 1 )
+                $this->points[] = clone $this->start();
+        }
+
         foreach ( $this->points as $point )
             $point->reverse();
         $this->points = array_reverse($this->points);
@@ -436,7 +444,7 @@ class PolyBezier
         foreach ( $this->segment_tags as $index => $tag )
         {
             if ( $index != 0 )
-                $tags[$this->size() - $index] = $tag_old;
+                $tags[$this->size() - $sub - $index] = $tag_old;
             $tag_old = $tag;
         }
         $tags[0] = $tag_old;
@@ -1241,6 +1249,11 @@ class CompiledPolyBezier
     function size()
     {
         return count($this->segments);
+    }
+
+    function empty()
+    {
+        return count($this->segments) == 0;
     }
 
     function segments()

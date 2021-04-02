@@ -237,6 +237,9 @@ class EdgeTypeRepeating extends EdgeTypeBezier
 
         $count = round($source->length() / $feature_width);
 
+        if ( $count == 0 )
+            $count = 1;
+
         $half = $this->can_be_halved && ($source->flags() & BezierSegmentFlags::SYMMETRICAL);
         if ( $half )
             $count -= 0.5;
@@ -275,25 +278,25 @@ class EdgeTypeFlory extends EdgeTypeBezier
     {
         parent::__construct($top);
         $this->bottom = $this->normalized($bottom);
+        $this->size_mult = abs(($bottom->finish()->pos->x - $bottom->start()->pos->x) / ($top->finish()->pos->x - $top->start()->pos->x));
     }
 
-    private function plain(MutableShape $target, CubicBezier $bez)
+    function apply_bezier_segment(CompiledBezierSegment $source, MutableShape $target, $feature_width, $feature_height)
     {
-        $target->cubic_to($bez->tan1, $bez->tan2, $bez->finish);
+        $this->skip_segment($source, $target);
     }
 
-    function apply_bezier_segment(CompiledBezierSegment $source, MutableShape $target, $feature_width,
-        $feature_height, $direction = 1, $last_segment_data = null)
+    private function add_flory($p0, $p1, $target, $feature_height, $direction)
     {
-        if ( $source->flags() & BezierSegmentFlags::PLAIN )
-        {
-            $this->skip_segment($source, $target);
-            return;
-        }
+        $shape = $direction == 1 ? $this->shape : $this->bottom;
+        $target->move_to($p0);
+        $this->do_apply_line_segment($shape, $p0, $p1, $target, $direction*$feature_height);
+        $target->close();
+    }
 
-        $count = round($source->length() / $feature_width);
-
-        if ( $count == 0 )
+    private function add_flory_segment(CompiledBezierSegment $source, MutableShape $target, $feature_height, $direction, $count)
+    {
+        if ( $count == 0 || ($source->flags() & BezierSegmentFlags::PLAIN) )
         {
             $this->skip_segment($source, $target);
             return;
@@ -301,127 +304,70 @@ class EdgeTypeFlory extends EdgeTypeBezier
 
         $size = $source->length() / $count;
 
-        $seg_i = 0;
-
         for ( $i = 1; $i < $count; $i++ )
         {
             $direction *= -1;
 
-            $l0 = $i * $size - $feature_height / 2;
-            $l1 = $i * $size + $feature_height / 2;
+            $feature_width = $direction == 1 ? $feature_height : $feature_height * $this->size_mult;
+
+            $l0 = $i * $size - $feature_width / 2;
+            $l1 = $i * $size + $feature_width / 2;
 
             $seg0 = $source->segment_at_length($l0);
-            $this->resolve_last($last_segment_data, $seg0, $source, $target);
-
             $p0 = $seg0->point();
 
             $seg1 = $source->segment_at_length($l1);
             $p1 = $seg1->point();
 
-            $shape = $direction == 1 ? $this->shape : $this->bottom;
-            $this->do_apply_line_segment($shape, $p0, $p1, $target, $direction*$feature_height);
-
-            $last_segment_data = $seg1;
-            $seg_i = $seg1->index+1;
+            $this->add_flory($p0, $p1, $target, $feature_width, $direction);
         }
 
-        return [$direction, $last_segment_data];
+        return $direction;
     }
 
-    private function resolve_last(SegmentAtData $last_segment_data, SegmentAtData $seg0, CompiledBezierSegment $source, MutableShape $target)
+    private function add_flory_bezier(CompiledPolyBezier $source, MutableShape $target, $feature_gap, $feature_height, &$counts)
     {
-        if ( !$last_segment_data || $last_segment_data->index > $seg0->index )
+        if ( $source->empty() || $source->segments()[0]->flags() & BezierSegmentFlags::PLAIN )
             return;
 
-        if ( $last_segment_data->index == $seg0->index )
-        {
-            $chunk = $seg0->segment->multi_split([$last_segment_data->t, $seg0->t])[1];
-            $this->plain($target, $chunk);
-
-            return;
-        }
-
-        $this->plain($target, $last_segment_data->split()[1]);
-        $i = $last_segment_data->index + 1;
-
-        if ( $i == 0 )
-            return;
-
-        for ( ; $i < $seg0->index; $i++ )
-        {
-            $this->plain($target, $source->sub_segments()[$i]);
-        }
-
-        if ( $seg0->t > 0 )
-            $this->plain($target, $seg0->split()[0]);
-    }
-
-    function apply_bezier(CompiledPolyBezier $source, MutableShape $target, $feature_width, $feature_height)
-    {
-
-
+        $segments = $source->segments();
         $direction = 1;
-        $prev_segment = $source->segments()[$source->size()-1];
 
-        if ( ($prev_segment->flags() & BezierSegmentFlags::PLAIN) == 0 )
+        if ( $segments[0]->flags() & BezierSegmentFlags::UNDERSIDE )
         {
-            $p0 = $prev_segment->point_at_length($prev_segment->length() - $feature_height/M_SQRT2);
-            $target->move_to($p0);
-        }
-        else
-        {
-            $target->move_to($source->start());
+            $segments[] = array_shift($segments);
+            $direction = -1;
         }
 
-        $last_segment_data = null;
+        $prev_segment = $segments[$source->size()-1];
 
-        foreach ( $source->segments() as $seg )
+        if ( empty($counts) )
         {
-            if ( $last_segment_data )
-            {
-                if ( $last_segment_data->t < 1 )
-                    $this->plain($target, $last_segment_data->split()[1]);
+            foreach ( $segments as $seg )
+                $counts[] = round($seg->length() / $feature_gap);
+        }
 
-                for ( $i = $last_segment_data->index; $i < $prev_segment->size(); $i++ )
-                    $this->plain($target, $prev_segment->sub_segments()[$i]);
-            }
-
-            if ( $seg->flags() & BezierSegmentFlags::PLAIN )
-            {
-                $this->skip_segment($seg, $target);
-                $last_segment_data = null;
-                $prev_segment = $seg;
-                continue;
-            }
-
-            $l0 = $prev_segment->length() - $feature_height/M_SQRT2;
-            $seg0 = $prev_segment->segment_at_length($l0);
-            $p0 = $seg0->point();
-
-            $l1 = $feature_height/M_SQRT2;
-            $seg1 = $seg->segment_at_length($l1);
-            $last_segment_data = $seg1;
-            $p1 = $seg1->point();
-
-            $this->apply_line_segment($p0, $p1, $target, $feature_height * $direction);
+        for ( $i = 0; $i < count($segments); $i++ )
+        {
+            $seg = $segments[$i];
+            $feature_width = $direction == 1 ? $feature_height : $feature_height * $this->size_mult;
+            $p0 = $prev_segment->point_at_length($prev_segment->length() - $feature_width/M_SQRT2);
+            $p1 = $seg->point_at_length($feature_width/M_SQRT2);
+            $this->add_flory($p0, $p1, $target, $feature_width, $direction);
+            $this->add_flory_segment($seg, $target, $feature_height, $direction, $counts[$i]);
+            if ( count($segments) % 2 )
+                $direction *= -1;
             $prev_segment = $seg;
-            list($direction, $last_segment_data) = $this->apply_bezier_segment($seg, $target, $feature_width, $feature_height, $direction, $last_segment_data);
-            $direction *= -1;
         }
+    }
 
-        if ( $last_segment_data )
-        {
-            $seg = $source->segments()[$source->size()-1];
-            if ( ($seg->flags() & BezierSegmentFlags::PLAIN) == 0 )
-            {
-                $l0 = $seg->length() - $feature_height/M_SQRT2;
-                $seg0 = $seg->segment_at_length($l0);
-                if ( $last_segment_data->parent === $seg0->parent )
-                    $this->resolve_last($last_segment_data, $seg0, $seg, $target);
-            }
-        }
+    function apply(CompiledShape $source, MutableShape $target, $feature_gap, $feature_height = null)
+    {
+        parent::apply($source, $target, $feature_gap, $feature_height);
 
-        $target->close();
+        $counts = [];
+        foreach ( $source->sub_paths() as $path )
+            $this->add_flory_bezier($path, $target, $feature_gap, $feature_height, $counts);
     }
 }
 

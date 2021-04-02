@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg4575">
+  <defs
+     id="defs4569" />
+  <metadata
+     id="metadata4572">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <path
+     d="m 17.383,0 c 0,0 10.87,-25.25 23.74,-23.95 12.88,1.308 10.2,18.57 10.2,18.57 0,0 30.48,-18.59 8.347,-37.02 -22.14,-18.44 -38.42,14.71 -38.42,14.71 0,0 5.5,-42.520001 -10.61,-54.670001 -16.8100003,13.15 -13.7000003,55.090001 -13.7000003,55.090001 0,0 -14.4499897,-32.22 -37.6599897,-12.41 -23.219999,19.81 6.29,36.58 6.29,36.58 0,0 -1.715,-17.13 11.26,-19.2 C -10.2,-24.39 0,0 0,0"
+     data-drawshield-type="flory"
+      data-drawshield-flip-y="1"
+      />
+  <path
+     d="m 0,0 c 0,0 0.4793,16.02 -6.26,21.15 8.329,0 16.99,-8.735 16.99,-8.735 0,10.54 8.66,17.98 8.66,17.98 0,0 8.66,-7.45 8.66,-17.98 0,0 8.669,8.735 16.989998,8.735 C 38.305,16.012 38.785,0 38.785,0"
+      data-drawshield-flip-y="1"
+     id="path933" />
+</svg>
