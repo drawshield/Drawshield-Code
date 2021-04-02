@@ -148,6 +148,23 @@ class CubicBezier
         return 1;
     }
 
+    private function split_points($t)
+    {
+
+        $p01 = $this->start->lerp($this->tan1, $t);
+        $p12 = $this->tan1->lerp($this->tan2, $t);
+        $p23 = $this->tan2->lerp($this->finish, $t);
+
+        $p012 = $p01->lerp($p12, $t);
+        $p123 = $p12->lerp($p23, $t);
+
+        $p0123 = $p012->lerp($p123, $t);
+
+        return [
+            $p01, $p012, $p0123, $p123, $p23
+        ];
+    }
+
     function split($t)
     {
         if ( $this->linear )
@@ -159,14 +176,7 @@ class CubicBezier
             ];
         }
 
-        $p01 = $this->start->lerp($this->tan1, $t);
-        $p12 = $this->tan1->lerp($this->tan2, $t);
-        $p23 = $this->tan2->lerp($this->finish, $t);
-
-        $p012 = $p01->lerp($p12, $t);
-        $p123 = $p12->lerp($p23, $t);
-
-        $p0123 = $p012->lerp($p123, $t);
+        list($p01, $p012, $p0123, $p123, $p23) = $this->split_points($t);
 
         return [
             new CubicBezier(clone $this->start, $p01, $p012, $p0123),
@@ -195,6 +205,120 @@ class CubicBezier
         $segs[] = $seg2;
 
         return $segs;
+    }
+
+    function single_root_t($tolerance = 0.01)
+    {
+        if ( abs($this->start->y) < $tolerance )
+            return 0;
+
+        if ( abs($this->finish->y) < $tolerance )
+            return 1;
+
+        if ( $this->linear )
+        {
+            $ss = $this->start->y > 0 ? 1 : -1;
+            $sf = $this->finish->y > 0 ? 1 : -1;
+            if ( $ss == $sf )
+                return null;
+
+            $dy = $this->finish->y - $this->start->y;
+
+            $t = abs($this->start->y) / $dy;
+            if ( $t < 0 || $t > 1 )
+                return null;
+            return $t;
+        }
+
+
+        $t0 = 0;
+        $p0 = $this->start;
+        for ( $i = 1; $i < count($this->length_steps); $i++ )
+        {
+            $t1 = $i/count($this->length_steps);
+            $p1 = self::bezier_solve($t1, $this->start, $this->tan1, $this->tan2, $this->finish);
+            if ( $p1->y == 0 )
+                return $t1;
+
+            $s0 = $p0->y > 0 ? 1 : -1;
+            $s1 = $p1->y > 0 ? 1 : -1;
+            // Signs are different, the root is in [$t0, $t1]
+            if ( $s0 != $s1 )
+            {
+                // Bisect until under tolerance (max 10 steps)
+                for ( $j = 0; abs($p1->y - $p0->y) > $tolerance && $j < 10; $j++ )
+                {
+                    $tm = ($t0+$t1) / 2;
+                    $pm = self::bezier_solve($tm, $this->start, $this->tan1, $this->tan2, $this->finish);
+                    if ( $pm->y == 0 )
+                        return $tm;
+                    $sm = $pm->y > 0 ? 1 : -1;
+
+
+                    if ( $sm == $s0 )
+                        list($t0, $p0, $s0) = [$tm, $pm, $sm];
+                    else
+                        list($t1, $p1, $s1) = [$tm, $pm, $sm];
+                }
+
+                return ($t0+$t1) / 2;
+            }
+            $t0 = $t1;
+            $p0 = $p1;
+        }
+
+        return null;
+    }
+
+    function translated($dx, $dy)
+    {
+        $copy = clone $this;
+        $copy->start = $copy->start->translated($dx, $dy);
+        $copy->tan1 = $copy->tan1->translated($dx, $dy);
+        $copy->tan2 = $copy->tan2->translated($dx, $dy);
+        $copy->finish = $copy->finish->translated($dx, $dy);
+        return $copy;
+    }
+
+    function rotated($angle, ShieldPos $origin = null)
+    {
+        if ( !$origin )
+            $origin = new ShieldPos(0, 0);
+
+        $copy = clone $this;
+        $copy->start = $copy->start->rotated($angle, $origin);
+        $copy->tan1 = $copy->tan1->rotated($angle, $origin);
+        $copy->tan2 = $copy->tan2->rotated($angle, $origin);
+        $copy->finish = $copy->finish->rotated($angle, $origin);
+        return $copy;
+    }
+
+    function line_single_intersection_t(ShieldPos $p0, ShieldPos $p1)
+    {
+        $seg = $this->translated(-$p0->x, -$p0->y)->rotated(-$p0->angle_to($p1));
+        return $seg->single_root_t();
+    }
+
+    function line_single_intersection(ShieldPos $p0, ShieldPos $p1)
+    {
+        $t = $this->line_single_intersection_t($p0, $p1);
+        if ( $t === null )
+            return null;
+        return $this->point($t);
+    }
+
+    function tangent($t)
+    {
+        if ( $this->linear )
+            return $this->start->angle_to($this->finish);
+
+        list($p01, $p012, $p0123, $p123, $p23) = $this->split_points($t);
+        return $p0123->angle_to($p123);
+    }
+
+    function reversed()
+    {
+        return new CubicBezier($this->finish, $this->tan2, $this->tan1, $this->start);
     }
 }
 
@@ -1062,7 +1186,7 @@ class SegmentAtData
         $this->index = $index;
         $this->segment = $segment;
         $this->t = $t;
-        $this->parent = $parent;
+//         $this->parent = $parent;
     }
 
     function split()
@@ -1073,6 +1197,27 @@ class SegmentAtData
     function point() : ShieldPos
     {
         return $this->segment->point($this->t);
+    }
+
+    function tangent()
+    {
+        return $this->segment->tangent($this->t);
+    }
+
+    function normal()
+    {
+        return $this->tangent() + M_PI/2;
+    }
+
+    // Relative point in polar coordinates, taking tangent() as reference angle
+    function polar_relative($distance, $angle) : ShieldPos
+    {
+        $p = $this->point();
+        $angle = $this->tangent() + $angle;
+        return new ShieldPos(
+            $p->x + $distance * cos($angle),
+            $p->y + $distance * sin($angle)
+        );
     }
 }
 
@@ -1206,6 +1351,27 @@ class CompiledBezierSegment
     {
         return $this->flags;
     }
+
+    function reversed()
+    {
+        $copy = clone $this;
+        $copy->sub_segments = [];
+        foreach ( array_reverse($this->sub_segments) as $seg )
+            $copy->sub_segments[] = $seg->reversed();
+        return $copy;
+    }
+
+    function line_single_intersection(ShieldPos $p0, ShieldPos $p1) : ?SegmentAtData
+    {
+        for ( $i = 0; $i < count($this->sub_segments); $i++ )
+        {
+            $seg = $this->sub_segments[$i];
+            $inter = $seg->line_single_intersection_t($p0, $p1);
+            if ( $inter !== null )
+                return new SegmentAtData($i, $seg, $inter, $this);
+        }
+        return null;
+    }
 }
 
 class CompiledPolyBezier
@@ -1301,6 +1467,16 @@ class CompiledPolyBezier
     function length()
     {
         return $this->length;
+    }
+
+
+    function reversed()
+    {
+        $copy = clone $this;
+        $copy->segments = [];
+        foreach ( array_reverse($this->segments) as $seg )
+            $copy->segments[] = $seg->reversed();
+        return $copy;
     }
 }
 

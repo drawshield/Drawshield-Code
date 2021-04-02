@@ -66,14 +66,15 @@ else {
 
     $margin = 24.2;
     $width = 40.4;
+    $gap = $margin;
 
     if ( strpos($layout->section, "quarter") !== false )
     {
-        $width *= 2;
-        $margin *= 2;
+        $width *= 1.3;
+        $gap *= 1.5;
+        $margin *= 1.3;
     }
 
-    $gap = $margin;
 
     $flory = existModifierWithKeyterm($node,'flory-counter-flory');
     if ( $flory )

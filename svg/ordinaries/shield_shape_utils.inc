@@ -265,15 +265,14 @@ class HeaterShieldShape extends ShieldShape
             $flags |= BezierSegmentFlags::UNDERSIDE;
 
         $builder
-            ->move_to($inset, $inset + $margin_top)
-            ->tag_segment($flags)
-            ->line_to($layout->size->width - $inset, $inset + $margin_top)
+            ->move_to($layout->size->width - $inset, $inset + $margin_top)
             ->tag_segment($flags)
             ->line_to($tip->x, $tip->y)
             ->tag_segment($flags)
             ->cubic_to($bl_t1->x, $bl_t1->y, $bl_t2->x, $bl_t2->y, $bl->x, $bl->y)
             ->line_to($inset, $inset + $margin_top)
             ->tag_segment($flags)
+            ->line_to($layout->size->width - $inset, $inset + $margin_top)
             ->close()
         ;
 

@@ -47,13 +47,20 @@ abstract class EdgeType
             $target->cubic_to($bez->tan1, $bez->tan2, $bez->finish);
     }
 
-    private static function load_path(DomElement $element, $filename)
+    private static function load_path($xpath, $n, $filename)
     {
+        $element = $xpath->evaluate("//*[local-name()='path'][$n]")[0];
+        if ( !$element || !$element->hasAttribute("d") )
+        {
+            user_error("Missing path element in $filename", E_USER_WARNING);
+            return [null, null];
+        }
+
         $path = SvgDParser::parse_d($element->getAttribute("d"));
         if ( $path->empty() || $path->sub_paths()[0]->empty() )
         {
             user_error("Empty path data in $filename", E_USER_WARNING);
-            return null;
+            return [null, null];
         }
 
         // Flip y coordinates before applying
@@ -64,7 +71,7 @@ abstract class EdgeType
         if ( self::get_meta_flag($element, "reverse") )
             $path->reverse();
 
-        return $path;
+        return [$element, $path];
     }
 
     static function load($name) : EdgeType
@@ -84,15 +91,8 @@ abstract class EdgeType
         $dom = new DOMDocument();
         $dom->load($filename);
         $xpath = new DOMXPath($dom);
-        $element = $xpath->evaluate("//*[local-name()='path'][1]")[0];
 
-        if ( !$element || !$element->hasAttribute("d") )
-        {
-            user_error("No path data in $filename", E_USER_WARNING);
-            return new EdgeTypeNull();
-        }
-
-        $path = self::load_path($element, $filename);
+        list($element, $path) = self::load_path($xpath, 1, $filename);
         if ( !$path )
             return new EdgeTypeNull();
 
@@ -123,16 +123,7 @@ abstract class EdgeType
                 break;
 
             case "flory":
-                $other_element = $xpath->evaluate("//*[local-name()='path'][2]")[0];
-                if ( !$other_element || !$other_element->hasAttribute("d") )
-                {
-                    user_error("Missing second flory path in $filename", E_USER_WARNING);
-                    return new EdgeTypeNull();
-                }
-                $other_path = self::load_path($other_element, $filename);
-                if ( !$other_path )
-                    return new EdgeTypeNull();
-                $other_path = SvgDParser::parse_d($other_element->getAttribute("d"));
+                $other_path = self::load_path($xpath, 2, $filename)[1];
                 $edge = new EdgeTypeFlory($path->sub_paths()[0], $other_path->sub_paths()[0]);
                 break;
         }
@@ -286,16 +277,18 @@ class EdgeTypeFlory extends EdgeTypeBezier
         $this->skip_segment($source, $target);
     }
 
-    private function add_flory($p0, $p1, $target, $feature_height, $direction)
+    private function add_flory($p0, $p1, $pm, $target, $feature_height, $direction)
     {
         $shape = $direction == 1 ? $this->shape : $this->bottom;
         $target->move_to($p0);
         $this->do_apply_line_segment($shape, $p0, $p1, $target, $direction*$feature_height);
+        $target->line_to($pm);
         $target->close();
     }
 
-    private function add_flory_segment(CompiledBezierSegment $source, MutableShape $target, $feature_height, $direction, $count)
+    private function add_flory_segment(CompiledBezierSegment $source, MutableShape $target, $feature_height, $direction, &$data)
     {
+        $count = $data["count"];
         if ( $count == 0 || ($source->flags() & BezierSegmentFlags::PLAIN) )
         {
             $this->skip_segment($source, $target);
@@ -310,41 +303,63 @@ class EdgeTypeFlory extends EdgeTypeBezier
 
             $feature_width = $direction == 1 ? $feature_height : $feature_height * $this->size_mult;
 
-            $l0 = $i * $size - $feature_width / 2;
-            $l1 = $i * $size + $feature_width / 2;
+            if ( isset($data["lines"][$i]) )
+            {
+                $seg_outer = $data["lines"][$i];
+                $line_p0 = $seg_outer->point();
+                $line_p1 = $seg_outer->polar_relative(-300, M_PI/2);
+                $seg = $source->line_single_intersection($line_p0, $line_p1);
+                $target->move_to($line_p0);
+                $target->line_to($line_p1);
 
-            $seg0 = $source->segment_at_length($l0);
-            $p0 = $seg0->point();
+                $p0 = $seg->polar_relative($feature_width / 2, 0);
+                $p1 = $seg->polar_relative($feature_width / 2, M_PI);
+                $pm = $seg->point();
 
-            $seg1 = $source->segment_at_length($l1);
-            $p1 = $seg1->point();
+            }
+            else
+            {
+                $seg = $source->segment_at_length($i * $size);
+                $p0 = $seg->polar_relative($feature_width / 2, M_PI);
+                $p1 = $seg->polar_relative($feature_width / 2, 0);
+                $pm = $seg->point();
 
-            $this->add_flory($p0, $p1, $target, $feature_width, $direction);
+                $data["lines"][$i] = $seg;
+            }
+
+            $this->add_flory($p0, $p1, $pm, $target, $feature_width, $direction);
         }
 
         return $direction;
     }
 
-    private function add_flory_bezier(CompiledPolyBezier $source, MutableShape $target, $feature_gap, $feature_height, &$counts)
+    private function add_flory_bezier(CompiledPolyBezier $source, MutableShape $target, $feature_gap, $feature_height, &$data, &$tot_counts)
     {
         if ( $source->empty() || $source->segments()[0]->flags() & BezierSegmentFlags::PLAIN )
             return;
 
+
         $segments = $source->segments();
         $direction = 1;
+        $underside = $segments[0]->flags() & BezierSegmentFlags::UNDERSIDE;
 
-        if ( $segments[0]->flags() & BezierSegmentFlags::UNDERSIDE )
+        if ( $underside )
         {
-            $segments[] = array_shift($segments);
+            $segments = $source->reversed()->segments();
             $direction = -1;
         }
 
+
         $prev_segment = $segments[$source->size()-1];
 
-        if ( empty($counts) )
+        if ( empty($data) )
         {
             foreach ( $segments as $seg )
-                $counts[] = round($seg->length() / $feature_gap);
+            {
+                $n = round($seg->length() / $feature_gap);
+                $tot_counts += $n;
+                $data[] = ["count" => $n, "lines" => []];
+            }
         }
 
         for ( $i = 0; $i < count($segments); $i++ )
@@ -353,9 +368,12 @@ class EdgeTypeFlory extends EdgeTypeBezier
             $feature_width = $direction == 1 ? $feature_height : $feature_height * $this->size_mult;
             $p0 = $prev_segment->point_at_length($prev_segment->length() - $feature_width/M_SQRT2);
             $p1 = $seg->point_at_length($feature_width/M_SQRT2);
-            $this->add_flory($p0, $p1, $target, $feature_width, $direction);
-            $this->add_flory_segment($seg, $target, $feature_height, $direction, $counts[$i]);
-            if ( count($segments) % 2 )
+            if ( $underside )
+                list($p0, $p1) = [$p1, $p0];
+            $pm = $seg->start();
+            $this->add_flory($p0, $p1, $pm, $target, $feature_width, $direction);
+            $direction = $this->add_flory_segment($seg, $target, $feature_height, $direction, $data[$i]);
+            if ( $tot_counts % 2 == 0 || $i < count($segments) - 2 )
                 $direction *= -1;
             $prev_segment = $seg;
         }
@@ -365,9 +383,10 @@ class EdgeTypeFlory extends EdgeTypeBezier
     {
         parent::apply($source, $target, $feature_gap, $feature_height);
 
-        $counts = [];
+        $data = [];
+        $tot_counts = 0;
         foreach ( $source->sub_paths() as $path )
-            $this->add_flory_bezier($path, $target, $feature_gap, $feature_height, $counts);
+            $this->add_flory_bezier($path, $target, $feature_gap, $feature_height, $data, $tot_counts);
     }
 }
 
