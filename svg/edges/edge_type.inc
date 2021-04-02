@@ -123,8 +123,9 @@ abstract class EdgeType
                 break;
 
             case "flory":
-                $other_path = self::load_path($xpath, 2, $filename)[1];
-                $edge = new EdgeTypeFlory($path->sub_paths()[0], $other_path->sub_paths()[0]);
+                $path_bottom = self::load_path($xpath, 2, $filename)[1];
+                $path_bottom_small = self::load_path($xpath, 3, $filename)[1];
+                $edge = new EdgeTypeFlory($path->sub_paths()[0], $path_bottom->sub_paths()[0], $path_bottom_small->sub_paths()[0]);
                 break;
         }
 
@@ -265,11 +266,12 @@ class EdgeTypeNull extends EdgeType
 
 class EdgeTypeFlory extends EdgeTypeBezier
 {
-    function __construct(PolyBezier $top, PolyBezier $bottom)
+    function __construct(PolyBezier $top, PolyBezier $bottom, PolyBezier $bottom_small)
     {
         parent::__construct($top);
         $this->bottom = $this->normalized($bottom);
         $this->size_mult = abs(($bottom->finish()->pos->x - $bottom->start()->pos->x) / ($top->finish()->pos->x - $top->start()->pos->x));
+        $this->bottom_small = $this->normalized($bottom_small);
     }
 
     function apply_bezier_segment(CompiledBezierSegment $source, MutableShape $target, $feature_width, $feature_height)
@@ -277,11 +279,28 @@ class EdgeTypeFlory extends EdgeTypeBezier
         $this->skip_segment($source, $target);
     }
 
-    private function add_flory($p0, $p1, $pm, $target, $feature_height, $direction)
+    private function add_flory(ShieldPos $p0, ShieldPos $p1, ShieldPos $pm, MutableShape $target, $feature_height, $direction)
     {
-        $shape = $direction == 1 ? $this->shape : $this->bottom;
+        $shape = $this->shape;
+
+        if ( $direction == -1 )
+        {
+            $shape = $this->bottom;
+
+            $angle_in = $p0->angle_to($pm);
+            $angle_out = $pm->angle_to($p1);
+            if ( $angle_in < 0 )
+                $angle_in += 2 * M_PI;
+            if ( $angle_out < 0 )
+                $angle_out += 2 * M_PI;
+            $delta_angle = abs($angle_out-$angle_in);
+
+            if ( $delta_angle >= M_PI / 2 )
+                $shape = $this->bottom_small;
+        }
+
         $target->move_to($p0);
-        $this->do_apply_line_segment($shape, $p0, $p1, $target, $direction*$feature_height);
+        $this->do_apply_line_segment($shape, $p0, $p1, $target, -$feature_height);
         $target->line_to($pm);
         $target->close();
     }
@@ -309,8 +328,6 @@ class EdgeTypeFlory extends EdgeTypeBezier
                 $line_p0 = $seg_outer->point();
                 $line_p1 = $seg_outer->polar_relative(-300, M_PI/2);
                 $seg = $source->line_single_intersection($line_p0, $line_p1);
-                $target->move_to($line_p0);
-                $target->line_to($line_p1);
 
                 $p0 = $seg->polar_relative($feature_width / 2, 0);
                 $p1 = $seg->polar_relative($feature_width / 2, M_PI);
