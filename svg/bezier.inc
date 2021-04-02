@@ -58,6 +58,8 @@ class CubicBezier
      */
     function point($t)
     {
+        if ( $this->linear )
+            return $this->start->lerp($this->finish, $t);
         return self::bezier_solve($t, $this->start, $this->tan1, $this->tan2, $this->finish);
     }
 
@@ -106,13 +108,27 @@ class CubicBezier
         if ( $this->linear )
             return $this->start->lerp($this->finish, $length / $this->length);
 
-        return $this->point($this->t_at_length($length));
+        return $this->point($this->unchecked_t_at_length($length));
+    }
+
+    function t_at_length($length)
+    {
+        if ( $length <= 0 )
+            return 0;
+
+        if ( $length >= $this->length )
+            return 1;
+
+        if ( $this->linear )
+            return $length / $this->length;
+
+        return $this->unchecked_t_at_length($length);
     }
 
     /**
      * @brief Approximates a @p t from length for non-linear segments
      */
-    private function t_at_length($length)
+    private function unchecked_t_at_length($length)
     {
         $t0 = 0;
         foreach ( $this->length_steps as $t1 => $d1 )
@@ -130,6 +146,55 @@ class CubicBezier
         }
 
         return 1;
+    }
+
+    function split($t)
+    {
+        if ( $this->linear )
+        {
+            $mid = $this->point($t);
+            return [
+                new CubicBezier(clone $this->start, clone $this->start, clone $mid, clone $mid ),
+                new CubicBezier(clone $mid, clone $mid, clone $this->finish, clone $this->finish),
+            ];
+        }
+
+        $p01 = $this->start->lerp($this->tan1, $t);
+        $p12 = $this->tan1->lerp($this->tan2, $t);
+        $p23 = $this->tan2->lerp($this->finish, $t);
+
+        $p012 = $p01->lerp($p12, $t);
+        $p123 = $p12->lerp($p23, $t);
+
+        $p0123 = $p012->lerp($p123, $t);
+
+        return [
+            new CubicBezier(clone $this->start, $p01, $p012, $p0123),
+            new CubicBezier($p0123, $p123, $p23, clone $this->finish)
+        ];
+    }
+
+    function multi_split($positions)
+    {
+        if ( !count($positions) )
+            return [$this];
+
+        $t1 = array_shift($positions);
+
+        list($seg1, $seg2) = $this->split($t1);
+        $segs = [$seg1];
+
+        foreach ( $positions as $t2 )
+        {
+            $t = ($t2-$t1) / (1-$t1);
+            list($seg1, $seg2) = $seg2->split($t);
+            $t1 = $t;
+            $segs[] = $seg1;
+        }
+
+        $segs[] = $seg2;
+
+        return $segs;
     }
 }
 
@@ -363,9 +428,19 @@ class PolyBezier
             $point->reverse();
         $this->points = array_reverse($this->points);
 
+        if ( empty($this->segment_tags) )
+            return;
+
         $tags = [];
+        $tag_old = $this->segment_tags[0] ?? BezierSegmentFlags::NORMAL;
         foreach ( $this->segment_tags as $index => $tag )
-            $tags[$this->size() - 1 - $index] = $tag;
+        {
+            if ( $index != 0 )
+                $tags[$this->size() - $index] = $tag_old;
+            $tag_old = $tag;
+        }
+        $tags[0] = $tag_old;
+
         $this->segment_tags = $tags;
     }
 
@@ -876,11 +951,11 @@ class SvgDParser
         }
     }
 
-    private function on_parse_d($d) : MutableShape
+    private function on_parse_d($d, ?MutableShape $bezier = null) : MutableShape
     {
         $add_spaces = preg_replace(["/([a-zA-Z])([-+0-9.])/", "/([-+0-9.])([-a-zA-Z])/"], "$1 $2", $d);
         $this->tokens = preg_split('/(,|\s)+/', $add_spaces);
-        $this->bezier = new MutableShape();
+        $this->bezier = $bezier ?? new MutableShape();
         $this->bezier->move_to(new ShieldPos(0, 0));
         $this->tokpos = 0;
         $this->letter = "M";
@@ -972,6 +1047,27 @@ class BezierSegmentFlags
     const MIRROR        = 0x40;
 }
 
+class SegmentAtData
+{
+    function __construct($index, CubicBezier $segment, $t, CompiledBezierSegment $parent)
+    {
+        $this->index = $index;
+        $this->segment = $segment;
+        $this->t = $t;
+        $this->parent = $parent;
+    }
+
+    function split()
+    {
+        return $this->segment->split($this->t);
+    }
+
+    function point() : ShieldPos
+    {
+        return $this->segment->point($this->t);
+    }
+}
+
 /**
  * @brief A continuous sequence of compiled bezier data
  */
@@ -1007,6 +1103,11 @@ class CompiledBezierSegment
     function empty()
     {
         return count($this->sub_segments) == 0;
+    }
+
+    function size()
+    {
+        return count($this->sub_segments);
     }
 
     function to_svg_d()
@@ -1055,6 +1156,37 @@ class CompiledBezierSegment
         }
 
         return $this->finish();
+    }
+
+    function segment_at_length($length) : SegmentAtData
+    {
+        if ( $length >= $this->length )
+            return new SegmentAtData(
+                count($this->sub_segments) - 1,
+                $this->sub_segments[count($this->sub_segments) - 1],
+                1,
+                $this
+            );
+
+        for ( $i = 0; $i < count($this->sub_segments); $i++ )
+        {
+            $seg = $this->sub_segments[$i];
+            if ( $length < $seg->length )
+                return new SegmentAtData(
+                    $i,
+                    $seg,
+                    $seg->t_at_length($length),
+                    $this
+                );
+            $length -= $seg->length;
+        }
+
+        return new SegmentAtData(
+            count($this->sub_segments) - 1,
+            $this->sub_segments[count($this->sub_segments) - 1],
+            1,
+            $this
+        );
     }
 
     function length()

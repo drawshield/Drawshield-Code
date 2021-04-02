@@ -14,6 +14,7 @@
 
 require_once("shield_shape_utils.inc");
 
+/*
 if ( existModifierWithKeyterm($node,'flory-counter-flory')) {
   $messages->addMessage('licence','Tressure flory - http://commons.wikimedia.org/wiki/User:Balmung0731');
 
@@ -61,6 +62,7 @@ if ( existModifierWithKeyterm($node,'flory-counter-flory')) {
       </g>';
 }
 else {
+*/
 
     $margin = 24.2;
     $width = 40.4;
@@ -70,6 +72,10 @@ else {
         $width *= 2;
         $margin *= 2;
     }
+
+    $flory = existModifierWithKeyterm($node,'flory-counter-flory');
+    if ( $flory )
+        $margin += 50;
 
     $shape = ShieldShape::from_layout($layout);
 
@@ -82,8 +88,24 @@ else {
     $path_builder->last_path()->make_plain();
     $shape->svg_path($layout, 2 * $margin + 2 * $width, true, $path_builder);
 
-    $ordinary['shape_spec'] = $path_builder;
-}
+    if ( $flory )
+    {
+        $edge = EdgeType::load("flory-counter-flory");
+        $flory = new MutableShape();
+
+        $path_builder = new MutableShape();
+        $shape->svg_path($layout, $margin, false, $path_builder);
+        $path_builder->last_path()->clear_tags();
+
+        $edge->apply($path_builder->compile(), $flory, 500, 20);
+        $ordinary['body'] = $flory->to_svg_path();
+    }
+    else
+    {
+        $ordinary['shape_spec'] = $path_builder;
+    }
+
+// }
 
 $ordinary['chargesWithin'] = $layout->rect_area()->relative_box(0.5, 0.45, 0.5, 0.5);
 
