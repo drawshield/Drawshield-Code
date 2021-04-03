@@ -60,6 +60,36 @@ class ShieldPos
     {
         return atan2($other->y - $this->y, $other->x - $this->x);
     }
+
+    function rotated($angle, ShieldPos $origin = null)
+    {
+        if ( !$origin )
+            $origin = new ShieldPos(0, 0);
+
+        $r = $this->distance($origin);
+        $a = $origin->angle_to($this) + $angle;
+        return new ShieldPos(
+            $origin->x + $r * cos($a),
+            $origin->y + $r * sin($a)
+        );
+    }
+
+    function scaled($dx, $dy = null)
+    {
+        if ( $dy === null )
+            $dy = $dx;
+        return new ShieldPos($this->x * $dx, $this->y * $dy);
+    }
+
+    function inverted()
+    {
+        return $this->scaled(-1);
+    }
+
+    function __toString()
+    {
+        return "{$this->x},{$this->y}";
+    }
 }
 
 class ShieldRect

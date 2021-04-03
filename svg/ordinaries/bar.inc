@@ -193,8 +193,7 @@ if ($subtype == 'bar' && existModifierWithKeyterm($node,'sinister')) {
 			// if ( !$cot_tinc )
 			//  $cot_tinc = $tinc1;
       $numberCottices = $cot_node->getAttribute('value');
-      for ( $i = 1; $i <= $numberCottices; $i++ )
-			  $cotiseSVG .= createCotise( $spec, $i, $cot_linetype, $layout );
+        $cotiseSVG .= createCottices( $spec, $numberCottices, $cot_linetype, $layout);
 		  $cotiseSVG = apply_tincture ( $cot_tinc, $cotiseSVG, $layout );
       existModifierWithKeyterm($node,'cotticing',true); // mark as used
       $body .= $cotiseSVG;
