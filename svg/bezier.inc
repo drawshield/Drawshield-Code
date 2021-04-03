@@ -438,16 +438,8 @@ class PolyBezier
     {
         if ( $this->size() > 1 )
         {
-            if ( $this->start()->pos->distance($this->finish()->pos) < 1 )
-            {
-                $this->start()->tan_in = $this->finish()->tan_out;
-                $this->finish()->pos = $this->start()->pos;
-            }
-            else
-            {
-                $this->start()->tan_in = $this->start()->pos;
-                $this->finish()->tan_out = $this->start()->pos;
-            }
+            if ( $this->start()->pos->distance($this->finish()->pos) > 1 )
+                $this->add_point(clone $this->start());
         }
         $this->closed = true;
         return $this;
@@ -518,12 +510,6 @@ class PolyBezier
                     $cubics = [];
                     $flags = $this->segment_tags[$i];
                 }
-            }
-
-            if ( $this->closed )
-            {
-                $p1 = $this->points[0];
-                $cubics[] = new CubicBezier($p0->pos, $p0->tan_out, $p1->tan_in, $p1->pos);
             }
 
             if ( count($cubics) )

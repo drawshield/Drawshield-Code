@@ -32,7 +32,7 @@ abstract class ShieldShape
 //             case "english":
 //                 return new HeaterShieldShape(new ShieldPos(13,-26.5), new ShieldPos(375.5,169), new ShieldPos(413,-3.3830906), 0);
             case "french":
-                return new HeaterShieldShape(new ShieldPos(2,-60), new ShieldPos(493,-52), new ShieldPos(500,-122.7), 30);
+                return new HeaterShieldShape(new ShieldPos(100,-20), new ShieldPos(493,-60), new ShieldPos(500,-122.7), 30);
             case "circle":
             case "oval":
                 return new EllipseShieldShape();
@@ -461,6 +461,11 @@ class EllipseShieldShape extends ShieldShape
 {
     protected function on_svg_path_dexter(ShieldLayout $layout, $inset, $reversed, MutableShape $builder)
     {
+        $flags = BezierSegmentFlags::NORMAL;
+
+        if ( $reversed )
+            $flags |= BezierSegmentFlags::UNDERSIDE;
+
         $left = $inset;
         $right = $layout->size->width - $inset;
 
@@ -477,6 +482,7 @@ class EllipseShieldShape extends ShieldShape
 
 
         $builder->move_to($right, $bottom)
+            ->tag_segment($flags)
             ->cubic_to(
                 $right - $handle_x, $bottom,
                 $left, $mid_y + $handle_y,
@@ -487,6 +493,7 @@ class EllipseShieldShape extends ShieldShape
                 $right - $handle_x, $top,
                 $right, $top
             )
+            ->tag_segment($flags)
             ->close()
         ;
 
@@ -496,6 +503,11 @@ class EllipseShieldShape extends ShieldShape
 
     protected function on_svg_path_sinister(ShieldLayout $layout, $inset, $reversed, MutableShape $builder)
     {
+        $flags = BezierSegmentFlags::NORMAL;
+
+        if ( $reversed )
+            $flags |= BezierSegmentFlags::UNDERSIDE;
+
         $left = $inset;
         $right = $layout->size->width - $inset;
 
@@ -512,6 +524,7 @@ class EllipseShieldShape extends ShieldShape
 
 
         $builder->move_to($left, $bottom)
+            ->tag_segment($flags)
             ->cubic_to(
                 $left + $handle_x, $bottom,
                 $right, $mid_y + $handle_y,
@@ -522,10 +535,11 @@ class EllipseShieldShape extends ShieldShape
                 $left + $handle_x, $top,
                 $left, $top
             )
+            ->tag_segment($flags)
             ->close()
         ;
 
-        if ( $reversed )
+        if ( !$reversed )
             $builder->reverse_last();
     }
 
@@ -546,22 +560,31 @@ class EllipseShieldShape extends ShieldShape
         $mid_x = ($right + $left) / 2;
         $mid_y = ($top + $bottom) / 2;
 
+        $flags = BezierSegmentFlags::NORMAL;
+
+        if ( $reversed )
+            $flags |= BezierSegmentFlags::UNDERSIDE;
+
         $builder->move_to($right, $mid_y)
+            ->tag_segment($flags)
             ->cubic_to(
                 $right, $mid_y + $handle_y,
                 $mid_x + $handle_x, $bottom,
                 $mid_x, $bottom
             )
+            ->tag_segment($flags)
             ->cubic_to(
                 $mid_x - $handle_x, $bottom,
                 $left, $mid_y + $handle_y,
                 $left, $mid_y
             )
+            ->tag_segment($flags)
             ->cubic_to(
                 $left, $mid_y - $handle_y,
                 $mid_x - $handle_x, $top,
                 $mid_x, $top
             )
+            ->tag_segment($flags)
             ->cubic_to(
                 $mid_x + $handle_x, $top,
                 $right, $mid_y - $handle_y,
@@ -576,6 +599,11 @@ class EllipseShieldShape extends ShieldShape
 
     protected function on_svg_path_quarter(ShieldLayout $layout, $inset, $reversed, MutableShape $builder, $quarter)
     {
+        $flags = BezierSegmentFlags::NORMAL;
+
+        if ( $reversed )
+            $flags |= BezierSegmentFlags::UNDERSIDE;
+
         $left = $inset;
         $right = $layout->size->width - $inset;
 
@@ -592,24 +620,22 @@ class EllipseShieldShape extends ShieldShape
         switch ( $quarter )
         {
             case 1:
-                $sweep = 0;
                 $ymult = 1;
                 $xmult = 1;
+                $reversed = !$reversed;
                 break;
             case 2:
-                $sweep = 1;
                 $ymult = 1;
                 $xmult = -1;
                 break;
             case 3:
-                $sweep = 1;
                 $ymult = -1;
                 $xmult = 1;
                 break;
             case 4:
-                $sweep = 0;
                 $ymult = -1;
                 $xmult = -1;
+                $reversed = !$reversed;
                 break;
         }
 
@@ -621,12 +647,15 @@ class EllipseShieldShape extends ShieldShape
 
 
         $builder->move_to($right, $top)
+            ->tag_segment($flags)
             ->cubic_to(
                 $right - $xmult * $handle_x, $top,
                 $left, $bottom - $ymult * $handle_y,
                 $left, $bottom
             )
+            ->tag_segment($flags)
             ->horizontal($right)
+            ->tag_segment($flags)
             ->close()
         ;
 
@@ -715,9 +744,6 @@ class LozengeShieldShape extends ShieldShape
                 break;
         }
 
-        if ( $reversed )
-            $points = array_reverse($points);
-
 
         $flags = BezierSegmentFlags::SYMMETRICAL;
 
@@ -731,5 +757,8 @@ class LozengeShieldShape extends ShieldShape
 
         $builder->tag_segment($flags);
         $builder->close();
+
+        if ( $reversed )
+            $builder->reverse_last();
     }
 }

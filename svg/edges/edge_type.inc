@@ -289,7 +289,7 @@ class EdgeTypeFlory extends EdgeTypeBezier
             $angle_out += 2 * M_PI;
 
         $delta_angle = abs($angle_out-$angle_in);
-        return $delta_angle >= M_PI * 0.45;
+        return $delta_angle >= M_PI * 0.2;
     }
 
     private function add_flory(ShieldPos $p0, ShieldPos $p1, ShieldPos $pm, MutableShape $target, $feature_height, $direction)
@@ -354,7 +354,7 @@ class EdgeTypeFlory extends EdgeTypeBezier
         return $direction;
     }
 
-    private function add_flory_bezier(CompiledPolyBezier $source, MutableShape $target, $feature_gap, $feature_height, &$data, &$tot_counts)
+    private function add_flory_bezier(CompiledPolyBezier $source, MutableShape $target, $feature_gap, $feature_height, &$data, &$tot_counts, $min_flories)
     {
         if ( $source->empty() || $source->segments()[0]->flags() & BezierSegmentFlags::PLAIN )
             return;
@@ -377,7 +377,7 @@ class EdgeTypeFlory extends EdgeTypeBezier
         {
             foreach ( $segments as $seg )
             {
-                $n = max(2, round($seg->length() / $feature_gap));
+                $n = max($min_flories+1, round($seg->length() / $feature_gap));
                 $tot_counts += $n;
                 $data[] = ["count" => $n, "lines" => []];
             }
@@ -388,12 +388,15 @@ class EdgeTypeFlory extends EdgeTypeBezier
             $seg = $segments[$i];
             $pm = $seg->start();
 
-            if ( $this->is_tight_corner(
+            $tight = $this->is_tight_corner(
                 $prev_segment->point_at_length($prev_segment->length() - $feature_height),
                 $seg->point_at_length($feature_height),
                 $pm
-            ) )
+            );
+
+            if ( $tight )
             {
+                $old_direction = $direction;
                 $direction = $underside ? -1 : 1;
             }
 
@@ -404,6 +407,10 @@ class EdgeTypeFlory extends EdgeTypeBezier
                 list($p0, $p1) = [$p1, $p0];
             $this->add_flory($p0, $p1, $pm, $target, $feature_width, $direction);
 
+            if ( $tight )
+            {
+                $direction = $old_direction;
+            }
 
             $direction = $this->add_flory_segment($seg, $target, $feature_height, $direction, $data[$i]);
             $direction *= -1;
@@ -411,14 +418,14 @@ class EdgeTypeFlory extends EdgeTypeBezier
         }
     }
 
-    function apply(CompiledShape $source, MutableShape $target, $feature_gap, $feature_height = null)
+    function apply(CompiledShape $source, MutableShape $target, $feature_gap, $feature_height = null, $min_flories=1)
     {
         parent::apply($source, $target, $feature_gap, $feature_height);
 
         $data = [];
         $tot_counts = 0;
         foreach ( $source->sub_paths() as $path )
-            $this->add_flory_bezier($path, $target, $feature_gap, $feature_height, $data, $tot_counts);
+            $this->add_flory_bezier($path, $target, $feature_gap, $feature_height, $data, $tot_counts, $min_flories);
     }
 }
 
