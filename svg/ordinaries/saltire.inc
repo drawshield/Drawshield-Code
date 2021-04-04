@@ -67,6 +67,7 @@ if ( !$fillet )
     $on_center = new ShieldRect(clone $layout->center_point, $on_size);
 
     $d = $width + 50/M_SQRT2;
+    $d1 = ($width + 50)/M_SQRT2;
     $angle = 45;
 
     $ordinary['chargesOn'] = array_to_placement([
@@ -80,6 +81,20 @@ if ( !$fillet )
             box_placement($on_center->translated(-$d, -$d), -$angle),
             box_placement($on_center->translated($d, $d), -$angle),
             box_placement($on_center, 0),
+        ],
+        "",
+        "",
+        "",
+        [
+            box_placement($on_center->translated(-$d1, $d1), $angle),
+            box_placement($on_center->translated($d1, -$d1), $angle),
+            box_placement($on_center->translated(-$d1, -$d1), -$angle),
+            box_placement($on_center->translated($d1, $d1), -$angle),
+            box_placement($on_center, 0),
+            box_placement($on_center->translated(-$d1*2, $d1*2), $angle),
+            box_placement($on_center->translated($d1*2, -$d1*2), $angle),
+            box_placement($on_center->translated(-$d1*2, -$d1*2), -$angle),
+            box_placement($on_center->translated($d1*2, $d1*2), -$angle),
         ]
     ]);
 
