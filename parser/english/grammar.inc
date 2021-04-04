@@ -1158,6 +1158,8 @@ class englishGrammar extends grammar
                         $subshields[$indices[0]] = $quarter; // Set the first quarter to this description
                     for ($i = 1; $i < count($indices); $i++) {
                         $reference = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_IDREF => $ID)); // Set other quarters to point to this one
+                        $reference = $quarter->cloneNode(true);
+                        $reference->setAttribute('ID',unique('clone'));
                         if ($subshields[$indices[$i]] != null)
                             self::raiseError(self::ERROR_ORIGIN, 'Duplicate quarter', true);
                         else

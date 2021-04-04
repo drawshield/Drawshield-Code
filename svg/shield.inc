@@ -96,9 +96,10 @@ function makedimidiated( $children, $layout ) {
 function makeshield( DOMElement &$node, $layout ) {
   global $messages;
   
-  if ( $node->hasAttribute('IDREF') ) {
+  if ( $node->hasAttribute('IDREF') ) { // shouldn't happen, but just in case
     $dom = $node->ownerDocument;
-    $node = $dom->getElementById($node->getAttribute('IDREF'));
+    $node = $dom->getElementById($node->getAttribute('IDREF'))->cloneNode(true);
+    $node->setAttribute('ID',unique('clone'));
   }
 
   $retval = '<g>';
