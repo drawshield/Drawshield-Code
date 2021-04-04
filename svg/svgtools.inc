@@ -138,7 +138,7 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
         } else {
             if (in_array(strtolower($data), $strokeColours)) {
                 $fill = ' fill="' . $strokeCol . '" ';
-            } elseif (!$fillSet && !in_array( strtolower($data), $targetColours) ) {
+            } elseif ($data == 'none' || (!$fillSet && !in_array( strtolower($data), $targetColours) )) {
           // Any of the "primary" colours are just placeholders, so we ignore them (will be replaced by the charge colour)
                 $fill = ' fill="' . $data . '" ';
             }
