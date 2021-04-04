@@ -12,6 +12,7 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
+require_once(__dir__."/../ordinaries/shield_shape_utils.inc");
 
 $num_of = (int)getModifierValueByKeyterm($node, 'ofnum', false);
 if ( $num_of == null )
@@ -23,19 +24,57 @@ else if ( $num_of % 2 )
 
 $builder = new MutableShape();
 
-$angle = M_PI * 2 / $num_of;
-$radius = 2000;
-for ( $i = 0; $i < $num_of; $i += 2 )
+
+if ( $num_of == 8 && ShieldShape::from_layout($layout) instanceof RectShieldShape )
 {
-    $a1 = $angle * $i;
-    $a2 = $angle * ($i+1);
+    $margin = 100;
     $builder->move_to($layout->center_point->x, $layout->center_point->y)
-        ->line_to($layout->center_point->x + $radius * sin($a1), $layout->center_point->y - $radius * cos($a1))
-        ->tag_segment(BezierSegmentFlags::PLAIN)
-        ->line_to($layout->center_point->x + $radius * sin($a2), $layout->center_point->y - $radius * cos($a2))
+
         ->tag_segment(BezierSegmentFlags::NORMAL)
-        ->close();
+        ->line_to($layout->center_point->x, -$margin)
+        ->tag_segment(BezierSegmentFlags::PLAIN)
+        ->line_to($layout->size->width, 0)
+        ->tag_segment(BezierSegmentFlags::NORMAL)
+        ->close()
+
+        ->tag_segment(BezierSegmentFlags::NORMAL)
+        ->line_to($layout->size->width+$margin, $layout->center_point->y)
+        ->tag_segment(BezierSegmentFlags::PLAIN)
+        ->line_to($layout->size->width, $layout->size->height)
+        ->tag_segment(BezierSegmentFlags::NORMAL)
+        ->close()
+
+        ->tag_segment(BezierSegmentFlags::NORMAL)
+        ->line_to($layout->center_point->x, $layout->size->height + $margin)
+        ->tag_segment(BezierSegmentFlags::PLAIN)
+        ->line_to(0, $layout->size->height)
+        ->tag_segment(BezierSegmentFlags::NORMAL)
+        ->close()
+
+        ->tag_segment(BezierSegmentFlags::NORMAL)
+        ->line_to(-$margin, $layout->center_point->y)
+        ->tag_segment(BezierSegmentFlags::PLAIN)
+        ->line_to(0, 0)
+        ->tag_segment(BezierSegmentFlags::NORMAL)
+        ->close()
     ;
+}
+else
+{
+    $angle = M_PI * 2 / $num_of;
+    $radius = 2000;
+    for ( $i = 0; $i < $num_of; $i += 2 )
+    {
+        $a1 = $angle * $i;
+        $a2 = $angle * ($i+1);
+        $builder->move_to($layout->center_point->x, $layout->center_point->y)
+            ->line_to($layout->center_point->x + $radius * sin($a1), $layout->center_point->y - $radius * cos($a1))
+            ->tag_segment(BezierSegmentFlags::PLAIN)
+            ->line_to($layout->center_point->x + $radius * sin($a2), $layout->center_point->y - $radius * cos($a2))
+            ->tag_segment(BezierSegmentFlags::NORMAL)
+            ->close();
+        ;
+    }
 }
 
 $lineType = getModifierByType($node, 'linetype', false);
