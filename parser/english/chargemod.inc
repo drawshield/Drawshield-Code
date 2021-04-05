@@ -286,7 +286,7 @@
       array ( 'in ?her increment', 'increscent' ),
       array ( 'in ?her de[ct]r[ie]ment', 'decrescent' ),
       array ( '?mounted on # (degree|step|ascent|grice|griece)s?', 'on-steps' ),
-      array ( 'of # ?(point|ray|branche?)s?', 'of-num' ), // CAUTION This is the default for "charge of number"
+      array ( 'of # ?(point|ray|branche?)s', 'of-num' ), // CAUTION This is the default for "charge of number"
       array ( 'in # places', 'places' ),
       array ( '?each of # links', 'links' ),
       array ( 'vuln(ed|ing)', 'vulned' ),
