@@ -311,6 +311,18 @@ if ( $options['asFile'] ) {
       header('Content-Type: image/jpg');
       echo $im->getimageblob();
       break;
+    case 'json':
+      $im = new Imagick();
+      $im->setBackgroundColor(new ImagickPixel('transparent'));
+      $im->readimageblob($output);
+      $im->setimageformat('png32');
+      $output = [];
+      $output['image'] = base64_encode($im->getimageblob());
+      $output['options'] = $options;
+      $output['messages'] = $messages->getMessageArray();
+      header('Content-Type: application/json');
+      echo json_encode($output);
+      break;
     case 'png':
       $im = new Imagick();
       $im->setBackgroundColor(new ImagickPixel('transparent'));
