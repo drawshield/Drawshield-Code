@@ -43,6 +43,10 @@ class messageStore {
   //   }
   // }
 
+  public function getMessageArray() {
+      return $this->messages;
+  }
+
   public function insertMessages () {
     global $xpath;
 
