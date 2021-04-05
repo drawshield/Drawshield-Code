@@ -2,11 +2,12 @@
 
 
 $num_of = max((int)getModifierValueByKeyterm($node, 'points', true), 1);
-
+if ( $node->getAttribute('keyterm') == "trimount" )
+    $num_of = 3;
 
 $shape = new MutableShape();
 
-$height = $layout->size->height / 3;
+$height = $layout->size->height * 0.35;
 $width = $layout->size->width / max(1, $num_of-3);
 $dx = $layout->size->width / max(1, $num_of-1);
 $tip = $layout->size->height - $height;
@@ -28,18 +29,34 @@ else
     $dx = ($layout->size->width-$width/2) / max(1, $num_of-1);;
 }
 
+$ystart = $tip + 60;
+
+$arch = (new PolyBezier())
+    ->add_point(new ShieldPos(0, $ystart))
+    ->quadratic_to(
+        new ShieldPos($layout->size->width * 1 / 4, $tip),
+        new ShieldPos($layout->size->width * 2 / 4, $tip)
+    )
+    ->quadratic_to(
+        new ShieldPos($layout->size->width * 3 / 4, $tip),
+        new ShieldPos($layout->size->width, $ystart)
+    )
+    ->compile()
+;
+
 for ( $i = 0; $i < $num_of / 2; $i++ )
 {
     $path = new MutableShape();
-    $tip_pos = new ShieldPos($start + $i * $dx, $tip);
-    $path->move_to($tip_pos->x - $width / 2, $layout->size->height)
+    $tip_x = $start + $i * $dx;
+    $tip_pos = new ShieldPos($tip_x, $arch->point_at_length($tip_x / $layout->size->width * $arch->length())->y);
+    $path->move_to($tip_pos->translated(-$width / 2, $height))
         ->quadratic_to(
             $tip_pos->translated(-$handle, 0),
             $tip_pos
         )
         ->quadratic_to(
             $tip_pos->translated($handle, 0),
-            new ShieldPos($tip_pos->x + $width / 2, $layout->size->height)
+            $tip_pos->translated($width / 2, $height)
         )
     ;
 
@@ -87,3 +104,4 @@ for ( $i = 0; $i < $num_of / 2; $i++ )
 $paths = implode("", $paths_arr);
 
 $ordinary['body'] = "<g style='stroke:#808080;stroke-width:3'>$paths</g>";
+$ordinary['chargesOn'] = '500,950,500,240/333.33,950,300,200:666.67,950/333.33,900,160,160:666.67,900:500,1050/x/x/x';
