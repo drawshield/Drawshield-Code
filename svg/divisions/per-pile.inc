@@ -11,12 +11,54 @@
  * Time: 19:56
  */
 
-if ( existModifierWithKeyterm($node, 'reversed') or  existModifierWithKeyterm($node, 'reversed') ) {
-  $division['div2'] = '<polygon points="0,1400 500,0 1000,1400" />';
-  $division['div3'] = '<polygon points="500,-100 500,0 1000,1400 1100,1400 1100,-100" />';
-} else {
-  $division['div2'] = '<polygon points="0,-200 500,1200 1000,-200" />';
-  $division['div3'] = '<polygon points="1000,-200 500,1200 500,1300 1100,1300 1100,-200" />';
+
+$lineType = getModifierByType($node, 'linetype', false);
+$div2 = new MutableShape();
+$div3 = new MutableShape();
+
+if ( existModifierWithKeyterm($node, 'reversed') or  existModifierWithKeyterm($node, 'reversed') )
+{
+    $div2->move_to(0, $layout->size->height + 200)
+        ->tag_segment(BezierSegmentFlags::NORMAL)
+        ->line_to($layout->size->width / 2, 0)
+        ->tag_segment(BezierSegmentFlags::NORMAL)
+        ->line_to($layout->size->width, $layout->size->height + 200)
+        ->tag_segment(BezierSegmentFlags::PLAIN)
+        ->close()
+    ;
+    $div3->move_to($layout->size->width / 2, -200)
+        ->tag_segment(BezierSegmentFlags::PLAIN)
+        ->line_to($layout->size->width / 2, 0)
+        ->tag_segment(BezierSegmentFlags::NORMAL)
+        ->line_to($layout->size->width, $layout->size->height + 200)
+        ->tag_segment(BezierSegmentFlags::PLAIN)
+        ->line_to($layout->size->width + 200, $layout->size->height + 200)
+        ->line_to($layout->size->width + 200, -200)
+        ->close()
+    ;
+}
+else
+{
+    $div2->move_to(0, -200)
+        ->tag_segment(BezierSegmentFlags::NORMAL)
+        ->line_to($layout->size->width / 2, $layout->size->height)
+        ->tag_segment(BezierSegmentFlags::NORMAL)
+        ->line_to($layout->size->width, -200)
+        ->tag_segment(BezierSegmentFlags::PLAIN)
+        ->close()
+    ;
+
+    $div3->move_to($layout->size->width / 2, $layout->size->height)
+        ->tag_segment(BezierSegmentFlags::NORMAL)
+        ->line_to($layout->size->width, -200)
+        ->tag_segment(BezierSegmentFlags::PLAIN)
+        ->line_to($layout->size->width + 200, -200)
+        ->line_to($layout->size->width + 200, $layout->size->height + 200)
+        ->line_to($layout->size->width / 2, $layout->size->height + 200)
+        ->close()
+    ;
 }
 
 
+$division['div2'] = createBody($div2, $lineType, 40, $layout);
+$division['div3'] = createBody($div3, $lineType, 40, $layout);
