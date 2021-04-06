@@ -752,6 +752,11 @@ class PolyBezier
 
         return $bez;
     }
+
+    function points()
+    {
+        return $this->points;
+    }
 }
 
 /**
