@@ -335,7 +335,7 @@ function draw() {
             $y1Location = '1190';
             if ($layout->shape == 'flag')
                 $y1Location = $layout->size->height + $extraSpace + 40;
-            if ( $options['outputFormat'] == 'svg') {
+            if ( $options['outputFormat'] == 'svg' || $options['outputFormat'] == 'json') {
                 $messages->addMessage('legal',"Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.");
                 $messages->insertMessages();
                 $xpath = new DOMXPath($dom);
