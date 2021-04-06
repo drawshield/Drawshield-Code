@@ -27,7 +27,8 @@ $arch = (new PolyBezier())
     ->compile()
 ;
 
-$n_rows = ceil($peaks / 5);
+$max_per_row = 5;
+$n_rows = ceil($peaks / $max_per_row);
 $rows = [];
 while ( $peaks )
 {
@@ -45,9 +46,9 @@ for ( $rown = 0; $rown < count($rows); $rown++ )
     $num_of = $rows[$rown];
     $target_width = $layout->size->width * $scale;
 
-    $width = $target_width / max(1, $num_of-3);
+    $width = $target_width / max(1, $num_of-$rown/6-3);
     if ( $num_of == 4 )
-        $width = $rown == 0 ? $target_width * .4 : $target_width * .6;
+        $width = $target_width * ($rown*.5/4 + .4);
 
     $dx = $target_width / max(1, $num_of-1);
     $handle = $width/3;
