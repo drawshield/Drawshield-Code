@@ -252,7 +252,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
       if (isset($element['style'])) $item .= ' style="' . $element['style'] . '" ';
       $item .= ' xml:space="preserve" ';
       // We need the element content as well
-      $subitem = htmlentities((string)$element);
+      $subitem = htmlentities((string)$element, ENT_XML1);
   }
   foreach( $element->children() as $child )
       $subitem .= addChild($child,$featureColours, $chargeGroup, $chargeName, $extras, $strokeCol, $strokeWidth, $fillSet );

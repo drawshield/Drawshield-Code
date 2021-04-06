@@ -141,3 +141,7 @@ $paths = implode("", $paths_arr);
 
 $ordinary['body'] = "<g style='stroke:#808080;stroke-width:3'>$paths</g>";
 $ordinary['chargesOn'] = '500,950,500,240/333.33,950,300,200:666.67,950/333.33,900,160,160:666.67,900:500,1050/x/x/x';
+
+
+$rect = $layout->rect_area()->margin(100, 100, 100, $height * 0.8);
+$ordinary['chargesWithin'] = array("h", $rect);
