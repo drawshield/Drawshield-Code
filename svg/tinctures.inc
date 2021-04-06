@@ -420,7 +420,7 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
         || $data->node->getAttribute('origin') == 'pending'
         || $data->node->getAttribute('origin') == 'missing') {
         $messages->addMessage ('blazon','Missing colour, Gray substituted.' );
-        $data->node = createColourNode('gray','1');
+        $data = new TinctureData(createColourNode('gray','1'),$rev, $inv);
     }
 
     switch ( $data->type_name ) {
