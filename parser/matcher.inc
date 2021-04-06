@@ -55,7 +55,7 @@ class matcher {
       // Do we want the whole of the next token?
       // Optional & negative do not make sense here, so ignore
       if ( $regex == '*' && isset($this->tokenList->words[$t_word]) ) {
-        $this->value = htmlentities(substr($this->tokenList->words[$t_word],0,192));
+        $this->value = htmlentities(substr($this->tokenList->words[$t_word],0,192), ENT_XML1);
         $t_word++;
         continue;
       }

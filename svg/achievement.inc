@@ -266,7 +266,7 @@ function drawMotto($mottoNode, $layout) {
         }
 
         $svg = file_get_contents('svg/components/scroll/plain.svg');
-        $svg = str_replace('%TEXT%', htmlentities($text), $svg);
+        $svg = str_replace('%TEXT%', htmlentities($text, ENT_XML1), $svg);
         $svg = str_replace('%UP%', $up, $svg);
         $svg = str_replace('%COLOUR%', $colour, $svg);
         $svg = str_replace('%FONT-SIZE%', "${fontSize}px", $svg);

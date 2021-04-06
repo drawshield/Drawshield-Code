@@ -222,7 +222,7 @@ switch ($textLayout) {
     if ( $fontSize > 150 ) $fontSize = 150; // but not too large!
     $arch = add_def('path d="m 50,200 a200,200 0 1,1 400,0 200,200 0 1,1 -400,0"',null);
     $svgText .= '<defs><path id="#' . $arch .  '" d="m 0,0 "/></defs>'; // dummy defs to make svgCode parse in simplexml_load
-    $svgText .= '<text text-anchor="middle" font-weight="' . $fontWeight . '" font-style="' . $fontStyle . '" font-family="' . $fontFamily . '" font-size="' . $fontSize . '" x="0" y="400"><textPath startOffset="50%" href="#' . $arch . '">' . htmlentities($item) . '</textPath></text>';
+    $svgText .= '<text text-anchor="middle" font-weight="' . $fontWeight . '" font-style="' . $fontStyle . '" font-family="' . $fontFamily . '" font-size="' . $fontSize . '" x="0" y="400"><textPath startOffset="50%" href="#' . $arch . '">' . htmlentities($item, ENT_XML1) . '</textPath></text>';
     break;
 }
 
