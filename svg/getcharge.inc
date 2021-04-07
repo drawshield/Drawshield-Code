@@ -153,7 +153,7 @@ function read_chg_file(DOMElement $node) {
     }
     list($group,$chargeKey) = $splitArray;
     $folder = __dir__ . "/charges/$group/";
-    if ( ($title = $node->getAttribute('tokens')) == null ) $title = $chargeKey;
+    if (false || ($title = $node->getAttribute('tokens')) == null ) $title = $chargeKey;
 
     // look for .inc file
     $file = $folder . $chargeKey . '.inc';
