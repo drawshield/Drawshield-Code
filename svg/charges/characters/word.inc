@@ -20,7 +20,7 @@ $charge['default_colour'] = 'sable';
 $fontWeight = 'normal';
 $fontStyle = 'normal';
 $textDecoration = 'none';
-$fontFamily = 'italic';
+$fontFamily = 'lucida-sans';
 $textAlign = 'middle';
 $textLayout = 'block';
 
@@ -93,7 +93,10 @@ foreach ($words as $word)
 if (count($words) == 1 and $textLayout == 'block')
   $textLayout = 'inline'; // No point complicating things if only one word
 
-$height = 100;
+$builder = new WordBuilder('lucida-sans');
+$charge['svgCode'] = $builder->inlineText($item);
+
+/* $height = 100;
 $width = 100;
 $svgText = '';
 switch ($textLayout) {
@@ -223,9 +226,9 @@ switch ($textLayout) {
     $arch = add_def('path d="m 50,200 a200,200 0 1,1 400,0 200,200 0 1,1 -400,0"',null);
     $svgText .= '<defs><path id="#' . $arch .  '" d="m 0,0 "/></defs>'; // dummy defs to make svgCode parse in simplexml_load
     $svgText .= '<text text-anchor="middle" font-weight="' . $fontWeight . '" font-style="' . $fontStyle . '" font-family="' . $fontFamily . '" font-size="' . $fontSize . '" x="0" y="400"><textPath startOffset="50%" href="#' . $arch . '">' . htmlentities($item) . '</textPath></text>';
-    break;
-}
+    break; 
+} */
 
-$charge['svgCode'] = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' .
-        $height . '" width="' . $width . '"><g id="body">' . $svgText . '</g></svg>';
+//$charge['svgCode'] = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' .
+ //       $height . '" width="' . $width . '"><g id="body">' . $svgText . '</g></svg>';
 
