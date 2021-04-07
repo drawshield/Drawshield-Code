@@ -1,66 +1,51 @@
 <?php
 
-function getWords($fontName,$text,$height, $width, $fill = "#3f3f3f") {
-    //global $messages;
+Class WordBuilder
+{
+    function __construct($fontName) {
+        global $messages;
 
-    if (!file_exists("svg/fonts/$fontName.svg")) {
-        //$messages->addMessage('internal',"Unknown font - $fontName");
-        echo "No File\n";
-        return null;
-    }
-    $defaultXSize = 500;
-    $ySize = 500;
-    $glyphs = [];
-
-    libxml_use_internal_errors(true);
-    $svg = simplexml_load_file("svg/fonts/$fontName.svg");
-    libxml_clear_errors();
-    foreach($svg->children() as $child) {
-        if ($child->getName() == 'defs') {
-            foreach($child->children() as $defs) {
-                if ($defs->getName() == 'font') {
-                    $defaultXSize = $defs['horiz-adv-x'];
-                    foreach ($defs->children() as $font) {
-                        if ($font->getName() == 'font-face') {
-                            $ySize = abs($font['ascent']) + abs($font['descent']);
-                        } elseif ($font->getName() == 'glyph') {
-                            $glyphs[] = $font;
+        $this->invert = false;
+        if (!file_exists("svg/fonts/$fontName.svg")) {
+            $messages->addMessage('internal',"Unknown font - $fontName");
+            return;
+        }
+        $this->defaultXSize = 500;
+        $this->ySize = 500;
+        $font = simplexml_load_file("svg/fonts/$fontName.svg");
+        libxml_clear_errors();
+        $this->glyphs = [];
+        foreach($font->children() as $child) {
+            if ($child->getName() == 'defs') {
+                foreach($child->children() as $defs) {
+                    if ($defs->getName() == 'font') {
+                        $this->defaultXSize = $defs['horiz-adv-x'];
+                        foreach ($defs->children() as $child) {
+                            if ($child->getName() == 'font-face') {
+                                $this->ySize = abs($child['ascent']) + abs($child['descent']);
+                                if (isset($child['invert'])) $this->invert = true;
+                                if (isset($child['credit']))
+                                    $messages->addMessage('licence',$child['credit']);
+                            } elseif ($child->getName() == 'glyph') {
+                                $this->glyphs[] = $child;
+                            }
                         }
                     }
                 }
             }
         }
     }
-    $retval = '';
-    $lines = [];
-    $length = 0;
-    $line = '';
-    $lineBreak = 10 + (strlen($text) / 6);
-    foreach (str_split($text) as $char) {
-        if (++$length > $lineBreak && $char == ' ') {
-            $lines[] = $line;
-            $line = '';
-            $length = 0;
-        } else {
-            $line .= $char;
-        }
-    }
-    if ($line != '') $lines[] = $line;
-    $lineCount = count($lines);
-    $yShift = 0;
-    if ($lineCount > 1) {
-        $yShift = ($height / $lineCount) * ($lineCount - 1) * -1;
-    }
-    foreach ($lines as $line) {
-        $xOffset = 0;
-        $temp = '';
-        foreach (str_split($line) as $char) {
+
+    private function stringToGlyphs($words) {
+        $svg = '';
+        $xLength = 0;
+        foreach (str_split($words) as $char) {
             if ($char == ' ') {
-                $xOffset += $defaultXSize * 0.6;
+                $xLength += $this->defaultXSize * 0.6;
                 continue;
             }
             $glyph = null;
-            foreach ($glyphs as $possible) {
+            foreach ($this->glyphs as $possible) {
                 if ($possible['unicode'] == $char) {
                     $glyph = $possible;
                     break;
@@ -69,19 +54,61 @@ function getWords($fontName,$text,$height, $width, $fill = "#3f3f3f") {
             if ($glyph == null) continue;
             $d = $glyph['d'];
             $x = $glyph['horiz-adv-x'];
-            $temp .= "<path transform=\"translate($xOffset)\" d=\"$d\" />\n";
+            $svg .= "<path transform=\"translate($xLength)\" d=\"$d\" />\n";
             if ($x != null) {
-                $xOffset += $glyph['horiz-adv-x'];
+                $xLength += $glyph['horiz-adv-x'];
             } else {
-                $xOffset += $defaultXSize;
+                $xLength += $this->defaultXSize;
             }
         }
-        $scale = min($width / $xOffset, $height / $lineCount / $ySize);
-        $centering = ($width - ($xOffset * $scale)) / 2;
-        $temp = "<g fill=\"$fill\" transform=\"translate($centering,$yShift) scale($scale, -$scale)\">\n" .
-            $temp . "</g>\n";
-        $yShift += $height / $lineCount;
-        $retval .= $temp;
+        if ($this->invert) {
+            $svg = '<g transform="scale(1,-1) translate(0, -' . $this->ySize . ')">' . $svg . "</g>";
+        }
+        return Array('body' => $svg, 'width' => $xLength);
     }
-    return "<g>$retval</g>\n";
+
+
+    public function fitWordsToRect($text, $height, $width, $fill = "#3F3F3F") {
+       $retval = '';
+        $lines = [];
+        $length = 0;
+        $line = '';
+        $lineBreak = 10 + (strlen($text) / 6);
+        foreach (str_split($text) as $char) {
+            if (++$length > $lineBreak && $char == ' ') {
+                $lines[] = $line;
+                $line = '';
+                $length = 0;
+            } else {
+                $line .= $char;
+            }
+        }
+        if ($line != '') $lines[] = $line;
+        $lineCount = count($lines);
+        $yShift = 0;
+        if ($lineCount > 1) {
+            $yShift = ($height / $lineCount) * ($lineCount - 1) * -1;
+        }
+        foreach ($lines as $line) {
+            $glyphLine = $this->stringToGlyphs($line);
+            $scale = min($width / $glyphLine['width'], $height / $lineCount / $this->ySize);
+            $centering = ($width - ($glyphLine['width'] * $scale)) / 2;
+            $temp = "<g fill=\"$fill\" transform=\"translate($centering,$yShift) scale($scale, -$scale)\">\n" .
+                $glyphLine['body'] . "</g>\n";
+            $yShift += $height / $lineCount;
+            $retval .= $temp;
+        }
+        return "<g>$retval</g>\n";
+    }
+
+    public function inlineText($text) {
+        $line = $this->stringToGlyphs($text);
+        $retval = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' .
+        $this->ySize . '" width="' . $line['width'] . '"><g id="body">' . $line['body'] . '</g></svg>';
+        error_log($retval);
+        return $retval;
+    }
+
+
 }
+

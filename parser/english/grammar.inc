@@ -198,10 +198,12 @@ class englishGrammar extends grammar
             $field->appendChild($tinc);
             $ordChgs = self::objects();
             // if there is a top-level chief pull it out into its own element
-            foreach ($ordChgs->childNodes as $ordChg) {
-                if (($ordChg->nodeName == blazonML::E_ORDINARY) && ($ordChg->getAttribute(blazonML::A_KEYTERM) == 'chief')) {
-                    $chief = $this->schema->makeNode(blazonML::E_CHIEF);
-                    $chief->appendChild($ordChgs->removeChild($ordChg));
+            if ($ordChgs != null) {
+                foreach ($ordChgs->childNodes as $ordChg) {
+                    if (($ordChg->nodeName == blazonML::E_ORDINARY) && ($ordChg->getAttribute(blazonML::A_KEYTERM) == 'chief')) {
+                        $chief = $this->schema->makeNode(blazonML::E_CHIEF);
+                        $chief->appendChild($ordChgs->removeChild($ordChg));
+                    }
                 }
             }
             if ($chief) {
