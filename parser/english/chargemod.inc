@@ -37,7 +37,6 @@
       array ( 'spanish ?shaped?', 'shape-spanish'),
       array ( 'german ?shaped?', 'shape-german'),
       array ( 'heater ?shaped?', 'shape-heater'),
-      array ( 'flag ?shaped?', 'shape-flag'),
       array ( 'equal armed', 'equal-armed'),
       array ( 'sinister (half|halves|parts?) ?of ?(a|an|the)', 'sinister-half'),
       array ( 'dexter (half|halves|parts?) ?of ?(a|an|the)', 'dexter-half'),
@@ -189,6 +188,7 @@
       array ( 'holding in ?(her|his|its|their|the) (sinister|left) hand|paw', 'in-hand-left'),
       array ( 'holding in ?(her|his|its|their|the) (sinister|left) foot', 'in-foot-left'),
       array ( 'holding in (both|all|each) ?(her|his|its|their) (hand|paw)(s?)', 'in-hand-both'),
+      array ( 'flying', 'in-flag-point' ),
       );
 
   $this->patterns[languageDB::CROWN_MODS] = array (

@@ -532,12 +532,18 @@ class englishGrammar extends grammar
         // In some cases we want the next input token as a "value" (e.g. "the word Karl" matches "words? *")
         if ($asterisk = $this->phraseMatcher->getValue())
             $mods[] = $this->schema->makeMod('value', $asterisk, 'value', self::tokens(), self::lineNo());
+        if ($keyterm == 'special/flag') {
+            $keyterm = "special/escutcheon";
+            $charge->setAttribute("keyterm", $keyterm);
+            $mods[] = $this->schema->makeMod('chargemod', null, 'shape-flag', self::tokens(), self::lineNo());
+        }
         if ($keyterm == 'special/escutcheon') {
             self::ignore(languageDB::BLAZONED);
             $foundTinc = true; // don't look for a colour, let the shield take it
             // $mods[] = self::simple(true);
             $mods[] = self::shield();
         }
+
         // Look for bundle again (e.g. "two arrow bundles"
         if ($keyterm = self::find(languageDB::BUNDLE))
             $mods[] = $this->schema->makeMod(languageDB::BUNDLE, null, $keyterm, self::tokens(), self::lineNo());
