@@ -176,6 +176,56 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
   return $retval;
 }
 
+function hold_charge($element, $held)
+{
+    $dest = new ShieldPos(floatval($element["cx"]), floatval($element["cy"]));
+    $anchor_radius = floatval($element["r"] ?? $element["rx"]);
+    $hold_point = $held["hold_point"];
+    $anchor_transform = $element['transform'] ?? "";
+    $xpath = new DomXPath($held["node"]->ownerDocument);
+
+    $angle = 0;
+    $orient = -($held["orient_to_ordinary"] ?? -1);
+    if ( $orient == -1 )
+        $angle += 90;
+
+    $orientation = $xpath->evaluate("string(modifier[@type='chargemod' and contains(@keyterm, 'wise')]/@keyterm)", $held["node"]);
+    switch ( $orientation )
+    {
+        case "palewise":
+            break;
+        case "fesswise":
+            $angle += $orient * 90;
+            break;
+        case "bendwise":
+            $angle += 45;
+            break;
+        case "bendsinwise":
+            $angle -= 45;
+            break;
+    }
+
+    $scale_x = $scale_y = $anchor_radius / $held["hold_radius"];
+    if ( getModifierNodeWithKeyterm($held["node"], "reversed") )
+        $scale_x *= -1;
+    if ( getModifierNodeWithKeyterm($held["node"], "inverted") )
+        $scale_y *= -1;
+
+    $dx = $dest->x - $hold_point->x * $scale_x;
+    $dy = $dest->y - $hold_point->y * $scale_y;
+
+    $rotation = $angle == 0 ? "" : "rotate($angle, {$hold_point->x}, {$hold_point->y})";
+
+    $item = "<g transform='$anchor_transform translate($dx, $dy) scale($scale_x, $scale_y) $rotation'>";
+    $body = $held["body"];
+    $tincture = $xpath->query("tincture", $held["node"]);
+    if ( count($tincture) )
+        $body = apply_tincture($tincture[0], $body, $held["layout"], new ShieldSize($held["width"], $held["height"]), 0, false, false);
+    $item .= $body;
+    $item .= "</g>";
+    return $item;
+}
+
 function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $chargeName, 
     $extras, $strokeCol, $strokeWidth, $fillSet = false ) {
     $name = $element->getName();
@@ -184,6 +234,8 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
     if (( strpos($name,'sodipodi:') !== false ) or (strpos($name,'inkscape:') !== false ))
         return null;
     $id = isset($element['id']) ? (string)$element['id'] : null;
+    if ( $id == "hold-point" )
+        return '';
     $class = '';
     //---------------------------------------------------
     // Handle invisible rectangles marking additional charge positions
@@ -225,23 +277,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
     }
     else if ( ($name == "ellipse" || $name == "circle") && array_key_exists($id, $extras) )
     {
-        $held = $extras[$id];
-        $dest = new ShieldPos(floatval($element["cx"]), floatval($element["cy"]));
-        $anchor_radius = floatval($element["r"] ?? $element["rx"]);
-        $hold_point = $held["hold_point"];
-        $scale = $anchor_radius / $held["hold_radius"];
-        $dx = $dest->x - $hold_point->x * $scale;
-        $dy = $dest->y - $hold_point->y * $scale;
-        $anchor_transform = $element['transform'] ?? "";
-        $item = "<g transform='$anchor_transform translate($dx, $dy) scale($scale)'>";
-        $xpath = new DomXPath($held["node"]->ownerDocument);
-        $body = $held["body"];
-        $tincture = $xpath->query("tincture", $held["node"]);
-        if ( count($tincture) )
-            $body = apply_tincture($tincture[0], $body, $held["layout"], new ShieldSize($held["width"], $held["height"]), 0, false, false);
-        $item .= $body;
-        $item .= "</g>";
-        return $item;
+        return hold_charge($element, $extras[$id]);
     }
   //-------------------------------------------------------------------------
   $visible = true;
