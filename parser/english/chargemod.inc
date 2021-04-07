@@ -174,7 +174,7 @@
       array ( 'holding a', 'in-hand-right' ),
       array ( 'held in (its|his|her|their|the) ?* (paw|hand)s? of', 'in-hand-right' ),
       array ( 'holding in (its|his|her|their|the) (paw|hand)s?', 'in-hand-right' ),
-      array ( 'holding in (its|his|her|their|the) (jaw|mouth)s?', 'in-mouth' ),
+      array ( 'holding in ?(its|his|her|their|the) (jaw|mouth)s?', 'in-mouth' ),
       array ( 'holding in ?(her|his|its|their|the) (dexter|right) hand|paw', 'in-hand-right'),
       array ( 'holding in ?(her|his|its|their|the) (dexter|right) foot', 'in-foot-right'),
       array ( 'holding in ?(her|his|its|their|the) (sinister|left) hand|paw', 'in-hand-left'),

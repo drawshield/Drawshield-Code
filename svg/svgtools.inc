@@ -368,7 +368,7 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
     else
     {
         $retval["hold_point"] = new ShieldPos($retval['width']/2, $retval['height']/2);
-        $retval["hold_radius"] = $retval['width']/6;
+        $retval["hold_radius"] = $retval['width']/12;
     }
 
   return $retval;

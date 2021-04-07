@@ -319,7 +319,7 @@ function getCharge( DOMElement $node, $layout ) {
       $height = 1200;
       $child_layout = new ShieldLayout(new ShieldSize($width, $height), $shape);
       $hold_point = $child_layout->center_point;
-      $hold_radius = $width / 10;
+      $hold_radius = $width / 15;
 
       $clipPath = getShape($child_layout);
       $clip = add_def( 'clipPath', '<path d="' . $clipPath . '" />' );
