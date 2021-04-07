@@ -554,6 +554,7 @@ HERE;
   //------------------------------------------------------------
   // Charges on or around this one
   $chargeOnMods = getModifiersByTypeAsArray($node,'chargewith', true); // get the actual nodes
+  $new_layout = new ShieldLayout(new ShieldSize(1000, 1000), "square", null, null, false);
   /**
    * @var DOMElement $chargeOn
    */
@@ -569,7 +570,7 @@ HERE;
     $chargeToAddType = $chargeToAdd->getAttribute('keyterm');
     if ( $chargeToAdd->nodeName == 'ordinary') {
       //$messages->addMessage('Warning', "Charge charged with ordinary not supported");
-      $new_ord = makeOrdinary( $chargeToAdd, $layout );
+      $new_ord = makeOrdinary( $chargeToAdd, $new_layout );
       $patt_id = add_def ( 'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 1000"',
       "<desc>Ordinary used to fill $chargeName</desc>" . $new_ord ); 
       $body = add_def() . $body;
@@ -606,7 +607,6 @@ HERE;
         break;
       // TODO Add more of the above!
       default:
-        $new_layout = new ShieldLayout(new ShieldSize(1000, 1000), "square", null, null, false);
         $charges = makeCharge($chargeToAdd, $new_layout);
         // We now have one or more superposed charges scaled to fit into a 1000x1000 box
         // We want to shrink the superposed charges by a factor (so they leave plenty of space
@@ -635,7 +635,7 @@ HERE;
         $xShift = ($width * ($xPos / 100)) - $targetCentre; // convert percentage to factor
         $yShift = ($height * ($yPos / 100)) - $targetCentre; // convert percentage to factor
         // scale to fit onto charge - then move so charges are central
-        $charges = sprintf('<g transform="translate(%2f,%2f) scale(%4f)">%s</g>', 
+        $charges = sprintf('<g transform="translate(%2f,%2f) scale(%4f)">%s</g>',
                 $xShift, 
                 $yShift,
                 $scale, 
