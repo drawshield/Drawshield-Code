@@ -187,6 +187,7 @@
       array ( 'holding in ?(her|his|its|their|the) (dexter|right) foot', 'in-foot-right'),
       array ( 'holding in ?(her|his|its|their|the) (sinister|left) hand|paw', 'in-hand-left'),
       array ( 'holding in ?(her|his|its|their|the) (sinister|left) foot', 'in-foot-left'),
+      array ( 'holding in (both|all|each) ?(her|his|its|their) (hand|paw)(s?)', 'in-hand-both'),
       );
 
   $this->patterns[languageDB::CROWN_MODS] = array (
