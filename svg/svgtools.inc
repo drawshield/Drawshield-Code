@@ -189,27 +189,155 @@ function hold_charge($element, $held)
     if ( $orient == -1 )
         $angle += 90;
 
-    $orientation = $xpath->evaluate("string(modifier[@type='chargemod' and contains(@keyterm, 'wise')]/@keyterm)", $held["node"]);
-    switch ( $orientation )
-    {
-        case "palewise":
-            break;
-        case "fesswise":
-            $angle += $orient * 90;
-            break;
-        case "bendwise":
-            $angle += 45;
-            break;
-        case "bendsinwise":
-            $angle -= 45;
-            break;
-    }
-
     $scale_x = $scale_y = $anchor_radius / $held["hold_radius"];
-    if ( getModifierNodeWithKeyterm($held["node"], "reversed") )
-        $scale_x *= -1;
-    if ( getModifierNodeWithKeyterm($held["node"], "inverted") )
-        $scale_y *= -1;
+
+    $charge_mods = $xpath->query("modifier", $held["node"]);
+
+    foreach ( $charge_mods as $mod )
+    {
+        switch ( $mod->getAttribute('keyterm') )
+        {
+            case "palewise":
+                break;
+            case "fesswise":
+                $angle += $orient * 90;
+                break;
+            case "bendwise":
+                $angle += 45;
+                break;
+            case "bendsinwise":
+                $angle -= 45;
+                break;
+            case 'inverted':
+                $scale_y *= -1;
+                break;
+            case 'reversed':
+                $scale_x *= -1;
+                break;
+            case 'rotated-dexter':
+                $angle += -18;
+                break;
+            case 'rotated-sinister':
+                $angle += 18;
+                break;
+            case 'slightly-rotated-dexter':
+                $angle += -9;
+                break;
+            case 'slightly-rotated-sinister':
+                $angle += 9;
+                break;
+            case 'much-rotated-dexter':
+                $angle += -27;
+                break;
+            case 'much-rotated-sinister':
+                $angle += 27;
+                break;
+            case 'very-much-rotated-dexter':
+                $angle += -36;
+                break;
+            case 'very-much-rotated-sinister':
+                $angle += 36;
+                break;
+            case 'narrower':
+                $scale_x *= 0.8;
+                break;
+            case 'shorter':
+                $scale_y *= 0.8;
+                break;
+            case 'taller':
+                $scale_y *= 1.2;
+                break;
+            case 'wider':
+                $scale_x *= 1.2;
+                break;
+            case 'much-narrower':
+                $scale_x *= 0.8;
+                break;
+            case 'much-shorter':
+                $scale_y *= 0.8;
+                break;
+            case 'much-taller':
+                $scale_y *= 1.4;
+                break;
+            case 'much-wider':
+                $scale_x *= 1.4;
+                break;
+            case 'slightly-narrower':
+                $scale_x *= 0.9;
+                break;
+            case 'slightly-shorter':
+                $scale_y *= 0.9;
+                break;
+            case 'slightly-taller':
+                $scale_y *= 1.1;
+                break;
+            case 'slightly-wider':
+                $scale_x *= 1.1;
+                break;
+            case 'very-much-narrower':
+                $scale_x *= 0.6;
+                break;
+            case 'very-much-shorter':
+                $scale_y *= 0.6;
+                break;
+            case 'very-much-taller':
+                $scale_y *= 1.6;
+                break;
+            case 'very-much-wider':
+                $scale_x *= 1.6;
+                break;
+            case 'smaller':
+                $scale_x *= 0.8;
+                $scale_y *= 0.8;
+                break;
+            case 'larger':
+                $scale_x *= 1.2;
+                $scale_y *= 1.2;
+                break;
+            case 'slightly-smaller':
+                $scale_x *= 0.9;
+                $scale_y *= 0.9;
+                break;
+            case 'slightly-larger':
+                $scale_x *= 1.1;
+                $scale_y *= 1.1;
+                break;
+            case 'much-smaller':
+            $scale_x *= 0.6;
+            $scale_y *= 0.6;
+            break;
+            case 'much-larger':
+                $scale_x *= 1.4;
+                $scale_y *= 1.4;
+                break;
+            case 'very-much-smaller':
+                $scale_x *= 0.4;
+                $scale_y *= 0.4;
+                break;
+            case 'very-much-larger':
+                $scale_x *= 1.6;
+                $scale_y *= 1.6;
+                break;
+            case 'raised':
+            case 'lowered':
+            case 'to-dexter':
+            case 'to-sinister':
+            case 'slightly-raised':
+            case 'slightly-lowered':
+            case 'slightly-to-dexter':
+            case 'slightly-to-sinister':
+            case 'much-raised':
+            case 'much-lowered':
+            case 'much-to-dexter':
+            case 'much-to-sinister':
+            case 'very-much-raised':
+            case 'very-much-lowered':
+            case 'very-much-to-dexter':
+            case 'very-much-to-sinister':
+                // unsupported
+                break;
+        }
+    }
 
     $dx = $dest->x - $hold_point->x * $scale_x;
     $dy = $dest->y - $hold_point->y * $scale_y;
