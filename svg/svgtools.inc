@@ -178,41 +178,71 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
 
 function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $chargeName, 
     $extras, $strokeCol, $strokeWidth, $fillSet = false ) {
-  $name = $element->getName();
-  if ( in_array($name, array( 'metadata', 'defs', 'title' ) ))
-    return null;
-  if (( strpos($name,'sodipodi:') !== false ) or (strpos($name,'inkscape:') !== false ))
-    return null;
-  $id = isset($element['id']) ? (string)$element['id'] : null;
-  $class = '';
-  //---------------------------------------------------
-  // Handle invisible rectangles marking additional charge positions
-  if ( $name == 'rect' ) {
-    if ( array_key_exists($id, $extras)) { // Special handling for extra items, e.g. crowns
-      $item = '';
-      if ( isset($element['transform']))
-        $item .= '<g transform="' . $element['transform'] . '">'; // Apply the original transform (e.g. to tilt crown)
-      if ( $id == 'crowned' ) { // crowns just use width, then drop to the bottom
-        $scale = ($element['width'] / $extras[$id]['width']);
-        $yAdjustment = $element['height'] - ($extras[$id]['height'] * $scale);
-        $xAdjustment = 0;
-      } else { // everything else scales to fit centrally in the rectangle
-        $scale = min ( $element['height'] / $extras[$id]['height'], $element['width'] / $extras[$id]['width']);
-        $yAdjustment = ($element['height'] - ($extras[$id]['height'] * $scale))/2;
-        $xAdjustment = ($element['width'] - ($extras[$id]['width'] * $scale))/2;
-      }
-      $item .= '<g transform="translate(' . ($element['x'] + $xAdjustment) . ',' . ($element['y'] + $yAdjustment) . ')">'; // Move to the box position, adjust if we are shorter than the box
-      // Scale item to the size of the original rectangle
-      $item .= '<g transform="scale(' . $scale . ',' . $scale . ')">';
-      if ( array_key_exists('crowned',$featureColours) )
-        $item .= '<g fill="' . $featureColours['crowned'] . '">' . $extras[$id]['body'] . '</g>';
-      else
-        $item .= $extras[$id]['body'];
-      $item .= '</g></g>';
-      if ( isset($element['transform'])) $item .= '</g>'; // close the groups above
-      return $item;
+    $name = $element->getName();
+    if ( in_array($name, array( 'metadata', 'defs', 'title' ) ))
+        return null;
+    if (( strpos($name,'sodipodi:') !== false ) or (strpos($name,'inkscape:') !== false ))
+        return null;
+    $id = isset($element['id']) ? (string)$element['id'] : null;
+    $class = '';
+    //---------------------------------------------------
+    // Handle invisible rectangles marking additional charge positions
+    if ( $name == 'rect' ) {
+        if ( array_key_exists($id, $extras)) { // Special handling for extra items, e.g. crowns
+
+            $item = '';
+
+            if ( isset($element['transform']))
+                $item .= '<g transform="' . $element['transform'] . '">'; // Apply the original transform (e.g. to tilt crown)
+
+            if ( $id == 'crowned' ) { // crowns just use width, then drop to the bottom
+                $scale = ($element['width'] / $extras[$id]['width']);
+                $yAdjustment = $element['height'] - ($extras[$id]['height'] * $scale);
+                $xAdjustment = 0;
+            } else { // everything else scales to fit centrally in the rectangle
+                $scale = min ( $element['height'] / $extras[$id]['height'], $element['width'] / $extras[$id]['width']);
+                $yAdjustment = ($element['height'] - ($extras[$id]['height'] * $scale))/2;
+                $xAdjustment = ($element['width'] - ($extras[$id]['width'] * $scale))/2;
+            }
+
+            $item .= '<g transform="translate(' . ($element['x'] + $xAdjustment) . ',' . ($element['y'] + $yAdjustment) . ')">'; // Move to the box position, adjust if we are shorter than the box
+
+            // Scale item to the size of the original rectangle
+            $item .= '<g transform="scale(' . $scale . ',' . $scale . ')">';
+
+            if ( array_key_exists('crowned',$featureColours) )
+                $item .= '<g fill="' . $featureColours['crowned'] . '">' . $extras[$id]['body'] . '</g>';
+            else
+                $item .= $extras[$id]['body'];
+
+            $item .= '</g></g>';
+
+            if ( isset($element['transform']) )
+                $item .= '</g>'; // close the groups above
+
+            return $item;
+        }
     }
-  }
+    else if ( ($name == "ellipse" || $name == "circle") && array_key_exists($id, $extras) )
+    {
+        $held = $extras[$id];
+        $dest = new ShieldPos(floatval($element["cx"]), floatval($element["cy"]));
+        $anchor_radius = floatval($element["r"] ?? $element["rx"]);
+        $hold_point = $held["hold_point"];
+        $scale = $anchor_radius / $held["hold_radius"];
+        $dx = $dest->x - $hold_point->x * $scale;
+        $dy = $dest->y - $hold_point->y * $scale;
+        $anchor_transform = $element['transform'] ?? "";
+        $item = "<g transform='$anchor_transform translate($dx, $dy) scale($scale)'>";
+        $xpath = new DomXPath($held["node"]->ownerDocument);
+        $body = $held["body"];
+        $tincture = $xpath->query("tincture", $held["node"]);
+        if ( count($tincture) )
+            $body = apply_tincture($tincture[0], $body, $held["layout"], new ShieldSize($held["width"], $held["height"]), 0, false, false);
+        $item .= $body;
+        $item .= "</g>";
+        return $item;
+    }
   //-------------------------------------------------------------------------
   $visible = true;
   if ( isset($element["style"]) && strpos($element["style"], "display:none") !== false )
@@ -328,5 +358,18 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
     $fragment = "<g transform=\"$offset\">$fragment</g>\n";
   }
   $retval['body'] = $fragment;
+
+    $hold_point = $svg->xpath("//*[@id='hold-point']");
+    if ( count($hold_point) > 0 )
+    {
+        $retval["hold_point"] = new ShieldPos(floatval($hold_point[0]["cx"]), floatval($hold_point[0]["cy"]));
+        $retval["hold_radius"] = floatval($hold_point[0]["r"] ?? $hold_point[0]["rx"]);
+    }
+    else
+    {
+        $retval["hold_point"] = new ShieldPos($retval['width']/2, $retval['height']/2);
+        $retval["hold_radius"] = $retval['width']/6;
+    }
+
   return $retval;
 }

@@ -284,6 +284,8 @@ function getCharge( DOMElement $node, $layout ) {
 
     $filters = [];
     static $filter_id = 0;
+    $hold_point = null;
+    $hold_radius = 1;
 
     //-------------------------------------------------------------
   // Special handling for escutcheons
@@ -316,6 +318,8 @@ function getCharge( DOMElement $node, $layout ) {
       $width = 1000;
       $height = 1200;
       $child_layout = new ShieldLayout(new ShieldSize($width, $height), $shape);
+      $hold_point = $child_layout->center_point;
+      $hold_radius = $width / 10;
 
       $clipPath = getShape($child_layout);
       $clip = add_def( 'clipPath', '<path d="' . $clipPath . '" />' );
@@ -344,6 +348,8 @@ function getCharge( DOMElement $node, $layout ) {
     $strokeCol = null;
     $feat_cols = array();
     $defs = [];
+    $extras = [];
+
     /**
      * @var DOMElement $child
      */
@@ -382,8 +388,22 @@ function getCharge( DOMElement $node, $layout ) {
             }
           } elseif ($child->getAttribute(blazonML::A_KEYTERM) == 'stroked') {
               $strokeCol = rgb($child->getAttribute(blazonML::A_PARAM));
-          }
-          break;
+          } else if ( $child->getAttribute('type') == 'chargewith' and $child->hasChildNodes() ){
+            $chargeToAdd = $child->firstChild;
+            if ( $chargeToAdd->nodeName == 'missing' || $chargeToAdd->nodeName == 'ordinary' )
+                continue;
+            $chargeWithType = $child->getAttribute('keyterm');
+            switch ( $chargeWithType )
+            {
+                case "in-mouth":
+                case "in-hand-right":
+                case "in-hand-left":
+                case "in-foot-right":
+                case "in-foot-left":
+                    $extras[$chargeWithType] = getCharge($chargeToAdd, $layout);
+                    break;
+            }
+        }
       }
     }
     //--------------------------------------------------------------------------
@@ -411,7 +431,7 @@ function getCharge( DOMElement $node, $layout ) {
 
     //------------------------------------------------------------------------------
     // Charges "internal" to this one
-    $extras = array();
+
     // Special handling for charges "crowned"
     if ( $crown = getModifierNodeWithKeyterm($node, 'crowned', false) ) {
       $crownType = $crown->getAttribute('value');
@@ -591,6 +611,12 @@ HERE;
         $width = $height = 1000;
         $chg_data['hflex'] = $chg_data['wflex'] = 0; // don't flex, as circle  must stay round!
         break;
+      case "in-mouth":
+      case "in-hand-right":
+      case "in-hand-left":
+      case "in-foot-right":
+      case "in-foot-left":
+        break;
       // TODO Add more of the above!
       default:
         $new_layout = new ShieldLayout(new ShieldSize(1000, 1000), "square", null, null, false);
@@ -676,8 +702,12 @@ HERE;
 
   // $messages->addMessage('licence',$node->getAttribute('keyterm') . " $licence"); // TODO what about internal, and is this used below?
   // $chg_data['licence'] = $licence;
+  $chg_data['node'] = $node;
+  $chg_data['layout'] = $layout;
   $chg_data['body'] = $body;
   $chg_data['height'] = $height;
   $chg_data['width'] = $width;
+  $chg_data['hold_point'] = $hold_point;
+  $chg_data['hold_radius'] = $hold_radius;
   return $chg_data;
 }
