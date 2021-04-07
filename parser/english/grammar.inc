@@ -696,6 +696,7 @@ class englishGrammar extends grammar
          * 3) ChargeB on ChargeA
          * 4) ChargeA between ChargeB
          * 5) between ChargeA ChargeB
+         * 7) ChargeA holding a ChargeB
          *
          * And we generally ignore (for now)
          * 6) ChargeA above/below ChargeB
@@ -745,6 +746,8 @@ class englishGrammar extends grammar
         $firstTime = true;
         do {
             $found = false; // looping control
+            $holding = false;
+            $keep = false;
 
             if (self::semicolon(true)) break; // semi colon ends input
 
@@ -754,6 +757,15 @@ class englishGrammar extends grammar
                     $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,
                         $this->phraseMatcher->getValue(), $keyterm, self::tokens(),
                         self::lineNo());
+                }
+            }
+
+            if ($onMod == null) {
+                if ($keyterm = self::find(languageDB::HOLDING)) { // (7)
+                    $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,
+                        $this->phraseMatcher->getValue(), $keyterm, self::tokens(),
+                        self::lineNo());
+                    $holding = true;
                 }
             }
 
@@ -795,7 +807,10 @@ class englishGrammar extends grammar
                 break;
             } // else
 
-            if ($swapCharges) { // collapse cases
+            if ( $holding ) {
+                $keep = self::semicolon(true);
+            }
+            else if ($swapCharges) { // collapse cases
                 if ($firstTime) {
                     $topCharge = $otherCharge;
                     $temp = $otherCharge;
@@ -816,7 +831,8 @@ class englishGrammar extends grammar
 
             $theMod->appendChild($otherCharge);
             $currentCharge->appendChild($theMod);
-            $currentCharge = $otherCharge;
+            if ( !$keep )
+                $currentCharge = $otherCharge;
 
             $found = true; // loop again, with a clean slate
             $onMod = null;
