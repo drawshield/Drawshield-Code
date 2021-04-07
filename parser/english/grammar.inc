@@ -762,7 +762,7 @@ class englishGrammar extends grammar
 
             if ($onMod == null) {
                 if ($keyterm = self::find(languageDB::HOLDING)) { // (7)
-                    $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,
+                    $onMod = $this->schema->makeMod(languageDB::HOLDING,
                         $this->phraseMatcher->getValue(), $keyterm, self::tokens(),
                         self::lineNo());
                     $holding = true;

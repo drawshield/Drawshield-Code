@@ -388,21 +388,12 @@ function getCharge( DOMElement $node, $layout ) {
             }
           } elseif ($child->getAttribute(blazonML::A_KEYTERM) == 'stroked') {
               $strokeCol = rgb($child->getAttribute(blazonML::A_PARAM));
-          } else if ( $child->getAttribute('type') == 'chargewith' and $child->hasChildNodes() ){
+          } else if ( $child->getAttribute('type') == languageDB::HOLDING and $child->hasChildNodes() ){
             $chargeToAdd = $child->firstChild;
             if ( $chargeToAdd->nodeName == 'missing' || $chargeToAdd->nodeName == 'ordinary' )
                 continue;
             $chargeWithType = $child->getAttribute('keyterm');
-            switch ( $chargeWithType )
-            {
-                case "in-mouth":
-                case "in-hand-right":
-                case "in-hand-left":
-                case "in-foot-right":
-                case "in-foot-left":
-                    $extras[$chargeWithType] = getCharge($chargeToAdd, $layout);
-                    break;
-            }
+            $extras[$chargeWithType] = getCharge($chargeToAdd, $layout);
         }
       }
     }
@@ -610,12 +601,6 @@ HERE;
           $body = '<g transform="translate(' . $xAdjust . ',' . $yAdjust . ') scale(' . $scale . ')">' . $body . '</g>' . $charges;
         $width = $height = 1000;
         $chg_data['hflex'] = $chg_data['wflex'] = 0; // don't flex, as circle  must stay round!
-        break;
-      case "in-mouth":
-      case "in-hand-right":
-      case "in-hand-left":
-      case "in-foot-right":
-      case "in-foot-left":
         break;
       // TODO Add more of the above!
       default:
