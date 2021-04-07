@@ -37,6 +37,7 @@
       array ( 'spanish ?shaped?', 'shape-spanish'),
       array ( 'german ?shaped?', 'shape-german'),
       array ( 'heater ?shaped?', 'shape-heater'),
+      array ( 'flag ?shaped?', 'shape-flag'),
       array ( 'equal armed', 'equal-armed'),
       array ( 'sinister (half|halves|parts?) ?of ?(a|an|the)', 'sinister-half'),
       array ( 'dexter (half|halves|parts?) ?of ?(a|an|the)', 'dexter-half'),

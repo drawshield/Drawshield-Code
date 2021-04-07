@@ -59,6 +59,12 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
+  <circle
+     style="display:none;fill:#3250b0;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3"
+     id="in-hand-right"
+     cx="16.5"
+     cy="29.552319"
+     r="7.6668153" />
   <g
      transform="translate(-52.682463,278.76818)"
      id="layer1">
@@ -114,6 +120,6 @@
      style="fill:#3250b0;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3"
      id="hold-point"
      cx="11.105968"
-     cy="233.29509"
+     cy="219.29509"
      r="6.4188704" />
 </svg>

@@ -236,6 +236,15 @@ class ShieldLayout
         );
     }
 
+    static function best_height($shape)
+    {
+        if ( !empty(self::$custom_size[$shape]) )
+            return self::$custom_size[$shape];
+        if ( $shape == "flag" )
+            return 600;
+        return 1200;
+    }
+
     static function from_options($options)
     {
         $width = 1000;

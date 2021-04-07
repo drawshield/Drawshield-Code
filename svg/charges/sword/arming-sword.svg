@@ -29,11 +29,11 @@
      id="blade">
     <path
        style="fill:#ffff00;stroke:#000000;stroke-width:3"
-       d="M27.11,298.5 70.55,296.5 60.45,16.65 48.33,1.5 39.23,14.63   z "
+       d="m 27.11,298.5 43.44,-2 L 60.45,16.65 48.33,1.5 39.23,14.63 Z"
        id="path2994" />
     <path
-       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="M50.35,19.68 49.34,293.4   "
+       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 50.35,19.68 49.34,293.4"
        id="path2996" />
   </g>
   <g
@@ -75,7 +75,7 @@
        id="path3015" />
   </g>
   <circle
-     style="display:none;fill:#3250b0;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3"
+     style="display:inline;fill:#3250b0;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3"
      id="hold-point"
      cx="48.91988"
      cy="330.44406"

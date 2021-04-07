@@ -316,9 +316,11 @@ function getCharge( DOMElement $node, $layout ) {
       // just carry on with a blank escutcheon
     } else {
       $width = 1000;
-      $height = 1200;
+      $height = ShieldLayout::best_height($shape);
       $child_layout = new ShieldLayout(new ShieldSize($width, $height), $shape);
       $hold_point = $child_layout->center_point;
+      if ( $shape == "flag" )
+        $hold_point = new ShieldPos(0, 0);
       $hold_radius = $width / 15;
 
       $clipPath = getShape($child_layout);

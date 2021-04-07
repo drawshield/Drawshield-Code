@@ -185,11 +185,16 @@ function hold_charge($element, $held)
     $xpath = new DomXPath($held["node"]->ownerDocument);
 
     $angle = 0;
-    $orient = -($held["orient_to_ordinary"] ?? -1);
+    $orient = empty($held["horizontal"]) ? 1 : -1;
     if ( $orient == -1 )
         $angle += 90;
 
     $scale_x = $scale_y = $anchor_radius / $held["hold_radius"];
+    $anchor_angle = 0;
+    $matches = [];
+    preg_match_all('/rotate\s*\(\s*([^,)]+)/', $anchor_transform, $matches);
+    foreach ( $matches[1] as $match )
+        $anchor_angle += (float)trim($match);
 
     $charge_mods = $xpath->query("modifier", $held["node"]);
 
@@ -198,15 +203,16 @@ function hold_charge($element, $held)
         switch ( $mod->getAttribute('keyterm') )
         {
             case "palewise":
+                $angle = -$anchor_angle;
                 break;
             case "fesswise":
-                $angle += $orient * 90;
+                $angle = -$anchor_angle + $orient * 90;
                 break;
             case "bendwise":
-                $angle += 45;
+                $angle = -$anchor_angle - 45;
                 break;
             case "bendsinwise":
-                $angle -= 45;
+                $angle = -$anchor_angle + 45;
                 break;
             case 'inverted':
                 $scale_y *= -1;
@@ -303,9 +309,9 @@ function hold_charge($element, $held)
                 $scale_y *= 1.1;
                 break;
             case 'much-smaller':
-            $scale_x *= 0.6;
-            $scale_y *= 0.6;
-            break;
+                $scale_x *= 0.6;
+                $scale_y *= 0.6;
+                break;
             case 'much-larger':
                 $scale_x *= 1.4;
                 $scale_y *= 1.4;
@@ -342,9 +348,11 @@ function hold_charge($element, $held)
     $dx = $dest->x - $hold_point->x * $scale_x;
     $dy = $dest->y - $hold_point->y * $scale_y;
 
-    $rotation = $angle == 0 ? "" : "rotate($angle, {$hold_point->x}, {$hold_point->y})";
+    $rx = $hold_point->x * $scale_x;
+    $ry = $hold_point->y * $scale_y;
+    $rotation = $angle == 0 ? "" : "rotate($angle, $rx, $ry)";
 
-    $item = "<g transform='$anchor_transform translate($dx, $dy) scale($scale_x, $scale_y) $rotation'>";
+    $item = "<g transform='$anchor_transform translate($dx, $dy) $rotation scale($scale_x, $scale_y) '>";// scale($post_scale_x, $post_scale_y)'>";
     $body = $held["body"];
     $tincture = $xpath->query("tincture", $held["node"]);
     if ( count($tincture) )
