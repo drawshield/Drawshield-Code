@@ -36,22 +36,43 @@ Class WordBuilder
         }
     }
 
+    private function  str_split_unicode($str, $length = 1) {
+        $tmp = preg_split('~~u', $str, -1, PREG_SPLIT_NO_EMPTY);
+        if ($length > 1) {
+            $chunks = array_chunk($tmp, $length);
+            foreach ($chunks as $i => $chunk) {
+                $chunks[$i] = join('', (array) $chunk);
+            }
+            $tmp = $chunks;
+        }
+        return $tmp;
+    }
+
     private function stringToGlyphs($words) {
         $svg = '';
         $xLength = 0;
-        foreach (str_split($words) as $char) {
+        $notdef = null;
+        foreach ($this->str_split_unicode($words) as $char) {
             if ($char == ' ') {
                 $xLength += $this->defaultXSize * 0.6;
                 continue;
             }
             $glyph = null;
             foreach ($this->glyphs as $possible) {
+                if (!$notdef && $possible['glyph-name'] == '.notdef') {
+                    $notdef = $possible;
+                }
                 if ($possible['unicode'] == $char) {
                     $glyph = $possible;
                     break;
                 }
             }
-            if ($glyph == null) continue;
+            if ($glyph == null) {
+                if ($notdef)
+                    $glyph = $notdef;
+                else
+                   continue;
+            }
             $d = $glyph['d'];
             $x = $glyph['horiz-adv-x'];
             $svg .= "<path transform=\"translate($xLength)\" d=\"$d\" />\n";
@@ -105,7 +126,6 @@ Class WordBuilder
         $line = $this->stringToGlyphs($text);
         $retval = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' .
         $this->ySize . '" width="' . $line['width'] . '"><g id="body">' . $line['body'] . '</g></svg>';
-        error_log($retval);
         return $retval;
     }
 
