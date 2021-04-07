@@ -65,4 +65,10 @@
          d="M 35,80.7 37.9,51.4 30,9.29" />
     </g>
   </g>
+  <circle
+     style="fill:#3250b0;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3"
+     id="hold-point"
+     cx="30.421288"
+     cy="229.0981"
+     r="8.6652861" />
 </svg>

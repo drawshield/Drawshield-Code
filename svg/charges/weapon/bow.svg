@@ -6,7 +6,6 @@
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    version="1.1"
-   viewBox="59.625 63 120.28702 302.556"
    width="120.28702"
    height="302.556"
    id="svg507">
@@ -40,7 +39,7 @@
      stroke="none"
      stroke-opacity="1"
      fill="#ffff00"
-     transform="translate(-120.52224,-1.7220039)">
+     transform="translate(-180.14724,-64.722)">
     <title
        id="title446">Bow With An Arrow Nocked</title>
     <g
@@ -122,4 +121,10 @@
       </g>
     </g>
   </g>
+  <circle
+     style="fill:#3250b0;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3"
+     id="hold-point"
+     cx="13.95835"
+     cy="153.3992"
+     r="11.790953" />
 </svg>

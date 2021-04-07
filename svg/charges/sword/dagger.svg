@@ -67,4 +67,10 @@
          style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     </g>
   </g>
+  <circle
+     style="fill:#3250b0;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3"
+     id="hold-point"
+     cx="45.983383"
+     cy="329.4534"
+     r="17.383892" />
 </svg>
