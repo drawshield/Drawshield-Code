@@ -18,7 +18,7 @@
    }
  }
 
-function getBestMatchFilename($folder, $base, $mods) {
+function getBestMatchFilename($folder, $base, $mods, $warn = true) {
   global $messages;
   $lowestPenalty = 9999;
   $bestFilename = '';
@@ -96,7 +96,8 @@ function getBestMatchFilename($folder, $base, $mods) {
     }
   }
   closedir($dh);
-  if ($bestMissing) $messages->addMessage('warning', $base . ' may not be drawn with ' . $bestMissing);
+  if ($bestMissing && $warn )
+    $messages->addMessage('warning', $base . ' may not be drawn with ' . $bestMissing);
   // if ($bestExtra) $messages->addMessage('other', $base . ' is also ' . $bestExtra);
   return $bestFilename;
 }
@@ -556,9 +557,7 @@ HERE;
     $chargeToAddType = $chargeToAdd->getAttribute('keyterm');
     if ( $chargeToAdd->nodeName == 'ordinary') {
       //$messages->addMessage('Warning', "Charge charged with ordinary not supported");
-      chief('push','NC');
       $new_ord = makeOrdinary( $chargeToAdd, $layout );
-      chief('pop'); 
       $patt_id = add_def ( 'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 1000"',
       "<desc>Ordinary used to fill $chargeName</desc>" . $new_ord ); 
       $body = add_def() . $body;
@@ -595,9 +594,7 @@ HERE;
         break;
       // TODO Add more of the above!
       default:
-        $new_layout = clone $layout;
-        // make sure any chief is ignored when placing charges
-        $new_layout->accepts_chief = false;
+        $new_layout = new ShieldLayout(new ShieldSize(1000, 1000), "square", null, null, false);
         $charges = makeCharge($chargeToAdd, $new_layout);
         // We now have one or more superposed charges scaled to fit into a 1000x1000 box
         // We want to shrink the superposed charges by a factor (so they leave plenty of space

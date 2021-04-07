@@ -13,6 +13,6 @@
    limitations under the License. */
 
 $ordinary = array (
-  'shape_spec' => array ( "NC" =>  'X0Y-100B700D700f200H500F500h200', "CH" =>  'X0Y200B700D700f200H500F500h200' ),
-  'bounding_box' => array ( "NC" => '500,1000,0,0', 'CH' => '500,1000,0,200' ),
+  'shape_spec' => 'X0Y-100B700D700f200H500F500h200',
+  'bounding_box' => '500,1000,0,0',
 );

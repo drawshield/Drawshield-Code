@@ -182,6 +182,12 @@ class languageDB extends lexicon
                 array('grandquartered', 'quartered'), // Always a marshalling
                 array('quarter(ed|ly) per saltire', 'quartered-per-saltire'), // Always a marshalling
                 array('(grand)?quarterly', 'quarterly'), // Could be a marshalling or a division
+                array('?part(y|ed) per fesse?', 'per-fess',),
+                array('tierced? (in|per) fesse?', 'per-fess',),
+                array('parted fesse?wise', 'per-fess',),
+                array('?part(y|ed) per pale', 'per-pale',),
+                array('parted palewise', 'per-pale',),
+                array('tierced? (in|per) pale', 'per-pale',),
             ),
             self::QUARTERMARK => array('\\)'),
             self::LETTERS => array(

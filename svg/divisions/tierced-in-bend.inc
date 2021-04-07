@@ -12,20 +12,53 @@
  */
 
 $lineType = getModifierByType($node, 'linetype', false);
-if ( ($sinister = existModifierWithKeyterm($node, 'sinister'))) {
-  $div2_data = array ( 'NC' => 'X-100Y800H1696c1700e1200g500', 'CH' => 'X-100Y1000H1696c1700e1200g500' );
-  $div3_data = array ( 'NC' => 'X1100Y200c1100e1100H1696', 'CH' => 'X1100Y400c1100e1100H1696' );
-} else {
-  $div2_data = array ( 'NC' => 'X-100Y-100a1200c1500F1696g300', 'CH' => 'X-100Y100a1200c1500F1696g300' );
-  $div3_data = array ( 'NC' => 'X200Y-100a1000c1000F1414',  'CH' => 'X200Y100a1000c1000F1414' );
+
+$base = max($layout->size->width, $layout->size->height);
+$length = $base * M_SQRT2 * 2;
+$width = 400;
+
+if ( $sinister = existModifierWithKeyterm($node, 'sinister') )
+{{
+    $builder_2 = path_builder($layout->center_point->x + $base, $layout->center_point->y - $base)
+        ->up_left_plain($width/2)
+        ->down_left($length)
+        ->right_plain(($length+$width/2) / M_SQRT2)
+        ->up_plain(($length-$width/2) / M_SQRT2)
+    ;
+
+    $builder_3 = path_builder($layout->center_point->x + $base, $layout->center_point->y - $base)
+        ->down_right_plain($width/2)
+        ->down_left($length)
+        ->right_plain(($length-$width/2) / M_SQRT2)
+        ->up_plain(($length-$width/2) / M_SQRT2)
+    ;
 }
-$division['div2'] = createBody(choose_fit($div2_data), $lineType, 60, $layout);
-$division['div3'] = createBody(choose_fit($div3_data), $lineType, 60, $layout);
+}
+else
+{
+    $builder_2 = path_builder($layout->center_point->x - $base, $layout->center_point->y - $base)
+        ->down_left_plain($width/2)
+        ->down_right($length)
+        ->up_plain(($length+$width/2) / M_SQRT2)
+        ->left_plain(($length-$width/2) / M_SQRT2)
+    ;
+
+    $builder_3 = path_builder($layout->center_point->x - $base, $layout->center_point->y - $base)
+        ->up_right_plain($width/2)
+        ->down_right($length)
+        ->up_plain(($length-$width/2) / M_SQRT2)
+        ->left_plain(($length-$width/2) / M_SQRT2)
+    ;
+}
+
+
+$division['div2'] = createBody((string)$builder_2, $lineType, 60, $layout);
+$division['div3'] = createBody((string)$builder_3, $lineType, 60, $layout);
 
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';
   $rivetList = '';
-  $offset = chiefPresent() ? 200 : 0;
+  $offset = $layout->center_point->y - 500;
   for ($i = 1075; $i > -80; $i -= 80) {
     if ( $sinister ) {
       $rivetList .= '<g transform="translate(' . (630 - $i) . ',' . ($i  + $offset). ')">' . $rivet . '</g>';

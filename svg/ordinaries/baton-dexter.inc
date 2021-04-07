@@ -12,7 +12,6 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-
-$ordinary['shape_spec'] = array ( 'NC' => 'X100Y100h28B1131d56F1131h28', 'CH' => 'X200Y400h28B848d56F848h28' );
-$ordinary['feature_size'] =18;
-
+require_once("bend-helper.inc");
+$ordinary['shape_spec'] = (string)build_bend($layout, 56, 100);
+$ordinary['feature_size'] = 18;

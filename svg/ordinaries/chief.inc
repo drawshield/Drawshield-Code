@@ -19,8 +19,15 @@ if ( existModifierWithKeyterm($node,'couped') ) {
   $ordinary['body'] = '<path d="M -20,250 500,350 1020,250 V -20 H -20 Z" />';
   $ordinary['chargesOn'] = array ('h','100,50,800,200');
 } else {
-  $ordinary['shape_spec'] = 'X-100Y-8U1a1200c308E1200g308';
-  $ordinary['chargesOn'] = array ('h','100,50,800,200');
+  $ordinary['shape_spec'] = (string)path_builder(-100, -8)
+    ->draw_all()
+    ->right_plain($layout->size->width+200)
+    ->down_plain($layout->size->height+8)
+    ->left($layout->size->width+200)
+    ->up_plain($layout->size->height+8);
+
+    $rect = $layout->rect_area()->margin($layout->size->height / 6);
+    $ordinary['chargesOn'] = array("h", $rect);
 }
 
  if ( existModifierWithKeyterm($node,'compony1') )

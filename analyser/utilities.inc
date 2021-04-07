@@ -50,7 +50,7 @@ function createColourNode($colour, $index='1') {
   return $tinc;
 }
 
-function existModifierWithKeyterm(DOMElement $node, $keyterm, $markUsed = true) {
+function existModifierWithKeyterm(?DOMElement $node, $keyterm, $markUsed = true) {
 // FIX sometimes we seem to call this with a DOMNodeList (from error_log on 18/7/14)
   if ( $node != null and get_class($node) <> 'DOMNodeList' and $node->hasChildNodes()) {
     /**

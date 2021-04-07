@@ -560,7 +560,7 @@ c
   list($repeat,$length,$defaultStart,$defaultEnd,$spec,$options) = explode(':',$lineSpec . ': ' ); // options are optional(!)
   // Process any flags for this lineSpec
   foreach ( str_split($options,2) as $option ) {
-    switch ( $option{0} ) {
+    switch ( $option[0] ) {
       case 'R':
         $whenRotated = 'reflected';
         break;
@@ -578,7 +578,7 @@ c
   $edges = array();
   foreach ($edgeSpecs[0] as $edgeSpec) {
     $doMirror = false;
-    $dir = $edgeSpec{0};
+    $dir = $edgeSpec[0];
     $dist = floatval(substr($edgeSpec,1));
     if ( $dir == 'X' ) {
       $Xstart = $dist;
@@ -705,7 +705,7 @@ Function reverseSpec ( $shapeSpec ) {
   $shape = array();
   foreach ( array_reverse($matches[0]) as $match ) {
     // Get direction and distance
-    $dir = $match{0};
+    $dir = $match[0];
     $dist = substr($match,1);
     if ( strpos ( "XYZQVOU", $dir ) !== false ) {
       $retval .= $match;
@@ -729,7 +729,7 @@ function parallelSpec ( $shapeSpec, $io, $size ) {
   $flags = '';
   foreach ( $matches[0] as $match ) {
     // Get direction and distance
-    $dir = $match{0};
+    $dir = $match[0];
     $dist = floatval(substr($match,1));
     // Get the line spec for this direction
     if ( $dir == 'X' ) {
@@ -768,4 +768,159 @@ function parallelSpec ( $shapeSpec, $io, $size ) {
     $retval .= $dir . $dist;
   }
   return $flags . $retval;
+}
+
+class PathBuilder
+{
+    public $spec = "";
+
+    function next()
+    {
+        if ( $this->spec != "" && $this->spec[strlen($this->spec)-1] != " ")
+            $this->spec .= "   ";
+    }
+
+    function move($x, $y)
+    {
+        $this->next();
+        $this->spec .= "X{$x}Y$y";
+        return $this;
+    }
+
+    function __toString()
+    {
+        return $this->spec;
+    }
+
+    function right($length)
+    {
+        $this->spec .= "A$length";
+        return $this;
+    }
+
+    function right_plain($length)
+    {
+        $this->spec .= "a$length";
+        return $this;
+    }
+
+    function down_right($length)
+    {
+        $this->spec .= "B$length";
+        return $this;
+    }
+
+    function down_right_plain($length)
+    {
+        $this->spec .= "b$length";
+        return $this;
+    }
+
+    function down($length)
+    {
+        $this->spec .= "C$length";
+        return $this;
+    }
+
+    function down_plain($length)
+    {
+        $this->spec .= "c$length";
+        return $this;
+    }
+
+    function down_left($length)
+    {
+        $this->spec .= "D$length";
+        return $this;
+    }
+
+    function down_left_plain($length)
+    {
+        $this->spec .= "d$length";
+        return $this;
+    }
+
+    function left($length)
+    {
+        $this->spec .= "E$length";
+        return $this;
+    }
+
+    function left_plain($length)
+    {
+        $this->spec .= "e$length";
+        return $this;
+    }
+
+    function up_left($length)
+    {
+        $this->spec .= "F$length";
+        return $this;
+    }
+
+    function up_left_plain($length)
+    {
+        $this->spec .= "f$length";
+        return $this;
+    }
+
+    function up($length)
+    {
+        $this->spec .= "G$length";
+        return $this;
+    }
+
+    function up_plain($length)
+    {
+        $this->spec .= "g$length";
+        return $this;
+    }
+
+    function up_right($length)
+    {
+        $this->spec .= "H$length";
+        return $this;
+    }
+
+    function up_right_plain($length)
+    {
+        $this->spec .= "h$length";
+        return $this;
+    }
+
+    function close($flag)
+    {
+        $this->spec .= "Z" . ($flag ? 1 : 0);
+        return $this;
+    }
+
+    function draw_all($flag=true)
+    {
+        $this->spec .= "U" . ($flag ? 1 : 0);
+        return $this;
+    }
+
+    function offset($flag=true)
+    {
+        $this->spec .= "O" . (!$flag ? 1 : 0);
+        return $this;
+    }
+
+    function quarterly($flag=true)
+    {
+        $this->spec .= "Q" . ($flag ? 1 : 0);
+        return $this;
+    }
+
+    function chevron($flag=true)
+    {
+        $this->spec .= "V" . ($flag ? 1 : 0);
+        return $this;
+    }
+}
+
+
+function path_builder($x, $y)
+{
+    return (new PathBuilder())->move($x, $y);
 }

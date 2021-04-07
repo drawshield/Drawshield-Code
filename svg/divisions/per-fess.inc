@@ -1,19 +1,28 @@
 <?php 
 
 $lineType = getModifierByType($node, 'linetype', false);
-if ( $lineType == 'nebuly' or $lineType == 'potenty' )
-  $div_data = array ( 'CH' =>'X-100Y700A1016c508e1016g608' , 'NC' =>'X-100Y{%50}A1200c608e1200g608' );
-else
-  $div_data = array ( 'CH' =>'X-8Y700A1016c508e1016g508' , 'NC' =>'X-8Y{%50}A1016c708e1016g708' );
 
-$division['div2'] = createBody(choose_fit($div_data), $lineType, 60, $layout);
+
+$margin = 100;
+$down = $layout->size->height - $layout->center_point->y + $margin;
+
+$builder = new PathBuilder();
+$builder->move(-$margin, $layout->center_point->y)
+    ->right($layout->size->width + $margin * 2)
+    ->down_plain($down)
+    ->left_plain($layout->size->width + $margin * 2)
+    ->up_plain($down);
+
+$division['div2'] = createBody((string)$builder, $lineType, 60, $layout);
 
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';
   $rivetList = '';
+  $y1 = $layout->center_point->y - 35;
+  $y2 = $layout->center_point->y + 15;
   for ($i = 5; $i < 1000; $i += 80) {
-    $rivetList .= '<g transform="translate(' . $i . ',465)">' . $rivet . '</g>';
-    $rivetList .= '<g transform="translate(' . $i . ',515)">' . $rivet . '</g>';
+    $rivetList .= '<g transform="translate(' . $i . ',' . $y1 . ')">' . $rivet . '</g>';
+    $rivetList .= '<g transform="translate(' . $i . ',' . $y2 . ')">' . $rivet . '</g>';
   }
   $division['divx'] = $rivetList;
 }

@@ -17,19 +17,26 @@ if ( $num_of < 1 ) $num_of = 8;
 // Each chevron is counted, not just the coloured ones
 $num = $num_of / 2;
 
-$NC = '';
-$CH = '';
-$stepV = 846.5 / $num;
-$width = $stepV * 0.707;
-$upper = 848.4 + $width;
-$stepVC = 700.0 / $num;
-$widthC = $stepVC * 0.707;
-$upperC = 848.4 + $widthC;
+$stepV = ($layout->size->height - $layout->division_offset->y / 2) / 2 / ($num-1);
+$width = $stepV / M_SQRT2;
+$upper = $layout->size->width / 2 * M_SQRT2 + $width;
+$down = $upper - $width;
+
+$builder = new PathBuilder();
+
 for ( $i = 0; $i < $num; $i++ ) {
-  $startY = 1200 - ( $i * 2 * $stepV);
-  $NC .= "V1X500Y{$startY}D848f{$width}H{$upper}B{$upper}d{$width}F848     ";
-  $startYC = 1200 - ( $i * 2 * $stepVC );
-  $CH .= "V1X500Y{$startYC}D848f{$widthC}H{$upperC}B{$upperC}d{$widthC}F848     ";
+  $startY = $layout->division_offset->y / 2 + ( $i * 2 * $stepV);
+  $builder->move($layout->center_point->x, $startY)
+    ->chevron()
+    ->down_left($down)
+    ->up_left_plain($width)
+    ->up_right($upper)
+    ->down_right($upper)
+    ->down_left($width)
+    ->up_left($down)
+  ;
+
+//   $NC .= "V1X500Y{$startY}D{$down}f{$width}H{$upper}B{$upper}d{$width}F{$down}     ";
 }
-$division['div2'] = createBody(choose_fit( compact ( 'CH', 'NC' )), getModifierByType($node,'linetype', false),40, $layout);
+$division['div2'] = createBody((string)$builder, getModifierByType($node,'linetype', false),40, $layout);
 

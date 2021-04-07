@@ -11,34 +11,70 @@
  * Time: 19:56
  */
 
+require_once(__dir__ . "/../ordinaries/chevron-helper.inc");
+
 $lineType = getModifierByType($node, 'linetype', false);
-if ( existModifierWithKeyterm($node, 'inverted')) {
-    $div2_data = array('NC' => 'V1X-100Y-100B848H848c1400e1200g1400', 'CH' => 'V1X-100Y100B848H848c1200e1200g1200');
-    $div3_data = array('NC' => 'V1X-100Y400B848H848c900e1200g900', 'CH' => 'V1X-100Y500B848H848c1000e1200g1000');
-} else {
-    $div2_data = array('NC' => 'V1X-100Y1200g500H848B849c500e1200', 'CH' => 'V1X-100Y1300g400H848B849c400e1000');
-    $div3_data = array('NC' => 'V1X-100Y1300g100H848B849c100e1200', 'CH' => 'V1X-100Y1400g100H848B849c100e1000');
+
+
+$width = 300;
+$length = 2000;
+
+if ( existModifierWithKeyterm($node, 'inverted'))
+{
+    $y = $layout->center_point->y;
+
+    $builder_2 = path_builder($layout->center_point->x, $y + $width * M_SQRT2)
+        ->chevron()
+        ->up_right($length)
+        ->left_plain($length * M_SQRT2)
+        ->down_right($length)
+    ;
+    $builder_3 = path_builder($layout->center_point->x, $y)
+        ->chevron()
+        ->up_right($length)
+        ->left_plain($length * M_SQRT2)
+        ->down_right($length)
+    ;
 }
-$division['div2'] = createBody(choose_fit($div2_data), $lineType, 60, $layout);
-$division['div3'] = createBody(choose_fit($div3_data), $lineType, 60, $layout);
+else
+{
+    $ordinary_width = chevron_width($layout, 1);;
+    $y = $layout->center_point->y - $ordinary_width / M_SQRT2;
+
+    $builder_2 = path_builder($layout->center_point->x, $y - $width / M_SQRT2)
+        ->chevron()
+        ->down_right($length)
+        ->left_plain($length * M_SQRT2)
+        ->up_right($length)
+    ;
+    $builder_3 = path_builder($layout->center_point->x, $y + $width / M_SQRT2)
+        ->chevron()
+        ->down_right($length)
+        ->left_plain($length * M_SQRT2)
+        ->up_right($length)
+    ;
+}
+
+$division['div2'] = createBody((string)$builder_2, $lineType, 60, $layout);
+$division['div3'] = createBody((string)$builder_3, $lineType, 60, $layout);
 
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';
   $rivetList = '';
-  $ref = chiefPresent() ? 545 : 475;
+  $ref = $y + 150;
   for ($i = 5; $i < 450; $i += 80) {
     $rivetList .= '<g transform="translate(' . $i . ',' . (155 + $ref) . ')">' . $rivet . '</g>';
       $rivetList .= '<g transform="translate(' . (970 - $i) . ',' . (155 + $ref) . ')">' . $rivet . '</g>';
       $rivetList .= '<g transform="translate(' . $i . ',' . (55 + $ref) . ')">' . $rivet . '</g>';
       $rivetList .= '<g transform="translate(' . (970 - $i) . ',' . (55 + $ref) . ')">' . $rivet . '</g>';
-    $rivetList .= '<g transform="translate(' . ($i + 40) . ',' . (495 + $ref) . ')">' . $rivet . '</g>';
-    $rivetList .= '<g transform="translate(' . (930 - $i) . ',' . (495 + $ref) . ')">' . $rivet . '</g>';
-      $rivetList .= '<g transform="translate(' . ($i + 40) . ',' . (595 + $ref) . ')">' . $rivet . '</g>';
-      $rivetList .= '<g transform="translate(' . (930 - $i) . ',' . (595 + $ref) . ')">' . $rivet . '</g>';
+    $rivetList .= '<g transform="translate(' . ($i + 20) . ',' . (465 + $ref) . ')">' . $rivet . '</g>';
+    $rivetList .= '<g transform="translate(' . (950 - $i) . ',' . (465 + $ref) . ')">' . $rivet . '</g>';
+      $rivetList .= '<g transform="translate(' . ($i + 20) . ',' . (575 + $ref) . ')">' . $rivet . '</g>';
+      $rivetList .= '<g transform="translate(' . (950 - $i) . ',' . (575 + $ref) . ')">' . $rivet . '</g>';
     $ref -= 80;
   }
-    $rivetList .= '<g transform="translate(485,50)">' . $rivet . '</g>';
-    $rivetList .= '<g transform="translate(485,150)">' . $rivet . '</g>';
+    $rivetList .= '<g transform="translate(485,'.($ref+80).')">' . $rivet . '</g>';
+    $rivetList .= '<g transform="translate(485,'.($ref+180).')">' . $rivet . '</g>';
     $division['divx'] = $rivetList;
 }
 

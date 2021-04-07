@@ -72,6 +72,7 @@ class metadataMap {
         'animal/paw-print' => array('fimbriate' => true, 'hflex' => 0, 'wflex' => 0),
         'games/meeple' => array('fimbriate' => true, 'hflex' => 0, 'wflex' => 0),
         'natural/teardrop' => array('fimbriate' => true, 'hflex' => 0, 'wflex' => 0),
+        'square' => array('hflex' => 0, 'wflex' => 0),
     );
   }
   
@@ -91,7 +92,6 @@ class metadataMap {
     $search = $chargeGroup . '/' . $chargeName;
     if (array_key_exists($search, self::$charges))
     $metas = array_merge($metas, self::$charges[$search]);
-
     return $metas;
   }
 }

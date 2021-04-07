@@ -1,36 +1,82 @@
 <?php 
 
 function makePlain( &$children, $layout ) {
-  global $options;
-  $field = '';
-  $objects = '';
-  $chief = '';
-  // Does this shield contain a chief?
-  $found = $children->item(0)->nodeName == blazonML::E_CHIEF;
-  chief('push', $found ? 'CH' : 'NC');
-  // Process the shield parts
-  foreach ( $children as $kid ) {
-    switch ( $kid->nodeName ) {
-      case 'field':
-        // Paint the field
-        if (!array_key_exists('raw', $options)) {
-            $field .= apply_tincture ( $kid->firstChild,
-            '<rect x="0" y="0" width="1000" height="' . $layout->size->height . '" ><title>Field</title></rect>' ,
-            $layout,
-            '1000,' . $layout->size->height );
+    global $options;
+    $retval = '';
+
+    // Does this shield contain a chief?
+    $chief = null;
+    $field = null;
+    $objects = null;
+
+    // Process the shield parts
+    foreach ( $children as $kid )
+    {
+        switch ( $kid->nodeName ) {
+            case 'field':
+                $field = $kid;
+                break;
+            case 'objects':
+                $objects = $kid;
+                break;
+            case "chief":
+                if ( $layout->chief )
+                    $chief = $kid;
+                break;
+
         }
-        break;
-      case 'objects':
-        $objects .= makeOrdChgs($kid, $layout);
-        break;
-      case 'chief':
-        // process ordinaries and charges
-        $chief .= makeOrdChgs($kid, $layout);
-        break;
     }
-  }
-  chief('pop');
-  return $field . $objects . $chief; // chief always goes on top
+
+    $layout_field = $layout;
+    $layout_objects = $layout;
+    $layout_chief = null;
+
+    $off = 0;
+    $clip_attr = "";
+    if ( $chief )
+    {
+        $layout_chief = new ShieldLayout($layout->chief->size, "chief", null, null, false);
+        $new_size = new ShieldSize($layout->size->width, $layout->size->height - $layout->chief->size->height);
+        $cross_c = new ShieldPos($new_size->width / 2, $new_size->height / 2);
+        if ( $layout->center_point->y < $layout->size->height /2 )
+            $cross_c->y = 400;
+        $layout_objects = new ShieldLayout($new_size, $layout->shape, $cross_c, null, false, $layout->section);
+        $layout_field = clone $layout;
+        $off = $layout_chief->size->height;
+        $layout_field->center_point = $layout_objects->center_point->translated(0, $off);
+        $layout_field->division_offset = new ShieldPos(0, $off);
+        list($clip_id, $clip) = make_def("clipPath", $layout_objects->rect_area()->margin(-100, 0, -100, -100)->svg_rect());
+        $retval .= "<defs>$clip</defs>";
+        $clip_attr = " clip-path='url(#$clip_id)'";
+    }
+
+    // Paint the field
+    if ( $field && !array_key_exists('raw', $options) )
+    {
+        $retval .= apply_tincture(
+            $field->firstChild,
+            "<rect x='0' y='0' width='1000' height='{$layout_field->size->height}'><title>Field</title></rect>",
+            $layout_field,
+            $layout_field->size
+        );
+    }
+
+    if ( $objects )
+    {
+        // process ordinaries and charges
+        $retval .= "<g transform='translate(0,$off)'$clip_attr>" . makeOrdChgs($objects, $layout_objects) . "</g>";
+    }
+
+
+    if ( $chief )
+        $retval .= makeChief($chief, $layout_chief);
+
+    return $retval;
+}
+
+function makeChief($node, $layout)
+{
+    return makeOrdinary($node->firstChild, $layout);
 }
 
 function makeimpaled( DOMNodeList $children, $layout ) {
@@ -38,28 +84,26 @@ function makeimpaled( DOMNodeList $children, $layout ) {
   $retval = '';
   $imp1 = $imp2 = null; // remove warnings
 
-  $size = $layout->size->scaled(0.5, 1);
+  $size = $layout->size->scaled(1, 2);
   $clipI = add_def( 'clipPath', "<rect x='0' y='0' width='{$size->width}'  height='{$size->height}'/>" );
-  $child_layout = new ShieldLayout($size, $layout->shape);
+  $cp = $layout->center_point->translated(0, $layout->center_point->y);
+  $child_layout_1 = new ShieldLayout($size, $layout->shape, $cp, null, true, "dexter");
+  $child_layout_2 = new ShieldLayout($size, $layout->shape, $cp, null, true, "sinister");
   /**
    * @var DOMElement $kid
    */
   foreach ( $children as $kid ) {
     switch( $kid->getAttribute('index') ) {
     case '1':
-      region('push','I1');
-      $imp1 = makeshield( $kid, $child_layout );
-      region('pop');
+      $imp1 = makeshield( $kid, $child_layout_1 );
       break;
     case '2':
-      region('push','I2');
-      $imp2 = makeshield( $kid, $child_layout );
-      region('pop');
+      $imp2 = makeshield( $kid, $child_layout_2 );
       break;
     }
   }
-  $retval .= '<g clip-path="url(#' . $clipI . ')"  >' .  $imp1  . "</g>\n";
-  $retval .= "<g clip-path='url(#$clipI)' transform='translate({$size->width},0)' >$imp2</g>\n";
+  $retval .= "<g clip-path='url(#$clipI)' transform='scale(0.5)' >$imp1</g>\n";
+  $retval .= "<g clip-path='url(#$clipI)' transform='scale(0.5) translate({$size->width},0)' >$imp2</g>\n";
   $retval .= add_def();
 
   return $retval . "<path stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\" d=\"M {$size->width} 0 v {$layout->size->height}\" />\n";
@@ -78,14 +122,10 @@ function makedimidiated( $children, $layout ) {
   foreach ( $children as $kid ) {
     switch( $kid->getAttribute('index') ) {
     case '1':
-      region('push','D1');
       $retval .= '<g clip-path="url(#' . $clip1 . ')" >' . makeshield( $kid, $layout ) . "</g>\n";
-      region('pop');
       break;
     case '2':
-      region('push','D2');
       $retval .= '<g clip-path="url(#' . $clip2 . ')" >' . makeshield( $kid, $layout ) . "</g>\n";
-      region('pop');
       break;
     }
   }
@@ -121,11 +161,17 @@ function makeshield( DOMElement &$node, $layout ) {
           case 'impaled':
             $retval .= makeImpaled( $children, $layout );
             break;
+          case 'per-saltire':
+            $retval .= make_quartered_saltire($children, $layout);
+            break;
+          case "per-pale":
+            $retval .= makeQuartered($child->getAttribute('order'), 1, $children, $layout);
+            break;
+          case "per-fess":
+            $retval .= makeQuartered(1, $child->getAttribute('order'), $children, $layout);
+            break;
           case 'quartered':
             switch ( $child->getAttribute('order') ) {
-              case '4-saltire':
-                $retval .= make_quartered_saltire($children, $layout);
-                break;
               case 4:
                 $retval .= makeQuartered4($children, $layout);
                 break;

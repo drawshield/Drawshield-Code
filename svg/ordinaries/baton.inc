@@ -13,6 +13,17 @@
    limitations under the License. */
 
 
-$ordinary['shape_spec'] = array ( 'NC' => 'X900Y100b28D1131f56H1131b28', 'CH' => 'X800Y400b28D848f56H848b28' );
+$base = min($layout->center_point->x, $layout->center_point->y) - 100;
+$length = $base * M_SQRT2 * 2;
+$width = 56;
+
+$ordinary['shape_spec'] = (string)
+    path_builder($layout->center_point->x + $base, $layout->center_point->y - $base)
+    ->down_right_plain($width/2)
+    ->down_left($length)
+    ->up_left_plain($width)
+    ->up_right($length)
+    ->down_right_plain($width/2)
+;
 $ordinary['feature_size'] = 18;
 

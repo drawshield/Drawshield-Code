@@ -136,6 +136,7 @@ function place_charges ( DOMElement $node, $placement, $layout ) {
     $item = $node;
     if ( $between && ( ($count+1) <= $half or ($count+1) > ($num_of - $half))) 
       $item = $between;
+
     $retval .= PlaceCharge( $item, $layout, $bbx, $bby, $cx, $cy, $rot, $inv, $rev );
   }
   return $retval;
@@ -486,7 +487,7 @@ function PlaceCharge ( $node,  // images
   if (!isset($charge['title'])) $charge['title'] = 'a charge';
   $retval = "<g transform=\"$transform\" >\n<title>" . htmlentities(transliterate($charge['title'])) . '</title>' . $retval . "</g>\n";
 
-  $retval = apply_tincture( $tincture, $retval, $layout, "$chargeX,$chargeY", $rotation, $reversed, $inverted );
+  $retval = apply_tincture( $tincture, $retval, $layout, new ShieldSize($chargeX, $chargeY), $rotation, $reversed, $inverted );
   return $retval;
 }
 

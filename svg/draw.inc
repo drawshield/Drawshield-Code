@@ -1,9 +1,5 @@
 <?php 
 
-// Global variables for parsing
-$svg_region = 'PL';
-$svg_chief = 'NC';
-
 include 'getcharge.inc';
 include 'division.inc';
 include 'effects.inc';
@@ -34,98 +30,6 @@ function getLine($node) {
   return $retval;
 }
 
-
-function region ( $action, $region = null ) {
-  global $svg_region, $messages;
-  static $stack = array();
-  
-//  $messages->addMessage('internal', 'region: ' . $action . " " . $region);
-
-  switch ( $action ) {
-    case 'push':
-      array_push( $stack, $svg_region );
-      $svg_region = $region;
-      break;
-    case 'swap':
-      $svg_region = $region;
-      break;
-    case 'pop':
-      $svg_region = array_pop( $stack );
-      break;
-  }
-}
-
-function chief ( $action, $chief = null ) {
-  global $svg_chief;
-  static $stack = array();
-
-  switch ( $action ) {
-    case 'push':
-      array_push( $stack, $svg_chief );
-      $svg_chief = $chief;
-      break;
-    case 'swap':
-      $svg_chief = $chief;
-      break;
-    case 'pop':
-      $svg_chief = array_pop( $stack );
-      break;
-  }
-}
-
-function chiefPresent() {
-  global $svg_chief;
-
-  return ( $svg_chief == 'CH' );
-}
-
-function choose_fit( $choices ) {
-  global $svg_region, $svg_chief, $messages;
-  $retval = null;
-  $found = null;
-  
-  //  $messages->addMessage('internal', "Searching for $svg_region + $svg_chief");
-
-
-  if ( !is_array($choices) ) {
-      $retval = $choices;
-      $found = "(fixed)";
-  }
-    // Most detailed, look for the combination
-  $combo = $svg_region . $svg_chief;
-  if ( $found == null && array_key_exists($combo, $choices) ) {
-      $retval =  $choices[$combo];
-      $found = $combo;
-  }
-  // Look for chief/no chief first
-  if ( $found == null && array_key_exists($svg_chief, $choices) ) {
-      $retval =  $choices[$svg_chief];
-      $found = $svg_chief;
-  }
-  // Look for region alone next
-  if ( $found == null && array_key_exists($svg_region, $choices) ) {
-      $retval =  $choices[$svg_region];
-      $found = $svg_region;
-  }
-
-  if ( $retval == null ) {
-      $messages->addMessage('internal', 'Cannot find placement for region');     
-  }
-  
-  // raise error
-  return $retval;
-}
-
-
-function find_chief ( $ord_chgs ) {
-  /**
-   * @var DOMElement $child
-   */
-  foreach ( $ord_chgs->childNodes as $child ) {
-    if ( $child->nodeName == 'ordinary' and $child->getAttribute('keyterm') == 'chief' ) return true;
-  }
-  return false;
-}
 
 function makeOrdChgs( $node, $layout ) {
   $retval = '';

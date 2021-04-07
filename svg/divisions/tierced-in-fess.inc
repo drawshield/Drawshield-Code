@@ -11,10 +11,29 @@
 * Time: 19:56
 */
 $lineType = getModifierByType($node, 'linetype', false);
-$div2_data = array ( 'NC' => 'X0Y{%33*}A1000c{%66*}e1000g{%66*}',  'CH' => 'X0Y600A1000c600e1000g600' );
-$div3_data = array ( 'NC' => 'X0Y{%67*}A1000c{%34*}e1000g{%34*}',  'CH' => 'X0Y900A1000c300e1000g300' );
-$division['div2'] = createBody(choose_fit($div2_data), $lineType, 60, $layout);
-$division['div3'] = createBody(choose_fit($div3_data), $lineType, 60, $layout);
+
+
+$margin = 100;
+$height = ($layout->size->height - $layout->division_offset->y) / 3;
+$y1 = $layout->division_offset->y + $height;
+$y2 = $y1 + $height;
+$width = $layout->size->width + 2 * $margin;
+
+$builder_2 = path_builder(-$margin, $y1)
+    ->right($width)
+    ->down_plain(2*$height + $margin)
+    ->left_plain($width)
+    ->up_plain(2*$height + $margin)
+;
+$builder_3 = path_builder(-$margin, $y2)
+    ->right($width)
+    ->down_plain($height + $margin)
+    ->left_plain($width)
+    ->up_plain($height + $margin)
+;
+
+$division['div2'] = createBody((string)$builder_2, $lineType, 60, $layout);
+$division['div3'] = createBody((string)$builder_3, $lineType, 60, $layout);
 if ( existModifierWithKeyterm($node, 'riveted')) {
 	include '_rivet.inc';
 	$rivetList = '';

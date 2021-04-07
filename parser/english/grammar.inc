@@ -178,6 +178,54 @@ class englishGrammar extends grammar
         return $found;
     }
 
+    private function chief_on($chief_ordinary)
+    {
+        $xpath = new DOMXPath($chief_ordinary->ownerDocument);
+        $on_list = $xpath->query("modifier[@type='wordon']", $chief_ordinary);
+        if ( count($on_list) != 0 )
+            return $on_list[0];
+
+        $mod = $this->schema->makeMod(languageDB::WORD_ON, null, "on", null, null);
+        $chief_ordinary->appendChild($mod);
+        return $mod;
+    }
+
+    protected function adjust_chief($simple, $ordChgs)
+    {
+        foreach ( $ordChgs->childNodes as $oc )
+        {
+            if ( $oc->nodeName == blazonML::E_ORDINARY && $oc->getAttribute(blazonML::A_KEYTERM) == 'chief' )
+            {
+                $chief = $this->schema->makeNode("chief");
+                $ordChgs->removeChild($oc);
+                $chief->appendChild($oc);
+                $simple->appendChild($chief);
+                $on = null;
+                for ( $i = 0; $i < count($ordChgs->childNodes); )
+                {
+                    $child = $ordChgs->childNodes[$i];
+                    $pos = getModifierByType($child, 'position', false);
+                    $arr = getModifierByType($child, 'arrangement', false);
+                    if ( $pos == "inchief" || $arr == "inchiefthrough" )
+                    {
+                        $ordChgs->removeChild($child);
+                        if ( $on == null )
+                            $on = $this->chief_on($oc);
+                        $on->appendChild($child);
+                    }
+                    else
+                    {
+                        $i++;
+                    }
+                }
+
+                return $chief;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * @return DOMElement
      */
@@ -197,21 +245,11 @@ class englishGrammar extends grammar
             self::comma();
             $field->appendChild($tinc);
             $ordChgs = self::objects();
-            // if there is a top-level chief pull it out into its own element
-            if ($ordChgs != null) {
-                foreach ($ordChgs->childNodes as $ordChg) {
-                    if (($ordChg->nodeName == blazonML::E_ORDINARY) && ($ordChg->getAttribute(blazonML::A_KEYTERM) == 'chief')) {
-                        $chief = $this->schema->makeNode(blazonML::E_CHIEF);
-                        $chief->appendChild($ordChgs->removeChild($ordChg));
-                    }
-                }
-            }
-            if ($chief) {
-                $simple->appendChild($chief);
-            }
             $simple->appendChild($field);
-            if ($ordChgs && $ordChgs->hasChildNodes()) {
-                $simple->appendChild($ordChgs);
+            if ( $ordChgs ) {
+                $chief = $this->adjust_chief($simple, $ordChgs);
+                if ( $ordChgs->hasChildNodes() )
+                    $simple->appendChild($ordChgs);
             }
             $node = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
             $node->appendChild($simple);
@@ -814,6 +852,8 @@ class englishGrammar extends grammar
                 $found = true;
                 $assume_num = false; // reset if it was true
                 $node->appendChild($item);
+                if ( $item->getAttribute("keyterm") == "chief" )
+
                 self::comma();
                 if (self::find(languageDB::ANDD)) $assume_num = true;
             } else {
@@ -1114,6 +1154,7 @@ class englishGrammar extends grammar
         $highest = 0;
 
         if (($marshall = self::find(languageDB::QUARTERED)) != null) {
+            $not_quarters = substr($marshall, 0, 4) == "per-";
             self::ignore(languageDB::COLON); // allow quarterly: ...
             $quartered = $this->schema->makeNode(blazonML::E_COMPLEX, array('keyterm' => blazonML::V_QUARTERED), self::tokens(), self::lineNo());
             if (($qmod = self::find(languageDB::QUARTERMODS)) != null) {
@@ -1142,7 +1183,8 @@ class englishGrammar extends grammar
                         $this->previousTypes[] = $quarterType;
                     }
                     $indices[] = $keyterm; // make a list of quarter numbers
-                    if ($keyterm > $highest) $highest = $keyterm;
+                    if ($keyterm > $highest)
+                        $highest = $keyterm;
                     self::comma();
                     self::ignore(languageDB::ANDD);
                     $found = $foundQuarter = true;
@@ -1170,7 +1212,7 @@ class englishGrammar extends grammar
                 } // Keep going as long as we find quarters
             } while ($found);
             array_pop($this->previousTypes);
-            if ($marshall == 'quarterly' and !$foundQuarter) {
+            if ( ($marshall == 'quarterly' || $not_quarters) and !$foundQuarter) {
                 self::restore($state); // backtrack, assume this is quarterly division
                 return null;
             }
@@ -1195,7 +1237,10 @@ class englishGrammar extends grammar
                 }
             }
             if ($marshall == 'quartered-per-saltire') {
-                $order = '4-saltire';
+                $order = 4;
+                $quartered->setAttribute("keyterm", "per-saltire");
+            } else if ( $not_quarters ) {
+                $quartered->setAttribute("keyterm", $marshall);
             }
             $quartered->setAttribute('order', $order);
             for ($i = 1; $i <= $highest; $i++)
