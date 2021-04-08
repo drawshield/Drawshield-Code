@@ -420,7 +420,7 @@ function getCharge( DOMElement $node, $layout ) {
           } else if ( $child->getAttribute('type') == languageDB::HOLDING and $child->hasChildNodes() ){
             $chargeToAdd = $child->firstChild;
             if ( $chargeToAdd->nodeName == 'missing' || $chargeToAdd->nodeName == 'ordinary' )
-                continue;
+                break;
             $chargeWithType = $child->getAttribute('keyterm');
             $extras[$chargeWithType] = getCharge($chargeToAdd, $layout);
         }

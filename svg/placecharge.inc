@@ -142,6 +142,175 @@ function place_charges ( DOMElement $node, $placement, $layout ) {
   return $retval;
 }
 
+class PlacementHints
+{
+    public $offset_x = 0;
+    public $offset_y = 0;
+    public $angle = 0;
+    public $scale_x = 1;
+    public $scale_y = 1;
+
+    function adjust($keyterm)
+    {
+        switch ( $keyterm )
+        {
+            // the "shown" mods
+            case 'rotated-dexter':
+                $this->angle = -18;
+                break;
+            case 'rotated-sinister':
+                $this->angle = 18;
+                break;
+            case 'slightly-rotated-dexter':
+                $this->angle = -9;
+                break;
+            case 'slightly-rotated-sinister':
+                $this->angle = 9;
+                break;
+            case 'much-rotated-dexter':
+                $this->angle = -27;
+                break;
+            case 'much-rotated-sinister':
+                $this->angle = 27;
+                break;
+            case 'very-much-rotated-dexter':
+                $this->angle = -36;
+                break;
+            case 'very-much-rotated-sinister':
+                $this->angle = 36;
+                break;
+            case 'smaller':
+                $this->scale_x *= 0.8;
+                $this->scale_y *= 0.8;
+                break;
+            case 'larger':
+                $this->scale_x *= 1.2;
+                $this->scale_y *= 1.2;
+                break;
+            case 'raised':
+                $this->offset_y -= 60;
+                break;
+            case 'lowered':
+                $this->offset_y += 60;
+                break;
+            case 'to-dexter':
+                $this->offset_x -= 50;
+                break;
+            case 'to-sinister':
+                $this->offset_x += 50;
+                break;
+            case 'slightly-smaller':
+                $this->scale_x *= 0.9;
+                $this->scale_y *= 0.9;
+                break;
+            case 'slightly-larger':
+                $this->scale_x *= 1.1;
+                $this->scale_y *= 1.1;
+                break;
+            case 'slightly-raised':
+                $this->offset_y -= 30;
+                break;
+            case 'slightly-lowered':
+                $this->offset_y += 30;
+                break;
+            case 'slightly-to-dexter':
+                $this->offset_x -= 25;
+                break;
+            case 'slightly-to-sinister':
+                $this->offset_x += 25;
+                break;
+            case 'much-smaller':
+                $this->scale_x *= 0.6;
+                $this->scale_y *= 0.6;
+                break;
+            case 'much-larger':
+                $this->scale_x *= 1.4;
+                $this->scale_y *= 1.4;
+                break;
+            case 'much-raised':
+                $this->offset_y -= 120;
+                break;
+            case 'much-lowered':
+                $this->offset_y += 120;
+                break;
+            case 'much-to-dexter':
+                $this->offset_x -= 100;
+                break;
+            case 'much-to-sinister':
+                $this->offset_x += 100;
+                break;
+            case 'very-much-smaller':
+                $this->scale_x *= 0.4;
+                $this->scale_y *= 0.4;
+                break;
+            case 'very-much-larger':
+                $this->scale_x *= 1.6;
+                $this->scale_y *= 1.6;
+                break;
+            case 'very-much-raised':
+                $this->offset_y -= 240;
+                break;
+            case 'very-much-lowered':
+                $this->offset_y += 240;
+                break;
+            case 'very-much-to-dexter':
+                $this->offset_x -= 200;
+                break;
+            case 'very-much-to-sinister':
+                $this->offset_x += 200;
+                break;
+            case 'narrower':
+                $this->scale_x *= 0.8;
+                break;
+            case 'shorter':
+                $this->scale_y *= 0.8;
+                break;
+            case 'taller':
+                $this->scale_y *= 1.2;
+                break;
+            case 'wider':
+                $this->scale_x *= 1.2;
+                break;
+            case 'much-narrower':
+                $this->scale_x *= 0.8;
+                break;
+            case 'much-shorter':
+                $this->scale_y *= 0.8;
+                break;
+            case 'much-taller':
+                $this->scale_y *= 1.4;
+                break;
+            case 'much-wider':
+                $this->scale_x *= 1.4;
+                break;
+            case 'slightly-narrower':
+                $this->scale_x *= 0.9;
+                break;
+            case 'slightly-shorter':
+                $this->scale_y *= 0.9;
+                break;
+            case 'slightly-taller':
+                $this->scale_y *= 1.1;
+                break;
+            case 'slightly-wider':
+                $this->scale_x *= 1.1;
+                break;
+            case 'very-much-narrower':
+                $this->scale_x *= 0.6;
+                break;
+            case 'very-much-shorter':
+                $this->scale_y *= 0.6;
+                break;
+            case 'very-much-taller':
+                $this->scale_y *= 1.6;
+                break;
+            case 'very-much-wider':
+                $this->scale_x *= 1.6;
+                break;
+        }
+    }
+}
+
 
 function PlaceCharge ( $node,  // images
                             $layout,
@@ -160,187 +329,48 @@ function PlaceCharge ( $node,  // images
   $inArrangement = false;
   $shownRotation = 0;
 //  $parent = $node->parentNode;
+
+    $hints = new PlacementHints();
   foreach ( $node->childNodes as $child ) {
     if ( $child->nodeName == 'modifier' ) {
       if ($child->getAttribute('type') == 'arrangement') {
         $inArrangement = true;
       }
-      switch ( $child->getAttribute('keyterm') ) {
+      $keyterm = $child->getAttribute('keyterm');
+      switch ( $keyterm ) {
         case 'inverted':
-          $inverted = true;
-          break;
+            $inverted = true;
+            break;
         case 'reversed':
-          $reversed = true;
-          break;
+            $reversed = true;
+            break;
         case 'bendwise':
         case 'bendsinwise':
         case 'fesswise':
         case 'palewise':
         case 'haurient':
-          $orientation = $child->getAttribute('keyterm');
-          break;
+            $orientation = $keyterm;
+            break;
         case 'entire':
         case 'conjoined':
-          $Xflex = $Yflex = 9999;
-          break;
+            $Xflex = $Yflex = 9999;
+            break;
         // the "shown" mods
-          case 'rotated-dexter':
-              $shownRotation = -18;
-              break;
-          case 'rotated-sinister':
-              $shownRotation = 18;
-              break;
-          case 'slightly-rotated-dexter':
-              $shownRotation = -9;
-              break;
-          case 'slightly-rotated-sinister':
-              $shownRotation = 9;
-              break;
-          case 'much-rotated-dexter':
-              $shownRotation = -27;
-              break;
-          case 'much-rotated-sinister':
-              $shownRotation = 27;
-              break;
-          case 'very-much-rotated-dexter':
-              $shownRotation = -36;
-              break;
-          case 'very-much-rotated-sinister':
-              $shownRotation = 36;
-              break;      
-        case 'narrower':
-          $boundX *= 0.8;
-          break;
-        case 'shorter':
-          $boundY *= 0.8;
-          break;
-        case 'taller':
-          $boundY *= 1.2;
-          break;
-        case 'wider':
-          $boundX *= 1.2;
-          break;
-        case 'much-narrower':
-          $boundX *= 0.8;
-          break;
-        case 'much-shorter':
-          $boundY *= 0.8;
-          break;
-        case 'much-taller':
-          $boundY *= 1.4;
-          break;
-        case 'much-wider':
-          $boundX *= 1.4;
-          break;
-        case 'slightly-narrower':
-          $boundX *= 0.9;
-          break;
-        case 'slightly-shorter':
-          $boundY *= 0.9;
-          break;
-        case 'slightly-taller':
-          $boundY *= 1.1;
-          break;
-        case 'slightly-wider':
-          $boundX *= 1.1;
-          break;
-        case 'very-much-narrower':
-          $boundX *= 0.6;
-          break;
-        case 'very-much-shorter':
-          $boundY *= 0.6;
-          break;
-        case 'very-much-taller':
-          $boundY *= 1.6;
-          break;
-        case 'very-much-wider':
-          $boundX *= 1.6;
-          break;
-        case 'smaller':
-          $boundX *= 0.8;
-          $boundY *= 0.8;
-          break;
-        case 'larger':
-          $boundX *= 1.2;
-          $boundY *= 1.2;
-          break;
-        case 'raised':
-          $centreY -= 60;
-          break;
-        case 'lowered':
-          $centreY += 60;
-          break;
-        case 'to-dexter':
-          $centreX -= 50;
-          break;
-        case 'to-sinister':
-          $centreX += 50;
-          break;
-        case 'slightly-smaller':
-          $boundX *= 0.9;
-          $boundY *= 0.9;
-          break;
-        case 'slightly-larger':
-          $boundX *= 1.1;
-          $boundY *= 1.1;
-          break;
-        case 'slightly-raised':
-          $centreY -= 30;
-          break;
-        case 'slightly-lowered':
-          $centreY += 30;
-          break;
-        case 'slightly-to-dexter':
-          $centreX -= 25;
-          break;
-        case 'slightly-to-sinister':
-          $centreX += 25;
-          break;
-        case 'much-smaller':
-          $boundX *= 0.6;
-          $boundY *= 0.6;
-          break;
-        case 'much-larger':
-          $boundX *= 1.4;
-          $boundY *= 1.4;
-          break;
-        case 'much-raised':
-          $centreY -= 120;
-          break;
-        case 'much-lowered':
-          $centreY += 120;
-          break;
-        case 'much-to-dexter':
-          $centreX -= 100;
-          break;
-        case 'much-to-sinister':
-          $centreX += 100;
-          break;
-        case 'very-much-smaller':
-          $boundX *= 0.4;
-          $boundY *= 0.4;
-          break;
-        case 'very-much-larger':
-          $boundX *= 1.6;
-          $boundY *= 1.6;
-          break;
-        case 'very-much-raised':
-          $centreY -= 240;
-          break;
-        case 'very-much-lowered':
-          $centreY += 240;
-          break;
-        case 'very-much-to-dexter':
-          $centreX -= 200;
-          break;
-        case 'very-much-to-sinister':
-          $centreX += 200;
-          break;
+        default:
+            $hints->adjust($keyterm);
+            break;
       }
     } elseif ( $child->nodeName == 'tincture' ) {
       $tincture = $child;
     }
   }
+
+    $shownRotation = $hints->angle;
+    $boundX *= $hints->scale_x;
+    $boundY *= $hints->scale_y;
+    $centreY += $hints->offset_y;
+    $centreX += $hints->offset_x;
+
   // If there are multiple charges, choose the one with the best match to the bounding box
   $BoundAR = 1;
   if ($boundY != 0) {
@@ -495,116 +525,15 @@ function quickPlace($svg, $chargeX, $chargeY, $boundX, $boundY, $centreX, $centr
     $rotate = 0;
     // Apply the adjustments first
     if ($adjustments != null && count($adjustments)) {
+        $hints = new PlacementHints();
         foreach ($adjustments as $adjustment) {
-            switch ($adjustment) {
-                // the "shown" mods
-                case 'rotated-dexter':
-                    $rotate = -18;
-                    break;
-                case 'rotated-sinister':
-                    $rotate = 18;
-                    break;
-                case 'slightly-rotated-dexter':
-                    $rotate = -9;
-                    break;
-                case 'slightly-rotated-sinister':
-                    $rotate = 9;
-                    break;
-                case 'much-rotated-dexter':
-                    $rotate = -27;
-                    break;
-                case 'much-rotated-sinister':
-                    $rotate = 27;
-                    break;
-                case 'very-much-rotated-dexter':
-                    $rotate = -36;
-                    break;
-                case 'very-much-rotated-sinister':
-                    $rotate = 36;
-                    break;
-                case 'smaller':
-                    $boundX *= 0.8;
-                    $boundY *= 0.8;
-                    break;
-                case 'larger':
-                    $boundX *= 1.2;
-                    $boundY *= 1.2;
-                    break;
-                case 'raised':
-                    $centreY -= 60;
-                    break;
-                case 'lowered':
-                    $centreY += 60;
-                    break;
-                case 'to-dexter':
-                    $centreX -= 50;
-                    break;
-                case 'to-sinister':
-                    $centreX += 50;
-                    break;
-                case 'slightly-smaller':
-                    $boundX *= 0.9;
-                    $boundY *= 0.9;
-                    break;
-                case 'slightly-larger':
-                    $boundX *= 1.1;
-                    $boundY *= 1.1;
-                    break;
-                case 'slightly-raised':
-                    $centreY -= 30;
-                    break;
-                case 'slightly-lowered':
-                    $centreY += 30;
-                    break;
-                case 'slightly-to-dexter':
-                    $centreX -= 25;
-                    break;
-                case 'slightly-to-sinister':
-                    $centreX += 25;
-                    break;
-                case 'much-smaller':
-                    $boundX *= 0.6;
-                    $boundY *= 0.6;
-                    break;
-                case 'much-larger':
-                    $boundX *= 1.4;
-                    $boundY *= 1.4;
-                    break;
-                case 'much-raised':
-                    $centreY -= 120;
-                    break;
-                case 'much-lowered':
-                    $centreY += 120;
-                    break;
-                case 'much-to-dexter':
-                    $centreX -= 100;
-                    break;
-                case 'much-to-sinister':
-                    $centreX += 100;
-                    break;
-                case 'very-much-smaller':
-                    $boundX *= 0.4;
-                    $boundY *= 0.4;
-                    break;
-                case 'very-much-larger':
-                    $boundX *= 1.6;
-                    $boundY *= 1.6;
-                    break;
-                case 'very-much-raised':
-                    $centreY -= 240;
-                    break;
-                case 'very-much-lowered':
-                    $centreY += 240;
-                    break;
-                case 'very-much-to-dexter':
-                    $centreX -= 200;
-                    break;
-                case 'very-much-to-sinister':
-                    $centreX += 200;
-                    break;
-
-            }
+            $hints->adjust($adjustment);
         }
+        $boundX *= $hints->scale_x;
+        $boundY *= $hints->scale_y;
+        $rotate += $hints->angle;
+        $centreY += $hints->offset_y;
+        $centreX += $hints->offset_x;
     }
   // Calculate the size of the image to fit into the bounding box,
   $Xscale = $boundX / $chargeX;
