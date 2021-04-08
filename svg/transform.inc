@@ -187,9 +187,9 @@ class TransformMatrix
                 {
                     $x = $params[1];
                     $y = $params[2];
-                    $this->translate(-$x, -$y);
-                    $this->rotate(-deg2rad($ang));
                     $this->translate($x, $y);
+                    $this->rotate(-deg2rad($ang));
+                    $this->translate(-$x, -$y);
                 }
                 else
                 {
