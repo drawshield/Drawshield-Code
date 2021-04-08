@@ -287,6 +287,7 @@ function getCharge( DOMElement $node, $layout ) {
     static $filter_id = 0;
     $hold_point = null;
     $hold_radius = 1;
+    $bounding_box = null;
 
     //-------------------------------------------------------------
     // Special handling for escutcheons
@@ -356,6 +357,7 @@ function getCharge( DOMElement $node, $layout ) {
             $clipPath = getShape($child_layout);
             $clip = add_def( 'clipPath', '<path d="' . $clipPath . '" />' );
             $body = '<g clip-path="url(#' . $clip . ')" >' . makeshield( $shield, $child_layout ) . "</g>\n";
+            $bounding_box = ShieldRect::from_corners(0, 0, $width, $height);
         }
   } else {
     //-------------------------------------------------------------
@@ -723,5 +725,6 @@ HERE;
   $chg_data['width'] = $width;
   $chg_data['hold_point'] = $hold_point;
   $chg_data['hold_radius'] = $hold_radius;
+  $chg_data['bounding_box'] = $bounding_box;
   return $chg_data;
 }

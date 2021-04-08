@@ -1,5 +1,7 @@
 <?php 
 
+require_once("transform.inc");
+
 function make_def($element, $content, $name = '', $title = '', $desc = '')
 {
     $element_words = explode(' ', $element);
@@ -176,7 +178,7 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
   return $retval;
 }
 
-function hold_charge($element, $held)
+function hold_charge($element, $held, ShieldRect &$bounding_box)
 {
     $dest = new ShieldPos(floatval($element["cx"]), floatval($element["cy"]));
     $anchor_radius = floatval($element["r"] ?? $element["rx"]);
@@ -239,7 +241,11 @@ function hold_charge($element, $held)
     $ry = $hold_point->y * $hints->scale_y;
     $rotation = $hints->angle == 0 ? "" : "rotate({$hints->angle}, $rx, $ry)";
 
-    $item = "<g transform='$anchor_transform translate($dx, $dy) $rotation scale({$hints->scale_x}, {$hints->scale_y}) '>";
+    $transform_attr = "$anchor_transform translate($dx, $dy) $rotation scale({$hints->scale_x}, {$hints->scale_y})";
+    $bb = TransformMatrix::from_svg_transform($transform_attr)->apply_box($held["bounding_box"]);
+    $bounding_box->combine($bb);
+
+    $item = "<g transform='$transform_attr'>";
     $body = $held["body"];
     $tincture = $xpath->query("tincture", $held["node"]);
     if ( count($tincture) )
@@ -250,7 +256,7 @@ function hold_charge($element, $held)
 }
 
 function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $chargeName, 
-    $extras, $strokeCol, $strokeWidth, $fillSet = false ) {
+    $extras, $strokeCol, $strokeWidth, ShieldRect &$bounding_box, $fillSet = false ) {
     $name = $element->getName();
     if ( in_array($name, array( 'metadata', 'defs', 'title' ) ))
         return null;
@@ -300,7 +306,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
     }
     else if ( ($name == "ellipse" || $name == "circle") && array_key_exists($id, $extras) )
     {
-        return hold_charge($element, $extras[$id]);
+        return hold_charge($element, $extras[$id], $bounding_box);
     }
   //-------------------------------------------------------------------------
   $visible = true;
@@ -344,7 +350,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
       $subitem = htmlentities((string)$element, ENT_XML1);
   }
   foreach( $element->children() as $child )
-      $subitem .= addChild($child,$featureColours, $chargeGroup, $chargeName, $extras, $strokeCol, $strokeWidth, $fillSet );
+      $subitem .= addChild($child,$featureColours, $chargeGroup, $chargeName, $extras, $strokeCol, $strokeWidth, $bounding_box, $fillSet);
   if ( $subitem != '') {
     $item .= ">$subitem</$name>\n";
   } else {
@@ -353,70 +359,80 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
   return $item;
 }
 
-function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol = null, $strokeWidth = null) {
-  global $messages, $options;
-  $retval = array();
+function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol = null, $strokeWidth = null)
+{
+    global $messages, $options;
+    $retval = array();
 
-  libxml_use_internal_errors(true);
-  if ( ($svg = @simplexml_load_string($svgCode, null, LIBXML_NOENT)) == null ) {
-    $messages->addMessage('internal',"XML error reading charge data");
-    error_log("XML error reading charge data - " . $chargeGroup . '/' . $chargeName);
-    // Fallback item
-    $svg = simplexml_load_string('<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="100"
-                height="100"
-                version="1.1" >
-                <g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><path fill-rule="evenodd" d="M0,0h100v100h-100zM15,15h70v70h-70z" />
-                 <text x="50" y="65" font-size="30" text-anchor="middle">????</text></g>
-                </svg>');
-  }
-  libxml_clear_errors();
-  $viewbox = $svg['viewBox'] ?? '0 0 100 100';
-  list($x0,$y0,$x1,$y1) = explode(' ',$viewbox);
-  $heightVal = $svg['height'] ?? $x1;
-  if (substr($heightVal,-1) == '%') {
-    $retval['height'] = ($y1 - $y0) * intval($heightVal) / 100;
-  } else {
-    $retval['height'] = floatval($heightVal);
-  }
-  $widthVal = $svg['width'] ?? $y1;
-  if (substr($widthVal,-1) == '%') {
-    $retval['width'] = ($x1 - $x0) * intval($widthVal) / 100;
-  } else {
-    $retval['width'] = floatval($widthVal);
-  }
-  // do we need to adapt for offset view box (e.g. traceable heraldic art)
-  $offset = false;
-  if ($x0 != 0 || $y0 != 0) {
-    $offset = "translate(-$x0,-$y0)";
-  }
-   @$metadata = $svg->xpath('//dc:title');
-  if ( is_array($metadata) and count($metadata) > 0) {
-    $licence = 'unknown';
-    foreach($metadata as $meta) {
-      if (strlen($meta)) {
-        $licence = $meta;
-        break;
-      }
+    libxml_use_internal_errors(true);
+    if ( ($svg = @simplexml_load_string($svgCode, null, LIBXML_NOENT)) == null )
+    {
+        $messages->addMessage('internal',"XML error reading charge data");
+        error_log("XML error reading charge data - " . $chargeGroup . '/' . $chargeName);
+        // Fallback item
+        $svg = simplexml_load_string('<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="100"
+                    height="100"
+                    version="1.1" >
+                    <g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><path fill-rule="evenodd" d="M0,0h100v100h-100zM15,15h70v70h-70z" />
+                    <text x="50" y="65" font-size="30" text-anchor="middle">????</text></g>
+                    </svg>'
+        );
     }
-    // var_dump($metadata);
-    $messages->addMessage('licence', "$chargeGroup/$chargeName - $licence");
-//    $retval['licence'] = $metadata[0];
-  }
-  // set a default stroke colour
-  $fragment = '';
-  foreach( $svg->children() as $child )
-    $fragment .= addChild($child, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol, $strokeWidth );
-  // Set the global stroke colour
-  // if ($addStroke){
-  //   $fragment = '<g stroke="' . $addStroke . '">' . $fragment . '</g>';
-  // }
-  if ($offset) {
-    $fragment = "<g transform=\"$offset\">$fragment</g>\n";
-  }
-  $retval['body'] = $fragment;
+    libxml_clear_errors();
+
+    $viewbox = $svg['viewBox'] ?? '0 0 100 100';
+    list($x0,$y0,$x1,$y1) = explode(' ',$viewbox);
+
+    $heightVal = $svg['height'] ?? $x1;
+    if (substr($heightVal,-1) == '%')
+        $height = ($y1 - $y0) * intval($heightVal) / 100;
+    else
+        $height = floatval($heightVal);
+
+    $widthVal = $svg['width'] ?? $y1;
+    if (substr($widthVal,-1) == '%')
+        $width = ($x1 - $x0) * intval($widthVal) / 100;
+    else
+        $width = floatval($widthVal);
+
+    @$metadata = $svg->xpath('//dc:title');
+    if ( is_array($metadata) and count($metadata) > 0)
+    {
+        $licence = 'unknown';
+        foreach($metadata as $meta)
+        {
+            if (strlen($meta))
+            {
+                $licence = $meta;
+                break;
+            }
+        }
+
+        $messages->addMessage('licence', "$chargeGroup/$chargeName - $licence");
+    }
+
+    $bounding_box = ShieldRect::from_corners(0, 0, $width, $height);
+
+    // set a default stroke colour
+    $fragment = '';
+    foreach( $svg->children() as $child )
+        $fragment .= addChild($child, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol, $strokeWidth, $bounding_box);
+
+    $x0 += $bounding_box->left();
+    $y0 += $bounding_box->top();
+
+    // do we need to adapt for offset view box (e.g. traceable heraldic art)
+    if ( $x0 != 0 || $y0 != 0 )
+    {
+        $x0 *= -1;
+        $y0 *= -1;
+        $fragment = "<g transform=\"translate($x0, $y0)\">$fragment</g>\n";
+    }
+
+    $retval['body'] = $fragment;
 
     $hold_point = $svg->xpath("//*[@id='hold-point']");
     if ( count($hold_point) > 0 )
@@ -426,9 +442,13 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
     }
     else
     {
-        $retval["hold_point"] = new ShieldPos($retval['width']/2, $retval['height']/2);
-        $retval["hold_radius"] = $retval['width']/12;
+        $retval["hold_point"] = new ShieldPos($width/2, $height/2);
+        $retval["hold_radius"] = $width/12;
     }
 
-  return $retval;
+    $retval['height'] = $bounding_box->size->height;
+    $retval['width'] = $bounding_box->size->width;
+    $retval['bounding_box'] = $bounding_box;
+
+    return $retval;
 }
