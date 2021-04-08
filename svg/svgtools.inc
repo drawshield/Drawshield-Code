@@ -188,8 +188,8 @@ function hold_charge($element, $held, ShieldRect &$bounding_box)
 
 
     $hints = new PlacementHints;
-    $orient = empty($held["horizontal"]) ? 1 : -1;
-    if ( $orient == -1 )
+    $horizontal = $held["horizontal"] ?? false;;
+    if ( $horizontal )
         $hints->angle += 90;
 
     $hints->scale_x = $hints->scale_y = $anchor_radius / $held["hold_radius"];
@@ -210,15 +210,23 @@ function hold_charge($element, $held, ShieldRect &$bounding_box)
         {
             case "palewise":
                 $hints->angle = -$anchor_angle;
+                if ( $horizontal )
+                    $hints->angle += 90;
                 break;
             case "fesswise":
-                $hints->angle = -$anchor_angle + $orient * 90;
+                $hints->angle = -$anchor_angle + 90;
+                if ( $horizontal )
+                    $hints->angle -= 90;
                 break;
             case "bendwise":
                 $hints->angle = -$anchor_angle - 45;
+                if ( $horizontal )
+                    $hints->angle += 90;
                 break;
             case "bendsinwise":
                 $hints->angle = -$anchor_angle + 45;
+                if ( $horizontal )
+                    $hints->angle += 90;
                 break;
             case 'inverted':
                 $hints->scale_y *= -1;

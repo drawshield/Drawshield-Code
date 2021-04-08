@@ -531,11 +531,13 @@ HERE;
   if ( existModifierWithKeyterm($node,'demi') ) {
     if ( array_key_exists('demi', $chg_data) && $chg_data['demi'] == 'horizontal' ) {
       $half = $height / 2;
+      $bounding_box->size->height -= $half;
       $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $width . '" height="' . $half . '" />' );
       $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
       $height = $half;
     } else {
       $half = $width / 2;
+      $bounding_box->size->width -= $half;
       $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $half . '" height="' . $height . '" />' );
       $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
       $width = $half;
@@ -543,42 +545,57 @@ HERE;
   } //----------------------------------------------------------
 
   
-  //----------------------------------------------------------
-  // NON-STANDARD EXTENSION - half handling
-  if ( existModifierWithKeyterm($node,'upper-half') ) {
-    $half = $height / 2;
-    $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $width . '" height="' . $half . '" />' );
-    $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
-    $height = $half;
-  } elseif ( existModifierWithKeyterm($node,'dexter-half') ) {
-    $half = $width / 2;
-    $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $half . '" height="' . $height . '" />' );
-    $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
-    $width = $half;
-  } elseif ( existModifierWithKeyterm($node,'sinister-half') ) {
-    $half = $width / 2;
-    $clip = add_def ( 'clipPath', '<rect x="' . $half . '" y="0" width="' . $half . '" height="' . $height . '" />' );
-    $body = '<g transform="translate(-' .  $half . ',0)" clip-path="url(#' . $clip . ')">' . $body . '</g>';
-    $width = $half;
-  } elseif ( existModifierWithKeyterm($node,'lower-half') ) {
-    $half = $height / 2;
-    $clip = add_def ( 'clipPath', '<rect x="0" y="' . $half . '" width="' . $width . '" height="' . $half . '" />' );
-    $body = '<g transform="translate(0, -' .  $half . ')" clip-path="url(#' . $clip . ')">' . $body . '</g>';
-    $height = $half;
-  } //----------------------------------------------------------
-
-  if ( count($filters) )
-  {
-    foreach ( $filters as $id => $filter )
+    //----------------------------------------------------------
+    // NON-STANDARD EXTENSION - half handling
+    if ( existModifierWithKeyterm($node,'upper-half') )
     {
-        $defs[] = "<filter id='$id'>$filter</filter>";
-        $body = "<g style='filter:url(#$id)'>$body</g>";
+        $bounding_box->size->height -= $half;
+        $half = $height / 2;
+        $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $width . '" height="' . $half . '" />' );
+        $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
+        $height = $half;
     }
-  }
-  if ( isset($defs) && count($defs) )
-  {
-    $body = "<defs>" . implode("", $defs) . "</defs>" . $body;
-  }
+    else if ( existModifierWithKeyterm($node,'dexter-half') )
+    {
+        $half = $width / 2;
+        $bounding_box->size->width -= $half;
+        $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $half . '" height="' . $height . '" />' );
+        $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
+        $width = $half;
+    }
+    else if ( existModifierWithKeyterm($node,'sinister-half') )
+    {
+        $half = $width / 2;
+        if ( $hold_point )
+            $hold_point->x -= $half;
+        $bounding_box->size->width -= $half;
+        $clip = add_def ( 'clipPath', '<rect x="' . $half . '" y="0" width="' . $half . '" height="' . $height . '" />' );
+        $body = '<g transform="translate(-' .  $half . ',0)" clip-path="url(#' . $clip . ')">' . $body . '</g>';
+        $width = $half;
+    }
+    else if ( existModifierWithKeyterm($node,'lower-half') )
+    {
+        $half = $height / 2;
+        if ( $hold_point )
+            $hold_point->y -= $half;
+        $bounding_box->size->height -= $half;
+        $clip = add_def ( 'clipPath', '<rect x="0" y="' . $half . '" width="' . $width . '" height="' . $half . '" />' );
+        $body = '<g transform="translate(0, -' .  $half . ')" clip-path="url(#' . $clip . ')">' . $body . '</g>';
+        $height = $half;
+    } //----------------------------------------------------------
+
+    if ( count($filters) )
+    {
+        foreach ( $filters as $id => $filter )
+        {
+            $defs[] = "<filter id='$id'>$filter</filter>";
+            $body = "<g style='filter:url(#$id)'>$body</g>";
+        }
+    }
+    if ( isset($defs) && count($defs) )
+    {
+        $body = "<defs>" . implode("", $defs) . "</defs>" . $body;
+    }
 
   //------------------------------------------------------------
   // Charges on or around this one
