@@ -536,6 +536,17 @@ class englishGrammar extends grammar
             $keyterm = "special/escutcheon";
             $charge->setAttribute("keyterm", $keyterm);
             $mods[] = $this->schema->makeMod('chargemod', null, 'shape-flag', self::tokens(), self::lineNo());
+            self::ignore(languageDB::USING);
+            if ( $option = self::find(LanguageDB::DRAWN_MODS) ) {
+                $value = strtolower($this->phraseMatcher->getValue());
+                if ( $option == "aspect" ) {
+                    $mods[] = $this->schema->makeNode(blazonML::E_ASPECT, array(
+                        blazonML::A_KEYTERM => $value),
+                        self::tokens(),
+                        self::lineNo()
+                    );
+                }
+            }
         }
         if ($keyterm == 'special/escutcheon') {
             self::ignore(languageDB::BLAZONED);

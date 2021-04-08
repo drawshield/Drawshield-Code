@@ -272,8 +272,9 @@ function makeSquareCharge(DOMElement $node ) {
 }
 
 function getCharge( DOMElement $node, $layout ) {
-  global $chg_data_cache, $messages;
-  if (is_null($node)) return null;
+    global $chg_data_cache, $messages;
+    if (is_null($node))
+        return null;
 
     $keyterm = $node->getAttribute('keyterm');
     if (strpos($keyterm, '/') === false) {
@@ -288,48 +289,74 @@ function getCharge( DOMElement $node, $layout ) {
     $hold_radius = 1;
 
     //-------------------------------------------------------------
-  // Special handling for escutcheons
-  if ($chargeName == 'escutcheon') {
-    $chg_data = array();
-    $shield = null;
-    $crown = false;
-    $chg_data['hflex'] = 0;
-    $chg_data['wflex'] = 0;
-    $chg_data['title'] = $chargeName;
-    $shape = 'heater';
-    if ( $node->hasChildNodes()) {
-      foreach ( $node->childNodes as $child ) {
-        if ( $child->nodeName == blazonML::E_SHIELD ) {
-          $shield = $child;
-        } elseif ($child->nodeName == blazonML::E_MODIFIER) {
-          $modifier = $child->getAttribute('keyterm');
-          if (substr($modifier,0,6) == 'shape-') {
-            $shape = substr($modifier,6);
-          } // we don't need the pending tincture node
-        } elseif ($child->nodeName == blazonML::E_TINCTURE) {
-          $child->setAttribute(blazonML::A_ORIGIN, blazonML::V_IMPLIED);
+    // Special handling for escutcheons
+    if ($chargeName == 'escutcheon')
+    {
+        $chg_data = array();
+        $shield = null;
+        $crown = false;
+        $chg_data['hflex'] = 0;
+        $chg_data['wflex'] = 0;
+        $chg_data['title'] = $chargeName;
+        $shape = 'heater';
+
+        if ( $node->hasChildNodes())
+        {
+            foreach ( $node->childNodes as $child )
+            {
+                if ( $child->nodeName == blazonML::E_SHIELD )
+                {
+                    $shield = $child;
+                }
+                elseif ( $child->nodeName == blazonML::E_MODIFIER )
+                {
+                    $modifier = $child->getAttribute('keyterm');
+                    if (substr($modifier, 0, 6) == 'shape-')
+                    {
+                        $shape = substr($modifier, 6);
+                    } // we don't need the pending tincture node
+                }
+                elseif ( $child->nodeName == blazonML::E_TINCTURE )
+                {
+                    $child->setAttribute(blazonML::A_ORIGIN, blazonML::V_IMPLIED);
+                }
+            }
         }
-      }
-    }
-    if ($shield == null) {
-      $messages->addMessage('Warning',"No data found for escutcheon");
-      // just carry on with a blank escutcheon
-    } else {
-      $width = 1000;
-      $height = ShieldLayout::best_height($shape);
-      $child_layout = new ShieldLayout(new ShieldSize($width, $height), $shape);
-      $hold_point = $child_layout->center_point;
-      if ( $shape == "flag" )
-        $hold_point = new ShieldPos(0, 0);
-      $hold_radius = $width / 15;
+        if ($shield == null)
+        {
+            $messages->addMessage('Warning',"No data found for escutcheon");
+            // just carry on with a blank escutcheon
+        }
+        else
+        {
+            $width = 1000;
 
-      $clipPath = getShape($child_layout);
-      $clip = add_def( 'clipPath', '<path d="' . $clipPath . '" />' );
+            if ( $shape == "flag" )
+            {
+                $xpath = new DomXPath($node->ownerDocument);
+                $aspect = $xpath->evaluate("string(aspect/@keyterm)", $node);
+                if ( !$aspect )
+                    $aspect = 0.6;
+                else
+                    $aspect = calculateAR($aspect);
 
-      $body = '<g clip-path="url(#' . $clip . ')" >' . makeshield( $shield, $child_layout ) . "</g>\n";
+                $height = $width * $aspect;
+                $hold_point = new ShieldPos(0, 0);
+                $child_layout = new ShieldLayout(new ShieldSize($width, $height), $shape);
+            }
+            else
+            {
+                $height = ShieldLayout::best_height($shape);
+                $child_layout = new ShieldLayout(new ShieldSize($width, $height), $shape);
+                $hold_point = $child_layout->center_point;
+            }
 
-      // return $chg_data;
-    }
+            $hold_radius = $width / 15;
+
+            $clipPath = getShape($child_layout);
+            $clip = add_def( 'clipPath', '<path d="' . $clipPath . '" />' );
+            $body = '<g clip-path="url(#' . $clip . ')" >' . makeshield( $shield, $child_layout ) . "</g>\n";
+        }
   } else {
     //-------------------------------------------------------------
     $chg_ref = getModifierValueByKeyterm($node, 'chg_data');
