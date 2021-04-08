@@ -569,6 +569,7 @@ HERE;
         if ( $hold_point )
             $hold_point->x -= $half;
         $bounding_box->size->width -= $half;
+        $bounding_box->pos->x -= $half / 2;
         $clip = add_def ( 'clipPath', '<rect x="' . $half . '" y="0" width="' . $half . '" height="' . $height . '" />' );
         $body = '<g transform="translate(-' .  $half . ',0)" clip-path="url(#' . $clip . ')">' . $body . '</g>';
         $width = $half;
@@ -579,6 +580,7 @@ HERE;
         if ( $hold_point )
             $hold_point->y -= $half;
         $bounding_box->size->height -= $half;
+        $bounding_box->pos->y -= $half / 2;
         $clip = add_def ( 'clipPath', '<rect x="0" y="' . $half . '" width="' . $width . '" height="' . $half . '" />' );
         $body = '<g transform="translate(0, -' .  $half . ')" clip-path="url(#' . $clip . ')">' . $body . '</g>';
         $height = $half;
