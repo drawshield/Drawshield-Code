@@ -29,6 +29,12 @@
   </metadata>
   <defs
      id="defs4" />
+  <circle
+     style="display:none;fill:#3250b0;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3"
+     id="in-flag-point"
+     cx="75.302216"
+     cy="83.691246"
+     r="8.1281214" />
   <g
      transform="matrix(-0.89881708,-1.4917752,-1.4917752,0.89881708,329.56473,354.828)"
      id="g858"

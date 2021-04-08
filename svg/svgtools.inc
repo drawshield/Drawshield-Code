@@ -198,6 +198,8 @@ function hold_charge($element, $held)
 
     $charge_mods = $xpath->query("modifier", $held["node"]);
 
+    $held_move_scale = $held["height"] / 1000;
+
     foreach ( $charge_mods as $mod )
     {
         switch ( $mod->getAttribute('keyterm') )
@@ -325,19 +327,35 @@ function hold_charge($element, $held)
                 $scale_y *= 1.6;
                 break;
             case 'raised':
+                $hold_point->y += 60 * $held_move_scale;
+                break;
             case 'lowered':
+                $hold_point->y += -60 * $held_move_scale;
+                break;
+            case 'slightly-raised':
+                $hold_point->y += 30 * $held_move_scale;
+                break;
+            case 'slightly-lowered':
+                $hold_point->y -= 30 * $held_move_scale;
+                break;
+            case 'much-raised':
+                $hold_point->y += 120 * $held_move_scale;
+                break;
+            case 'much-lowered':
+                $hold_point->y -= 120 * $held_move_scale;
+                break;
+            case 'very-much-raised':
+                $hold_point->y += 240 * $held_move_scale;
+                break;
+            case 'very-much-lowered':
+                $hold_point->y -= 240 * $held_move_scale;
+                break;
             case 'to-dexter':
             case 'to-sinister':
-            case 'slightly-raised':
-            case 'slightly-lowered':
             case 'slightly-to-dexter':
             case 'slightly-to-sinister':
-            case 'much-raised':
-            case 'much-lowered':
             case 'much-to-dexter':
             case 'much-to-sinister':
-            case 'very-much-raised':
-            case 'very-much-lowered':
             case 'very-much-to-dexter':
             case 'very-much-to-sinister':
                 // unsupported
@@ -352,7 +370,7 @@ function hold_charge($element, $held)
     $ry = $hold_point->y * $scale_y;
     $rotation = $angle == 0 ? "" : "rotate($angle, $rx, $ry)";
 
-    $item = "<g transform='$anchor_transform translate($dx, $dy) $rotation scale($scale_x, $scale_y) '>";// scale($post_scale_x, $post_scale_y)'>";
+    $item = "<g transform='$anchor_transform translate($dx, $dy) $rotation scale($scale_x, $scale_y) '>";
     $body = $held["body"];
     $tincture = $xpath->query("tincture", $held["node"]);
     if ( count($tincture) )
