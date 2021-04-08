@@ -964,7 +964,7 @@
       array ( 'tassels?', 'furnishings/tassel' ),
       array ( '(seat|chair)s?', 'furnishings/chair' ),
       array ( 'gonfann?ons?', 'furnishings/gonfannon' ),
-      array ( '(flag|fanion)s?', 'furnishings/flag' ),
+      array ( 'fanions?', 'furnishings/flag' ),
       array ( 'flagpoles?', 'furnishings/flagpole' ),
       array ( 'banners?', 'furnishings/banner' ),
       array ( 'bags? of madder', 'furnishings/bag-of-madder' ),
@@ -1195,6 +1195,7 @@
       array ( 'one', 'special/same' ), // as in "a double one"
       array ( 'escut?cheons? ?of ?pretence', 'special/escutcheon' ),
       array ( 'socheons?', 'special/escutcheon' ),
+      array ( 'flags?', 'special/flag' ),
       // emblem
       array ( '(staff|rod)s? ?of (a|e|ae)scu?l[ae]pi?us', 'emblem/rod-of-esclapius' ),
       array ( 'thyrs(i|us|uses) ?of ?dionysus', 'emblem/thyrsus' ),

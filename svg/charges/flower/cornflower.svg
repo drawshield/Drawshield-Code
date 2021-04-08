@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -78,4 +76,10 @@
       </g>
     </g>
   </g>
+  <circle
+     style="fill:#3250b0;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3"
+     id="hold-point"
+     cx="54.381729"
+     cy="177.17255"
+     r="8.8954096" />
 </svg>

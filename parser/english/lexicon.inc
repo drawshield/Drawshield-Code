@@ -49,6 +49,7 @@ class languageDB extends lexicon
     const COTTICE = 'cottice';
     const VOIDED = 'voided';
     const CHARGE_WITH = 'chargewith';
+    const HOLDING = 'holding';
     const ARRANGEMENT = 'arrangement';
     const SPECIFIER = 'specifier';
     const LOCATION = 'location';

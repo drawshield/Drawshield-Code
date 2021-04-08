@@ -272,8 +272,9 @@ function makeSquareCharge(DOMElement $node ) {
 }
 
 function getCharge( DOMElement $node, $layout ) {
-  global $chg_data_cache, $messages;
-  if (is_null($node)) return null;
+    global $chg_data_cache, $messages;
+    if (is_null($node))
+        return null;
 
     $keyterm = $node->getAttribute('keyterm');
     if (strpos($keyterm, '/') === false) {
@@ -284,46 +285,80 @@ function getCharge( DOMElement $node, $layout ) {
 
     $filters = [];
     static $filter_id = 0;
+    $hold_point = null;
+    $hold_radius = 1;
+    $bounding_box = null;
 
     //-------------------------------------------------------------
-  // Special handling for escutcheons
-  if ($chargeName == 'escutcheon') {
-    $chg_data = array();
-    $shield = null;
-    $crown = false;
-    $chg_data['hflex'] = 0;
-    $chg_data['wflex'] = 0;
-    $chg_data['title'] = $chargeName;
-    $shape = 'heater';
-    if ( $node->hasChildNodes()) {
-      foreach ( $node->childNodes as $child ) {
-        if ( $child->nodeName == blazonML::E_SHIELD ) {
-          $shield = $child;
-        } elseif ($child->nodeName == blazonML::E_MODIFIER) {
-          $modifier = $child->getAttribute('keyterm');
-          if (substr($modifier,0,6) == 'shape-') {
-            $shape = substr($modifier,6);
-          } // we don't need the pending tincture node
-        } elseif ($child->nodeName == blazonML::E_TINCTURE) {
-          $child->setAttribute(blazonML::A_ORIGIN, blazonML::V_IMPLIED);
+    // Special handling for escutcheons
+    if ($chargeName == 'escutcheon')
+    {
+        $chg_data = array();
+        $shield = null;
+        $crown = false;
+        $chg_data['hflex'] = 0;
+        $chg_data['wflex'] = 0;
+        $chg_data['title'] = $chargeName;
+        $shape = 'heater';
+
+        if ( $node->hasChildNodes())
+        {
+            foreach ( $node->childNodes as $child )
+            {
+                if ( $child->nodeName == blazonML::E_SHIELD )
+                {
+                    $shield = $child;
+                }
+                elseif ( $child->nodeName == blazonML::E_MODIFIER )
+                {
+                    $modifier = $child->getAttribute('keyterm');
+                    if (substr($modifier, 0, 6) == 'shape-')
+                    {
+                        $shape = substr($modifier, 6);
+                    } // we don't need the pending tincture node
+                }
+                elseif ( $child->nodeName == blazonML::E_TINCTURE )
+                {
+                    $child->setAttribute(blazonML::A_ORIGIN, blazonML::V_IMPLIED);
+                }
+            }
         }
-      }
-    }
-    if ($shield == null) {
-      $messages->addMessage('Warning',"No data found for escutcheon");
-      // just carry on with a blank escutcheon
-    } else {
-      $width = 1000;
-      $height = 1200;
-      $child_layout = new ShieldLayout(new ShieldSize($width, $height), $shape);
+        if ($shield == null)
+        {
+            $messages->addMessage('Warning',"No data found for escutcheon");
+            // just carry on with a blank escutcheon
+        }
+        else
+        {
+            $width = 1000;
 
-      $clipPath = getShape($child_layout);
-      $clip = add_def( 'clipPath', '<path d="' . $clipPath . '" />' );
+            if ( $shape == "flag" )
+            {
+                $xpath = new DomXPath($node->ownerDocument);
+                $aspect = $xpath->evaluate("string(aspect/@keyterm)", $node);
+                if ( !$aspect )
+                    $aspect = 0.6;
+                else
+                    $aspect = calculateAR($aspect);
 
-      $body = '<g clip-path="url(#' . $clip . ')" >' . makeshield( $shield, $child_layout ) . "</g>\n";
+                $height = $width * $aspect;
+                $hold_point = new ShieldPos(0, 0);
+                $child_layout = new ShieldLayout(new ShieldSize($width, $height), $shape);
+            }
+            else
+            {
+                $height = ShieldLayout::best_height($shape);
+                $child_layout = new ShieldLayout(new ShieldSize($width, $height), $shape);
+                $hold_point = $child_layout->center_point;
+            }
 
-      // return $chg_data;
-    }
+            $hold_radius = $width / 15;
+
+            $clipPath = getShape($child_layout);
+            $clip = add_def( 'clipPath', '<path d="' . $clipPath . '" />' );
+            $body = '<g clip-path="url(#' . $clip . ')" >' . makeshield( $shield, $child_layout ) . "</g>\n";
+            $bounding_box = ShieldRect::from_corners(0, 0, $width, $height);
+        }
   } else {
     //-------------------------------------------------------------
     $chg_ref = getModifierValueByKeyterm($node, 'chg_data');
@@ -344,6 +379,8 @@ function getCharge( DOMElement $node, $layout ) {
     $strokeCol = null;
     $feat_cols = array();
     $defs = [];
+    $extras = [];
+
     /**
      * @var DOMElement $child
      */
@@ -382,8 +419,13 @@ function getCharge( DOMElement $node, $layout ) {
             }
           } elseif ($child->getAttribute(blazonML::A_KEYTERM) == 'stroked') {
               $strokeCol = rgb($child->getAttribute(blazonML::A_PARAM));
-          }
-          break;
+          } else if ( $child->getAttribute('type') == languageDB::HOLDING and $child->hasChildNodes() ){
+            $chargeToAdd = $child->firstChild;
+            if ( $chargeToAdd->nodeName == 'missing' || $chargeToAdd->nodeName == 'ordinary' )
+                break;
+            $chargeWithType = $child->getAttribute('keyterm');
+            $extras[$chargeWithType] = getCharge($chargeToAdd, $layout);
+        }
       }
     }
     //--------------------------------------------------------------------------
@@ -411,7 +453,7 @@ function getCharge( DOMElement $node, $layout ) {
 
     //------------------------------------------------------------------------------
     // Charges "internal" to this one
-    $extras = array();
+
     // Special handling for charges "crowned"
     if ( $crown = getModifierNodeWithKeyterm($node, 'crowned', false) ) {
       $crownType = $crown->getAttribute('value');
@@ -489,11 +531,13 @@ HERE;
   if ( existModifierWithKeyterm($node,'demi') ) {
     if ( array_key_exists('demi', $chg_data) && $chg_data['demi'] == 'horizontal' ) {
       $half = $height / 2;
+      $bounding_box->size->height -= $half;
       $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $width . '" height="' . $half . '" />' );
       $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
       $height = $half;
     } else {
       $half = $width / 2;
+      $bounding_box->size->width -= $half;
       $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $half . '" height="' . $height . '" />' );
       $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
       $width = $half;
@@ -501,46 +545,64 @@ HERE;
   } //----------------------------------------------------------
 
   
-  //----------------------------------------------------------
-  // NON-STANDARD EXTENSION - half handling
-  if ( existModifierWithKeyterm($node,'upper-half') ) {
-    $half = $height / 2;
-    $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $width . '" height="' . $half . '" />' );
-    $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
-    $height = $half;
-  } elseif ( existModifierWithKeyterm($node,'dexter-half') ) {
-    $half = $width / 2;
-    $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $half . '" height="' . $height . '" />' );
-    $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
-    $width = $half;
-  } elseif ( existModifierWithKeyterm($node,'sinister-half') ) {
-    $half = $width / 2;
-    $clip = add_def ( 'clipPath', '<rect x="' . $half . '" y="0" width="' . $half . '" height="' . $height . '" />' );
-    $body = '<g transform="translate(-' .  $half . ',0)" clip-path="url(#' . $clip . ')">' . $body . '</g>';
-    $width = $half;
-  } elseif ( existModifierWithKeyterm($node,'lower-half') ) {
-    $half = $height / 2;
-    $clip = add_def ( 'clipPath', '<rect x="0" y="' . $half . '" width="' . $width . '" height="' . $half . '" />' );
-    $body = '<g transform="translate(0, -' .  $half . ')" clip-path="url(#' . $clip . ')">' . $body . '</g>';
-    $height = $half;
-  } //----------------------------------------------------------
-
-  if ( count($filters) )
-  {
-    foreach ( $filters as $id => $filter )
+    //----------------------------------------------------------
+    // NON-STANDARD EXTENSION - half handling
+    if ( existModifierWithKeyterm($node,'upper-half') )
     {
-        $defs[] = "<filter id='$id'>$filter</filter>";
-        $body = "<g style='filter:url(#$id)'>$body</g>";
+        $bounding_box->size->height -= $half;
+        $half = $height / 2;
+        $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $width . '" height="' . $half . '" />' );
+        $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
+        $height = $half;
     }
-  }
-  if ( isset($defs) && count($defs) )
-  {
-    $body = "<defs>" . implode("", $defs) . "</defs>" . $body;
-  }
+    else if ( existModifierWithKeyterm($node,'dexter-half') )
+    {
+        $half = $width / 2;
+        $bounding_box->size->width -= $half;
+        $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $half . '" height="' . $height . '" />' );
+        $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
+        $width = $half;
+    }
+    else if ( existModifierWithKeyterm($node,'sinister-half') )
+    {
+        $half = $width / 2;
+        if ( $hold_point )
+            $hold_point->x -= $half;
+        $bounding_box->size->width -= $half;
+        $bounding_box->pos->x -= $half / 2;
+        $clip = add_def ( 'clipPath', '<rect x="' . $half . '" y="0" width="' . $half . '" height="' . $height . '" />' );
+        $body = '<g transform="translate(-' .  $half . ',0)" clip-path="url(#' . $clip . ')">' . $body . '</g>';
+        $width = $half;
+    }
+    else if ( existModifierWithKeyterm($node,'lower-half') )
+    {
+        $half = $height / 2;
+        if ( $hold_point )
+            $hold_point->y -= $half;
+        $bounding_box->size->height -= $half;
+        $bounding_box->pos->y -= $half / 2;
+        $clip = add_def ( 'clipPath', '<rect x="0" y="' . $half . '" width="' . $width . '" height="' . $half . '" />' );
+        $body = '<g transform="translate(0, -' .  $half . ')" clip-path="url(#' . $clip . ')">' . $body . '</g>';
+        $height = $half;
+    } //----------------------------------------------------------
+
+    if ( count($filters) )
+    {
+        foreach ( $filters as $id => $filter )
+        {
+            $defs[] = "<filter id='$id'>$filter</filter>";
+            $body = "<g style='filter:url(#$id)'>$body</g>";
+        }
+    }
+    if ( isset($defs) && count($defs) )
+    {
+        $body = "<defs>" . implode("", $defs) . "</defs>" . $body;
+    }
 
   //------------------------------------------------------------
   // Charges on or around this one
   $chargeOnMods = getModifiersByTypeAsArray($node,'chargewith', true); // get the actual nodes
+  $new_layout = new ShieldLayout(new ShieldSize(1000, 1000), "square", null, null, false);
   /**
    * @var DOMElement $chargeOn
    */
@@ -556,7 +618,7 @@ HERE;
     $chargeToAddType = $chargeToAdd->getAttribute('keyterm');
     if ( $chargeToAdd->nodeName == 'ordinary') {
       //$messages->addMessage('Warning', "Charge charged with ordinary not supported");
-      $new_ord = makeOrdinary( $chargeToAdd, $layout );
+      $new_ord = makeOrdinary( $chargeToAdd, $new_layout );
       $patt_id = add_def ( 'pattern width="100%" height="100%" patternUnits="objectBoundingBox" preserveAspectRatio="none" viewBox="0 0 1000 1000"',
       "<desc>Ordinary used to fill $chargeName</desc>" . $new_ord ); 
       $body = add_def() . $body;
@@ -593,7 +655,6 @@ HERE;
         break;
       // TODO Add more of the above!
       default:
-        $new_layout = new ShieldLayout(new ShieldSize(1000, 1000), "square", null, null, false);
         $charges = makeCharge($chargeToAdd, $new_layout);
         // We now have one or more superposed charges scaled to fit into a 1000x1000 box
         // We want to shrink the superposed charges by a factor (so they leave plenty of space
@@ -622,7 +683,7 @@ HERE;
         $xShift = ($width * ($xPos / 100)) - $targetCentre; // convert percentage to factor
         $yShift = ($height * ($yPos / 100)) - $targetCentre; // convert percentage to factor
         // scale to fit onto charge - then move so charges are central
-        $charges = sprintf('<g transform="translate(%2f,%2f) scale(%4f)">%s</g>', 
+        $charges = sprintf('<g transform="translate(%2f,%2f) scale(%4f)">%s</g>',
                 $xShift, 
                 $yShift,
                 $scale, 
@@ -676,8 +737,13 @@ HERE;
 
   // $messages->addMessage('licence',$node->getAttribute('keyterm') . " $licence"); // TODO what about internal, and is this used below?
   // $chg_data['licence'] = $licence;
+  $chg_data['node'] = $node;
+  $chg_data['layout'] = $layout;
   $chg_data['body'] = $body;
   $chg_data['height'] = $height;
   $chg_data['width'] = $width;
+  $chg_data['hold_point'] = $hold_point;
+  $chg_data['hold_radius'] = $hold_radius;
+  $chg_data['bounding_box'] = $bounding_box;
   return $chg_data;
 }

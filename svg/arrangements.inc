@@ -841,8 +841,8 @@ function get_placement(DOMElement $item, $layout) {
                 $boundingBox->pos = clone $layout->center_point;
             }
             $placement = calcPlace($item,'w',$boundingBox);
-            $placement = adjustDistance($item, $placement);
         }
+        $placement = adjustDistance($item, $placement);
         $placementList[] = $placement;
         $placement = '';
     }
