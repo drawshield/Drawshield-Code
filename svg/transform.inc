@@ -165,6 +165,17 @@ class TransformMatrix
         return $this->multiply($m);
     }
 
+    function svg_rotate($degrees, $x = 0, $y = 0)
+    {
+        if ( $x != 0 || $y != 0 )
+            $this->translate($x, $y);
+
+        $this->rotate(-deg2rad($degrees));
+
+        if ( $x != 0 || $y != 0 )
+            $this->translate(-$x, -$y);
+    }
+
     private function add_svg_transform_item_split($name, $params)
     {
         $params = preg_split("/(,|\s)\s*/", trim($params));
@@ -185,11 +196,7 @@ class TransformMatrix
                 $x = $y = 0;
                 if ( count($params) > 2 )
                 {
-                    $x = $params[1];
-                    $y = $params[2];
-                    $this->translate($x, $y);
-                    $this->rotate(-deg2rad($ang));
-                    $this->translate(-$x, -$y);
+                    $this->svg_rotate($ang, (float)$params[1], (float)$params[2]);
                 }
                 else
                 {
@@ -228,5 +235,10 @@ class TransformMatrix
         $m = new TransformMatrix;
         $m->add_svg_transform($transform);
         return $m;
+    }
+
+    function to_svg_transform()
+    {
+        return "matrix({$this->a()}, {$this->b()}, {$this->c()}, {$this->d()}, {$this->tx()}, {$this->ty()})";
     }
 }

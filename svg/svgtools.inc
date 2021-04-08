@@ -239,10 +239,15 @@ function hold_charge($element, $held, ShieldRect &$bounding_box)
 
     $rx = $hold_point->x * $hints->scale_x;
     $ry = $hold_point->y * $hints->scale_y;
-    $rotation = $hints->angle == 0 ? "" : "rotate({$hints->angle}, $rx, $ry)";
 
-    $transform_attr = "$anchor_transform translate($dx, $dy) $rotation scale({$hints->scale_x}, {$hints->scale_y})";
-    $bb = TransformMatrix::from_svg_transform($transform_attr)->apply_box($held["bounding_box"]);
+    $transform = TransformMatrix::from_svg_transform($anchor_transform);
+    $transform->translate($dx, $dy);
+    if ( $hints->angle != 0 )
+        $transform->svg_rotate($hints->angle, $rx, $ry);
+    $transform->scale($hints->scale_x, $hints->scale_y);
+
+    $transform_attr = $transform->to_svg_transform();
+    $bb = $transform->apply_box($held["bounding_box"]);
     $bounding_box->combine($bb);
 
     $item = "<g transform='$transform_attr'>";
