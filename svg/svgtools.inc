@@ -268,6 +268,43 @@ function hold_charge($element, $held, ShieldRect &$bounding_box)
     return $item;
 }
 
+function handle_extra($element, $extra, $featureColours, &$bounding_box)
+{
+    $item = '';
+
+    if ( $element['id'] == 'crowned' ) { // crowns just use width, then drop to the bottom
+        $scale = ($element['width'] / $extra['width']);
+        $yAdjustment = $element['height'] - ($extra['height'] * $scale);
+        $xAdjustment = 0;
+    } else { // everything else scales to fit centrally in the rectangle
+        $scale = min ( $element['height'] / $extra['height'], $element['width'] / $extra['width']);
+        $yAdjustment = ($element['height'] - ($extra['height'] * $scale))/2;
+        $xAdjustment = ($element['width'] - ($extra['width'] * $scale))/2;
+    }
+
+    // Move to the box position, adjust if we are shorter than the box
+    $transform = TransformMatrix::from_svg_transform($element['transform'] ?? "");
+    $transform->translate($element['x'] + $xAdjustment, $element['y'] + $yAdjustment);
+    $transform->scale($scale);
+
+    if ( isset($extra["bounding_box"]) )
+    {
+        $bb = $transform->apply_box($extra["bounding_box"]);
+        $bounding_box->combine($bb);
+    }
+
+    $item .= '<g transform="' . $transform->to_svg_transform() . '">';
+
+    if ( array_key_exists('crowned', $featureColours) )
+        $item .= '<g fill="' . $featureColours['crowned'] . '">' . $extra['body'] . '</g>';
+    else
+        $item .= $extra['body'];
+
+    $item .= '</g>';
+
+    return $item;
+}
+
 function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $chargeName, 
     $extras, $strokeCol, $strokeWidth, ShieldRect &$bounding_box, $fillSet = false ) {
     $name = $element->getName();
@@ -281,45 +318,13 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
     $class = '';
     //---------------------------------------------------
     // Handle invisible rectangles marking additional charge positions
-    if ( $name == 'rect' ) {
-        if ( array_key_exists($id, $extras)) { // Special handling for extra items, e.g. crowns
-
-            $item = '';
-
-            if ( isset($element['transform']))
-                $item .= '<g transform="' . $element['transform'] . '">'; // Apply the original transform (e.g. to tilt crown)
-
-            if ( $id == 'crowned' ) { // crowns just use width, then drop to the bottom
-                $scale = ($element['width'] / $extras[$id]['width']);
-                $yAdjustment = $element['height'] - ($extras[$id]['height'] * $scale);
-                $xAdjustment = 0;
-            } else { // everything else scales to fit centrally in the rectangle
-                $scale = min ( $element['height'] / $extras[$id]['height'], $element['width'] / $extras[$id]['width']);
-                $yAdjustment = ($element['height'] - ($extras[$id]['height'] * $scale))/2;
-                $xAdjustment = ($element['width'] - ($extras[$id]['width'] * $scale))/2;
-            }
-
-            $item .= '<g transform="translate(' . ($element['x'] + $xAdjustment) . ',' . ($element['y'] + $yAdjustment) . ')">'; // Move to the box position, adjust if we are shorter than the box
-
-            // Scale item to the size of the original rectangle
-            $item .= '<g transform="scale(' . $scale . ',' . $scale . ')">';
-
-            if ( array_key_exists('crowned',$featureColours) )
-                $item .= '<g fill="' . $featureColours['crowned'] . '">' . $extras[$id]['body'] . '</g>';
-            else
-                $item .= $extras[$id]['body'];
-
-            $item .= '</g></g>';
-
-            if ( isset($element['transform']) )
-                $item .= '</g>'; // close the groups above
-
-            return $item;
-        }
-    }
-    else if ( ($name == "ellipse" || $name == "circle") && array_key_exists($id, $extras) )
+    // Special handling for extra items, e.g. crowns
+    if ( array_key_exists($id, $extras) )
     {
-        return hold_charge($element, $extras[$id], $bounding_box);
+        if ( $name == 'rect' )
+            return handle_extra($element, $extras[$id], $featureColours, $bounding_box);
+        else if ( $name == "ellipse" || $name == "circle" )
+            return hold_charge($element, $extras[$id], $bounding_box);
     }
   //-------------------------------------------------------------------------
   $visible = true;
