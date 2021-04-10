@@ -342,6 +342,7 @@ if ( $options['asFile'] ) {
       $minTree = preg_replace('/blazonML:/', '', $minTree);
       $minTree = preg_replace('/<\?xml.*\?>\n/','', $minTree);
       $minTree = preg_replace('/<\/?blazon.*>\n/','', $minTree);
+      $minTree = preg_replace('/[<>"]/','', $minTree);
       $json['mintree'] = $minTree;
       header('Content-Type: application/json');
       echo json_encode($json);

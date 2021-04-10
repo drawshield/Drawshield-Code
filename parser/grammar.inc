@@ -38,6 +38,9 @@ abstract class grammar  {
    */
   protected $stateStore;
 
+  protected $foundTinctures = [];
+  protected $foundColours = [];
+
   protected $shieldNode;
   protected $achievementNode = null;
   protected $notesNode = null;
