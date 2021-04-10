@@ -321,7 +321,6 @@ if ( $options['asFile'] ) {
       $im->setimageformat('png32');
       $json = [];
       $json['image'] = base64_encode($im->getimageblob());
-      $json['tree'] = $dom->saveXML();
       $json['options'] = $options;
       $allMessages = $newDom->getElementsByTagNameNS('http://drawshield.net/blazonML','message');
       $messageArray = [];
@@ -334,6 +333,16 @@ if ( $options['asFile'] ) {
           $messageArray[] = $thisMessage;
       }
       $json['messages'] = $messageArray;
+      $json['tree'] = $dom->saveXML();
+      $baggage = $dom->getElementsByTagNameNS('http://drawshield.net/blazonML','input')->item(0);
+      $baggage->parentNode->removeChild($baggage);
+      $baggage = $dom->getElementsByTagNameNS('http://drawshield.net/blazonML','messages')->item(0);
+      $baggage->parentNode->removeChild($baggage);
+      $minTree = $dom->saveXML();
+      $minTree = preg_replace('/blazonML:/', '', $minTree);
+      $minTree = preg_replace('/<\?xml.*\?>\n/','', $minTree);
+      $minTree = preg_replace('/<\/?blazon.*>\n/','', $minTree);
+      $json['mintree'] = $minTree;
       header('Content-Type: application/json');
       echo json_encode($json);
       break;
