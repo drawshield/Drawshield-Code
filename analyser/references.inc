@@ -44,14 +44,14 @@ class references {
     // Set IDREF first, to point to appropriate node
     $refList = array (
       array ( '//charge[@keyterm="special/same"]','ancestor::charge[1]|ancestor::ordinary[1]|preceding::charge[1]|preceding::ordinary[1]', true ), // two of the same | another ...
-      array ( '//tincture[@origin="ofsame"]','ancestor::tincture[1]|preceding::tincture[1]', true ),// Of the same
-      array ( '//tincture[@origin="oflast"]','ancestor::tincture[not(@origin="pending")][1]|preceding::tincture[not(@origin="pending")][1]', true ),// Of the last (in case this is different from of the same?)
+      // array ( '//tincture[@origin="ofsame"]','ancestor::tincture[1]|preceding::tincture[1]', true ),// Of the same
+      // array ( '//tincture[@origin="oflast"]','ancestor::tincture[not(@origin="pending")][1]|preceding::tincture[not(@origin="pending")][1]', true ),// Of the last (in case this is different from of the same?)
 //      array ( '//tincture[@origin="pending"]','preceding-sibling::modifier/tincture[1]|following::tincture[1]', false ),// Pending
       array ( '//tincture[@origin="offield"]','ancestor::simple/field/tincture', true ),// Of the field
-      array ( '//tincture[@origin="offirst"]','preceding::tincture[colour][last()]', true ),// of the first
-      array ( '//tincture[@origin="ofsecond"]','preceding::tincture[colour][last()-1]', true ),// of the second
-      array ( '//tincture[@origin="ofthird"]','preceding::tincture[colour][last()-2]', true ),// of the third
-      array ( '//tincture[@origin="offourth"]','preceding::tincture[colour][last()-3]', true ),// of the fourth
+      // array ( '//tincture[@origin="offirst"]','(//tincture[colour])[1]', true ),// of the first
+      // array ( '//tincture[@origin="ofsecond"]','(//tincture[colour])[2]', true ),// of the second
+      // array ( '//tincture[@origin="ofthird"]','(//tincture[colour])[3]', true ),// of the third
+      // array ( '//tincture[@origin="offourth"]','(//tincture[colour])[4]', true ),// of the fourth
       );
     $messages = $this->xpath->query('//messages');
     if ( $messages->length == 0 ) {
