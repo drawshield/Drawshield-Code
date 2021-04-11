@@ -473,9 +473,22 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
         case 'indexchief': return [($cadency) ? '0,0,200,200' : '0,0,350,300'];
         case 'insinchief': return [($cadency) ? '800,0,200,200' : '650,0,350,300'];
         case 'inmidchief': return [($cadency) ? '400,0,200,200' : '300,0,400,400'];
-        case 'indexbase': return [($cadency) ? '200,800,200,200' : '150,750,350,400'];
-        case 'insinbase': return [($cadency) ? '600,800,200,200' : '500,750,350,400'];
-        case 'inmidbase': return [($cadency) ? '400,800,200,200' : '300,750,400,400'];
+        case 'indexbase': return [($cadency) ? '200,800,200,200' :
+            new ShieldRect(
+                new ShieldPos($layout->size->width/4, $layout->size->height - 300),
+                new ShieldSize(300, 300)
+            )
+        ];
+        case 'insinbase': return [($cadency) ? '600,800,200,200' :
+            new ShieldRect(
+                new ShieldPos($layout->size->width*3/4, $layout->size->height - 300),
+                new ShieldSize(300, 300)
+            )];
+        case 'inmidbase': return [($cadency) ? '400,800,200,200' :
+            new ShieldRect(
+                new ShieldPos($layout->size->width/2, $layout->size->height - 300),
+                new ShieldSize(300, 300)
+            )];
         case 'inabyss': return [];
         case 'inhonpoint': return [($cadency) ? '400,250,200,200' : '250,50,500,500'];
         case 'infesspoint':
