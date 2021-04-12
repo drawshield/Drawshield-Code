@@ -476,7 +476,7 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
                     $retval = '<g>' . $title . '<desc>Division used to fill field</desc>' . makeDivision( $data->type_node, $layout ) . '</g>';
                     break;
                 case 'ordinary':
-                    if ($targetKeyterm == 'plain-cross' || $targetKeyterm == 'bend') {
+                    if ( strpos($targetKeyterm, 'cross') !== false || strpos($targetKeyterm, 'bend') !== false || strpos($targetKeyterm, 'saltire') !== false ) {
                         $new_div = makeDivision( $data->type_node, $layout );
                         $mask_id = add_def ( 'mask width="1200" height="1400" maskUnits="userSpaceOnUse"',
                             $title . "<desc>Division used to fill $targetKeyterm</desc>" .

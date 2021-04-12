@@ -730,11 +730,6 @@ HERE;
     $chg_data['hflex'] = $chg_data['wflex'] = 0; // don't flex, as sun must stay round!
   }
 
-  if ( $crown ) {
-    $body = '<g transform="scale(0.9,0.9) translate(' . ($width * 0.05) .',' . ($height * 0.1) . ')">' . $body . '</g>';
-  }
-
-
   // $messages->addMessage('licence',$node->getAttribute('keyterm') . " $licence"); // TODO what about internal, and is this used below?
   // $chg_data['licence'] = $licence;
   $chg_data['node'] = $node;
