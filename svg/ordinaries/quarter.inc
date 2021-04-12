@@ -24,5 +24,5 @@ $ordinary['if_ord_on'] = 'scale';
 // $qSize = (int)($calcHeight / 2);
 // $outerEdge = $qSize - 40;
 $on_margin = 50;
-$ordinary['chargesOn'] = (string)ShieldRect::from_corners($on_margin, $on_margin, $layout->center_point->x - $on_margin, $layout->center_point->y - $on_margin);
+$ordinary['chargesOn'] = array("h", ShieldRect::from_corners($on_margin, $on_margin, $layout->center_point->x - $on_margin, $layout->center_point->y - $on_margin));
 
