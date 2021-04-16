@@ -210,8 +210,8 @@ function report_errors_svg($errno, $errstr, $errfile, $errline)
     return false;
 }
 
-if ( strpos($_SERVER["HTTP_REFERER"], "demopage.php") !== false )
-    set_error_handler("report_errors_svg");
+if (array_key_exists('HTTP_REFERER',$_SERVER) && strpos($_SERVER["HTTP_REFERER"], "demopage.php") !== false )
+    set_error_handler(report_errors_svg);
 
 $output = draw();
 
@@ -312,16 +312,30 @@ if ( $options['asFile'] ) {
       echo $im->getimageblob();
       break;
     case 'json':
+        $newDom = new DOMDocument();
+        $newDom->loadXML($output);
+         error_log($newDom->documentElement->nodeName);
       $im = new Imagick();
       $im->setBackgroundColor(new ImagickPixel('transparent'));
       $im->readimageblob($output);
       $im->setimageformat('png32');
-      $output = [];
-      $output['image'] = base64_encode($im->getimageblob());
-      $output['options'] = $options;
-      $output['messages'] = $messages->getMessageArray();
+      $json = [];
+      $json['image'] = base64_encode($im->getimageblob());
+      $json['tree'] = $dom->saveXML();
+      $json['options'] = $options;
+      $allMessages = $newDom->getElementsByTagNameNS('http://drawshield.net/blazonML','message');
+      $messageArray = [];
+     foreach($allMessages as $node) {
+          $thisMessage = [];
+          for ($i = 0; $i < $node->attributes->length; $i++) {
+              $thisMessage[$node->attributes->item($i)->nodeName] = $node->attributes->item($i)->nodeValue;
+          }
+          $thisMessage['content'] = $node->nodeValue;
+          $messageArray[] = $thisMessage;
+      }
+      $json['messages'] = $messageArray;
       header('Content-Type: application/json');
-      echo json_encode($output);
+      echo json_encode($json);
       break;
     case 'png':
       $im = new Imagick();
