@@ -180,6 +180,23 @@ class ShieldRect
     {
         return "<rect x='{$this->left()}' y='{$this->top()}' width='{$this->size->width}' height='{$this->size->height}' />";
     }
+
+    function combined(ShieldRect $other)
+    {
+        return ShieldRect::from_corners(
+            min($other->left(), $this->left()),
+            min($other->top(), $this->top()),
+            max($other->right(), $this->right()),
+            max($other->bottom(), $this->bottom())
+        );
+    }
+
+    function combine(ShieldRect $other)
+    {
+        $comb = $this->combined($other);
+        $this->pos = $comb->pos;
+        $this->size = $comb->size;
+    }
 }
 
 class ShieldLayout
@@ -234,6 +251,15 @@ class ShieldLayout
             new ShieldPos($width / 2, $height / 2),
             new ShieldSize($width, $height)
         );
+    }
+
+    static function best_height($shape)
+    {
+        if ( !empty(self::$custom_size[$shape]) )
+            return self::$custom_size[$shape];
+        if ( $shape == "flag" )
+            return 600;
+        return 1200;
     }
 
     static function from_options($options)

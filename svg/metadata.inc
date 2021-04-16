@@ -73,6 +73,7 @@ class metadataMap {
         'games/meeple' => array('fimbriate' => true, 'hflex' => 0, 'wflex' => 0),
         'natural/teardrop' => array('fimbriate' => true, 'hflex' => 0, 'wflex' => 0),
         'square' => array('hflex' => 0, 'wflex' => 0),
+        'ham' => array('horizontal' => true, 'orient_to_ordinary' => 1),
     );
   }
   

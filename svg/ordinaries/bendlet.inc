@@ -16,3 +16,4 @@ include 'svg/ordinaries/bar.inc';
 require_once("bend-helper.inc");
 
 $ordinary['chargesWithin'] = bend_within($layout, 200);
+$ordinary['chargesOn'] = placement_in_bend($layout->rect_area(), false, 45, 0.17);

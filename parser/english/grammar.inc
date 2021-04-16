@@ -532,12 +532,29 @@ class englishGrammar extends grammar
         // In some cases we want the next input token as a "value" (e.g. "the word Karl" matches "words? *")
         if ($asterisk = $this->phraseMatcher->getValue())
             $mods[] = $this->schema->makeMod('value', $asterisk, 'value', self::tokens(), self::lineNo());
+        if ($keyterm == 'special/flag') {
+            $keyterm = "special/escutcheon";
+            $charge->setAttribute("keyterm", $keyterm);
+            $mods[] = $this->schema->makeMod('chargemod', null, 'shape-flag', self::tokens(), self::lineNo());
+            self::ignore(languageDB::USING);
+            if ( $option = self::find(LanguageDB::DRAWN_MODS) ) {
+                $value = strtolower($this->phraseMatcher->getValue());
+                if ( $option == "aspect" ) {
+                    $mods[] = $this->schema->makeNode(blazonML::E_ASPECT, array(
+                        blazonML::A_KEYTERM => $value),
+                        self::tokens(),
+                        self::lineNo()
+                    );
+                }
+            }
+        }
         if ($keyterm == 'special/escutcheon') {
             self::ignore(languageDB::BLAZONED);
             $foundTinc = true; // don't look for a colour, let the shield take it
             // $mods[] = self::simple(true);
             $mods[] = self::shield();
         }
+
         // Look for bundle again (e.g. "two arrow bundles"
         if ($keyterm = self::find(languageDB::BUNDLE))
             $mods[] = $this->schema->makeMod(languageDB::BUNDLE, null, $keyterm, self::tokens(), self::lineNo());
@@ -696,6 +713,7 @@ class englishGrammar extends grammar
          * 3) ChargeB on ChargeA
          * 4) ChargeA between ChargeB
          * 5) between ChargeA ChargeB
+         * 7) ChargeA holding a ChargeB
          *
          * And we generally ignore (for now)
          * 6) ChargeA above/below ChargeB
@@ -745,6 +763,8 @@ class englishGrammar extends grammar
         $firstTime = true;
         do {
             $found = false; // looping control
+            $holding = false;
+            $keep = false;
 
             if (self::semicolon(true)) break; // semi colon ends input
 
@@ -754,6 +774,15 @@ class englishGrammar extends grammar
                     $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,
                         $this->phraseMatcher->getValue(), $keyterm, self::tokens(),
                         self::lineNo());
+                }
+            }
+
+            if ($onMod == null) {
+                if ($keyterm = self::find(languageDB::HOLDING)) { // (7)
+                    $onMod = $this->schema->makeMod(languageDB::HOLDING,
+                        $this->phraseMatcher->getValue(), $keyterm, self::tokens(),
+                        self::lineNo());
+                    $holding = true;
                 }
             }
 
@@ -795,7 +824,10 @@ class englishGrammar extends grammar
                 break;
             } // else
 
-            if ($swapCharges) { // collapse cases
+            if ( $holding ) {
+                $keep = self::semicolon(true);
+            }
+            else if ($swapCharges) { // collapse cases
                 if ($firstTime) {
                     $topCharge = $otherCharge;
                     $temp = $otherCharge;
@@ -816,7 +848,8 @@ class englishGrammar extends grammar
 
             $theMod->appendChild($otherCharge);
             $currentCharge->appendChild($theMod);
-            $currentCharge = $otherCharge;
+            if ( !$keep )
+                $currentCharge = $otherCharge;
 
             $found = true; // loop again, with a clean slate
             $onMod = null;
