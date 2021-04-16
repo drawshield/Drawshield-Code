@@ -2,14 +2,16 @@
 
 $version = array (
   'release' => '(development)',
-  'date' => '6th October 2019',
+  'date' => '(unkown)',
   'website' => 'drawshield.net',
   'author' => 'Karl R. Wilcox',
-  'email' => 'karlwilcox36@gmail.com',
+  'email' => 'contact@drawshield.net',
 );
 
 if (file_exists('release.txt'))
-  $version['release'] = @file_get_contents('release.txt');
+  $version['release'] = @(trim(file_get_contents('release.txt')));
+if (file_exists('date.txt'))
+  $version['date'] = @(trim(file_get_contents('date.txt')));
 
 // Set default values for arguments
 $options = array(

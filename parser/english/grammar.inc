@@ -1235,6 +1235,8 @@ class englishGrammar extends grammar
                         $subshields[$indices[0]] = $quarter; // Set the first quarter to this description
                     for ($i = 1; $i < count($indices); $i++) {
                         $reference = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_IDREF => $ID)); // Set other quarters to point to this one
+                        $reference = $quarter->cloneNode(true);
+                        $reference->setAttribute('ID',unique('clone'));
                         if ($subshields[$indices[$i]] != null)
                             self::raiseError(self::ERROR_ORIGIN, 'Duplicate quarter', true);
                         else
@@ -2012,7 +2014,8 @@ class englishGrammar extends grammar
       $node->appendChild($treat);
       // Look for counterchange
     } elseif ( self::find(languageDB::COUNTERCHANGE) ) {
-      $node->appendChild($this->schema->makeNode(blazonML::E_COUNTERCHANGED, null, self::tokens(), self::lineNo()));
+      $counter = $this->schema->makeNode(blazonML::E_COUNTERCHANGED, null, self::tokens(), self::lineNo());
+      $node->appendChild($counter);
       // Look for division
     } elseif ( ($div1 = self::division()) ) {
       // Look for a second (normally counterchanged) division
@@ -2020,21 +2023,64 @@ class englishGrammar extends grammar
       $node->appendChild($div1);
       // Look for a back reference
     } elseif ( ($keyterm = self::find(languageDB::BACKREF)) ) {
-      $node->setAttribute( blazonML::A_ORIGIN, $keyterm);
-      $node->setAttribute( blazonML::A_TOKENS, self::tokens());
-      $node->setAttribute( blazonML::A_LINENUMBER, self::lineNo());
+        $numColours = count($this->foundColours);
+        $numTinctures = count($this->foundTinctures);
+        $refDist = 0;
+        $missing = $this->schema->makeNode(blazonML::E_MISSING);
+        switch ($keyterm) {
+            case "ofsame": // means the last TINCTURE of whatever kind
+                if ($numTinctures < 1) {
+                    $node = $missing;
+                    self::raiseError(self::ERROR_ORIGIN, 'No tincture for "of the same"', true);
+                } else {
+                    $node = $this->foundTinctures[$numTinctures - 1];
+                }
+                break;
+            case "oflast": // means the last COLOUR
+                if ($numColours < 1) {
+                    $node = $missing;
+                    self::raiseError(self::ERROR_ORIGIN, 'No colour for "of the last"', true);
+                } else {
+                    $node = $this->foundColours[$numColours - 1 ];
+                }
+                break;
+            case "offourth": // heraldically numbers seem to indicate colours NOT tinctures
+                $refDist++; // flowthrough
+            case "ofthird":
+                $refDist++; // flowthrough
+            case "ofsecond":
+                $refDist++; // flowthrough
+            case "offirst":
+                if ($refDist + 1 > $numColours) {
+                    $node = $missing;
+                    self::raiseError(self::ERROR_ORIGIN, 'No colour for back reference', true);
+                } else {
+                    $node = $this->foundColours[$refDist];
+                }
+                break;
+            default: // let the analyser resolve of the field
+                  $node->setAttribute( blazonML::A_TOKENS, self::tokens());
+                  $node->setAttribute( blazonML::A_LINENUMBER, self::lineNo());
+                  break;
+        }
+        $node->setAttribute( blazonML::A_ORIGIN, $keyterm);
       // Or a reference to proper
     } elseif ( self::find(languageDB::PROPER) ) {
-      $node->appendChild( $this->schema->makeNode(blazonML::E_PROPER,null,self::tokens(), self::lineNo()));
+      $proper = $this->schema->makeNode(blazonML::E_PROPER,null,self::tokens(), self::lineNo());
+      $node->appendChild($proper);
       // Look for a colour or a fur
     } else { // Didn't find anything
       self::restore($state);
       $found = false;
     }
     self::discard($state);
-    if ( $colourOrFur ) $node->appendChild($colourOrFur); // we have a colour or fur on its own
-
-    if ( !$found ) {
+    if ( $colourOrFur ) {
+        $node->appendChild($colourOrFur); // we have a colour or fur on its own
+        $this->foundColours[] = $node->cloneNode(true);
+    }
+    if ( $found ) {
+        $this->foundTinctures[] = $node->cloneNode(true);
+    } else {
       if ( $required ) {
         $node = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
             blazonML::A_ORIGIN => 'pending'));
