@@ -42,6 +42,7 @@ function makeOrdChgs( $node, $layout ) {
         $retval .= makeDivision( $child, $layout );
         break;
       case 'missing':
+      case 'list':
       case 'charge':
         $retval .= makeCharge( $child, $layout );
         break;
@@ -284,9 +285,7 @@ function draw() {
     if ($achievement) {
         foreach ($crests as $crest) {
             if ($crest == null) continue;  // some helmets may not have crests
-            $square = new ShieldSize(1000,1000);
-            $tempLayout = new ShieldLayout($square, "square");
-            $body .= placeCharge($crest->firstChild, $tempLayout, 300, 300, 500, (count($helmets) ? 150 : 270));
+            $body .= placeCharge($crest->firstChild, ShieldLayout::square(), 300, 300, 500, (count($helmets) ? 150 : 270));
         }
         if (count($helmets)) {
             $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 500, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
