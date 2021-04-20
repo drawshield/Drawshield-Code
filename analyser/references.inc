@@ -305,6 +305,20 @@ class references {
         }
     }
 
+    while ( true )
+    {
+        // Doing this instead of foreach to ensure all occurences are cloned
+        $list = $this->xpath->query('//modifier[@type="holding" and @keyterm="in-hand-both"][1]');
+        if ( count($list) == 0 )
+            break;
+        $node = $list[0];
+
+        $node->setAttribute("keyterm", "in-hand-left");
+        $clone = $node->cloneNode(true);
+        $clone->setAttribute("keyterm", "in-hand-right");
+        $node->parentNode->appendChild($clone);
+    }
+
     // If there are lots of quarterings, force a squarish shape
     $nodeList = $this->xpath->query("//shield");
     if ($options['shape'] == 'default' && $nodeList->length > 8) $options['shape'] = 'french';

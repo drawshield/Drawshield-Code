@@ -49,6 +49,7 @@ class languageDB extends lexicon
     const COTTICE = 'cottice';
     const VOIDED = 'voided';
     const CHARGE_WITH = 'chargewith';
+    const HOLDING = 'holding';
     const ARRANGEMENT = 'arrangement';
     const SPECIFIER = 'specifier';
     const LOCATION = 'location';
@@ -807,7 +808,7 @@ class languageDB extends lexicon
                 array('(gorge|whirlpool|gurges)', 'gorge'),
                 array('grid', 'grid'),
                 array('trimount', 'trimount'),
-                array('moun[td] of (3|three) peaks', 'trimount'),
+                array('moun[td]', 'mount'),
                 array('dexter (bas?ton|battoon|batune) ?couped', 'baton-dexter'),
                 array('(bas?ton|battoon|batune) dexter ?couped', 'baton-dexter'),
                 array('(bas?ton|battoon|batune) ?sinister ?couped', 'baton'),
@@ -893,7 +894,7 @@ class languageDB extends lexicon
                 array('double dancetty', 'fracted'),
                 array('bott?onn?(ee|y)', 'botonny'),
                 array('engouled ?(into|by) ?dragons? ?heads?', 'engouled'),
-                array('of # points', 'points'), // only if label is a ordinary
+                array('of # (point|peak)s', 'points'), // only if label is a ordinary
                 // array ( '(de)?bruised|fracted|disjoint ?at ?the ?top', 'fracted' ),
                 array('en(aluron|urney|toire|toyre)', 'entire'),
                 'lozengy', 'triangular', 'throughout', 'of pretence', 'voided', 'ploye',

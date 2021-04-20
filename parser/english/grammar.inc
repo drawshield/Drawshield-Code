@@ -532,12 +532,29 @@ class englishGrammar extends grammar
         // In some cases we want the next input token as a "value" (e.g. "the word Karl" matches "words? *")
         if ($asterisk = $this->phraseMatcher->getValue())
             $mods[] = $this->schema->makeMod('value', $asterisk, 'value', self::tokens(), self::lineNo());
+        if ($keyterm == 'special/flag') {
+            $keyterm = "special/escutcheon";
+            $charge->setAttribute("keyterm", $keyterm);
+            $mods[] = $this->schema->makeMod('chargemod', null, 'shape-flag', self::tokens(), self::lineNo());
+            self::ignore(languageDB::USING);
+            if ( $option = self::find(LanguageDB::DRAWN_MODS) ) {
+                $value = strtolower($this->phraseMatcher->getValue());
+                if ( $option == "aspect" ) {
+                    $mods[] = $this->schema->makeNode(blazonML::E_ASPECT, array(
+                        blazonML::A_KEYTERM => $value),
+                        self::tokens(),
+                        self::lineNo()
+                    );
+                }
+            }
+        }
         if ($keyterm == 'special/escutcheon') {
             self::ignore(languageDB::BLAZONED);
             $foundTinc = true; // don't look for a colour, let the shield take it
             // $mods[] = self::simple(true);
             $mods[] = self::shield();
         }
+
         // Look for bundle again (e.g. "two arrow bundles"
         if ($keyterm = self::find(languageDB::BUNDLE))
             $mods[] = $this->schema->makeMod(languageDB::BUNDLE, null, $keyterm, self::tokens(), self::lineNo());
@@ -706,6 +723,7 @@ class englishGrammar extends grammar
              * Bracketed numbers below refer to the groupings above
              */
 
+
             // Look for markers to associated charges, if found, remember for later
             $onMod = null;
             $betweenMod = null;
@@ -742,11 +760,15 @@ class englishGrammar extends grammar
                 $onMod = null; // don't need to say "on an escutcheon..." (but allow it anyway)
             }
 
-            // Now loop, looking for associated charges
-            $currentCharge = $topCharge;
-            $firstTime = true;
-            do {
-                $found = false; // looping control
+
+        // Now loop, looking for associated charges
+        $currentCharge = $topCharge;
+        $firstTime = true;
+        do {
+            $found = false; // looping control
+            $holding = false;
+            $keep = false;
+
 
                 if (self::semicolon(true)) break; // semi colon ends input
 
@@ -759,13 +781,23 @@ class englishGrammar extends grammar
                     }
                 }
 
-                if ($firstTime && $onMod == null) {
-                    if ($keyterm = self::find(languageDB::WORD_ON)) { // (3)
-                        self::ignore(languageDB::EACH);
-                        $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH, null,
-                            'charged-with', self::tokens(), self::lineNo());
-                        $swapCharges = true; // turn this into case (1rose)
-                    }
+
+            if ($onMod == null) {
+                if ($keyterm = self::find(languageDB::HOLDING)) { // (7)
+                    $onMod = $this->schema->makeMod(languageDB::HOLDING,
+                        $this->phraseMatcher->getValue(), $keyterm, self::tokens(),
+                        self::lineNo());
+                    $holding = true;
+                }
+            }
+
+            if ($firstTime && $onMod == null) {
+                if ($keyterm = self::find(languageDB::WORD_ON)) { // (3)
+                    self::ignore(languageDB::EACH);
+                    $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH, null,
+                        'charged-with', self::tokens(), self::lineNo());
+                    $swapCharges = true; // turn this into case (1rose)
+
                 }
 
                 if ($betweenMod == null) {
@@ -790,22 +822,26 @@ class englishGrammar extends grammar
                     break; // Nothing further to do, no associated charges
                 }
 
-                // There should be a charge (only) here
-                if ((($otherCharge = self::simpleCharge(true, true, false)) == null) && (($otherCharge = self::ordinary()) == null)) {
-                    $otherCharge = $this->schema->makeNode(blazonML::E_MISSING);
-                    self::raiseError(self::ERROR_ORIGIN, "Expected something to go with charge", true);
-                    break;
-                } // else
 
-                if ($swapCharges) { // collapse cases
-                    if ($firstTime) {
-                        $topCharge = $otherCharge;
-                        $temp = $otherCharge;
-                        $otherCharge = $currentCharge;
-                        $currentCharge = $temp;
-                    } else {
-                        self::raiseError(self::ERROR_ORIGIN, "Ambiguous charge stacking (use charged with)", true);
-                    }
+              
+            // There should be a charge (only) here
+            if ((($otherCharge = self::simpleCharge(true, true, false)) == null) && (($otherCharge = self::ordinary()) == null)) {
+                $otherCharge = $this->schema->makeNode(blazonML::E_MISSING);
+                self::raiseError(self::ERROR_ORIGIN, "Expected something to go with charge", true);
+                break;
+            } // else
+
+            if ( $holding ) {
+                $keep = self::semicolon(true);
+            }
+            else if ($swapCharges) { // collapse cases
+                if ($firstTime) {
+                    $topCharge = $otherCharge;
+                    $temp = $otherCharge;
+                    $otherCharge = $currentCharge;
+                    $currentCharge = $temp;
+                } else {
+                    self::raiseError(self::ERROR_ORIGIN, "Ambiguous charge stacking (use charged with)", true);
                 }
 
                 if ($onMod != null) {
@@ -816,8 +852,10 @@ class englishGrammar extends grammar
                     $theMod = $nearMod;
                 }
 
-                $theMod->appendChild($otherCharge);
-                $currentCharge->appendChild($theMod);
+
+            $theMod->appendChild($otherCharge);
+            $currentCharge->appendChild($theMod);
+            if ( !$keep )
                 $currentCharge = $otherCharge;
 
                 $found = true; // loop again, with a clean slate

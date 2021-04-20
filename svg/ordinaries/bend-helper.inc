@@ -20,7 +20,7 @@ function build_bend($layout, $width, $margin, $offset = 0, $path_builder = null)
 }
 
 
-function placement_in_bend($boundingBox, $sinister, $angle)
+function placement_in_bend($boundingBox, $sinister, $angle, $scale = 0.23)
 {
     // ensure we are working with a square
     $min_extent = min($boundingBox->size->width, $boundingBox->size->height);
@@ -45,8 +45,8 @@ function placement_in_bend($boundingBox, $sinister, $angle)
                 $boundingBox->relative_box(
                     $sinister ? 1 - $pos : $pos,
                     $pos,
-                    .23,
-                    .23
+                    $scale,
+                    $scale
                 ),
                 $angle
             );

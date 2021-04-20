@@ -54,13 +54,13 @@ if ( !$fillet )
         [$on_center],
         "",
         "",
-        "",
         [
             $on_center->translated(-$dx, 0),
             $on_center->translated(0, -$dy),
             $on_center->translated($dx, 0),
             $on_center->translated(0, $dy),
         ],
+        "",
         [
             $on_center->translated(-$dx, 0),
             $on_center->translated(0, -$dy),

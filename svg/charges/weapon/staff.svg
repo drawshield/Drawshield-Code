@@ -30,6 +30,12 @@
   </metadata>
   <defs
      id="defs4" />
+  <circle
+     style="display:none;fill:#3250b0;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3"
+     id="in-flag-point"
+     cx="24.217062"
+     cy="82.646347"
+     r="8.6463451" />
   <g
      id="layer1"
      style="fill:#ffff00">
@@ -244,4 +250,10 @@
       </g>
     </g>
   </g>
+  <circle
+     style="fill:#3250b0;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3"
+     id="hold-point"
+     cx="18.058945"
+     cy="364.35034"
+     r="8.2496071" />
 </svg>

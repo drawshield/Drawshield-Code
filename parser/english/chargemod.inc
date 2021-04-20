@@ -171,15 +171,24 @@
       array ( 'on ?the lower ?limbs?', 'on-lower-limb' ),  
       array ( 'on ?the sides? ?limbs?', 'on-side-limb' ),
       array ( 'on ?the breasts?', 'on-breast' ),  
-      array ( 'holding a', 'in-hand' ),
-      array ( 'held in (its|his|her|their|the) ?* (paw|hand)s? of', 'held-in' ),
-      array ( 'holding in (its|his|her|their|the) (paw|hand)s?', 'in-hand' ),
-      array ( 'holding in (its|his|her|their|the) (jaw|mouth)s?', 'in-mouth' ),
       array ( 'in the beak', 'in-beak' ),
       array ( 'issuing from', 'assurgent' ),
       array ( 'assurgent', 'assurgent' ),
       array ( 'suspending', 'suspending' ),
       array ( 'charged (at|on) # (point|corner|limb)s? ?with', 'charge-on-point' ),
+      );
+
+   $this->patterns[languageDB::HOLDING] = array (
+      array ( 'holding a', 'in-hand-right' ),
+      array ( 'held in (its|his|her|their|the) ?* (paw|hand)s? of', 'in-hand-right' ),
+      array ( 'holding in (its|his|her|their|the) (paw|hand)s?', 'in-hand-right' ),
+      array ( 'holding in ?(its|his|her|their|the) (jaw|mouth)s?', 'in-mouth' ),
+      array ( 'holding in ?(her|his|its|their|the) (dexter|right) hand|paw', 'in-hand-right'),
+      array ( 'holding in ?(her|his|its|their|the) (dexter|right) foot', 'in-foot-right'),
+      array ( 'holding in ?(her|his|its|their|the) (sinister|left) hand|paw', 'in-hand-left'),
+      array ( 'holding in ?(her|his|its|their|the) (sinister|left) foot', 'in-foot-left'),
+      array ( 'holding in (both|all|each) ?(her|his|its|their) (hand|paw)(s?)', 'in-hand-both'),
+      array ( 'flying', 'in-flag-point' ),
       );
 
   $this->patterns[languageDB::CROWN_MODS] = array (

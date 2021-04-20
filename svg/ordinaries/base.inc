@@ -2,7 +2,19 @@
 
 
 if ( existModifierWithKeyterm($node, 'pointed')) {
-    $ordinary['body'] = '<path d="M -20,{%101*} v -{%25*} l 510 -{%10*} 510 {%10*} v {%25*} Z" />';
+    $shape = new MutableShape();
+    $shape->move_to(-20, $layout->size->height * 1.01)
+        ->tag_segment(BezierSegmentFlags::PLAIN)
+        ->vertical(-$layout->size->height*0.25, true)
+        ->tag_segment(BezierSegmentFlags::NORMAL|BezierSegmentFlags::STRAIGHT)
+        ->line_to($layout->size->width / 2 + 10, -$layout->size->height*0.1, true)
+        ->tag_segment(BezierSegmentFlags::NORMAL|BezierSegmentFlags::STRAIGHT)
+        ->line_to($layout->size->width / 2 + 10, +$layout->size->height*0.1, true)
+        ->tag_segment(BezierSegmentFlags::PLAIN)
+        ->vertical($layout->size->height*0.25, true)
+        ->close()
+    ;
+    $ordinary['shape_spec'] = $shape;
 } else {
    $ordinary['shape_spec'] = 'X-8,Y{%75*}A1016c{%26*}e1016g{%26*}';
 }
