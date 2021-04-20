@@ -1653,7 +1653,7 @@ class englishGrammar extends grammar
       blazonML::A_KEYTERM => $type),
       self::tokens(),
       self::lineno());
-    $charge = self::charge(true,false,false); // assume number, don't allow positions or arrangements
+    $charge = self::charge(true,true,false); // assume number, allow arrangements, don't allow positions
     if ($charge == null) {
       self::raiseError(self::ERROR_ORIGIN,"Expected charge for the crest", true);
       return null;
