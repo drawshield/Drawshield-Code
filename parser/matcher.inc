@@ -56,7 +56,7 @@ class matcher {
       // Optional & negative do not make sense here, so ignore
       if ( $regex == '*' && isset($this->tokenList->words[$t_word]) ) {
         // $this->value = htmlentities(substr($this->tokenList->words[$t_word],0,192));
-        $this->value = substr($this->tokenList->words[$t_word],0,192, ENT_XML1);
+        $this->value = mb_substr($this->tokenList->words[$t_word],0,192, "UTF-8");
         $t_word++;
         continue;
       }

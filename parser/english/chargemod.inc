@@ -98,7 +98,7 @@
      array (  'fluke[ds]',   'fluked' ),
      array ( 's?haft(s|ed)?',  'shafted' ),
      array ( '(flight|feather)ed', 'feathered' ),
-      array ( '(crest|comb)(s|ed)?', 'combed' ),
+      array ( '(crested|combs|combed)?', 'combed' ),
       array ( 'jelloped', 'jelloped' ),
       array ( '(queue|tail)(s|e?d)', 'tailed' ),
       array ( '(banded|encircled) !(by|with|of)', 'encircled' ),

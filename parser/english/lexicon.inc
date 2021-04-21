@@ -97,6 +97,7 @@ class languageDB extends lexicon
     const USING = 'using';
     const FRINGED = 'fringed';
     const SHIELD = 'shield';
+    const CHGLIST = 'chglist';
 
     public function __construct()
     {
@@ -110,6 +111,7 @@ class languageDB extends lexicon
         // category, and if found, the specific key term is returned.
 
         $this->patterns = array(
+            self::CHGLIST => array ("and also", "& also", "along with"),
             self::VALUE => array("*"),
             self::WORD_THE => array('the'),
             self::OVERALL => array('overall', 'sur le tout', 'all with(in)?', "over all", "in pretence"),
