@@ -207,6 +207,15 @@ function makeCharge($charge, $layout, $placements = null) {
   return $retval;
 }
 
+function makeList($chgList, $layout) {
+    $charges = [];
+    foreach ($chgList->childNodes as $child) {
+        $charge[] = array('body' => makeCharge($child, ShieldLayout::square() ),
+            'width' => 1000, 'height' => 1000);
+    }
+
+}
+
 function chargeInAnnulo($node, &$charge, $base_name, $dir)
 {
     static $attitudes = [];

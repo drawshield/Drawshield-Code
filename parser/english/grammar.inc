@@ -689,6 +689,7 @@ class englishGrammar extends grammar
         $state = self::save();
         $chargeList = null;
         $mods = array();
+        $posMods = array();
         // if ( self::find(languageDB::ANDD) ) $assumeNum = true;
         while (true) {
             // Look for arrangements (e.g "in pale, three whatever...")
@@ -697,7 +698,7 @@ class englishGrammar extends grammar
                 $allowArr = false;
                 // Look for positions - may be more than one (e.g. "in chief and in base"
             } elseif ($positions = self::getPositions()) {
-                $mods = array_merge($mods, $positions);
+                $posMods = array_merge($mods, $positions);
                 $allowPos = false;
             } else
                 break;
@@ -876,9 +877,14 @@ class englishGrammar extends grammar
                 break;
             }
         }
-        if ($chargeList != null)
+        if ($chargeList != null) {
+            foreach($posMods as $mod)
+                $chargeList->appendChild($mod);
             return $chargeList;
+        }
         // else
+        foreach($posMods as $mod)
+            $topCharge->appendChild($mod);
         return $topCharge;
     }
 

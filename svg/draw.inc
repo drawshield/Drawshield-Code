@@ -41,8 +41,10 @@ function makeOrdChgs( $node, $layout ) {
       case 'division':
         $retval .= makeDivision( $child, $layout );
         break;
-      case 'missing':
       case 'list':
+          $retval .= makeList( $child, $layout );
+          break;
+      case 'missing':
       case 'charge':
         $retval .= makeCharge( $child, $layout );
         break;

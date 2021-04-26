@@ -1,0 +1,6 @@
+
+desc 'Rebuild ctags file for gvim'
+task :ctags do
+  sh %{ ctags-exuberant -f php.tags --languages=PHP --language-force=PHP -R --exclude=*.svg }
+end
+
