@@ -819,6 +819,7 @@ class languageDB extends lexicon
                 array('double trea?s?sure', 'double-tressure'),
                 array('fillet', 'fillet'),
                 array('fillet saltire', 'fillet-saltire'),
+                array('fillet bordure', 'fillet-bordure'),
                 array('flau?nche?s?', 'flaunch'),
                 array('flau?nche? sinister', 'flaunch-sinister'),
                 array('sinister flau?nche?', 'flaunch-sinister'),
