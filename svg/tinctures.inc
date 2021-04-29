@@ -411,7 +411,7 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
         $data->pattern_transform .= ' rotate(' . ($rot * -1) . ') ';
 
     // Nothing to do
-    if ( $data->node->getAttribute('origin') == 'implied' )
+    if ( $data->node != null && $data->node->getAttribute('origin') == 'implied' )
         return $targetSVG;
 
     // stage "raw" means leave charge colours as they are

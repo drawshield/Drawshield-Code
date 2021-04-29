@@ -174,8 +174,8 @@ Class WordBuilder
             $svg = '<g transform="scale(1,-1) translate(0, -' . $this->yHeight . ')">' . $svg . "</g>";
         }
         // temporary box to show boundaries
-        $svg .= '<path fill="none" stroke="black" stroke-width="10" d="M0,0 h' . $xLength . ' v' . $this->ySize 
-            . ' h-' . $xLength . 'z" />';
+    //    $svg .= '<path fill="none" stroke="black" stroke-width="10" d="M0,0 h' . $xLength . ' v' . $this->ySize 
+     //       . ' h-' . $xLength . 'z" />';
         return Array('body' => $svg, 'width' => $xLength);
     }
 

@@ -194,9 +194,7 @@ switch ($textLayout) {
     $svgText .= '<defs><path id="#' . $arch .  '" d="m 0,0 "/></defs>'; // dummy defs to make svgCode parse in simplexml_load
     $svgText .= '<text text-anchor="middle" font-weight="' . $fontWeight . '" font-style="' . $fontStyle . '" font-family="' . $fontFamily . '" font-size="' . $fontSize . '" x="0" y="400"><textPath startOffset="50%" href="#' . $arch . '">' . htmlentities($item, ENT_XML1) . '</textPath></text>';
     break;
-}
+} */
 
 
-//$charge['svgCode'] = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' .
- //       $height . '" width="' . $width . '"><g id="body">' . $svgText . '</g></svg>';
 
