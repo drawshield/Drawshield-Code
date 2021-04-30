@@ -65,6 +65,7 @@ class blazonML extends DOMDocument {
   const E_SHAPE = 'shape';
   const E_CHIEF = 'chief';
   const E_PALETTE = 'palette';
+  const E_COLOURSET = 'colourset';
   const E_EFFECT = 'effect';
   const E_ACHIEVEMENT = 'achievement';
   const E_CREST = 'crest';

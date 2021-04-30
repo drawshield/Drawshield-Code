@@ -65,9 +65,9 @@ if (isset($request['effect'])) $options['effect'] = strip_tags($request['effect'
 if (isset($request['size'])) $options['size']= strip_tags ($request['size']);
 if (isset($request['units'])) $options['units']= strip_tags ($request['units']);
 if (isset($request['ar'])) $ar = strip_tags ($request['ar']);
-if (isset($request['webcols'])) $options['useWebColours'] = $request['webcols'] == '1';
-if (isset($request['tartancols'])) $options['useTartanColours'] = $request['tartancols'] == '1';
-if (isset($request['whcols'])) $options['useWarhammerColours'] = $request['whcols'] == '1';
+if (isset($request['webcols'])) $options['useWebColours'] = $request['webcols'] == 'yes';
+if (isset($request['tartancols'])) $options['useTartanColours'] = $request['tartancols'] == 'yes';
+if (isset($request['whcols'])) $options['useWarhammerColours'] = $request['whcols'] == 'yes';
 if (isset($request['customPalette']) && is_array($request['customPalette'])) $options['customPalette'] = $request['customPalette'];
 
 $options['blazon'] = preg_replace("/&#?[a-z0-9]{2,8};/i","",$options['blazon']); // strip all entities.
@@ -130,6 +130,23 @@ if (!is_null($blazonOptions)) {
   for ($i = 0; $i < $blazonOptions->length; $i++) {
     $blazonOption = $blazonOptions->item($i);
     switch ($blazonOption->nodeName) {
+      case blazonML::E_COLOURSET:
+          switch ($blazonOption->getAttribute('keyterm')) {
+          case 'web':
+              $options['useWebColours'] = true;
+              break;
+          case 'tartan':
+              $options['useTartanColours'] = true;
+              break;
+          case 'warhammer':
+              $options['useWarhammerColours'] = true;
+              break;
+          default:
+              // just ignore - should probably be an error message
+              break;
+          }
+          break;
+
       case blazonML::E_SHAPE:
         $options['shape'] = $blazonOption->getAttribute('keyterm');
         break;

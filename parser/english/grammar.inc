@@ -149,6 +149,9 @@ class englishGrammar extends grammar
                 $colour = null;
                 $value = strtolower($this->phraseMatcher->getValue());
                 switch ($option) {
+                    case 'colours':
+                        $elementName = blazonML::E_COLOURSET;
+                        break;
                     case 'palette':
                         $elementName = blazonML::E_PALETTE;
                         break;

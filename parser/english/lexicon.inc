@@ -1085,7 +1085,8 @@ class languageDB extends lexicon
             self::USING => array ( 'with', 'in', 'using', 'on'),
             self::DRAWN_MODS => array(
                 array('drawn', 'drawn'),
-                array('?(a|an|the) * (palette|tinctures|colou?rs)', 'palette'),
+                array('?(a|an|the) * (palette|tinctures)', 'palette'),
+                array('?the * colours?', 'colours'),
                 array('?(a|an|the) * shape', 'shape'),
                 array('?(a|an|the) shape ?of ?an? *', 'shape'),
                 array('?(a|an|the) * (appearance|style|effect)', 'style'),
