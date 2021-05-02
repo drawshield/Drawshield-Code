@@ -17,16 +17,16 @@ $builder = new MutableShape();
 
 $margin = 8;
 $w = $layout->size->width / 3;
-$h = $layout->center_point->y * 2;
+$h = $layout->cross_point->y * 2;
 $builder
     ->move_to(-$margin, -$margin)
-    ->line_to($w, $layout->center_point->y)
+    ->line_to($w, $layout->cross_point->y)
     ->line_to(-$margin, $h + $margin)
     ->tag_segment(BezierSegmentFlags::PLAIN)
     ->close()
 ;
 
-$charge = new ShieldRect(new ShieldPos($w / 3, $layout->center_point->y), new ShieldSize($w * 2/3, $h/3));
+$charge = new ShieldRect(new ShieldPos($w / 3, $layout->cross_point->y), new ShieldSize($w * 2/3, $h/3));
 $ordinary['chargesOn'] = (string)$charge;
 
 if ( $node->getAttribute('number') == '2')
@@ -34,8 +34,8 @@ if ( $node->getAttribute('number') == '2')
     $ordinary['chargesOn'] .= "/$charge:" . $charge->translated($layout->size->width - $charge->size->width, 0);
     $builder
         ->move_to($layout->size->width + $margin, -$margin)
-        ->line_to($layout->size->width * 2 / 3, $layout->center_point->y)
-        ->line_to($layout->size->width + $margin, $layout->center_point->y * 2 + $margin)
+        ->line_to($layout->size->width * 2 / 3, $layout->cross_point->y)
+        ->line_to($layout->size->width + $margin, $layout->cross_point->y * 2 + $margin)
         ->tag_segment(BezierSegmentFlags::PLAIN)
         ->close()
     ;

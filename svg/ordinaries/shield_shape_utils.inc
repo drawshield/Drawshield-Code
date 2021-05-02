@@ -69,8 +69,8 @@ abstract class ShieldShape
 
     protected static function radial_compony(ShieldLayout $layout, MutableShape $builder, $count = 16, $angle_start = 0, $angle_delta = 0, $direction = 1)
     {
-        $cx = $layout->center_point->x;
-        $cy = $layout->center_point->y;
+        $cx = $layout->cross_point->x;
+        $cy = $layout->cross_point->y;
 
         $length = 2000;
         $angle_step = M_PI * 2 / $count;
@@ -195,7 +195,7 @@ class HeaterShieldShape extends ShieldShape
 
     protected function on_svg_path_full(ShieldLayout $layout, $inset, $reversed, MutableShape $builder)
     {
-        $tip = new ShieldPos($layout->center_point->x, $layout->size->height - $inset - $this->margin_bottom);
+        $tip = new ShieldPos($layout->cross_point->x, $layout->size->height - $inset - $this->margin_bottom);
         $scale = ($layout->size->width - 2*$inset) / 1000;
         list($br_t1, $br_t2, $br) = $this->scaled_curve($tip, $scale, 1);
         list($bl_t1, $bl_t2, $bl) = $this->scaled_curve($tip, $scale, -1);
@@ -317,15 +317,15 @@ class HeaterShieldShape extends ShieldShape
             case "dexter":
             case "quarter-base-dexter":
                 self::rect_compony($layout->rect_area()->margin($inset), $builder, $width, true, false, false, false);
-                $start = atan2(-$layout->center_point->y, $layout->size->width - $layout->center_point->x);
-                $finish = atan2(-$layout->center_point->y, -$layout->center_point->x) + M_PI * 2;
+                $start = atan2(-$layout->cross_point->y, $layout->size->width - $layout->cross_point->x);
+                $finish = atan2(-$layout->cross_point->y, -$layout->cross_point->x) + M_PI * 2;
                 self::radial_compony($layout, $builder, 16, $start, $finish - $start);
                 break;
             case "sinister":
             case "quarter-base-sinister":
                 self::rect_compony($layout->rect_area()->margin($inset), $builder, $width, true, false, false, false);
-                $start1 = atan2(-$layout->center_point->y, $layout->size->width - $layout->center_point->x);
-                $finish = atan2(-$layout->center_point->y, -$layout->center_point->x) + M_PI * 2;
+                $start1 = atan2(-$layout->cross_point->y, $layout->size->width - $layout->cross_point->x);
+                $finish = atan2(-$layout->cross_point->y, -$layout->cross_point->x) + M_PI * 2;
                 self::radial_compony($layout, $builder, 16, $start1, $finish - $start1 - M_PI / 36);
                 break;
             case "quarter-chief-dexter":
@@ -343,7 +343,7 @@ class HeaterShieldShape extends ShieldShape
     protected function on_charge_placement(ShieldLayout $layout, $margin, $width)
     {
         $w = $layout->size->width - 2 * $margin;
-        $dy = ($layout->center_point->y - $this->margin_top - $margin) / 2;
+        $dy = ($layout->cross_point->y - $this->margin_top - $margin) / 2;
         $mid = $margin + $width / 2;
         $tip = new ShieldPos($layout->size->width / 2, $layout->size->height - $this->margin_bottom - $mid);
         $scale = ($layout->size->width - 2 * $mid) / 1000;
@@ -357,26 +357,26 @@ class HeaterShieldShape extends ShieldShape
             $tip,
         ];
 
-        if ( $layout->center_point->y < $bottom )
+        if ( $layout->cross_point->y < $bottom )
         {
-            $spots[] = new ShieldPos($mid, $layout->center_point->y );
-            $spots[] = new ShieldPos($layout->size->width - $mid, $layout->center_point->y );
+            $spots[] = new ShieldPos($mid, $layout->cross_point->y );
+            $spots[] = new ShieldPos($layout->size->width - $mid, $layout->cross_point->y );
         }
         else
             $n_bez++;
 
-        if ( $layout->center_point->y - $dy < $bottom )
+        if ( $layout->cross_point->y - $dy < $bottom )
         {
-            $spots[] = new ShieldPos($mid, $layout->center_point->y - $dy );
-            $spots[] = new ShieldPos($layout->size->width - $mid, $layout->center_point->y - $dy );
+            $spots[] = new ShieldPos($mid, $layout->cross_point->y - $dy );
+            $spots[] = new ShieldPos($layout->size->width - $mid, $layout->cross_point->y - $dy );
         }
         else
             $n_bez++;
 
-        if ( $layout->center_point->y + $dy < $bottom )
+        if ( $layout->cross_point->y + $dy < $bottom )
         {
-            $spots[] = new ShieldPos($mid, $layout->center_point->y + $dy );
-            $spots[] = new ShieldPos($layout->size->width - $mid, $layout->center_point->y + $dy );
+            $spots[] = new ShieldPos($mid, $layout->cross_point->y + $dy );
+            $spots[] = new ShieldPos($layout->size->width - $mid, $layout->cross_point->y + $dy );
         }
         else
             $n_bez++;

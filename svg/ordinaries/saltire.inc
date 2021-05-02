@@ -24,8 +24,8 @@ if ( $fillet )
     $ordinary['feature_size'] = 15;
 }
 
-$cx = $layout->center_point->x;
-$cy = $layout->center_point->y;
+$cx = $layout->cross_point->x;
+$cy = $layout->cross_point->y;
 $margin = 100;
 $arm_length_internal = $margin + max($cx, $cy) * M_SQRT2;
 $arm_length_external = $arm_length_internal - $width/2;
@@ -64,7 +64,7 @@ elseif (existModifierWithKeyterm($node,'compony2') )
 if ( !$fillet )
 {
     $on_size = new ShieldSize($width, $width);
-    $on_center = new ShieldRect(clone $layout->center_point, $on_size);
+    $on_center = new ShieldRect(clone $layout->cross_point, $on_size);
 
     $d = $width + 50/M_SQRT2;
     $d1 = ($width + 50)/M_SQRT2;
@@ -148,7 +148,7 @@ $within_bottom = $layout->size->height - $cy - $width / M_SQRT2;
 $within_length = min([$within_left, $within_top, $within_bottom]) * 2 / 3;
 $within_delta = $within_length + $width / M_SQRT2;
 $within_size = new ShieldSize($within_length, $within_length);
-$within_center = new ShieldRect(clone $layout->center_point, $within_size);
+$within_center = new ShieldRect(clone $layout->cross_point, $within_size);
 
 
 $ordinary['chargesWithin'] = array_to_placement([

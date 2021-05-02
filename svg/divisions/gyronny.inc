@@ -28,31 +28,31 @@ $builder = new MutableShape();
 if ( $num_of == 8 && ShieldShape::from_layout($layout) instanceof RectShieldShape )
 {
     $margin = 100;
-    $builder->move_to($layout->center_point->x, $layout->center_point->y)
+    $builder->move_to($layout->cross_point->x, $layout->cross_point->y)
 
         ->tag_segment(BezierSegmentFlags::NORMAL)
-        ->line_to($layout->center_point->x, -$margin)
+        ->line_to($layout->cross_point->x, -$margin)
         ->tag_segment(BezierSegmentFlags::PLAIN)
         ->line_to($layout->size->width, 0)
         ->tag_segment(BezierSegmentFlags::NORMAL)
         ->close()
 
         ->tag_segment(BezierSegmentFlags::NORMAL)
-        ->line_to($layout->size->width+$margin, $layout->center_point->y)
+        ->line_to($layout->size->width+$margin, $layout->cross_point->y)
         ->tag_segment(BezierSegmentFlags::PLAIN)
         ->line_to($layout->size->width, $layout->size->height)
         ->tag_segment(BezierSegmentFlags::NORMAL)
         ->close()
 
         ->tag_segment(BezierSegmentFlags::NORMAL)
-        ->line_to($layout->center_point->x, $layout->size->height + $margin)
+        ->line_to($layout->cross_point->x, $layout->size->height + $margin)
         ->tag_segment(BezierSegmentFlags::PLAIN)
         ->line_to(0, $layout->size->height)
         ->tag_segment(BezierSegmentFlags::NORMAL)
         ->close()
 
         ->tag_segment(BezierSegmentFlags::NORMAL)
-        ->line_to(-$margin, $layout->center_point->y)
+        ->line_to(-$margin, $layout->cross_point->y)
         ->tag_segment(BezierSegmentFlags::PLAIN)
         ->line_to(0, 0)
         ->tag_segment(BezierSegmentFlags::NORMAL)
@@ -67,10 +67,10 @@ else
     {
         $a1 = $angle * $i;
         $a2 = $angle * ($i+1);
-        $builder->move_to($layout->center_point->x, $layout->center_point->y)
-            ->line_to($layout->center_point->x + $radius * sin($a1), $layout->center_point->y - $radius * cos($a1))
+        $builder->move_to($layout->cross_point->x, $layout->cross_point->y)
+            ->line_to($layout->cross_point->x + $radius * sin($a1), $layout->cross_point->y - $radius * cos($a1))
             ->tag_segment(BezierSegmentFlags::PLAIN)
-            ->line_to($layout->center_point->x + $radius * sin($a2), $layout->center_point->y - $radius * cos($a2))
+            ->line_to($layout->cross_point->x + $radius * sin($a2), $layout->cross_point->y - $radius * cos($a2))
             ->tag_segment(BezierSegmentFlags::NORMAL)
             ->close();
         ;

@@ -13,10 +13,10 @@
    limitations under the License. */
 
 $margin = 100;
-$cx = $layout->center_point->x;
-$cy = $layout->center_point->y;
-$down = $layout->size->height - $layout->center_point->y + $margin;
-$right = $layout->size->width - $layout->center_point->x + $margin;
+$cx = $layout->cross_point->x;
+$cy = $layout->cross_point->y;
+$down = $layout->size->height - $layout->cross_point->y + $margin;
+$right = $layout->size->width - $layout->cross_point->x + $margin;
 $up = $cy + $margin;
 $left = $cx + $margin;
 $modifier = getModifierByType($node, 'linetype', false);

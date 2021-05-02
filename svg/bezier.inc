@@ -593,10 +593,10 @@ class PolyBezier
         $l = $this->offset_side($seg_left, $c->pos, $amount);
         $r = $this->offset_side($c->pos, $seg_right, $amount);
 
-        $inter = $this->insersect($l[0], $l[1], $r[0], $r[1], $miter_limit);
+        $inter = $this->insersect($l[0], $l[1], $r[0], $r[1]);
         $vals = [];
 
-        if ( $inter && $c->pos->distance($inter) > abs($amount) * $miter_limit )
+        if ( $inter && $miter_limit > 0 && $c->pos->distance($inter) > abs($amount) * $miter_limit )
         {
             $d = $c->pos->distance($inter);
             $dx = ($inter->x - $c->pos->x) / $d;

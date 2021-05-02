@@ -12,6 +12,8 @@ class Quarter
         $this->charge_hint = $charge_hint;
         $this->section = "quarter";
         $this->shape = $shape;
+        $this->cross_point = null;
+
     }
 
     function svg_transform()
@@ -21,7 +23,7 @@ class Quarter
 
     function to_layout()
     {
-        return new ShieldLayout($this->size, $this->shape, null, $this->charge_hint, true, $this->section);
+        return new ShieldLayout($this->size, $this->shape, $this->cross_point, $this->charge_hint, true, $this->section);
     }
 }
 
@@ -136,6 +138,13 @@ function makeQuartered($across, $down, $children, ShieldLayout $layout)
     for ( $y = 0; $y < $down; $y++ )
         $quartering->add_row($across, $h);
 
+    if ( $down == 1 )
+    {
+        $ratio = $layout->cross_point_ratio();
+        foreach ( $quartering->quarters as $quarter )
+            $quarter->cross_point = new ShieldPos($ratio->x * $quarter->size->width, $ratio->y * $quarter->size->height);
+    }
+
     return $quartering->render_svg($children);
 }
 
@@ -143,7 +152,7 @@ function makequartered4( DOMNodeList $children, ShieldLayout $layout )
 {
     $quartering = new Quartering($layout);
 
-    $h = $layout->center_point_ratio()->y;
+    $h = $layout->cross_point_ratio()->y;
     $quartering->add_row(2, $h);
     $quartering->add_row(2);
     $quartering->quarters[0]->section = "quarter-chief-dexter";
@@ -158,7 +167,7 @@ function makequartered5( $children, ShieldLayout $layout )
 {
     $quartering = new Quartering($layout);
 
-    $h = $layout->center_point_ratio()->y;
+    $h = $layout->cross_point_ratio()->y;
     $quartering->add_row(3, $h);
     $quartering->add_row(2);
 
@@ -174,7 +183,7 @@ function makequartered6( $children, ShieldLayout $layout )
 {
     $quartering = new Quartering($layout);
 
-    $h = $layout->center_point_ratio()->y;
+    $h = $layout->cross_point_ratio()->y;
     $quartering->add_row(3, $h);
     $quartering->add_row(3);
 
@@ -205,7 +214,7 @@ function make_quartered_saltire( DOMNodeList $children, ShieldLayout $layout )
 {
     $quartering = new Quartering($layout);
 
-    $h = $layout->center_point_ratio()->y;
+    $h = $layout->cross_point_ratio()->y;
 
     $q1_size = $layout->size->scaled(1, $h);
     $hmargin = $layout->size->height / 1000;

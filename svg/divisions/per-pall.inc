@@ -15,16 +15,16 @@ $lineType = getModifierByType($node, 'linetype', false);
 if ( $rev = getModifierNodeWithKeyterm($node,'reversed',true)) // reversed means inverted
     $rev->setAttribute('keyterm','inverted');
 
-$builder_2 = path_builder($layout->center_point->x, $layout->center_point->y);
-$builder_3 = path_builder($layout->center_point->x, $layout->center_point->y);
+$builder_2 = path_builder($layout->cross_point->x, $layout->cross_point->y);
+$builder_3 = path_builder($layout->cross_point->x, $layout->cross_point->y);
 $margin = 100;
-$up = (max($layout->center_point->x, $layout->center_point->y) + $margin)  * M_SQRT2;
-$down = $layout->size->height - $layout->center_point->y + $margin;
+$up = (max($layout->cross_point->x, $layout->cross_point->y) + $margin)  * M_SQRT2;
+$down = $layout->size->height - $layout->cross_point->y + $margin;
 $side = $up / M_SQRT2;
 
 if ( existModifierWithKeyterm($node, 'inverted') )
 {
-    $down = $layout->center_point->y + $margin;
+    $down = $layout->cross_point->y + $margin;
     $builder_2
         ->offset(false)
         ->down_right($up)

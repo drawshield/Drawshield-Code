@@ -4,7 +4,7 @@ $width = 100;
 $margin = 100;
 $builder_2 = new MutableShape();
 $builder_2->move_to(0, 0)
-    ->line_to($layout->center_point->x, $layout->center_point->y)
+    ->line_to($layout->cross_point->x, $layout->cross_point->y)
     ->horizontal($layout->size->width + $margin)
     ->vertical(-$margin)
     ->horizontal(-$margin)
@@ -13,7 +13,7 @@ $builder_2->move_to(0, 0)
 
 $builder_3 = new MutableShape();
 $builder_3->move_to(0, $layout->size->height)
-    ->line_to($layout->center_point->x, $layout->center_point->y)
+    ->line_to($layout->cross_point->x, $layout->cross_point->y)
     ->horizontal($layout->size->width + $margin)
     ->vertical($layout->size->height + $margin)
     ->horizontal(-$margin)

@@ -46,7 +46,7 @@ if ( existModifierWithKeyterm($node, 'braced')) {
       break;
   }
 
-    $dy = 500 - $layout->center_point->y;
+    $dy = 500 - $layout->cross_point->y;
     if ( $dy != 0 )
         $bodySpec = "<g transform='translate(0,-$dy)'>$bodySpec</g>";
 
