@@ -2,7 +2,7 @@
 
 function build_bend($layout, $width, $margin, $offset = 0, $path_builder = null)
 {
-    $base = min($layout->center_point->x, $layout->center_point->y) - $margin;
+    $base = min($layout->cross_point->x, $layout->cross_point->y) - $margin;
     $length = $base * M_SQRT2 * 2;
     $offset_comp = $offset / M_SQRT2;
 
@@ -10,7 +10,7 @@ function build_bend($layout, $width, $margin, $offset = 0, $path_builder = null)
         $path_builder = new PathBuilder();
 
     return $path_builder
-        ->move($layout->center_point->x - $base + $offset_comp, $layout->center_point->y - $base - $offset_comp)
+        ->move($layout->cross_point->x - $base + $offset_comp, $layout->cross_point->y - $base - $offset_comp)
         ->up_right_plain($width/2)
         ->down_right($length)
         ->down_left_plain($width)
@@ -61,8 +61,8 @@ function placement_in_bend($boundingBox, $sinister, $angle, $scale = 0.23)
 function bend_within($layout, $width)
 {
 
-    $cx = $layout->center_point->x;
-    $cy = $layout->center_point->y;
+    $cx = $layout->cross_point->x;
+    $cy = $layout->cross_point->y;
     $lw = $layout->size->width;
     $lh = min($layout->size->height, $layout->size->width);
     $width_delta = $width / 2 / M_SQRT2 + 10;

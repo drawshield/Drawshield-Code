@@ -13,7 +13,7 @@
    limitations under the License. */
 
 
-$y = ($layout->center_point->y - 500);
+$y = ($layout->cross_point->y - 500);
 
 $ordinary['body'] = "<path
     transform='translate(0, $y)'

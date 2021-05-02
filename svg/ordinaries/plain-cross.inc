@@ -11,8 +11,8 @@ if ( $fillet )
     $ordinary['feature_size'] = 15;
 }
 
-$cx = $layout->center_point->x;
-$cy = $layout->center_point->y;
+$cx = $layout->cross_point->x;
+$cy = $layout->cross_point->y;
 $margin = 100;
 $arm_l = $cx - $width / 2 + $margin;
 $arm_r = ($layout->size->width - $cx) - $width / 2 + $margin;
@@ -45,10 +45,10 @@ if ( !$fillet && existModifierWithKeyterm($node, 'nowy')) { // special handling 
 if ( !$fillet )
 {
     $on_size = new ShieldSize($width, $width);
-    $on_center = new ShieldRect(clone $layout->center_point, $on_size);
+    $on_center = new ShieldRect(clone $layout->cross_point, $on_size);
 
-    $dx = ($layout->center_point->x + 100) / 2;
-    $dy = ($layout->center_point->y + 100) / 2;
+    $dx = ($layout->cross_point->x + 100) / 2;
+    $dy = ($layout->cross_point->y + 100) / 2;
 
     $ordinary['chargesOn'] = array_to_placement([
         [$on_center],
@@ -74,12 +74,12 @@ if ( !$fillet )
 
 $within_margin = 50;
 $within_ll = $within_margin;
-$within_lr = $layout->center_point->x - $width/2 - $within_margin;
-$within_rl = $layout->center_point->x + $width/2 + $within_margin;
+$within_lr = $layout->cross_point->x - $width/2 - $within_margin;
+$within_rl = $layout->cross_point->x + $width/2 + $within_margin;
 $within_rr = $layout->size->width - $within_margin;
 $within_tt = $within_margin;
-$within_tb = $layout->center_point->y - $width/2 - $within_margin;
-$within_bt = $layout->center_point->y + $width/2 + $within_margin;
+$within_tb = $layout->cross_point->y - $width/2 - $within_margin;
+$within_bt = $layout->cross_point->y + $width/2 + $within_margin;
 $within_bb = $within_bt + $within_tb - $within_tt;
 
 $ordinary['chargesWithin'] = array_to_placement([

@@ -104,8 +104,8 @@ function inAnnulo($number, $box, $layout)
 {
     if ( $layout->size == $box->size )
     {
-        $box->size->height = min($box->size->height, $layout->center_point->y * 2);
-        $box->pos = $layout->center_point;
+        $box->size->height = min($box->size->height, $layout->cross_point->y * 2);
+        $box->pos = $layout->cross_point;
     }
 
     $cx = $box->pos->x;
@@ -194,11 +194,11 @@ function placement_chevron(ShieldLayout $layout, $chev_width, $relative_size)
     $placement = [];
     $plac_size = $chev_width * $relative_size;
     $plac_base = new ShieldRect(
-        new ShieldPos($layout->center_point->x, $layout->center_point->y - $chev_width / M_SQRT2),
+        new ShieldPos($layout->cross_point->x, $layout->cross_point->y - $chev_width / M_SQRT2),
         new ShieldSize($plac_size, $plac_size)
     );
 
-    $min_ext = min($layout->center_point->x, $layout->size->height - $layout->center_point->y);
+    $min_ext = min($layout->cross_point->x, $layout->size->height - $layout->cross_point->y);
     $off = $chev_width / M_SQRT2 * 1.1;
 
     for ( $n = 1; $n <= 8; $n++ )
@@ -290,7 +290,7 @@ function placement_pilewise($boundingBox)
 
 function placement_quadrangle($boundingBox, $layout)
 {
-    $center = $layout->center_point;
+    $center = $layout->cross_point;
 
 
     $size = $boundingBox->size->scaled(.4);
@@ -330,18 +330,18 @@ function adjustment_quarter($number, ShieldLayout $layout, $bigOrdinary)
         case 1:
             return ShieldRect::from_corners(
                 $margin_out, $margin_out,
-                $layout->center_point->x - $margin_cross, $layout->center_point->y - $margin_cross);
+                $layout->cross_point->x - $margin_cross, $layout->cross_point->y - $margin_cross);
         case 2:
             return ShieldRect::from_corners(
-                $layout->center_point->x + $margin_cross, $margin_out,
-                $layout->size->width - $margin_out, $layout->center_point->y - $margin_cross);
+                $layout->cross_point->x + $margin_cross, $margin_out,
+                $layout->size->width - $margin_out, $layout->cross_point->y - $margin_cross);
         case 3:
             return ShieldRect::from_corners(
-                $margin_out, $layout->center_point->y + $margin_cross,
-                $layout->center_point->x - $margin_cross, $layout->size->height - $margin_out);
+                $margin_out, $layout->cross_point->y + $margin_cross,
+                $layout->cross_point->x - $margin_cross, $layout->size->height - $margin_out);
         case 4:
             return ShieldRect::from_corners(
-                $layout->center_point->x + $margin_cross, $layout->center_point->y + $margin_cross,
+                $layout->cross_point->x + $margin_cross, $layout->cross_point->y + $margin_cross,
                 $layout->size->width - $margin_out, $layout->size->height - $margin_out);
     }
 
@@ -467,8 +467,8 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
             )];
         case 'inflank':
             return [
-                new ShieldRect(new ShieldPos(170, $layout->center_point->y), new ShieldSize(300, 300)),
-                new ShieldRect(new ShieldPos($layout->size->width - 170, $layout->center_point->y), new ShieldSize(300, 300))
+                new ShieldRect(new ShieldPos(170, $layout->cross_point->y), new ShieldSize(300, 300)),
+                new ShieldRect(new ShieldPos($layout->size->width - 170, $layout->cross_point->y), new ShieldSize(300, 300))
             ];
         case 'indexchief': return [($cadency) ? '0,0,200,200' : '0,0,350,300'];
         case 'insinchief': return [($cadency) ? '800,0,200,200' : '650,0,350,300'];
@@ -493,7 +493,7 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
         case 'inhonpoint': return [($cadency) ? '400,250,200,200' : '250,50,500,500'];
         case 'infesspoint':
             $size = $cadency ? 400 : 600;
-            return [new ShieldRect(clone $layout->center_point, new ShieldSize($size, $size))];
+            return [new ShieldRect(clone $layout->cross_point, new ShieldSize($size, $size))];
         case 'innombril': return [($cadency) ? '400,800,200,200' : '300,600,400,400'];
         case 'insinflank': return [($cadency) ? '800,500,200,200' : '700,375,300,300'];
         case 'indexflank': return [($cadency) ? '0,500,200,200' : '0,375,300,300'];
@@ -851,7 +851,7 @@ function get_placement(DOMElement $item, $layout) {
         if ( $placement == '' ) {
             // special case placements, put some charges in exact centre of cross
             if ( $forceCentre ) {
-                $boundingBox->pos = clone $layout->center_point;
+                $boundingBox->pos = clone $layout->cross_point;
             }
             $placement = calcPlace($item,'w',$boundingBox);
         }

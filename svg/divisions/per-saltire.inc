@@ -13,16 +13,16 @@
 
 $line_type = getModifierByType($node, 'linetype', false);
 $margin = 100;
-$arm = (max($layout->center_point->x, $layout->center_point->y) + $margin) * M_SQRT2;
+$arm = (max($layout->cross_point->x, $layout->cross_point->y) + $margin) * M_SQRT2;
 $side = $arm * M_SQRT2;
 
-$builder_2 = path_builder($layout->center_point->x, $layout->center_point->y)->offset(false)->quarterly();
-$builder_3 = path_builder($layout->center_point->x, $layout->center_point->y)->offset(false)->quarterly();
-$builder_4 = path_builder($layout->center_point->x, $layout->center_point->y)->offset(false)->quarterly();
+$builder_2 = path_builder($layout->cross_point->x, $layout->cross_point->y)->offset(false)->quarterly();
+$builder_3 = path_builder($layout->cross_point->x, $layout->cross_point->y)->offset(false)->quarterly();
+$builder_4 = path_builder($layout->cross_point->x, $layout->cross_point->y)->offset(false)->quarterly();
 
 
 $builder_2->up_right($arm)->down_plain($side)->up_left($arm);
-$builder_2->move($layout->center_point->x, $layout->center_point->y)->offset(false)->quarterly();
+$builder_2->move($layout->cross_point->x, $layout->cross_point->y)->offset(false)->quarterly();
 $builder_2->up_left($arm)->down_plain($side)->up_right($arm);
 $builder_3->down_right($arm)->left_plain($side)->up_right($arm);
 $builder_4->up_right($arm)->down_plain($side)->up_left($arm);

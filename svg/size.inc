@@ -210,17 +210,17 @@ class ShieldLayout
         "quarter" => 0,
     ];
 
-    function __construct(ShieldSize $size, $shape, ShieldPos $center_point = null, ShieldRect $charge_hint = null, $chief = true, $section = null)
+    function __construct(ShieldSize $size, $shape, ShieldPos $cross_point = null, ShieldRect $charge_hint = null, $chief = true, $section = null)
     {
         // shield size 1000xheight
         $this->size = $size;
         // shape name
         $this->shape = $shape;
         // cross/quarters center point
-        if ( $center_point === null )
+        if ( $cross_point === null )
             $this->auto_center();
         else
-            $this->center_point = $center_point;
+            $this->cross_point = $cross_point;
         // rect for custom positioning
         $this->charge_hint = $charge_hint;
         // Should use chief spacing
@@ -238,9 +238,9 @@ class ShieldLayout
     function auto_center()
     {
         if ( isset(static::$custom_size[$this->shape]) || $this->size->height >= 1500 || $this->size->height < 900 )
-            $this->center_point = new ShieldPos($this->size->width / 2, $this->size->height / 2);
+            $this->cross_point = new ShieldPos($this->size->width / 2, $this->size->height / 2);
         else
-            $this->center_point = new ShieldPos($this->size->width / 2, 500);
+            $this->cross_point = new ShieldPos($this->size->width / 2, 500);
     }
 
     function auto_chief()
@@ -266,18 +266,18 @@ class ShieldLayout
     {
         $width = 1000;
         $height = 1200;
-        $center_point = new ShieldPos(500, 500);
+        $cross_point = new ShieldPos(500, 500);
         $shape = $options["shape"];
 
         if ( isset($options["flagHeight"]) )
         {
             $height = $options["flagHeight"];
-            $center_point = new ShieldPos(500, $height / 2);
+            $cross_point = new ShieldPos(500, $height / 2);
         }
         else if ( isset(static::$custom_size[$shape]) )
         {
             $height = static::$custom_size[$shape];
-            $center_point = new ShieldPos(500, $height / 2);
+            $cross_point = new ShieldPos(500, $height / 2);
         }
 
         $charge_hint = null;
@@ -290,7 +290,7 @@ class ShieldLayout
                 $charge_hint = new ShieldRect(new ShieldPos(245, 305), new ShieldSize(510, 580));
                 break;
             case 'lozenge':
-                $charge_hint = new ShieldRect(clone $center_point, $size->scaled(0.8));
+                $charge_hint = new ShieldRect(clone $cross_point, $size->scaled(0.8));
                 break;
             break;
         }
@@ -298,7 +298,7 @@ class ShieldLayout
         return new ShieldLayout(
             $size,
             $shape,
-            $center_point,
+            $cross_point,
             $charge_hint,
             true
         );
@@ -308,7 +308,7 @@ class ShieldLayout
     {
         $width = 1000;
         $height = 1000;
-        $center_point = new ShieldPos(500, 500);
+        $cross_point = new ShieldPos(500, 500);
         $shape = 'square';
 
         $charge_hint = null;
@@ -318,18 +318,18 @@ class ShieldLayout
         return new ShieldLayout(
             $size,
             $shape,
-            $center_point,
+            $cross_point,
             $charge_hint,
             true
         );
     }
 
     
-    function center_point_ratio()
+    function cross_point_ratio()
     {
         return new ShieldPos(
-            $this->center_point->x / $this->size->width,
-            $this->center_point->y / $this->size->height
+            $this->cross_point->x / $this->size->width,
+            $this->cross_point->y / $this->size->height
         );
     }
 

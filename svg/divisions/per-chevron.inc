@@ -20,14 +20,14 @@ $extent = max($layout->size->width, $layout->size->height);
 
 if ( existModifierWithKeyterm($node, 'inverted') )
 {
-    $y = $layout->center_point->y + 300 / M_SQRT2;
-    $div_data = path_builder($layout->center_point->x, $y)->chevron();
+    $y = $layout->cross_point->y + 300 / M_SQRT2;
+    $div_data = path_builder($layout->cross_point->x, $y)->chevron();
     $div_data->up_right($extent)->down_plain(2000)->left_plain($extent*M_SQRT2)->up_plain(2000)->down_right($extent);
 }
 else
 {
-    $y = $layout->center_point->y - 150 / M_SQRT2;
-    $div_data = path_builder($layout->center_point->x, $y)->chevron();
+    $y = $layout->cross_point->y - 150 / M_SQRT2;
+    $div_data = path_builder($layout->cross_point->x, $y)->chevron();
     $div_data->down_right($extent)->left_plain($extent*M_SQRT2)->up_right($extent);
 }
 

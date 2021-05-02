@@ -14,13 +14,13 @@
 
 
 $ordinary['shape_spec'] = (new MutableShape())
-    ->move_to($layout->center_point->x, 0)
+    ->move_to($layout->cross_point->x, 0)
     ->tag_segment(BezierSegmentFlags::SYMMETRICAL)
-    ->line_to($layout->size->width, $layout->center_point->y)
+    ->line_to($layout->size->width, $layout->cross_point->y)
     ->tag_segment(BezierSegmentFlags::SYMMETRICAL)
-    ->line_to($layout->center_point->x, $layout->size->height)
+    ->line_to($layout->cross_point->x, $layout->size->height)
     ->tag_segment(BezierSegmentFlags::SYMMETRICAL)
-    ->line_to(0, $layout->center_point->y)
+    ->line_to(0, $layout->cross_point->y)
     ->tag_segment(BezierSegmentFlags::SYMMETRICAL)
     ->close()
 ;

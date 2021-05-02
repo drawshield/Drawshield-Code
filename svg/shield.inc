@@ -38,12 +38,12 @@ function makePlain( &$children, $layout ) {
         $layout_chief = new ShieldLayout($layout->chief->size, "chief", null, null, false);
         $new_size = new ShieldSize($layout->size->width, $layout->size->height - $layout->chief->size->height);
         $cross_c = new ShieldPos($new_size->width / 2, $new_size->height / 2);
-        if ( $layout->center_point->y < $layout->size->height /2 )
+        if ( $layout->cross_point->y < $layout->size->height /2 )
             $cross_c->y = 400;
         $layout_objects = new ShieldLayout($new_size, $layout->shape, $cross_c, null, false, $layout->section);
         $layout_field = clone $layout;
         $off = $layout_chief->size->height;
-        $layout_field->center_point = $layout_objects->center_point->translated(0, $off);
+        $layout_field->cross_point = $layout_objects->cross_point->translated(0, $off);
         $layout_field->division_offset = new ShieldPos(0, $off);
         list($clip_id, $clip) = make_def("clipPath", $layout_objects->rect_area()->margin(-100, 0, -100, -100)->svg_rect());
         $retval .= "<defs>$clip</defs>";
@@ -86,7 +86,7 @@ function makeimpaled( DOMNodeList $children, $layout ) {
 
   $size = $layout->size->scaled(1, 2);
   $clipI = add_def( 'clipPath', "<rect x='0' y='0' width='{$size->width}'  height='{$size->height}'/>" );
-  $cp = $layout->center_point->translated(0, $layout->center_point->y);
+  $cp = $layout->cross_point->translated(0, $layout->cross_point->y);
   $child_layout_1 = new ShieldLayout($size, $layout->shape, $cp, null, true, "dexter");
   $child_layout_2 = new ShieldLayout($size, $layout->shape, $cp, null, true, "sinister");
   /**

@@ -359,7 +359,7 @@ function getCharge( DOMElement $node, $layout ) {
             {
                 $height = ShieldLayout::best_height($shape);
                 $child_layout = new ShieldLayout(new ShieldSize($width, $height), $shape);
-                $hold_point = $child_layout->center_point;
+                $hold_point = $child_layout->cross_point;
             }
 
             $hold_radius = $width / 15;

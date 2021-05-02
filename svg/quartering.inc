@@ -140,7 +140,7 @@ function makeQuartered($across, $down, $children, ShieldLayout $layout)
 
     if ( $down == 1 )
     {
-        $ratio = $layout->center_point_ratio();
+        $ratio = $layout->cross_point_ratio();
         foreach ( $quartering->quarters as $quarter )
             $quarter->cross_point = new ShieldPos($ratio->x * $quarter->size->width, $ratio->y * $quarter->size->height);
     }
@@ -152,7 +152,7 @@ function makequartered4( DOMNodeList $children, ShieldLayout $layout )
 {
     $quartering = new Quartering($layout);
 
-    $h = $layout->center_point_ratio()->y;
+    $h = $layout->cross_point_ratio()->y;
     $quartering->add_row(2, $h);
     $quartering->add_row(2);
     $quartering->quarters[0]->section = "quarter-chief-dexter";
@@ -167,7 +167,7 @@ function makequartered5( $children, ShieldLayout $layout )
 {
     $quartering = new Quartering($layout);
 
-    $h = $layout->center_point_ratio()->y;
+    $h = $layout->cross_point_ratio()->y;
     $quartering->add_row(3, $h);
     $quartering->add_row(2);
 
@@ -183,7 +183,7 @@ function makequartered6( $children, ShieldLayout $layout )
 {
     $quartering = new Quartering($layout);
 
-    $h = $layout->center_point_ratio()->y;
+    $h = $layout->cross_point_ratio()->y;
     $quartering->add_row(3, $h);
     $quartering->add_row(3);
 
@@ -214,7 +214,7 @@ function make_quartered_saltire( DOMNodeList $children, ShieldLayout $layout )
 {
     $quartering = new Quartering($layout);
 
-    $h = $layout->center_point_ratio()->y;
+    $h = $layout->cross_point_ratio()->y;
 
     $q1_size = $layout->size->scaled(1, $h);
     $hmargin = $layout->size->height / 1000;

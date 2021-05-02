@@ -31,4 +31,4 @@ if ( existModifierWithKeyterm($node,'compony1') )
 elseif (existModifierWithKeyterm($node,'compony2') )
   $ordinary['body2'] = '<path d="M0,0h167v150h-167z M167,150h267v150h-267z M0,300h167v150h-167z M167,450h267v150h-267z M0,600h167v150h-167z M167,750h267v150h-267z M0,900h167v150h-167z M167,1050h267v150h-267z " />';
 
-$ordinary['chargesOn'] = (string)ShieldRect::from_corners(75, 75, 333.33 - 75, $layout->center_point->y * 2 - 75);
+$ordinary['chargesOn'] = (string)ShieldRect::from_corners(75, 75, 333.33 - 75, $layout->cross_point->y * 2 - 75);

@@ -21,15 +21,15 @@ $length = 2000;
 
 if ( existModifierWithKeyterm($node, 'inverted'))
 {
-    $y = $layout->center_point->y;
+    $y = $layout->cross_point->y;
 
-    $builder_2 = path_builder($layout->center_point->x, $y + $width * M_SQRT2)
+    $builder_2 = path_builder($layout->cross_point->x, $y + $width * M_SQRT2)
         ->chevron()
         ->up_right($length)
         ->left_plain($length * M_SQRT2)
         ->down_right($length)
     ;
-    $builder_3 = path_builder($layout->center_point->x, $y)
+    $builder_3 = path_builder($layout->cross_point->x, $y)
         ->chevron()
         ->up_right($length)
         ->left_plain($length * M_SQRT2)
@@ -39,15 +39,15 @@ if ( existModifierWithKeyterm($node, 'inverted'))
 else
 {
     $ordinary_width = chevron_width($layout, 1);;
-    $y = $layout->center_point->y - $ordinary_width / M_SQRT2;
+    $y = $layout->cross_point->y - $ordinary_width / M_SQRT2;
 
-    $builder_2 = path_builder($layout->center_point->x, $y - $width / M_SQRT2)
+    $builder_2 = path_builder($layout->cross_point->x, $y - $width / M_SQRT2)
         ->chevron()
         ->down_right($length)
         ->left_plain($length * M_SQRT2)
         ->up_right($length)
     ;
-    $builder_3 = path_builder($layout->center_point->x, $y + $width / M_SQRT2)
+    $builder_3 = path_builder($layout->cross_point->x, $y + $width / M_SQRT2)
         ->chevron()
         ->down_right($length)
         ->left_plain($length * M_SQRT2)
