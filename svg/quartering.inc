@@ -12,6 +12,8 @@ class Quarter
         $this->charge_hint = $charge_hint;
         $this->section = "quarter";
         $this->shape = $shape;
+        $this->cross_point = null;
+
     }
 
     function svg_transform()
@@ -21,7 +23,7 @@ class Quarter
 
     function to_layout()
     {
-        return new ShieldLayout($this->size, $this->shape, null, $this->charge_hint, true, $this->section);
+        return new ShieldLayout($this->size, $this->shape, $this->cross_point, $this->charge_hint, true, $this->section);
     }
 }
 
@@ -135,6 +137,13 @@ function makeQuartered($across, $down, $children, ShieldLayout $layout)
     $h = 1 / $down;
     for ( $y = 0; $y < $down; $y++ )
         $quartering->add_row($across, $h);
+
+    if ( $down == 1 )
+    {
+        $ratio = $layout->center_point_ratio();
+        foreach ( $quartering->quarters as $quarter )
+            $quarter->cross_point = new ShieldPos($ratio->x * $quarter->size->width, $ratio->y * $quarter->size->height);
+    }
 
     return $quartering->render_svg($children);
 }

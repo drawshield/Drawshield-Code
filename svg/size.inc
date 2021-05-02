@@ -237,7 +237,7 @@ class ShieldLayout
 
     function auto_center()
     {
-        if ( isset(static::$custom_size[$this->shape]) )
+        if ( isset(static::$custom_size[$this->shape]) || $this->size->height >= 1500 || $this->size->height < 900 )
             $this->center_point = new ShieldPos($this->size->width / 2, $this->size->height / 2);
         else
             $this->center_point = new ShieldPos($this->size->width / 2, 500);
