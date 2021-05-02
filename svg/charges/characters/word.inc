@@ -16,53 +16,42 @@
 
 $charge['default_colour'] = 'sable';
 
+$textOptions = array();
 // defaults
 $fontWeight = 'normal';
 $fontStyle = 'normal';
-$textDecoration = 'none';
-$fontFamily = 'italic';
+$underline = false;
+$fontFamily = null;
 $textAlign = 'middle';
-$textLayout = 'block';
+$textLayout = WordBuilder::LEFT;
 
 if ( existModifierWithKeyterm($node,'bold') ) $fontWeight = 'bold';
 if ( existModifierWithKeyterm($node,'italic') ) $fontStyle = 'italic';
-if ( existModifierWithKeyterm($node,'underlined') ) $textDecoration = 'underline';
 if ( $font = getModifierValueByKeyterm($node,'font') ) {
-  switch ($font) {
-    case 'serif':
-    case 'cursive':
-    case 'fantasy':
-    case 'monospace':
-    case 'times':
-    case 'baskerville':
-      case 'verdana':
-      case 'symbol':
-      // No action needed
-      break;
-    case 'plain':
-    case 'san serif':
-    case 'sans serif':
-      $font = 'sans-serif';
-      break;
-    default:
-      $messages->addMessage('Warning', "Unrecognised font");
-      $font = 'serif';
-      break;
-  }
   $fontFamily = $font;
-}
+} 
 
-if ( existModifierWithKeyterm($node,'laying')) {
-  if (existModifierWithKeyterm($node, 'to-dexter')) $textAlign = 'start';
-  elseif (existModifierWithKeyterm($node, 'to-sinister')) $textAlign = 'end';
-  elseif (existModifierWithKeyterm($node, 'to-centre')) $textAlign = 'middle';
-}
+
+
+$item = getModifierValueByKeyterm( $node, 'value' );
+
+if ( $item == null ) $item = 'huh';
+
+$builder = new WordBuilder($fontFamily);
+if ( existModifierWithKeyterm($node,'underlined') ) 
+    $builder->option(WordBuilder::UNDERLINE);
+  if (existModifierWithKeyterm($node, 'to-dexter'))
+      $builder->option(WordBuilder::ALIGN, WordBuilder::LEFT);
+  if (existModifierWithKeyterm($node, 'to-sinister')) 
+      $builder->option(WordBuilder::ALIGN, WordBuilder::RIGHT);
+  if (existModifierWithKeyterm($node, 'to-centre')) 
+      $builder->option(WordBuilder::ALIGN, WordBuilder::CENTRE);
   if (existModifierWithKeyterm($node,'encircled')) { // This is first, so any modifier added for "encircled-by" overrides others
     $textLayout = 'encircled';
   } elseif ( existModifierWithKeyterm($node,'text-inline')) {
-    $textLayout = 'inline';
+      $builder->option(WordBuilder::LAYOUT, WordBuilder::INLINE);
   } elseif (existModifierWithKeyterm($node,'text-stacked')) {
-    $textLayout = 'stacked';
+      $builder->option(WordBuilder::LAYOUT, WordBuilder::STACKED);
   } elseif (existModifierWithKeyterm($node,'text-block')) {
     $textLayout = 'block';
   } elseif (existModifierWithKeyterm($node,'enarched')) {
@@ -72,28 +61,9 @@ if ( existModifierWithKeyterm($node,'laying')) {
   } elseif (existModifierWithKeyterm($node,'wavy')) {
     $textLayout = 'wavy';
 }
+$charge['svgCode'] = $builder->getSVG($item);
 
-$fontAdjustments = array (
-  'monospace' => 0.75,
-  'cursive' => 0.86,
-  'verdana' => 0.8,
-  'symbol' => 0.9,
-  'sans-serif' => 0.95,
-);
-
-$item = getModifierValueByKeyterm( $node, 'value' );
-
-if ( $item == null ) $item = 'huh';
-$lines = array();
-$words = explode(' ', $item);
-
-$longestWord = 0;
-foreach ($words as $word)
-  if ( ($length = strlen($word)) > $longestWord ) $longestWord = $length;
-if (count($words) == 1 and $textLayout == 'block')
-  $textLayout = 'inline'; // No point complicating things if only one word
-
-$height = 100;
+/* $height = 100;
 $width = 100;
 $svgText = '';
 switch ($textLayout) {
@@ -224,8 +194,7 @@ switch ($textLayout) {
     $svgText .= '<defs><path id="#' . $arch .  '" d="m 0,0 "/></defs>'; // dummy defs to make svgCode parse in simplexml_load
     $svgText .= '<text text-anchor="middle" font-weight="' . $fontWeight . '" font-style="' . $fontStyle . '" font-family="' . $fontFamily . '" font-size="' . $fontSize . '" x="0" y="400"><textPath startOffset="50%" href="#' . $arch . '">' . htmlentities($item, ENT_XML1) . '</textPath></text>';
     break;
-}
+} */
 
-$charge['svgCode'] = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' .
-        $height . '" width="' . $width . '"><g id="body">' . $svgText . '</g></svg>';
+
 

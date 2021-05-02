@@ -97,6 +97,7 @@ class languageDB extends lexicon
     const USING = 'using';
     const FRINGED = 'fringed';
     const SHIELD = 'shield';
+    const CHGLIST = 'chglist';
 
     public function __construct()
     {
@@ -110,6 +111,7 @@ class languageDB extends lexicon
         // category, and if found, the specific key term is returned.
 
         $this->patterns = array(
+            self::CHGLIST => array ("and also", "& also", "along with"),
             self::VALUE => array("*"),
             self::WORD_THE => array('the'),
             self::OVERALL => array('overall', 'sur le tout', 'all with(in)?', "over all", "in pretence"),
@@ -817,6 +819,7 @@ class languageDB extends lexicon
                 array('double trea?s?sure', 'double-tressure'),
                 array('fillet', 'fillet'),
                 array('fillet saltire', 'fillet-saltire'),
+                array('fillet bordure', 'fillet-bordure'),
                 array('flau?nche?s?', 'flaunch'),
                 array('flau?nche? sinister', 'flaunch-sinister'),
                 array('sinister flau?nche?', 'flaunch-sinister'),
@@ -1082,7 +1085,8 @@ class languageDB extends lexicon
             self::USING => array ( 'with', 'in', 'using', 'on'),
             self::DRAWN_MODS => array(
                 array('drawn', 'drawn'),
-                array('?(a|an|the) * (palette|tinctures|colou?rs)', 'palette'),
+                array('?(a|an|the) * (palette|tinctures)', 'palette'),
+                array('?the * colours?', 'colours'),
                 array('?(a|an|the) * shape', 'shape'),
                 array('?(a|an|the) shape ?of ?an? *', 'shape'),
                 array('?(a|an|the) * (appearance|style|effect)', 'style'),

@@ -130,6 +130,23 @@ if (!is_null($blazonOptions)) {
   for ($i = 0; $i < $blazonOptions->length; $i++) {
     $blazonOption = $blazonOptions->item($i);
     switch ($blazonOption->nodeName) {
+      case blazonML::E_COLOURSET:
+          switch ($blazonOption->getAttribute('keyterm')) {
+          case 'web':
+              $options['useWebColours'] = true;
+              break;
+          case 'tartan':
+              $options['useTartanColours'] = true;
+              break;
+          case 'warhammer':
+              $options['useWarhammerColours'] = true;
+              break;
+          default:
+              // just ignore - should probably be an error message
+              break;
+          }
+          break;
+
       case blazonML::E_SHAPE:
         $options['shape'] = $blazonOption->getAttribute('keyterm');
         break;
@@ -210,8 +227,8 @@ function report_errors_svg($errno, $errstr, $errfile, $errline)
     return false;
 }
 
-if ( strpos($_SERVER["HTTP_REFERER"], "demopage.php") !== false )
-    set_error_handler("report_errors_svg");
+if (array_key_exists('HTTP_REFERER',$_SERVER) && strpos($_SERVER["HTTP_REFERER"], "demopage.php") !== false )
+    set_error_handler(report_errors_svg);
 
 $output = draw();
 
@@ -310,6 +327,42 @@ if ( $options['asFile'] ) {
       // $im->scaleimage(1000,1200);
       header('Content-Type: image/jpg');
       echo $im->getimageblob();
+      break;
+    case 'json':
+        $newDom = new DOMDocument();
+        $newDom->loadXML($output);
+         error_log($newDom->documentElement->nodeName);
+      $im = new Imagick();
+      $im->setBackgroundColor(new ImagickPixel('transparent'));
+      $im->readimageblob($output);
+      $im->setimageformat('png32');
+      $json = [];
+      $json['image'] = base64_encode($im->getimageblob());
+      $json['options'] = $options;
+      $allMessages = $newDom->getElementsByTagNameNS('http://drawshield.net/blazonML','message');
+      $messageArray = [];
+     foreach($allMessages as $node) {
+          $thisMessage = [];
+          for ($i = 0; $i < $node->attributes->length; $i++) {
+              $thisMessage[$node->attributes->item($i)->nodeName] = $node->attributes->item($i)->nodeValue;
+          }
+          $thisMessage['content'] = $node->nodeValue;
+          $messageArray[] = $thisMessage;
+      }
+      $json['messages'] = $messageArray;
+      $json['tree'] = $dom->saveXML();
+      $baggage = $dom->getElementsByTagNameNS('http://drawshield.net/blazonML','input')->item(0);
+      $baggage->parentNode->removeChild($baggage);
+      $baggage = $dom->getElementsByTagNameNS('http://drawshield.net/blazonML','messages')->item(0);
+      $baggage->parentNode->removeChild($baggage);
+      $minTree = $dom->saveXML();
+      $minTree = preg_replace('/blazonML:/', '', $minTree);
+      $minTree = preg_replace('/<\?xml.*\?>\n/','', $minTree);
+      $minTree = preg_replace('/<\/?blazon.*>\n/','', $minTree);
+      $minTree = preg_replace('/[<>"]/','', $minTree);
+      $json['mintree'] = $minTree;
+      header('Content-Type: application/json');
+      echo json_encode($json);
       break;
     case 'png':
       $im = new Imagick();

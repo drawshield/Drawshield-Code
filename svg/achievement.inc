@@ -244,9 +244,10 @@ function drawMotto($mottoNode, $layout) {
         }
     }
     if ($layout->shape == 'pauldron') {
+        $builder = new WordBuilder('hooge');
         $svg = file_get_contents('svg/components/scroll/plaque.svg');
         $svg .= "<g transform=\"translate(50,1000)\">\n" .
-        getWords('hooge', $text, 160, 900, $colour) . "</g>\n";
+        $builder->fitWordsToRect($text, 160, 900, $colour) . "</g>\n";
         $svg = '<g transform="scale(0.9,0.9) translate(50,180)">' . $svg . "</g>\n";
         return $svg;
     } else {

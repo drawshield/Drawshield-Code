@@ -41,6 +41,9 @@ function makeOrdChgs( $node, $layout ) {
       case 'division':
         $retval .= makeDivision( $child, $layout );
         break;
+      case 'list':
+          $retval .= makeList( $child, $layout );
+          break;
       case 'missing':
       case 'charge':
         $retval .= makeCharge( $child, $layout );
@@ -239,7 +242,7 @@ function draw() {
             $y1Location = '1190';
             if ($layout->shape == 'flag')
                 $y1Location = $layout->size->height + $extraSpace + 40;
-            if ( $options['outputFormat'] == 'svg') {
+            if ( $options['outputFormat'] == 'svg' || $options['outputFormat'] == 'json') {
                 $messages->addMessage('legal',"Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.");
                 $messages->insertMessages();
                 $xpath = new DOMXPath($dom);
@@ -284,7 +287,13 @@ function draw() {
     if ($achievement) {
         foreach ($crests as $crest) {
             if ($crest == null) continue;  // some helmets may not have crests
-            $body .= placeCharge($crest->firstChild, $layout, 300, 300, 500, (count($helmets) ? 150 : 270));
+            $crestCharges = makeCharge($crest->firstChild, ShieldLayout::square());
+            #$body .= placeCharge($crest->firstChild, ShieldLayout::square(), 300, 300, 500, (count($helmets) ? 150 : 270));
+            if (count($helmets)) {
+                $body .= "<g transform=\"translate(350,10) scale(0.30) \"> $crestCharges</g>";
+            } else {
+            $body .= "<g transform=\"translate(300,75) scale(0.4) \"> $crestCharges</g>";
+            }
         }
         if (count($helmets)) {
             $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 500, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);

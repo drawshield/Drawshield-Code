@@ -70,6 +70,7 @@ class properColour {
       'beaver' => self::$brown,
       'auk' => self::$white,
       'parachute' => self::$white,
+      'talbot' => self::$white,
       'skull' => self::$white,
       'molar' => self::$white,
       'bone' => self::$white,

@@ -140,7 +140,7 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
         } else {
             if (in_array(strtolower($data), $strokeColours)) {
                 $fill = ' fill="' . $strokeCol . '" ';
-            } elseif (!$fillSet && !in_array( strtolower($data), $targetColours) ) {
+            } elseif ($data == 'none' || (!$fillSet && !in_array( strtolower($data), $targetColours) )) {
           // Any of the "primary" colours are just placeholders, so we ignore them (will be replaced by the charge colour)
                 $fill = ' fill="' . $data . '" ';
             }
@@ -403,6 +403,12 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
 
     $viewbox = $svg['viewBox'] ?? '0 0 100 100';
     list($x0,$y0,$x1,$y1) = explode(' ',$viewbox);
+    // safety checks in case of dodgy SVG
+    if (!is_numeric($x0)) $x0 = 0;
+    if (!is_numeric($y0)) $y0 = 0;
+    if (!is_numeric($x1)) $x1 = 100;
+    if (!is_numeric($y1)) $y1 = 100;
+
 
     $heightVal = $svg['height'] ?? $x1;
     if (substr($heightVal,-1) == '%')

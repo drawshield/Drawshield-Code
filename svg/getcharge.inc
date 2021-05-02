@@ -118,6 +118,7 @@ function featuresThatAreAlsoMods($node) {
     'fructed',
     'winged',
       'wreathed',
+      'spouting',
   );
 
   foreach ($features as $feature) {
@@ -152,7 +153,7 @@ function read_chg_file(DOMElement $node) {
     }
     list($group,$chargeKey) = $splitArray;
     $folder = __dir__ . "/charges/$group/";
-    if ( ($title = $node->getAttribute('tokens')) == null ) $title = $chargeKey;
+    if (false || ($title = $node->getAttribute('tokens')) == null ) $title = $chargeKey;
 
     // look for .inc file
     $file = $folder . $chargeKey . '.inc';
@@ -204,6 +205,15 @@ function makeCharge($charge, $layout, $placements = null) {
     $retval .= place_charges ( $charge, $placement, $layout );
   }
   return $retval;
+}
+
+function makeList($chgList, $layout) {
+    $charges = [];
+    foreach ($chgList->childNodes as $child) {
+        $charge[] = array('body' => makeCharge($child, ShieldLayout::square() ),
+            'width' => 1000, 'height' => 1000);
+    }
+
 }
 
 function chargeInAnnulo($node, &$charge, $base_name, $dir)

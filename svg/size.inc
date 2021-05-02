@@ -304,6 +304,27 @@ class ShieldLayout
         );
     }
 
+    static function square()
+    {
+        $width = 1000;
+        $height = 1000;
+        $center_point = new ShieldPos(500, 500);
+        $shape = 'square';
+
+        $charge_hint = null;
+
+        $size = new ShieldSize($width, $height);
+
+        return new ShieldLayout(
+            $size,
+            $shape,
+            $center_point,
+            $charge_hint,
+            true
+        );
+    }
+
+    
     function center_point_ratio()
     {
         return new ShieldPos(

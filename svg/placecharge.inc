@@ -515,7 +515,9 @@ function PlaceCharge ( $node,  // images
   }
   $transform .= " translate($posX,$posY) scale($Xscale, $Yscale) $overrideRotation";
   if (!isset($charge['title'])) $charge['title'] = 'a charge';
-  $retval = "<g transform=\"$transform\" >\n<title>" . htmlentities(transliterate($charge['title']), ENT_XML1) . '</title>' . $retval . "</g>\n";
+  // $retval = "<g transform=\"$transform\" >\n<title>" . htmlentities(transliterate($charge['title'])) . '</title>' . $retval . "</g>\n";
+  //$retval = "<g transform=\"$transform\" >\n<title>" . htmlentities($charge['title'], ENT_HTML5) . '</title>' . $retval . "</g>\n";
+  $retval = "<g transform=\"$transform\" >\n<title>" . $charge['title'] . '</title>' . $retval . "</g>\n";
 
   $retval = apply_tincture( $tincture, $retval, $layout, new ShieldSize($chargeX, $chargeY), $rotation, $reversed, $inverted );
   return $retval;

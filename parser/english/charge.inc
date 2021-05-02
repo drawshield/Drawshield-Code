@@ -626,6 +626,8 @@
       array ( 'firs?', 'tree-fruit/fir' ),
       array ( 'figs?', 'tree-fruit/fig' ),
       array ( 'pines?', 'tree-fruit/pine' ),
+      array ( 'scots? pines?', 'tree-fruit/pine-scots' ),
+      array ( 'new england pines?', 'tree-fruit/pine-new-england' ),
       array ( 'pinecones?', 'tree-fruit/pine-cone' ),
       array ( 'pine cones?', 'tree-fruit/pine-cone' ),
       array ( 'trees?', 'tree-fruit/tree' ),

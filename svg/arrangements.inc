@@ -580,7 +580,7 @@ function get_placement(DOMElement $item, $layout) {
     $cadency = existModifierWithKeyterm($item,'difference');
     $entire = existModifierWithKeyterm($item,'entire');
     $number = $item->getAttribute('number');
-    $overall = ($item->parentNode->parentNode->nodeName == 'overall');
+    $overall = ($item->parentNode != null && $item->parentNode->parentNode != null && $item->parentNode->parentNode->nodeName == 'overall');
     // $apply_location = true;
     $forceCentre = (!($entire) && !count($pos) && ($layout->shape != 'pauldron') && ($group == "quadrate" || $group == 'geometric') && $number == 1);
     $div_node = $xpath->query("parent::objects/parent::simple/field/tincture/division", $item);
