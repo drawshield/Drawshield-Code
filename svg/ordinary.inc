@@ -87,11 +87,11 @@ function createCottices($spec, $numberCottices, $lineType, $layout)
 
             for ( $i = 0; $i < $numberCottices; $i++ )
             {
-                $inner = $path->offset_copy($off);
+                $inner = $path->offset_copy($off, -1);
                 $inner->reverse();
                 $inner->make_plain();
 
-                $outer = $path->offset_copy($cotiseSize + $off);
+                $outer = $path->offset_copy($cotiseSize + $off, -1);
                 if ( $i != $numberCottices - 1 )
                     $outer->make_plain();
 
@@ -100,9 +100,6 @@ function createCottices($spec, $numberCottices, $lineType, $layout)
 
                 $off += $cotiseSize * 2;
             }
-
-            $path->make_plain();
-            $new_shape->add_path($path);
         }
         return createBody($new_shape, $lineType, $feature_size, $layout);
     }

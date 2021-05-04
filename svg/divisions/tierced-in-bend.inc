@@ -19,14 +19,14 @@ $width = 400;
 
 if ( $sinister = existModifierWithKeyterm($node, 'sinister') )
 {{
-    $builder_2 = path_builder($layout->center_point->x + $base, $layout->center_point->y - $base)
+    $builder_2 = path_builder($layout->cross_point->x + $base, $layout->cross_point->y - $base)
         ->up_left_plain($width/2)
         ->down_left($length)
         ->right_plain(($length+$width/2) / M_SQRT2)
         ->up_plain(($length-$width/2) / M_SQRT2)
     ;
 
-    $builder_3 = path_builder($layout->center_point->x + $base, $layout->center_point->y - $base)
+    $builder_3 = path_builder($layout->cross_point->x + $base, $layout->cross_point->y - $base)
         ->down_right_plain($width/2)
         ->down_left($length)
         ->right_plain(($length-$width/2) / M_SQRT2)
@@ -36,14 +36,14 @@ if ( $sinister = existModifierWithKeyterm($node, 'sinister') )
 }
 else
 {
-    $builder_2 = path_builder($layout->center_point->x - $base, $layout->center_point->y - $base)
+    $builder_2 = path_builder($layout->cross_point->x - $base, $layout->cross_point->y - $base)
         ->down_left_plain($width/2)
         ->down_right($length)
         ->up_plain(($length+$width/2) / M_SQRT2)
         ->left_plain(($length-$width/2) / M_SQRT2)
     ;
 
-    $builder_3 = path_builder($layout->center_point->x - $base, $layout->center_point->y - $base)
+    $builder_3 = path_builder($layout->cross_point->x - $base, $layout->cross_point->y - $base)
         ->up_right_plain($width/2)
         ->down_right($length)
         ->up_plain(($length-$width/2) / M_SQRT2)
@@ -58,7 +58,7 @@ $division['div3'] = createBody((string)$builder_3, $lineType, 60, $layout);
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';
   $rivetList = '';
-  $offset = $layout->center_point->y - 500;
+  $offset = $layout->cross_point->y - 500;
   for ($i = 1075; $i > -80; $i -= 80) {
     if ( $sinister ) {
       $rivetList .= '<g transform="translate(' . (630 - $i) . ',' . ($i  + $offset). ')">' . $rivet . '</g>';

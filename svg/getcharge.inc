@@ -359,7 +359,7 @@ function getCharge( DOMElement $node, $layout ) {
             {
                 $height = ShieldLayout::best_height($shape);
                 $child_layout = new ShieldLayout(new ShieldSize($width, $height), $shape);
-                $hold_point = $child_layout->center_point;
+                $hold_point = $child_layout->cross_point;
             }
 
             $hold_radius = $width / 15;
@@ -559,8 +559,8 @@ HERE;
     // NON-STANDARD EXTENSION - half handling
     if ( existModifierWithKeyterm($node,'upper-half') )
     {
-        $bounding_box->size->height -= $half;
         $half = $height / 2;
+        $bounding_box->size->height -= $half;
         $clip = add_def ( 'clipPath', '<rect x="0" y="0" width="' . $width . '" height="' . $half . '" />' );
         $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
         $height = $half;

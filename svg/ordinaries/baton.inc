@@ -13,12 +13,12 @@
    limitations under the License. */
 
 
-$base = min($layout->center_point->x, $layout->center_point->y) - 100;
+$base = min($layout->cross_point->x, $layout->cross_point->y) - 100;
 $length = $base * M_SQRT2 * 2;
 $width = 56;
 
 $ordinary['shape_spec'] = (string)
-    path_builder($layout->center_point->x + $base, $layout->center_point->y - $base)
+    path_builder($layout->cross_point->x + $base, $layout->cross_point->y - $base)
     ->down_right_plain($width/2)
     ->down_left($length)
     ->up_left_plain($width)

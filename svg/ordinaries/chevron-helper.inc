@@ -6,7 +6,7 @@ function build_chevron(ShieldLayout $layout, $width, $offset, PathBuilder $build
     $extent = max($layout->size->width, $layout->size->height);
 
     return $builder
-        ->move($layout->center_point->x, $layout->center_point->y + $offset + $y_align * $width * M_SQRT2)
+        ->move($layout->cross_point->x, $layout->cross_point->y + $offset + $y_align * $width * M_SQRT2)
         ->chevron()
         ->down_left($extent)
         ->up_left_plain($width)
@@ -19,5 +19,5 @@ function build_chevron(ShieldLayout $layout, $width, $offset, PathBuilder $build
 
 function chevron_width(ShieldLayout $layout, $number)
 {
-    return min(200, $layout->center_point->y / ($number+0.5));
+    return min(200, $layout->cross_point->y / ($number+0.5));
 }

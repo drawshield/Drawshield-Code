@@ -14,15 +14,15 @@
 
 $margin = 100;
 $ordinary['shape_spec'] = (string)path_builder(-$margin, -$margin)
-    ->right_plain($layout->center_point->x + $margin)
-    ->down($layout->center_point->y + $margin)
-    ->left($layout->center_point->x + $margin)
-    ->up_plain($layout->center_point->y + $margin)
+    ->right_plain($layout->cross_point->x + $margin)
+    ->down($layout->cross_point->y + $margin)
+    ->left($layout->cross_point->x + $margin)
+    ->up_plain($layout->cross_point->y + $margin)
 ;
 
 $ordinary['if_ord_on'] = 'scale';
 // $qSize = (int)($calcHeight / 2);
 // $outerEdge = $qSize - 40;
 $on_margin = 50;
-$ordinary['chargesOn'] = array("h", ShieldRect::from_corners($on_margin, $on_margin, $layout->center_point->x - $on_margin, $layout->center_point->y - $on_margin));
+$ordinary['chargesOn'] = array("h", ShieldRect::from_corners($on_margin, $on_margin, $layout->cross_point->x - $on_margin, $layout->cross_point->y - $on_margin));
 

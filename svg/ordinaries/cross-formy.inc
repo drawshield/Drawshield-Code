@@ -30,62 +30,62 @@ $margin = 18;
 $center_off = 103;
 
 $ordinary['shape_spec'] = (new MutableShape)
-    ->move_to($layout->center_point->x - $width_top / 2, -$margin)
+    ->move_to($layout->cross_point->x - $width_top / 2, -$margin)
     ->tag_segment(BezierSegmentFlags::PLAIN)
-    ->line_to($layout->center_point->x + $width_top / 2, -$margin)
+    ->line_to($layout->cross_point->x + $width_top / 2, -$margin)
     ->tag_segment(BezierSegmentFlags::NORMAL)
     ->cubic_to(
-        $layout->center_point->x + $width_top / 2 - $tan_out_1, -$margin + $tan_out_2,
-        $layout->center_point->x + $center_off - $tan_in_1, $layout->center_point->y - $center_off - $tan_in_2,
-        $layout->center_point->x + $center_off, $layout->center_point->y - $center_off
+        $layout->cross_point->x + $width_top / 2 - $tan_out_1, -$margin + $tan_out_2,
+        $layout->cross_point->x + $center_off - $tan_in_1, $layout->cross_point->y - $center_off - $tan_in_2,
+        $layout->cross_point->x + $center_off, $layout->cross_point->y - $center_off
     )
     ->tag_segment(BezierSegmentFlags::MIRROR)
     ->cubic_to(
-        $layout->center_point->x + $center_off + $tan_in_2, $layout->center_point->y - $center_off - $tan_in_1,
-        $layout->size->width + $margin - $tan_out_2, $layout->center_point->y - $width_side / 2 + $tan_out_1,
-        $layout->size->width + $margin, $layout->center_point->y - $width_side / 2
+        $layout->cross_point->x + $center_off + $tan_in_2, $layout->cross_point->y - $center_off - $tan_in_1,
+        $layout->size->width + $margin - $tan_out_2, $layout->cross_point->y - $width_side / 2 + $tan_out_1,
+        $layout->size->width + $margin, $layout->cross_point->y - $width_side / 2
     )
     ->tag_segment(BezierSegmentFlags::PLAIN)
-    ->line_to($layout->size->width + $margin, $layout->center_point->y + $width_side / 2)
+    ->line_to($layout->size->width + $margin, $layout->cross_point->y + $width_side / 2)
     ->tag_segment(BezierSegmentFlags::NORMAL)
     ->cubic_to(
-        $layout->size->width + $margin - $tan_out_2, $layout->center_point->y + $width_side / 2 - $tan_out_1,
-        $layout->center_point->x + $center_off + $tan_in_2, $layout->center_point->y + $center_off - $tan_in_1,
-        $layout->center_point->x + $center_off, $layout->center_point->y + $center_off
+        $layout->size->width + $margin - $tan_out_2, $layout->cross_point->y + $width_side / 2 - $tan_out_1,
+        $layout->cross_point->x + $center_off + $tan_in_2, $layout->cross_point->y + $center_off - $tan_in_1,
+        $layout->cross_point->x + $center_off, $layout->cross_point->y + $center_off
     )
     ->tag_segment(BezierSegmentFlags::MIRROR)
     ->cubic_to(
-        $layout->center_point->x + $center_off - $tan_in_1, $layout->center_point->y + $center_off + $tan_in_2,
-        $layout->center_point->x + $width_bottom / 2 - $tan_out_1 * 1.5, $layout->size->height + $margin - $tan_out_2 / 1.5,
-        $layout->center_point->x + $width_bottom / 2, $layout->size->height + $margin
+        $layout->cross_point->x + $center_off - $tan_in_1, $layout->cross_point->y + $center_off + $tan_in_2,
+        $layout->cross_point->x + $width_bottom / 2 - $tan_out_1 * 1.5, $layout->size->height + $margin - $tan_out_2 / 1.5,
+        $layout->cross_point->x + $width_bottom / 2, $layout->size->height + $margin
     )
     ->tag_segment(BezierSegmentFlags::PLAIN)
-    ->line_to($layout->center_point->x - $width_bottom / 2, $layout->size->height + $margin)
+    ->line_to($layout->cross_point->x - $width_bottom / 2, $layout->size->height + $margin)
     ->tag_segment(BezierSegmentFlags::NORMAL)
     ->cubic_to(
-        $layout->center_point->x - $width_bottom / 2 + $tan_out_1 * 1.5, $layout->size->height + $margin - $tan_out_2 / 1.5,
-        $layout->center_point->x - $center_off + $tan_in_1, $layout->center_point->y + $center_off + $tan_in_2,
-        $layout->center_point->x - $center_off, $layout->center_point->y + $center_off
+        $layout->cross_point->x - $width_bottom / 2 + $tan_out_1 * 1.5, $layout->size->height + $margin - $tan_out_2 / 1.5,
+        $layout->cross_point->x - $center_off + $tan_in_1, $layout->cross_point->y + $center_off + $tan_in_2,
+        $layout->cross_point->x - $center_off, $layout->cross_point->y + $center_off
     )
     ->tag_segment(BezierSegmentFlags::MIRROR)
     ->cubic_to(
-        $layout->center_point->x - $center_off - $tan_in_2, $layout->center_point->y + $center_off -  $tan_in_1,
-        -$margin + $tan_out_2, $layout->center_point->y + $width_side / 2 - $tan_out_1,
-        -$margin, $layout->center_point->y + $width_side / 2
+        $layout->cross_point->x - $center_off - $tan_in_2, $layout->cross_point->y + $center_off -  $tan_in_1,
+        -$margin + $tan_out_2, $layout->cross_point->y + $width_side / 2 - $tan_out_1,
+        -$margin, $layout->cross_point->y + $width_side / 2
     )
     ->tag_segment(BezierSegmentFlags::PLAIN)
-    ->line_to(-$margin, $layout->center_point->y - $width_side / 2)
+    ->line_to(-$margin, $layout->cross_point->y - $width_side / 2)
     ->tag_segment(BezierSegmentFlags::NORMAL)
     ->cubic_to(
-        -$margin + $tan_out_2, $layout->center_point->y - $width_side / 2 + $tan_out_1,
-        $layout->center_point->x - $center_off - $tan_in_2, $layout->center_point->y - $center_off + $tan_in_1,
-        $layout->center_point->x - $center_off, $layout->center_point->y - $center_off
+        -$margin + $tan_out_2, $layout->cross_point->y - $width_side / 2 + $tan_out_1,
+        $layout->cross_point->x - $center_off - $tan_in_2, $layout->cross_point->y - $center_off + $tan_in_1,
+        $layout->cross_point->x - $center_off, $layout->cross_point->y - $center_off
     )
     ->tag_segment(BezierSegmentFlags::MIRROR)
     ->cubic_to(
-        $layout->center_point->x - $center_off + $tan_in_1, $layout->center_point->y - $center_off - $tan_in_2,
-        $layout->center_point->x - $width_top / 2 + $tan_out_1, -$margin + $tan_out_2,
-        $layout->center_point->x - $width_top / 2, -$margin
+        $layout->cross_point->x - $center_off + $tan_in_1, $layout->cross_point->y - $center_off - $tan_in_2,
+        $layout->cross_point->x - $width_top / 2 + $tan_out_1, -$margin + $tan_out_2,
+        $layout->cross_point->x - $width_top / 2, -$margin
     )
     ->close();
 ;

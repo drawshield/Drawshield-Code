@@ -41,7 +41,7 @@ elseif ( existModifierWithKeyterm($node,'couped-sinister')) {
     $margin = 100;
     $width = $layout->size->height * 0.3;
     $builder = new MutableShape();
-    $builder->move_to(-$margin, $layout->center_point->y - $width / 2)
+    $builder->move_to(-$margin, $layout->cross_point->y - $width / 2)
         ->tag_segment(BezierSegmentFlags::STRAIGHT|BezierSegmentFlags::SYMMETRICAL)
         ->horizontal($layout->size->width + $margin)
         ->tag_segment(BezierSegmentFlags::PLAIN)

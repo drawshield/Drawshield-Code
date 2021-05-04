@@ -26,7 +26,7 @@ $builder = new PathBuilder();
 
 for ( $i = 0; $i < $num; $i++ ) {
   $startY = $layout->division_offset->y / 2 + ( $i * 2 * $stepV);
-  $builder->move($layout->center_point->x, $startY)
+  $builder->move($layout->cross_point->x, $startY)
     ->chevron()
     ->down_left($down)
     ->up_left_plain($width)

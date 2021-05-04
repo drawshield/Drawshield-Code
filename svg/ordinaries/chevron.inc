@@ -35,7 +35,7 @@ elseif ( existModifierWithKeyterm($node,'rompu') )
 }
 elseif ( existModifierWithKeyterm($node,'burst') )
 {
-    $ordinary['shape_spec'] = (string)path_builder($layout->center_point->x, $layout->center_point->y)
+    $ordinary['shape_spec'] = (string)path_builder($layout->cross_point->x, $layout->cross_point->y)
         ->up_right_plain(200)
         ->down_right(800)
         ->down_left_plain(200)
@@ -55,22 +55,22 @@ elseif ( existModifierWithKeyterm($node,'ploye') )
 }
 elseif ( existModifierWithKeyterm($node,'fracted') )
 {
-    $y = $layout->center_point->y;
+    $y = $layout->cross_point->y;
     $ordinary['body'] = "<path d='M 500,$y l -100,100 v 231.67 l 100,-91.67 100,100 v -240 z m -100,-140 -500,500 v 240 l 500,-500 z m 200,0 v 240 l 500,500 v -240 z' />";
 }
 elseif ( existModifierWithKeyterm($node,'disjointed') )
 {
-    $y = $layout->center_point->y - 140;
+    $y = $layout->cross_point->y - 140;
     $ordinary['body'] = "<path d='m 400,$y l -500,500 v 240 l 500,-500 z m 200,0 v 240 l 500,500 v -240 z' />";
 }
 elseif ( existModifierWithKeyterm($node,'removed') )
 {
-    $y = $layout->center_point->y;
+    $y = $layout->cross_point->y;
     $ordinary['body'] = "<path d='m 500,$y -600,600 v 240 l 600,-600 z m 0,-240 v 240 l 600,600 v -240 z' />";
 }
 elseif ( existModifierWithKeyterm($node,'inarched') )
 {
-    $y = $layout->center_point->y - 283;
+    $y = $layout->cross_point->y - 283;
     $ordinary['body'] = "<path fill-rule='evenodd'
     d='m 500,$y -707,707 141.4,141.4 369,-369 c -15,61.6 -23,130.78424 -23.3,203.3 0,300 100,500 220,500 120,0 220,-200 220,-500 0,-72.5 -8.4,-141.7 -23.3,-203.3 l 369,369 141.4,-141.4 -707,-707 m 0,323 c 80,0 140,150 140,350 0,210 -60,310 -140,310 -80,0 -140,-100 -140,-310 0,-200 60,-350 140,-350 z'
     />";
@@ -89,7 +89,7 @@ else
             build_chevron($layout, $width, $sep*3/4, $builder);
             break;
         case '3':
-            $sep = $layout->center_point->y / M_SQRT2;
+            $sep = $layout->cross_point->y / M_SQRT2;
             build_chevron($layout, $width, -$sep + 50, $builder);
             build_chevron($layout, $width, 50, $builder);
             build_chevron($layout, $width, $sep + 50, $builder);
@@ -102,12 +102,12 @@ else
 
     if ( existModifierWithKeyterm($node,'compony1') )
     {
-        $y = $layout->center_point->y + 42;
+        $y = $layout->cross_point->y + 42;
         $ordinary['body2'] = "<path d='m 957,$y -285,286 125,125 283,-285 z m -912,0 286,286 -126,125 -285,-285 z m 456,-45 -205,-205 -125,125 285,285 45,-45 45,45 286,-285 -126,-125 -205,205' />";
     }
     elseif (existModifierWithKeyterm($node,'compony2') )
     {
-        $y = $layout->center_point->y - 130;
+        $y = $layout->cross_point->y - 130;
         $ordinary['body2'] = "<path d='m 500,$y -565,565 -125,-125 125,-125 250,250 125,-125 -250,-250 126,-127 314,313 313,-313 127,127 -260,260 130,130 260,-260 120,120 -125,125 -565,-565 m 0,125 -188,-188 188,-187 188,187 z' />";
     }
 
@@ -121,21 +121,21 @@ $ordinary['chargesOn'] = placement_chevron($layout, $chevron_width, 0.6);
 
 $within_margin = 80;
 
-$within_top_height = ($layout->center_point->y - $chevron_width * M_SQRT2);
+$within_top_height = ($layout->cross_point->y - $chevron_width * M_SQRT2);
 $within_top_margin = $within_top_height > 200 ? $within_margin / 2 : 0;
 $within_top = new ShieldRect(
-    new ShieldPos($layout->center_point->x, ($within_top_height - $within_top_margin) / 2 + $within_top_margin),
+    new ShieldPos($layout->cross_point->x, ($within_top_height - $within_top_margin) / 2 + $within_top_margin),
     new ShieldSize($layout->size->width * 0.3, $within_top_height - $within_top_margin)
 );
 
-$within_bottom_height = ($layout->size->height - $layout->center_point->y - $within_margin) * 2/3;
+$within_bottom_height = ($layout->size->height - $layout->cross_point->y - $within_margin) * 2/3;
 $within_bottom = new ShieldRect(
-    new ShieldPos($layout->center_point->x, $layout->center_point->y + $within_bottom_height),
+    new ShieldPos($layout->cross_point->x, $layout->cross_point->y + $within_bottom_height),
     new ShieldSize($within_bottom_height, $within_bottom_height)
 );
 $side_off = $chevron_width / M_SQRT2 + $within_margin / 2 / M_SQRT2;
-$within_left = ShieldRect::from_corners($within_margin, $within_margin, $layout->center_point->x - $side_off, $layout->center_point->y - $side_off);
-$within_right = ShieldRect::from_corners($layout->center_point->x + $side_off, $within_margin, $layout->size->width - $within_margin, $layout->center_point->y - $side_off);
+$within_left = ShieldRect::from_corners($within_margin, $within_margin, $layout->cross_point->x - $side_off, $layout->cross_point->y - $side_off);
+$within_right = ShieldRect::from_corners($layout->cross_point->x + $side_off, $within_margin, $layout->size->width - $within_margin, $layout->cross_point->y - $side_off);
 
 $ordinary['chargesWithin'] = array_to_placement([
     [],

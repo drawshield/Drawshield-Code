@@ -17,9 +17,9 @@
 if ( ($inv = getModifierNodeWithKeyterm($node,'inverted')) != null ) {
     $node->removeChild($inv);
     $width = 141;
-    $height = $layout->center_point->y - $width / M_SQRT2;
+    $height = $layout->cross_point->y - $width / M_SQRT2;
     $arm_l = 1000;
-    $ordinary['shape_spec'] = (string)path_builder($layout->center_point->x, $layout->center_point->y)
+    $ordinary['shape_spec'] = (string)path_builder($layout->cross_point->x, $layout->cross_point->y)
         ->down_left($arm_l - $width / 2 / M_SQRT2)
         ->up_left_plain($width)
         ->up_right($arm_l)
@@ -33,14 +33,14 @@ if ( ($inv = getModifierNodeWithKeyterm($node,'inverted')) != null ) {
 
 
     $within_margin = 80;
-    $within_bottom_height = ($layout->size->height - $layout->center_point->y - $within_margin) * 2/3;
+    $within_bottom_height = ($layout->size->height - $layout->cross_point->y - $within_margin) * 2/3;
     $within_bottom = new ShieldRect(
-        new ShieldPos($layout->center_point->x, $layout->center_point->y + $within_bottom_height),
+        new ShieldPos($layout->cross_point->x, $layout->cross_point->y + $within_bottom_height),
         new ShieldSize($within_bottom_height, $within_bottom_height)
     );
     $side_off = $width / M_SQRT2;
-    $within_left = ShieldRect::from_corners($within_margin, $within_margin, $layout->center_point->x - $side_off * 2, $layout->center_point->y - $side_off / 2);
-    $within_right = ShieldRect::from_corners($layout->center_point->x + $side_off * 2, $within_margin, $layout->size->width - $within_margin, $layout->center_point->y - $side_off / 2);
+    $within_left = ShieldRect::from_corners($within_margin, $within_margin, $layout->cross_point->x - $side_off * 2, $layout->cross_point->y - $side_off / 2);
+    $within_right = ShieldRect::from_corners($layout->cross_point->x + $side_off * 2, $within_margin, $layout->size->width - $within_margin, $layout->cross_point->y - $side_off / 2);
 
     $ordinary['chargesWithin'] = array_to_placement([
         [],
