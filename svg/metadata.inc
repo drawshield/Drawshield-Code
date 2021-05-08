@@ -63,6 +63,7 @@ class metadataMap {
             'rocket-man' => array ('horizontal' => true, 'orient_to_ordinary' => 1),
             'roundel' => array ('superposition' => '50,50,85', 'hflex' => 1, 'wflex' => 1),
             'sports/football-helmet' => array ('superposition' => '65,35,65'),
+            'natural/grassy-mound' => array ('superposition' => '50,45,95'),
             'torteau' => array ('superposition' => '50,50,85', 'hflex' => 1, 'wflex' => 1),
             'triangle' => array ('superposition' => '50,65,65'),
             'trumpet' => array('horizontal' => true, 'orient_to_ordinary' => 1),

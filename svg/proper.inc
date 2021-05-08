@@ -62,6 +62,7 @@ class properColour {
     self::$charges = array(
         'peacock' => $hatching ? self::$blue : '#0020c2',
         'garland' => self::$green,
+        'grassy-mound' => self::$green,
         'butterfly' => self::$blue,
       'flames' => self::$yellow,
       'polar-bear' => self::$white, // overrides bear group
