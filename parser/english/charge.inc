@@ -724,6 +724,9 @@
       array ( 'acanthus', 'plant/acanthus' ),
       array ( 'mushrooms?', 'plant/mushroom' ),
       array ( 'bamboos? ?poles?', 'plant/bamboo' ),
+      array ( 'seeblatts?', 'plant/seeblatt' ),
+      array ( 'pompebelds?', 'plant/seeblatt' ),
+      array ( 'water lil(y|ies)?', 'plant/seeblatt' ),
       // christian
       array ( 'rosar(y|ies)', 'christian/rosary' ),
       array ( 'paternosters?', 'christian/rosary' ),
