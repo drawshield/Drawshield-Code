@@ -826,7 +826,7 @@
       array ( 'broadaxe?s?', 'axe/broad-axe' ),
       array ( 'throwing axe?s?', 'axe/throwing-axe' ),
       // natural
-      array ( '(hill|hillock|mound|mount)s?', 'natural/hillock' ),
+      array ( '(hill|hillock)s?', 'natural/hillock' ),
       array ( 'mole hills?', 'natural/mole-hill' ),
       array ( 'molehills?', 'natural/mole-hill' ),
       array ( 'water bubbles?', 'natural/bubble' ),
