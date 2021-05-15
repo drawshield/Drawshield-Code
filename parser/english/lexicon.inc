@@ -764,6 +764,7 @@ class languageDB extends lexicon
             self::ORIENTATION => array(
                 'sinister', 'reversed', 'dexter', 'inverted', 'enhanced',
                 array('(abased|abaisse)', 'abased',),
+                array('de(bas|hanc)ed', 'abased',),
             ),
             self::ORDINARY => array(
                 'another', // special term, means "voided of" (should only be used after "on" or "charged with"
