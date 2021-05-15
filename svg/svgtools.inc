@@ -176,9 +176,6 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
   if ( $class != '' ) $retval .= ' class="' . trim($class) . '" ';
   $retval .= $fill . ' ' . $style;
 
-  if ( isset($attributes->attributes["clip-path"]) )
-    $retval .= " clip-path='" . htmlentities($attributes['clip-path'], ENT_XML1) . "'";
-
   return $retval;
 }
 
@@ -312,6 +309,8 @@ function handle_extra($element, $extra, $featureColours, &$bounding_box)
 function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $chargeName, 
     $extras, $strokeCol, $strokeWidth, ShieldRect &$bounding_box, $fillSet = false ) {
     $name = $element->getName();
+    if ( $name == "image" )
+        return $element->asXML();
     if ( in_array($name, array( 'metadata', 'defs', 'title' ) ))
         return null;
     if (( strpos($name,'sodipodi:') !== false ) or (strpos($name,'inkscape:') !== false ))

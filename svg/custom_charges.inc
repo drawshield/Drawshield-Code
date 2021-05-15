@@ -76,3 +76,7 @@ class SmartCharge
         return $charge;
     }
 }
+
+class RasterCharge
+{
+}
