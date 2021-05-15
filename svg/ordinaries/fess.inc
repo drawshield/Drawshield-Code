@@ -15,15 +15,7 @@
 
 if ( ($num_of = getModifierValueByKeyterm($node, 'points')) == null ) $num_of = 3;
 // Set basic body shape
-if ( existModifierWithKeyterm($node,'couped') ) {
-  $ordinary['shape_spec'] = 'X100Y{%35}A800c{%30}E800g{%30}';
-}
-elseif ( existModifierWithKeyterm($node, 'couped-dexter')) {
-  $ordinary['shape_spec'] = 'X100Y{%35}A908c{%30}E908g{%30}';
-}
-elseif ( existModifierWithKeyterm($node,'couped-sinister')) {
-  $ordinary['shape_spec'] = 'X-8Y{%35}A908c{%30}E908g{%30}';
-} elseif ( existModifierWithKeyterm($node,'fracted') ) {
+if ( existModifierWithKeyterm($node,'fracted') ) {
   $ordinary['shape_spec'] = 'X-100Y{%50}A600g{%15}A600c{%15}E600c{%15}E600g{%15}';
 } elseif ( existModifierWithKeyterm($node,'lozengy')) {
   $ordinary['body'] = '<path d="M0,{%35}l83.3,150 83.3,-150 83.3,150 83.3,-150 83.3,150 83.3,-150 83.3,150 83.3,-150 83.3,150 83.3,-150 83.3,150 83.3,-150 v{%30} l-83.3,-150 -83.3,150 -83.3,-150 -83.3,150 -83.3,-150 -83.3,150 -83.3,-150 -83.3,150 -83.3,-150 -83.3,150 -83.3,-150 -83.3,150 " />';
@@ -39,15 +31,27 @@ elseif ( existModifierWithKeyterm($node,'couped-sinister')) {
   $ordinary['body'] = '<path d="m 250,250 v 100 h -300 v 300 h 300 v 100 h 500 v -100 h 300 v -300 h -300 v -100 z" />';
 } else {
     $margin = 100;
+    $left = -$margin;
+    $right = $layout->size->width + $margin;
+
+    $couped_size = $layout->size->width / 10;
+
+    $couped = existModifierWithKeyterm($node,'couped');
+    if ( $couped || existModifierWithKeyterm($node, 'couped-dexter'))
+        $left = $couped_size;
+
+    if ( $couped || existModifierWithKeyterm($node, 'couped-sinister'))
+        $right = $layout->size->width - $couped_size;
+
     $width = $layout->size->height * 0.3;
     $builder = new MutableShape();
-    $builder->move_to(-$margin, $layout->cross_point->y - $width / 2)
+    $builder->move_to($left, $layout->cross_point->y - $width / 2)
         ->tag_segment(BezierSegmentFlags::STRAIGHT|BezierSegmentFlags::SYMMETRICAL)
-        ->horizontal($layout->size->width + $margin)
+        ->horizontal($right)
         ->tag_segment(BezierSegmentFlags::PLAIN)
         ->vertical($width, true)
         ->tag_segment(BezierSegmentFlags::STRAIGHT|BezierSegmentFlags::SYMMETRICAL|BezierSegmentFlags::UNDERSIDE)
-        ->horizontal(-$margin)
+        ->horizontal($left)
         ->tag_segment(BezierSegmentFlags::PLAIN)
         ->vertical(-$width, true)
         ->close()
