@@ -353,8 +353,10 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
         $fillSet = true;
     } elseif (array_key_exists('proper', $featureColours)) { // use proper for features not otherwise coloured
       if ($foundProper = getProper($chargeGroup, $chargeName, $id, false))
+      {
         $item .= ' fill="' . $foundProper . '" '; // only set colour if known, otherwise use parent colour
         $fillSet = true;
+      }
     }
   }
 

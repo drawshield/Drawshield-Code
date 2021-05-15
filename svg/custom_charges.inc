@@ -1,5 +1,8 @@
 <?php
 
+require_once("svg_feature_marker.inc");
+
+
 class SmartChargeGroup
 {
     private $loaded = false;
@@ -24,7 +27,7 @@ class SmartChargeGroup
 
     function register(SmartCharge $charge)
     {
-        $this->charges[$charge->slug] = $charge;
+        $this->charges[$charge->slug()] = $charge;
     }
 
     private function initialize()
@@ -42,7 +45,12 @@ class SmartChargeGroup
         }
     }
 
-    function get_charge(DOMElement $node, $charge, $chargeKey)
+    function charge($slug) : SmartCharge
+    {
+        return $this->charges[$slug];
+    }
+
+    function charge_data(DOMElement $node, $charge, $chargeKey)
     {
         return $this->charges[$chargeKey]->charge_data($this, $node, $charge);
     }
@@ -63,10 +71,18 @@ class SmartChargeGroup
 
 class SmartCharge
 {
+    protected $regexp;
+    protected $slug;
+
     function __construct($regexp, $slug)
     {
         $this->regexp = is_array($regexp) ? $regexp : [$regexp];
         $this->slug = $slug;
+    }
+
+    function slug()
+    {
+        return $this->slug;
     }
 
     function add_pattern(languageDB $lexicon)
@@ -79,6 +95,11 @@ class SmartCharge
     {
         $charge['file'] = $this->slug . ".svg";
         return $charge;
+    }
+
+    function proper($feature)
+    {
+        return null;
     }
 }
 
@@ -123,5 +144,36 @@ HERE;
         }
         $charge['svgCode'] = $this->svg;
         return $charge;
+    }
+}
+
+class PaletteFeatureCharge extends SmartCharge
+{
+    /// @var SvgFeatureMarker
+    private $marker;
+    private $svg = null;
+
+    public function __construct(SvgFeatureMarker $marker, $regexp, $slug)
+    {
+        parent::__construct($regexp, $slug);
+        $this->marker = $marker;
+    }
+
+    function charge_data(SmartChargeGroup $group, DOMElement $node, $charge)
+    {
+        if ( $this->svg === null )
+        {
+            $full_path = $group->file_path($this->slug . ".svg");
+            $this->svg = $this->marker->convert_file($full_path);
+        }
+
+        $charge['svgCode'] = $this->svg;
+        return $charge;
+    }
+
+
+    function proper($feature)
+    {
+        return $this->marker->proper($feature);
     }
 }

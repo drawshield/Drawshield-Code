@@ -162,7 +162,7 @@ function read_chg_file(DOMElement $node) {
     // look for .inc file
     $file = $folder . $chargeKey . '.inc';
     if ( $group == "custom" ) {
-        $chg_data = SmartChargeGroup::instance()->get_charge($node, $chg_data, $chargeKey);
+        $chg_data = SmartChargeGroup::instance()->charge_data($node, $chg_data, $chargeKey);
     } else if ( file_exists( $file )) {
       $chg_data = includeCharge( $node, $file, $chg_data, $folder, $chargeKey );
     }
