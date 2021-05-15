@@ -175,6 +175,10 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
   }
   if ( $class != '' ) $retval .= ' class="' . trim($class) . '" ';
   $retval .= $fill . ' ' . $style;
+
+  if ( isset($attributes->attributes["clip-path"]) )
+    $retval .= " clip-path='" . htmlentities($attributes['clip-path'], ENT_XML1) . "'";
+
   return $retval;
 }
 
