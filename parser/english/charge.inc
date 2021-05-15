@@ -724,6 +724,9 @@
       array ( 'acanthus', 'plant/acanthus' ),
       array ( 'mushrooms?', 'plant/mushroom' ),
       array ( 'bamboos? ?poles?', 'plant/bamboo' ),
+      array ( 'seeblatts?', 'plant/seeblatt' ),
+      array ( 'pompebelds?', 'plant/seeblatt' ),
+      array ( 'water lil(y|ies)?', 'plant/seeblatt' ),
       // christian
       array ( 'rosar(y|ies)', 'christian/rosary' ),
       array ( 'paternosters?', 'christian/rosary' ),
@@ -823,7 +826,7 @@
       array ( 'broadaxe?s?', 'axe/broad-axe' ),
       array ( 'throwing axe?s?', 'axe/throwing-axe' ),
       // natural
-      array ( '(hill|hillock|mound|mount)s?', 'natural/hillock' ),
+      array ( '(hill|hillock)s?', 'natural/hillock' ),
       array ( 'mole hills?', 'natural/mole-hill' ),
       array ( 'molehills?', 'natural/mole-hill' ),
       array ( 'water bubbles?', 'natural/bubble' ),
