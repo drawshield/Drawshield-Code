@@ -175,6 +175,7 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
   }
   if ( $class != '' ) $retval .= ' class="' . trim($class) . '" ';
   $retval .= $fill . ' ' . $style;
+
   return $retval;
 }
 
@@ -308,6 +309,8 @@ function handle_extra($element, $extra, $featureColours, &$bounding_box)
 function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $chargeName, 
     $extras, $strokeCol, $strokeWidth, ShieldRect &$bounding_box, $fillSet = false ) {
     $name = $element->getName();
+    if ( $name == "image" )
+        return $element->asXML();
     if ( in_array($name, array( 'metadata', 'defs', 'title' ) ))
         return null;
     if (( strpos($name,'sodipodi:') !== false ) or (strpos($name,'inkscape:') !== false ))
@@ -350,8 +353,10 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
         $fillSet = true;
     } elseif (array_key_exists('proper', $featureColours)) { // use proper for features not otherwise coloured
       if ($foundProper = getProper($chargeGroup, $chargeName, $id, false))
+      {
         $item .= ' fill="' . $foundProper . '" '; // only set colour if known, otherwise use parent colour
         $fillSet = true;
+      }
     }
   }
 

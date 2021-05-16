@@ -30,6 +30,11 @@ class lexicon {
     $this->patterns[$key] = $newPatterns;
   }
 
+
+  public function appendPattern($key, $pattern) {
+    $this->patterns[$key][] = $pattern;
+  }
+
   public function listKeys() {
     return array_keys($this->patterns);
   }

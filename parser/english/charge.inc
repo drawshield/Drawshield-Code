@@ -1713,7 +1713,5 @@
        array ( "symbols of ?the tyrants legion", 'warhammer/tyrants-legion-symbol' ),
        array ( "symbols of ?the void tridents?", 'warhammer/void-tridents-symbol' ),
        array ( "symbols of ?the warp spiders?", 'warhammer/warp-spiders-symbol' ),
-
-
    );
    

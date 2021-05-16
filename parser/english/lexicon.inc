@@ -1110,5 +1110,7 @@ class languageDB extends lexicon
         include "web-colours.inc";
         include "warhammer-colours.inc";
         include "tartan-colours.inc";
+        require_once(__dir__ . "/../../svg/custom_charges.inc");
+        SmartChargeGroup::instance()->add_patterns($this);
     }
 }

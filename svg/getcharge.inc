@@ -1,5 +1,9 @@
 <?php
 
+require_once("custom_charges.inc");
+
+
+
  $chg_data_cache = array();
  
  function get_chg_data() {
@@ -157,7 +161,9 @@ function read_chg_file(DOMElement $node) {
 
     // look for .inc file
     $file = $folder . $chargeKey . '.inc';
-    if ( file_exists( $file )) {
+    if ( $group == "custom" ) {
+        $chg_data = SmartChargeGroup::instance()->charge_data($node, $chg_data, $chargeKey);
+    } else if ( file_exists( $file )) {
       $chg_data = includeCharge( $node, $file, $chg_data, $folder, $chargeKey );
     }
     // TODO check if this still happens???

@@ -167,8 +167,8 @@
 
     echo "<div class='style-container'>";
     table_cat("Visual Appearance", "visual", [
-        ["Shiny &amp; New", "shiny"],
         ["Plain &amp; Flat", "plain"],
+        ["Shiny &amp; New", "shiny"],
         ["Painted Stone", "stonework"],
         ["Plastercast", "plaster"],
         ["Ink on Vellum", "vellum"],

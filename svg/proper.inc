@@ -206,6 +206,21 @@ class properColour {
   {
     global $messages;
 
+    if ( $chargeGroup == "custom" )
+    {
+        $color = SmartChargeGroup::instance()->charge($chargeName)->proper($feature);
+        if ( $color === null )
+        {
+            if ( $errorIfNotFound )
+            {
+                $messages->addMessage('blazon', "No proper colour for $chargeName $feature");
+                return self::$gray;
+            }
+            return false;
+        }
+        return $color;
+    }
+
     // Look for the most specific things first
     if ($feature) {
       $search = $chargeName . '/' . $feature;

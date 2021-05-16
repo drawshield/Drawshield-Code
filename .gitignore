@@ -12,3 +12,5 @@ drawshield-code.code-workspace
 /tests/results.txt
 *.swp
 *.swo
+
+svg/charges/custom
