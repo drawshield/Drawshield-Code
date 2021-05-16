@@ -1,6 +1,7 @@
 <?php
 
 require_once("svg/svg_feature_marker.inc");
+require_once("svg/custom_charges.inc");
 
 
 function extract_colors(SvgFeatureMarker $marker, DOMDocument $document, $path)
@@ -18,7 +19,7 @@ function extract_colors(SvgFeatureMarker $marker, DOMDocument $document, $path)
 
     echo "<h1>Mapping:</h1>";
     echo "<p>use 'main' for the main tincutre, 'outline' for outlines, and feature names for the rest</p>";
-    echo "<form method='get'><input type='hidden' value='$path' name='path' /><div class='palette'>";
+    echo "<div class='palette'>";
     $idn = 0;
     foreach ( $palette as $color => $feature )
     {
@@ -27,7 +28,7 @@ function extract_colors(SvgFeatureMarker $marker, DOMDocument $document, $path)
         echo "<p><label title='$color' for='$id' style='background:$color'></label><input name='color_$color' value='$feature' id='$id'/></p>";
     }
 
-    echo '</div><button type="submit">Apply</button></form>';
+    echo '</div><button type="submit">Apply</button>';
 }
 
 function show_final(SvgFeatureMarker $marker, DOMDocument $document, $path)
@@ -37,7 +38,7 @@ function show_final(SvgFeatureMarker $marker, DOMDocument $document, $path)
     echo "<div id='output'>" . $document->saveXml() . "</div>";
 
     $base = basename($path);
-    echo "<button onclick='svg_element_save(document.getElementById(\"output\").querySelector(\"svg\"), \"$base\");'>Download</button>";
+    echo "<button onclick='svg_element_save(document.getElementById(\"output\").querySelector(\"svg\"), \"$base\"); return false;'>Download</button>";
 
     echo "<h1>Proper:</h1>";
     echo "<pre>";
@@ -57,9 +58,83 @@ function show_final(SvgFeatureMarker $marker, DOMDocument $document, $path)
 
     }
     echo "</pre>";
-
 }
 
+function show_preview(SvgFeatureMarker $marker, $path, $abs_path)
+{
+    echo "<h1>Preview:</h1>";
+    echo "<p>The charge will be available as <tt>test charge</tt>.</p>";
+    $blazon = trim($_GET["blazon"] ?? "argent a test charge proper");
+    echo "<textarea name='blazon'>$blazon</textarea>";
+    echo '<button type="submit">Draw</button>';
+    echo "</form>";
+
+    if ( $blazon )
+    {
+        SmartChargeGroup::instance()->register(new PreviewCharge($marker, "test charges?", "test-charge", $abs_path));
+
+        $root = __dir__;
+
+        global $chg_data_cache;
+        global $dom;
+        global $messages;
+        global $options;
+        global $placementData;
+
+        global $subArg;
+        global $toReverse;
+
+        global $svg_chief;
+        global $svg_region;
+        global $targetColours;
+        global $trace;
+        global $version;
+        global $xpath;
+
+        require("$root/version.inc");
+        require_once("$root/parser/utilities.inc");
+        $options["blazon"] = strip_tags($blazon);
+        $options["size"] = 420;
+        $options["shape"] = "heater";
+        $options["asFile"] = "1";
+        require_once("$root/parser/parser.inc");
+        $p = new parser('english');
+        $dom = $p->parse($options["blazon"], 'dom');
+        unset($p);
+        require_once("$root/analyser/utilities.inc");
+        require_once("$root/analyser/references.inc");
+        $references = new references($dom);
+        $dom = $references->setReferences();
+        unset($references);
+        $xpath = new DOMXPath($dom);
+        require_once("$root/svg/draw.inc");
+
+        $output = draw();
+        unset($options);
+        unset($version);
+        unset($xpath);
+        unset($dom);
+        unset($targetColours);
+
+        echo $output;
+    }
+}
+
+class PreviewCharge extends PaletteFeatureCharge
+{
+    private $full_path;
+
+    function __construct(SvgFeatureMarker $marker, $regexp, $slug, $full_path)
+    {
+        parent::__construct($marker, $regexp, $slug);
+        $this->full_path = $full_path;
+    }
+
+    protected function full_path(SmartChargeGroup $group)
+    {
+        return $this->full_path;
+    }
+}
 
 $path = $_GET["path"] ?? "";
 $abs_path = __dir__ . "/svg/charges/" . $path;
@@ -80,6 +155,9 @@ $abs_path = __dir__ . "/svg/charges/" . $path;
             display: flex;
             flex-flow: row wrap;
         }
+        .palette p {
+            margin: 0;
+        }
         .palette label {
             display: inline-block;
             width: 80px;
@@ -92,6 +170,9 @@ $abs_path = __dir__ . "/svg/charges/" . $path;
         }
         h1 {
             font-size: larger;
+        }
+        textarea {
+            width: 100%;
         }
     </style>
     <script>
@@ -132,15 +213,15 @@ $abs_path = __dir__ . "/svg/charges/" . $path;
 
 <h1>File:</h1>
 <form>
-    <label for='path'>Charge file (eg: <tt>dragon/segreant.svg</tt>)</label>
+    <label for='path'>Charge file (eg: <tt>dragon/dragon-segreant.svg</tt>)</label>
     <input id='path' type="text" value="<?php echo $path; ?>" style="width: 100%;" name="path" />
     <button type="submit">Load</button>
 </form>
-
 <?php
 
 if ( $path && strpos($path, "..") === false && file_exists($abs_path) && substr($path, -4) == ".svg" )
 {
+    echo "<form method='get' autocomplete='off'><input type='hidden' value='$path' name='path' />";
     $palette = [];
     foreach ( $_GET as $name => $val )
     {
@@ -156,8 +237,12 @@ if ( $path && strpos($path, "..") === false && file_exists($abs_path) && substr(
     echo "<img src='./svg/charges/$path' class='preview' />";
     extract_colors($marker, $document, $path);
 
+    show_preview($marker, $path, $abs_path);
+
     if ( count($palette) )
         show_final($marker, $document, $path);
+
+    echo "</form>";
 }
 
 ?>

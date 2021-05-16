@@ -159,13 +159,15 @@ class PaletteFeatureCharge extends SmartCharge
         $this->marker = $marker;
     }
 
+    protected function full_path(SmartChargeGroup $group)
+    {
+        return $group->file_path($this->slug . ".svg");
+    }
+
     function charge_data(SmartChargeGroup $group, DOMElement $node, $charge)
     {
         if ( $this->svg === null )
-        {
-            $full_path = $group->file_path($this->slug . ".svg");
-            $this->svg = $this->marker->convert_file($full_path);
-        }
+            $this->svg = $this->marker->convert_file($this->full_path($group));
 
         $charge['svgCode'] = $this->svg;
         return $charge;
