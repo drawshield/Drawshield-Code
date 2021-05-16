@@ -9,8 +9,8 @@ class SvgFeatureMarker
     static private $avail_colors = [
         '#ffff00',
         '#ff0000',
-        '#00ff00',
         '#0000ff',
+        '#00ff00',
         '#00ffff',
         '#ff00ff',
     ];
@@ -166,5 +166,10 @@ class SvgFeatureMarker
     function set_palette($palette)
     {
         $this->color_mapping = $palette;
+    }
+
+    function feature_colors()
+    {
+        return $this->feature_colors;
     }
 }

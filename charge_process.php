@@ -38,6 +38,13 @@ function show_final(SvgFeatureMarker $marker, DOMDocument $document, $path)
     echo "<h1>Processed:</h1>";
     echo "<div id='output'>" . $document->saveXml() . "</div>";
 
+    $features = [];
+    foreach ( $marker->feature_colors() as $feat => $col )
+        if ( $feat != "main" )
+            $features[] = "<span style='color:$col'>$feat</span>";
+    if ( !empty($features) )
+        echo "<p>(" . implode(", ", $features) . ")</p>";
+
     $base = basename($path);
     echo "<button onclick='svg_element_save(document.getElementById(\"output\").querySelector(\"svg\"), \"$base\"); return false;'>Download</button>";
 
