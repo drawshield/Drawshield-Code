@@ -18,7 +18,8 @@ function extract_colors(SvgFeatureMarker $marker, DOMDocument $document, $path)
 
 
     echo "<h1>Mapping:</h1>";
-    echo "<p>use 'main' for the main tincutre, 'outline' for outlines, and feature names for the rest</p>";
+    echo "<p>Use 'main' for the main tincutre, 'outline' for outlines, and feature names for the rest.</p>";
+    echo "<p>You can also use 'shading' or 'outline' to make a color transparent black/white.</p>";
     echo "<div class='palette'>";
     $idn = 0;
     foreach ( $palette as $color => $feature )

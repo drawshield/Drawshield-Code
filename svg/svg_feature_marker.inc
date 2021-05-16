@@ -26,6 +26,12 @@ class SvgFeatureMarker
         if ( $feature == "outline" )
             return "#000";
 
+        if ( $feature == "shading" )
+            return "rgba(0, 0, 0, 0.3)";
+
+        if ( $feature == "highlight" )
+            return "rgba(255, 255, 255, 0.3)";
+
         if ( isset($this->feature_colors[$feature]) )
             return $this->feature_colors[$feature];
 
