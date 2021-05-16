@@ -348,6 +348,7 @@ class TinctureData
                 break;
             case 'semyde':
                 $treat_data = makeSemy($this->type_node, $layout);
+                if ($treat_data == null) break;
                 // If what we are placing is inverted, we also invert the fill so it appears the "right way up"
                 $this->apply_inv($treat_data);
                 $this->apply_rev($treat_data);

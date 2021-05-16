@@ -153,7 +153,7 @@ function subFunc( $match ) {
     return $subArg;
   } else {
     $val = floatVal(substr($match[0],3));
-    switch ( $match[0]{2} ) {
+    switch ( substr($match[0],2,1) ) {
       case '*': return sprintf("%.3f", ($subArg * $val));
       case '/': return sprintf("%.3f", ($subArg / $val));
     }
