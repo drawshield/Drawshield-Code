@@ -39,14 +39,14 @@ class SvgFeatureMarker
     {
         if ( !isset($this->id_maps[$feature]) )
         {
-            $id_maps[$feature] = 1;
+            $this->id_maps[$feature] = 1;
             return 1;
         }
 
-        return ++$id_maps[$feature];
+        return ++$this->id_maps[$feature];
     }
 
-    private function apply_style(DOMElement $node)
+    private function get_fill(DOMElement $node)
     {
         $fill = trim($node->getAttribute("fill"));
         if ( !$fill )
@@ -55,13 +55,20 @@ class SvgFeatureMarker
 
             $matches = [];
             if ( !preg_match("/fill\s*:\s*([^;]+)/", $style, $matches) )
-                return;
+                return null;
 
             $fill = trim($matches[1]);
         }
 
-        if ( $fill == "none" )
-            return;
+        if ( $fill == "none" || $fill == "transparent" || !$fill )
+            return null;
+
+        return $fill;
+    }
+
+    private function apply_style(DOMElement $node, $clear_style)
+    {
+        $fill = $this->get_fill($node);
 
         if ( isset($this->color_mapping[$fill]) )
         {
@@ -69,25 +76,31 @@ class SvgFeatureMarker
 
             $node->setAttribute("id", "$feature-" . $this->feature_id($feature));
             $node->setAttribute("fill", $this->feature_color($feature));
+
+            if ( $clear_style && $node->hasAttribute("style") )
+            {
+                $style = $node->getAttribute("style");
+                $node->setAttribute("style", preg_replace('/fill\s*:\s*[^;]+;?/', "", $style));
+            }
         }
     }
 
-    private function mark_node_features(DOMNode $node)
+    private function mark_node_features(DOMNode $node, $clear_style)
     {
         if ( $node->nodeType == XML_ELEMENT_NODE )
-            $this->apply_style($node);
+            $this->apply_style($node, $clear_style);
 
         foreach ( $node->childNodes as $child )
-            $this->mark_node_features($child);
+            $this->mark_node_features($child, $clear_style);
     }
 
-    function convert_document(DOMDocument $document)
+    function convert_document(DOMDocument $document, $clear_style = false)
     {
         $this->feature_colors = [];
         $this->next_feature_color = 0;
         $this->id_maps = [];
 
-        $this->mark_node_features($document);
+        $this->mark_node_features($document, $clear_style);
 
         return $document;
     }
@@ -109,5 +122,43 @@ class SvgFeatureMarker
                 return $color;
 
         return null;
+    }
+
+    private function extract_colors_node(DOMNode $node, &$colors)
+    {
+
+        if ( $node->nodeType == XML_ELEMENT_NODE )
+        {
+            $fill = $this->get_fill($node);
+            if ( $fill && !in_array($fill, $colors) )
+                $colors[] = $fill;
+        }
+
+        foreach ( $node->childNodes as $child )
+            $this->extract_colors_node($child, $colors);
+    }
+
+    function extract_colors_file($svg_file_path)
+    {
+        $document = new DOMDocument();
+        $document->load($svg_file_path);
+        return $this->extract_colors_document($document);
+    }
+
+    function extract_colors_document(DOMDocument $document)
+    {
+        $colors = [];
+        $this->extract_colors_node($document, $colors);
+        return $colors;
+    }
+
+    function palette()
+    {
+        return $this->color_mapping;
+    }
+
+    function set_palette($palette)
+    {
+        $this->color_mapping = $palette;
     }
 }
