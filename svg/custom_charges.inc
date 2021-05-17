@@ -110,7 +110,7 @@ class RasterCharge extends SmartCharge
 
     function __construct($regexp, $basename)
     {
-        parent::__construct($regexp, explode($basename, ".")[0]);
+        parent::__construct($regexp, basename(explode(".", $basename)[0]));
         $this->filename = $basename;
     }
 
