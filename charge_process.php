@@ -261,8 +261,7 @@ if ( $ok )
 
     show_preview($marker, $path, $abs_path);
 
-    if ( count($palette) )
-        show_final($marker, $document, $path);
+    show_final($marker, $document, $path);
 
     echo "</form>";
 }
