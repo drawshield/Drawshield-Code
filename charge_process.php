@@ -145,7 +145,21 @@ class PreviewCharge extends PaletteFeatureCharge
 }
 
 $path = $_GET["path"] ?? "";
-$abs_path = __dir__ . "/svg/charges/" . $path;
+
+if ( substr($path, 0, 7) == "http://" || substr($path, 0, 8) == "https://" )
+{
+    $remote = true;
+    $abs_path = $path;
+    $ok = true;
+    $url = $path;
+}
+else
+{
+    $remote = false;
+    $abs_path = __dir__ . "/svg/charges/" . $path;
+    $ok = $path && strpos($path, "..") === false && file_exists($abs_path) && substr($path, -4) == ".svg";
+    $url = "./svg/charges/$path";
+}
 
 ?>
 <!DOCTYPE html>
@@ -221,13 +235,13 @@ $abs_path = __dir__ . "/svg/charges/" . $path;
 
 <h1>File:</h1>
 <form>
-    <label for='path'>Charge file (eg: <tt>dragon/dragon-segreant.svg</tt>)</label>
+    <label for='path'>Charge file (eg: <tt>dragon/dragon-segreant.svg</tt>) or URL</label>
     <input id='path' type="text" value="<?php echo $path; ?>" style="width: 100%;" name="path" />
     <button type="submit">Load</button>
 </form>
 <?php
 
-if ( $path && strpos($path, "..") === false && file_exists($abs_path) && substr($path, -4) == ".svg" )
+if ( $ok )
 {
     echo "<form method='get' autocomplete='off'><input type='hidden' value='$path' name='path' />";
     $palette = [];
@@ -242,7 +256,7 @@ if ( $path && strpos($path, "..") === false && file_exists($abs_path) && substr(
     $document->load($abs_path);
 
     echo "<h1>Original:</h1>";
-    echo "<img src='./svg/charges/$path' class='preview' />";
+    echo "<img src='$url' class='preview' />";
     extract_colors($marker, $document, $path);
 
     show_preview($marker, $path, $abs_path);
