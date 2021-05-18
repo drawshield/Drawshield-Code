@@ -1,7 +1,9 @@
 <?php
 
-require_once("svg/svg_feature_marker.inc");
-require_once("svg/custom_charges.inc");
+require_once(__dir__ . "/svg/svg_feature_marker.inc");
+require_once(__dir__ . "/svg/custom_charges.inc");
+require_once(__dir__ . "/parser/english/lexicon.inc");
+
 
 
 function extract_colors(SvgFeatureMarker $marker, DOMDocument $document, $path)
@@ -26,7 +28,7 @@ function extract_colors(SvgFeatureMarker $marker, DOMDocument $document, $path)
     {
         $id = "color_$idn";
         $idn++;
-        echo "<p><label title='$color' for='$id' style='background:$color'></label><input name='color_$color' value='$feature' id='$id'/></p>";
+        echo "<p><label title='$color' for='$id' style='background:$color'></label><input name='color_$color' value='$feature' id='$id' list='charge_features'/></p>";
     }
 
     echo '</div><button type="submit">Apply</button>';
@@ -243,6 +245,17 @@ else
 
 if ( $ok )
 {
+
+    $language = new languageDB();
+    echo "<datalist id='charge_features'>";
+    $features = $language->patternValues(languageDB::CHARGE_FEATURES);
+    $features[] = "main";
+    $features[] = "outline";
+    sort($features);
+    foreach ( $features as $feat )
+        echo "<option value='$feat'/>";
+    echo "</datalist>";
+
     echo "<form method='get' autocomplete='off'><input type='hidden' value='$path' name='path' />";
     $palette = [];
     foreach ( $_GET as $name => $val )
