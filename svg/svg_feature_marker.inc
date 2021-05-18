@@ -172,4 +172,23 @@ class SvgFeatureMarker
     {
         return $this->feature_colors;
     }
+
+    function set_credits(DOMDocument $document, $credits)
+    {
+        if ( !$credits )
+            return;
+        $dc = "http://purl.org/dc/elements/1.1/";
+        $cc = "http://creativecommons.org/ns#";
+        $rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+        $document->documentElement->setAttribute("xmlns:dc", $dc);
+        $document->documentElement->setAttribute("xmlns:cc", $cc);
+        $document->documentElement->setAttribute("xmlns:rdf", $rdf);
+        $meta = $document->documentElement->appendChild($document->createElement("metadata"));
+        $rdf = $meta->appendChild($document->createElementNS($rdf, "RDF"));
+        $work = $rdf->appendChild($document->createElementNS($cc, "Work"));
+        $creator = $work->appendChild($document->createElementNS($dc, "creator"));
+        $agent = $creator->appendChild($document->createElementNS($cc, "Agent"));
+        $title = $agent->appendChild($document->createElementNS($dc, "title"));
+        $title->appendChild($document->createTextNode($credits));
+    }
 }

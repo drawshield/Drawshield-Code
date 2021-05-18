@@ -36,7 +36,6 @@ function extract_colors(SvgFeatureMarker $marker, DOMDocument $document, $path)
 
 function show_final(SvgFeatureMarker $marker, DOMDocument $document, $path)
 {
-    $marker->convert_document($document, true);
     echo "<h1>Processed:</h1>";
     echo "<div id='output'>" . $document->saveXml() . "</div>";
 
@@ -70,7 +69,7 @@ function show_final(SvgFeatureMarker $marker, DOMDocument $document, $path)
     echo "</pre>";
 }
 
-function show_preview(SvgFeatureMarker $marker, $path, $abs_path)
+function show_preview(DomDocument $doc, $path)
 {
     echo "<h1>Preview:</h1>";
     echo "<p>The charge will be available as <tt>test charge</tt>.</p>";
@@ -79,9 +78,11 @@ function show_preview(SvgFeatureMarker $marker, $path, $abs_path)
     echo '<button type="submit">Draw</button>';
     echo "</form>";
 
+    echo "<div id='preview'>";
+
     if ( $blazon )
     {
-        SmartChargeGroup::instance()->register(new PreviewCharge($marker, "test charges?", "test-charge", $abs_path));
+        SmartChargeGroup::instance()->register(new PreviewCharge("test charges?", "test-charge", $doc->saveXML()));
 
         $root = __dir__;
 
@@ -90,6 +91,7 @@ function show_preview(SvgFeatureMarker $marker, $path, $abs_path)
         global $messages;
         global $options;
         global $placementData;
+        global $strokeColours;
 
         global $subArg;
         global $toReverse;
@@ -106,7 +108,7 @@ function show_preview(SvgFeatureMarker $marker, $path, $abs_path)
         $options["blazon"] = strip_tags($blazon);
         $options["size"] = 420;
         $options["shape"] = "heater";
-        $options["asFile"] = "1";
+        $options["asFile"] = "0";
         require_once("$root/parser/parser.inc");
         $p = new parser('english');
         $dom = $p->parse($options["blazon"], 'dom');
@@ -127,22 +129,40 @@ function show_preview(SvgFeatureMarker $marker, $path, $abs_path)
         unset($targetColours);
 
         echo $output;
+
     }
+
+
+    echo "<ul>";
+    global $messages;
+    foreach ( $messages->getMessageArray() as $type => $list)
+    {
+        if ( $type == "legal" )
+            continue;
+
+        foreach ( $list as $msg )
+            echo "<li>$msg</li>";
+    }
+    echo "</ul>";
+
+    echo "</div>";
 }
 
-class PreviewCharge extends PaletteFeatureCharge
+class PreviewCharge extends SmartCharge
 {
-    private $full_path;
+    private $svg;
 
-    function __construct(SvgFeatureMarker $marker, $regexp, $slug, $full_path)
+    function __construct($regexp, $slug, $data)
     {
-        parent::__construct($marker, $regexp, $slug);
-        $this->full_path = $full_path;
+        parent::__construct($regexp, $slug);
+        $this->svg= $data;
     }
 
-    protected function full_path(SmartChargeGroup $group)
+
+    function charge_data(SmartChargeGroup $group, DOMElement $node, $charge)
     {
-        return $this->full_path;
+        $charge['svgCode'] = $this->svg;
+        return $charge;
     }
 }
 
@@ -197,6 +217,17 @@ else
         }
         textarea {
             width: 100%;
+        }
+        #preview {
+            display: flex;
+        }
+        #preview svg {
+            width: 420px;
+        }
+        #preview > ul {
+            margin: 0;
+            width: 50%;
+            padding-left: 2em;
         }
     </style>
     <script>
@@ -268,11 +299,20 @@ if ( $ok )
     $document = new DOMDocument();
     $document->load($abs_path);
 
+
     echo "<h1>Original:</h1>";
-    echo "<img src='$url' class='preview' />";
+    echo "<div><img src='$url' class='preview' /></div>";
+
+    $credits = $_GET["credits"] ?? ($remote ? $url : "");
+    echo "<label for='credits'>Credits:</label>";
+    echo "<input type='text' value='" . htmlentities($credits, ENT_QUOTES) .  "' style='width: 100%;' name='credits' />";
+
     extract_colors($marker, $document, $path);
 
-    show_preview($marker, $path, $abs_path);
+    $marker->convert_document($document, true);
+    $marker->set_credits($document, $credits);
+
+    show_preview($document, $path);
 
     show_final($marker, $document, $path);
 
