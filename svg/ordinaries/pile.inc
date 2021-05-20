@@ -53,9 +53,9 @@ if ( existModifierWithKeyterm($node, 'depressed')) {
   $ordinary['shape_spec'] = $builder;
 }
 
-$ordinary['chargesOn'] = (string)new ShieldRect(
+$ordinary['chargesOn'] = ["w", new ShieldRect(
     new ShieldPos($layout->size->width / 2, $bottom / 3),
-    new ShieldSize($bottom / 2, $bottom / 2)
-);
+    new ShieldSize($bottom * 0.6, $bottom * 0.6)
+)];
 
 $ordinary['chargesWithin'] = 'x/150,700,180,180:850,700/x/130,600,160,160:870,600:200,840:800,840/x/x';

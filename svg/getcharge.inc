@@ -1,5 +1,9 @@
 <?php
 
+require_once("custom_charges.inc");
+
+
+
  $chg_data_cache = array();
  
  function get_chg_data() {
@@ -62,7 +66,7 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
       if (!$found) {
         $penalty += $currentRNPPenalty;
         // Some things we don't really care about
-        if (!in_array($requiredParts[$i], array('voided', 'upper', 'lower', 'half', 'demi', 'entire', 'head', 'leg' ))) {
+        if (!in_array($requiredParts[$i], array('voided', 'upper', 'lower', 'half', 'demi', 'entire', 'head', 'leg', 'reversed', 'inverted' ))) {
           $missing .= $requiredParts[$i] . ' ';
         }
       }
@@ -157,7 +161,9 @@ function read_chg_file(DOMElement $node) {
 
     // look for .inc file
     $file = $folder . $chargeKey . '.inc';
-    if ( file_exists( $file )) {
+    if ( $group == "custom" ) {
+        $chg_data = SmartChargeGroup::instance()->charge_data($node, $chg_data, $chargeKey);
+    } else if ( file_exists( $file )) {
       $chg_data = includeCharge( $node, $file, $chg_data, $folder, $chargeKey );
     }
     // TODO check if this still happens???
@@ -170,6 +176,7 @@ function read_chg_file(DOMElement $node) {
       $modList = featuresThatAreAlsoMods($node);
       $ignoreMods = array("palewise", 'fesswise', 'bendwise', 'bendsinwise', 'haurient', 'conjoined', 'ensoleil');
       $otherArray = array_diff(array_keys(getModifiersByTypeAsArray($node,'chargemod')), $ignoreMods);
+      if (existModifierWithKeyterm($node,'fancy')) $otherArray[] = 'fancy';
       $otherMods = implode('-',$otherArray);
       if ($otherMods) $modList .= '-' . $otherMods;
       $file = getBestMatchFilename($folder, $chargeKey, $modList);

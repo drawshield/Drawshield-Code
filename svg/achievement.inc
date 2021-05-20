@@ -351,6 +351,7 @@ function drawHelmet($helmetNode) {
         'esquire' => 'argent',
         'baronet' => 'gray'
     );
+    if ($helmetNode == null) return null; 
     $torse = null;
     if ($helmetNode->hasChildNodes()) {
         foreach($helmetNode->childNodes as $childNode) {

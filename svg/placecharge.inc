@@ -316,9 +316,9 @@ function PlaceCharge ( $node,  // images
                             $layout,
                             $boundX, $boundY,  // size of bounding box
                             $centreX, $centreY,// centre of bounding box
-                            $rotation = '0',
-                            $inverted = '0',
-                            $reversed = '0' ) {
+                            $rotation = 0,
+                            $inverted = false,
+                            $reversed = false ) {
 
   $charge = getCharge( $node, $layout );
   if ($charge == null) return '';
@@ -339,10 +339,10 @@ function PlaceCharge ( $node,  // images
       $keyterm = $child->getAttribute('keyterm');
       switch ( $keyterm ) {
         case 'inverted':
-            $inverted = true;
+            $inverted = !$inverted;
             break;
         case 'reversed':
-            $reversed = true;
+            $reversed = !$reversed;
             break;
         case 'bendwise':
         case 'bendsinwise':

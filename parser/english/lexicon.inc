@@ -764,6 +764,7 @@ class languageDB extends lexicon
             self::ORIENTATION => array(
                 'sinister', 'reversed', 'dexter', 'inverted', 'enhanced',
                 array('(abased|abaisse)', 'abased',),
+                array('de(bas|hanc)ed', 'abased',),
             ),
             self::ORDINARY => array(
                 'another', // special term, means "voided of" (should only be used after "on" or "charged with"
@@ -1081,6 +1082,9 @@ class languageDB extends lexicon
                 array('taller','taller'),
                 array('shorte(r|nd)','shorter'),
                 array('stroke[sd]','stroked'),
+                array('fancy','fancy'),
+                array('in ?a fancy style','fancy'),
+                array('embellished','fancy'),
             ),
             self::USING => array ( 'with', 'in', 'using', 'on'),
             self::DRAWN_MODS => array(
@@ -1109,5 +1113,7 @@ class languageDB extends lexicon
         include "web-colours.inc";
         include "warhammer-colours.inc";
         include "tartan-colours.inc";
+        require_once(__dir__ . "/../../svg/custom_charges.inc");
+        SmartChargeGroup::instance()->add_patterns($this);
     }
 }

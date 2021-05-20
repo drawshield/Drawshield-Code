@@ -75,6 +75,7 @@ class metadataMap {
         'natural/teardrop' => array('fimbriate' => true, 'hflex' => 0, 'wflex' => 0),
         'square' => array('hflex' => 0, 'wflex' => 0),
         'ham' => array('horizontal' => true, 'orient_to_ordinary' => 1),
+        'plant/seeblatt' => array('hflex' => 0, 'wflex' => 0),
     );
   }
   
