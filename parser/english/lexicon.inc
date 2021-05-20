@@ -1082,6 +1082,9 @@ class languageDB extends lexicon
                 array('taller','taller'),
                 array('shorte(r|nd)','shorter'),
                 array('stroke[sd]','stroked'),
+                array('fancy','fancy'),
+                array('in ?a fancy style','fancy'),
+                array('embellished','fancy'),
             ),
             self::USING => array ( 'with', 'in', 'using', 'on'),
             self::DRAWN_MODS => array(

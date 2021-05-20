@@ -176,6 +176,7 @@ function read_chg_file(DOMElement $node) {
       $modList = featuresThatAreAlsoMods($node);
       $ignoreMods = array("palewise", 'fesswise', 'bendwise', 'bendsinwise', 'haurient', 'conjoined', 'ensoleil');
       $otherArray = array_diff(array_keys(getModifiersByTypeAsArray($node,'chargemod')), $ignoreMods);
+      if (existModifierWithKeyterm($node,'fancy')) $otherArray[] = 'fancy';
       $otherMods = implode('-',$otherArray);
       if ($otherMods) $modList .= '-' . $otherMods;
       $file = getBestMatchFilename($folder, $chargeKey, $modList);
