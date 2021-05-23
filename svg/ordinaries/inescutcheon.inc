@@ -13,4 +13,4 @@ $shape = ShieldShape::from_layout($layout);
 
 $ordinary['body'] = $shape->svg_path($layout, $margin)->to_svg_path();
 
-$ordinary['chargesOn'] = $layout->rect_area()->margin($margin+(400-$margin)/2);
+$ordinary['chargesOn'] = ["w", $layout->rect_area()->margin($margin+(400-$margin)/2)];
