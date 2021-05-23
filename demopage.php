@@ -215,12 +215,24 @@
 
     echo "<div class='style-head'>Custom Palette</div>";
     echo "<div class='style custom-palette'>";
+
+    require_once(__dir__ . "/svg/tinctures.inc");
+    echo "<p>\n";
+    echo "<input id='tincture_name' list='tincture_values' oninput='tincture_input(event);' autocomplete='off'/>\n";
+    echo "<input id='tincture_color' type='color' />";
+    echo "<button onclick='tincture_add()'>Add</button>";
+    echo "<datalist id='tincture_values'>";
+    $tinctures = load_tincures("drawshield", true, true, true, []);
+    foreach ( $tinctures as $name => $val )
+        echo "<option value='$name' data-color='$val'>$name</option>";
+    echo "</datalist>";
+    echo "</p>";
+
     echo "<textarea id='customPalette'></textarea>";
     echo "</div>";
 
     echo "</div>";
 ?>
-
     <table style="border-collapse: collapse;">
         <tr>
             <th colspan="3" style="border-top:1px solid #000000;border-left:1px solid #000000;border-right:1px solid #000000;border-bottom:0px none;">&quot;Save to file&quot; Format</th>
@@ -243,6 +255,24 @@
 
     <script type="text/javascript" src="shieldcommon.js"></script>
     <script>   //<![CDATA[
+        function tincture_input(ev)
+        {
+            var data_list = document.getElementById("tincture_values");
+            var option = data_list.querySelector(`[value='${ev.target.value}']`);
+            if ( option )
+                document.getElementById("tincture_color").value = option.dataset["color"];
+        }
+
+        function tincture_add()
+        {
+            var name_input = document.getElementById("tincture_name");
+            var color_input = document.getElementById("tincture_color");
+            document.getElementById("customPalette").value +=
+                `${name_input.value}=${color_input.value}\n`
+            ;
+            name_input.value = "";
+            color_input.value = "";
+        }
 
         function request_blazon_ml(url, id)
         {
