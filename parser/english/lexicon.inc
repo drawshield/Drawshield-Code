@@ -864,8 +864,8 @@ class languageDB extends lexicon
                 array('pointed', 'pointed'),
             ),
             self::COLOUR_MODS => array(
-                array('(compony|gobone|gobonated)', 'compony1'),
-                array('counter (compony|gobone|gobonated)', 'compony2'),
+                array('(compony|gobon[ey]|gobonated)', 'compony1'),
+                array('counter (compony|gobon[ey]|gobonated)', 'compony2'),
                 array('(fimbriated|edged)', 'fimbriated'),
             ),
             self::LINETYPE_PREFIX => array(
