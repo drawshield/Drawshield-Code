@@ -52,7 +52,7 @@
      'muzzled', 'allume', 'tusked', 'spotted', 'corded',
      'chausse', 'crined', 'nooked', 'hooded','spouting',
      'habited', 'lined', 'maned', 'nerved', 'striped',
-     'penned', 'stringed', 'aulned', 'stemmed',
+     'penned', 'stringed', 'aulned', 'stemmed', 'book',
      'belled', 'finned', 'nest', 'staff', 'seamed',
      'acorns', 'towered', 'domed', 'tasselled', 'mortared',
      'shelled', 'tied', 'headed', // NOT heads
@@ -285,6 +285,7 @@
       array ( 'slips crossed', 'slipscrossed' ),
       array ( 'without ?the head', 'headless' ),
       array ( 'thrust through with a sword', 'throughsword' ),
+      array ( 'with ?a sword', 'with-sword' ),
       array ( 'triple towered', 'triple-towered' ),
       array ( 'app(aume|almed)', 'appalmed' ),
       array ( '?in folia(ge|ted)', 'foliated' ),

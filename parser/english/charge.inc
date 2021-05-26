@@ -1212,6 +1212,7 @@
       array ( 'ankhs?', 'emblem/ankh' ),
       array ( 'caduce(i|us)', 'emblem/caduceus' ),
       array ( 'laurel wreaths?', 'emblem/laurel-wreath' ),
+      array ( 'lions? of (saint|st) marks?', 'emblem/lion-of-st-marks' ),
       array ( 'sta(ff|ve)s? of mercury', 'emblem/caduceus' ),
       array ( 'cornucopias?', 'emblem/cornucopia' ),
       array ( 'ermine spots?', 'emblem/ermine-spot' ),
