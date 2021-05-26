@@ -44,6 +44,23 @@ class lexicon {
       unset($this->patterns[$key]);
   }
 
+    /**
+     * \brief Returns an array of unique values for the patterns in the given key
+     */
+    function patternValues($key)
+    {
+        $all = [];
+        foreach ( $this->patterns[$key] as $pat )
+        {
+            if ( !is_array($pat) )
+                $all[] = $pat;
+            else
+                $all[] = $pat[1];
+        }
+        sort($all);
+        return array_unique($all);
+    }
+
 /*  
   public function listKeyterms() {
     $keyterms = array();

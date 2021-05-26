@@ -12,6 +12,7 @@ Class WordBuilder
     const LEFT = 'alignLeft';
     const RIGHT = 'alignRight';
     const CENTRE = 'alignCentre';
+    const ENARCHED = 'enarched';
 
     function __construct($fontName = 'serif') {
         global $messages;
@@ -126,57 +127,66 @@ Class WordBuilder
         return $tmp;
     }
 
-    private function stringToGlyphs($words) {
+    private function getGlyph($char) {
         $svg = '';
-        $xLength = 0;
-        $notdef = null;
-        foreach ($this->str_split_unicode($words) as $char) {
-            if ($char == ' ') {
-                $xLength += $this->defaultXSize * 0.6;
-                continue;
+        $notdef = null;       
+        if ($char == ' ') {
+            $x = $this->defaultXSize * 0.6;
+            return compact('x', 'svg');
+        }
+        $glyph = null;
+        foreach ($this->glyphs as $possible) {
+            if (!$notdef && $possible['glyph-name'] == '.notdef') {
+                $notdef = $possible;
             }
-            $glyph = null;
-            foreach ($this->glyphs as $possible) {
-                if (!$notdef && $possible['glyph-name'] == '.notdef') {
-                    $notdef = $possible;
-                }
-                if ($possible['unicode'] == $char) {
-                    $glyph = $possible;
-                    break;
-                }
+            if ($possible['unicode'] == $char) {
+                $glyph = $possible;
+                break;
             }
-            if ($glyph == null) {
-                if ($notdef)
-                    $glyph = $notdef;
-                else
-                   continue;
+        }
+        if ($glyph == null) {
+            if ($notdef)
+                $glyph = $notdef;
+            else
+               return Array($x => 0, $svg => '');
+        }
+        $d = $glyph['d'];
+        $x = $glyph['horiz-adv-x'] ?? $this->defaultXSize;;
+        $svg .= "<path transform=\"translate($xLength)\" d=\"$d\" />\n";
+        // Manage underlining - should we underline this character?
+        if (isset($this->textOptions[self::UNDERLINE]) && (mb_strpos($this->fontInfo['descenders'],$char) === false) ) {
+            $offset = 0; $skew = 0; // these are displacements if the font slopes
+            if (isset($this->fontInfo['slope'])) {
+                $factor = tan(deg2rad(abs($this->fontInfo['slope'])));
+                $offset = $factor * abs($this->fontInfo['underline-position']);
+                $skew = $factor * $this->fontInfo['underline-thickness'];
             }
-            $d = $glyph['d'];
-            $x = $glyph['horiz-adv-x'] ?? $this->defaultXSize;;
-            $svg .= "<path transform=\"translate($xLength)\" d=\"$d\" />\n";
-            // Manage underlining - should we underline this character?
-            if (isset($this->textOptions[self::UNDERLINE]) && (mb_strpos($this->fontInfo['descenders'],$char) === false) ) {
-                $offset = 0; $skew = 0; // these are displacements if the font slopes
-                if (isset($this->fontInfo['slope'])) {
-                    $factor = tan(deg2rad(abs($this->fontInfo['slope'])));
-                    $offset = $factor * abs($this->fontInfo['underline-position']);
-                    $skew = $factor * $this->fontInfo['underline-thickness'];
-                }
-                $svg .= "<path transform=\"translate($xLength)\" d=\""
-                    . 'M-' . $offset . ' ' .  $this->fontInfo['underline-position'] // start bottom left
-                    . 'h' . $x                                                    // horizontally to bottom right
-                    . ' l' . $skew . ',' . $this->fontInfo['underline-thickness'] // move top right
-                    . ' h-' . $x . 'z"/>';                          // horizontally to top left & close
-            }
-            $xLength += $x;
+            $svg .= "<path d=\""
+                . 'M-' . $offset . ' ' .  $this->fontInfo['underline-position'] // start bottom left
+                . 'h' . $x                                                    // horizontally to bottom right
+                . ' l' . $skew . ',' . $this->fontInfo['underline-thickness'] // move top right
+                . ' h-' . $x . 'z"/>';                          // horizontally to top left & close
         }
         if (isset($this->fontInfo['invert'])) {
             $svg = '<g transform="scale(1,-1) translate(0, -' . $this->yHeight . ')">' . $svg . "</g>";
         }
+        return compact('x', 'svg');
+
+    }
+    
+    private function stringToGlyphs($words) {
+        $svgList = '';
+        $xLength = 0;
+        foreach ($this->str_split_unicode($words) as $char) {
+            extract($this->getGlyph($char)); // creates $x and $svg
+            if ($svg != '')
+                $svgList .= "<g transform=\"translate($xLength,0)\">$svg</g>\n";
+            $xLength += $x;
+        }
         // temporary box to show boundaries
     //    $svg .= '<path fill="none" stroke="black" stroke-width="10" d="M0,0 h' . $xLength . ' v' . $this->ySize 
      //       . ' h-' . $xLength . 'z" />';
-        return Array('body' => $svg, 'width' => $xLength);
+        return Array('body' => $svgList, 'width' => $xLength);
     }
 
 
@@ -214,9 +224,15 @@ Class WordBuilder
     }
 
     public function inlineText($text) {
-        $line = $this->stringToGlyphs($text);
+        $svgList = '';
+        $xLength = 0;
+        foreach ($this->str_split_unicode($text) as $char) {
+            extract($this->getGlyph($char)); // creates $x and $svg
+            $svgList .= "<g transform=\"translate($xLength,0)\">$svg</g>\n";
+            $xLength += $x;
+        }
         $retval = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' .
-        $this->ySize . '" width="' . $line['width'] . '"><g id="body">' . $line['body'] . '</g></svg>';
+        $this->ySize . '" width="' . $xLength . '"><g id="body">' . $svgList . '</g></svg>';
         return $retval;
     }
 
@@ -228,11 +244,18 @@ Class WordBuilder
         $width = max($this->longest, intval(ceil(sqrt($chars/$aspectRatio))));
         $height = intval(ceil($aspectRatio/$width));
     } */
+
+    private function stringToArch($text) {
+        // M 0,285 C250,0 750,0 1000,285
+    }
         
 
     public function getSVG($text) {
         $retval = '';
         switch ($this->textOptions[self::LAYOUT]) {
+        case self::ENARCHED:
+            $retval = $this->stringToArch($text);
+            break;
         case self::INLINE:
             $line = $this->stringToGlyphs($text);
             $retval = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' .

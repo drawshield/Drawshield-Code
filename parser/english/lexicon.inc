@@ -1,5 +1,9 @@
 <?php
-   
+
+require_once(__dir__ . "/../lexicon.inc");
+require_once(__dir__ . "/../../svg/custom_charges.inc");
+
+
 class languageDB extends lexicon
 {
     // These constants acts as keys into the pattern database
@@ -860,8 +864,8 @@ class languageDB extends lexicon
                 array('pointed', 'pointed'),
             ),
             self::COLOUR_MODS => array(
-                array('(compony|gobone|gobonated)', 'compony1'),
-                array('counter (compony|gobone|gobonated)', 'compony2'),
+                array('(compony|gobon[ey]|gobonated)', 'compony1'),
+                array('counter (compony|gobon[ey]|gobonated)', 'compony2'),
                 array('(fimbriated|edged)', 'fimbriated'),
             ),
             self::LINETYPE_PREFIX => array(
@@ -1113,7 +1117,6 @@ class languageDB extends lexicon
         include "web-colours.inc";
         include "warhammer-colours.inc";
         include "tartan-colours.inc";
-        require_once(__dir__ . "/../../svg/custom_charges.inc");
         SmartChargeGroup::instance()->add_patterns($this);
     }
 }

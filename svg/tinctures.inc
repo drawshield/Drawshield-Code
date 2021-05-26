@@ -25,6 +25,31 @@ function readTinctureFile($filename, $prefix) {
     return $retval;
 }
 
+function load_tincures($palette, $web, $warhammer, $tartan, $custom)
+{
+    $tinctures = [];
+    // always read in the drawshield colours as these are the defaults for any not given
+    $tinctures = readTinctureFile(__dir__ . '/schemes/drawshield.txt','heraldic');
+
+    if (!file_exists(__dir__ . '/schemes/' . $palette . '.txt'))
+        $messages->addMessage('internal', "unknown colour scheme - $palette" );
+    else
+        $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/' . $palette . '.txt', 'heraldic'));
+
+    if ( $web )
+        $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/web.txt','web'));
+
+    if ( $warhammer )
+        $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/warhammer.txt', 'wh'));
+
+    if ( $tartan )
+        $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/tartan.txt','tartan'));
+
+    $tinctures = array_merge($tinctures, $custom);
+
+    return $tinctures;
+}
+
 function rgb($keyterm) {
     global $options, $messages;
 
@@ -35,26 +60,14 @@ function rgb($keyterm) {
 
     if (!$loaded) {
         // always read in the drawshield colours as these are the defaults for any not given
-        $tinctures = readTinctureFile(__dir__ . '/schemes/drawshield.txt','heraldic');
-        $palette = $options['palette'];
-        if (!file_exists(__dir__ . '/schemes/' . $palette . '.txt')) {
-          $messages->addMessage('internal', "unknown colour scheme - $palette" );
-          $palette = 'drawshield';
-        } else {
-            $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/' . $palette . '.txt', 'heraldic'));
-        }
-        if ($options['useWebColours'] == true || $options['shape'] == 'flag') {
-          $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/web.txt','web'));
-        }
-        if ($options['useWarhammerColours'] == true || $options['shape'] == 'pauldron') {
-          $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/warhammer.txt', 'wh'));
-        }
-        if ($options['useTartanColours'] == true ) {
-          $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/tartan.txt','tartan'));
-        }
-        if ( isset($options['customPalette']) && is_array($options['customPalette']) ) {
-            $tinctures = array_merge($tinctures, $options['customPalette']);
-        }
+        $tinctures = load_tincures(
+            $options['palette'],
+            $options['useWebColours'] == true || $options['shape'] == 'flag',
+            $options['useWarhammerColours'] == true || $options['shape'] == 'pauldron',
+            $options['useTartanColours'] == true,
+            isset($options['customPalette']) && is_array($options['customPalette']) ? $options['customPalette'] : []
+        );
+
         if ($options['effect'] == 'inked') { // override strokes
             $tinctures['charge-stroke']='#000000';
             $tinctures['ordinary-stroke']='#000000';

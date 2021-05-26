@@ -342,16 +342,14 @@ function setupshield(target, size, initial, caption) {
 }
 
 
-function displayMessages(svg) {
+function displayMessages(svg, messageTarget="messageList", blazonTarget="resultstable", message_types=["warning", "alert", "licence", "blazon"]) {
     var messageText = '';
-    var remarksHTML = '';
-    var legalHTML = '';
-    var creditHTML = '';
-    var linksHTML = '';
     var errorList = svg.getElementsByTagNameNS('*','message');
     for ( var i = 0; i < errorList.length; i++ ) {
         var errorItem = errorList[i];
         var category = errorItem.getAttribute('category');
+        if ( message_types.indexOf(category) == -1 )
+            continue;
         var context = errorItem.getAttribute('context');
         var lineno = errorItem.getAttribute('linerange');
         var message = errorItem.innerHTML;
@@ -359,27 +357,22 @@ function displayMessages(svg) {
         if (lineno != null) message += ' near ' + lineno;
         switch (category) {
             case 'licence':
-                creditHTML += "<li>" + message + "</li>";
-                break;
             case 'links':
-                linksHTML += "<li>" + message + "</li>";
-                break;
-            case'warning':
-                remarksHTML += "<li><span style='color:orange;'>WARNING</span> " + message + "</li>";
-                break;
-            case'legal':
-                legalHTML += "<li>" + message + "</li>";
-                break;
-            case'alert':
-                remarksHTML += "<li><span style='color:red'>" + message + "</span></li>";
-                break;
+            case 'legal':
             default:
                 messageText += "<li>" + message + "</li>";
+                break;
+            case 'warning':
+                messageText += "<li><span style='color:orange;'>WARNING</span> " + message + "</li>";
+                break;
+            case 'alert':
+                messageText += "<li><span style='color:red'>" + message + "</span></li>";
+                break;
         }
     }
-    var messageTarget = 'messageList';
-    document.getElementById(messageTarget).innerHTML = "<ul>" + messageText + remarksHTML + "</ul>";
-    format_blazon_ml(svg.querySelector("blazon"), 'resultstable');
+    document.getElementById(messageTarget).innerHTML = "<ul>" + messageText + "</ul>";
+    if ( blazonTarget )
+        format_blazon_ml(svg.querySelector("blazon"), blazonTarget);
 }
 
 function format_blazon_ml(element, target_id)

@@ -55,7 +55,7 @@ if ( existModifierWithKeyterm($node,'underlined') )
   } elseif (existModifierWithKeyterm($node,'text-block')) {
     $textLayout = 'block';
   } elseif (existModifierWithKeyterm($node,'enarched')) {
-    $textLayout = 'enarched';
+      $builder->option(WordBuilder::LAYOUT, WordBuilder::ENARCHED);
   } elseif (existModifierWithKeyterm($node,'embowed')) {
     $textLayout = 'embowed';
   } elseif (existModifierWithKeyterm($node,'wavy')) {

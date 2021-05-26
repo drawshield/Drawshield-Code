@@ -1,11 +1,11 @@
 <?php
 
 //include "utilities.inc";
-include "tokeniser.inc";
-include "matcher.inc";
+require_once "tokeniser.inc";
+require_once "matcher.inc";
 // abstract classes for the language data
-include "lexicon.inc";
-include_once "grammar.inc";
+require_once "lexicon.inc";
+require_once "grammar.inc";
    
 class parser {
   protected $lexer;

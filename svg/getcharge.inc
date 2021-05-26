@@ -490,12 +490,12 @@ function getCharge( DOMElement $node, $layout ) {
     }
 
 
-  if ( getModifierNodeWithKeyterm($node, 'voided') != null && strpos($chg_data["file"], "voided") === false )
+  if ( getModifierNodeWithKeyterm($node, 'voided') != null && (!isset($chg_data["file"]) || strpos($chg_data["file"], "voided") === false) )
   {
       $filter_id++;
       $svg_id = "ds_filter_voided_$filter_id";
 
-      if ( $charge_col->firstChild->nodeName == "colour" )
+      if ( $charge_col->firstChild && $charge_col->firstChild->nodeName == "colour" )
       {
             $solid_color = get_rgb($charge_col);
             $filters[$svg_id] = <<<HERE

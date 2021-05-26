@@ -86,15 +86,18 @@ class metadataMap {
   
   public function getMeta ( $chargeGroup, $chargeName )
   {
-    $metas = [];
+        $metas = [];
 
-    if (array_key_exists($chargeGroup, self::$groups))
-      $metas = self::$groups[$chargeGroup]; // Don't need to merge as this is the first
-    if (array_key_exists($chargeName, self::$charges))
-      $metas = array_merge($metas, self::$charges[$chargeName]);
-    $search = $chargeGroup . '/' . $chargeName;
-    if (array_key_exists($search, self::$charges))
-    $metas = array_merge($metas, self::$charges[$search]);
-    return $metas;
+        if (array_key_exists($chargeGroup, self::$groups))
+            $metas = self::$groups[$chargeGroup]; // Don't need to merge as this is the first
+
+        if (array_key_exists($chargeName, self::$charges))
+            $metas = array_merge($metas, self::$charges[$chargeName]);
+
+        $search = $chargeGroup . '/' . $chargeName;
+        if (array_key_exists($search, self::$charges))
+            $metas = array_merge($metas, self::$charges[$search]);
+
+        return $metas;
   }
 }
