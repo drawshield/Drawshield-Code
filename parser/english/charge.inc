@@ -210,6 +210,7 @@
       // Exotic (but lifelike) animals
       array ( 'tortoises?', 'animal/tortoise' ),
       array ( 'dinosaurs?', 'animal/dinosaur' ),
+      array ( 'llamas?', 'animal/llama' ),
       array ( 'reindeers?', 'animal/reindeer' ),
       array ( 'crocodiles?', 'animal/crocodile' ),
       array ( 'antelopes?', 'animal/antelope' ),
