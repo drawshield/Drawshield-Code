@@ -287,7 +287,7 @@ class ShieldLayout
         switch ( $shape )
         {
             case 'pauldron':
-                $charge_hint = new ShieldRect(new ShieldPos(245, 305), new ShieldSize(510, 580));
+                $charge_hint = new ShieldRect(new ShieldPos(500, 605), new ShieldSize(510, 580));
                 break;
             case 'lozenge':
                 $charge_hint = new ShieldRect(clone $cross_point, $size->scaled(0.8));
