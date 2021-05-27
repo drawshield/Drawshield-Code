@@ -93,6 +93,7 @@ class properColour {
       'raven' => self::$black,
       'daisy' => self::$white,
       'deer' => self::$brown,
+      'condor' => self::$gray,
       'ship' => self::$brown,
       'stag' => self::$brown,
       'falcon' => self::$brown,
@@ -145,6 +146,11 @@ class properColour {
       'fleece' => self::$yellow,
     );
     self::$features = array(
+        'condor/necked' => self::$caucasian,
+        'condor/legged' => self::$caucasian,
+        'condor/beaked' => self::$yellow,
+        'condor/jelloped' => self::$red,
+        'condor/armed' => self::$gray,
         'garland/slipped' => self::$red,
         'garland/leaved' => self::$green,
       'conker/fructed' => self::$brown,

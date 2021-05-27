@@ -283,6 +283,7 @@
       array ( 'vols?', 'bird/wing-pair-2' ),
       array ( 'feathers?', 'bird/feather' ),
       array ( 'starlings?', 'bird/starling' ),
+      array ( 'condors?', 'bird/condor' ),
       array ( '(sky)?larks?', 'bird/lark' ),
       array ( 'quails?', 'bird/quail' ),
       array ( 'bats?', 'bird/bat' ),
