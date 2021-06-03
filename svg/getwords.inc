@@ -152,7 +152,7 @@ Class WordBuilder
         }
         $d = $glyph['d'];
         $x = $glyph['horiz-adv-x'] ?? $this->defaultXSize;;
-        $svg .= "<path transform=\"translate($xLength)\" d=\"$d\" />\n";
+        $svg .= "<path d=\"$d\" />\n";
         // Manage underlining - should we underline this character?
         if (isset($this->textOptions[self::UNDERLINE]) && (mb_strpos($this->fontInfo['descenders'],$char) === false) ) {
             $offset = 0; $skew = 0; // these are displacements if the font slopes

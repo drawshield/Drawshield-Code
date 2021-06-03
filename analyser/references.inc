@@ -259,12 +259,16 @@ class references {
 
         // get a list of the existing quartering IDs
         $existingIDs = array();
+        $existingNodes = array();
         $children = $node->childNodes;
         foreach ($children as $subShield) {
             $child = $subShield->firstChild;
             if ($child != null && $child->nodeName != blazonML::E_PENDING) {
-            $thisID = $subShield->getAttribute('ID');
-            if ($thisID != null) $existingIDs[] = $thisID;
+                $thisID = $subShield->getAttribute('ID');
+                if ($thisID != null) {
+                    $existingIDs[] = $thisID;
+                    $existingNodes[$thisID] = $subShield;
+                }
             // error_log("Noting existing ID $thisID");
             }
         }
@@ -292,15 +296,21 @@ class references {
             $shield->appendChild($this->dom->createElement(blazonML::E_PENDING));
             $node->appendChild($shield);
         }
-        // Now go through the children, replacing any pending nodes with references
-        // to existing subshields
-        foreach ($children as $subShield) {
+        // Now go through the children, replacing any pending nodes with copies of
+        // existing subshields
+        for ($j = 0; $j < $children->count(); $j++) {
+            $subShield = $children->item($j);
+        // foreach ($children as $subShield) {
             $child = $subShield->firstChild;
             if ($child != null && $child->nodeName == blazonML::E_PENDING && isset($existingIDs[$currentID])) {
-                $subShield->setAttribute('IDREF', $existingIDs[$currentID]);
+                $refNode = $existingIDs[$currentID];
+                $newNode = $existingNodes[$refNode]->cloneNode(true);
+                $newNode->setAttribute('ID',unique('clone'));
+                $newNode->setAttribute('index',$j + 1);
+              // error_log($refNode . ' '. $existingNodes[$refNode]->nodeName);
+                $node->replaceChild( $newNode, $subShield);
                 if (++$currentID >= count($existingIDs))
                     $currentID = 0;
-                $subShield->removeChild($child);
             }
         }
     }
