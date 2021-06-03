@@ -22,7 +22,7 @@ function get_div_height ( DOMElement $node ) {
 	  return 1200;
  }
 
-function includeDivision( DOMElement &$node, $layout ) {
+function includeDivision( DOMElement &$node, $layout, $tinctures ) {
   global $messages;
 
   $divisionType = $node->getAttribute('keyterm');
@@ -53,13 +53,6 @@ function makeDivision( DOMElement $node, ShieldLayout $layout, $counter = false 
    */
   global $messages;
 
-  $division = includeDivision($node, $layout);
-
-  $height = $layout->size->height;
-
-  // Collect the required shapes
-  $children = $node->childNodes;
-  $secondDiv = null;
   /**
    * @var $tinctures DOMelement[]
    */
@@ -67,45 +60,57 @@ function makeDivision( DOMElement $node, ShieldLayout $layout, $counter = false 
   /**
    * @var $child DOMElement
    */
-  foreach ( $children as $child ) {
+  foreach ( $node->childNodes as $child ) {
     if ( $child->nodeName == 'tincture' )
-      $tinctures[$child->getAttribute('index')] = $child;
+      $tinctures[$child->getAttribute('index') - 1] = $child;
   }
-  $div2 = $division['div2'];
-  $div3 = '';
-  $div4 = '';
+
   // Safety checks
-  if (!isset($tinctures[1]) || !is_object($tinctures[1]->firstChild)) $tinctures[1] = createColourNode('gray');
+  if (!isset($tinctures[0]) || !is_object($tinctures[0]->firstChild))
+    $tinctures[0] = createColourNode('gray');
+
+  $division = includeDivision($node, $layout, $tinctures);
+
+  $height = $layout->size->height;
+
+  $in_divs = [''];
+  for ( $i = 2; isset($division["div$i"]) && $i - 1 < count($tinctures); $i++ )
+  {
+    $in_divs[] = $division["div$i"];
+  }
+
+  if ( count($tinctures) > count($in_divs) )
+    $tinctures = array_slice($tinctures, 0, count($in_divs));
+  $ncols = count($tinctures);
+
   // set the main colours
-  if ($tinctures[1]->firstChild->nodeName == 'counterchanged') {
-    $div1 = '';
-    $div2 = apply_tincture( $tinctures[1], $div2, $layout );
-  } elseif ( $counter ) { // shuffle tinctures around for counterchanging, (depends how many colours in total)
-      
-    if ( isset($division['div4']) && isset($tinctures[4]) ) { // 4 colours, swap alternate pairs
-        $div1 = apply_tincture ( $tinctures[3], $layout->rect_area()->svg_rect(), $layout, $layout->size );
-        $div2 = apply_tincture( $tinctures[4], $div2, $layout );
-        $div3 = apply_tincture( $tinctures[1], $division['div3'], $layout );
-        $div4 = apply_tincture( $tinctures[2], $division['div4'], $layout );
-    } elseif ( isset($division['div3']) && isset($tinctures[3]) ) { // 3 colours, move up 1
-        $div1 = apply_tincture ( $tinctures[2], $layout->rect_area()->svg_rect(), $layout, $layout->size );
-        $div2 = apply_tincture( $tinctures[3], $div2, $layout );
-        $div3 = apply_tincture( $tinctures[1], $division['div3'], $layout );
-    } else {  // 2 colours, just swap them.
-        $div1 = apply_tincture ( $tinctures[2], $layout->rect_area()->svg_rect(), $layout, $layout->size );
-        $div2 = apply_tincture( $tinctures[1], $div2, $layout );
+  if ($tinctures[0]->firstChild->nodeName == 'counterchanged') {
+    $out_divs = [
+        apply_tincture( $tinctures[0], $in_divs[0], $layout )
+    ];
+  } else {
+    if ( $counter ) { // shuffle tinctures around for counterchanging, (depends how many colours in total)
+        if ( $ncols == 4 ) { // 4 colours, swap alternate pairs
+            $tinctures = [
+                $tinctures[2],
+                $tinctures[3],
+                $tinctures[0],
+                $tinctures[1],
+            ];
+        } else { // move up 1
+            $t0 = array_shift($tinctures);
+            $tinctures[] = $t0;
+        }
     }
-  } else { // Not counterchanged, colour as normal
-    $div1 = apply_tincture ( $tinctures[1], $layout->rect_area()->margin(-100)->svg_rect(), $layout, $layout->size);
-    $div2 = apply_tincture( $tinctures[2], $div2, $layout );
-    if ( isset($division['div3']) && isset($tinctures[3]) ) {
-      $div3 = apply_tincture( $tinctures[3], $division['div3'], $layout );
-    }
-    if ( isset($division['div4']) && isset($tinctures[4]) ) {
-      $div4 = apply_tincture( $tinctures[4], $division['div4'], $layout );
+    $out_divs = [
+        apply_tincture ( $tinctures[0], $layout->rect_area()->margin(-100)->svg_rect(), $layout, $layout->size)
+    ];
+    for ( $i = 1; $i < $ncols; $i++ )
+    {
+        $out_divs[] = apply_tincture( $tinctures[$i], $in_divs[$i], $layout );
     }
   }
-  $retval = "$div1\n$div2\n$div3\n$div4\n";
+  $retval = implode("\n", $out_divs);
 
   if ( array_key_exists('divx',$division) ) { // Add any extra embellishment
     $retval .= $division['divx'];

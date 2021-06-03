@@ -13,4 +13,20 @@ if ( existModifierWithKeyterm($node, 'riveted')) {
 }
 
 
+if ( count($tinctures) > 2 )
+{
+    $thickness = $layout->size->width / count($tinctures);
+    $margin = 100;
+    for ( $i = 0; $i <= count($tinctures); $i++ )
+    {
+        $x = $thickness * $i;
+        $builder = new PathBuilder();
+        $builder->move($x, -$margin)
+            ->right_plain($thickness)
+            ->down($layout->size->height + $margin * 2)
+            ->left_plain($thickness)
+            ->up($layout->size->height + $margin * 2);
 
+        $division["div".($i+1)] = createBody((string)$builder, $lineType, 60, $layout);
+    }
+}
