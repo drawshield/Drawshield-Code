@@ -63,6 +63,7 @@
           array ( 'cross(es)? and a half', 'cross/torakrzy' ),
           array ( 'cross(es)? fitch(y|ee) doubled?', 'quadrate/cross-fitchy-double' ),
           array ( 'cross(es)? fitch(y|ee)', 'quadrate/cross-fitchy' ),
+       array ( '(staff|stave|baton)s? marshall?s?', 'emblem/baton-marshall' ),
         );
    
    $this->patterns[languageDB::CHARGE] = array (
@@ -292,6 +293,8 @@
       array ( '?great auks?', 'bird/auk' ),
       array ( 'robins? ?redbreasts?', 'bird/robin' ),
       array ( 'owls?', 'bird/owl' ),
+      array ( 'woodc(o|hu)cks?', 'bird/woodcock' ),
+      array ( 'wood c(o|hu)cks?', 'bird/woodcock' ),
       array ( 'vultures?', 'bird/vulture' ),
       array ( '?cornish choughs?', 'bird/chough' ),
       array ( 'sea swallows?', 'bird/chough' ),
