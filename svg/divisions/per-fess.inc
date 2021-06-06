@@ -15,6 +15,23 @@ $builder->move(-$margin, $layout->cross_point->y)
 
 $division['div2'] = createBody((string)$builder, $lineType, 60, $layout);
 
+if ( count($tinctures) > 2 )
+{
+    $thickness = $layout->size->height / count($tinctures);
+    for ( $i = 0; $i <= count($tinctures); $i++ )
+    {
+        $y = $thickness * $i;
+        $builder = new PathBuilder();
+        $builder->move(-$margin, $y)
+            ->right($layout->size->width + $margin * 2)
+            ->down_plain($thickness)
+            ->left_plain($layout->size->width + $margin * 2)
+            ->up_plain($thickness);
+
+        $division["div".($i+1)] = createBody((string)$builder, $lineType, 60, $layout);
+    }
+}
+
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';
   $rivetList = '';

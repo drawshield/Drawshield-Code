@@ -1625,6 +1625,7 @@ class englishGrammar extends grammar
     'tierced-in-fess', 'tierced-in-bend', 'tierced-in-bend', 'tierced-in-chevron' );
     $opt3Tinc = array ( 'per-pile', );
     $opt4Tinc = array ( 'quarterly', 'quarterly-per-fess', 'quarterly-per-pale', 'per-saltire' );
+    $optInfTinc = array ( 'per-fess', 'per-pale' );
 
     $state = self::save();
     $node = null;
@@ -1642,6 +1643,8 @@ class englishGrammar extends grammar
         $maxTinc = 3;
       } elseif (in_array($keyterm, $opt4Tinc)) {
         $maxTinc = 4;
+      } elseif (in_array($keyterm, $optInfTinc)) {
+        $maxTinc = 64;
       }
       $tincCount = 0;
       $found = true;
