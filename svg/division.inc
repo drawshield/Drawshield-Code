@@ -22,7 +22,7 @@ function get_div_height ( DOMElement $node ) {
 	  return 1200;
  }
 
-function includeDivision( DOMElement &$node, $layout, $tinctures ) {
+function includeDivision( DOMElement &$node, $layout, &$tinctures ) {
   global $messages;
 
   $divisionType = $node->getAttribute('keyterm');
