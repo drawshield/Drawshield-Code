@@ -1625,7 +1625,7 @@ class englishGrammar extends grammar
     'tierced-in-fess', 'tierced-in-bend', 'tierced-in-bend', 'tierced-in-chevron' );
     $opt3Tinc = array ( 'per-pile', );
     $opt4Tinc = array ( 'quarterly', 'quarterly-per-fess', 'quarterly-per-pale', 'per-saltire' );
-    $optInfTinc = array ( 'per-fess', 'per-pale' );
+    $optInfTinc = array ( 'per-fess', 'per-pale', 'paly', 'barry' );
 
     $state = self::save();
     $node = null;
