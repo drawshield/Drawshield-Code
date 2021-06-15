@@ -48,7 +48,7 @@ class matcher {
       if ( $regex == '' ) continue;
       // Check for optionality
       $optional = false;
-      if ( $regex{0} == '?' ) {
+      if ( substr($regex,0, 1) == '?' ) {
         $optional = true;
         $regex = substr($regex, 1);
       }
@@ -62,7 +62,7 @@ class matcher {
       }
       // Check for negative
       $negative = false;
-      if ( $regex{0} == '!' ) {
+      if ( substr($regex,0,1) == '!' ) {
         $negative = true;
         $regex = substr($regex,1);
       }
@@ -70,7 +70,7 @@ class matcher {
       if (strlen($regex) < 1) {
           continue;
       }
-      while ( ($t_word < $this->tokenList->num_tokens) and ($this->tokenList->words[$t_word]{0} == '[') ) 
+      while ( ($t_word < $this->tokenList->num_tokens) && (mb_substr($this->tokenList->words[$t_word],0,1) == '[') ) 
         $t_word++;
       if ( $t_word >= $this->tokenList->num_tokens ) { // no more input
         if ( $optional or $negative ) {
@@ -223,7 +223,8 @@ class matcher {
     while ( $inc > 0 ) {
       if ( $here <= $min or  $here >= $max ) break;
       $here += $step;
-      if ( $this->tokenList->words[$here]{0} != '[' )
+      $word = $this->tokenList->words[$here];
+      if ( mb_substr($word,0,1) != '[' )
         $inc--;
     }
     $this->tokenList->cur_word = $here;

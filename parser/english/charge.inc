@@ -76,6 +76,7 @@
       array ( 'coptic cross(es)?', 'quadrate/cross-coptic' ),
       array ( 'couped cross(es)?', 'cross/couped' ),
       array ( 'taus? ?cross(es)?', 'cross/tau' ),
+      array ( 'budd(ed|ing) ?cross(es)?', 'quadrate/cross-botonny' ),
       array ( 'patriarchal? ?cross(es)?', 'cross/patriarchal' ),
       array ( 'paternoster cross(es)?', 'cross/paternoster' ),
       array ( 'rosary cross(es)?', 'cross/paternoster' ),
@@ -294,6 +295,7 @@
       array ( 'robins? ?redbreasts?', 'bird/robin' ),
       array ( 'owls?', 'bird/owl' ),
       array ( 'woodc(o|hu)cks?', 'bird/woodcock' ),
+      array ( 'capercaillies?', 'bird/woodcock' ),
       array ( 'wood c(o|hu)cks?', 'bird/woodcock' ),
       array ( 'vultures?', 'bird/vulture' ),
       array ( '?cornish choughs?', 'bird/chough' ),
@@ -981,7 +983,6 @@
       array ( 'bags? of madder', 'furnishings/bag-of-madder' ),
       array ( 'wool[ps]acks?', 'furnishings/wool-pack' ),
       array ( 'wool [ps]acks?', 'furnishings/wool-pack' ),
-      array ( '(garlands?|chaplets?|wreaths?)', 'furnishings/garland' ),
       // food (manufactured)
       array ( '?wedges? ?of cheeses?', 'food/cheese-wedge'),
       array ( '?wheels? ?of cheeses?', 'food/cheese-wheel'),
@@ -1208,6 +1209,7 @@
       array ( 'socheons?', 'special/escutcheon' ),
       array ( 'flags?', 'special/flag' ),
       // emblem
+      array ( '(garlands?|chaplets?|wreaths?)', 'emblem/chaplet' ),
       array ( '(staff|rod)s? ?of (a|e|ae)scu?l[ae]pi?us', 'emblem/rod-of-esclapius' ),
       array ( 'thyrs(i|us|uses) ?of ?dionysus', 'emblem/thyrsus' ),
        array ( 'chains? of navarre', 'emblem/chain-of-navarre' ),

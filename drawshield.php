@@ -81,7 +81,7 @@ $options['blazon'] = preg_replace("/\\x[0-9-a-f]{2}/i","",$options['blazon']); /
               && (!in_array($err['type'], array (E_NOTICE, E_WARNING))) // comment this line to get all
                )
         {
-           error_log($err['message'] . " (" . $err['type'] . ") at " . $err['file'] . ":" . $err['line'] . ' - ' . $options['blazon']);
+           error_log($err['message'] . " (" . $err['type'] . ") at " . $err['file'] . ":" . $err['line'] . ' - ' ); // . $options['blazon']);
         }
     });
 
@@ -103,6 +103,12 @@ if ( $options['blazon'] == '' ) {
       $dom->outputFormat = true;
       echo $dom->saveXML(); 
       exit; 
+  }
+  // filter blazon (if present)
+  if (file_exists("/var/www/etc/filter.inc")) {
+      include "/var/www/etc/filter.inc";
+      $filter = new filter($dom);
+      $dom = $filter->runFilter();
   }
 
   // Resolve references

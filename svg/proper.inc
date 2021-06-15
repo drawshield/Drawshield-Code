@@ -61,7 +61,7 @@ class properColour {
     );
     self::$charges = array(
         'peacock' => $hatching ? self::$blue : '#0020c2',
-        'garland' => self::$green,
+        'chaplet' => self::$green,
         'grassy-mound' => self::$green,
         'butterfly' => self::$blue,
       'flames' => self::$yellow,
@@ -151,8 +151,8 @@ class properColour {
         'condor/beaked' => self::$yellow,
         'condor/jelloped' => self::$red,
         'condor/armed' => self::$gray,
-        'garland/slipped' => self::$red,
-        'garland/leaved' => self::$green,
+        'chaplet/slipped' => self::$red,
+        'chaplet/leaved' => self::$green,
       'conker/fructed' => self::$brown,
       'with-stone' => self::$gray,
       'slipped' => self::$green,
