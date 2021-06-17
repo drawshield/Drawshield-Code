@@ -43,7 +43,7 @@
           array ( 'cross(let|lets|es)? barby', 'quadrate/cross-barby' ),
           array ( 'cross(let|lets|es)? (ve|u)rd(y|e|ee)', 'quadrate/cross-pointed' ),
           array ( 'cross(let|lets|es)? champaine', 'quadrate/cross-pointed' ), 
-          array ( 'cross(let|lets|es)? pom(y|me)s?', 'quadrate/cross-pomme' ), 
+          array ( 'cross(let|lets|es)? pom(eis|ey|me)s?', 'quadrate/cross-pomme' ), 
           array ( 'cross(es)? potent crossed', 'quadrate/cross-potent-crossed' ), 
           array ( 'cross(es)? poten(t|ce)', 'quadrate/cross-potent' ), 
           array ( 'cross(es)? of jerusalem', 'quadrate/cross-jerusalem' ), 
@@ -556,7 +556,7 @@
       array ( 'gunstones?', 'geometric/pellet?P' ),
       array ( 'ogress(es)?', 'geometric/pellet?P' ),
       array ( 'plates?', 'geometric/plate?P' ),
-      array ( 'pom[mi]es?', 'geometric/pomme?P' ),
+      array ( 'pom(eis|ey|me)s?', 'geometric/pomme?P' ),
       array ( 'torteaux?', 'geometric/torteau?P' ),
       // quadrate
       array ( 'fylfots?', 'quadrate/fylfot' ),
