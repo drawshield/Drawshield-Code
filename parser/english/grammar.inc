@@ -617,6 +617,7 @@ class englishGrammar extends grammar
                         blazonML::A_INDEX => '1')));
                 }
                 $mods[] = $feature;
+                self::ignore(languageDB::ANDD);
                 // Look for non-standard adjusments
             } elseif ($adjustments = self::getAdjustments()) {
                 $mods = array_merge($mods, $adjustments);
