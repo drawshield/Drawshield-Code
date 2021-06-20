@@ -866,7 +866,7 @@ class languageDB extends lexicon
             self::COLOUR_MODS => array(
                 array('(compony|gobon[ey]|gobonated)', 'compony1'),
                 array('counter (compony|gobon[ey]|gobonated)', 'compony2'),
-                array('(fimbriated|edged)', 'fimbriated'),
+                array('(fimbri?ated|edged)', 'fimbriated'),
             ),
             self::LINETYPE_PREFIX => array(
                 array('the (dexter|first|1st|upper|higher) ?(one|1)', 'barmod-up'),
