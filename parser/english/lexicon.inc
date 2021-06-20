@@ -156,11 +156,11 @@ class languageDB extends lexicon
                 array('?(of|to) ?the centre', 'centre'),
             ),
             self::HELMET => array(
-                array('?(the|a|an) royal helmet', 'royal'),
-                array('?(the|a|an) monarchs? helmet', 'royal'),
-                array('?(the|a|an) (knight|baronet)s? helmet', 'baronet'),
-                array('?(the|a|an) ?(esquire|gentlem[ea]n)s? helmet', 'esquire'),  // DEFAULT
-                array('?(the|a|an) (peer|lord)s? helmet', 'peer'),
+                array('?(the|a|an) royal helm(et)', 'royal'),
+                array('?(the|a|an) monarchs? helm(et)', 'royal'),
+                array('?(the|a|an) (knight|baronet)s? helm(et)', 'baronet'),
+                array('?(the|a|an) ?(esquire|gentlem[ea]n)s? helm(et)', 'esquire'),  // DEFAULT
+                array('?(the|a|an) (peer|lord)s? helm(et)', 'peer'),
             ),
             self::MOTTO => array('?with ?the (motto|devi[sc]e) *', 'motto'),
             self::BLAZONED => array('(em)blazoned ?(with|of)', 'with ?(a|the) blazon ?of'),
