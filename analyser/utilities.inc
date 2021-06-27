@@ -136,7 +136,7 @@ function getModifiersByTypeAsArray(DOMElement $node, $type, $returnNodes = false
   foreach ( $node->childNodes as $child ) {
     if ( $child->nodeName == 'modifier' and $child->getAttribute('type') == $type ) {
       if ( $returnNodes ) {
-        $retval[] = $child;
+        $retval[] = $child->cloneNode(true);
       } else {
         $val = $child->getAttribute('value');
         if ($val == null) $val = true; // Just say the modifier exists

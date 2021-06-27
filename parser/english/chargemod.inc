@@ -53,7 +53,7 @@
      'chausse', 'crined', 'nooked', 'hooded','spouting',
      'habited', 'lined', 'maned', 'nerved', 'striped',
      'penned', 'stringed', 'aulned', 'stemmed', 'book',
-     'belled', 'finned', 'nest', 'staff', 'seamed',
+     'belled', 'finned', 'nest', 'staff', 'seamed', 'waxed',
      'acorns', 'towered', 'domed', 'tasselled', 'mortared',
      'shelled', 'tied', 'headed', // NOT heads
      'drooping', 'voided', 'beaded', 'ringed', 'masonry',
@@ -229,7 +229,7 @@
       'covered', 'uncovered', 'waved', 'vambraced', 'double',
       'skipping', 'recursant', 'fixed', 'ploye', 'clenched',
       'pometty', 'floretty', 'debruised', 'increscent', 'decrescent',
-      'rousant', 'latin', 'fouled',
+      'rousant', 'latin', 'fouled', 'filled',
       array ( '?(dexter|sinister) forepaws? raised', 'forepaw-raised'),
       array ( '(with|and) ?an arrow', 'with-arrow'),
       array ( '(with|and) ?an arrow ?nocked ?and drawn', 'with-arrow-nocked'),
