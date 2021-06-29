@@ -43,6 +43,7 @@ $defaults = [
     "chg-crown" => "on",
     "chg-animal" => "on",
     "chg-myth" => "on",
+    "chg-weapon" => "on",
     "chg-loc-chance" => 10,
 ];
 
