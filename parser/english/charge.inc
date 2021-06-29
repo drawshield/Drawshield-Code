@@ -1234,6 +1234,7 @@
       array ( 'menorahs?', 'emblem/menorah' ),
       array ( '(star|shield)s? of david', 'emblem/star-of-david' ),
       array ( 'fleurs? de l(y|i)s', 'emblem/fleur-de-lys' ),
+      array ( 'gozdawas?', 'emblem/fleur-de-lys-double' ),
       array ( 'heralds? (staff|stave|baton)s?', 'emblem/heralds-staff' ),
        array ( 'marshall?s? (staff|stave|baton)s?', 'emblem/baton-marshall' ),
       array ( 'labyrinths?', 'emblem/labyrinth' ),
