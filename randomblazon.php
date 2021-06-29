@@ -180,7 +180,7 @@ $lexicon = [
     "ord-large1" => [ "bend", "fess", "pale", ],
     "ord-large2" => ["chevron", "chief",  "quarter {sinister}", "base", "saltire", "cross"],
     "ord-multi" => [ "{2-4} bars", "{2-4} barrulets", "{2-4} bendlets", "{2-4} chevronels {interlaced}",
-                    "{2-4} palets", ],
+                    "{2-3} palets", ],
     "ord-minor" => ["gore {sinister}", "canton {sinister}", "bordure", "flaunch {sinister}",
                     "graft {sinister}", "gusset {sinister}", "gyron {sinister}", "inescutcheon", 
                     "orle", "shakefork", "point dexter", "point sinister",
@@ -309,6 +309,20 @@ $lexicon = [
                     "a {jewel} {base-tincture}"],
     "crown-xn" => ["{crown} Crowns {base-tincture}", "{coronet} Coronets {base-tincture}",
                     "{jewels} {base-tincture}"],
+
+    // weapons
+    "chg-weapon" => ["2 {sword} in saltire {base-tincture} {hilted}",
+                     "{3-6} {weapon} {base-tincture}", "a {sword} {base-tincture} {hilted}}",
+                     "a {axe} {base-tincture} {handled}", "a {weapon} {base-tincture}" ],
+    "weapon" => ["{swords}", "{axes}", "other-weapon"],
+    "hilted" => ['', "hilted {base-tincture}"],
+    "sword" => ['arming sword', 'claymore', 'dagger', 'falchion',
+                'rapier', 'sabre', 'seax', 'sword of St. Paul' ],
+    "axe" => ['addice', 'battle axe', 'broad axe', 'common axe', 'slaughter axe', 'throwing axe',
+                'pick axe', 'turner axe','katana'],
+    "handled" => [ "handled {base-tincture}", ''],
+    "other-weapon" => ["battering ram", "caltrap", "bow", "cannon", "club", "staff", "tilting spear",
+            "truncheon", "arrow", "broad arrow", "pheon", "spear", "trident"],
 
     // Other Animals
     "chg-animal1" => ["anteater", "antelope", "camel", "crocodile", "elephant", "frog", 

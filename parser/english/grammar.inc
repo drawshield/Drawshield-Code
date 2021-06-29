@@ -963,7 +963,7 @@ class englishGrammar extends grammar
             if ($keyterm = self::find(languageDB::LINETYPE_PREFIX)) {
                 $mod2 = $this->schema->makeMod(languageDB::LINETYPE_PREFIX, null, $keyterm, self::tokens(), self::lineNo());
                 if ($keyterm = self::find(languageDB::LINETYPE))
-                    $mod2->appendChild($this->schema->makeMod(blazonML::A_LINETYPE, $keyterm, self::tokens(), self::lineNo()));
+                    $mod2->appendChild($this->schema->makeMod(blazonML::A_LINETYPE, null, $keyterm, self::tokens(), self::lineNo()));
                 if ($tinc = self::tincture(false))
                     $mod2->appendChild($tinc);
                 if (!$mod2->hasChildNodes()) {
@@ -972,7 +972,7 @@ class englishGrammar extends grammar
                 }
                 $mod->appendChild($mod2);
             } elseif ($keyterm = self::find(languageDB::LINETYPE))
-                $mod->appendChild($this->schema->makeMod(blazonML::A_LINETYPE, $keyterm, self::tokens(), self::lineNo()));
+                $mod->appendChild($this->schema->makeMod(blazonML::A_LINETYPE, null, $keyterm, self::tokens(), self::lineNo()));
             elseif ($tinc = self::tincture(false))
                 $mod->appendChild($tinc);
             else
