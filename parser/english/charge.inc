@@ -1077,6 +1077,13 @@
       // crown
       array ( '?open (crown|coronet)s?', 'crown/open-crown' ), // default crown
       array ( 'antique crowns?', 'crown/antique' ),
+      array ( 'crowns? of oak lea(f|ves)', 'crown/crown-of-oak-leaves' ),
+      array ( 'oak lea(f|ves) crowns?', 'crown/crown-of-oak-leaves' ),
+      array ( 'crowns? of mullett?s?', 'crown/crown-of-mullets' ),
+      array ( 'crowns? of grass', 'crown/crown-of-grass' ),
+      array ( 'grass crowns?', 'crown/crown-of-grass' ),
+      array ( 'crowns? of myrtle', 'crown/crown-of-myrtle' ),
+      array ( 'myrtle crowns?', 'crown/crown-of-myrtle' ),
       array ( 'triumphal crowns?', 'crown/triumphal' ),
       array ( 'papal crowns?', 'crown/papal' ),
       array ( 'obsidional crowns?', 'crown/obsidional' ),
