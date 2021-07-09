@@ -16,7 +16,7 @@ class metadataMap {
       'architecture' => array( 'demi' => 'horizontal', 'hflex' => 1.5, 'wflex' => 1.5 ),
       'astronomical' => array('fimbriate' => true, 'fixStroke' => true),
       'axe' => array ('orient_to_ordinary' => -1, 'hflex' => 1.4, 'wflex' => 1.22 ),
-      'crown' => array('horizontal' => true, 'hflex' => 2, 'wflex' => 1.5 ),
+      'crown' => array('horizontal' => true, 'hflex' => 1.5, 'wflex' => 1.5 ),
       'fish' => array('horizontal' => true, 'orient_to_ordinary' => 1),
       'flute' => array ('orient_to_ordinary' => -1),
       'game' => array( 'demi' => 'horizontal' ),
