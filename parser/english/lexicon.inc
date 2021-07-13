@@ -787,6 +787,7 @@ class languageDB extends lexicon
                 array('humets?', 'humet'),
                 array('pall?ets?', 'palet'),
                 array('piles? ?of ?(3|three) ?points ?issuing ?from ?the ?chief', 'pile'),
+                array('mountains? ?of (3|three) (peaks|points)', 'mountain-of-3-peaks'),
                 array('mountains?', 'mountain'),
                 array('base', 'base'),
                 array('bends?', 'bend'),
