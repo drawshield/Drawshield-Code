@@ -292,6 +292,7 @@
       array ( '(sky)?larks?', 'bird/lark' ),
       array ( 'quails?', 'bird/quail' ),
       array ( 'bats?', 'bird/bat' ),
+      array ( 'emus?', 'bird/emu' ),
       array ( '(rere|flitter)(mouse|mice)', 'bird/bat' ),
       array ( '(rere|flitter) (mouse|mice)', 'bird/bat' ),
       array ( '?great auks?', 'bird/auk' ),
