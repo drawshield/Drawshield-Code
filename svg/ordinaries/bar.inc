@@ -14,13 +14,14 @@
 
 global $svg_chief;
 $subtype = $node->getAttribute('keyterm');
-$height = 1000;
-$palet_length = 1400;
+// $height = 1000;
+// $palet_length = 1400;
 $bend_length = 1600; // future - adjust for flag height???
-if ($layout->shape == 'flag') {
+// if ($layout->shape == 'flag') {
   $height = $layout->size->height;
+//  error_log("height is $height");
   $palet_length = sprintf("%d", $height + 200);
-}
+//}
 
 // bar
 // ( although a "bar sinister" is a bend sinister
@@ -28,7 +29,6 @@ if ($subtype == 'bar' && existModifierWithKeyterm($node,'sinister')) {
   $node->setAttribute('keyterm','bend');
   include 'svg/ordinaries/bend.inc';
 } else {
-
   $bar_locs = array ( //  0    1     2       3          4          5             6               7                  8
     'all' => array (     'x', '1', '1,2', '1,2,3', '1,2,3,4', '1,2,3,4,5', '1,2,3,4,5,6', '1,2,3,4,5,6,7', '1,2,3,4,5,6,7,8' ),
     'barmod-up' => array (   'x', 'x', '1',   '1',     '1',       '1',         '1',           '1',             '1' ),
@@ -133,18 +133,20 @@ if ($subtype == 'bar' && existModifierWithKeyterm($node,'sinister')) {
   if ( $num > 8 ) { $num = 8; }
   $body = '';
   $spec = '';
-  // Adjust bar size for height
-  $H1 = $bar_width * $height / 1000;
+  $H1 = $bar_width;
+  // Adjust bar size for height, if horizontal
   $H2 = $H1 / 2;
   for ( $i = 0; $i < $num; $i++ ) {
     switch ( $subtype ) {
       case 'barrulet':
       case 'closet':
       case 'bar':
+        $H1 = $bar_width * $height / 1000;
         $Y1 = (($i+1) * $vSpacing) - $H2;
         $spec = "X{$bar_start}Y{$Y1}A{$bar_length}c{$H1}E{$bar_length}g{$H1}";
         break;
       case 'bar-gemel':
+        $H1 = $bar_width * $height / 1000;
         $Y1 = (($i+1) * $vSpacing) - $H2;
         $Y2 = $Y1 + ($H1 * 0.75);
         $H4 = $H1 / 4;
