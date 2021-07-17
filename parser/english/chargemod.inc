@@ -205,6 +205,10 @@
      array ('royal(ly)?', 'royal'),
      array ('dukes?', 'duke'),
      array ('earls?', 'earl'),
+     array ('grass', 'crown-of-grass'),
+     array ('mullet', 'crown-of-mullets'),
+     array ('myrtle', 'crown-of-myrtle'),
+     array ('oak lea(f|ves?d?)', 'crown-of-oak-leaves'),
      array ('king of arms?', 'king-of-arms'),
   );
    

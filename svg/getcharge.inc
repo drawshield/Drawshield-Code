@@ -479,8 +479,16 @@ function getCharge( DOMElement $node, $layout ) {
           $crownCol = $temp;
           $feat_cols['crowned'] = get_rgb($crownCol);
       }
-      $extras['crowned'] = getSvgFragment(file_get_contents(__dir__ . '/components/crown-as-worn/' . $crownType . '.svg'), 
-          array(), 'crown', $crownType, array(), getStroke($crownCol), 3); // multiply size of crown strokes
+      $crownFile = __dir__ . '/components/crown-as-worn/' . $crownType . '.svg';
+      if (!file_exists($crownFile)) {
+        $crownFile = __dir__ . '/charges/crown/' . $crownType . '.svg';
+      }
+      if (!file_exists($crownFile)) {
+       $messages->addMessage('internal', "No crown file for $crownType"); 
+      } else {
+        $extras['crowned'] = getSvgFragment(file_get_contents($crownFile), 
+            array(), 'crown', $crownType, array(), getStroke($crownCol), 2); // multiply size of crown strokes
+      }
     }
     if ( $inscribe = getModifierNodeWithKeyterm($node, 'inscribed' ) ) {
       $extras['inscribed']['body'] = makeSquareCharge($inscribe->firstChild);
