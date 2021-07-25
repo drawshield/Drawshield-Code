@@ -474,6 +474,7 @@ function getCharge( DOMElement $node, $layout ) {
     // Special handling for charges "crowned"
     if ( $crown = getModifierNodeWithKeyterm($node, 'crowned', false) ) {
       $crownType = $crown->getAttribute('value');
+      if ($crownType == 'default') $crownType = 'ducal';
       $crownCol = $charge_col;
       if ($temp = getTinctureNode($crown)) {
           $crownCol = $temp;
