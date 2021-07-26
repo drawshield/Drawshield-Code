@@ -556,7 +556,6 @@ function makeOrdinary( DOMElement &$node, $layout ) {
             case 'palet':
             case 'endorse':
             case 'pale':
-            case 'pile':
               // move from being centered on width to centered on 1/5 of width
               if ($position == 'indexside') {
                 $xshift = $layout->size->width * -0.25;
@@ -566,6 +565,20 @@ function makeOrdinary( DOMElement &$node, $layout ) {
               $transform .= 'translate(' . $xshift . ', 0) ';
               $output .= '<g transform="' . $transform . '">' . $retval . "</g>\n";
               $valid = true;
+              break;
+            case 'pile':
+              // move from being centered on width to centered on 1/5 of width
+              if ($position == 'indexside') {
+                $xshift = $layout->size->width * -0.25;
+              } else {
+                $xshift = $layout->size->width * 0.5;
+              }
+              $transform .= 'translate(' . $xshift . ', 0) scale(0.5)';
+              $output .= '<g transform="' . $transform . '">' . $retval . "</g>\n";
+              $valid = true;
+              break;
+            default:
+              break;
           }
           break;
         case 'inQ2':
