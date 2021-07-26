@@ -1013,6 +1013,8 @@ class englishGrammar extends grammar
         //if ( self::find(languageDB::WORD_IN) and ($keyterm = self::find(languageDB::LOCATION)) )   // TODO what was thie here for?
         //   $ord->appendChild($this->schema->makeMod(languageDB::ORDINARY_PREFIX,'in' . $keyterm,self::tokens()));
 
+        // look for positions (not all make sense, but we don't care at this stage)
+        $pos = self::getPositions();
         if ($keyterm = self::find(languageDB::WORD_ON)) $onMod = $this->schema->makeMod(languageDB::WORD_ON, null, $keyterm, self::tokens(), self::lineNo());
         // if found, remember "inside" for later
         if ($keyterm = self::find(languageDB::BETWEEN)) $insideMod = $this->schema->makeMod(languageDB::BETWEEN, null, $keyterm, self::tokens(), self::lineNo());
@@ -1139,6 +1141,12 @@ class englishGrammar extends grammar
             }
             $onMod->appendChild($item);
             $ord->appendChild($onMod);
+        }
+        // Are we in a different position?
+        if ($pos) {
+            foreach ($pos as $p) {
+                $ord->appendChild($p);
+            }
         }
         self::discard($state);
         return $ord;
