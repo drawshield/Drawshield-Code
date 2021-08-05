@@ -133,7 +133,7 @@ class properColour {
       'baseball' => self::$white,
       'pelican' => self::$white,
       'mitre' => self::$yellow,
-      'reddit-alien' => self::$white,
+      'mitre' => self::$yellow,
       'rose-tudor' => self::$red,
       'rose-york' => self::$white,
       'rose-lancaster' => self::$red,

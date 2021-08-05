@@ -193,6 +193,7 @@
       array ( 'wildcats?', 'wildlife/wildcat' ),
       array ( 'mountain cats?', 'wildlife/wildcat' ),
       array ( 'cats?', 'wildlife/cat' ),
+      array ( 'siberian cats?', 'wildlife/siberian-cat' ),
       array ( 'foxe?s?', 'wildlife/fox' ),  // 'e' is optional, e.g., "fox's head"
       array ( '(hedgehog|urcheon|urchin)s?', 'wildlife/hedgehog' ),
       array ( '(weasel|mart[ie]n|foine|stoat|ermine|genet)s?', 'wildlife/weasel' ),
@@ -909,7 +910,8 @@
       array ( 'lion goats?', 'mythical/lion-goat' ),
       array ( 'camelopardels?', 'mythical/giraffe-horned' ),
       array ( 'unicorns?', 'mythical/unicorn' ),
-      array ( 'uni corns?', 'mythical/unicorn' ),
+      array ( 'gorgons? heads?', 'mythical/gorgon-head' ),
+      array ( 'uni [hc]orns?', 'mythical/unicorn' ),
       array ( 'sphin(ges|x|xes)', 'mythical/sphinx' ),
       array ( 'egyptian sphin(ges|x|xes)', 'mythical/sphinx-egyptian' ),
       array ( 'greek sphin(ges|x|xes)', 'mythical/sphinx-greek' ),
