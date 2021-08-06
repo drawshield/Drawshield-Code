@@ -92,6 +92,7 @@
      array ( 'jerusalem cross(es)?', 'quadrate/cross-jerusalem' ),
       // human
       array ( 'mounted knights?', 'human/knight-mounted'),
+      array ( '(fallen|dead) knights?', 'human/fallen-knight-embowed'),
       array ( 'triskes?lions? of arms', 'human/triskelion-of-arms' ),
       array ( 'triskes?lions? of legs ?armou?red', 'human/triskelion-of-legs-armored' ),
       array ( 'triskes?lions? of armou?red legs', 'human/triskelion-of-legs-armored' ),
