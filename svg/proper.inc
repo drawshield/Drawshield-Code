@@ -108,6 +108,7 @@ class properColour {
       'laurel-wreath' => self::$green,
       'dolphin' => self::$green,
       'dolphin-natural' => self::$gray,
+      'fallen-knight-embowed' => self::$gray,
       'rocket' => self::$gray,
       'aubergine' => self::$purple,
       'dove' => self::$white,
@@ -144,6 +145,7 @@ class properColour {
       'magpie' => self::$white,
       'starling' => self::$black,
       'fleece' => self::$yellow,
+      'chrysanthemum' => self::$yellow,
     );
     self::$features = array(
         'condor/necked' => self::$caucasian,
