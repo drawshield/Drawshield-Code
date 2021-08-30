@@ -763,7 +763,7 @@ function create()
 **	Output phase
 **
 *******************************************************************/
-$separator = "\n created by Drawshield.net/random\n";
+$separator = "\n // created by Drawshield.net/random\n";
 if ($count > 1) {
     $separator = "\n#####################\n";
 }
