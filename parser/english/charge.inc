@@ -678,6 +678,8 @@
       array ( 'double quatrefoile?s?', 'flower/octofoil' ),
       array ( 'quatrefoile?s?', 'flower/quatrefoil' ),
       array ( '?damask roses?', 'flower/rose' ),
+      array ( 'stemmed roses?', 'flower/rose-stem' ),
+      array ( 'rose stems?', 'flower/rose-stem' ),
 //      array ( 'natural roses?', 'flower/rose-natural' ),
       array ( 's[ie]xfoile?s?', 'flower/sexfoil' ),
       array ( 'angennes?', 'flower/sexfoil' ),
