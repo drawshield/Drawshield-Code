@@ -137,7 +137,7 @@
       array ( 'faces?', 'head' ),
       array ( '(talon|claw)s?', 'claw' ),
       array ( 'ears?', 'ear' ),
-      array ( '([gj]ambe|leg)s?', 'leg' ),
+      array ( '([gj]ambe?|leg)s?', 'leg' ),
      array ( 'fired ?in ?# ?places', 'inflamed' ),
      array ( '(flammant|bursting|exploding)', 'inflamed' ),
      array ( '(en|in)flamed?', 'inflamed' ),
