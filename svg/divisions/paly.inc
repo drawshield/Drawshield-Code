@@ -25,3 +25,6 @@ for ( $i = 1; $i < $num_of; $i +=2 ) {
 }
 $division['div2'] = createBody( $NC, getModifierByType($node,'linetype', false), 40, $layout);
 
+
+if ( count($tinctures) > 2 )
+    include "multi-bar.inc";

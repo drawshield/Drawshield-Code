@@ -1,7 +1,14 @@
 <?php
 
+$fillet = $node && $node->getAttribute('keyterm') == "fillet-saltire";
 
 $width = 200;
+
+if ( $fillet )
+{
+    $width = 100;
+    $ordinary['feature_size'] = 15;
+}
 
 $angle = atan2($layout->size->height, $layout->size->width);
 

@@ -15,6 +15,10 @@ $builder->move(-$margin, $layout->cross_point->y)
 
 $division['div2'] = createBody((string)$builder, $lineType, 60, $layout);
 
+
+if ( count($tinctures) > 2 )
+    include "multi-bar.inc";
+
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';
   $rivetList = '';

@@ -278,11 +278,11 @@ if ( $ok )
 {
 
     $language = new languageDB();
-    echo "<datalist id='charge_features'>";
     $features = $language->patternValues(languageDB::CHARGE_FEATURES);
     $features[] = "main";
     $features[] = "outline";
     sort($features);
+    echo "<datalist id='charge_features'>";
     foreach ( $features as $feat )
         echo "<option value='$feat'/>";
     echo "</datalist>";
@@ -305,7 +305,7 @@ if ( $ok )
 
     $credits = $_GET["credits"] ?? ($remote ? $url : "");
     echo "<label for='credits'>Credits:</label>";
-    echo "<input type='text' value='" . htmlentities($credits, ENT_QUOTES) .  "' style='width: 100%;' name='credits' />";
+    echo "<input type='text' value='" . htmlentities($credits, ENT_QUOTES) . "' style='width: 100%;' name='credits' />";
 
     extract_colors($marker, $document, $path);
 

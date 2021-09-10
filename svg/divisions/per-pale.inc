@@ -13,4 +13,5 @@ if ( existModifierWithKeyterm($node, 'riveted')) {
 }
 
 
-
+if ( count($tinctures) > 2 )
+    include "multi-bar.inc";
