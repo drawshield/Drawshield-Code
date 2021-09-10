@@ -617,6 +617,7 @@ class englishGrammar extends grammar
                         blazonML::A_INDEX => '1')));
                 }
                 $mods[] = $feature;
+                self::ignore(languageDB::ANDD);
                 // Look for non-standard adjusments
             } elseif ($adjustments = self::getAdjustments()) {
                 $mods = array_merge($mods, $adjustments);
@@ -962,7 +963,7 @@ class englishGrammar extends grammar
             if ($keyterm = self::find(languageDB::LINETYPE_PREFIX)) {
                 $mod2 = $this->schema->makeMod(languageDB::LINETYPE_PREFIX, null, $keyterm, self::tokens(), self::lineNo());
                 if ($keyterm = self::find(languageDB::LINETYPE))
-                    $mod2->appendChild($this->schema->makeMod(blazonML::A_LINETYPE, $keyterm, self::tokens(), self::lineNo()));
+                    $mod2->appendChild($this->schema->makeMod(blazonML::A_LINETYPE, null, $keyterm, self::tokens(), self::lineNo()));
                 if ($tinc = self::tincture(false))
                     $mod2->appendChild($tinc);
                 if (!$mod2->hasChildNodes()) {
@@ -971,7 +972,7 @@ class englishGrammar extends grammar
                 }
                 $mod->appendChild($mod2);
             } elseif ($keyterm = self::find(languageDB::LINETYPE))
-                $mod->appendChild($this->schema->makeMod(blazonML::A_LINETYPE, $keyterm, self::tokens(), self::lineNo()));
+                $mod->appendChild($this->schema->makeMod(blazonML::A_LINETYPE, null, $keyterm, self::tokens(), self::lineNo()));
             elseif ($tinc = self::tincture(false))
                 $mod->appendChild($tinc);
             else
@@ -1012,6 +1013,8 @@ class englishGrammar extends grammar
         //if ( self::find(languageDB::WORD_IN) and ($keyterm = self::find(languageDB::LOCATION)) )   // TODO what was thie here for?
         //   $ord->appendChild($this->schema->makeMod(languageDB::ORDINARY_PREFIX,'in' . $keyterm,self::tokens()));
 
+        // look for positions (not all make sense, but we don't care at this stage)
+        $pos = self::getPositions();
         if ($keyterm = self::find(languageDB::WORD_ON)) $onMod = $this->schema->makeMod(languageDB::WORD_ON, null, $keyterm, self::tokens(), self::lineNo());
         // if found, remember "inside" for later
         if ($keyterm = self::find(languageDB::BETWEEN)) $insideMod = $this->schema->makeMod(languageDB::BETWEEN, null, $keyterm, self::tokens(), self::lineNo());
@@ -1138,6 +1141,12 @@ class englishGrammar extends grammar
             }
             $onMod->appendChild($item);
             $ord->appendChild($onMod);
+        }
+        // Are we in a different position?
+        if ($pos) {
+            foreach ($pos as $p) {
+                $ord->appendChild($p);
+            }
         }
         self::discard($state);
         return $ord;

@@ -25,6 +25,7 @@ class tokeniser {
     $i = 0;
     $lineComment = false;
     $comment = false;
+    $blockComment = false;
     $in_string = false;
     $incAll = false;
     $given = false;
@@ -35,6 +36,14 @@ class tokeniser {
       $lookAhead = '';
       if ($i + 1 < $end) {
         $lookAhead = $blazon[$i+1];
+      }
+      if ($blockComment) { // ignore everything to matching close
+        if ($blazon[$i] == '*' && $lookAhead == '/') {
+          $blockComment = false;
+          $i++;
+        }
+        $i++;
+        continue;
       }
       if ($lineComment) { // shortcut, ignore all up to new line
         if ($blazon[$i] == "\n") {
@@ -168,7 +177,7 @@ class tokeniser {
             $lineComment = true;
             $i += 1;
           } elseif ($lookAhead == '*') {
-            $comment = '*';
+            $blockComment = true;
             $i += 1;
           }
           break;

@@ -18,6 +18,7 @@
 $options = array();
 include 'version.inc';
 include 'parser/utilities.inc';
+include 'analyser/utilities.inc';
 /**
  * @var DOMDocument $dom
  */
@@ -50,7 +51,6 @@ $options['asFile'] = "1";
   $dom = $p->parse($options['blazon'],'dom');
   $p = null; // destroy parser
   // Resolve references
-  include "analyser/utilities.inc";
   include "analyser/references.inc";
   $references = new references($dom);
   $dom = $references->setReferences();

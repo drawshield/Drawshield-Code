@@ -515,9 +515,140 @@ function makeOrdinary( DOMElement &$node, $layout ) {
     $yshift = $layout->size->height * 0.1666; // As above
     $transform .= 'translate(0, ' . $yshift . ') ';
   }
-  if ( $transform != '' )
+  if ( $transform != '' ) {
     $retval = '<g transform="' . $transform . '">' . $retval . "</g>\n";
-	
+  }
+  // have we been moved to a different position (or more than one)?
+  // For ease of use in switch statemes we combine any "sinister" modifier
+  if ( existModifierWithKeyTerm($node,'sinister')) $subtype .= '-sinister';
+  $output = '';
+  $positionNodes = getModifiersByTypeAsArray($node,'position',true);
+  if ($positionNodes) {
+    foreach ( $positionNodes as $positionNode) {
+      // only certain combinations of position and ordinary actually make sense
+      $position = $positionNode->getAttribute('keyterm');
+      $valid = false;
+      switch ($position) {
+        case 'inchief':
+        case 'inbase':
+          switch ($subtype) {
+            case 'bar':
+            case 'closet':
+            case 'barrulet':
+            case 'humet':
+            case 'fess':
+              // move from being centered on height to centered on 1/5 of height
+              if ($position == 'inchief') {
+                $yshift = $layout->size->height * -0.3;
+              } else {
+                $yshift = $layout->size->height * 0.6;
+              }
+              $transform .= 'translate(0, ' . $yshift . ') ';
+              $output .= '<g transform="' . $transform . '">' . $retval . "</g>\n";
+              $valid = true;
+              break;
+          default:
+            break;
+        }
+        case 'indexside':
+        case 'insinside':
+          switch ($subtype) {
+            case 'palet':
+            case 'endorse':
+            case 'pale':
+              // move from being centered on width to centered on 1/5 of width
+              if ($position == 'indexside') {
+                $xshift = $layout->size->width * -0.25;
+              } else {
+                $xshift = $layout->size->width * 0.5;
+              }
+              $transform .= 'translate(' . $xshift . ', 0) ';
+              $output .= '<g transform="' . $transform . '">' . $retval . "</g>\n";
+              $valid = true;
+              break;
+            case 'pile':
+              // move from being centered on width to centered on 1/5 of width
+              if ($position == 'indexside') {
+                $xshift = $layout->size->width * -0.25;
+              } else {
+                $xshift = $layout->size->width * 0.5;
+              }
+              $transform .= 'translate(' . $xshift . ', 0) scale(0.5)';
+              $output .= '<g transform="' . $transform . '">' . $retval . "</g>\n";
+              $valid = true;
+              break;
+            default:
+              break;
+          }
+          break;
+        case 'inQ2':
+          switch ($subtype) {
+            case 'bendlet':
+            case 'bend':
+            case 'shakefork':
+              $xShift = $layout->size->width * 0.5;
+              $transform = 'translate(' . $xShift . ',0) scale(0.5)';
+              $output .= '<g transform="' . $transform . '">' . $retval . "</g>\n";
+              $valid = true;
+              break;
+            default:
+              break;
+          }
+          break;
+        case 'inQ1':
+          switch ($subtype) {
+            case 'bendlet-sinister':
+            case 'bend-sinister':
+            case 'shakefork':
+              $transform = 'translate(0,0) scale(0.5)';
+              $output .= '<g transform="' . $transform . '">' . $retval . "</g>\n";
+              $valid = true;
+              break;
+            default:
+              break;
+          }
+          break;
+        case 'inQ3':
+          switch ($subtype) {
+            case 'bendlet-sinister':
+            case 'bend-sinister':
+            case 'shakefork':
+              $xShift = $layout->size->width * 0.5;
+              $yshift = $layout->size->height - $xShift;
+              $transform = 'translate(' . $xShift . ',' . $yshift . ') scale(0.5)';
+              $output .= '<g transform="' . $transform . '">' . $retval . "</g>\n";
+              $valid = true;
+              break;
+            default:
+              break;
+          }
+          break;
+        case 'inQ4':
+          switch ($subtype) {
+            case 'bendlet':
+            case 'bend':
+            case 'shakefork':
+              $xShift = $layout->size->width * 0.5;
+              $yshift = $layout->size->height - $xShift;
+              $transform = 'translate(0,' . $yshift . ') scale(0.5)';
+              $output .= '<g transform="' . $transform . '">' . $retval . "</g>\n";
+              $valid = true;
+              break;
+            default:
+              break;
+          }
+        break;
+      default:
+        break;
+    }
+  }
+  if (!$valid) {
+    $messages->addMessage('error',"Placement not supported: $subtype $position");
+  } else {
+    $retval = $output;
+  }
+}
+
 	// And finally...
   $retval = '<g><title>' . $subtype . '</title>' . $retval . '</g>';
 

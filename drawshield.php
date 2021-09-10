@@ -81,7 +81,7 @@ $options['blazon'] = preg_replace("/\\x[0-9-a-f]{2}/i","",$options['blazon']); /
               && (!in_array($err['type'], array (E_NOTICE, E_WARNING))) // comment this line to get all
                )
         {
-           error_log($err['message'] . " (" . $err['type'] . ") at " . $err['file'] . ":" . $err['line'] . ' - ' . $options['blazon']);
+           error_log($err['message'] . " (" . $err['type'] . ") at " . $err['file'] . ":" . $err['line'] . ' - ' ); // . $options['blazon']);
         }
     });
 
@@ -103,6 +103,12 @@ if ( $options['blazon'] == '' ) {
       $dom->outputFormat = true;
       echo $dom->saveXML(); 
       exit; 
+  }
+  // filter blazon (if present)
+  if (file_exists("/var/www/etc/filter.inc")) {
+      include "/var/www/etc/filter.inc";
+      $filter = new filter($dom);
+      $dom = $filter->runFilter();
   }
 
   // Resolve references
@@ -273,8 +279,6 @@ if ( $options['asFile'] ) {
     $fromBottom = $pageHeight - $margin - $margin - $imageHeight;
     $fromSide = $margin + (($pageWidth - $margin - $margin - $imageWidth) / 2);
     $im->setImagePage($pageWidth,$pageHeight,$fromSide * 0.9,$fromBottom * 0.9);
-     // error_log("s=" . $options['size'] . " ps=" . $options['printSize'] . " un=" . $options['units'] . " m=$margin, mw=$maxWidth, pw=$pageWidth, ph=$pageHeight, iw=$imageWidth, ih=$imageHeight, fs=$fromSide, fb=$fromBottom\n");
-    //$im->setImageResolution(150);
         if (substr($name,-4) != '.pdf') $name .= '.pdf';
     header("Content-type: application/force-download");
     header('Content-Disposition: inline; filename="' . $name);
@@ -331,7 +335,6 @@ if ( $options['asFile'] ) {
     case 'json':
         $newDom = new DOMDocument();
         $newDom->loadXML($output);
-         error_log($newDom->documentElement->nodeName);
       $im = new Imagick();
       $im->setBackgroundColor(new ImagickPixel('transparent'));
       $im->readimageblob($output);
