@@ -9,6 +9,7 @@ class languageDB extends lexicon
     // These constants acts as keys into the pattern database
     // Some are also used to indicate the type of modifier
     const OVERALL = 'overall';
+    const BOT_COMMAND = 'bot_command';
     const METAOVERALL = 'metaoverall';
     const SPLITS = 'splits';
     const ONFIELDOF = 'onfieldof';
@@ -115,6 +116,7 @@ class languageDB extends lexicon
         // category, and if found, the specific key term is returned.
 
         $this->patterns = array(
+            self::BOT_COMMAND => array ( '!draw', '!test', '!todo' ),
             self::CHGLIST => array ("and also", "& also", "along with"),
             self::VALUE => array("*"),
             self::WORD_THE => array('the'),
@@ -980,7 +982,7 @@ class languageDB extends lexicon
                 array('in ?the pale', 'inpale',),
                 array('in ?the pale throughout', 'inpalethrough',),
                 array('in ?the pall', 'inpall',),
-                array('in ?the fesse? !point', 'infess',),
+                array('in ?the fesse? ^point', 'infess',),
                 array('in ?the fesse? throughout', 'infessthrough',),
                 array('in ?the bend sinister', 'inbendsin',),
                 array('in ?the bend ?dexter', 'inbend',),
@@ -1026,7 +1028,7 @@ class languageDB extends lexicon
                 array('(each|every|all|both) ?of ?the', 'each'),
             ),
             self::LOCATION => array(
-                array('chief !throughout ?point', 'chief'),
+                array('chief ^throughout ?point', 'chief'),
                 array('base ?point', 'base'),
                 array('honou?r point', 'honpoint'),
                 array('fesse? point', 'fesspoint'),

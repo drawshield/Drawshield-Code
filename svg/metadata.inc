@@ -37,6 +37,7 @@ class metadataMap {
     self::$charges = array(
             'bbox' => array ('orient_to_ordinary' => 1, 'hflex' => 999, 'wflex' => 999 ),
             'book' => array ( 'hflex' => 1.4, 'wflex' => 1.2 ),
+            'penguin' => array ('demi' => 'horizontal'),
             'bezant' => array ('superposition' => '50,50,85', 'hflex' => 1, 'wflex' => 1),
         'crown-of-thorns' => array ('superposition' => '50,50,45', 'hflex' => 1, 'wflex' => 1),
         'billet' => array ('orient_to_ordinary' => 1, 'demi' => 'horizontal', 'hflex' => 2, 'wflex' => 1.5),
@@ -46,7 +47,7 @@ class metadataMap {
             'cross/long' => array('orient_to_ordinary' => -1),
             'feather' => array('horizontal' => true, 'orient_to_ordinary' => 1),
             'flail' => array ('orient_to_ordinary' => -1),
-            'fusil' => array ( 'hflex' => 1.5, 'wflex' => 2 ),
+            'fusil' => array ( 'hflex' => 1.5, 'wflex' => 1 ),
         'emblem/cross-of-navarre' => array ( 'hflex' => 1.3, 'wflex' => 1.3 ),
         'emblem/cross-of-navarre' => array ( 'hflex' => 1.2, 'wflex' => 1.2 ),
         'gonfannon' => array ('superposition' => '50,35,50'),

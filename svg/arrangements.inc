@@ -851,6 +851,7 @@ function get_placement(DOMElement $item, $layout) {
         if ( $placement == '' ) {
             // special case placements, put some charges in exact centre of cross
             if ( $forceCentre ) {
+                $boundingBox = $boundingBox->relative_box(0.9, 0.9, 0.9, 0.9);
                 $boundingBox->pos = clone $layout->cross_point;
             }
             $placement = calcPlace($item,'w',$boundingBox);
@@ -1035,8 +1036,8 @@ function calcPlace( $node, $aspect, $bb = '100,100,800,900'  ) {
         $placement .= sprintf ( "%.2f,%.2f,%.2f,%.2f:",$centre_x,$centre_y,$cbb_width,$cbb_height);
       }
     }
- // } elseif ($number == 1) {
- //   $placement = sprintf ( "%.2f,%.2f,%.2f,%.2f:",($bb_x + ($bb_w*0.5)), ($bb_y + ($bb_h*0.5)), ($bb_w*0.8), ($bb_h*0.8));
+  // } elseif ($number == 1) {
+  //  $placement = sprintf ( "%.2f,%.2f,%.2f,%.2f:",($bb_x + ($bb_w*0.5)), ($bb_y + ($bb_h*0.5)), ($bb_w*0.8), ($bb_h*0.8));
   } else {
     // Calculate the charge bounding box (same size for all)
     $vert_gap = ($num_rows == 1) ? 0 : ($bb_h * $space_pct) / ($num_rows-1);

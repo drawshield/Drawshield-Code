@@ -25,6 +25,7 @@ class englishGrammar extends grammar
             /**
              * @var DOMElement $node
              */
+            self::ignore(languageDB::BOT_COMMAND);
             self::drawn(); // allow shapes etc. to be given first, if required
             self::semicolon();
             self::comma();

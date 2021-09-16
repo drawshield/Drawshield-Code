@@ -62,7 +62,7 @@ class matcher {
       }
       // Check for negative
       $negative = false;
-      if ( substr($regex,0,1) == '!' ) {
+      if ( substr($regex,0,1) == '^' ) {
         $negative = true;
         $regex = substr($regex,1);
       }

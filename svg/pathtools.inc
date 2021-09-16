@@ -56,7 +56,7 @@ function rotatePoint( $x, $y, $theta ) {
       $y2 = ($cos * $y) + ($sin * $x);
       break;
   }
-  $retval = sprintf('%.4g,%.4g',$x2,$y2);
+  $retval = sprintf('%.3f,%.3f',$x2,$y2);
   return $retval;
 }
 
@@ -115,9 +115,9 @@ function rotatePath( $path, $theta ) {
       case 'h':
         $x = $numbers[0];
         if ($theta == 270 )
-          $newPath .= sprintf('v%.4g', ($x * -1));
+          $newPath .= sprintf('v%.3f', ($x * -1));
         elseif ( $theta == 180 )
-          $newPath .= sprintf('h%.4g', ($x * -1));
+          $newPath .= sprintf('h%.3f', ($x * -1));
         elseif ( $theta == 90 )
           $newPath .= 'v' . $x;
         else
@@ -128,15 +128,15 @@ function rotatePath( $path, $theta ) {
         if ($theta == 270 )
           $newPath .= 'h' . $y;
         elseif ( $theta == 180 )
-          $newPath .= sprintf('v%.4g', ($y * -1));
+          $newPath .= sprintf('v%.3f', ($y * -1));
         elseif ( $theta == 90 )
-          $newPath .= sprintf('h%.4g', ($y * -1));
+          $newPath .= sprintf('h%.3f', ($y * -1));
         else
           $newPath .= 'l' . rotatePoint(0,$y, $theta);
         break;
       case 'a':
         list($rx,$ry,$rot,$arc,$sweep,$x,$y) = $numbers;
-        $newPath .= sprintf('a%.4g,%.4g %.4g,%d,%d %s', $rx,$ry, (($rot + $theta)%360),$arc,$sweep, rotatePoint($x,$y, $theta));
+        $newPath .= sprintf('a%.3f,%.3f %.3f,%d,%d %s', $rx,$ry, (($rot + $theta)%360),$arc,$sweep, rotatePoint($x,$y, $theta));
         break;
       case 'l':
       case 'q':
@@ -171,45 +171,45 @@ function translatePath( $path, $xTrans, $yTrans ) {
       $numbers = getNumbers( $chunks[$i+1] );
     switch ( $command ) {
       case 'H':
-        $newPath .= sprintf('H%.4g', $numbers[0] + $xTrans);
+        $newPath .= sprintf('H%.3f', $numbers[0] + $xTrans);
         break;
       case 'V':
-        $newPath .= sprintf('V%.4g', $numbers[0] + $yTrans);
+        $newPath .= sprintf('V%.3f', $numbers[0] + $yTrans);
         break;
       case 'M':
       case 'L':
       case 'C':
         $newPath .= $command;
         for ( $j = 0; $j < count($numbers); $j += 2 ) {
-          $newPath .= sprintf('%.4g,', ($numbers[$j] + $xTrans));
-          $newPath .= sprintf('%.4g ', ($numbers[$j+1] + $yTrans));
+          $newPath .= sprintf('%.3f,', ($numbers[$j] + $xTrans));
+          $newPath .= sprintf('%.3f ', ($numbers[$j+1] + $yTrans));
         }
         if ( $command == 'M' ) $firstMove = false;
         break;
       case 'm':
         $newPath .= 'm';
         if ( $firstMove ) {
-          $newPath .= sprintf('%.4g,', ($numbers[0] + $xTrans));
-          $newPath .= sprintf('%.4g ', ($numbers[1] + $yTrans));
+          $newPath .= sprintf('%.3f,', ($numbers[0] + $xTrans));
+          $newPath .= sprintf('%.3f ', ($numbers[1] + $yTrans));
           for ( $j = 2; $j < count($numbers); $j += 2 ) {
-            $newPath .= sprintf('%.4g,', ($numbers[$j]));
-            $newPath .= sprintf('%.4g ', ($numbers[$j+1]));
+            $newPath .= sprintf('%.3f,', ($numbers[$j]));
+            $newPath .= sprintf('%.3f ', ($numbers[$j+1]));
           }
           $firstMove = false;
         } else {  
           for ( $j = 0; $j < count($numbers); $j += 2 ) {
-            $newPath .= sprintf('%.4g,', ($numbers[$j]));
-            $newPath .= sprintf('%.4g ', ($numbers[$j+1]));
+            $newPath .= sprintf('%.3f,', ($numbers[$j]));
+            $newPath .= sprintf('%.3f ', ($numbers[$j+1]));
           }
         }
         break;
       case 'a':
         list($rx,$ry,$rot,$arc,$sweep,$x,$y) = $numbers;
-        $newPath .= sprintf('a%.4g,%.4g %.4g,%d,%d %.4g,%.4g', $rx,$ry, $rot,$arc,$sweep, $x,$y);
+        $newPath .= sprintf('a%.3f,%.3f %.3f,%d,%d %.3f,%.3f', $rx,$ry, $rot,$arc,$sweep, $x,$y);
         break;
       case 'h':
       case 'v': // Pass all unchanged
-        $newPath .= $command . sprintf('%.4g', $numbers[0]);
+        $newPath .= $command . sprintf('%.3f', $numbers[0]);
         break;
       case 'l':
       case 'q':
@@ -217,7 +217,7 @@ function translatePath( $path, $xTrans, $yTrans ) {
         $newPath .= $command;
         $odd = true;
         foreach ( $numbers as $number ) {
-          $newPath .= (sprintf('%.4g', $number)) . ($odd ? ',':' ');
+          $newPath .= (sprintf('%.3f', $number)) . ($odd ? ',':' ');
           $odd = !$odd;
         }
         break;
@@ -248,11 +248,11 @@ function matrixPath( $path, $a, $b, $c, $d, $e, $f ) {
     switch ( $command ) {
       case 'H':
         $coords =  matMul($a, $b, $c, $d, $e, $f, $numbers[0], 0);
-        $newPath .= sprintf('l%.4g,%.4g ', $coords[0], $coords[1]);
+        $newPath .= sprintf('l%.3f,%.3f ', $coords[0], $coords[1]);
         break;
       case 'V':
         $coords =  matMul($a, $b, $c, $d, $e, $f, 0, $numbers[0]);
-        $newPath .= sprintf('l%.4g,%.4g ', $coords[0], $coords[1]);
+        $newPath .= sprintf('l%.3f,%.3f ', $coords[0], $coords[1]);
         break;
       case 'M':
       case 'L':
@@ -260,8 +260,8 @@ function matrixPath( $path, $a, $b, $c, $d, $e, $f ) {
         $newPath .= $command;
         for ( $j = 0; $j < count($numbers); $j += 2 ) {
           $coords =  matMul($a, $b, $c, $d, $e, $f, $numbers[$j], $numbers[$j+1]);
-          $newPath .= sprintf('%.4g,', $coords[0]);
-          $newPath .= sprintf('%.4g ', $coords[1]);
+          $newPath .= sprintf('%.3f,', $coords[0]);
+          $newPath .= sprintf('%.3f ', $coords[1]);
         }
         if ( $command == 'M' ) $firstMove = false;
         break;
@@ -269,33 +269,33 @@ function matrixPath( $path, $a, $b, $c, $d, $e, $f ) {
         $newPath .= 'm';
         if ( $firstMove ) {
           $coords = matMul($a, $b, $c, $d, $e, $f, $numbers[0], $numbers[1]);
-          $newPath .= sprintf('%.4g, %.4g ', $coords[0], $coords[1]);
+          $newPath .= sprintf('%.3f, %.3f ', $coords[0], $coords[1]);
           for ( $j = 2; $j < count($numbers); $j += 2 ) {
             $coords = matMul($a, $b, $c, $d, 0, 0, $numbers[$j], $numbers[$j+1]);
-            $newPath .= sprintf('%.4g,', ($coords[0]));
-            $newPath .= sprintf('%.4g ', ($coords[1]));
+            $newPath .= sprintf('%.3f,', ($coords[0]));
+            $newPath .= sprintf('%.3f ', ($coords[1]));
           }
           $firstMove = false;
         } else {  
           for ( $j = 0; $j < count($numbers); $j += 2 ) {
             $coords = matMul($a, $b, $c, $d, 0, 0, $numbers[$j], $numbers[$j+1]);
-            $newPath .= sprintf('%.4g,', ($coords[0]));
-            $newPath .= sprintf('%.4g ', ($coords[1]));
+            $newPath .= sprintf('%.3f,', ($coords[0]));
+            $newPath .= sprintf('%.3f ', ($coords[1]));
           }
         }
         break;
       case 'a':
         list($rx,$ry,$rot,$arc,$sweep,$x,$y) = $numbers; /* TODO extract rotation & apply */
-        $newPath .= sprintf('a%.4g,%.4g %.4g,%d,%d %.4g,%.4g', $rx,$ry, $rot,$arc,$sweep, $x,$y);
+        $newPath .= sprintf('a%.3f,%.3f %.3f,%d,%d %.3f,%.3f', $rx,$ry, $rot,$arc,$sweep, $x,$y);
         $messages->addMessage('internal','no matrix apply for arc');
         break;
       case 'h':
         $coords =  matMul($a, $b, $c, $d, 0, 0, $numbers[0], 0);
-        $newPath .= sprintf('l%.4g,%.4g ', $coords[0], $coords[1]);
+        $newPath .= sprintf('l%.3f,%.3f ', $coords[0], $coords[1]);
         break;
       case 'v':
         $coords =  matMul($a, $b, $c, $d, 0, 0, 0, $numbers[0]);
-        $newPath .= sprintf('l%.4g,%.4g ', $coords[0], $coords[1]);
+        $newPath .= sprintf('l%.3f,%.3f ', $coords[0], $coords[1]);
         break;
       case 'l':
       case 'q':
@@ -303,8 +303,8 @@ function matrixPath( $path, $a, $b, $c, $d, $e, $f ) {
         $newPath .= $command;
         for ( $j = 0; $j < count($numbers); $j += 2 ) {
           $coords = matMul($a, $b, $c, $d, 0, 0, $numbers[$j], $numbers[$j+1]);
-          $newPath .= sprintf('%.4g,', ($coords[0]));
-          $newPath .= sprintf('%.4g ', ($coords[1]));
+          $newPath .= sprintf('%.3f,', ($coords[0]));
+          $newPath .= sprintf('%.3f ', ($coords[1]));
         }
         break;
       case 'Z':
@@ -330,25 +330,25 @@ function mirrorPath ( $path, $axis = 'x' ) {
       case 'h':
         $x = $numbers[0];
         if ($axis == 'x')
-          $newPath .= sprintf('h%.4g',$x);
+          $newPath .= sprintf('h%.3f',$x);
         else
-          $newPath .= sprintf('h%.4g',($x * -1));
+          $newPath .= sprintf('h%.3f',($x * -1));
         break;
       case 'v':
         $y = $numbers[0];
         if ($axis == 'x')
-          $newPath .= sprintf('v%.4g',($y * -1));
+          $newPath .= sprintf('v%.3f',($y * -1));
         else
-          $newPath .= sprintf('v%.4g',$y);
+          $newPath .= sprintf('v%.3f',$y);
         break;
       case 'a':
         list($rx,$ry,$rot,$arc,$swap,$x,$y) = $numbers;
         if ( $axis == 'x' ) {
           $swap = $swap == 1? 0 : 1;
-          $newPath .= sprintf('a%.4g,%.4g %.4g,%d,%d %.4g,%.4g', $rx,$ry, (($rot + 180)%360),$arc,$swap, $x,$y);
+          $newPath .= sprintf('a%.3f,%.3f %.3f,%d,%d %.3f,%.3f', $rx,$ry, (($rot + 180)%360),$arc,$swap, $x,$y);
         } else {
           $x *= -1;
-          $newPath .= sprintf('a%.4g,%.4g %.4g,%d,%d %.4g,%.4g', $rx,$ry,(($rot + 180)%360),$arc,$swap, $x,$y);
+          $newPath .= sprintf('a%.3f,%.3f %.3f,%d,%d %.3f,%.3f', $rx,$ry,(($rot + 180)%360),$arc,$swap, $x,$y);
         }
         break;
       case 'l':
@@ -368,7 +368,7 @@ function mirrorPath ( $path, $axis = 'x' ) {
             $newX = $numbers[$j] * -1;
             $newY = $numbers[$j+1];
           }
-          $newPath .= sprintf ('%.4g,%.4g ', $newX, $newY);
+          $newPath .= sprintf ('%.3f,%.3f ', $newX, $newY);
         }
         break;
       case 'z':
@@ -393,16 +393,16 @@ function scalePath ( $path, $xScale = 1, $yScale = 1 ) {
       case 'h':
         $x = $numbers[0];
         if ($xScale == 1)
-          $newPath .= sprintf('h%.4g',$x);
+          $newPath .= sprintf('h%.3f',$x);
         else
-          $newPath .= sprintf('h%.4g',($x * $xScale));
+          $newPath .= sprintf('h%.3f',($x * $xScale));
         break;
       case 'v':
         $y = $numbers[0];
         if ($yScale == 1)
-          $newPath .= sprintf('v%.4g',$y);
+          $newPath .= sprintf('v%.3f',$y);
         else
-          $newPath .= sprintf('v%.4g',($y * $yScale));
+          $newPath .= sprintf('v%.3f',($y * $yScale));
         break;
       case 'a':
         list($rx,$ry,$rot,$arc,$swap,$x,$y) = $numbers;
@@ -414,7 +414,7 @@ function scalePath ( $path, $xScale = 1, $yScale = 1 ) {
           $ry *= $yScale;
           $y *= $yScale;
         }
-        $newPath .=  sprintf('a%.4g,%.4g %.4g,%d,%d %.4g,%.4g', $rx,$ry, $rot,$arc,$swap, $x,$y);
+        $newPath .=  sprintf('a%.3f,%.3f %.3f,%d,%d %.3f,%.3f', $rx,$ry, $rot,$arc,$swap, $x,$y);
         break;
       case 'c':
       case 'l':
@@ -431,7 +431,7 @@ function scalePath ( $path, $xScale = 1, $yScale = 1 ) {
           if ( $yScale != 1 ) {
             $newY *= $yScale;
           }
-          $newPath .= sprintf ('%.4g,%.4g ', $newX, $newY);
+          $newPath .= sprintf ('%.3f,%.3f ', $newX, $newY);
         }
         break;
       case 'z':
@@ -457,32 +457,32 @@ function makeRelative ( $path, $Xoff = 0, $Yoff = 0 ) {
       case 'h':
         $x = $numbers[0];
         $curX += $x;
-        $newPath .= sprintf('h%.4g',$x);
+        $newPath .= sprintf('h%.3f',$x);
         break;
       case 'H':
         $x = $numbers[0];
-        $newPath .= sprintf('h%.4g',($x - $curX));
+        $newPath .= sprintf('h%.3f',($x - $curX));
         $curX = $x;
         break;
       case 'v':
         $y = $numbers[0];
         $curY += $y;
-        $newPath .= sprintf('v%.4g',$y);
+        $newPath .= sprintf('v%.3f',$y);
         break;
       case 'V':
         $y = $numbers[0];
-        $newPath .= sprintf('v%.4g',($y - $curY));
+        $newPath .= sprintf('v%.3f',($y - $curY));
         $curY = $y;
         break;
       case 'a':
         list($rx,$ry,$rot,$arc,$swap,$x,$y) = $numbers;
-        $newPath =  sprintf('a%.4g,%.4g %.4g,%d,%d %.4g,%.4g', $rx,$ry, $rot,$arc,$swap, $x,$y);
+        $newPath =  sprintf('a%.3f,%.3f %.3f,%d,%d %.3f,%.3f', $rx,$ry, $rot,$arc,$swap, $x,$y);
         $curX += $x;
         $curY += $y;
         break;
       case 'A':
         list($rx,$ry,$rot,$arc,$swap,$x,$y) = $numbers;
-        $newPath =  sprintf('a%.4g,%.4g %.4g,%d,%d %.4g,%.4g', $rx,$ry,$rot,$arc,$swap, ($x - $curX),($y - $curY));
+        $newPath =  sprintf('a%.3f,%.3f %.3f,%d,%d %.3f,%.3f', $rx,$ry,$rot,$arc,$swap, ($x - $curX),($y - $curY));
         $curX = $x;
         $curY = $y;
         break;
@@ -495,7 +495,7 @@ function makeRelative ( $path, $Xoff = 0, $Yoff = 0 ) {
           $cpEndY = $numbers[$j+3];
           $endX = $numbers[$j+4];
           $endY = $numbers[$j+5];
-          $tempPath .= sprintf('%.4g,%.4g %.4g,%.4g %.4g,%.4g ',$cpStartX,$cpStartY, $cpEndX,$cpEndY, $endX,$endY);
+          $tempPath .= sprintf('%.3f,%.3f %.3f,%.3f %.3f,%.3f ',$cpStartX,$cpStartY, $cpEndX,$cpEndY, $endX,$endY);
           $curX += $endX;
           $curY += $endY;
         }
@@ -510,7 +510,7 @@ function makeRelative ( $path, $Xoff = 0, $Yoff = 0 ) {
           $cpEndY = $numbers[$j+3];
           $endX = $numbers[$j+4];
           $endY = $numbers[$j+5];
-          $tempPath .= sprintf('%.4g,%.4g %.4g,%.4g %.4g,%.4g ', ($cpStartX - $curX), ($cpStartY - $curY),($cpEndX - $curX),($cpEndY - $curY),($endX - $curX),($endY - $curY));
+          $tempPath .= sprintf('%.3f,%.3f %.3f,%.3f %.3f,%.3f ', ($cpStartX - $curX), ($cpStartY - $curY),($cpEndX - $curX),($cpEndY - $curY),($endX - $curX),($endY - $curY));
           $curX = $endX;
           $curY = $endY;
         }
@@ -522,7 +522,7 @@ function makeRelative ( $path, $Xoff = 0, $Yoff = 0 ) {
         for ( $j = 0; $j < count($numbers); $j += 2 ) {
           $y = $numbers[$j+1];
           $x = $numbers[$j];
-          $tempPath .= sprintf('%.4g,%.4g ',$x,$y);
+          $tempPath .= sprintf('%.3f,%.3f ',$x,$y);
           $curX += $x;
           $curY += $y;
         }
@@ -534,7 +534,7 @@ function makeRelative ( $path, $Xoff = 0, $Yoff = 0 ) {
         for ( $j = 0; $j < count($numbers); $j += 2 ) {
           $y = $numbers[$j+1];
           $x = $numbers[$j];
-          $tempPath .= sprintf('%.4g,%.4g ', ($x - $curX),($y - $curY));
+          $tempPath .= sprintf('%.3f,%.3f ', ($x - $curX),($y - $curY));
           $curX = $x;
           $curY = $y;
         }
@@ -562,15 +562,15 @@ function reversePath ( $path ) {
     switch ( strtolower($command) ) {
       case 'h':
         $x = $numbers[0];
-        $newPath = sprintf('h%.4g',($x * -1)) . $newPath;
+        $newPath = sprintf('h%.3f',($x * -1)) . $newPath;
         break;
       case 'v':
         $y = $numbers[0];
-        $newPath = sprintf('v%.4g',($y * -1)) . $newPath;
+        $newPath = sprintf('v%.3f',($y * -1)) . $newPath;
         break;
       case 'a':
         list($rx,$ry,$rot,$arc,$swap,$x,$y) = $numbers;
-        $newPath =   sprintf('a%.4g,%.4g %.4g,%d,%d %.4g,%.4g',$rx,$ry, $rot,$arc,$swap,($x * -1),($y * -1)) . $newPath;
+        $newPath =   sprintf('a%.3f,%.3f %.3f,%d,%d %.3f,%.3f',$rx,$ry, $rot,$arc,$swap,($x * -1),($y * -1)) . $newPath;
         break;
       case 'c':
         $tempPath = '';
@@ -581,9 +581,9 @@ function reversePath ( $path ) {
           $cpEndY = $numbers[$j+3];
           $endX = $numbers[$j+4];
           $endY = $numbers[$j+5];
-          $newCPStart = sprintf( '%.4g,%.4g ', ($cpEndX - $endX),($cpEndY - $endY));
-          $newCPEnd = sprintf( '%.4g,%.4g ', ($cpStartX - $endX),($cpStartY - $endY));
-          $newEnd = sprintf( '%.4g,%.4g ', ($endX * -1),($endY * -1));
+          $newCPStart = sprintf( '%.3f,%.3f ', ($cpEndX - $endX),($cpEndY - $endY));
+          $newCPEnd = sprintf( '%.3f,%.3f ', ($cpStartX - $endX),($cpStartY - $endY));
+          $newEnd = sprintf( '%.3f,%.3f ', ($endX * -1),($endY * -1));
           $tempPath = $newCPStart . $newCPEnd . $newEnd . $tempPath;
         }
         $tempPath = $command . $tempPath;
@@ -596,7 +596,7 @@ function reversePath ( $path ) {
         for ( $j = 0; $j < count($numbers); $j += 2 ) {
           $newY = $numbers[$j+1] * -1;
           $newX = $numbers[$j] * -1;
-          $tempPath = sprintf('%.4g,%.4g ', $newX,$newY) . $tempPath;
+          $tempPath = sprintf('%.3f,%.3f ', $newX,$newY) . $tempPath;
         }
         $tempPath = $command . $tempPath;
         $newPath = $tempPath . $newPath;
