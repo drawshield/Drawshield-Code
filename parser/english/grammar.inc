@@ -105,6 +105,9 @@ class englishGrammar extends grammar
                     $this->tokenList->resetToken();
                     $stackedInput = null;
                 }
+                // clear out any stored colours or tinctures from the previous time aroudn
+                $this->foundColours = [];
+                $this->foundTinctures = [];
             } else {
                 break; // All input consumed, success!
             }
@@ -1094,7 +1097,9 @@ class englishGrammar extends grammar
             } elseif ($keyterm = self::find(languageDB::VOIDED)) {
                 $mod = $this->schema->makeMod(languageDB::VOIDED, null, $keyterm, self::tokens(), self::lineNo());
                 // If ordinary already has tincture, look for a void tincture (e.g. "a bend or voided sable")
-                if ($foundTinc and ($tinc = self::tincture(false))) $mod->appendChild($tinc);
+                if ($foundTinc && ($tinc = self::tincture(false))) {
+                    $mod->appendChild($tinc);
+                }
                 $ord->appendChild($mod);
             } elseif ($tinc = self::tincture(false)) {
                 $ord->appendChild($tinc);

@@ -906,7 +906,7 @@ class languageDB extends lexicon
                 array('of # (point|peak)s', 'points'), // only if label is a ordinary
                 // array ( '(de)?bruised|fracted|disjoint ?at ?the ?top', 'fracted' ),
                 array('en(aluron|urney|toire|toyre)', 'entire'),
-                'lozengy', 'triangular', 'throughout', 'of pretence', 'voided', 'ploye',
+                'lozengy', 'triangular', 'throughout', 'of pretence', 'ploye',
             ),
             self::COTTICE_MODS => array(
                 array('cott?i(s|ss|c)ed', '1'),
