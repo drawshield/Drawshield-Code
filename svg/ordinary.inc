@@ -119,7 +119,7 @@ function division_to_modifier(DOMElement &$node, $type) {
 	// See if there is a division of the required type
   if ($node != null) {
   	foreach ( $node->childNodes as $child ) {
-  		if ( $child->nodeName == 'tincture' ) {
+  		if ( $child->nodeName == 'tincture' && $child-hasChildNodes()) {
         $firstChild = resolveReference($child)->firstChild;
         if ( $firstChild != null && $firstChild->nodeName == 'division' && $firstChild->getAttribute('keyterm') == $type ) {
     		  $item = $child;
@@ -330,7 +330,7 @@ function makeOrdinary( DOMElement &$node, $layout ) {
 	  $shape_spec = $ord_data['shape_spec'];
     if ( $voided != null ) {
       if ( ($void_col = $voided->firstChild ) != null )
-			  $bodySVG .= apply_tincture ( $void_col, createBody($shape_spec, 'none', 0 ), $layout );
+			  $bodySVG .= apply_tincture ( $void_col, createBody($shape_spec, 'none', 40, $layout ), $layout);
       $bodySVG .= createVoid($shape_spec, getModifierByType($node,'linetype', false), $feature_size, $layout);
     } else {
       $bodySVG .= createBody($shape_spec, getModifierByType($node,'linetype', false), $feature_size, $layout);
@@ -365,7 +365,8 @@ function makeOrdinary( DOMElement &$node, $layout ) {
 	} // We now have $body and $cotise set.
 	
 	// Find out how we are arranged
-  if ( array_key_exists('rotate_pattern', $ord_data) && $tinc1->firstChild->nodeName != blazonML::E_COUNTERCHANGED )
+  if ( array_key_exists('rotate_pattern', $ord_data) && $tinc1->hasChildNodes() &&
+                  $tinc1->firstChild->nodeName != blazonML::E_COUNTERCHANGED )
 	  $rot = $ord_data['rotate_pattern'];
 	else 
 	  $rot = 0;

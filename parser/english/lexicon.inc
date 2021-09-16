@@ -9,6 +9,7 @@ class languageDB extends lexicon
     // These constants acts as keys into the pattern database
     // Some are also used to indicate the type of modifier
     const OVERALL = 'overall';
+    const BOT_COMMAND = 'bot_command';
     const METAOVERALL = 'metaoverall';
     const SPLITS = 'splits';
     const ONFIELDOF = 'onfieldof';
@@ -115,6 +116,7 @@ class languageDB extends lexicon
         // category, and if found, the specific key term is returned.
 
         $this->patterns = array(
+            self::BOT_COMMAND => array ( '!draw', '!test', '!todo' ),
             self::CHGLIST => array ("and also", "& also", "along with"),
             self::VALUE => array("*"),
             self::WORD_THE => array('the'),
@@ -163,11 +165,11 @@ class languageDB extends lexicon
                 array('?(of|to) ?the centre', 'centre'),
             ),
             self::HELMET => array(
-                array('?(the|a|an) royal helmet', 'royal'),
-                array('?(the|a|an) monarchs? helmet', 'royal'),
-                array('?(the|a|an) (knight|baronet)s? helmet', 'baronet'),
-                array('?(the|a|an) ?(esquire|gentlem[ea]n)s? helmet', 'esquire'),  // DEFAULT
-                array('?(the|a|an) (peer|lord)s? helmet', 'peer'),
+                array('?(the|a|an) royal helm(et)', 'royal'),
+                array('?(the|a|an) monarchs? helm(et)', 'royal'),
+                array('?(the|a|an) (knight|baronet)s? helm(et)', 'baronet'),
+                array('?(the|a|an) ?(esquire|gentlem[ea]n)s? helm(et)', 'esquire'),  // DEFAULT
+                array('?(the|a|an) (peer|lord)s? helm(et)', 'peer'),
             ),
             self::MOTTO => array('?with ?the (motto|devi[sc]e) *', 'motto'),
             self::BLAZONED => array('(em)blazoned ?(with|of)', 'with ?(a|the) blazon ?of'),
@@ -904,7 +906,7 @@ class languageDB extends lexicon
                 array('of # (point|peak)s', 'points'), // only if label is a ordinary
                 // array ( '(de)?bruised|fracted|disjoint ?at ?the ?top', 'fracted' ),
                 array('en(aluron|urney|toire|toyre)', 'entire'),
-                'lozengy', 'triangular', 'throughout', 'of pretence', 'voided', 'ploye',
+                'lozengy', 'triangular', 'throughout', 'of pretence', 'ploye',
             ),
             self::COTTICE_MODS => array(
                 array('cott?i(s|ss|c)ed', '1'),
@@ -980,7 +982,7 @@ class languageDB extends lexicon
                 array('in ?the pale', 'inpale',),
                 array('in ?the pale throughout', 'inpalethrough',),
                 array('in ?the pall', 'inpall',),
-                array('in ?the fesse? !point', 'infess',),
+                array('in ?the fesse? ^point', 'infess',),
                 array('in ?the fesse? throughout', 'infessthrough',),
                 array('in ?the bend sinister', 'inbendsin',),
                 array('in ?the bend ?dexter', 'inbend',),
@@ -1026,7 +1028,7 @@ class languageDB extends lexicon
                 array('(each|every|all|both) ?of ?the', 'each'),
             ),
             self::LOCATION => array(
-                array('chief !throughout ?point', 'chief'),
+                array('chief ^throughout ?point', 'chief'),
                 array('base ?point', 'base'),
                 array('honou?r point', 'honpoint'),
                 array('fesse? point', 'fesspoint'),
