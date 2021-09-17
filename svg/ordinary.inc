@@ -119,7 +119,7 @@ function division_to_modifier(DOMElement &$node, $type) {
 	// See if there is a division of the required type
   if ($node != null) {
   	foreach ( $node->childNodes as $child ) {
-  		if ( $child->nodeName == 'tincture' && $child-hasChildNodes()) {
+  		if ( $child->nodeName == 'tincture' && $child->hasChildNodes()) {
         $firstChild = resolveReference($child)->firstChild;
         if ( $firstChild != null && $firstChild->nodeName == 'division' && $firstChild->getAttribute('keyterm') == $type ) {
     		  $item = $child;

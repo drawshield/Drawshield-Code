@@ -426,7 +426,7 @@ function PlaceCharge ( $node,  // images
       case 'palewise':
 //        $do_turn = $chargeX >= $chargeY;
         if ( array_key_exists('horizontal', $charge)  ) {
-          $retval = "<g transform=\"translate(0,$chargeX) rotate(-90)\"><desc>palewise charge</desc>$retval</g>\n";
+          $retval = "<g transform=\"translate($chargeY,0) rotate(90)\"><desc>palewise charge</desc>$retval</g>\n";
           $temp = $chargeX; $chargeX = $chargeY; $chargeY = $temp;
           $temp = $Xflex; $Xflex = $Yflex; $Yflex = $temp;
         }
