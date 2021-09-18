@@ -427,20 +427,31 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
     else
         $width = floatval($widthVal);
 
-    @$metadata = $svg->xpath('//dc:title');
-    if ( is_array($metadata) and count($metadata) > 0)
-    {
+    @$SVGmetadata = $svg->xpath('//dc:title');
+    if ( is_array($SVGmetadata) and count($SVGmetadata) > 0) {
         $licence = 'unknown';
-        foreach($metadata as $meta)
-        {
-            if (strlen($meta))
-            {
-                $licence = $meta;
+        foreach($SVGmetadata as $metaitem) {
+            if (strlen($metaitem)) {
+                $licence = $metaitem;
                 break;
             }
         }
-
         $messages->addMessage('licence', "$chargeGroup/$chargeName - $licence");
+    }
+    $meta = [];
+    @$SVGmetadata = $svg->xpath('//dc:description');
+    if ( is_array($SVGmetadata) and count($SVGmetadata) > 0) {
+      foreach($SVGmetadata as $metaitem) {
+          if (strlen($metaitem)) {
+            error_log($metaitem);
+            @$json = json_decode($metaitem, true);
+            if (is_null($json) || count($json) == 0) {
+              $messages->addMessage('internal', "Bad JSON in $chargeGroup/$chargeName");
+            } else {
+              $meta = array_merge($meta,$json);
+            }
+          }
+      }
     }
 
     $bounding_box = ShieldRect::from_corners(0, 0, $width, $height);
@@ -478,6 +489,7 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
     $retval['height'] = $bounding_box->size->height;
     $retval['width'] = $bounding_box->size->width;
     $retval['bounding_box'] = $bounding_box;
+    $retval['metadata'] = $meta;
 
     return $retval;
 }

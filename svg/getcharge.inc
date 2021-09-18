@@ -548,8 +548,12 @@ HERE;
     $body = $height = $width = /* $licence = */ null;
     extract(getSvgFragment($chg_data['svgCode'], $feat_cols, $chargeGroup, $chargeName, $extras, $strokeCol ));
     // $body now contains a valid fragment of SVG, ready for use
-    // Also, $licence, $height and $width are set
+    // Also, $licence, $metadata, $height and $width are set
     //----------------------------------------------------------
+  }
+  // if the SVG file contained metadata for us, include it in the charge data
+  if (count($metadata)) {
+    array_merge($chg_data, $metadata);
   }
 
   //----------------------------------------------------------

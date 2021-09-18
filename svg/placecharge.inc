@@ -398,13 +398,12 @@ function PlaceCharge ( $node,  // images
   if ( $reversed ) {
     $retval = "<g transform=\"translate($chargeX,0) scale(-1,1)\"><desc>reversed charge</desc>$retval</g>\n";
   }
+  $situation = $charge['situation'] ?? 'palewise';
   if ( $orientation ) {
     $rotation = 0; // An explicit charge orientation overrides a rotation from the arrangement
     switch ( $orientation ) {
       case 'fesswise':
-        $do_turn = $chargeY > $chargeX;
-        if ( array_key_exists('turn_fesswise', $charge) ) { $do_turn = $charge['turn_fesswise']; }
-        if ($do_turn ) {
+        if ($situation == 'palewise') {
           $retval = "<g transform=\"translate($chargeY,0) rotate(90)\"><desc>fesswise charge</desc>$retval</g>\n";
           $temp = $chargeX; $chargeX = $chargeY; $chargeY = $temp;
           $temp = $Xflex; $Xflex = $Yflex; $Yflex = $temp;
@@ -412,7 +411,7 @@ function PlaceCharge ( $node,  // images
         break;
       case 'bendwise':
       case 'bendsinwise':
-        if ( array_key_exists('horizontal', $charge)  ) {
+        if ( $situation == 'fesswise' ) {
           $angle = ($orientation == 'bendwise') ? "45" : "135";
         } else {
           $angle = ($orientation == 'bendwise') ? "-45" : "45";
@@ -424,8 +423,7 @@ function PlaceCharge ( $node,  // images
         $retval = "<g transform=\"translate($XY2,$XY2) rotate($angle) translate(-$X2,-$Y2)\"><desc>bendwise</desc>$retval</g>\n";
         break;
       case 'palewise':
-//        $do_turn = $chargeX >= $chargeY;
-        if ( array_key_exists('horizontal', $charge)  ) {
+        if ( $situation == 'fesswise' ) {
           $retval = "<g transform=\"translate($chargeY,0) rotate(90)\"><desc>palewise charge</desc>$retval</g>\n";
           $temp = $chargeX; $chargeX = $chargeY; $chargeY = $temp;
           $temp = $Xflex; $Xflex = $Yflex; $Yflex = $temp;
@@ -438,13 +436,6 @@ function PlaceCharge ( $node,  // images
         break;
     }
   }
-  // Fix some older charges that had orient_to_ordinary as a boolean
-  /* if ( array_key_exists('orient_to_ordinary', $charge) ) {
-    if ( $charge['orient_to_ordinary'] === false )
-      unset( $charge['orient_to_ordinary'] );
-    elseif ( $charge['orient_to_ordinary'] === true )
-      $charge['orient_to_ordinary'] = 1;
-  } */
   if ($rotation != 0) {
     if ( array_key_exists('horizontal', $charge)) {
       // Swap over bounding box sizes
