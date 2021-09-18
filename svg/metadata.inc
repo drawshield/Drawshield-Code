@@ -35,7 +35,7 @@ class metadataMap {
       'zodiac' => array('fimbriate' => true, 'fixStroke' => true),
     );
     self::$charges = array(
-            'bbox' => array ('orient_to_ordinary' => 1, 'hflex' => 999, 'wflex' => 999 ),
+            'bbox' => array ('orient_to_ordinary' => -1, 'hflex' => 999, 'wflex' => 999 ),
             'book' => array ( 'hflex' => 1.4, 'wflex' => 1.2 ),
             'penguin' => array ('demi' => 'horizontal'),
             'bezant' => array ('superposition' => '50,50,85', 'hflex' => 1, 'wflex' => 1),

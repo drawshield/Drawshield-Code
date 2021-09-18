@@ -452,7 +452,6 @@ function PlaceCharge ( $node,  // images
         if ( $charge['orient_to_ordinary'] == -1) {
           $rotation *= -1;
         }
-        // $rotation *= $charge['orient_to_ordinary'];
       }
     }
   }
