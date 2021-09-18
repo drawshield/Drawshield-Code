@@ -523,37 +523,34 @@ HERE;
       }
   }
 
-  // special handling for fimbriated (overwrites strokeCol)
-  if ( ($fimNode = getModifierNodeWithKeyterm($node, 'fimbriated')) != null ) {
-    if ( array_key_exists('fimbriate', $chg_data) && $chg_data['fimbriate'] == true && count($filters) == 0 ) {
-      $tincNode = getTinctureNode($fimNode);
-      $strokeCol = get_rgb($tincNode);
-    } else {
-      $fimbTincNode = getTinctureNode($fimNode);
-      $fimbStrokeCol = get_rgb($fimbTincNode);
-      $filter_id++;
-      $svg_id = "ds_filter_fimbriated_$filter_id";
-      $filters[$svg_id] = <<<HERE
-        <feMorphology operator="dilate" in="SourceGraphic" radius="3" result="dilated" />
-        <feFlood flood-opacity="1" flood-color="$fimbStrokeCol" result="flood" />
-        <feComposite in="flood" in2="dilated" operator="in" result="back" />
-        <feComposite in="SourceGraphic" in2="back" operator="over" result="final" />
-HERE;
+    // special handling for fimbriated (overwrites strokeCol)
+    if ( ($fimNode = getModifierNodeWithKeyterm($node, 'fimbriated')) != null ) {
+      if ( array_key_exists('fimbriate', $chg_data) && $chg_data['fimbriate'] == true && count($filters) == 0 ) {
+        $tincNode = getTinctureNode($fimNode);
+        $strokeCol = get_rgb($tincNode);
+      } else {
+        $fimbTincNode = getTinctureNode($fimNode);
+        $fimbStrokeCol = get_rgb($fimbTincNode);
+        $filter_id++;
+        $svg_id = "ds_filter_fimbriated_$filter_id";
+        $filters[$svg_id] = <<<HERE
+          <feMorphology operator="dilate" in="SourceGraphic" radius="3" result="dilated" />
+          <feFlood flood-opacity="1" flood-color="$fimbStrokeCol" result="flood" />
+          <feComposite in="flood" in2="dilated" operator="in" result="back" />
+          <feComposite in="SourceGraphic" in2="back" operator="over" result="final" />
+  HERE;
+      }
     }
-  }
 
     //---------------------------------------------------------
     // So we now have $charge_col set to a valid tincture node and the feat_cols array set, apply this to the svg Data
-    // dummy assignments
-    $body = $height = $width = /* $licence = */ null;
-    extract(getSvgFragment($chg_data['svgCode'], $feat_cols, $chargeGroup, $chargeName, $extras, $strokeCol ));
-    // $body now contains a valid fragment of SVG, ready for use
-    // Also, $licence, $metadata, $height and $width are set
+    // Also set chg_data fields from things we find inside the SVG
+    $chg_data = array_merge($chg_data, getSvgFragment($chg_data['svgCode'], $feat_cols, $chargeGroup, $chargeName, $extras, $strokeCol ));
+    // but extract some of them in case we modify them later
+    $body = $chg_data['body'];
+    $height = $chg_data['height'];
+    $width = $chg_data['width'];
     //----------------------------------------------------------
-  }
-  // if the SVG file contained metadata for us, include it in the charge data
-  if (count($metadata)) {
-    array_merge($chg_data, $metadata);
   }
 
   //----------------------------------------------------------
@@ -760,8 +757,7 @@ HERE;
     $chg_data['hflex'] = $chg_data['wflex'] = 0; // don't flex, as sun must stay round!
   }
 
-  // $messages->addMessage('licence',$node->getAttribute('keyterm') . " $licence"); // TODO what about internal, and is this used below?
-  // $chg_data['licence'] = $licence;
+  // some of these may have changed, so we put them back into the array
   $chg_data['node'] = $node;
   $chg_data['layout'] = $layout;
   $chg_data['body'] = $body;

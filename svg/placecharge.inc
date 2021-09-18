@@ -328,7 +328,7 @@ function PlaceCharge ( $node,  // images
   $Yflex = array_key_exists('hflex', $charge) ? $charge['hflex'] : 1;
   $inArrangement = false;
   $shownRotation = 0;
-//  $parent = $node->parentNode;
+  $situation = $charge['situation'] ?? 'palewise';
 
     $hints = new PlacementHints();
   foreach ( $node->childNodes as $child ) {
@@ -365,49 +365,44 @@ function PlaceCharge ( $node,  // images
     }
   }
 
+  // sometimes we can ignore the orientation as we are already "that way up"
+  if ($orientation == $situation) $orientation = null;
+
     $shownRotation = $hints->angle;
     $boundX *= $hints->scale_x;
     $boundY *= $hints->scale_y;
     $centreY += $hints->offset_y;
     $centreX += $hints->offset_x;
 
-  // If there are multiple charges, choose the one with the best match to the bounding box
   $BoundAR = 1;
   if ($boundY != 0) {
     $BoundAR = $boundX / $boundY;
   }
-  //if ( ! array_key_exists('body', $charge) ) { // must be an array of different charge shapes
-  //  $closestAR = 9999;
-  //  $bestMatch = 0;
-  //  foreach ( $charge as $chg ) {
-  //    $thisAR = $chg['width'] / $chg['height'];
-  //    if ( abs($thisAR - $boundAR) < $closestAR ) {
-  //      $closestAR = abs($thisAR - $boundAR);
-  //     $bestMatch = $chg;
-  //    }
-  //  }
-  //  $charge = $bestMatch;
-  //}
   $retval = $charge['body'];
   $chargeX = max(1,$charge['width']); // protect against zero
   $chargeY = max(1,$charge['height']);
 
+  // when a charge is turned (fesswise or palewise) then inverted and reversed swap meanings
+  if ($inverted && !$reversed && ($orientation == 'fesswise' || $orientation == 'palewise')) {
+    $inverted = false;
+    $reversed = true;
+  } elseif ($reversed && !$inverted && ($orientation == 'fesswise' || $orientation == 'palewise')) {
+    $reversed = false;
+    $inverted = true;
+  }
   if ( $inverted ) {
     $retval = "<g transform=\"translate(0,$chargeY) scale(1,-1)\"><desc>inverted charge</desc>$retval</g>\n";
   }
   if ( $reversed ) {
     $retval = "<g transform=\"translate($chargeX,0) scale(-1,1)\"><desc>reversed charge</desc>$retval</g>\n";
   }
-  $situation = $charge['situation'] ?? 'palewise';
   if ( $orientation ) {
     $rotation = 0; // An explicit charge orientation overrides a rotation from the arrangement
     switch ( $orientation ) {
       case 'fesswise':
-        if ($situation == 'palewise') {
-          $retval = "<g transform=\"translate($chargeY,0) rotate(90)\"><desc>fesswise charge</desc>$retval</g>\n";
+          $retval = "<g transform=\"translate(0,$chargeY) rotate(-90)\"><desc>fesswise charge</desc>$retval</g>\n";
           $temp = $chargeX; $chargeX = $chargeY; $chargeY = $temp;
           $temp = $Xflex; $Xflex = $Yflex; $Yflex = $temp;
-        }
         break;
       case 'bendwise':
       case 'bendsinwise':
@@ -423,11 +418,9 @@ function PlaceCharge ( $node,  // images
         $retval = "<g transform=\"translate($XY2,$XY2) rotate($angle) translate(-$X2,-$Y2)\"><desc>bendwise</desc>$retval</g>\n";
         break;
       case 'palewise':
-        if ( $situation == 'fesswise' ) {
           $retval = "<g transform=\"translate($chargeY,0) rotate(90)\"><desc>palewise charge</desc>$retval</g>\n";
           $temp = $chargeX; $chargeX = $chargeY; $chargeY = $temp;
           $temp = $Xflex; $Xflex = $Yflex; $Yflex = $temp;
-        }
         break;
       case 'haurient':
         $retval = "<g transform=\"translate($chargeY,0) rotate(90)\"><desc>erect charge</desc>$retval</g>\n";

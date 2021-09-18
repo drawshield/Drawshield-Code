@@ -149,7 +149,7 @@ function makeOffset ( $dir, $disp, $io, $size ) {
 function subFunc( $match ) {
   global $subArg;
 
-  if ( $match[0]{2} == '}' ) {
+  if ( substr($match[0],2,1) == '}' ) {
     return $subArg;
   } else {
     $val = floatVal(substr($match[0],3));
