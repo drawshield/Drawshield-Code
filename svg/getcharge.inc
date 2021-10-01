@@ -56,6 +56,42 @@ function getPropertyValuePairs($string) {
   return $retval;
 }
 
+function getMetaDataFromSVG($svg, $chargeGroup = '', $chargeName = '') {
+  global $messages;
+
+    // Get metadata from the SVG
+    @$SVGmetadata = $svg->xpath('//dc:title');
+    if ( is_array($SVGmetadata) && count($SVGmetadata) > 0) {
+        $licence = 'unknown';
+        foreach($SVGmetadata as $metaitem) {
+            if (strlen($metaitem)) {
+                $licence = $metaitem;
+                break;
+            }
+        }
+        $messages->addMessage('licence', "$chargeGroup/$chargeName - $licence");
+    }
+    $retval = [];
+    @$SVGmetadata = $svg->xpath('//dc:description');
+    if ( is_array($SVGmetadata) and count($SVGmetadata) > 0) {
+      foreach($SVGmetadata as $metaitem) {
+          if (strlen($metaitem)) {
+            if ($metaitem[0] == '{') { // treat it as JSON
+              $json = @json_decode($metaitem, true);
+              if (is_null($json) || count($json) == 0) {
+                $messages->addMessage('internal', "Bad JSON in $chargeGroup/$chargeName");
+              } else {
+                $retval = $json;
+              }
+            } else { // treat it as text
+              $retval = getPropertyValuePairs($metaitem);
+            }
+          }
+      }
+    }
+    return $retval;
+}
+
  $chg_data_cache = array();
  
  function get_chg_data() {
@@ -460,35 +496,7 @@ function getCharge( DOMElement $node, $layout ) {
     //------------------------------------------------------------
 
     // Get metadata from the SVG
-    @$SVGmetadata = $svg->xpath('//dc:title');
-    if ( is_array($SVGmetadata) and count($SVGmetadata) > 0) {
-        $licence = 'unknown';
-        foreach($SVGmetadata as $metaitem) {
-            if (strlen($metaitem)) {
-                $licence = $metaitem;
-                break;
-            }
-        }
-        $messages->addMessage('licence', "$chargeGroup/$chargeName - $licence");
-    }
-    @$SVGmetadata = $svg->xpath('//dc:description');
-    if ( is_array($SVGmetadata) and count($SVGmetadata) > 0) {
-      foreach($SVGmetadata as $metaitem) {
-          if (strlen($metaitem)) {
-            if ($metaitem[0] == '{') { // treat it as JSON
-              $json = @json_decode($metaitem, true);
-              if (is_null($json) || count($json) == 0) {
-                $messages->addMessage('internal', "Bad JSON in $chargeGroup/$chargeName");
-              } else {
-                $chg_data = array_merge($chg_data,$json);
-              }
-            } else { // treat it as text
-               $chg_data = array_merge($chg_data, getPropertyValuePairs($metaitem));
-            }
-          }
-      }
-    }
-
+    $chg_data = array_merge($chg_data,getMetaDataFromSVG($svg, $chargeName, $chargeGroup));
 
     //------------------------------------------------------------
     // Get all tincture related information
