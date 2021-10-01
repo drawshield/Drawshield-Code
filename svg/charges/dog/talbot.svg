@@ -21,6 +21,7 @@
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
         <dc:title></dc:title>
       </cc:Work>
+        <dc:description>hflex = 1.2, fixStroke=true ;</dc:description>
     </rdf:RDF>
   </metadata>
   <defs

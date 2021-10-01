@@ -3,6 +3,58 @@
 require_once("custom_charges.inc");
 
 
+const PREPROPERTY = 0;
+const INPROPERTY = 1;
+const PREVALUE = 2;
+const INVALUE = 3;
+
+function getPropertyValuePairs($string) {
+  $retval = [];
+  $property = '';
+  $value = '';
+  $index = 0;
+  $state = PREPROPERTY;
+  while ($index < strlen($string)) {
+    $ch = substr($string,$index++,1);
+    switch ($state) {
+      case PREPROPERTY:
+        if (ctype_alnum($ch)) {
+          $state = INPROPERTY;
+          $property = $ch;
+        }
+        break;
+      case INPROPERTY:
+        if (ctype_alnum($ch) || $ch == '_') {
+          $property .= $ch;
+        } else {
+          $state = PREVALUE;
+        }
+        break;
+      case PREVALUE:
+        if (ctype_alnum($ch)) {
+          $state = INVALUE;
+          $value = $ch;
+        }
+        break;
+      case INVALUE:
+        if (ctype_alnum($ch) || $ch == '-' || $ch == '.') {
+          $value .= $ch;
+        } else {
+          $state = PREPROPERTY;
+          $retval[$property] = $value;
+          // error_log("Found $property as $value");
+          $property = '';
+          $value = '';
+        }
+        break;
+    }
+  }
+  if ($property && $value) {
+    $retval[$property] = $value;
+    // error_log("Found $property as $value");
+  }
+  return $retval;
+}
 
  $chg_data_cache = array();
  
@@ -386,6 +438,57 @@ function getCharge( DOMElement $node, $layout ) {
 
     //-------------------------------------------------------------
     
+    // Turn the svg_code into a SimpleXML object    
+    libxml_use_internal_errors(true);
+    if ( ($svg = @simplexml_load_string($chg_data['svgCode'], null, LIBXML_NOENT)) == null )
+    {
+        $messages->addMessage('internal',"XML error reading charge data");
+        error_log("XML error reading charge data - " . $chargeGroup . '/' . $chargeName);
+        // Fallback item
+        $svg = simplexml_load_string('<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="100"
+                    height="100"
+                    version="1.1" >
+                    <g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><path fill-rule="evenodd" d="M0,0h100v100h-100zM15,15h70v70h-70z" />
+                    <text x="50" y="65" font-size="30" text-anchor="middle">????</text></g>
+                    </svg>'
+        );
+    }
+    libxml_clear_errors();
+    //------------------------------------------------------------
+
+    // Get metadata from the SVG
+    @$SVGmetadata = $svg->xpath('//dc:title');
+    if ( is_array($SVGmetadata) and count($SVGmetadata) > 0) {
+        $licence = 'unknown';
+        foreach($SVGmetadata as $metaitem) {
+            if (strlen($metaitem)) {
+                $licence = $metaitem;
+                break;
+            }
+        }
+        $messages->addMessage('licence', "$chargeGroup/$chargeName - $licence");
+    }
+    @$SVGmetadata = $svg->xpath('//dc:description');
+    if ( is_array($SVGmetadata) and count($SVGmetadata) > 0) {
+      foreach($SVGmetadata as $metaitem) {
+          if (strlen($metaitem)) {
+            if ($metaitem[0] == '{') { // treat it as JSON
+              $json = @json_decode($metaitem, true);
+              if (is_null($json) || count($json) == 0) {
+                $messages->addMessage('internal', "Bad JSON in $chargeGroup/$chargeName");
+              } else {
+                $chg_data = array_merge($chg_data,$json);
+              }
+            } else { // treat it as text
+               $chg_data = array_merge($chg_data, getPropertyValuePairs($metaitem));
+            }
+          }
+      }
+    }
+
 
     //------------------------------------------------------------
     // Get all tincture related information
@@ -544,9 +647,7 @@ HERE;
 
     //---------------------------------------------------------
     // So we now have $charge_col set to a valid tincture node and the feat_cols array set, apply this to the svg Data
-    // Also set chg_data fields from things we find inside the SVG
-    $chg_data = array_merge($chg_data, getSvgFragment($chg_data['svgCode'], $feat_cols, $chargeGroup, $chargeName, $extras, $strokeCol ));
-    // but extract some of them in case we modify them later
+    $chg_data = array_merge($chg_data, getSvgFragment($svg, $feat_cols, $chargeGroup, $chargeName, $extras, $strokeCol ));
     $body = $chg_data['body'];
     $height = $chg_data['height'];
     $width = $chg_data['width'];

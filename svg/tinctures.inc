@@ -252,9 +252,10 @@ class TinctureData
     function __construct($tinctureNode, $rev = false, $inv = false)
     {
         $this->node = resolveReference($tinctureNode);
-        $this->type_node = $this->node->firstChild;
-        if ( !is_object($this->type_node) )
+        if ( !is_object($this->node) || !$this->node->hasChildNodes() )
             $this->type_node = createColourNode('gray','1');
+        else
+            $this->type_node = $this->node->firstChild;
         $this->type_name = $this->type_node->nodeName;
         $this->rev = $rev;
         $this->inv = $inv;
