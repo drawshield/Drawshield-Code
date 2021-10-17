@@ -1,4 +1,20 @@
-<?php
+<?php /* Copyright 2010-2021 Karl Wilcox, Mattias Basaglia
+
+This file is part of the DrawShield.net heraldry image creation program
+
+    DrawShield is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Foobar is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see https://www.gnu.org/licenses/.
+ */
 
 require_once(__dir__ . "/svg/svg_feature_marker.inc");
 require_once(__dir__ . "/svg/custom_charges.inc");
@@ -272,7 +288,22 @@ else
     <input id='path' type="text" value="<?php echo $path; ?>" style="width: 100%;" name="path" />
     <button type="submit">Load</button>
 </form>
-<?php
+<?php /* Copyright 2010-2021 Karl Wilcox, Mattias Basaglia
+
+This file is part of the DrawShield.net heraldry image creation program
+
+    DrawShield is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Foobar is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see https://www.gnu.org/licenses/. */
 
 if ( $ok )
 {

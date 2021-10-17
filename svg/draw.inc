@@ -1,4 +1,19 @@
-<?php 
+<?php /* Copyright 2010-2021 Karl Wilcox, Mattias Basaglia
+
+This file is part of the DrawShield.net heraldry image creation program
+
+    DrawShield is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Foobar is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see https://www.gnu.org/licenses/. */
 
 include 'getcharge.inc';
 include 'division.inc';
@@ -80,6 +95,20 @@ function draw() {
         $extraDefs = mkHatches();
     }
 
+    $rdf = '<rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>This work is licensed under a &lt;a rel=&quot;license&quot; href=&quot;http://creativecommons.org/licenses/by-nc-sa/4.0/&quot;&gt;Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License&lt;/a&gt;.</dc:title>
+          </cc:Agent>
+        </dc:rights>
+      </cc:Work>
+      </rdf:RDF>';
+
     $blazonNode = $dom->documentElement;
     $layout = ShieldLayout::from_options($options);
     $effect = $options['effect'];
@@ -120,7 +149,10 @@ function draw() {
     <svg version="1.1"
          baseProfile="full"
          xmlns="http://www.w3.org/2000/svg"
-         xmlns:xlink="http://www.w3.org/1999/xlink" 
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:cc="http://creativecommons.org/ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/" 
          xmlns:blazonML="http://drawshield.net/blazonML" ' .
          'preserveAspectRatio="xMidYMid meet" height="' . $displayHeight . '" width="' . $displayWidth . '" ';
         $header .= 'viewBox="'. getEffect($effect, 'viewbox',1000, $layout->size->height + $extraSpace + 40) . ' ">';
@@ -135,7 +167,11 @@ function draw() {
     <svg version="1.1"
         baseProfile="full"
         xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink" ' .
+        xmlns:xlink="http://www.w3.org/1999/xlink" 
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:cc="http://creativecommons.org/ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/" 
+        xmlns:blazonML="http://drawshield.net/blazonML" ' .
         'preserveAspectRatio="xMidYMid meet" height="' . (int)($options['size'] * 1.2) . '" width="' . $options['size'];
         $header .= '" viewBox="'. getEffect($effect, 'viewbox') . ' ">';
         $meta = '';
@@ -257,7 +293,7 @@ function draw() {
                 $dom->formatOutput = true;
                 $blazonMLText = $dom->saveXml(); // Need to remove the processing instruction
                 $blazonMLText = preg_replace('/<\?xml version="1\.0"( encoding="utf-8")?\?>/i', '', $blazonMLText);
-                $meta = "\n<metadata>\n"  . $blazonMLText . "\n</metadata>\n";
+                $meta = "\n<metadata>\n" . $rdf . $blazonMLText . "\n</metadata>\n";
             }
         }
     }
