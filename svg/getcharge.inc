@@ -613,7 +613,7 @@ function getCharge( DOMElement $node, $layout ) {
       if (!file_exists($crownFile)) {
        $messages->addMessage('internal', "No crown file for $crownType"); 
       } else {
-        $extras['crowned'] = getSvgFragment(file_get_contents($crownFile), 
+        $extras['crowned'] = getSvgFragment(simplexml_load_file($crownFile),
             array(), 'crown', $crownType, array(), getStroke($crownCol), 2); // multiply size of crown strokes
       }
     }

@@ -260,6 +260,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'scorpions?', 'animal/scorpion' ),
       array ( 'camels?', 'animal/camel' ),
       array ( 'bisons?', 'animal/bison' ),
+       array ( 'buffaloe?s??', 'animal/bison' ),
       array ( 'frogs?', 'animal/frog' ),
       array ( 'toads?', 'animal/toad' ),
       array ( 'apes?', 'animal/monkey' ),
