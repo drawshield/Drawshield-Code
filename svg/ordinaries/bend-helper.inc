@@ -1,4 +1,19 @@
-<?php
+<?php /* Copyright 2010-2021 Karl Wilcox, Mattias Basaglia
+
+This file is part of the DrawShield.net heraldry image creation program
+
+    DrawShield is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Foobar is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see https://www.gnu.org/licenses/. */
 
 function build_bend($layout, $width, $margin, $offset = 0, $path_builder = null)
 {
@@ -22,9 +37,15 @@ function build_bend($layout, $width, $margin, $offset = 0, $path_builder = null)
 
 function placement_in_bend($boundingBox, $sinister, $angle, $scale = 0.23)
 {
-    // ensure we are working with a square
-    $min_extent = min($boundingBox->size->width, $boundingBox->size->height);
+    $placement_arr = [];
     $mult = $sinister ? 1 : -1;
+    // Special handling for a single charge
+    $plac = [];
+    $plac[] = $boundingBox->size->width / 2 . ',' . $boundingBox->size->width / 2 . ',' .
+                $boundingBox->size->width * 0.8 * 0.23. ',' . $boundingBox->size->height * 0.8 . ',45,0,0'; 
+    $placement_arr[] = $plac;
+    // for the rest, ensure we are working with a square
+    $min_extent = min($boundingBox->size->width, $boundingBox->size->height);
     if ( $boundingBox->size->width > $boundingBox->size->height )
         $boundingBox->pos->x += $mult * ($boundingBox->size->width - $min_extent) / 2;
     else
@@ -32,8 +53,7 @@ function placement_in_bend($boundingBox, $sinister, $angle, $scale = 0.23)
 
     $boundingBox->size->width = $boundingBox->size->height = $min_extent;
 
-    $placement_arr = [];
-    for ( $n = 1; $n <= 8; $n++ )
+    for ( $n = 2; $n <= 8; $n++ )
     {
         $plac = [];
         $size = 1 / $n * 0.8;

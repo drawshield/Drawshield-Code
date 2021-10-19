@@ -19,6 +19,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:description>{&quot;situation&quot;:&quot;palewise&quot;, &quot;hflex&quot;:1, &quot;vflex&quot;1}</dc:description>
         <cc:license
            rdf:resource="" />
         <dc:title></dc:title>

@@ -1,4 +1,19 @@
-<?php 
+<?php /* Copyright 2010-2021 Karl Wilcox, Mattias Basaglia
+
+This file is part of the DrawShield.net heraldry image creation program
+
+    DrawShield is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Foobar is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see https://www.gnu.org/licenses/. */
 
 require_once("transform.inc");
 
@@ -382,29 +397,10 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
   return $item;
 }
 
-function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol = null, $strokeWidth = null)
+function getSvgFragment ($svg, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol = null, $strokeWidth = null)
 {
     global $messages, $options;
     $retval = array();
-
-    libxml_use_internal_errors(true);
-    if ( ($svg = @simplexml_load_string($svgCode, null, LIBXML_NOENT)) == null )
-    {
-        $messages->addMessage('internal',"XML error reading charge data");
-        error_log("XML error reading charge data - " . $chargeGroup . '/' . $chargeName);
-        // Fallback item
-        $svg = simplexml_load_string('<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                    <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="100"
-                    height="100"
-                    version="1.1" >
-                    <g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><path fill-rule="evenodd" d="M0,0h100v100h-100zM15,15h70v70h-70z" />
-                    <text x="50" y="65" font-size="30" text-anchor="middle">????</text></g>
-                    </svg>'
-        );
-    }
-    libxml_clear_errors();
 
     $viewbox = $svg['viewBox'] ?? '0 0 100 100';
     list($x0,$y0,$x1,$y1) = explode(' ',$viewbox);
@@ -426,22 +422,6 @@ function getSvgFragment ($svgCode, $featureTinctures, $chargeGroup, $chargeName,
         $width = ($x1 - $x0) * intval($widthVal) / 100;
     else
         $width = floatval($widthVal);
-
-    @$metadata = $svg->xpath('//dc:title');
-    if ( is_array($metadata) and count($metadata) > 0)
-    {
-        $licence = 'unknown';
-        foreach($metadata as $meta)
-        {
-            if (strlen($meta))
-            {
-                $licence = $meta;
-                break;
-            }
-        }
-
-        $messages->addMessage('licence', "$chargeGroup/$chargeName - $licence");
-    }
 
     $bounding_box = ShieldRect::from_corners(0, 0, $width, $height);
 

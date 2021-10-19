@@ -1,4 +1,19 @@
-<?php 
+<?php /* Copyright 2010-2021 Karl Wilcox, Mattias Basaglia
+
+This file is part of the DrawShield.net heraldry image creation program
+
+    DrawShield is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Foobar is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see https://www.gnu.org/licenses/. */
 
 // This function places a list of charges according to the placement string,
 // unless modified by something in the mods array. Items in the mods array
@@ -328,7 +343,7 @@ function PlaceCharge ( $node,  // images
   $Yflex = array_key_exists('hflex', $charge) ? $charge['hflex'] : 1;
   $inArrangement = false;
   $shownRotation = 0;
-//  $parent = $node->parentNode;
+  $situation = $charge['situation'] ?? 'palewise';
 
     $hints = new PlacementHints();
   foreach ( $node->childNodes as $child ) {
@@ -365,33 +380,31 @@ function PlaceCharge ( $node,  // images
     }
   }
 
+  // sometimes we can ignore the orientation as we are already "that way up"
+  if ($orientation == $situation) $orientation = null;
+
     $shownRotation = $hints->angle;
     $boundX *= $hints->scale_x;
     $boundY *= $hints->scale_y;
     $centreY += $hints->offset_y;
     $centreX += $hints->offset_x;
 
-  // If there are multiple charges, choose the one with the best match to the bounding box
   $BoundAR = 1;
   if ($boundY != 0) {
     $BoundAR = $boundX / $boundY;
   }
-  //if ( ! array_key_exists('body', $charge) ) { // must be an array of different charge shapes
-  //  $closestAR = 9999;
-  //  $bestMatch = 0;
-  //  foreach ( $charge as $chg ) {
-  //    $thisAR = $chg['width'] / $chg['height'];
-  //    if ( abs($thisAR - $boundAR) < $closestAR ) {
-  //      $closestAR = abs($thisAR - $boundAR);
-  //     $bestMatch = $chg;
-  //    }
-  //  }
-  //  $charge = $bestMatch;
-  //}
   $retval = $charge['body'];
   $chargeX = max(1,$charge['width']); // protect against zero
   $chargeY = max(1,$charge['height']);
 
+  // when a charge is turned (fesswise or palewise) then inverted and reversed swap meanings
+  if ($inverted && !$reversed && ($orientation == 'fesswise' || $orientation == 'palewise')) {
+    $inverted = false;
+    $reversed = true;
+  } elseif ($reversed && !$inverted && ($orientation == 'fesswise' || $orientation == 'palewise')) {
+    $reversed = false;
+    $inverted = true;
+  }
   if ( $inverted ) {
     $retval = "<g transform=\"translate(0,$chargeY) scale(1,-1)\"><desc>inverted charge</desc>$retval</g>\n";
   }
@@ -402,17 +415,13 @@ function PlaceCharge ( $node,  // images
     $rotation = 0; // An explicit charge orientation overrides a rotation from the arrangement
     switch ( $orientation ) {
       case 'fesswise':
-        $do_turn = $chargeY > $chargeX;
-        if ( array_key_exists('turn_fesswise', $charge) ) { $do_turn = $charge['turn_fesswise']; }
-        if ($do_turn ) {
-          $retval = "<g transform=\"translate($chargeY,0) rotate(90)\"><desc>fesswise charge</desc>$retval</g>\n";
+          $retval = "<g transform=\"translate(0,$chargeY) rotate(-90)\"><desc>fesswise charge</desc>$retval</g>\n";
           $temp = $chargeX; $chargeX = $chargeY; $chargeY = $temp;
           $temp = $Xflex; $Xflex = $Yflex; $Yflex = $temp;
-        }
         break;
       case 'bendwise':
       case 'bendsinwise':
-        if ( array_key_exists('horizontal', $charge)  ) {
+        if ( $situation == 'fesswise' ) {
           $angle = ($orientation == 'bendwise') ? "45" : "135";
         } else {
           $angle = ($orientation == 'bendwise') ? "-45" : "45";
@@ -424,12 +433,9 @@ function PlaceCharge ( $node,  // images
         $retval = "<g transform=\"translate($XY2,$XY2) rotate($angle) translate(-$X2,-$Y2)\"><desc>bendwise</desc>$retval</g>\n";
         break;
       case 'palewise':
-//        $do_turn = $chargeX >= $chargeY;
-        if ( array_key_exists('horizontal', $charge)  ) {
           $retval = "<g transform=\"translate($chargeY,0) rotate(90)\"><desc>palewise charge</desc>$retval</g>\n";
           $temp = $chargeX; $chargeX = $chargeY; $chargeY = $temp;
           $temp = $Xflex; $Xflex = $Yflex; $Yflex = $temp;
-        }
         break;
       case 'haurient':
         $retval = "<g transform=\"translate($chargeY,0) rotate(90)\"><desc>erect charge</desc>$retval</g>\n";
@@ -438,13 +444,6 @@ function PlaceCharge ( $node,  // images
         break;
     }
   }
-  // Fix some older charges that had orient_to_ordinary as a boolean
-  /* if ( array_key_exists('orient_to_ordinary', $charge) ) {
-    if ( $charge['orient_to_ordinary'] === false )
-      unset( $charge['orient_to_ordinary'] );
-    elseif ( $charge['orient_to_ordinary'] === true )
-      $charge['orient_to_ordinary'] = 1;
-  } */
   if ($rotation != 0) {
     if ( array_key_exists('horizontal', $charge)) {
       // Swap over bounding box sizes
@@ -468,7 +467,6 @@ function PlaceCharge ( $node,  // images
         if ( $charge['orient_to_ordinary'] == -1) {
           $rotation *= -1;
         }
-        // $rotation *= $charge['orient_to_ordinary'];
       }
     }
   }

@@ -1,4 +1,19 @@
-<?php
+<?php /* Copyright 2010-2021 Karl Wilcox, Mattias Basaglia
+
+This file is part of the DrawShield.net heraldry image creation program
+
+    DrawShield is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Foobar is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see https://www.gnu.org/licenses/. */
 
 
 function readTinctureFile($filename, $prefix) {
@@ -252,9 +267,10 @@ class TinctureData
     function __construct($tinctureNode, $rev = false, $inv = false)
     {
         $this->node = resolveReference($tinctureNode);
-        $this->type_node = $this->node->firstChild;
-        if ( !is_object($this->type_node) )
+        if ( !is_object($this->node) || !$this->node->hasChildNodes() )
             $this->type_node = createColourNode('gray','1');
+        else
+            $this->type_node = $this->node->firstChild;
         $this->type_name = $this->type_node->nodeName;
         $this->rev = $rev;
         $this->inv = $inv;

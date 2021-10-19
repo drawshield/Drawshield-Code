@@ -1,8 +1,111 @@
-<?php
+<?php /* Copyright 2010-2021 Karl Wilcox, Mattias Basaglia
+
+This file is part of the DrawShield.net heraldry image creation program
+
+    DrawShield is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Foobar is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see https://www.gnu.org/licenses/. */
 
 require_once("custom_charges.inc");
 
 
+const PREPROPERTY = 0;
+const INPROPERTY = 1;
+const PREVALUE = 2;
+const INVALUE = 3;
+
+function getPropertyValuePairs($string) {
+  $retval = [];
+  $property = '';
+  $value = '';
+  $index = 0;
+  $state = PREPROPERTY;
+  while ($index < strlen($string)) {
+    $ch = substr($string,$index++,1);
+    switch ($state) {
+      case PREPROPERTY:
+        if (ctype_alnum($ch)) {
+          $state = INPROPERTY;
+          $property = $ch;
+        }
+        break;
+      case INPROPERTY:
+        if (ctype_alnum($ch) || $ch == '_') {
+          $property .= $ch;
+        } else {
+          $state = PREVALUE;
+        }
+        break;
+      case PREVALUE:
+        if (ctype_alnum($ch)) {
+          $state = INVALUE;
+          $value = $ch;
+        }
+        break;
+      case INVALUE:
+        if (ctype_alnum($ch) || $ch == '-' || $ch == '.') {
+          $value .= $ch;
+        } else {
+          $state = PREPROPERTY;
+          $retval[$property] = $value;
+          // error_log("Found $property as $value");
+          $property = '';
+          $value = '';
+        }
+        break;
+    }
+  }
+  if ($property && $value) {
+    $retval[$property] = $value;
+    // error_log("Found $property as $value");
+  }
+  return $retval;
+}
+
+function getMetaDataFromSVG($svg, $chargeGroup = '', $chargeName = '') {
+  global $messages;
+
+    // Get metadata from the SVG
+    @$SVGmetadata = $svg->xpath('//dc:title');
+    if ( is_array($SVGmetadata) && count($SVGmetadata) > 0) {
+        $licence = 'unknown';
+        foreach($SVGmetadata as $metaitem) {
+            if (strlen($metaitem)) {
+                $licence = $metaitem;
+                break;
+            }
+        }
+        $messages->addMessage('licence', "$chargeGroup/$chargeName - $licence");
+    }
+    $retval = [];
+    @$SVGmetadata = $svg->xpath('//dc:description');
+    if ( is_array($SVGmetadata) and count($SVGmetadata) > 0) {
+      foreach($SVGmetadata as $metaitem) {
+          if (strlen($metaitem)) {
+            if ($metaitem[0] == '{') { // treat it as JSON
+              $json = @json_decode($metaitem, true);
+              if (is_null($json) || count($json) == 0) {
+                $messages->addMessage('internal', "Bad JSON in $chargeGroup/$chargeName");
+              } else {
+                $retval = $json;
+              }
+            } else { // treat it as text
+              $retval = getPropertyValuePairs($metaitem);
+            }
+          }
+      }
+    }
+    return $retval;
+}
 
  $chg_data_cache = array();
  
@@ -386,6 +489,29 @@ function getCharge( DOMElement $node, $layout ) {
 
     //-------------------------------------------------------------
     
+    // Turn the svg_code into a SimpleXML object    
+    libxml_use_internal_errors(true);
+    if ( ($svg = @simplexml_load_string($chg_data['svgCode'], null, LIBXML_NOENT)) == null )
+    {
+        $messages->addMessage('internal',"XML error reading charge data");
+        error_log("XML error reading charge data - " . $chargeGroup . '/' . $chargeName);
+        // Fallback item
+        $svg = simplexml_load_string('<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="100"
+                    height="100"
+                    version="1.1" >
+                    <g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><path fill-rule="evenodd" d="M0,0h100v100h-100zM15,15h70v70h-70z" />
+                    <text x="50" y="65" font-size="30" text-anchor="middle">????</text></g>
+                    </svg>'
+        );
+    }
+    libxml_clear_errors();
+    //------------------------------------------------------------
+
+    // Get metadata from the SVG
+    $chg_data = array_merge($chg_data,getMetaDataFromSVG($svg, $chargeName, $chargeGroup));
 
     //------------------------------------------------------------
     // Get all tincture related information
@@ -487,7 +613,7 @@ function getCharge( DOMElement $node, $layout ) {
       if (!file_exists($crownFile)) {
        $messages->addMessage('internal', "No crown file for $crownType"); 
       } else {
-        $extras['crowned'] = getSvgFragment(file_get_contents($crownFile), 
+        $extras['crowned'] = getSvgFragment(simplexml_load_file($crownFile),
             array(), 'crown', $crownType, array(), getStroke($crownCol), 2); // multiply size of crown strokes
       }
     }
@@ -523,32 +649,31 @@ HERE;
       }
   }
 
-  // special handling for fimbriated (overwrites strokeCol)
-  if ( ($fimNode = getModifierNodeWithKeyterm($node, 'fimbriated')) != null ) {
-    if ( array_key_exists('fimbriate', $chg_data) && $chg_data['fimbriate'] == true && count($filters) == 0 ) {
-      $tincNode = getTinctureNode($fimNode);
-      $strokeCol = get_rgb($tincNode);
-    } else {
-      $fimbTincNode = getTinctureNode($fimNode);
-      $fimbStrokeCol = get_rgb($fimbTincNode);
-      $filter_id++;
-      $svg_id = "ds_filter_fimbriated_$filter_id";
-      $filters[$svg_id] = <<<HERE
-        <feMorphology operator="dilate" in="SourceGraphic" radius="3" result="dilated" />
-        <feFlood flood-opacity="1" flood-color="$fimbStrokeCol" result="flood" />
-        <feComposite in="flood" in2="dilated" operator="in" result="back" />
-        <feComposite in="SourceGraphic" in2="back" operator="over" result="final" />
-HERE;
+    // special handling for fimbriated (overwrites strokeCol)
+    if ( ($fimNode = getModifierNodeWithKeyterm($node, 'fimbriated')) != null ) {
+      if ( array_key_exists('fimbriate', $chg_data) && $chg_data['fimbriate'] == true && count($filters) == 0 ) {
+        $tincNode = getTinctureNode($fimNode);
+        $strokeCol = get_rgb($tincNode);
+      } else {
+        $fimbTincNode = getTinctureNode($fimNode);
+        $fimbStrokeCol = get_rgb($fimbTincNode);
+        $filter_id++;
+        $svg_id = "ds_filter_fimbriated_$filter_id";
+        $filters[$svg_id] = <<<HERE
+          <feMorphology operator="dilate" in="SourceGraphic" radius="3" result="dilated" />
+          <feFlood flood-opacity="1" flood-color="$fimbStrokeCol" result="flood" />
+          <feComposite in="flood" in2="dilated" operator="in" result="back" />
+          <feComposite in="SourceGraphic" in2="back" operator="over" result="final" />
+  HERE;
+      }
     }
-  }
 
     //---------------------------------------------------------
     // So we now have $charge_col set to a valid tincture node and the feat_cols array set, apply this to the svg Data
-    // dummy assignments
-    $body = $height = $width = /* $licence = */ null;
-    extract(getSvgFragment($chg_data['svgCode'], $feat_cols, $chargeGroup, $chargeName, $extras, $strokeCol ));
-    // $body now contains a valid fragment of SVG, ready for use
-    // Also, $licence, $height and $width are set
+    $chg_data = array_merge($chg_data, getSvgFragment($svg, $feat_cols, $chargeGroup, $chargeName, $extras, $strokeCol ));
+    $body = $chg_data['body'];
+    $height = $chg_data['height'];
+    $width = $chg_data['width'];
     //----------------------------------------------------------
   }
 
@@ -756,8 +881,7 @@ HERE;
     $chg_data['hflex'] = $chg_data['wflex'] = 0; // don't flex, as sun must stay round!
   }
 
-  // $messages->addMessage('licence',$node->getAttribute('keyterm') . " $licence"); // TODO what about internal, and is this used below?
-  // $chg_data['licence'] = $licence;
+  // some of these may have changed, so we put them back into the array
   $chg_data['node'] = $node;
   $chg_data['layout'] = $layout;
   $chg_data['body'] = $body;

@@ -24,6 +24,8 @@
             <dc:title>https://commons.wikimedia.org/wiki/User:Adalric67</dc:title>
           </cc:Agent>
         </dc:creator>
+        <dc:description>{&quot;situation&quot;:&quot;palewise&quot;, &quot;hflex&quot;:1.2, &quot;vflex&quot;:1.2, 
+        &quot;proper&quot;:{&quot;body&quot;:&quot;#050505&quot;,&quot;beaked&quot;:&quot;#EFD807&quot;}}</dc:description>
       </cc:Work>
     </rdf:RDF>
   </metadata>

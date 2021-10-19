@@ -1,4 +1,19 @@
-<?php
+<?php /* Copyright 2010-2021 Karl Wilcox, Mattias Basaglia
+
+This file is part of the DrawShield.net heraldry image creation program
+
+    DrawShield is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Foobar is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see https://www.gnu.org/licenses/. */
 
 function drawSupporters($supportNode, $layout) {
     if ($supportNode == null) return '';
@@ -80,7 +95,7 @@ function drawMantling($mantlingNode) {
     $extras = array(); // not used at present (but required for getSVGFragment)
 
     // switch on type here
-    $svg = file_get_contents("svg/components/mantling/$type.svg");
+    $svg = simplexml_load_file("svg/components/mantling/$type.svg");
     $defs = [];
 
      if ($mantlingNode != null) {
@@ -155,6 +170,7 @@ function drawMantling($mantlingNode) {
         $features['hat'] = $hat;
     }
 
+    getMetaDataFromSVG($svg); // just for the credit licence
     $retval = getSvgFragment($svg, $features, 'mantling', $type, $extras, getStroke(null, true));
 
     $defs_svg  = "";
@@ -166,6 +182,7 @@ function drawMantling($mantlingNode) {
 
 function drawTorse($torseNode) {
     global $messages;
+    $retval = [];
 
     if (is_null($torseNode)) {
         $type = 'torse';
@@ -185,7 +202,8 @@ function drawTorse($torseNode) {
     $extras = array(); // not used at present (but required for getSVGFragment)
 
     // switch on type here
-    $svg = file_get_contents("svg/components/torse/$type.svg");
+    $svg = simplexml_load_file("svg/components/torse/$type.svg");
+    $retval = getMetaDataFromSVG($svg,'achievement','torse');
 
      if ($torseNode != null) {
         // Sort out the actual colours in use
@@ -220,7 +238,8 @@ function drawTorse($torseNode) {
             }
         }
     }
-    return getSvgFragment($svg, $features, 'torse', 'torse', $extras, getStroke(null, true));
+    $retval = array_merge($retval, getSvgFragment($svg, $features, 'torse', 'torse', $extras, getStroke(null, true)));
+    return $retval;
 }
 
 function drawMotto($mottoNode, $layout) {
@@ -245,11 +264,11 @@ function drawMotto($mottoNode, $layout) {
     }
     if ($layout->shape == 'pauldron') {
         $builder = new WordBuilder('hooge');
-        $svg = file_get_contents('svg/components/scroll/plaque.svg');
-        $svg .= "<g transform=\"translate(50,1000)\">\n" .
+        $svgText = file_get_contents('svg/components/scroll/plaque.svg');
+        $svgText .= "<g transform=\"translate(50,1000)\">\n" .
         $builder->fitWordsToRect($text, 160, 900, $colour) . "</g>\n";
-        $svg = '<g transform="scale(0.9,0.9) translate(50,180)">' . $svg . "</g>\n";
-        return $svg;
+        $svgText = '<g transform="scale(0.9,0.9) translate(50,180)">' . $svgText . "</g>\n";
+        return $svgText;
     } else {
         $retval = [];
 
@@ -266,13 +285,15 @@ function drawMotto($mottoNode, $layout) {
             }
         }
 
-        $svg = file_get_contents('svg/components/scroll/plain.svg');
-        $svg = str_replace('%TEXT%', htmlentities($text, ENT_XML1), $svg);
-        $svg = str_replace('%UP%', $up, $svg);
-        $svg = str_replace('%COLOUR%', $colour, $svg);
-        $svg = str_replace('%FONT-SIZE%', "${fontSize}px", $svg);
+        $svgText = file_get_contents('svg/components/scroll/plain.svg');
+        $svgText = str_replace('%TEXT%', htmlentities($text, ENT_XML1), $svgText);
+        $svgText = str_replace('%UP%', $up, $svgText);
+        $svgText = str_replace('%COLOUR%', $colour, $svgText);
+        $svgText = str_replace('%FONT-SIZE%', "${fontSize}px", $svgText);
+        $svg = simplexml_load_string($svgText);
         $retval = getSvgFragment($svg, array(), 'scroll', 'plain', array(), getStroke(null, true));
         $retval['adjustments'] = $adjustments;
+        $retval = array_merge($retval, getMetaDataFromSVG($svg,'achievement','motto'));
         return $retval;
     }
     return null;
@@ -313,7 +334,7 @@ function drawCompartment($compartmentNode) {
                 break;
         }
     }
-    $retval = getSvgFragment(file_get_contents("svg/components/compartments/$compType.svg"), array(), 'compartments', $compType,
+    $retval = getSvgFragment(simplexml_load_file("svg/components/compartments/$compType.svg"), array(), 'compartments', $compType,
         array(), getStroke($fill));
     $retval['fill'] = $fill;
     $retval['adjustments'] = $adjustments;
@@ -336,7 +357,7 @@ function drawFringe($fringeNode, $layout) {
         $tinc = createColourNode('or' );
         $fringeNode->appendChild($tinc);
     }
-    $svg = getSvgFragment(file_get_contents("svg/components/fringes/$shape.svg"), array(), 'fringes', $shape,
+    $svg = getSvgFragment(simplexml_load_file("svg/components/fringes/$shape.svg"), array(), 'fringes', $shape,
     array(), getStroke($tinc));
     return (apply_tincture($tinc, $svg['body'], $layout));
 
@@ -394,7 +415,7 @@ function drawHelmet($helmetNode) {
         }
     }
     // always draw a helmet if we are asked to
-    $svg = file_get_contents("svg/components/helmet/$style.svg");
+    $svg = simplexml_load_file("svg/components/helmet/$style.svg");
     if ($fill == null) {
         if (array_key_exists($style, $defaults)) 
             $fill = $defaults[$style];
@@ -404,6 +425,7 @@ function drawHelmet($helmetNode) {
     $retval = getSvgFragment($svg, $features, 'helmet', $style, $extras, getStroke($fill));
     $retval['fill'] = $fill;
     $retval['adjustments'] = $adjustments;
+    $retval = array_merge($retval, getMetaDataFromSVG($svg,'helmet',$style));
     return $retval;
 }
 
