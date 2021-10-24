@@ -7,13 +7,13 @@ This file is part of the DrawShield.net heraldry image creation program
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Foobar is distributed in the hope that it will be useful,
+     DrawShield is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see https://www.gnu.org/licenses/.
+    along with  DrawShield.  If not, see https://www.gnu.org/licenses/.
  */
    
     $this->patterns[languageDB::CHARGE_PREFIX] = array (
@@ -51,7 +51,7 @@ This file is part of the DrawShield.net heraldry image creation program
 
    // TODO Deal with all the stuff in _quadrate8.inc
    $this->patterns[languageDB::CHARGE_FEATURES] = array ( 
-     'crossed', 'fructed', 'beaked', 'hooped', 'plumed', 'wreathed',
+     'crossed', 'fructed', 'beaked', 'hooped', 'plumed',
      'seeded', 'barbed', 'gemmed', 'acorned', 'laced', 'necked',
      'muzzled', 'allume', 'tusked', 'spotted', 'corded',
      'chausse', 'crined', 'nooked', 'hooded','spouting',
@@ -196,7 +196,9 @@ This file is part of the DrawShield.net heraldry image creation program
       );
 
   $this->patterns[languageDB::CROWN_MODS] = array (
-  'crowned', 'crown',
+    array ('crowne?d', 'crowned'),
+      array ('crown', 'crown'),
+    array ('wreathe?d', 'wreathed'),
     array ('(en)?gorged ?(with|by) ?an?', 'gorged'),
   // crown types for animal <type> crowned
   'antique', 'eastern', 'marquis', 'palisado',
