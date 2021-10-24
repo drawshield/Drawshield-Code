@@ -7,13 +7,13 @@ This file is part of the DrawShield.net heraldry image creation program
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Foobar is distributed in the hope that it will be useful,
+     DrawShield is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see https://www.gnu.org/licenses/. */
+    along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
 $ordinary['body'] = '<path d="m -42.8,94.3 c 0,0 94.2,405.7 273.8,485.7 -165.6,135 9,650 9,650 l -288.5,-10 z" />';
 if ( $node->getAttribute('number') == '2') $ordinary['body'] .= '<path d="m 1034.3,94.3 c 0,0 -94.2,405.7 -273.8,485.7 165.6,135 -9,650 -9,650 l 288.5,-10 z" />';

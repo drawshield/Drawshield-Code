@@ -7,13 +7,13 @@ This file is part of the DrawShield.net heraldry image creation program
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Foobar is distributed in the hope that it will be useful,
+     DrawShield is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see https://www.gnu.org/licenses/.
+    along with  DrawShield.  If not, see https://www.gnu.org/licenses/.
  */
 
 $division['div2'] = createBody( 'O1Q1X500Y500C800e600g800a600   O1Q1X500Y500G600a600c600e600',

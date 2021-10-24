@@ -7,13 +7,13 @@ This file is part of the DrawShield.net heraldry image creation program
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Foobar is distributed in the hope that it will be useful,
+     DrawShield is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see https://www.gnu.org/licenses/. */
+    along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
 require_once("edges/edge_type.inc");
 
@@ -380,7 +380,7 @@ function makeOrdinary( DOMElement &$node, $layout ) {
 	} // We now have $body and $cotise set.
 	
 	// Find out how we are arranged
-  if ( array_key_exists('rotate_pattern', $ord_data) && $tinc1->hasChildNodes() &&
+  if ( array_key_exists('rotate_pattern', $ord_data) && !is_null($tinc1) && $tinc1->hasChildNodes() &&
                   $tinc1->firstChild->nodeName != blazonML::E_COUNTERCHANGED )
 	  $rot = $ord_data['rotate_pattern'];
 	else 

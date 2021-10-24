@@ -7,13 +7,13 @@ This file is part of the DrawShield.net heraldry image creation program
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Foobar is distributed in the hope that it will be useful,
+     DrawShield is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see https://www.gnu.org/licenses/. */
+    along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
 
 function createModifierNode($type, $keyterm, $value = null ) {
@@ -194,7 +194,7 @@ function getChildOfType(DOMElement $node, $nodeName) {
 
 function get_rgb($tinc_node) {
   global $messages;
-  // if (!$tinc_node) return ('#555555'); // but probably an error
+    if (!$tinc_node) return ('#555555'); // but probably an error
 	$col = $tinc_node->firstChild;
 	if ( !$col or $col->nodeName != 'colour' ) {
       $messages->addMessage('warning','plain colour expected');

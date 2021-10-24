@@ -15,19 +15,13 @@ This file is part of the DrawShield.net heraldry image creation program
     You should have received a copy of the GNU General Public License
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
-$suffix = '-straight';
-if (existModifierWithKeyterm($node,'dovetailed')) {
-  $suffix = '-dovetailed';
-} elseif (existModifierWithKeyterm($node,'pattee')) {
-  $suffix = '-pattee';
-}
-
-$num_of = getModifierValueByKeyterm($node, 'of-num', true);
-if ( $num_of <= 4 )
-  $num_of = 3;
-elseif ( $num_of >= 6 )
-  $num_of = 7;
-
-
-$charge['file'] = 'label-of-' . $num_of . $suffix . '.svg';
-
+  $num = $node->getAttribute('number');
+  if ($num == 3) {
+    if (($conjoined = getModifierNodeWithKeyterm($node, 'conjoined')) != null) {
+        if (existModifierWithKeyterm($node, 'leaf')) {
+            $charge['file'] = "maple-leaf-conjoined-3.svg";
+            $node->setAttribute('number', '1');
+            $node->removeChild($conjoined);
+        }
+    }
+  }

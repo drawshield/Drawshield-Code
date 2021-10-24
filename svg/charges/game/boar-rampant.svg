@@ -11,15 +11,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <defs
-     id="defs5">
-    <clipPath
-       id="artboard_clip_path">
-      <path
-         d="M 67.5,63.065 H 297 V 414 H 67.5 Z"
-         id="path2" />
-    </clipPath>
-  </defs>
   <metadata
      id="metadata7"> Produced by OmniGraffle 7.11.5 
     <dc:date>2021-07-03 13:31:57 +0000</dc:date>
@@ -45,35 +36,6 @@
        clip-path="url(#artboard_clip_path)">
       <title
          id="title11">Layer 2</title>
-      <g
-         id="Graphic_228">
-        <rect
-           x="295.77"
-           y="409.5"
-           width="76.5"
-           height="90"
-           id="path" />
-        <clipPath
-           id="clip_path">
-          <use
-             xlink:href="#path"
-             id="use14"
-             x="0"
-             y="0"
-             width="100%"
-             height="100%" />
-        </clipPath>
-        <g
-           clip-path="url(#clip_path)"
-           id="g19">
-          <image
-             xlink:href="file:///E:/Downloads/image144.pdf"
-             width="223"
-             height="349"
-             transform="matrix(0.26,0,0,0.26,305.03,409.13)"
-             id="image17" />
-        </g>
-      </g>
       <g
          id="Group_3">
         <g
