@@ -50,7 +50,9 @@ if ( existModifierWithKeyterm($node, 'inverted') )
     $builder_3
         ->offset(false)
         ->down_right($up)
+        ->down($margin)
         ->left_plain(2 * $side)
+        ->up($margin)
         ->up_right($up)
     ;
 }
