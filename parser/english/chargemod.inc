@@ -28,7 +28,8 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'closed?', 'closed' ),
       array ( '(dem[yi]|half)', 'demi' ),
       array ( 'like', 'like' ), // not sure whether this has any real meaning, but added as mod just in case
-      array ( '(tuft|stalk|limb|sprig|bough|scrog|branche?)s? of ?(a|an|the)', 'portion' ),
+      array ( '(tuft|stalk|limb|bough|scrog|branche?)s? of ?(a|an|the)', 'portion' ),
+      array ( 'sprigs? of ?(a|an|the)', 'sprig'),
       array ( 'double headed', 'double-headed' ),
       array ( 'french ?shaped?', 'shape-french'),
       array ( 'swiss ?shaped?', 'shape-swiss'),

@@ -303,7 +303,7 @@ function handle_extra($element, $extra, $featureColours, &$bounding_box)
     $transform->translate($element['x'] + $xAdjustment, $element['y'] + $yAdjustment);
     $transform->scale($scale);
 
-    if ( isset($extra["bounding_box"]) )
+    if ( !($element['id'] == 'crowned') && isset($extra["bounding_box"]) )
     {
         $bb = $transform->apply_box($extra["bounding_box"]);
         $bounding_box->combine($bb);
