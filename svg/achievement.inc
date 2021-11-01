@@ -270,8 +270,6 @@ function drawMotto($mottoNode, $layout) {
         $svgText = '<g transform="scale(0.9,0.9) translate(50,180)">' . $svgText . "</g>\n";
         return $svgText;
     } else {
-        $retval = [];
-
         $fontSize = 45;
         $up = 2;
         $textLen = strlen($text);
