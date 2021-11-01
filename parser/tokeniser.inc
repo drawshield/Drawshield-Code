@@ -44,7 +44,6 @@ class tokeniser {
     $blockComment = false;
     $in_string = false;
     $incAll = false;
-    $given = false;
     $part_word = '';
     $end = strlen($blazon);
     $lookBehind = '';
@@ -142,7 +141,7 @@ class tokeniser {
             $i += 1;
           } else {
             if ( $part_word != '' ) {
-              if ( $part_word != '' ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
+              $this->words[] = $part_word; $this->lineNos[] = $lineNo;
             }
             $this->words[] = '*';
             $this->lineNos[] = $lineNo;
@@ -158,8 +157,8 @@ class tokeniser {
             $comment = false;
             $part_word = '';
           } else {
-            if ( $part_word != '' ) {
-              if ( $part_word != '' ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
+              if ( $part_word != '' ) {
+                $this->words[] = $part_word; $this->lineNos[] = $lineNo;
             }
             $this->words[] = $blazon[$i];
             $this->lineNos[] = $lineNo;
@@ -174,10 +173,8 @@ class tokeniser {
           if ($comment == '[') { // match bracket type
             $comment = false;
             $part_word = '';
-          } else {
-            if ( $part_word != '' ) {
-              if ( $part_word != '' ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
-            }
+          } elseif ( $part_word != '' ) {
+                $this->words[] = $part_word; $this->lineNos[] = $lineNo;
           }
           break;
         case '/':
@@ -321,7 +318,7 @@ class tokeniser {
     elseif ( $offset < 0 )
       $offset = 0;
     // in case already ignored, try ignoring next word
-    while ( $this->words[$offset]{0} == '[' && $offset < $this->num_tokens  )
+    while ( substr($this->words[$offset],0,1) == '[' && $offset < $this->num_tokens  )
       $offset++;
     $this->words[$offset] = '[' . $this->words[$offset] . ']';
     if ($trace) echo "<p>Ignoring - " . $this->words[$offset] . "</p>\n";

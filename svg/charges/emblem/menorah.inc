@@ -14,18 +14,6 @@ This file is part of the DrawShield.net heraldry image creation program
 
     You should have received a copy of the GNU General Public License
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
-/**
- * Drawshield PHP Source File
- *
- * Description...
- *
- * @author Karl R. Wilcox <karl@karlwilcox.com>
- * @copyright Karl R. Wilcox 2014
- * @license http://www.apache.org/licenses/LICENSE-2.0
- * Date: 11/09/14
- * Time: 21:12
- */
-
 
 $charge['file'] = 'menorah-of-7.svg';
 

@@ -639,6 +639,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'strawberr(y|ies)', 'tree-fruit/strawberry' ),
       array ( 'barberry?', 'tree-fruit/barberry' ),
       array ( 'maples?', 'tree-fruit/maple' ),
+     //  array ( 'sprigs? of (3|three) maple leaves', 'tree-fruit/maple-leaf-conjoined-3'),
       array ( 'bays?', 'tree-fruit/bay' ),
       array ( 'holl(y|ies)', 'tree-fruit/holly' ),
       array ( 'elders?', 'tree-fruit/elder' ),
