@@ -19,8 +19,8 @@ class metadataMap {
 
 
   
-  static $groups = array();
-  static $charges = array();
+  static array $groups = array();
+  static array $charges = array();
 
   public function __construct()
   {

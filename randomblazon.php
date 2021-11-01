@@ -332,7 +332,7 @@ $lexicon = [
     "chg-weapon" => ["2 {sword} in saltire {base-tincture} {hilted}",
                      "{3-6} {weapon} {base-tincture}", "a {sword} {base-tincture} {hilted}}",
                      "a {axe} {base-tincture} {handled}", "a {weapon} {base-tincture}" ],
-    "weapon" => ["{swords}", "{axes}", "other-weapon"],
+    "weapon" => ["{sword}", "{axe}", "other-weapon"],
     "hilted" => ['', "hilted {base-tincture}"],
     "sword" => ['arming sword', 'claymore', 'dagger', 'falchion',
                 'rapier', 'sabre', 'seax', 'sword of St. Paul' ],
@@ -418,7 +418,8 @@ $componentTinctures = [
 **
 *******************************************************************/
 
-function byChance($chance) {
+function byChance($chance): bool
+{
     return $chance > rand(1,99); // 0 = never, 100 = always 
 }
 
@@ -479,7 +480,6 @@ function punctuate($string) {
     global $prefix;
 
     $output = '';
-    $indent = '';
     $words = preg_split('/[ \t]+/', $string);
     $numwords = count($words);
     for( $i = 0; $i < $numwords; $i++) {
@@ -523,7 +523,8 @@ function punctuate($string) {
     return rtrim(strtoupper($output[0]) . substr($output,1)) . ".\n";
 }
 
-function cleanup($string) { // remove expansions to get core value
+function cleanup($string): string
+{ // remove expansions to get core value
     return trim(preg_replace('/{.+?}/', '', $string));
 }
 
@@ -532,7 +533,7 @@ function cleanup($string) { // remove expansions to get core value
 */
 
 function expand($tokenString) {
-    global $options, $lexicon, $errors;
+    global $lexicon, $errors;
     global $usedOrdinary;
 
     if (strpos($tokenString,'{') === false) return $tokenString;
