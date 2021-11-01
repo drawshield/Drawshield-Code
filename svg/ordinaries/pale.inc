@@ -27,7 +27,7 @@ elseif ( existModifierWithKeyterm($node,'fracted') )
 elseif ( existModifierWithKeyterm($node,'lozengy')) // TODO size flag, and compony
   $ordinary['body'] = '<path d="M350,150l75,-150 75,150 75,-150 75,150 -75,150 -75,-150 -75,150 -75,-150  M350,450l75,-150 75,150 75,-150 75,150 -75,150 -75,-150 -75,150 -75,-150   M350,750l75,-150 75,150 75,-150 75,150 -75,150 -75,-150 -75,150 -75,-150  M350,1050l75,-150 75,150 75,-150 75,150 -75,150 -75,-150 -75,150 -75,-150" />';
 elseif ( existModifierWithKeyterm($node,'voided'))
-  $ordinary['shape_spec'] = 'X350Y-{%2}a300C{%104*}e300G{%104*}';
+  $ordinary['shape_spec'] = 'X350Y-{%4}a300C{%106*}e300G{%106*}';
 elseif ( existModifierWithKeyterm($node, 'nowy')) // special handling for some linetypes
   $ordinary['body'] = '<path d="m 202.02,500 c 0.15,-105.89 56.48,-203.75 147.98,-257.05 v -352.95 h 300 v 352.88 c 91.52,53.32 147.85,151.2 147.98,257.12 -0.15,105.89 -56.48,203.75 -147.98,257.05 v 552.95 h -300 v -552.88 c -91.52,-53.32 -147.85,-151.2 -147.98,-257.12 z" />';
 elseif ( existModifierWithKeyterm($node, 'quadrate')) // special handling for some linetypes
