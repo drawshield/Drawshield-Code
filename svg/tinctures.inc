@@ -42,7 +42,8 @@ function readTinctureFile($filename, $prefix) {
 
 function load_tincures($palette, $web, $warhammer, $tartan, $custom)
 {
-    $tinctures = [];
+    global $messages;
+
     // always read in the drawshield colours as these are the defaults for any not given
     $tinctures = readTinctureFile(__dir__ . '/schemes/drawshield.txt','heraldic');
 
