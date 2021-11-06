@@ -327,7 +327,7 @@ function draw() {
                 break; // nothing to do
             case 1:
                 if (count($crests) && $crests[0] != null) { // at least one
-                    $crestCharges = makeCharge($crest[0]->firstChild, ShieldLayout::square());
+                    $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
                     $body .= "<g transform=\"translate(350,10) scale(0.30) \"> $crestCharges</g>";
                 }
                 $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 500, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
@@ -335,23 +335,44 @@ function draw() {
                 break;
             case 2:
                 if (count($crests) && $crests[0] != null) { // at least one
-                    $crestCharges = makeCharge($crest[0]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(133,10) scale(0.30) \"> $crestCharges</g>";
+                    $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
+                    $body .= "<g transform=\"translate(200,10) scale(0.30) \"> $crestCharges</g>";
                 }
-                $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 283, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
+                $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 360, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
                 // TODO add crown if present
-                if (count($crests) && $crests[1] != null) { // at least one
-                    $crestCharges = makeCharge($crest[1]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(567,10) scale(0.30) \"> $crestCharges</g>";
+                if (count($crests) > 1 && $crests[1] != null) { // at least one
+                    $crestCharges = makeCharge($crests[1]->firstChild, ShieldLayout::square());
+                    $body .= "<g transform=\"translate(500,10) scale(0.30) \"> $crestCharges</g>";
                 }
-                $body .= quickPlace($helmets[1]['body'], $helmets[1]['width'], $helmets[1]['height'], 300, 300, 850, 350, rgb($helmets[1]['fill']), $helmets[1]['adjustments']);
+                $body .= '<g transform="scale(-1,1) translate(-1320,0)">' . quickPlace($helmets[1]['body'], $helmets[1]['width'], $helmets[1]['height'], 300, 300, 660, 350,
+                        rgb($helmets[1]['fill']), $helmets[1]['adjustments']) . '</g>';
                 // TODO add crown if present
                 break;
             default:
                 if (count($helmets) > 3) {
                     $messages->addMessage('internal',"3 helmets maximum");
                 }
-                break;  
+                if (count($crests) && $crests[0] != null) { // at least one
+                    $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
+                    $body .= "<g transform=\"translate(100,10) scale(0.30) \"> $crestCharges</g>";
+                }
+                $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 260, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
+                // TODO add crown if present
+                if (count($crests) > 1 && $crests[1] != null) { // at least one
+                    $crestCharges = makeCharge($crests[1]->firstChild, ShieldLayout::square());
+                    $body .= "<g transform=\"translate(350,10) scale(0.30) \"> $crestCharges</g>";
+                }
+                $body .= quickPlace($helmets[1]['body'], $helmets[1]['width'], $helmets[1]['height'], 300, 300, 500, 350,
+                        rgb($helmets[1]['fill']), $helmets[1]['adjustments']);
+                // TODO add crown if present
+                if (count($crests) > 2 && $crests[2] != null) { // at least one
+                    $crestCharges = makeCharge($crests[2]->firstChild, ShieldLayout::square());
+                    $body .= "<g transform=\"translate(580,10) scale(0.30) \"> $crestCharges</g>";
+                }
+                $body .= '<g transform="scale(-1,1) translate(-1400,0)">' . quickPlace($helmets[2]['body'], $helmets[2]['width'], $helmets[2]['height'], 300, 300, 660, 350,
+                        rgb($helmets[2]['fill']), $helmets[2]['adjustments']) . '</g>';
+                // TODO add crown if present
+                break;
         }
       /*  foreach ($crests as $crest) {
             if ($crest == null) continue;  // some helmets may not have crests
