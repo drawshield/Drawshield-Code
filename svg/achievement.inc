@@ -288,7 +288,7 @@ function drawMotto($mottoNode, $layout) {
         $svgText = str_replace('%UP%', $up, $svgText);
         $svgText = str_replace('%COLOUR%', $colour, $svgText);
         $svgText = str_replace('%FONT-SIZE%', "${fontSize}px", $svgText);
-        $svg = simplexml_load_string($svgText);
+        $svg = @simplexml_load_string($svgText);
         $retval = getSvgFragment($svg, array(), 'scroll', 'plain', array(), getStroke(null, true));
         $retval['adjustments'] = $adjustments;
         $retval = array_merge($retval, getMetaDataFromSVG($svg,'achievement','motto'));
