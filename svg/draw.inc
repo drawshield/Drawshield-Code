@@ -206,7 +206,7 @@ function draw() {
             case 'achievement':
                 if ($layout->shape != 'pauldron' && $layout->shape != 'flag')
                     $achievement = true;
-                if ($node->firstChild == null) {
+                if ($node->firstChild == null) { # just the word 'achievement'
                     $addMantling = true;
                     $helmets[] = drawHelmet(null,null);
                 } else {
@@ -374,19 +374,31 @@ function draw() {
                 // TODO add crown if present
                 break;
         }
-      /*  foreach ($crests as $crest) {
-            if ($crest == null) continue;  // some helmets may not have crests
-            $crestCharges = makeCharge($crest->firstChild, ShieldLayout::square());
-            #$body .= placeCharge($crest->firstChild, ShieldLayout::square(), 300, 300, 500, (count($helmets) ? 150 : 270));
-            if (count($helmets)) {
-                $body .= "<g transform=\"translate(350,10) scale(0.30) \"> $crestCharges</g>";
-            } else {
-            $body .= "<g transform=\"translate(300,75) scale(0.4) \"> $crestCharges</g>";
-            }
+        switch(count($crests)) {
+            case 0:
+                break; // nothing to do
+            case 1:
+                $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(300,75) scale(0.4) \"> $crestCharges</g>";
+                break;
+            case 2:
+                $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(200,135) scale(0.30) \"> $crestCharges</g>";
+                $crestCharges = makeCharge($crests[1]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(500,135) scale(0.30) \"> $crestCharges</g>";
+                break;
+            default:
+                if (count($crests) > 3) {
+                    $messages->addMessage('internal',"3 helmets maximum");
+                }
+                $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(100,135) scale(0.30) \"> $crestCharges</g>";
+                $crestCharges = makeCharge($crests[1]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(350,135) scale(0.30) \"> $crestCharges</g>";
+                $crestCharges = makeCharge($crests[2]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(580,135) scale(0.30) \"> $crestCharges</g>";
+                break;
         }
-        if (count($helmets)) {
-            $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 500, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
-        } */
     }
     if ($supports) {
         $body = '<g transform="translate(150,0) scale(0.7) ">' . $body . '</g>' . $supports;
