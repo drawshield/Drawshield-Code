@@ -177,6 +177,11 @@ function draw() {
         $meta = '';
         $defs = '<defs>' . getEffect($effect, 'defs') . $extraDefs .  '</defs>';
         $trailer =  "</svg>\n";
+        if ( $options['palette'] == 'outline' || $options['palette'] == 'hatching') {
+            $header .= '  <filter id="grayscale">
+    <feColorMatrix type="saturate" values="0.10"/>
+  </filter>';
+        }
 
         $blazonNode = $dom->documentElement;
         $body = '';

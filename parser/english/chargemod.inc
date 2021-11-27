@@ -31,16 +31,9 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( '(tuft|stalk|limb|bough|scrog|branche?)s? of ?(a|an|the)', 'portion' ),
       array ( 'sprigs? of ?(a|an|the)', 'sprig'),
       array ( 'double headed', 'double-headed' ),
-      array ( 'french ?shaped?', 'shape-french'),
-      array ( 'swiss ?shaped?', 'shape-swiss'),
       array ( 'oval shaped?', 'shape-oval'),
       array ( 'lozenge shaped?', 'shape-lozenge'),
       array ( 'square shaped?', 'shape-square'),
-      array ( 'english ?shaped?', 'shape-english'),
-      array ( 'italian ?shaped?', 'shape-italian'),
-      array ( 'polish ?shaped?', 'shape-polish'),
-      array ( 'spanish ?shaped?', 'shape-spanish'),
-      array ( 'german ?shaped?', 'shape-german'),
       array ( 'heater ?shaped?', 'shape-heater'),
       array ( 'equal armed', 'equal-armed'),
       array ( 'sinister (half|halves|parts?) ?of ?(a|an|the)', 'sinister-half'),
@@ -50,7 +43,22 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'leather(s|ed)?', 'leathered'),
       );
 
-   // TODO Deal with all the stuff in _quadrate8.inc
+
+$this->patterns[languageDB::TRADITION_PREFIX] = array (
+    array ( 'swiss', 'swiss'),
+    array ( 'french', 'french'),
+    array ( 'english', 'english'),
+    array ( 'italian', 'italian'),
+    array ( 'polish', 'polish'),
+    array ( 'spanish', 'spanish'),
+    array ( 'german', 'german'),
+);
+
+$this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
+    'shaped?', 'styled?', 'tradition', 'origin'
+);
+
+// TODO Deal with all the stuff in _quadrate8.inc
    $this->patterns[languageDB::CHARGE_FEATURES] = array ( 
      'crossed', 'fructed', 'beaked', 'hooped', 'plumed',
      'seeded', 'barbed', 'gemmed', 'acorned', 'laced', 'necked',

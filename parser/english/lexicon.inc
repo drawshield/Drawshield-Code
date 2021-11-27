@@ -76,6 +76,8 @@ class languageDB extends lexicon
     const QUANTIFIER = 'quantifier';
     const BUNDLE = 'bundle';
     const CHARGE_PREFIX = 'chargepre';
+    const TRADITION_PREFIX = 'tradition';
+    const TRADITION_DESCRIPTION = 'tradition-desc';
     const CHARGE_BETWEEN = 'chgbetween';
     const CHARGE_NEAR = 'chargenear';
     const CHARGE_FEATURES = 'chargefeat';
