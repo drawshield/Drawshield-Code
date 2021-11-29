@@ -103,26 +103,6 @@ function getMetaDataFromSVG($svg, $chargeGroup = '', $chargeName = '') {
             }
           }
       }
-   /*  $viewbox = $svg['viewBox'] ?? '0 0 100 100';
-    list($x0,$y0,$x1,$y1) = explode(' ',$viewbox);
-    // safety checks in case of dodgy SVG
-    if (!is_numeric($x0)) $x0 = 0;
-    if (!is_numeric($y0)) $y0 = 0;
-    if (!is_numeric($x1)) $x1 = 100;
-    if (!is_numeric($y1)) $y1 = 100;
-
-
-    $heightVal = $svg['height'] ?? $x1;
-    if (substr($heightVal,-1) == '%')
-        $retval['height'] = ($y1 - $y0) * intval($heightVal) / 100;
-    else
-        $retval['height'] = floatval($heightVal);
-
-    $widthVal = $svg['width'] ?? $y1;
-    if (substr($widthVal,-1) == '%')
-        $retval['width'] = ($x1 - $x0) * intval($widthVal) / 100;
-    else
-        $retval['width'] = floatval($widthVal);*/
    }
     return $retval;
 }
@@ -624,7 +604,7 @@ function getCharge( DOMElement $node, $layout ) {
       if ( $charge_col->hasChildNodes()) {
         $col_type = $charge_col->firstChild;
         if ( $col_type->nodeName == 'proper' ) {
-          $body_col = getProper($chargeGroup, $chargeName );
+          $body_col = getProper($chargeGroup, $chargeName, null, !$chg_data['verbatim'] );
           $col_type->setAttribute('spec', $body_col);
           $feat_cols['proper'] = true; // Also use proper for any features not coloured explicitly
         }

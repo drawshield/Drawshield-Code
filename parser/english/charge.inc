@@ -300,6 +300,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'hawkbells?', 'hawking/hawkbell' ),
       // badges
       array ( 'badges? of clan ross', 'badges/clan-ross'),
+       array ( 'badges? of wales', 'badges/wales?P'),
       // sea birds
       array ( 'bitterns?', 'seabird/bittern' ),
       array ( 'liver birds?', 'seabird/cormorant' ),
@@ -538,7 +539,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( '?knights helm(et)?s?', 'armour/helmet-knight' ), // default
       array ( 'baronets? helm(et)?s?', 'armour/helmet-baronet' ),
       array ( '(peer|lord)s? helm(et)?s?', 'armour/helmet-peer' ),
-      array ( '(monarchs|royal) helm(et)?s?', 'armour/helmet-royal' ),
+      array ( '(monarchs|royal) helm(et)?s?', 'armour/helmet-royal?O' ),
       array ( 'morions?', 'armour/morion' ),
       array ( 'mail shirts?', 'armour/mail-shirt' ),
       array ( 'shirts? of mail', 'armour/mail-shirt' ),
@@ -933,6 +934,7 @@ This file is part of the DrawShield.net heraldry image creation program
       // Where are my Dragons?!
       array ( '(chinese|oriental) dragons?', 'dragon/chinese-dragon' ),
       array ( 'welsh dragons?', 'dragon/welsh-dragon' ),
+       array ( 'tudor dragons?', 'dragon/tudor-dragon?P' ),
       array ( 'dragons?', 'dragon/dragon' ),
       array ( 'w[yi]vern?s?', 'dragon/wyvern' ),
       // mythical / stylised creatures
@@ -1131,7 +1133,8 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'imperial crowns?', 'crown/imperial?O' ),
       array ( '(crown|coronet)s? of ?the king of arms', 'crown/king-of-arms?O' ),
       array ( 'kings? of arms (crown|coronet)s?', 'crown/king-of-arms?O' ),
-      array ( 'marquiss? (crown|coronet)s?', 'crown/marquis?O' ),
+       array ( 'heralds? (crown|coronet)s?', 'crown/king-of-arms?O' ),
+      array ( 'marqu[ei]ss? (crown|coronet)s?', 'crown/marquis?O' ),
       array ( 'mural (crown|coronet)s?', 'crown/mural?O' ),
       array ( 'village mural (crown|coronet)s?', 'crown/mural-village?O' ),
       array ( 'town mural (crown|coronet)s?', 'crown/mural-town?O' ),
@@ -1147,8 +1150,9 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( '(crown|coronet)s? vallary?', 'crown/vallary?O' ),
       array ( 'viscounts? (crown|coronet)s?', 'crown/viscount?O' ),
        // Crowns that can are only available as proper, in full colour
-       array ( '(royal|regal) crowns?', 'crown/royal?P' ),
+       array ( '(royal|regal|kings) crowns?', 'crown/royal?P' ),
        array ( '(imperial|empire) crowns?', 'crown/imperial?P' ),
+       array ( 'celestial crowns?', 'crown/celestial?P' ),
       // music
       array ( 'musical notes?', 'music/musical-note' ),
       array ( 'musical half notes?', 'music/note-half' ),
