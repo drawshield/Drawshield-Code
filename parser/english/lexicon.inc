@@ -543,7 +543,7 @@ class languageDB extends lexicon
                 array('copper', 'copper'),
                 array('crimson', 'crimson'),
                 array('lead', 'lead'),
-                array('steel', 'steel'),
+                array('steel ^legion', 'steel'),
                 array('gold', 'or'),
                 array('blue', 'azure'),
                 array('green', 'vert'),
