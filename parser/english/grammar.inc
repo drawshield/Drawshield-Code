@@ -510,6 +510,18 @@ class englishGrammar extends grammar
         return $modifier;
     }
 
+    protected function charge_prefix()
+    {
+        if (($keyterm = self::find(languageDB::CHARGE_PREFIX)) != null) {
+            return ($this->schema->makeMod(languageDB::CHARGE_MODS, null, $keyterm, self::tokens(), self::lineNo()));
+        } elseif (($keyterm= self::find(languageDB::TRADITION_PREFIX)) != null) {
+            self::ignore(languageDB::TRADITION_DESCRIPTION);
+            self::ignore((languageDB::WORD_OF));
+            return ($this->schema->makeMod(languageDB::TRADITION_PREFIX, null, $keyterm, self::tokens(), self::lineNo()));
+        }
+        return null;
+    }
+
     protected function simpleCharge($assumeNum = false, $allowArr = false, $allowPos = false)
     {
         $state = self::save();
@@ -534,8 +546,8 @@ class englishGrammar extends grammar
             $mods[] = $this->schema->makeMod(languageDB::BUNDLE, $num, $keyterm, self::tokens(), self::lineNo());
         }
         // Look for prefixes, (e.g. "a demi-lion")
-        while (($keyterm = self::find(languageDB::CHARGE_PREFIX)) != null)
-            $mods[] = $this->schema->makeMod(languageDB::CHARGE_MODS, null, $keyterm, self::tokens(), self::lineNo());
+        while (($mod = $this->charge_prefix()) != null)
+            $mods[] = $mod;
         // Look for ordinaries that we might confuse with charges
         if (self::find(languageDB::ORDINARY_NOT_CHARGE)) {
             self::restore($state);
@@ -555,6 +567,7 @@ class englishGrammar extends grammar
         }
         // Set any flags
         $always_proper = strpos($flags, 'P') !== false;
+        $optional_tincture = strpos($flags, 'O') !== false;
         // In some cases we want the next input token as a "value" (e.g. "the word Karl" matches "words? *")
         if ($asterisk = $this->phraseMatcher->getValue())
             $mods[] = $this->schema->makeMod('value', $asterisk, 'value', self::tokens(), self::lineNo());
@@ -655,16 +668,16 @@ class englishGrammar extends grammar
         }
 
         self::discard($state);
-        if ($always_proper) {
-            if (!$foundTinc) {
+        if (!$foundTinc) {
+            if ($always_proper || $optional_tincture) {
                 $tinc = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'given',
                     blazonML::A_INDEX => '1'));
                 $tinc->appendChild($this->schema->makeNode(blazonML::E_PROPER));
                 $mods[] = $tinc;
+            } else {
+                $mods[] = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'pending',
+                    blazonML::A_INDEX => '1'));
             }
-        } elseif (!$foundTinc) {
-            $mods[] = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'pending',
-                blazonML::A_INDEX => '1'));
         }
         self::ignore(languageDB::WITH);
         foreach ($mods as $mod)

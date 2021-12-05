@@ -115,6 +115,7 @@ class properColour {
       'rabbit' => self::$brown,
       'log' => self::$brown,
       'fox' => self::$red,
+        'welsh-dragon' => self::$red,
       'barber-pole' => self::$red,
       'hammer' => self::$black,
       'hare' => self::$brown,

@@ -397,7 +397,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
   return $item;
 }
 
-function getSvgFragment ($svg, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol = null, $strokeWidth = null)
+function getSvgFragment ($svg, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol = null, $strokeWidth = null, $verbatim = false)
 {
     global $messages, $options;
     $retval = array();
@@ -427,8 +427,10 @@ function getSvgFragment ($svg, $featureTinctures, $chargeGroup, $chargeName, $ex
 
     // set a default stroke colour
     $fragment = '';
-    foreach( $svg->children() as $child )
-        $fragment .= addChild($child, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol, $strokeWidth, $bounding_box);
+    if (!$verbatim) { // we don't need this as we using the unmodified SVG instead
+        foreach ($svg->children() as $child)
+            $fragment .= addChild($child, $featureTinctures, $chargeGroup, $chargeName, $extras, $strokeCol, $strokeWidth, $bounding_box);
+    }
 
     $x0 += $bounding_box->left();
     $y0 += $bounding_box->top();

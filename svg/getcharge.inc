@@ -103,7 +103,7 @@ function getMetaDataFromSVG($svg, $chargeGroup = '', $chargeName = '') {
             }
           }
       }
-    }
+   }
     return $retval;
 }
 
@@ -169,7 +169,8 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
       if (!$found) {
         $penalty += $currentRNPPenalty;
         // Some things we don't really care about
-        if (!in_array($requiredParts[$i], array('voided', 'upper', 'lower', 'half', 'demi', 'entire', 'head', 'leg', 'reversed', 'inverted' ))) {
+          // english is the default tradition, so no worries if it is not found
+        if (!in_array($requiredParts[$i], array('english', 'voided', 'upper', 'lower', 'half', 'demi', 'entire', 'head', 'leg', 'reversed', 'inverted' ))) {
           $missing .= $requiredParts[$i] . ' ';
         }
       }
@@ -260,10 +261,18 @@ function read_chg_file(DOMElement $node) {
     }
     list($group,$chargeKey) = $splitArray;
     $folder = __dir__ . "/charges/$group/";
-    if (false || ($title = $node->getAttribute('tokens')) == null ) $title = $chargeKey;
+    $subfolder = '';
+    if (($title = $node->getAttribute('tokens')) == null ) $title = $chargeKey;
+    $tincture = getTinctureNode($node);
+    if ($tincture != null && $tincture->firstChild->nodeName == blazonML::E_PROPER) {
+        // Charge is proper let's see if there is a special version for this
+        if (file_exists($folder . "proper/" . $chargeKey . '.svg')) {
+            $subfolder .= "proper/";
+        }
+    }
 
     // look for .inc file
-    $file = $folder . $chargeKey . '.inc';
+    $file = $folder . $subfolder . $chargeKey . '.inc';
     if ( $group == "custom" ) {
         $chg_data = SmartChargeGroup::instance()->charge_data($node, $chg_data, $chargeKey);
     } else if ( file_exists( $file )) {
@@ -272,11 +281,15 @@ function read_chg_file(DOMElement $node) {
     // TODO check if this still happens???
       // It is possible that some node attributes have been changed, so re-read them
     list($group,$chargeKey) = preg_split(':/:', $node->getAttribute('keyterm'));
-    $folder = __dir__ . "/charges/$group/";
+    $folder = __dir__ . "/charges/$group/$subfolder";
 
+    $modList = '';
     if ( !array_key_exists('svgCode',$chg_data) and !array_key_exists('file',$chg_data) ) {
+        // If there is a different tradition specified we put that first
+        if (($trad = getModifierByType($node,languageDB::TRADITION_PREFIX)) != null)
+            $modList .= '-' . $trad;
       // Have to treat head feature as a mod as well sometimes, + other things
-      $modList = featuresThatAreAlsoMods($node);
+      $modList .= featuresThatAreAlsoMods($node);
       $ignoreMods = array("palewise", 'fesswise', 'bendwise', 'bendsinwise', 'haurient', 'conjoined', 'ensoleil');
       $otherArray = array_diff(array_keys(getModifiersByTypeAsArray($node,'chargemod')), $ignoreMods);
       if (existModifierWithKeyterm($node,'fancy')) $otherArray[] = 'fancy';
@@ -302,6 +315,10 @@ function read_chg_file(DOMElement $node) {
     $chg_data = array_merge(getMetadata($group, $chargeKey), $chg_data);
   }
   $chg_data['title'] = $title;
+  $chg_data['verbatim'] = false;
+  if ($subfolder) { // must be proper, so don't try to colour in
+    $chg_data['verbatim'] = true;
+  }
   if (array_key_exists('licence',$chg_data))
     $messages->addMessage('licence',$node->getAttribute('keyterm') . ' - ' . $chg_data['licence']);
   return $chg_data;
@@ -392,7 +409,7 @@ function makeSquareCharge(DOMElement $node ) {
 }
 
 function getCharge( DOMElement $node, $layout ) {
-    global $chg_data_cache, $messages;
+    global $chg_data_cache, $messages, $options;
     if (is_null($node))
         return null;
 
@@ -431,11 +448,15 @@ function getCharge( DOMElement $node, $layout ) {
                 }
                 elseif ( $child->nodeName == blazonML::E_MODIFIER )
                 {
-                    $modifier = $child->getAttribute('keyterm');
+                    $modifier = $child->getAttribute(blazonML::A_KEYTERM);
                     if (substr($modifier, 0, 6) == 'shape-')
                     {
                         $shape = substr($modifier, 6);
-                    } // we don't need the pending tincture node
+                    } elseif ($child->getAttribute(blazonML::A_TYPE) == languageDB::TRADITION_PREFIX) {
+                        $shape = $modifier;
+                    }
+
+                    // we don't need the pending tincture node
                 }
                 elseif ( $child->nodeName == blazonML::E_TINCTURE )
                 {
@@ -583,7 +604,7 @@ function getCharge( DOMElement $node, $layout ) {
       if ( $charge_col->hasChildNodes()) {
         $col_type = $charge_col->firstChild;
         if ( $col_type->nodeName == 'proper' ) {
-          $body_col = getProper($chargeGroup, $chargeName );
+          $body_col = getProper($chargeGroup, $chargeName, null, !$chg_data['verbatim'] );
           $col_type->setAttribute('spec', $body_col);
           $feat_cols['proper'] = true; // Also use proper for any features not coloured explicitly
         }
@@ -670,10 +691,19 @@ HERE;
 
     //---------------------------------------------------------
     // So we now have $charge_col set to a valid tincture node and the feat_cols array set, apply this to the svg Data
-    $chg_data = array_merge($chg_data, getSvgFragment($svg, $feat_cols, $chargeGroup, $chargeName, $extras, $strokeCol ));
-    $body = $chg_data['body'];
-    $height = $chg_data['height'];
-    $width = $chg_data['width'];
+    if ($chg_data['verbatim']) {
+        $body = preg_replace('/<\?xml.*?>/i','', $chg_data['svgCode']);
+        if ( $options['palette'] == 'outline' || $options['palette'] == 'hatching') {
+            $body = "<g filter=\"url('#grayscale')\">" . $body . '</g>';
+        }
+        $chg_data = array_merge($chg_data, getSvgFragment($svg, $feat_cols, $chargeGroup, $chargeName, $extras, $strokeCol, null, $chg_data['verbatim'] ));
+     } else {
+        $chg_data = array_merge($chg_data, getSvgFragment($svg, $feat_cols, $chargeGroup, $chargeName, $extras, $strokeCol));
+        $body = $chg_data['body'];
+    }
+        $height = $chg_data['height'];
+        $width = $chg_data['width'];
+
     //----------------------------------------------------------
   }
 
