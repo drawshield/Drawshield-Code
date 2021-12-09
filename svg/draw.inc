@@ -185,7 +185,7 @@ function draw() {
 
         $blazonNode = $dom->documentElement;
         $body = '';
-        $addMantling = false;
+        // $addMantling = false;
         foreach ( $blazonNode->childNodes as $node ) {
             switch ( $node->nodeName ) {
             case 'shield':
@@ -241,7 +241,7 @@ function draw() {
                             $motto = drawMotto($subNode, $layout);
                             break;
                         case blazonML::E_HELMET: // can't draw immediately in case there is a torse
-                            $addMantling = true;
+                            // $addMantling = true;
                             if (count($crests) < count($helmets)) {
                                 $crests[] = null; // keep crests in step with helmets
                             }
@@ -257,8 +257,8 @@ function draw() {
                     }
                 }
                 // tidy up the combinations
-                if (!$mantling && $addMantling && $layout->shape != 'pauldron')
-                    $mantling = drawMantling(null);
+                // if (!$mantling && $addMantling && $layout->shape != 'pauldron')
+                //    $mantling = drawMantling(null);
                 break;
             // other elements for future expansion
             }
@@ -336,7 +336,8 @@ function draw() {
                     $body .= "<g transform=\"translate(350,10) scale(0.30) \"> $crestCharges</g>";
                     $crests[0] = null; // mark this crest as used
                 }
-                $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 500, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
+                if (!empty($helmets[0]))
+                    $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 500, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
                 // TODO add crown if present
                 break;
             case 2:

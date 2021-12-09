@@ -55,11 +55,11 @@ function drawMantling($mantlingNode) {
 
     $hat = null;
     $staff = null;
+    $default1 = rgb('argent');
+    $default2 = rgb('gray');
 
     if (is_null($mantlingNode)) {
         $type = 'ribbons';
-        $default1 = rgb('argent');
-        $default2 = rgb('gray');
     } else {
         $type = $mantlingNode->getAttribute(blazonML::A_KEYTERM);
         switch($type) {
@@ -80,7 +80,7 @@ function drawMantling($mantlingNode) {
                 $hat = rgb('sable');
                 break;
             default:
-                $default1 = $default2 = $hat = rgb('gray');
+                // $default1 = $default2 = $hat = rgb('gray');
                 break;
         }
     }

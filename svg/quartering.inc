@@ -199,7 +199,7 @@ function makequartered6( $children, ShieldLayout $layout )
     $quartering = new Quartering($layout);
 
     $h = $layout->cross_point_ratio()->y;
-    $quartering->add_row(3, $h);
+    $quartering->add_row(3, 0.5);
     $quartering->add_row(3);
 
     return $quartering->render_svg($children);

@@ -326,8 +326,9 @@ function read_chg_file(DOMElement $node) {
 
 
 function makeCharge($charge, $layout, $placements = null) {
-  if ( !$placements ) $placements = get_placement($charge, $layout);
   $retval = '';
+  if (empty($charge)) return $retval;
+  if ( !$placements ) $placements = get_placement($charge, $layout);
   foreach ( explode('*',$placements) as $placement ) {
     $retval .= place_charges ( $charge, $placement, $layout );
   }
