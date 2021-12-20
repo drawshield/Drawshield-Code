@@ -185,7 +185,6 @@ function draw() {
 
         $blazonNode = $dom->documentElement;
         $body = '';
-        // $addMantling = false;
         foreach ( $blazonNode->childNodes as $node ) {
             switch ( $node->nodeName ) {
             case 'shield':
@@ -212,7 +211,6 @@ function draw() {
                 if ($layout->shape != 'pauldron' && $layout->shape != 'flag')
                     $achievement = true;
                 if ($node->firstChild == null) { # just the word 'achievement'
-                    $addMantling = true;
                     $helmets[] = drawHelmet(null,null);
                 } else {
                     foreach ($node->childNodes as $subNode) {
@@ -241,7 +239,6 @@ function draw() {
                             $motto = drawMotto($subNode, $layout);
                             break;
                         case blazonML::E_HELMET: // can't draw immediately in case there is a torse
-                            // $addMantling = true;
                             if (count($crests) < count($helmets)) {
                                 $crests[] = null; // keep crests in step with helmets
                             }
@@ -256,11 +253,7 @@ function draw() {
                         }
                     }
                 }
-                // tidy up the combinations
-                // if (!$mantling && $addMantling && $layout->shape != 'pauldron')
-                //    $mantling = drawMantling(null);
                 break;
-            // other elements for future expansion
             }
         }
     }
@@ -308,7 +301,7 @@ function draw() {
 
     // assorted combinations of achievements
     if ($mantling || count($helmets) || count($crests)) {
-        $body = $mantling . '<g transform="translate(191.667,400) scale(0.61667) ">' . $body . '</g>';
+        $body = $mantling['body'] . '<g transform="' . $mantling['transform'] . '">' . $body . '</g>';
     }
     if ($motto && $supports == '') {
         if ($layout->shape == 'pauldron') {

@@ -1794,10 +1794,8 @@ class englishGrammar extends grammar
             self::tokens(),
             self::lineno());
         if (($tincNode = self::tincture()) != null) {
-            $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
-                    blazonML::A_KEYTERM => 'default'));
-            $locNode->appendChild($tincNode);
-            $mantlingNode->appendChild($locNode);
+            self::raiseError(self::ERROR_ORIGIN,"Ecclesiastic achievements have fixed colours", true);
+            $mantlingNode->appendChild($tincNode);
         }
 
         if (($adjust = $this->getAdjustments()) != null) {
@@ -1817,32 +1815,38 @@ class englishGrammar extends grammar
       self::tokens(),
       self::lineno());
     $locNode = null;
-    while (true) {
-      if (($loc = self::find(languageDB::ACHIEVEMENT_LOC)) != null) {
-        $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
-            blazonML::A_KEYTERM => $loc 
-          ),
-          self::tokens(),
-          self::lineno()
-        );
-      }
-      $tinctures = [];
-      while (($tincNode = self::tincture()) != null) {
-        $tinctures[] = $tincNode;
-        self::ignore(languageDB::ANDD);
-      }
-      if (count($tinctures)) { // found some colours
-        if ($locNode == null) { // use a default location
-          $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
-              blazonML::A_KEYTERM => 'default'));
+    if ($type == 'ribbons' || $type == 'cloak' || $type == 'cloak-ermine') { // have complex colour scheme
+        while (true) {
+            if (($loc = self::find(languageDB::ACHIEVEMENT_LOC)) != null) {
+                $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array(
+                    blazonML::A_KEYTERM => $loc
+                ),
+                    self::tokens(),
+                    self::lineno()
+                );
+            }
+            $tinctures = [];
+            while (($tincNode = self::tincture()) != null) {
+                $tinctures[] = $tincNode;
+                self::ignore(languageDB::ANDD);
+            }
+            if (count($tinctures)) { // found some colours
+                if ($locNode == null) { // use a default location
+                    $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array(
+                        blazonML::A_KEYTERM => 'default'));
+                }
+                foreach ($tinctures as $tincture)
+                    $locNode->appendChild($tincture);
+                $mantlingNode->appendChild($locNode);
+            } else {
+                break;
+            }
+            self::ignore(languageDB::ANDD);
         }
-        foreach($tinctures as $tincture) 
-          $locNode->appendChild($tincture);
-        $mantlingNode->appendChild($locNode);
-      } else {
-        break;
-      }
-      self::ignore(languageDB::ANDD);
+    } else {
+        if (($tincNode = self::tincture()) != null) {
+            $mantlingNode->appendChild($tincNode);
+        }
     }
       if (($adjust = $this->getAdjustments()) != null) {
           foreach ($adjust as $adj) {
