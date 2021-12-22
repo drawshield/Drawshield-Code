@@ -59,6 +59,9 @@ class englishGrammar extends grammar
                 } elseif (($motto = self::motto()) != null) {
                     $found = true;
                     $this->addAchievement($motto);
+                } elseif (($ornament = self::ornaments()) != null) {
+                    $found = true;
+                    $this->addAchievement($ornament);
                 } elseif (($crest = self::crest()) != null) {
                     $found = true;
                     $this->addAchievement($crest);
@@ -83,12 +86,9 @@ class englishGrammar extends grammar
                         $this->addAchievement($shieldNode);
                     }
                 } elseif (self::find(languageDB::ACHIEVEMENT)) {
-                    self::ignore(languageDB::WORD_OF);
-                    if (($church = self::ecclesiastic()) != null) {
-                        $this->addAchievement($church);
-                    } else {
-                        $this->addAchievement(null);
-                    }
+                    // this is OK, it is just a marker between the shield and the achievements
+                    // if there are no other achievements just add mantling
+                    $this->addAchievement(null);
                     $found = true;
                 } elseif (self::drawn()) {
                     $found = true;
@@ -155,17 +155,17 @@ class englishGrammar extends grammar
         return $node;
     }
 
+    // To add more debug options add them to lexicon.inc under drawn mods
+    // then add the keyword under case 'grid':
     protected function drawn()
     {
-        global $options;
-
         $found = true;
+        $debugOptions = [];
         while ($found) {
             $found = false;
             self::ignore(languageDB::USING);
             if ($option = self::find(LanguageDB::DRAWN_MODS)) {
                 $elementName = null;
-                $colour = null;
                 $value = strtolower($this->phraseMatcher->getValue());
                 switch ($option) {
                     case 'colours':
@@ -179,6 +179,9 @@ class englishGrammar extends grammar
                         break;
                     case 'shape':
                         $elementName = blazonML::E_SHAPE;
+                        break;
+                    case 'grid':
+                        $debugOptions[] = $option;
                         break;
                     case 'aspect':
                         // $value = calculateAR($value);
@@ -196,6 +199,14 @@ class englishGrammar extends grammar
                 $found = true;
             }
             self::ignore(languageDB::ANDD);
+        }
+        if (count($debugOptions)) {
+            $node = $this->schema->makeNode(blazonML::E_DEBUG, array(
+                blazonML::A_KEYTERM => implode(',', $debugOptions)),
+                null,
+                null,
+            );
+            $this->addInstruction($node);
         }
         return $found;
     }
@@ -275,6 +286,11 @@ class englishGrammar extends grammar
             }
             $node = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
             $node->appendChild($simple);
+            if (($adjust = $this->getAdjustments()) != null) {
+                foreach ($adjust as $adj) {
+                    $node->appendChild($adj);
+                }
+            }
         }
         if ($node == null)
             self::restore($state);
@@ -1785,31 +1801,72 @@ class englishGrammar extends grammar
         return $compartmentNode;
     }
 
-    protected function ecclesiastic() {
-        if (($type = self::find(languageDB::ECCLESIASTIC)) == null) {
-            return;
-        }
-        $mantlingNode = $this->schema->makeNode(blazonML::E_MANTLING, array (
-            blazonML::A_KEYTERM => $type),
-            self::tokens(),
-            self::lineno());
-        if (($tincNode = self::tincture()) != null) {
-            self::raiseError(self::ERROR_ORIGIN,"Ecclesiastic achievements have fixed colours", true);
-            $mantlingNode->appendChild($tincNode);
-        }
+    protected function ornaments() {
+        $state = self::save();
+        $ornamentNode = null;
 
-        if (($adjust = $this->getAdjustments()) != null) {
+        self::ignore(languageDB::ACHIEVEMENT);
+        self::ignore(languageDB::WORD_OF);
+        self::ignore(languageDB::SIGNIFIER);
+        $tradition = self::find(languageDB::TRADITION);
+
+        // try some actual hits now
+        if (($churchRole = self::find(languageDB::ECCLESIASTIC)) != null) {
+            if (!$tradition) $tradition = 'catholic';
+            $ornamentNode = $this->schema->makeNode(blazonML::E_ORNAMENT, array (
+                blazonML::A_KEYTERM => "$tradition/$churchRole"),
+                self::tokens(),
+                self::lineNo()
+            );
+            if (($tincNode = self::tincture()) != null) {
+                self::raiseError(self::ERROR_ORIGIN,"Ecclesiastic ornaments have fixed colours", true);
+                $ornamentNode->appendChild($tincNode);
+            }
+        } // else look for other types of ornament
+
+        if ($ornamentNode != null && ($adjust = $this->getAdjustments()) != null) {
             foreach ($adjust as $adj) {
-                $mantlingNode->appendChild($adj);
+                $ornamentNode->appendChild($adj);
             }
         }
-        return $mantlingNode;
+
+        if (!$ornamentNode) {
+            self::restore($state);
+        } else {
+            self::discard($state);
+        }
+
+        return $ornamentNode;
     }
 
+
   protected function mantling() {
-    if (($type = self::find(languageDB::MANTLING)) == null) {
-      return;
-    }
+      $gotMantling = self::find(languageDB::MANTLING);
+      if ($gotMantling) {
+          self::ignore(languageDB::WORD_OF);
+          self::ignore(languageDB::SIGNIFIER);
+      }
+      $type = self::find(languageDB::MANTLES);
+      if ($type == null && $gotMantling == null)
+          return null; // nothing found
+      if ($type == null)
+          $type = 'ribbons';
+      $pavilion = '';
+      $crowned = '';
+      do {
+          $found = false;
+          $mods = self::find(languageDB::MANTLING_MODS);
+          if ($mods != null) {
+              $found = true;
+              if ($mods == 'pavilion') $pavilion = '-pavilion';
+              elseif ($mods == 'crowned') $crowned = '-crowned';
+          }
+      } while ($found);
+      if (!$gotMantling)
+          self::ignore(languageDB::MANTLING);
+
+      $type .= $pavilion . $crowned;
+
     $mantlingNode = $this->schema->makeNode(blazonML::E_MANTLING, array (
       blazonML::A_KEYTERM => $type),
       self::tokens(),
@@ -1828,7 +1885,7 @@ class englishGrammar extends grammar
             $tinctures = [];
             while (($tincNode = self::tincture()) != null) {
                 $tinctures[] = $tincNode;
-                self::ignore(languageDB::ANDD);
+                self::ignore(languageDB::LINING);
             }
             if (count($tinctures)) { // found some colours
                 if ($locNode == null) { // use a default location
@@ -1844,8 +1901,8 @@ class englishGrammar extends grammar
             self::ignore(languageDB::ANDD);
         }
     } else {
-        if (($tincNode = self::tincture()) != null) {
-            $mantlingNode->appendChild($tincNode);
+        if (self::tincture()) {
+            self::raiseError(self::ERROR_ORIGIN,"Given mantling has fixed colours", true);
         }
     }
       if (($adjust = $this->getAdjustments()) != null) {

@@ -1153,6 +1153,8 @@ This file is part of the DrawShield.net heraldry image creation program
        array ( '(royal|regal|kings) crowns?', 'crown/royal?P' ),
        array ( '(imperial|empire) crowns?', 'crown/imperial?P' ),
        array ( 'celestial crowns?', 'crown/celestial?P' ),
+       array ( 'napolean(s|ic) crowns?', 'crown/napoleanic?P' ),
+       array ( 'crowns? of napolean', 'crown/napoleanic?P' ),
       // music
       array ( 'musical notes?', 'music/musical-note' ),
       array ( 'musical half notes?', 'music/note-half' ),

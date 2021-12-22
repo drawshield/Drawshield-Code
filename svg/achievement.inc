@@ -50,7 +50,29 @@ function drawSupporters($supportNode, $layout) {
     return $retval;
 }
 
-function drawMantling($mantlingNode) {
+function drawOrnament($ornamentNode)
+{
+    global $messages, $options;
+
+    $type = $ornamentNode->getAttribute(blazonML::A_KEYTERM);
+    if (!file_exists("svg/components/ornaments/$type.svg")) {
+        $messages->addMessage('internal', "Unable to draw mantling type: $type");
+        return null;
+    }
+    $rawFile = file_get_contents("svg/components/ornaments/$type.svg");
+    $svg = simplexml_load_string($rawFile);
+    getMetaDataFromSVG($svg, 'achievement', 'mantling'); // just for the credit licence
+    $retval['body'] = preg_replace('/<\?xml.*?>/i', '', $rawFile);
+    if ($options['palette'] == 'outline' || $options['palette'] == 'hatching') {
+        $retval['body'] = "<g filter=\"url('#grayscale')\">" . $retval['body'] . '</g>';
+    }
+    $retval['transform'] = "translate(191.667,350) scale(0.61667)";
+
+    return $retval;
+}
+
+function drawMantling($mantlingNode)
+{
     global $messages, $options;
 
     $default1 = rgb('argent');
@@ -62,14 +84,32 @@ function drawMantling($mantlingNode) {
         $type = $mantlingNode->getAttribute(blazonML::A_KEYTERM);
     }
 
-    // default colours
-    $features = array (
-        'sinister1' => $default1,
-        'sinister2' => $default2,
-        'dexter1' => $default1,
-        'dexter2' => $default2
-    );
     $extras = array(); // not used at present (but required for getSVGFragment)
+    $features = array();
+
+    $yShift = 160;
+    $scale = 0.7;
+    switch($type) {
+        case 'grandee-of-spain':
+            break;
+        case 'cloak':
+        case 'cloak-ermine':
+            $yShift = 260;
+            break;
+        case 'cloak-pavilion':
+        case 'peer-of-france':
+            $yShift = 360;
+            $scale = 0.65;
+            break;
+        case 'peer-of-france-crowned':
+            $yShift = 460;
+            $scale = 0.55;
+            break;
+        case 'ribbons':
+            $yShift = 170; $scale = 0.75;
+            break;
+    }
+    $xShift = (1000 * (1-$scale)) / 2;
 
     if (!file_exists("svg/components/mantling/$type.svg")) {
         $messages->addMessage('internal', "Unable to draw mantling type: $type");
@@ -81,86 +121,79 @@ function drawMantling($mantlingNode) {
     getMetaDataFromSVG($svg, 'achievement', 'mantling'); // just for the credit licence
     $defs = [];
 
-    switch ($type) {
-        case 'pavilion':
-            $retval = getSvgFragment($svg, $features, 'mantling', $type, $extras, getStroke(null, true));
-            break;
-        case 'cloak':
-        case 'ribbons':
-             if ($mantlingNode != null) {
-                 // Sort out the actual colours in use
-                 for ($i = 0; $i < $mantlingNode->childNodes->length; $i++) {
-                     $location = $mantlingNode->childNodes->item($i);
-                     $colours = array();
-                     for ($j = 0; $j < $location->childNodes->length; $j++) {
-                         $tincture = $location->childNodes->item($j);
-                         $tincture_data = new TinctureData($tincture);
-                         $tincture_data->pattern_transform = "scale(0.3)";
-                         $tincture_data->parse_fill(new ShieldLayout(new ShieldSize(1000, 1000), "square"));
-                         if ($tincture_data->fill) {
-                             $colours[] = $tincture_data->fill;
-                             $defs = array_merge($defs, $tincture_data->defs);
-                         } else {
-                             $messages->addMessage('error', "complex mantling tinctures are not supported");
-                         }
-                     }
-                     $numCols = count($colours);
-                     if ($numCols < 1) $colours[0] = rgb('gray');
-                     switch ($location->getAttribute('keyterm')) {
-                         case 'default':
-                             $features['sinister1'] = $colours[0];
-                             $features['dexter1'] = $colours[0];
-                             if ($numCols < 2) {
-                                 // check no clash with default colours
-                                 if ($colours[0] == $default2) {
-                                     $features['sinister2'] = $default1;
-                                     $features['dexter2'] = $default1;
-                                 }
-                             } else {
-                                 $features['sinister2'] = $colours[1];
-                                 $features['dexter2'] = $colours[1];
-                             }
-                             break;
-                         case 'sinister':
-                             $features['sinister1'] = $colours[0];
-                             if ($numCols < 2) {
-                                 if ($colours[0] == $default2) {
-                                     $features['sinister2'] = $default1;
-                                 }
-                             } else {
-                                 $features['sinister2'] = $colours[1];
-                             }
-                             break;
-                         case 'dexter':
-                             $features['dexter1'] = $colours[0];
-                             if ($numCols < 2) {
-                                 if ($colours[0] == $default2) {
-                                     $features['dexter2'] = $default1;
-                                 }
-                             } else {
-                                 $features['dexter2'] = $colours[1];
-                             }
-                             break;
-                         default:
-                             $messages->addMessage('internal', 'Unknown location for mantling tincture');
-                             break;
-                     }
-                 }
-             }
-             $retval = getSvgFragment($svg, $features, 'mantling', $type, $extras, getStroke(null, true));
-             $retval['transform'] = "translate(191.667,400) scale(0.61667)";
-             break;
-        default: // the ecclesiastic stuff
-            $retval['body'] = preg_replace('/<\?xml.*?>/i','', $rawFile);
-            if ( $options['palette'] == 'outline' || $options['palette'] == 'hatching') {
-                 $retval['body'] = "<g filter=\"url('#grayscale')\">" . $retval['body'] . '</g>';
-             }
-             $retval['transform'] = "translate(191.667,350) scale(0.61667)";
-             break;
+    if ($type == 'ribbons' || $type == 'cloak' || $type == 'cloak-ermine') { // have complex colour scheme
+        // default colours
+        $features = array(
+            'sinister1' => $default1,
+            'sinister2' => $default2,
+            'dexter1' => $default1,
+            'dexter2' => $default2
+        );
+        // Sort out the actual colours in use
+        for ($i = 0; $i < $mantlingNode->childNodes->length; $i++) {
+            $location = $mantlingNode->childNodes->item($i);
+            $colours = array();
+            for ($j = 0; $j < $location->childNodes->length; $j++) {
+                $tincture = $location->childNodes->item($j);
+                $tincture_data = new TinctureData($tincture);
+                $tincture_data->pattern_transform = "scale(0.3)";
+                $tincture_data->parse_fill(new ShieldLayout(new ShieldSize(1000, 1000), "square"));
+                if ($tincture_data->fill) {
+                    $colours[] = $tincture_data->fill;
+                    $defs = array_merge($defs, $tincture_data->defs);
+                } else {
+                    $messages->addMessage('error', "complex mantling tinctures are not supported");
+                }
+            }
+            $numCols = count($colours);
+            if ($numCols < 1) $colours[0] = rgb('gray');
+            switch ($location->getAttribute('keyterm')) {
+                case 'default':
+                    $features['sinister1'] = $colours[0];
+                    $features['dexter1'] = $colours[0];
+                    if ($numCols < 2) {
+                        // check no clash with default colours
+                        if ($colours[0] == $default2) {
+                            $features['sinister2'] = $default1;
+                            $features['dexter2'] = $default1;
+                        }
+                    } else {
+                        $features['sinister2'] = $colours[1];
+                        $features['dexter2'] = $colours[1];
+                    }
+                    break;
+                case 'sinister':
+                    $features['sinister1'] = $colours[0];
+                    if ($numCols < 2) {
+                        if ($colours[0] == $default2) {
+                            $features['sinister2'] = $default1;
+                        }
+                    } else {
+                        $features['sinister2'] = $colours[1];
+                    }
+                    break;
+                case 'dexter':
+                    $features['dexter1'] = $colours[0];
+                    if ($numCols < 2) {
+                        if ($colours[0] == $default2) {
+                            $features['dexter2'] = $default1;
+                        }
+                    } else {
+                        $features['dexter2'] = $colours[1];
+                    }
+                    break;
+                default:
+                    $messages->addMessage('internal', 'Unknown location for mantling tincture');
+                    break;
+            }
+        }
+        $retval = getSvgFragment($svg, $features, 'mantling', $type, $extras, getStroke(null, true));
+    } else {
+        $retval['body'] = preg_replace('/<\?xml.*?>/i', '', $rawFile);
     }
-
-    if ( count($defs) )
-        $retval['body']  = "<defs>" . implode("", $defs) . "</defs>" . $retval['body'];
+    $retval['transform'] = "translate($xShift,$yShift) scale($scale)";
+    if (count($defs))
+        $retval['body'] = "<defs>" . implode("", $defs) . "</defs>" . $retval['body'];
 
 
     return $retval;

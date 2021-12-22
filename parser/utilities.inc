@@ -83,6 +83,7 @@ class blazonML extends DOMDocument {
   const E_PALETTE = 'palette';
   const E_COLOURSET = 'colourset';
   const E_EFFECT = 'effect';
+  const E_DEBUG = 'debug';
   const E_ACHIEVEMENT = 'achievement';
   const E_CREST = 'crest';
   const E_TORSE = 'torse';
@@ -92,6 +93,7 @@ class blazonML extends DOMDocument {
   const E_SUPPORTERS = 'supporters';
     const E_COMPARTMENT = 'compartment';
   const E_MOTTO = 'motto';
+    const E_ORNAMENT = 'ornament';
   const A_TEXT = 'text';
   const E_LOCATION = 'location';
   const E_ASPECT = 'aspect';

@@ -78,11 +78,11 @@ function draw() {
 
     // Get all the charge data (once for each charge type)
     get_chg_data();
-    $achievement = false;
     $mantling = '';
     $supports = '';
     $compartment = '';
     $motto = '';
+    $ornament = '';
     $helmets = [];
     $crests = [];
     $fringe = '';
@@ -206,10 +206,14 @@ function draw() {
                     d="m 41.536147,871.59393 c 0,0 7.47903,-641.82667 458.680763,-641.93028 451.20173,-0.10361 456.7417,646.64289 456.7417,646.64289 z M 1.2817646,953.9012 c 0,0 -3.0191322,-756.24112 499.0203454,-754.95935 502.03949,1.28177 496.91075,760.08641 496.91075,760.08641 z"
                     style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1;fill-rule:evenodd;opacity:0.5" />';
                 }
+                foreach ($node->childNodes as $childNode) {
+                    if ($childNode->nodeName == blazonML::E_MODIFIER) {
+                        $shieldAdjustments[] = $childNode->getAttribute(blazonML::A_KEYTERM);
+                    }
+                }
                 break;
-            case 'achievement':
-                if ($layout->shape != 'pauldron' && $layout->shape != 'flag')
-                    $achievement = true;
+                case 'achievement':
+                    if ($layout->shape != 'pauldron' && $layout->shape != 'flag')
                 if ($node->firstChild == null) { # just the word 'achievement'
                     $helmets[] = drawHelmet(null,null);
                 } else {
@@ -218,19 +222,14 @@ function draw() {
                         case blazonML::E_SUPPORTERS:
                             $supports = drawSupporters($subNode, $layout);
                             break;
+                        case blazonML::E_ORNAMENT:
+                                $mantling = drawOrnament($subNode);
+                                break;
                         case blazonML::E_MANTLING:
                             $mantling = drawMantling($subNode);
                             break;
-                        case blazonML::E_SHIELD:
-                            foreach ($subNode->childNodes as $childNode) {
-                                if ($childNode->nodeName == blazonML::E_MODIFIER) {
-                                    $shieldAdjustments[] = $childNode->getAttribute(blazonML::A_KEYTERM);
-                                }
-                            }
-                            break;
                         case blazonML::E_FRINGE:
                             $fringe = drawFringe($subNode, $layout);
-                            $achievement = false; // can't combine these
                             break;
                         case blazonML::E_COMPARTMENT:
                             $compartment = drawCompartment($subNode);
@@ -295,13 +294,124 @@ function draw() {
             }
         }
     }
+    // At this point $body contains the shield in a 1000x1200 box, does it have any helmets etc. to add on top?
+    $centreY = "350";
+    if (count($helmets)) {
+        if (count($crests)) {
+            $body = "<g transform=\"translate(174,420) scale(0.65) \">$body</g>";
+        } else {
+            $body = "<g transform=\"translate(100,240) scale(0.8) \">$body</g>";
+            $centreY = "180";
+        }
+    }
+    switch(count($helmets)) {
+        case 0:
+            break; // nothing to do
+        case 1:
+            if (count($crests) && $crests[0] != null) { // at least one
+                $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(350,10) scale(0.30) \"> $crestCharges</g>";
+                $crests[0] = null; // mark this crest as used
+            }
+            if (!empty($helmets[0]))
+                $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 500, $centreY, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
+            // TODO add crown if present
+            break;
+        case 2:
+            if (count($crests) && $crests[0] != null) { // at least one
+                $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(200,10) scale(0.30) \"> $crestCharges</g>";
+                $crests[0] = null; // mark this crest as used
+            }
+            $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 360, $centreY, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
+            // TODO add crown if present
+            if (count($crests) > 1 && $crests[1] != null) { // at least one
+                $crestCharges = makeCharge($crests[1]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(500,10) scale(0.30) \"> $crestCharges</g>";
+                $crests[1] = null; // mark this crest as used
+            }
+            $body .= '<g transform="scale(-1,1) translate(-1320,0)">' . quickPlace($helmets[1]['body'], $helmets[1]['width'], $helmets[1]['height'], 300, 300, 660, $centreY,
+                    rgb($helmets[1]['fill']), $helmets[1]['adjustments']) . '</g>';
+            // TODO add crown if present
+            break;
+        default:
+            if (count($helmets) > 3) {
+                $messages->addMessage('internal',"3 helmets maximum");
+            }
+            if (count($crests) && $crests[0] != null) { // at least one
+                $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(100,10) scale(0.30) \"> $crestCharges</g>";
+                $crests[0] = null; // mark this crest as used
+            }
+            $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 260, $centreY, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
+            // TODO add crown if present
+            if (count($crests) > 1 && $crests[1] != null) { // at least one
+                $crestCharges = makeCharge($crests[1]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(350,10) scale(0.30) \"> $crestCharges</g>";
+                $crests[1] = null; // mark this crest as used
+            }
+            $body .= quickPlace($helmets[1]['body'], $helmets[1]['width'], $helmets[1]['height'], 300, 300, 500, $centreY,
+                rgb($helmets[1]['fill']), $helmets[1]['adjustments']);
+            // TODO add crown if present
+            if (count($crests) > 2 && $crests[2] != null) { // at least one
+                $crestCharges = makeCharge($crests[2]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(580,10) scale(0.30) \"> $crestCharges</g>";
+                $crests[2] = null; // mark this crest as used
+            }
+            $body .= '<g transform="scale(-1,1) translate(-1400,0)">' . quickPlace($helmets[2]['body'], $helmets[2]['width'], $helmets[2]['height'], 300, 300, 660, $centreY,
+                    rgb($helmets[2]['fill']), $helmets[2]['adjustments']) . '</g>';
+            // TODO add crown if present
+            break;
+    }
+    switch(count($crests)) {
+        case 0:
+            break; // nothing to do
+        case 1:
+            if (!empty($crests[0])) {
+                $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(300,75) scale(0.4) \"> $crestCharges</g>";
+            }
+            break;
+        case 2:
+            if (!empty($crests[0])) {
+                $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(200,135) scale(0.30) \"> $crestCharges</g>";
+            }
+            if (!empty($crests[1])) {
+                $crestCharges = makeCharge($crests[1]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(500,135) scale(0.30) \"> $crestCharges</g>";
+            }
+            break;
+        default:
+            if (count($crests) > 3) {
+                $messages->addMessage('internal',"3 helmets maximum");
+            }
+            if (!empty($crests[0])) {
+                $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(100,135) scale(0.30) \"> $crestCharges</g>";
+            }
+            if (!empty($crests[1])) {
+                $crestCharges = makeCharge($crests[1]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(350,135) scale(0.30) \"> $crestCharges</g>";
+            }
+            if (!empty($crests[2])) {
+                $crestCharges = makeCharge($crests[2]->firstChild, ShieldLayout::square());
+                $body .= "<g transform=\"translate(580,135) scale(0.30) \"> $crestCharges</g>";
+            }
+            break;
+    }
+
+    // We have added any helmets etc, if present, now do we need to adjust the whole thing?
     if (count($shieldAdjustments)) {
         $body = quickPlace($body, 1000, 1200, 1000, 1200, 500, 600, null, $shieldAdjustments);
     }
 
     // assorted combinations of achievements
-    if ($mantling || count($helmets) || count($crests)) {
+    if ($mantling) {
         $body = $mantling['body'] . '<g transform="' . $mantling['transform'] . '">' . $body . '</g>';
+    }
+    if ($ornament) {
+        $body = $ornament['body'] . '<g transform="' . $ornament['transform'] . '">' . $body . '</g>';
     }
     if ($motto && $supports == '') {
         if ($layout->shape == 'pauldron') {
@@ -317,105 +427,6 @@ function draw() {
         $yPos = '995';
         if ($layout->shape == 'flag') $yPos = $layout->size->height - 5;
         $body .= "<g transform=\"translate(0,$yPos)\">$fringe</g>";
-    }
-    if ($achievement) {
-        // TODO add lone crest separately
-        switch(count($helmets)) {
-            case 0:
-                break; // nothing to do
-            case 1:
-                if (count($crests) && $crests[0] != null) { // at least one
-                    $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(350,10) scale(0.30) \"> $crestCharges</g>";
-                    $crests[0] = null; // mark this crest as used
-                }
-                if (!empty($helmets[0]))
-                    $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 500, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
-                // TODO add crown if present
-                break;
-            case 2:
-                if (count($crests) && $crests[0] != null) { // at least one
-                    $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(200,10) scale(0.30) \"> $crestCharges</g>";
-                    $crests[0] = null; // mark this crest as used
-                }
-                $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 360, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
-                // TODO add crown if present
-                if (count($crests) > 1 && $crests[1] != null) { // at least one
-                    $crestCharges = makeCharge($crests[1]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(500,10) scale(0.30) \"> $crestCharges</g>";
-                    $crests[1] = null; // mark this crest as used
-                }
-                $body .= '<g transform="scale(-1,1) translate(-1320,0)">' . quickPlace($helmets[1]['body'], $helmets[1]['width'], $helmets[1]['height'], 300, 300, 660, 350,
-                        rgb($helmets[1]['fill']), $helmets[1]['adjustments']) . '</g>';
-                // TODO add crown if present
-                break;
-            default:
-                if (count($helmets) > 3) {
-                    $messages->addMessage('internal',"3 helmets maximum");
-                }
-                if (count($crests) && $crests[0] != null) { // at least one
-                    $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(100,10) scale(0.30) \"> $crestCharges</g>";
-                    $crests[0] = null; // mark this crest as used
-                }
-                $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 260, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
-                // TODO add crown if present
-                if (count($crests) > 1 && $crests[1] != null) { // at least one
-                    $crestCharges = makeCharge($crests[1]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(350,10) scale(0.30) \"> $crestCharges</g>";
-                    $crests[1] = null; // mark this crest as used
-                }
-                $body .= quickPlace($helmets[1]['body'], $helmets[1]['width'], $helmets[1]['height'], 300, 300, 500, 350,
-                        rgb($helmets[1]['fill']), $helmets[1]['adjustments']);
-                // TODO add crown if present
-                if (count($crests) > 2 && $crests[2] != null) { // at least one
-                    $crestCharges = makeCharge($crests[2]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(580,10) scale(0.30) \"> $crestCharges</g>";
-                    $crests[2] = null; // mark this crest as used
-                }
-                $body .= '<g transform="scale(-1,1) translate(-1400,0)">' . quickPlace($helmets[2]['body'], $helmets[2]['width'], $helmets[2]['height'], 300, 300, 660, 350,
-                        rgb($helmets[2]['fill']), $helmets[2]['adjustments']) . '</g>';
-                // TODO add crown if present
-                break;
-        }
-        switch(count($crests)) {
-            case 0:
-                break; // nothing to do
-            case 1:
-                if (!empty($crests[0])) {
-                    $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(300,75) scale(0.4) \"> $crestCharges</g>";
-                }
-                break;
-            case 2:
-                if (!empty($crests[0])) {
-                    $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(200,135) scale(0.30) \"> $crestCharges</g>";
-                }
-                if (!empty($crests[1])) {
-                    $crestCharges = makeCharge($crests[1]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(500,135) scale(0.30) \"> $crestCharges</g>";
-                }
-                break;
-            default:
-                if (count($crests) > 3) {
-                    $messages->addMessage('internal',"3 helmets maximum");
-                }
-                if (!empty($crests[0])) {
-                    $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(100,135) scale(0.30) \"> $crestCharges</g>";
-                }
-                if (!empty($crests[1])) {
-                    $crestCharges = makeCharge($crests[1]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(350,135) scale(0.30) \"> $crestCharges</g>";
-                }
-                if (!empty($crests[2])) {
-                    $crestCharges = makeCharge($crests[2]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(580,135) scale(0.30) \"> $crestCharges</g>";
-                }
-                break;
-        }
     }
     if ($supports) {
         $body = '<g transform="translate(150,0) scale(0.7) ">' . $body . '</g>' . $supports;
@@ -435,9 +446,10 @@ function draw() {
         $body = getEffect($effect, 'below') . '<g ' . getEffect($effect, 'filter') . '>' . $body . getEffect($effect, 'above') . '</g>';
     }
 
-    // Uncomment following 3 lines for an overall grid
-    // $ordinary = [];
-    // include "ordinaries/grid.inc";
-    // $body .= '<g fill="#555555">' . $ordinary['body'] . '</g>';
+    if (array_key_exists('debug', $options) && strpos($options['debug'],'grid') !== false) {
+        $ordinary = [];
+        include "ordinaries/grid.inc";
+        $body .= '<g fill="#555555">' . $ordinary['body'] . '</g>';
+    }
     return $header . $meta . $defs . $body . $trailer;
 }

@@ -76,7 +76,7 @@ class languageDB extends lexicon
     const QUANTIFIER = 'quantifier';
     const BUNDLE = 'bundle';
     const CHARGE_PREFIX = 'chargepre';
-    const TRADITION_PREFIX = 'tradition';
+    const TRADITION_PREFIX = 'tradition-prefix';
     const TRADITION_DESCRIPTION = 'tradition-desc';
     const CHARGE_BETWEEN = 'chgbetween';
     const CHARGE_NEAR = 'chargenear';
@@ -98,6 +98,8 @@ class languageDB extends lexicon
     const LETTERS = 'letters';
     const INVERSE = 'inverse';
     const MANTLING = 'mantling';
+    const MANTLING_MODS = 'mantling_mods';
+    const MANTLES = 'mantles';
     const COMPARTMENT = 'compartment';
     const COMP_TYPE = 'comptype';
     const SUPPORTERS = 'supporters';
@@ -120,6 +122,9 @@ class languageDB extends lexicon
     const FRINGED = 'fringed';
     const SHIELD = 'shield';
     const CHGLIST = 'chglist';
+    const LINING = 'lining';
+    const TRADITION = 'tradition';
+    const SIGNIFIER = 'signifier';
 
     public function __construct()
     {
@@ -137,6 +142,7 @@ class languageDB extends lexicon
             self::CHGLIST => array ("and also", "& also", "along with"),
             self::VALUE => array("*"),
             self::WORD_THE => array('the'),
+            self::SIGNIFIER => array('the', 'a', 'an'),
             self::OVERALL => array('overall', 'sur le tout', 'all with(in)?', "over all", "in pretence"),
             self::METAOVERALL => array(
                 array ('over(all)? ?all ?the ?# (quarters|quarterings|halves|parts|sections)', 'metaoverall'),
@@ -144,37 +150,52 @@ class languageDB extends lexicon
             ),
 
             self::MANTLING => array(
-                array('mantling ?of ?ribbons', 'ribbons'),  // note default
-                array('lambrequin ?of ?ribbons', 'ribbons'),
-                array('cloak ?mantling', 'cloak'),
+                'mantling', 'lambrequin' ),
+            self::MANTLES => array (
+                array('ribbons', 'ribbons'),  // note default
+                array('cloak', 'cloak'),
+                    array('royal', 'royal'),
                 array('cloak ermine', 'cloak-ermine'),
-                array('pavill?ion', 'pavilion'),
-                array('mantling ?of ?a cloak', 'cloak'),
-                array('mantling ?of ?an? ermine cloak', 'cloak-ermine'),
-            ),
+                array('ermine cloak', 'cloak-ermine'),
+                    array('grandee of spains?', 'grandee-of-spain'),
+                    array('peer of frances?', 'peer-of-france'),
+                    array('napole(o|a)n(ic)?', 'napoleanic'),
+                    array('princes? of the holy roman empire', 'prince-hre'),
+                    array('holy roman empire princes?', 'prince-hre'),
+                ),
+            self::LINING => array( 'doubled', 'lined', 'and', '&'),
             self::FRINGED => array ('?a fringed?'),
             self::SUPPORTERS => array ('supporters?'),
-            self::ACHIEVEMENT => array('achievement', 'hatchment'),
+            self::ACHIEVEMENT => array('achievement', 'hatchment', 'ornaments?'),
             self::CREST => array(
                 array('?(a|the) crest ?of', 'crest'), // room for other crest types?
             ),
+            self::TRADITION => array (
+                array ('?roman catholic', 'catholic'),
+                array ('anglican', 'anglican'),
+                // more to add
+            ),
             self::ECCLESIASTIC => array(
-                array('?(a|the) ?roman ?catholic cardinal archbishop', 'catholic/cardinal-archbishop'),
-                array('?(a|the) ?roman ?catholic archbishop cardinal ', 'catholic/cardinal-archbishop'),
-                array('?(a|the) ?roman ?catholic cardinal bishop', 'catholic/cardinal-bishop'),
-                array('?(a|the) ?roman ?catholic bishop cardinal ', 'catholic/cardinal-bishop'),
-                array('?(a|the) ?roman ?catholic priest', 'catholic/priest'),
-                array('?(a|the) ?roman ?catholic monsignor', 'catholic/monsignor'),
-                array('?(a|the) ?roman ?catholic monsignor supernumerary', 'catholic/monsignor-supernumerary'),
-                array('?(a|the) ?roman ?catholic canon', 'catholic/canon'),
-                array('?(a|the) ?roman ?catholic bishop', 'catholic/bishop'),
-                array('?(a|the) ?roman ?catholic archbishop', 'catholic/archbishop'),
-                array('?(a|the) ?roman ?catholic abbot', 'catholic/abbot'),
-                array('?(a|the) ?roman ?catholic territorial abbot', 'catholic/territorial-abbot'),
-                array('?(a|the) ?roman ?catholic chaplain ?of ?his ?holiness', 'catholic/chaplain'),
-                array('?(a|the) ?roman ?catholic prelate ?of ?his ?holiness', 'catholic/prelate'),
-                array('?(a|the) ?roman ?catholic (vicar|dean)', 'catholic/vicar'),
-                array('?(a|the) ?roman ?catholic (patriarch|primate)', 'catholic/patriarch'),
+                array('cardinal archbishop', 'cardinal-archbishop'),
+                array('archbishop cardinal ', 'cardinal-archbishop'),
+                array('cardinal bishop', 'cardinal-bishop'),
+                array('bishop cardinal ', 'cardinal-bishop'),
+                array('priest', 'priest'),
+                array('monsignor', 'monsignor'),
+                array('monsignor supernumerary', 'monsignor-supernumerary'),
+                array('canon', 'canon'),
+                array('bishop', 'bishop'),
+                array('archbishop', 'archbishop'),
+                array('abbot', 'abbot'),
+                array('territorial abbot', 'territorial-abbot'),
+                array('chaplain ?of ?his ?holiness', 'chaplain'),
+                array('prelate ?of ?his ?holiness', 'prelate'),
+                array('(vicar|dean)', 'vicar'),
+                array('(patriarch|primate)', 'patriarch'),
+            ),
+            self::MANTLING_MODS => array(
+                array ('crowne?d?', 'crowned'),
+                array ('pavill?ione?d?', 'pavilion'),
             ),
             self::TORSE => array(
                 array('?(a|the) (torse|bourlet)', 'torse'),
@@ -1135,6 +1156,7 @@ class languageDB extends lexicon
                 array('?(a|an|the) * aspect ?ratio', 'aspect'),
                 array('?(a|an|the) proportions? ?of *', 'aspect'),
                 array('?(a|an|the) * proportions?', 'aspect'),
+                array('?a grid(ded)?', 'grid'),
             ),
             self::QUARTERMODS => array(
                 array('per cross', 'per-cross'),

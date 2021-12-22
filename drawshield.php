@@ -168,7 +168,9 @@ if (!is_null($blazonOptions)) {
               break;
           }
           break;
-
+        case blazonML::E_DEBUG:
+            $options['debug'] = $blazonOption->getAttribute('keyterm');
+            break;
       case blazonML::E_SHAPE:
         $options['shape'] = $blazonOption->getAttribute('keyterm');
         break;
