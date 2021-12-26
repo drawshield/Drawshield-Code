@@ -685,7 +685,7 @@ HERE;
           <feFlood flood-opacity="1" flood-color="$fimbStrokeCol" result="flood" />
           <feComposite in="flood" in2="dilated" operator="in" result="back" />
           <feComposite in="SourceGraphic" in2="back" operator="over" result="final" />
-  HERE;
+HERE;
       }
     }
 
