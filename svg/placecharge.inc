@@ -194,6 +194,31 @@ class PlacementHints
             case 'very-much-rotated-sinister':
                 $this->angle = 36;
                 break;
+            case 'rotated-quarter-dexter':
+                $this->angle = -22.5;
+                break;
+            case 'rotated-quarter-sinister':
+                $this->angle = 22.5;
+                break;
+            case 'rotated-third-dexter':
+                $this->angle = -30;
+                break;
+            case 'rotated-third-sinister':
+                $this->angle = 30;
+                break;
+            case 'rotated-sixth-dexter':
+                $this->angle = -15;
+                break;
+            case 'rotated-sixth-sinister':
+                $this->angle = 15;
+                break;
+            case 'rotated-eighth-dexter':
+                $this->angle = -11.25;
+                break;
+            case 'rotated-eighth-sinister':
+                $this->angle = 11.25;
+                break;
+
             case 'smaller':
                 $this->scale_x *= 0.8;
                 $this->scale_y *= 0.8;
