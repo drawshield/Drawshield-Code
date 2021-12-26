@@ -15,6 +15,21 @@ This file is part of the DrawShield.net heraldry image creation program
     You should have received a copy of the GNU General Public License
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
+function tidyOptions() {
+    global $options;
+
+    // Tidy up options
+    if (!array_key_exists('shape',$options)) {
+        $options['shape'] = 'heater';
+    } elseif (in_array($options['shape'],array('circular','round'))) {
+        // Synonyms for circle shape
+        $options['shape'] = 'circle';
+    } elseif ($options['shape'] == 'flag') {
+        $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
+    }
+    if ($options['palette'] == 'default') $options['palette'] = 'drawshield';
+}
+
 
 function createModifierNode($type, $keyterm, $value = null ) {
   global $dom;

@@ -125,6 +125,8 @@ class languageDB extends lexicon
     const LINING = 'lining';
     const TRADITION = 'tradition';
     const SIGNIFIER = 'signifier';
+    const ALONGSIDE = 'alongside';
+ #   const DISPLACED = 'displaced';
 
     public function __construct()
     {
@@ -148,7 +150,14 @@ class languageDB extends lexicon
                 array ('over(all)? ?all ?the ?# (quarters|quarterings|halves|parts|sections)', 'metaoverall'),
                 array ('o(n|ver) the whole', 'metaoverall')
             ),
-
+      /*      self::DISPLACED => array (
+                'alternate', 'displaced',
+            ), */
+            self::ALONGSIDE => array (
+                array ("joined (with|to)", "joined"),
+                array ("next to", "alongside"),
+                array ("alongside", "alongside"),
+            ),
             self::MANTLING => array(
                 'mantling', 'lambrequin' ),
             self::MANTLES => array (
@@ -1102,7 +1111,7 @@ class languageDB extends lexicon
                 array('(stand|rest)ing on', 'above'),
                 array('below ?(them|it)', 'below'),
                 array('(hang|depend)ing from', 'below'),
-                array('(be|along)side', 'beside'),
+                array('beside', 'beside'),
                 array('suspended (by|from|of)', 'below'),
                 array('resting (each|its|his|her) claws? (up)?on', 'above'),
                 array('sustaining', 'below'),

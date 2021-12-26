@@ -29,9 +29,11 @@ class englishGrammar extends grammar
         $this->stateStore->flush();
         $this->phraseMatcher->getMatchedTokens(true);
         $count = 0;
+        $complex = null;
         $node = null;
+        $shields = [];
         $stackedInput = null; // temporary store to try out ignoring words
-        while (true) {
+        while (true) { // this is the retry loop for unrecognised words
             if ($count++ > $this->tokenList->num_tokens) {
                 // echo "<p>loop error</p>\n";
                 break;
@@ -41,13 +43,24 @@ class englishGrammar extends grammar
              * @var DOMElement $node
              */
             self::ignore(languageDB::BOT_COMMAND);
-            self::drawn(); // allow shapes etc. to be given first, if required
-            self::semicolon();
-            self::comma();
-            $node = self::shield();
-            self::semicolon();
-            if (($overall = self::overall(true)) != null)
-                $node->appendChild($overall);
+            while (true) { // This is the loop for >1 shield per achieveement
+
+                $instructions = self::drawn(); // allow shapes etc. to be given first, if required
+                self::semicolon();
+                self::comma();
+                $node = self::shield();
+                if ($instructions)
+                    $node->appendChild($instructions);
+                self::semicolon();
+                if (($overall = self::overall(true)) != null)
+                    $node->appendChild($overall);
+                $shields[] = $node;
+                $alongside = self::find(languageDB::ALONGSIDE);
+                if (!$alongside) {
+                    break;
+                }
+                $complex = $this->schema->makeNode(blazonML::E_COMPLEX, array( blazonML::A_KEYTERM => $alongside));
+            }
             do {
                 $found = false;
                 if (($mantle = self::mantling()) != null) {
@@ -90,8 +103,14 @@ class englishGrammar extends grammar
                     // if there are no other achievements just add mantling
                     $this->addAchievement(null);
                     $found = true;
-                } elseif (self::drawn()) {
-                    $found = true;
+                } elseif (is_null($instructions)) {
+                    // we can only have one set of instructions per shield, so if one set came
+                    // at the beginning don't look for them at the end.
+                    $instructions = self::drawn();
+                    if ($instructions) {
+                        $node->appendChild($instructions);
+                        $found = true;
+                    }
                 }
                 if ($found) {
                     self::comma();
@@ -127,7 +146,16 @@ class englishGrammar extends grammar
                 break; // All input consumed, success!
             }
         }
-        return $node;
+        if (is_null($complex)) {
+            return $node;
+        } else {
+            $index = 1;
+            foreach($shields as $shield) {
+                $shield->setAttribute(blazonML::A_INDEX, $index++);
+                $complex->appendChild($shield);
+            }
+            return $complex;
+        }
     }
 
     /**
@@ -161,6 +189,7 @@ class englishGrammar extends grammar
     {
         $found = true;
         $debugOptions = [];
+        $instructions = $this->schema->makeNode(blazonML::E_INSTRUCTIONS);
         while ($found) {
             $found = false;
             self::ignore(languageDB::USING);
@@ -194,7 +223,7 @@ class englishGrammar extends grammar
                         self::tokens(),
                         self::lineNo()
                     );
-                    $this->addInstruction($node);
+                    $instructions->appendChild($node);
                 }
                 $found = true;
             }
@@ -202,13 +231,13 @@ class englishGrammar extends grammar
         }
         if (count($debugOptions)) {
             $node = $this->schema->makeNode(blazonML::E_DEBUG, array(
-                blazonML::A_KEYTERM => implode(',', $debugOptions)),
-                null,
-                null,
-            );
-            $this->addInstruction($node);
+                blazonML::A_KEYTERM => implode(',', $debugOptions)) );
+            $instructions->appendChild($node);
         }
-        return $found;
+        if ($instructions->hasChildNodes()) {
+            return $instructions;
+        } // else
+        return null;
     }
 
     private function chief_on($chief_ordinary)
@@ -310,7 +339,6 @@ class englishGrammar extends grammar
          */
         $checkOverAllParts = false;
         $node1 = null;
-        //$node1 = builtin(); // TODO re-instate built in database
         if ($node1 == null) $node1 = self::quartered();
         if ($node1 != null) { // found a quartering, check for over all the parts
             $checkOverAllParts = true;
@@ -1679,7 +1707,10 @@ class englishGrammar extends grammar
             $node->appendChild($this->schema->makeMod(languageDB::INVERSE, null, languageDB::INVERSE, self::tokens(), self::lineNo()));
         }
     }
-    self::discard($state);
+ /*   if (self::find(languageDB::DISPLACED)) {
+        $node->appendChild($this->schema->makeMod(languageDB::DISPLACED, null, languageDB::DISPLACED, self::tokens(), self::lineNo()));
+    } */
+      self::discard($state);
     return $node;
   }
 
