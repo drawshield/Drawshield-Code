@@ -199,9 +199,9 @@ function drawMantling($mantlingNode)
     return $retval;
 }
 
-function drawTorse($torseNode) {
+function drawTorse($torseNode)
+{
     global $messages;
-    $retval = [];
 
     if (is_null($torseNode)) {
         $type = 'torse';
@@ -209,55 +209,49 @@ function drawTorse($torseNode) {
         $type = $torseNode->getAttribute(blazonML::A_KEYTERM);
     }
 
-    // keyterm of torseNode will contain the type (possibly)
-    $default1 = rgb('argent');
-    $default2 = rgb('gray');
-
-    // default colours
-    $features = array (
-        'tincture1' => $default1,
-        'tincture2' => $default2,
-    );
+    $features = [];
     $extras = array(); // not used at present (but required for getSVGFragment)
 
     // switch on type here
     $svg = simplexml_load_file("svg/components/torse/$type.svg");
-    $retval = getMetaDataFromSVG($svg,'achievement','torse');
+    $retval = getMetaDataFromSVG($svg, 'achievement', 'torse');
+    $adjustments = [];
 
-     if ($torseNode != null) {
+    if ($torseNode != null) {
         // Sort out the actual colours in use
-        for ($i = 0; $i < $torseNode->childNodes->length; $i++) {
-            $location = $torseNode->childNodes->item($i);
-            $colours = array();
-            for($j = 0; $j < $location->childNodes->length; $j++) {
-                $tincture = $location->childNodes->item($j);
-                if ($tincture->firstChild->nodeName != 'colour') {
-                    $messages->addMessage('error',"torse tinctures may only be plain colours");
+        $colours = array();
+        foreach ($torseNode->childNodes as $child) {
+            if ($child->nodeName == blazonML::E_TINCTURE) {
+                if ($child->firstChild->nodeName != 'colour') {
+                    $messages->addMessage('error', "torse tinctures may only be plain colours");
                 } else {
-                    $colours[] = rgb($tincture->firstChild->getAttribute('keyterm'));
+                    $colours[] = $child->firstChild->getAttribute('keyterm');
                 }
-            }
-            $numCols = count($colours);
-            if ($numCols < 1) $colours[0] = rgb('gray');
-            switch($location->getAttribute('keyterm')) {
-                case 'default':
-                    $features['tincture1'] = $colours[0];
-                    if ($numCols < 2) {
-                        // check no clash with default colours
-                        if ($colours[0] == $default2) {
-                            $features['tincture2'] = $default1;
-                        }
-                    } else {
-                        $features['tincture2'] = $colours[1];
-                    }
-                    break;
-                default:
-                    $messages->addMessage('internal','Unknown location for torse tincture');
-                    break;
+            } elseif ($child->nodeNmame == blazonML::E_MODIFIER) {
+                $adjustments[] = $child->getAttribute(blazonML::A_KEYTERM);
             }
         }
+        switch (count($colours)) {
+            case 0:
+                $features['tincture1'] = rgb('gray');
+                $features['tincture2'] = rgb('argent');
+                break;
+            case 1:
+                $features['tincture1'] = rgb($colours[0]);
+                if ($colours[0] == 'argent') {
+                    $features['tincture2'] = rgb('gray');
+                } else {
+                    $features['tincture2'] = rgb('argent');
+                }
+                break;
+            case 2:
+                $features['tincture1'] = rgb($colours[0]);
+                $features['tincture2'] = rgb($colours[1]);
+        }
     }
-    $retval = array_merge($retval, getSvgFragment($svg, $features, 'torse', 'torse', $extras, getStroke(null, true)));
+    $retval['adjustments'] = $adjustments;
+    $retval = array_merge($retval, getSvgFragment($svg, $features, 'torse', 'torse',
+        $extras, getStroke(null, true)));
     return $retval;
 }
 

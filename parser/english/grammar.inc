@@ -43,81 +43,37 @@ class englishGrammar extends grammar
              * @var DOMElement $node
              */
             self::ignore(languageDB::BOT_COMMAND);
-            while (true) { // This is the loop for >1 shield per achieveement
-
-                $instructions = self::drawn(); // allow shapes etc. to be given first, if required
+            while (true) { // This is the loop for >1 shield per achievement
+                $preInstructions = self::drawn(); // allow shapes etc. to be given first, if required
                 self::semicolon();
                 self::comma();
                 $node = self::shield();
-                if ($instructions)
-                    $node->appendChild($instructions);
+                if ($preInstructions)
+                    $node->appendChild($preInstructions);
                 self::semicolon();
                 if (($overall = self::overall(true)) != null)
                     $node->appendChild($overall);
+                // Look for things that _can_ be part of the shield
+                extract($this->achievement($preInstructions == null, false));
+                // creates $achievement and $instructions
+                if (!is_null($achievement) && $achievement->hasChildNodes()) {
+                    $node->appendChild($achievement);
+                }
+                if (!is_null($instructions) && $instructions->hasChildNodes()) {
+                    $node->appendChild($instructions);
+                }
                 $shields[] = $node;
+                // Found one shield, maybe with instructions and stuff, look for another
                 $alongside = self::find(languageDB::ALONGSIDE);
                 if (!$alongside) {
                     break;
                 }
                 $complex = $this->schema->makeNode(blazonML::E_COMPLEX, array( blazonML::A_KEYTERM => $alongside));
             }
-            do {
-                $found = false;
-                if (($mantle = self::mantling()) != null) {
-                    $found = true;
-                    $this->addAchievement($mantle);
-                } elseif (($support = self::supporters()) != null) {
-                    $found = true;
-                    $this->addAchievement($support);
-                } elseif (($motto = self::motto()) != null) {
-                    $found = true;
-                    $this->addAchievement($motto);
-                } elseif (($ornament = self::ornaments()) != null) {
-                    $found = true;
-                    $this->addAchievement($ornament);
-                } elseif (($crest = self::crest()) != null) {
-                    $found = true;
-                    $this->addAchievement($crest);
-                } elseif (($compartment = self::compartment()) != null) {
-                    $found = true;
-                    $this->addAchievement($compartment);
-                } elseif (($fringe = self::fringe()) != null) {
-                    $found = true;
-                    $this->addAchievement($fringe);
-                } elseif (($helmet = self::helmet()) != null) {
-                    $found = true;
-                    if (($torse = self::torse()) != null) {
-                        $helmet->appendChild($torse);
-                    }
-                    $this->addAchievement($helmet);
-                } elseif (self::find(languageDB::SHIELD)) {
-                    if (($adjust = $this->getAdjustments()) != null) {
-                        $shieldNode = $this->schema->makeNode(blazonML::E_SHIELD, array( blazonML::A_KEYTERM => 'shield'));
-                        foreach ($adjust as $adj) {
-                            $shieldNode->appendChild($adj);
-                        }
-                        $this->addAchievement($shieldNode);
-                    }
-                } elseif (self::find(languageDB::ACHIEVEMENT)) {
-                    // this is OK, it is just a marker between the shield and the achievements
-                    // if there are no other achievements just add mantling
-                    $this->addAchievement(null);
-                    $found = true;
-                } elseif (is_null($instructions)) {
-                    // we can only have one set of instructions per shield, so if one set came
-                    // at the beginning don't look for them at the end.
-                    $instructions = self::drawn();
-                    if ($instructions) {
-                        $node->appendChild($instructions);
-                        $found = true;
-                    }
-                }
-                if ($found) {
-                    self::comma();
-                    self::ignore(languageDB::ANDD);
-                    self::ignore(languageDB::WITH);
-                }
-            } while ($found);
+            // Found all the shields, now look for achievements (if any)
+            extract($this->achievement(true,true));
+            // creates $achievement and $instructions
+
             // If last word (or only) is ignored, can't go further
             $lastEntry = $this->tokenList->num_tokens - 1;
             if ($lastEntry < 0 || $this->tokenList->words[$lastEntry][0] == '[')
@@ -147,6 +103,12 @@ class englishGrammar extends grammar
             }
         }
         if (is_null($complex)) {
+            if (!is_null($achievement) && $achievement->hasChildNodes()) {
+                $node->appendChild($achievement);
+            }
+            if (!is_null($instructions) && $instructions->hasChildNodes()) {
+                $node->appendChild($instructions);
+            }
             return $node;
         } else {
             $index = 1;
@@ -154,8 +116,141 @@ class englishGrammar extends grammar
                 $shield->setAttribute(blazonML::A_INDEX, $index++);
                 $complex->appendChild($shield);
             }
+            if (!is_null($achievement) && $achievement->hasChildNodes()) {
+                $complex->appendChild($achievement);
+            }
+            if (!is_null($instructions) && $instructions->hasChildNodes()) {
+                $complex->appendChild($instructions);
+            }
             return $complex;
         }
+    }
+
+    protected function achievement($allowInstructions = true, $allowAll = false)
+    {
+        // switch between only things on a shield and everything
+        $crests = [];
+        $helmets = [];
+        $torses = [];
+        $instructions = null;
+        $crestHeight = 'no-crest';
+        $achievement = $this->schema->makeNode(blazonML::E_ACHIEVEMENT);
+        $thisHelmet = null;
+        $thisCrest = null;
+        $thisTorse = null;
+
+        do { // Order is important here - look for charge LAST so as not to confuse with helmet or torse
+            $found = false;
+            if ($allowAll && ($mantle = self::mantling()) != null) {
+                $found = true;
+                $achievement->appendChild($mantle);
+            } elseif ($allowAll && ($support = self::supporters()) != null) {
+                $found = true;
+                $achievement->appendChild($support);
+            } elseif ($allowAll && ($motto = self::motto()) != null) {
+                $found = true;
+                $achievement->appendChild($motto);
+            } elseif (($ornament = self::ornaments()) != null) {
+                $found = true;
+                // this might just be a marker for helmets etc. or it might be a group
+                if (is_object($ornament)) $achievement->appendChild($ornament);
+            } elseif (($crest = self::find(languageDB::CREST)) != null) {
+                $found = true;
+                if ($crest == 'no-crest') { // this helmet has no crest, move on
+                    $thisCrest = 'no-crest';
+                } else { // if ($crest == 'crest')
+                    if (!is_null($thisCrest)) { // already go a crest, so move on
+                        $crests[] = $thisCrest;
+                        $torses[] = $thisTorse; $thisTorse = null;
+                        $helmets[] = $thisHelmet; $thisHelmet = null;
+                    }
+                    $thisCrest = $this->schema->makeNode(blazonML::E_CREST,
+                        array(blazonML::A_KEYTERM => 'group'));
+                }
+            } elseif ($allowAll && ($compartment = self::compartment()) != null) {
+                $found = true;
+                $achievement->appendChild($compartment);
+            } elseif (($fringe = self::fringe()) != null) {
+                $found = true;
+                $achievement->appendChild($fringe);
+            } elseif (($torse = self::torse()) != null) {
+                $found = true;
+                if (!is_null($thisTorse)) {
+                    self::raiseError(self::ERROR_ORIGIN, "Only one torse per crest");
+                } else {
+                   $thisTorse = $torse;
+                }
+            } elseif (($helmet = self::helmet()) != null) {
+                $found = true;
+                if (!is_null($thisHelmet)) { // already got a helmet, so move on
+                    $crests[] = $thisCrest; $thisCrest = null;
+                    $torses[] = $thisTorse; $thisTorse = null;
+                    $helmets[] = $thisHelmet;
+                }
+                $thisHelmet = $helmet;
+            } elseif (self::find(languageDB::SHIELD)) {
+                if (($adjust = $this->getAdjustments()) != null) {
+                    $shieldNode = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_KEYTERM => 'shield'));
+                    foreach ($adjust as $adj) {
+                        $shieldNode->appendChild($adj);
+                    }
+                    $achievement->appendChild($shieldNode);
+                }
+            } elseif (($charge = self::charge(true,false,false)) != null) {
+                $found = true;
+                if (is_null($thisCrest)) {
+                    $thisCrest = $this->schema->makeNode(blazonML::E_CREST,
+                        array(blazonML::A_KEYTERM => 'group'));
+                }
+                $thisCrest->appendChild($charge);
+            } elseif (self::find(languageDB::ACHIEVEMENT)) {
+                if ($allowAll) {
+                    // this is OK, it is just a marker between the shield and the achievements
+                    $found = true;
+                } // else not found, break out
+            } elseif ($allowInstructions) {
+                // we can only have one set of instructions per shield, so if one set came
+                // at the beginning don't look for them at the end.
+                if($instructions = self::drawn()) {
+                    $found = true;
+                }
+            }
+            if ($found) {
+                self::comma();
+                self::ignore(languageDB::ANDD);
+                self::ignore(languageDB::WITH);
+            }
+        } while ($found);
+        // Finish off any pending crest bits
+        if (!is_null($thisHelmet) || !is_null($thisCrest) || !is_null($thisTorse)) {
+            $crests[] = $thisCrest;
+            $helmets[] = $thisHelmet;
+            $torses[] = $thisTorse;
+        }
+        // Now sort all the crests, helmets and torses into groups (up to 3)
+        $numCrests = max(count($crests), count($helmets), count($torses));
+        if ($numCrests) $crestHeight = 'short-crest'; // unless we find out more later
+        for ($i = 0; $i < $numCrests; $i++) {
+            // replace explicit no crest with null
+            if (isset($crests[$i]) && $crests[$i] == 'no-crest') $crests[$i] = null;
+            if (isset($crests[$i]) && is_object($crests[$i]) && !$crests[$i]->hasChildNodes()) $crests[$i] = null;
+            if (isset($crests[$i]) && isset($helmets[$i])) {
+                $crestHeight = 'tall-crest';
+            }
+            if (!isset($crests[$i])) {
+                $crests[$i] = $this->schema->makeNode(blazonML::E_CREST,
+                    array(blazonML::A_KEYTERM => 'group'));
+            }
+            if (isset($helmets[$i])) {
+                $crests[$i]->appendChild($helmets[$i]);
+            }
+            if (isset($torses[$i])) {
+                $crests[$i]->appendChild($torses[$i]);
+            }
+            if ($crests[$i]->hasChildNodes()) $achievement->appendChild($crests[$i]);
+        }
+        $achievement->setAttribute(blazonML::A_KEYTERM, $crestHeight);
+        return ['instructions' => $instructions, 'achievement' => $achievement];
     }
 
     /**
@@ -1783,6 +1878,12 @@ class englishGrammar extends grammar
     return $node;
   }
 
+  /*
+   * This function has 4 return possibilities
+   * null - nothing found
+   * 'crest' - marker to move on to next crest
+   * 'no-crest
+   */
   protected function crest() {
     if (($type = self::find(languageDB::CREST)) == null) {
       return;
@@ -1833,10 +1934,13 @@ class englishGrammar extends grammar
     }
 
     protected function ornaments() {
-        $state = self::save();
-        $ornamentNode = null;
+        // This function has 3 possible return values:
+        // Null - nothing found
+        // True - the word "ornament" on its own
+        // A node representing a specific group of ornaments
+        if (!self::find(languageDB::ORNAMENT)) return null;
+        $ornamentNode = true;
 
-        self::ignore(languageDB::ACHIEVEMENT);
         self::ignore(languageDB::WORD_OF);
         self::ignore(languageDB::SIGNIFIER);
         $tradition = self::find(languageDB::TRADITION);
@@ -1860,13 +1964,6 @@ class englishGrammar extends grammar
                 $ornamentNode->appendChild($adj);
             }
         }
-
-        if (!$ornamentNode) {
-            self::restore($state);
-        } else {
-            self::discard($state);
-        }
-
         return $ornamentNode;
     }
 
@@ -1987,48 +2084,23 @@ class englishGrammar extends grammar
         return $supportNode;
     }
 
-  protected function torse() {
-    if (($type = self::find(languageDB::TORSE)) == null) {
-      return '';
-    }
-    $torseNode = $this->schema->makeNode(blazonML::E_TORSE, array (
-      blazonML::A_KEYTERM => $type),
-      self::tokens(),
-      self::lineno());
-    $locNode = null;
-    while (true) {
-      if (($loc = self::find(languageDB::ACHIEVEMENT_LOC)) != null) {
-        $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
-            blazonML::A_KEYTERM => $loc 
-          ),
-          self::tokens(),
-          self::lineno()
-        );
-      }
-      $tinctures = [];
-      while (($tincNode = self::tincture()) != null) {
-        $tinctures[] = $tincNode;
-        self::ignore(languageDB::ANDD);
-      }
-      if (count($tinctures)) { // found some colours
-        if ($locNode == null) { // use a default location
-          $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
-              blazonML::A_KEYTERM => 'default'));
+    protected function torse() {
+        if (($type = self::find(languageDB::TORSE)) == null) {
+            return null;
         }
-        foreach($tinctures as $tincture) 
-          $locNode->appendChild($tincture);
-        $torseNode->appendChild($locNode);
-      } else {
-        break;
-      }
-      if (($adjust = $this->getAdjustments()) != null) {
-          $torseNode->appendChild($adjust);
-      }
-      self::ignore(languageDB::ANDD);
+        $torseNode = $this->schema->makeNode(blazonML::E_TORSE, array(
+            blazonML::A_KEYTERM => $type),
+            self::tokens(),
+            self::lineno());
+        while (($tincNode = self::tincture()) != null) {
+            $torseNode->appendChild($tincNode);
+            self::ignore(languageDB::ANDD);
+        }
+        if (($adjust = $this->getAdjustments()) != null) {
+            $torseNode->appendChild($adjust);
+        }
+        return $torseNode;
     }
-
-    return $torseNode;
-  }
 
   protected function motto() {
     if (!self::find(languageDB::MOTTO)) {

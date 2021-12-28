@@ -109,6 +109,7 @@ class languageDB extends lexicon
     const TORSE = 'torse';
     const HELMET = 'helmet';
     const ACHIEVEMENT = 'achievement';
+    const ORNAMENT = 'ornament';
     const ECCLESIASTIC = 'ecclesiastic';
     const EACH = 'each';
     const BLAZONED = 'blazoned';
@@ -175,9 +176,11 @@ class languageDB extends lexicon
             self::LINING => array( 'doubled', 'lined', 'and', '&'),
             self::FRINGED => array ('?a fringed?'),
             self::SUPPORTERS => array ('supporters?'),
-            self::ACHIEVEMENT => array('achievement', 'hatchment', 'ornaments?'),
+            self::ACHIEVEMENT => array('achievement', 'hatchment' ),
+            self::ORNAMENT => array('ornaments?'),
             self::CREST => array(
                 array('?(a|the) crest ?of', 'crest'), // room for other crest types?
+                array('?with no crest', 'no-crest'),
             ),
             self::TRADITION => array (
                 array ('?roman catholic', 'catholic'),

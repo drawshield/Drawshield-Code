@@ -101,39 +101,54 @@ function makeAlongside(DOMNode $node, $layout)
      * @var DOMElement $kid
      */
     foreach ($node->childNodes as $kid) {
-        $shield = makeshield($kid, $layout);
-        // layout mave have changed
-        $layout = ShieldLayout::from_options($options);
-        $outline = getShape($layout);
-        $clipShield = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />');
-        $shield = '<g mask="url(#' . $clipShield . ')">' . $shield . '</g>';
-        $shield .= '<path fill="none" stroke="#848484" stroke-width="4" d="' . $outline . '" />';
-        if ($options['effect'] == 'inked')
-            $shield .= '<path fill="none" stroke="#000000" stroke-width="4" d="' . $outline . '" />';
-        switch ($kid->getAttribute('index')) {
-            case '1':
-                switch ($arrangement) {
-                    case 'joined':
-                        $retval .= '<g transform="translate(10,100) scale(0.48) rotate(20,500,500)">' . $shield . "</g>\n";
-                        break;
-                    case 'alongside':
-                    default:
-                        $retval .= '<g transform="translate(10,100) scale(0.48)">' . $shield . "</g>\n";
-                        break;
+        $parts = [];
+        if ($kid->nodeName == blazonML::E_SHIELD ) {
+            $shield = makeshield($kid, $layout);
+            // layout may have changed
+            $layout = ShieldLayout::from_options($options);
+            $outline = getShape($layout);
+            $clipShield = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />');
+            $shield = '<g mask="url(#' . $clipShield . ')">' . $shield . '</g>';
+            $shield .= '<path fill="none" stroke="#848484" stroke-width="4" d="' . $outline . '" />';
+            if ($options['effect'] == 'inked')
+                $shield .= '<path fill="none" stroke="#000000" stroke-width="4" d="' . $outline . '" />';
+            foreach($kid->childNodes as $grandchild) {
+                if ($grandchild->nodeName == blazonML::E_ACHIEVEMENT) {
+                    $parts = getAchievementParts($grandchild, $layout);
+                    $shield = addParts($shield, $parts);
+                    $parts = [];
                 }
-                break;
-            case '2':
-                switch ($arrangement) {
-                    case 'joined':
-                        $retval .= '<g transform="translate(520,100) scale(0.48) rotate(-20,500,500)">' . $shield . "</g>\n";
-                        break;
-                    case 'alongside':
-                    default:
-                        $retval .= '<g transform="translate(520,100) scale(0.48)">' . $shield . "</g>\n";
-                        break;
-                }
-                break;
+            }
+            switch ($kid->getAttribute('index')) {
+                case '1':
+                    switch ($arrangement) {
+                        case 'joined':
+                            $retval .= '<g transform="translate(10,100) scale(0.48) rotate(20,500,500)">' . $shield . "</g>\n";
+                            break;
+                        case 'alongside':
+                        default:
+                            $retval .= '<g transform="translate(10,100) scale(0.48)">' . $shield . "</g>\n";
+                            break;
+                    }
+                    break;
+                case '2':
+                    switch ($arrangement) {
+                        case 'joined':
+                            $retval .= '<g transform="translate(520,100) scale(0.48) rotate(-20,500,500)">' . $shield . "</g>\n";
+                            break;
+                        case 'alongside':
+                        default:
+                            $retval .= '<g transform="translate(520,100) scale(0.48)">' . $shield . "</g>\n";
+                            break;
+                    }
+                    break;
+            }
+        } elseif ($kid->nodeName == blazonML::E_ACHIEVEMENT) {
+            $parts = getAchievementParts($kid, $layout);
         }
+    }
+    if (count($parts)) {
+        $retval = addParts($retval, $parts);
     }
     $retval .= add_def();
     return $retval;
@@ -206,6 +221,7 @@ function makeshield(DOMElement &$node, $layout)
 
     $retval = '<g>';
     if (!is_object($node)) return '';
+
     /**
      * @var DOMElement $child
      */
