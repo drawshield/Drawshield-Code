@@ -96,12 +96,12 @@ function makeAlongside(DOMNode $node, $layout)
     global $options;
     $arrangement = $node->getAttribute(blazonML::A_KEYTERM) ?? 'alongside';
     $retval = '';
+    $partsList = [];
 
     /**
      * @var DOMElement $kid
      */
     foreach ($node->childNodes as $kid) {
-        $parts = [];
         if ($kid->nodeName == blazonML::E_SHIELD ) {
             $shield = makeshield($kid, $layout);
             // layout may have changed
@@ -116,7 +116,6 @@ function makeAlongside(DOMNode $node, $layout)
                 if ($grandchild->nodeName == blazonML::E_ACHIEVEMENT) {
                     $parts = getAchievementParts($grandchild, $layout);
                     $shield = addParts($shield, $parts);
-                    $parts = [];
                 }
             }
             switch ($kid->getAttribute('index')) {
@@ -144,11 +143,12 @@ function makeAlongside(DOMNode $node, $layout)
                     break;
             }
         } elseif ($kid->nodeName == blazonML::E_ACHIEVEMENT) {
-            $parts = getAchievementParts($kid, $layout);
+            $partsList[] = getAchievementParts($kid, $layout);
         }
     }
-    if (count($parts)) {
-        $retval = addParts($retval, $parts);
+    foreach ($partsList as $parts) {
+        if (!is_null($parts) && count($parts))
+            $retval = addParts($retval, $parts);
     }
     $retval .= add_def();
     return $retval;

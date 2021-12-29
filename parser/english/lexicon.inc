@@ -213,14 +213,21 @@ class languageDB extends lexicon
                 array('?(a|the) (torse|bourlet)', 'torse'),
             ),
             self::COMPARTMENT => array(
-                array('?the compartment', 'compartment'),
+                array('?the compartment ?of ?(a|the)', 'compartment'),
             ),
             self::COMP_TYPE => array(
-                array('?(a|the) shelf', 'shelf'),
-                array('?(a|the) mound', 'mound'),
+                array('shelf', 'shelf'),
+                array('moun(t|d)', 'mound'),
+                array('rocks?', 'rocks'),
+                array('stones?', 'rocks'),
+                array('pedestal', 'pedestal'),
+                array('walls?', 'wall'),
+                array('bricks?', 'wall'),
+                array('castle', 'castle'),
             ),
             self::SHIELD => array(
                 array('?the (shield|escutcheon)', 'shield'),
+                array('?the (interior|contents?)', 'interior'),
             ),
             self::ACHIEVEMENT_LOC => array(
                 array('?to ?the sinister', 'sinister'),
@@ -234,7 +241,11 @@ class languageDB extends lexicon
                 array('?(the|a|an) ?(esquire|gentlem[ea]n)s? helm(et)', 'esquire'),  // DEFAULT
                 array('?(the|a|an) (peer|lord)s? helm(et)', 'peer'),
             ),
-            self::MOTTO => array('?with ?the (motto|devi[sc]e) *', 'motto'),
+            self::MOTTO => array (
+                array('?with ?the (motto|devi[sc]e) *', 'below'),
+                array('?with ?the (motto|devi[sc]e) below *', 'below'),
+                array('?with ?the (motto|devi[sc]e) above *', 'above'),
+            ),
             self::BLAZONED => array('(em)blazoned ?(with|of)', 'with ?(a|the) blazon ?of'),
             self::SPLITS => array(
                 array('impaled with', 'impaled'),
