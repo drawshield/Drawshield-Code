@@ -145,23 +145,29 @@ class englishGrammar extends grammar
         $thisCrest = null;
         $thisTorse = null;
 
-        $allowAchievement = $allowAll;
+        // All the following can only occur once per achievement (but can cause a new "outer" achiecvement to be created)
+        $singleItems = [];
 
         do { // Order is important here - look for charge LAST so as not to confuse with helmet or torse
             $found = false;
-            if ($allowAll && ($mantle = self::mantling()) != null) {
+            if (!in_array('mantling', $singleItems) && ($mantle = self::mantling()) != null) {
                 $found = true;
+                $singleItems[] = 'mantling';
                 $achievement->appendChild($mantle);
-            } elseif ($allowAll && ($support = self::supporters()) != null) {
+            } elseif (!in_array('supports', $singleItems) && ($support = self::supporters()) != null) {
                 $found = true;
                 $achievement->appendChild($support);
-            } elseif ($allowAll && ($motto = self::motto()) != null) {
+                $singleItems[] = 'supports';
+            } elseif (($motto = self::motto()) != null) {
                 $found = true;
                 $achievement->appendChild($motto);
-            } elseif (($ornament = self::ornaments()) != null) {
+            } elseif (!in_array('ornament', $singleItems) && (($ornament = self::ornaments()) != null)) {
                 $found = true;
                 // this might just be a marker for helmets etc. or it might be a group
-                if (is_object($ornament)) $achievement->appendChild($ornament);
+                if (is_object($ornament)) {
+                    $achievement->appendChild($ornament);
+                    $singleItems[] = 'ornament';
+                }
             } elseif (($crest = self::find(languageDB::CREST)) != null) {
                 $found = true;
                 if ($crest == 'no-crest') { // this helmet has no crest, move on
@@ -175,9 +181,10 @@ class englishGrammar extends grammar
                     $thisCrest = $this->schema->makeNode(blazonML::E_CREST,
                         array(blazonML::A_KEYTERM => 'group'));
                 }
-            } elseif ($allowAll && ($compartment = self::compartment()) != null) {
+            } elseif (!in_array('compartment', $singleItems) && ($compartment = self::compartment()) != null) {
                 $found = true;
                 $achievement->appendChild($compartment);
+                $singleItems[] = 'compartment';
             } elseif (($fringe = self::fringe()) != null) {
                 $found = true;
                 $achievement->appendChild($fringe);
@@ -211,9 +218,9 @@ class englishGrammar extends grammar
                         array(blazonML::A_KEYTERM => 'group'));
                 }
                 $thisCrest->appendChild($charge);
-            } elseif ($allowAchievement && self::find(languageDB::ACHIEVEMENT)) {
+            } elseif (!in_array('achievement', $singleItems) && self::find(languageDB::ACHIEVEMENT)) {
                     // this is OK, it is just a marker between the shield and the achievements
-                    $allowAchievement = false;
+                    $singleItems[] = 'achievement';
                     $found = true;
             }
             if ($found) {

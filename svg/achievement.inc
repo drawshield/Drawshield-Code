@@ -19,7 +19,7 @@ function drawSupporters($supportNode, $layout) {
     if ($supportNode == null) return '';
     $boundX = 300;
     $boundY = 600;
-    $centreY = 600;
+    $centreY = 900;
     $dexterX = $boundX / 2;
     $sinisterX = 1000 - $dexterX;
 
@@ -360,6 +360,7 @@ function drawCompartment($compartmentNode) {
         default:
             break;
     }
+    $fill = null;
     foreach ($compartmentNode->childNodes as $child) {
         switch($child->nodeName) {
             case blazonML::E_TINCTURE:
@@ -583,6 +584,7 @@ function addParts($body, $parts) {
     extract($parts); // creates $crests, $crestHeight and other variables
     // At this point $body contains the shield in a 1000x1200 box, does it have any helmets etc. to add on top?
 
+    $bodyScale = 1;
     if (count($crests)) {
         $crestOffsetY = 0;
         $crestScale = 0.3;
@@ -658,6 +660,17 @@ function addParts($body, $parts) {
         $yPos = '995';
         if ($layout->shape == 'flag') $yPos = $layout->size->height - 5;
         $body .= "<g transform=\"translate(0,$yPos)\">$fringe</g>";
+    }
+
+    // Supporters - try to fit in making maximum use of space, so a bit complicated
+    if (isset($supports)) {
+        $supportScale = 0.7 / $bodyScale; // modify internal scaling based on presence of a crest
+        $supportX = (1000 * (1-$supportScale)) / 2;
+        $body = "<g transform=\"translate($supportX,0) scale($supportScale) \">$body</g>$supports";
+        // But might need to scale down if there isn't a compartment
+        if (!isset($compartment)) {
+            $body = '<g transform="translate(50,0) scale(0.9)">' . $body . '</g>';
+        }
     }
 
     // specials for pauldrons

@@ -213,7 +213,7 @@ class languageDB extends lexicon
                 array('?(a|the) (torse|bourlet)', 'torse'),
             ),
             self::COMPARTMENT => array(
-                array('?the compartment ?of ?(a|the)', 'compartment'),
+                array('?(a|the) compartment ?of ?(a|the)', 'compartment'),
             ),
             self::COMP_TYPE => array(
                 array('shelf', 'shelf'),
