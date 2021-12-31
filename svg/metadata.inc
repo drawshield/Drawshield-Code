@@ -16,11 +16,9 @@ This file is part of the DrawShield.net heraldry image creation program
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
 class metadataMap {
-
-
   
-  static array $groups = array();
-  static array $charges = array();
+  static $groups = array();
+  static $charges = array();
 
   public function __construct()
   {
