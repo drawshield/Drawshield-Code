@@ -85,7 +85,7 @@ function splitStyle ( $styles, $attributeKeys, $strokeCol, $strokeWidth ) {
        if ( array_key_exists("raw",$options) ) {
           $retval .= ' fill="' . $value . '" '; // leave alone
        } else {
-            if (in_array(strtolower($value), $strokeColours)) {
+            if ($strokeColours && in_array(strtolower($value), $strokeColours)) {
                 $retval .= 'fill="' . $strokeCol . '" ';
           // Any of the "primary" colours are just placeholders, to be replaced by the charge colour
             } elseif (!in_array( $value, $targetColours )) {
