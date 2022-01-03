@@ -2013,7 +2013,7 @@ class englishGrammar extends grammar
             self::tokens(),
             self::lineno());
         $locNode = null;
-        if ($type == 'ribbons' || $type == 'cloak' || $type == 'cloak-ermine') { // have complex colour scheme
+        if ($type == 'ribbons' || substr($type, 0, 5) == 'cloak') { // have complex colour scheme
             while (true) {
                 if (($loc = self::find(languageDB::ACHIEVEMENT_LOC)) != null) {
                     $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array(

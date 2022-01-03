@@ -102,12 +102,40 @@ function drawMantling($mantlingNode)
             break;
         case 'cloak':
         case 'cloak-ermine':
-            $yShift = 260;
+            $features['background'] = rgb('argent');
+            $features['tails'] = rgb('sable');
+            $yShift = 270;
             break;
+        case 'cloak-pean':
+            $features['background'] = rgb('sable');
+            $features['tails'] = rgb('or');
+            $yShift = 270;
+            $type = 'cloak-ermine';
+            break;
+        case 'cloak-counter-ermine':
+            $features['background'] = rgb('sable');
+            $features['tails'] = rgb('argent');
+            $yShift = 270;
+            $type = 'cloak-ermine';
+            break;
+        case 'cloak-erminois':
+            $features['background'] = rgb('or');
+            $features['tails'] = rgb('sable');
+            $yShift = 270;
+            $type = 'cloak-ermine';
+            break;
+        case 'napoleanic-pavilion':
         case 'cloak-pavilion':
-        case 'peer-of-france':
             $yShift = 360;
             $scale = 0.65;
+            break;
+        case 'peer-of-france':
+            $yShift = 350;
+            $scale = 0.5;
+            break;
+        case 'napoleanic-pavilion-crowned':
+            $yShift = 550;
+            $scale = 0.5;
             break;
         case 'peer-of-france-crowned':
             $yShift = 460;
@@ -129,14 +157,14 @@ function drawMantling($mantlingNode)
     getMetaDataFromSVG($svg, 'achievement', 'mantling'); // just for the credit licence
     $defs = [];
 
-    if ($type == 'ribbons' || $type == 'cloak' || $type == 'cloak-ermine') { // have complex colour scheme
+    if ($type == 'ribbons' || substr($type, 0, 5) == 'cloak' ){ // have complex colour scheme
         // default colours
-        $features = array(
+        $features = array_merge( $features, array(
             'sinister1' => $default1,
             'sinister2' => $default2,
             'dexter1' => $default1,
             'dexter2' => $default2
-        );
+        ));
         // Sort out the actual colours in use
         for ($i = 0; $i < $mantlingNode->childNodes->length; $i++) {
             $location = $mantlingNode->childNodes->item($i);
