@@ -98,7 +98,21 @@ function drawMantling($mantlingNode)
     $yShift = 160;
     $scale = 0.7;
     switch($type) {
+        case 'grandee-of-spain-crowned':
+            $yShift = 470;
+            $scale = 0.55;
+            break;
         case 'grandee-of-spain':
+            $yShift = 360;
+            $scale = 0.57;
+            break;
+        case 'prince-hre-crowned':
+            $yShift = 460;
+            $scale = 0.55;
+            break;
+        case 'prince-hre':
+            $yShift = 260;
+            $scale = 0.55;
             break;
         case 'cloak':
         case 'cloak-ermine':
