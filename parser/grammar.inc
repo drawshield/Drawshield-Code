@@ -45,16 +45,19 @@ abstract class grammar  {
   protected $foundColours = [];
 
   protected $shieldNode;
-  protected $achievementNode = null;
-  protected $notesNode = null;
+  // protected $achievementNode = null;
+  // protected $notesNode = null;
   protected $messagesNode = null;
   
-  protected function addInstruction($child) {
+ /* protected function addInstruction($child) {
     if ($this->notesNode == null)
           $this->notesNode = $this->schema->makeNode(blazonML::E_INSTRUCTIONS);
     $this->notesNode->appendChild($child);
-  }
- 
+  } */
+
+  /*  protected function clearAchievement() {
+        $this->achievementNode = null;
+    }
 
   protected function addAchievement($child) {
     if ($this->achievementNode == null) {
@@ -62,7 +65,7 @@ abstract class grammar  {
     }
     if ($child != null)
       $this->achievementNode->appendChild($child);
-  }
+  } */
 
   public function __construct( $language = 'english', BlazonML $schema) {
     switch ( $language ) {
@@ -92,7 +95,7 @@ abstract class grammar  {
     if ($shield == null)
       $shield = $this->schema->makeNode(blazonML::E_SHIELD, array ( blazonML::A_INDEX => '0' )); // TODO - add a field?
     $this->checkBadWords();
-    return array ($shield, $this->achievementNode, $this->notesNode, $this->messagesNode);
+    return array ($shield, /* $this->achievementNode, $this->notesNode, */ $this->messagesNode);
   }
 
   // shorthand functions to make code read better

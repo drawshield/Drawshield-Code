@@ -68,6 +68,50 @@ function makeOrdChgs( $node, $layout ) {
   return $retval;
 }
 
+function setOptionsFromBlazon( $node ) {
+    global $options;
+
+    foreach ($node->childNodes as $blazonOption) {
+        switch ($blazonOption->nodeName) {
+            case blazonML::E_COLOURSET:
+                switch ($blazonOption->getAttribute('keyterm')) {
+                    case 'web':
+                        $options['useWebColours'] = true;
+                        break;
+                    case 'tartan':
+                        $options['useTartanColours'] = true;
+                        break;
+                    case 'warhammer':
+                        $options['useWarhammerColours'] = true;
+                        break;
+                    default:
+                        // just ignore - should probably be an error message
+                        break;
+                }
+                break;
+            case blazonML::E_DEBUG:
+                $options['debug'] = $blazonOption->getAttribute('keyterm');
+                break;
+            case blazonML::E_SHAPE:
+                $options['shape'] = $blazonOption->getAttribute('keyterm');
+                break;
+            case blazonML::E_PALETTE:
+                $options['palette'] = $blazonOption->getAttribute('keyterm');
+                break;
+            case blazonML::E_EFFECT:
+                $options['effect'] = $blazonOption->getAttribute('keyterm');
+                break;
+            case blazonML::E_ASPECT:
+                $ar = $blazonOption->getAttribute('keyterm');
+                if ($ar != null) {
+                    $options['aspectRatio'] = calculateAR($ar);
+                }
+                break;
+        }
+    }
+    tidyOptions();
+}
+
 function draw() {
     global $dom;
     global $options;
@@ -78,11 +122,11 @@ function draw() {
 
     // Get all the charge data (once for each charge type)
     get_chg_data();
-    $achievement = false;
     $mantling = '';
     $supports = '';
     $compartment = '';
     $motto = '';
+    $ornament = '';
     $helmets = [];
     $crests = [];
     $fringe = '';
@@ -90,8 +134,9 @@ function draw() {
     $y1Location = 0;
     $extraDefs = '';
     $extraSpace = 0;
+    $partsList= [];
     if ($options['palette'] == 'hatching') {
-        include("hatching.inc");
+        require("hatching.inc");
         $extraDefs = mkHatches();
     }
 
@@ -162,7 +207,6 @@ function draw() {
 
 
     } else {
-        $outline = getShape($layout);
         $header = '<?xml version="1.0" encoding="utf-8" ?>
     <svg version="1.1"
         baseProfile="full"
@@ -185,99 +229,42 @@ function draw() {
 
         $blazonNode = $dom->documentElement;
         $body = '';
-        $addMantling = false;
         foreach ( $blazonNode->childNodes as $node ) {
             switch ( $node->nodeName ) {
-            case 'shield':
-                $body .= makeshield($node, $layout);
-                if ($layout->shape == 'italian') { // another horrible fudge
-                    $body .= '<g>
-                    <path
-                        d="m 344.81,3.6726 38.87,68.8004 -38.87,44.027 c 98.25,-11.08 203.99,-10.83 294.76,0 l -25.1,-43.029 25.1,-69.7984 c -91.97,12.5284 -196.51,13.0914 -294.76,0 z"
-                        style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
-                    <path
-                        d="m 7.3198,182.27 c 153.3802,0 216.1402,-145.737 308.6002,-145.737 38.95,0 47.72,17.957 47.72,37.931 -21.32,6.107 -38.06,7.221 -62.77,-1.998 3.71,24.327 27.69,43.914 60.28,43.914 30.41,0 66.46,-18.364 66.46,-53.9 0,-29.654 -35.64,-58.8906 -97.85,-58.8906 -140.82,0 -162.71,123.0406 -322.4402,178.6806 z"
-                        style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
-                    <path
-                        d="m 991.87,182.27 c -152.89,0 -215.82,-145.737 -308.28,-145.737 -38.95,0 -47.72,17.957 -47.72,37.931 21.33,6.107 38.06,7.221 62.77,-1.998 -3.62,24.327 -27.6,43.914 -60.19,43.914 -30.5,0 -66.55,-18.364 -66.55,-53.9 0,-29.654 35.65,-58.8906 97.85,-58.8906 141.06,0 162.79,123.0406 322.12,178.6806 z"
-                        style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1" />
-                    </g>';
-                } elseif ($layout->shape == 'pauldron' && !isset($options['notrim'])) {
-                    $body .= '          <path
-                    d="m 41.536147,871.59393 c 0,0 7.47903,-641.82667 458.680763,-641.93028 451.20173,-0.10361 456.7417,646.64289 456.7417,646.64289 z M 1.2817646,953.9012 c 0,0 -3.0191322,-756.24112 499.0203454,-754.95935 502.03949,1.28177 496.91075,760.08641 496.91075,760.08641 z"
-                    style="fill:#f3f1ee;stroke:#808080;stroke-width:7.17741;stroke-miterlimit:1;fill-rule:evenodd;opacity:0.5" />';
-                }
-                break;
-            case 'achievement':
-                if ($layout->shape != 'pauldron' && $layout->shape != 'flag')
-                    $achievement = true;
-                if ($node->firstChild == null) { # just the word 'achievement'
-                    $addMantling = true;
-                    $helmets[] = drawHelmet(null,null);
-                } else {
-                    foreach ($node->childNodes as $subNode) {
-                        switch ($subNode->nodeName) {
-                        case blazonML::E_SUPPORTERS:
-                            $supports = drawSupporters($subNode, $layout);
-                            break;
-                        case blazonML::E_MANTLING:
-                            $mantling = drawMantling($subNode);
-                            break;
-                        case blazonML::E_SHIELD:
-                            foreach ($subNode->childNodes as $childNode) {
-                                if ($childNode->nodeName == blazonML::E_MODIFIER) {
-                                    $shieldAdjustments[] = $childNode->getAttribute(blazonML::A_KEYTERM);
-                                }
-                            }
-                            break;
-                        case blazonML::E_FRINGE:
-                            $fringe = drawFringe($subNode, $layout);
-                            $achievement = false; // can't combine these
-                            break;
-                        case blazonML::E_COMPARTMENT:
-                            $compartment = drawCompartment($subNode);
-                            break;
-                        case blazonML::E_MOTTO:
-                            $motto = drawMotto($subNode, $layout);
-                            break;
-                        case blazonML::E_HELMET: // can't draw immediately in case there is a torse
-                            $addMantling = true;
-                            if (count($crests) < count($helmets)) {
-                                $crests[] = null; // keep crests in step with helmets
-                            }
-                            $helmets[] = drawHelmet($subNode);
-                            break;
-                        case blazonML::E_CREST:
-                            $crests[] = $subNode->cloneNode(true);
-                            break;
-                        default:
-                          // not implemented yet
-                          break;
+                case 'complex':
+                    $body .= makeAlongside($node, $layout);
+                    break;
+                case 'shield':
+                    $body .= makeshield($node, $layout);
+                    $layout = ShieldLayout::from_options($options);
+                    // options may have changed in makeShield
+                    $outline = getShape($layout);
+                    $effect = $options['effect'];
+                    if (!array_key_exists('nomask', $options)) {
+                        $clipShield = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />' );
+                        $body = '<g mask="url(#' . $clipShield . ')">' . $body . '</g>';
+                    }
+                    if ( $options['effect'] == 'inked')
+                        $body .=  '<path fill="none" stroke="#000000" stroke-width="4" d="' . $outline . '" />';
+                    foreach ($node->childNodes as $childNode) {
+                        if ($childNode->nodeName == blazonML::E_ACHIEVEMENT) {
+                            $partsList[] = getAchievementParts($childNode, $layout);
                         }
                     }
-                }
-                // tidy up the combinations
-                if (!$mantling && $addMantling && $layout->shape != 'pauldron')
-                    $mantling = drawMantling(null);
-                break;
-            // other elements for future expansion
+                    break;
             }
         }
     }
     if (!array_key_exists('nomask', $options)) {
-        $clipShield = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />' );
-        $body = '<g mask="url(#' . $clipShield . ')">' . $body . '</g>';
-        if ( $options['effect'] == 'inked')
-            $body .=  '<path fill="none" stroke="#000000" stroke-width="4" d="' . $outline . '" />';
-
-        // Add effects (if any) and Clip to shield shape
         if ($options['effect'] == 'shiny') { // this only gets applied to the escutcheon
             $body .= add_def();
             $body = getEffect($effect, 'below') . '<g ' . getEffect($effect, 'filter') . '>' . $body . getEffect($effect, 'above') . '</g>';
         }
         // Add outline of shield shape, only if required
-        if ( $options['palette'] == 'outline')
+        if ( $options['palette'] == 'outline') {
+            $outline = getShape($layout);
             $body .=  '<path fill="none" stroke="' . rgb('division-stroke') . '" stroke-width="4" d="' . $outline . '" />';
+        }
         // Rest depends on output format
         if ( !$options['asFile'] /* && !$options['printable'] */ ) { // minimal decoration, no metadata
             $y1Location = '1190';
@@ -302,137 +289,12 @@ function draw() {
             }
         }
     }
-    if (count($shieldAdjustments)) {
-        $body = quickPlace($body, 1000, 1200, 1000, 1200, 500, 600, null, $shieldAdjustments);
+    if (count($partsList)) {
+        foreach($partsList as $parts ) {
+            $body = addParts($body, $parts);
+        }
     }
 
-    // assorted combinations of achievements
-    if ($mantling || count($helmets) || count($crests)) {
-        $body = $mantling . '<g transform="translate(191.667,400) scale(0.61667) ">' . $body . '</g>';
-    }
-    if ($motto && $supports == '') {
-        if ($layout->shape == 'pauldron') {
-            $body = '<g transform="translate(0,-100) ">' . $body . '</g>' . $motto;
-        } else {
-            if ($helmets == [] && $mantling == '') { // only motto
-                $body = '<g transform="translate(57,0) scale(0.88) ">' . $body . '</g>';
-            }
-            $body .= quickPlace($motto['body'], $motto['width'], $motto['height'], 1000, 200, 500, 985, null, $motto['adjustments']);
-        }
-    }
-    if ($fringe) {
-        $yPos = '995';
-        if ($layout->shape == 'flag') $yPos = $layout->size->height - 5;
-        $body .= "<g transform=\"translate(0,$yPos)\">$fringe</g>";
-    }
-    if ($achievement) {
-        // TODO add lone crest separately
-        switch(count($helmets)) {
-            case 0:
-                break; // nothing to do
-            case 1:
-                if (count($crests) && $crests[0] != null) { // at least one
-                    $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(350,10) scale(0.30) \"> $crestCharges</g>";
-                    $crests[0] = null; // mark this crest as used
-                }
-                $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 500, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
-                // TODO add crown if present
-                break;
-            case 2:
-                if (count($crests) && $crests[0] != null) { // at least one
-                    $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(200,10) scale(0.30) \"> $crestCharges</g>";
-                    $crests[0] = null; // mark this crest as used
-                }
-                $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 360, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
-                // TODO add crown if present
-                if (count($crests) > 1 && $crests[1] != null) { // at least one
-                    $crestCharges = makeCharge($crests[1]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(500,10) scale(0.30) \"> $crestCharges</g>";
-                    $crests[1] = null; // mark this crest as used
-                }
-                $body .= '<g transform="scale(-1,1) translate(-1320,0)">' . quickPlace($helmets[1]['body'], $helmets[1]['width'], $helmets[1]['height'], 300, 300, 660, 350,
-                        rgb($helmets[1]['fill']), $helmets[1]['adjustments']) . '</g>';
-                // TODO add crown if present
-                break;
-            default:
-                if (count($helmets) > 3) {
-                    $messages->addMessage('internal',"3 helmets maximum");
-                }
-                if (count($crests) && $crests[0] != null) { // at least one
-                    $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(100,10) scale(0.30) \"> $crestCharges</g>";
-                    $crests[0] = null; // mark this crest as used
-                }
-                $body .= quickPlace($helmets[0]['body'], $helmets[0]['width'], $helmets[0]['height'], 300, 300, 260, 350, rgb($helmets[0]['fill']), $helmets[0]['adjustments']);
-                // TODO add crown if present
-                if (count($crests) > 1 && $crests[1] != null) { // at least one
-                    $crestCharges = makeCharge($crests[1]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(350,10) scale(0.30) \"> $crestCharges</g>";
-                    $crests[1] = null; // mark this crest as used
-                }
-                $body .= quickPlace($helmets[1]['body'], $helmets[1]['width'], $helmets[1]['height'], 300, 300, 500, 350,
-                        rgb($helmets[1]['fill']), $helmets[1]['adjustments']);
-                // TODO add crown if present
-                if (count($crests) > 2 && $crests[2] != null) { // at least one
-                    $crestCharges = makeCharge($crests[2]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(580,10) scale(0.30) \"> $crestCharges</g>";
-                    $crests[2] = null; // mark this crest as used
-                }
-                $body .= '<g transform="scale(-1,1) translate(-1400,0)">' . quickPlace($helmets[2]['body'], $helmets[2]['width'], $helmets[2]['height'], 300, 300, 660, 350,
-                        rgb($helmets[2]['fill']), $helmets[2]['adjustments']) . '</g>';
-                // TODO add crown if present
-                break;
-        }
-        switch(count($crests)) {
-            case 0:
-                break; // nothing to do
-            case 1:
-                if (!empty($crests[0])) {
-                    $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(300,75) scale(0.4) \"> $crestCharges</g>";
-                }
-                break;
-            case 2:
-                if (!empty($crests[0])) {
-                    $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(200,135) scale(0.30) \"> $crestCharges</g>";
-                }
-                if (!empty($crests[1])) {
-                    $crestCharges = makeCharge($crests[1]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(500,135) scale(0.30) \"> $crestCharges</g>";
-                }
-                break;
-            default:
-                if (count($crests) > 3) {
-                    $messages->addMessage('internal',"3 helmets maximum");
-                }
-                if (!empty($crests[0])) {
-                    $crestCharges = makeCharge($crests[0]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(100,135) scale(0.30) \"> $crestCharges</g>";
-                }
-                if (!empty($crests[1])) {
-                    $crestCharges = makeCharge($crests[1]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(350,135) scale(0.30) \"> $crestCharges</g>";
-                }
-                if (!empty($crests[2])) {
-                    $crestCharges = makeCharge($crests[2]->firstChild, ShieldLayout::square());
-                    $body .= "<g transform=\"translate(580,135) scale(0.30) \"> $crestCharges</g>";
-                }
-                break;
-        }
-    }
-    if ($supports) {
-        $body = '<g transform="translate(150,0) scale(0.7) ">' . $body . '</g>' . $supports;
-        if ($compartment) {
-            $body = quickPlace($compartment['body'], $compartment['width'], $compartment['height'], 1000, 300, 500, 910, rgb($compartment['fill']), $compartment['adjustments']) . $body;
-        }
-        if ($motto) {
-            $body .= quickPlace($motto['body'], $motto['width'], $motto['height'], 1000, 200, 500, 985, null, $motto['adjustments']);
-            // $body .= '<g transform="translate(0, 885)">' . $motto . '</g>';
-        }
-    }
     if (!$options['asFile']) {
         $body .= '<text id="test1" x="10" y="' . $y1Location . '" font-size="30" >' . $version['website'] . '</text><text id="release-id" x="990" y="' . $y1Location . '" text-anchor="end" font-size="30" >' . $version['release'] . '</text>';
     }
@@ -441,9 +303,10 @@ function draw() {
         $body = getEffect($effect, 'below') . '<g ' . getEffect($effect, 'filter') . '>' . $body . getEffect($effect, 'above') . '</g>';
     }
 
-    // Uncomment following 3 lines for an overall grid
-    // $ordinary = [];
-    // include "ordinaries/grid.inc";
-    // $body .= '<g fill="#555555">' . $ordinary['body'] . '</g>';
+    if (array_key_exists('debug', $options) && strpos($options['debug'],'grid') !== false) {
+        $ordinary = [];
+        include "ordinaries/grid.inc";
+        $body .= '<g fill="#555555">' . $ordinary['body'] . '</g>';
+    }
     return $header . $meta . $defs . $body . $trailer;
 }

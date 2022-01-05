@@ -307,6 +307,7 @@ class ShieldLayout
             case 'lozenge':
                 $charge_hint = new ShieldRect(clone $cross_point, $size->scaled(0.8));
                 break;
+            default:
             break;
         }
 

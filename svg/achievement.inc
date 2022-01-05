@@ -19,7 +19,7 @@ function drawSupporters($supportNode, $layout) {
     if ($supportNode == null) return '';
     $boundX = 300;
     $boundY = 600;
-    $centreY = 600;
+    $centreY = 900;
     $dexterX = $boundX / 2;
     $sinisterX = 1000 - $dexterX;
 
@@ -50,82 +50,158 @@ function drawSupporters($supportNode, $layout) {
     return $retval;
 }
 
-function drawMantling($mantlingNode) {
-    global $messages;
+function drawOrnament($ornamentNode)
+{
+    global $messages, $options;
 
-    $hat = null;
-    $staff = null;
+    $adjustments = [];
+    $type = $ornamentNode->getAttribute(blazonML::A_KEYTERM);
+    if (!file_exists("svg/components/ornaments/$type.svg")) {
+        $messages->addMessage('internal', "Unable to draw mantling type: $type");
+        return null;
+    }
+    foreach ( $ornamentNode->childNodes as $child) {
+        if ($child->nodeName == blazonML::E_MODIFIER) {
+            $adjustments[] = $child->getAttribute(blazonML::A_KEYTERM);
+        }
+    }
+    $rawFile = file_get_contents("svg/components/ornaments/$type.svg");
+    $svg = simplexml_load_string($rawFile);
+    getMetaDataFromSVG($svg, 'achievement', 'mantling'); // just for the credit licence
+    $retval['body'] = preg_replace('/<\?xml.*?>/i', '', $rawFile);
+    if ($options['palette'] == 'outline' || $options['palette'] == 'hatching') {
+        $retval['body'] = "<g filter=\"url('#grayscale')\">" . $retval['body'] . '</g>';
+    }
+    $retval['adjustments'] = $adjustments;
+    $retval['transform'] = "translate(191.667,350) scale(0.61667)";
+
+    return $retval;
+}
+
+function drawMantling($mantlingNode)
+{
+    global $messages, $options;
+
+    $default1 = rgb('argent');
+    $default2 = rgb('gray');
 
     if (is_null($mantlingNode)) {
         $type = 'ribbons';
-        $default1 = rgb('argent');
-        $default2 = rgb('gray');
     } else {
         $type = $mantlingNode->getAttribute(blazonML::A_KEYTERM);
-        switch($type) {
-            case 'priest-catholic':
-            case 'canon-catholic':
-            case 'vicar-catholic':
-                $default1 = $default2 = $hat = rgb('sable');
-                break;
-            case 'prelate-catholic':
-                $default1 = $default2 = $hat = rgb('purpure');
-                break;
-            case 'bishop-catholic':
-                $default1 = $default2 = $hat = rgb('vert');
-                $staff = rgb('or');
-                break;
-            case 'chaplain-catholic':
-                $default1 = $default2 = rgb('purpure');
-                $hat = rgb('sable');
-                break;
-            default:
-                $default1 = $default2 = $hat = rgb('gray');
-                break;
-        }
     }
 
-    // default colours
-    $features = array (
-        'sinister1' => $default1,
-        'sinister2' => $default2,
-        'dexter1' => $default1,
-        'dexter2' => $default2
-    );
     $extras = array(); // not used at present (but required for getSVGFragment)
+    $features = array();
+    $adjustments = [];
 
+    $yShift = 160;
+    $scale = 0.7;
+    switch($type) {
+        case 'grandee-of-spain-crowned':
+            $yShift = 470;
+            $scale = 0.55;
+            break;
+        case 'grandee-of-spain':
+            $yShift = 360;
+            $scale = 0.57;
+            break;
+        case 'prince-hre-crowned':
+            $yShift = 460;
+            $scale = 0.55;
+            break;
+        case 'prince-hre':
+            $yShift = 260;
+            $scale = 0.55;
+            break;
+        case 'cloak':
+        case 'cloak-ermine':
+            $features['background'] = rgb('argent');
+            $features['tails'] = rgb('sable');
+            $yShift = 270;
+            break;
+        case 'cloak-pean':
+            $features['background'] = rgb('sable');
+            $features['tails'] = rgb('or');
+            $yShift = 270;
+            $type = 'cloak-ermine';
+            break;
+        case 'cloak-counter-ermine':
+            $features['background'] = rgb('sable');
+            $features['tails'] = rgb('argent');
+            $yShift = 270;
+            $type = 'cloak-ermine';
+            break;
+        case 'cloak-erminois':
+            $features['background'] = rgb('or');
+            $features['tails'] = rgb('sable');
+            $yShift = 270;
+            $type = 'cloak-ermine';
+            break;
+        case 'napoleanic-pavilion':
+        case 'cloak-pavilion':
+            $yShift = 360;
+            $scale = 0.65;
+            break;
+        case 'peer-of-france':
+            $yShift = 350;
+            $scale = 0.5;
+            break;
+        case 'napoleanic-pavilion-crowned':
+            $yShift = 550;
+            $scale = 0.5;
+            break;
+        case 'peer-of-france-crowned':
+            $yShift = 460;
+            $scale = 0.55;
+            break;
+        case 'ribbons':
+            $yShift = 170; $scale = 0.75;
+            break;
+    }
+    $xShift = (1000 * (1-$scale)) / 2;
+
+    if (!file_exists("svg/components/mantling/$type.svg")) {
+        $messages->addMessage('internal', "Unable to draw mantling type: $type");
+        return null;
+    }
     // switch on type here
-    $svg = simplexml_load_file("svg/components/mantling/$type.svg");
+    $rawFile = file_get_contents("svg/components/mantling/$type.svg");
+    $svg = simplexml_load_string($rawFile);
+    getMetaDataFromSVG($svg, 'achievement', 'mantling'); // just for the credit licence
     $defs = [];
 
-     if ($mantlingNode != null) {
+    if ($type == 'ribbons' || substr($type, 0, 5) == 'cloak' ){ // have complex colour scheme
+        // default colours
+        $features = array_merge( $features, array(
+            'sinister1' => $default1,
+            'sinister2' => $default2,
+            'dexter1' => $default1,
+            'dexter2' => $default2
+        ));
         // Sort out the actual colours in use
         for ($i = 0; $i < $mantlingNode->childNodes->length; $i++) {
             $location = $mantlingNode->childNodes->item($i);
+            if ($location->nodeName != blazonML::E_LOCATION) break;
             $colours = array();
-            for($j = 0; $j < $location->childNodes->length; $j++) {
+            for ($j = 0; $j < $location->childNodes->length; $j++) {
                 $tincture = $location->childNodes->item($j);
                 $tincture_data = new TinctureData($tincture);
                 $tincture_data->pattern_transform = "scale(0.3)";
                 $tincture_data->parse_fill(new ShieldLayout(new ShieldSize(1000, 1000), "square"));
-                if ( $tincture_data->fill )
-                {
+                if ($tincture_data->fill) {
                     $colours[] = $tincture_data->fill;
                     $defs = array_merge($defs, $tincture_data->defs);
-                }
-                else
-                {
-                    $messages->addMessage('error',"complex mantling tinctures are not supported");
+                } else {
+                    $messages->addMessage('error', "complex mantling tinctures are not supported");
                 }
             }
             $numCols = count($colours);
             if ($numCols < 1) $colours[0] = rgb('gray');
-            switch($location->getAttribute('keyterm')) {
+            switch ($location->getAttribute('keyterm')) {
                 case 'default':
                     $features['sinister1'] = $colours[0];
                     $features['dexter1'] = $colours[0];
-                    $staff = $colours[0];
-                    $hat = $colours[0];
                     if ($numCols < 2) {
                         // check no clash with default colours
                         if ($colours[0] == $default2) {
@@ -158,31 +234,30 @@ function drawMantling($mantlingNode) {
                     }
                     break;
                 default:
-                    $messages->addMessage('internal','Unknown location for mantling tincture');
+                    $messages->addMessage('internal', 'Unknown location for mantling tincture');
                     break;
             }
         }
+        $retval = getSvgFragment($svg, $features, 'mantling', $type, $extras, getStroke(null, true));
+    } else {
+        $retval['body'] = preg_replace('/<\?xml.*?>/i', '', $rawFile);
     }
-    if ($staff) {
-         $features['staff'] = $staff;
+    $retval['transform'] = "translate($xShift,$yShift) scale($scale)";
+    if (count($defs))
+        $retval['body'] = "<defs>" . implode("", $defs) . "</defs>" . $retval['body'];
+    foreach ( $mantlingNode->childNodes as $child) {
+        if ($child->nodeName == blazonML::E_MODIFIER) {
+            $adjustments[] = $child->getAttribute(blazonML::A_KEYTERM);
+        }
     }
-    if ($hat) {
-        $features['hat'] = $hat;
-    }
+    $retval['adjustments'] = $adjustments;
 
-    getMetaDataFromSVG($svg); // just for the credit licence
-    $retval = getSvgFragment($svg, $features, 'mantling', $type, $extras, getStroke(null, true));
-
-    $defs_svg  = "";
-    if ( count($defs) )
-        $defs_svg  = "<defs>" . implode("", $defs) . "</defs>";
-
-    return $defs_svg . $retval['body'];
+    return $retval;
 }
 
-function drawTorse($torseNode) {
+function drawTorse($torseNode)
+{
     global $messages;
-    $retval = [];
 
     if (is_null($torseNode)) {
         $type = 'torse';
@@ -190,63 +265,58 @@ function drawTorse($torseNode) {
         $type = $torseNode->getAttribute(blazonML::A_KEYTERM);
     }
 
-    // keyterm of torseNode will contain the type (possibly)
-    $default1 = rgb('argent');
-    $default2 = rgb('gray');
-
-    // default colours
-    $features = array (
-        'tincture1' => $default1,
-        'tincture2' => $default2,
-    );
+    $features = [];
     $extras = array(); // not used at present (but required for getSVGFragment)
 
     // switch on type here
     $svg = simplexml_load_file("svg/components/torse/$type.svg");
-    $retval = getMetaDataFromSVG($svg,'achievement','torse');
+    $retval = getMetaDataFromSVG($svg, 'achievement', 'torse');
+    $adjustments = [];
 
-     if ($torseNode != null) {
+    if ($torseNode != null) {
         // Sort out the actual colours in use
-        for ($i = 0; $i < $torseNode->childNodes->length; $i++) {
-            $location = $torseNode->childNodes->item($i);
-            $colours = array();
-            for($j = 0; $j < $location->childNodes->length; $j++) {
-                $tincture = $location->childNodes->item($j);
-                if ($tincture->firstChild->nodeName != 'colour') {
-                    $messages->addMessage('error',"torse tinctures may only be plain colours");
+        $colours = array();
+        foreach ($torseNode->childNodes as $child) {
+            if ($child->nodeName == blazonML::E_TINCTURE) {
+                if ($child->firstChild->nodeName != 'colour') {
+                    $messages->addMessage('error', "torse tinctures may only be plain colours");
                 } else {
-                    $colours[] = rgb($tincture->firstChild->getAttribute('keyterm'));
+                    $colours[] = $child->firstChild->getAttribute('keyterm');
                 }
-            }
-            $numCols = count($colours);
-            if ($numCols < 1) $colours[0] = rgb('gray');
-            switch($location->getAttribute('keyterm')) {
-                case 'default':
-                    $features['tincture1'] = $colours[0];
-                    if ($numCols < 2) {
-                        // check no clash with default colours
-                        if ($colours[0] == $default2) {
-                            $features['tincture2'] = $default1;
-                        }
-                    } else {
-                        $features['tincture2'] = $colours[1];
-                    }
-                    break;
-                default:
-                    $messages->addMessage('internal','Unknown location for torse tincture');
-                    break;
+            } elseif ($child->nodeName == blazonML::E_MODIFIER) {
+                $adjustments[] = $child->getAttribute(blazonML::A_KEYTERM);
             }
         }
+        switch (count($colours)) {
+            case 0:
+                $features['tincture1'] = rgb('gray');
+                $features['tincture2'] = rgb('argent');
+                break;
+            case 1:
+                $features['tincture1'] = rgb($colours[0]);
+                if ($colours[0] == 'argent') {
+                    $features['tincture2'] = rgb('gray');
+                } else {
+                    $features['tincture2'] = rgb('argent');
+                }
+                break;
+            case 2:
+                $features['tincture1'] = rgb($colours[0]);
+                $features['tincture2'] = rgb($colours[1]);
+        }
     }
-    $retval = array_merge($retval, getSvgFragment($svg, $features, 'torse', 'torse', $extras, getStroke(null, true)));
+    $retval['adjustments'] = $adjustments;
+    $retval = array_merge($retval, getSvgFragment($svg, $features, 'torse', 'torse',
+        $extras, getStroke(null, true)));
     return $retval;
 }
 
 function drawMotto($mottoNode, $layout) {
-    global $messages;
+    global $messages, $options;
 
     if (is_null($mottoNode)) return '';
 
+    $position = $mottoNode->getAttribute(blazonML::A_KEYTERM);
     $text = $mottoNode->getAttribute('text');
     $colour = rgb('sable');
     $adjustments = null;
@@ -262,9 +332,9 @@ function drawMotto($mottoNode, $layout) {
                 break;
         }
     }
-    if ($layout->shape == 'pauldron') {
+    if ($options['shape'] == 'pauldron') {
         $builder = new WordBuilder('hooge');
-        $svgText = file_get_contents('svg/components/scroll/plaque.svg');
+        $svgText = file_get_contents("svg/components/scroll/plaque.svg");
         $svgText .= "<g transform=\"translate(50,1000)\">\n" .
         $builder->fitWordsToRect($text, 160, 900, $colour) . "</g>\n";
         $svgText = '<g transform="scale(0.9,0.9) translate(50,180)">' . $svgText . "</g>\n";
@@ -282,20 +352,26 @@ function drawMotto($mottoNode, $layout) {
                 $up = 12;
             }
         }
-
-        $svgText = file_get_contents('svg/components/scroll/plain.svg');
-        $svgText = str_replace('%TEXT%', htmlentities($text, ENT_XML1), $svgText);
-        $svgText = str_replace('%UP%', $up, $svgText);
-        $svgText = str_replace('%COLOUR%', $colour, $svgText);
-        $svgText = str_replace('%FONT-SIZE%', "${fontSize}px", $svgText);
-        $svg = @simplexml_load_string($svgText);
-        $retval = getSvgFragment($svg, array(), 'scroll', 'plain', array(), getStroke(null, true));
+        $svgDOM = new DOMDocument;
+        $svgDOM->load("svg/components/scroll/$position.svg");
+        $svgXpath = new DOMXPath($svgDOM);
+        $text = htmlentities($text, ENT_XML1);
+        $style = "font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:serif;-inkscape-font-specification:'serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:1;stroke:none;";
+        $style .= "font-size:${fontSize}px;fill:$colour";
+        $transform = "translate(0,$up)";
+        $tspan = $svgXpath->query('//svg:tspan');
+        $tspan->item(0)->setAttribute('style',$style);
+        $tspan->item(0)->firstChild->nodeValue = $text;
+        $textPath = $svgXpath->query('//svg:textPath');
+        $textPath->item(0)->setAttribute('transform',$transform);
+        $svg = simplexml_import_dom($svgDOM);
+        $retval = getSvgFragment($svg, array(), 'scroll', $position, array(), getStroke(null, true));
         $retval['adjustments'] = $adjustments;
+        $retval['position'] = $position;
         $retval = array_merge($retval, getMetaDataFromSVG($svg,'achievement','motto'));
         return $retval;
     }
     return null;
-
 }
 
 function drawCompartment($compartmentNode) {
@@ -307,6 +383,25 @@ function drawCompartment($compartmentNode) {
         return null;
     }
     $adjustments = [];
+    $transform = 'translate(75,0) scale(0.85)';
+    $proper = 'gray';
+    switch ($compType) {
+        case 'castle':
+            $transform = 'translate(50,0) scale(0.9)';
+            break;
+        case 'wall':
+            $proper = 'gules';
+            $transform = 'translate(50,0) scale(0.9)';
+            break;
+        case 'mound':
+            $proper = 'vert';
+            break;
+        case 'pedestal':
+            $transform = 'translate(25,0) scale(0.95)';
+            break;
+        default:
+            break;
+    }
     $fill = null;
     foreach ($compartmentNode->childNodes as $child) {
         switch($child->nodeName) {
@@ -322,20 +417,12 @@ function drawCompartment($compartmentNode) {
                 break;
         }
     }
-    if ($fill == null) {
-        switch ($compType) {
-            case 'mound':
-                $fill = 'vert';
-                break;
-            default:
-                $fill = 'gray';
-                break;
-        }
-    }
+    if ($fill == null) $fill = $proper;
     $retval = getSvgFragment(simplexml_load_file("svg/components/compartments/$compType.svg"), array(), 'compartments', $compType,
         array(), getStroke($fill));
     $retval['fill'] = $fill;
     $retval['adjustments'] = $adjustments;
+    $retval['transform'] = $transform;
     return $retval;
 
 }
@@ -427,3 +514,233 @@ function drawHelmet($helmetNode) {
     return $retval;
 }
 
+
+function getAchievementParts($node, $layout) {
+    $retval = [];
+    $crests = [];
+    $mottoes = [];
+    $adjustments = [];
+    $crestHeight = $node->getAttribute(blazonML::A_KEYTERM);
+
+    foreach ($node->childNodes as $subNode) {
+        switch ($subNode->nodeName) {
+            case blazonML::E_SUPPORTERS:
+                $retval['supports'] = drawSupporters($subNode, $layout);
+                break;
+            case blazonML::E_ORNAMENT:
+                $retval['ornament'] = drawOrnament($subNode);
+                break;
+            case blazonML::E_MANTLING:
+                $retval['mantling'] = drawMantling($subNode);
+                break;
+            case blazonML::E_FRINGE:
+                $retval['fringe'] = drawFringe($subNode, $layout);
+                break;
+            case blazonML::E_COMPARTMENT:
+                $retval['compartment'] = drawCompartment($subNode);
+                break;
+            case blazonML::E_MOTTO:
+                $mottoes[] = drawMotto($subNode, $layout);
+                break;
+            case blazonML::E_SHIELD:
+                foreach ($subNode->childNodes as $child) {
+                    $adjustments[] = $child->getAttribute(blazonML::A_KEYTERM);
+                }
+                break;
+            case blazonML::E_CREST:
+                $crests[] = drawCrest($subNode, $crestHeight);
+                break;
+            default:
+                // not implemented yet
+                break;
+        }
+    }
+    // if all are null, just return empty array
+    $retval['crestHeight'] = $crestHeight;
+    $retval['crests'] = $crests;
+    $retval['mottoes'] = $mottoes;
+    $retval['adjustments'] = $adjustments;
+    return $retval;
+}
+
+/*
+ * return either a 1000x1000 box containing a charge or a helmet
+ * OR a 1000x1800 box if there is a helmet somewhere in the achievement
+ */
+function drawCrest($crest, $crestHeight) {
+    $crestCharges = '';
+    $helmet = '';
+    $torse = '';
+    // Do we have a helmet here?
+    $helmetPresent = false;
+    foreach ($crest->childNodes as $child) {
+        if ($child->nodeName == blazonML::E_HELMET) {
+            $helmetPresent = true;
+            break;
+        }
+    }
+    // Now do the actual drawing
+    foreach ($crest->childNodes as $child) {
+        switch ($child->nodeName) {
+            case blazonML::E_CHARGE:
+                $crestCharges = makeCharge($child, ShieldLayout::square());
+                if (!$helmetPresent && $crestHeight == 'tall-crest') {
+                    $crestCharges = '<g transform="translate(0,800)">' . $crestCharges . '</g>';
+                }
+                break;
+            case blazonML::E_HELMET:
+                $helmetData = drawHelmet($child);
+                $helmet = quickPlace($helmetData['body'], $helmetData['width'], $helmetData['height'], 1000,
+                    1000, 500, 500, rgb($helmetData['fill']), $helmetData['adjustments']);
+                if ($crestHeight == 'tall-crest') {
+                    $helmet = '<g transform="translate(0,800)">' . $helmet . '</g>';
+                }
+                break;
+            case blazonML::E_TORSE:
+                $torseData = drawTorse($child);
+                $torse = quickPlace($torseData['body'], $torseData['width'], $torseData['height'], 1000,
+                    1000, 500, 500, rgb('gray'), $torseData['adjustments']);
+                if ($helmetPresent) {
+                    if ($crestHeight == 'tall-crest') { // tall crest, helmet near bottom
+                        $torse = '<g transform="translate(150,480) scale(0.7)">' . $torse . '</g>';
+                    } else { // short crest, helmet near top
+                        $torse = '<g transform="translate(150,-280) scale(0.7)">' . $torse . '</g>';
+                    }
+                } else { // torse on its own
+                    if ($crestHeight == 'tall-crest') { // tall crest, no helmet
+                        $torse = '<g transform="translate(150,1200) scale(0.7)">' . $torse . '</g>';
+                    } else { // short crest, no helmet
+                        $torse = '<g transform="translate(0,260)">' . $torse . '</g>';
+                    }
+                }
+                break;
+        }
+    }
+    // make sure we have the correct layering
+    return $helmet . $crestCharges . $torse;
+}
+
+function addParts($body, $parts) {
+    global $messages, $options;
+
+    extract($parts); // creates $crests, $crestHeight and other variables
+    // At this point $body contains the shield in a 1000x1200 box, does it have any helmets etc. to add on top?
+
+    $bodyScale = 1;
+    if (count($crests)) {
+        $crestOffsetY = 0;
+        $crestScale = 0.3;
+        $bodyScale = 1.0;
+        if ($crestHeight == 'tall-crest') {
+            $bodyScale = 0.65;
+            $crestScale = 0.275;
+        } elseif ($crestHeight == 'short-crest') {
+            $bodyScale = 0.8;
+            $crestOffsetY = 20;
+        }
+        $bodyWidth = 1000 * $bodyScale;
+        $bodyOffsetX = (1000 - $bodyWidth) / 2;
+        $bodyOffsetY = (1200 * (1 - $bodyScale));
+        $body = "<g transform=\"translate($bodyOffsetX,$bodyOffsetY) scale($bodyScale) \">$body</g>";
+        switch (count($crests)) {
+            case 0:
+                break; // nothing to do
+            case 1:
+                $crestOffsetX = (1000 * (1 - $crestScale)) / 2;
+                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> ${crests[0]}</g>";
+                // TODO add crown if present
+                break;
+            case 2:
+                $w = 1000 * $crestScale;
+                $gap = ($bodyWidth - $w - $w) / 3;
+                $crestOffsetX = $bodyOffsetX + $gap;
+                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> ${crests[0]}</g>";
+                $crestOffsetX = $bodyOffsetX + $gap + $w + $gap;
+                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> ${crests[1]}</g>";
+                // TODO add crown if present
+                break;
+            default:
+                if (count($crests) > 3) {
+                    $messages->addMessage('internal', "3 helmets/crests maximum");
+                }
+                $w = 1000 * $crestScale;
+                $gap = ($bodyWidth - $w - $w - $w) / 4;
+                $crestOffsetX = $bodyOffsetX + $gap;
+                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> ${crests[0]}</g>";
+                $crestOffsetX = $bodyOffsetX + $gap + $w + $gap;
+                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> ${crests[1]}</g>";
+                $crestOffsetX = $bodyOffsetX + $gap + $w + $gap + $w + $gap;
+                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> ${crests[2]}</g>";
+                // TODO add crown if present
+                break;
+        }
+    }
+
+    // We have added any helmets etc, if present, now do we need to adjust the whole thing?
+    if (count($adjustments)) {
+        $body = quickPlace($body, 1000, 1200, 1000, 1200, 500, 600, null, $adjustments);
+    }
+
+    // Ornaments
+    if (isset($ornament)) {
+        // $body = $ornament['body'] . '<g transform="' . $ornament['transform'] . '">' . $body . '</g>';
+        $body = quickPlace($ornament['body'], 1000, 1200, 1000, 1200,
+            500, 600, null, $ornament['adjustments'])
+            . '<g transform="' . $ornament['transform'] . '">' . $body . '</g>';
+    }
+
+    // Mantling
+    if (isset($mantling)) {
+        // $body = $mantling['body'] . '<g transform="' . $mantling['transform'] . '">' . $body . '</g>';
+        $body = quickPlace($mantling['body'], 1000, 1200, 1000, 1200,
+                500, 600, null, $mantling['adjustments'])
+            . '<g transform="' . $mantling['transform'] . '">' . $body . '</g>';
+    }
+
+    // Fringe
+    if (isset($fringe)) {
+        $yPos = '995';
+        if ($layout->shape == 'flag') $yPos = $layout->size->height - 5;
+        $body .= "<g transform=\"translate(0,$yPos)\">$fringe</g>";
+    }
+
+    // Supporters - try to fit in making maximum use of space, so a bit complicated
+    if (isset($supports)) {
+        $supportScale = 0.7 / $bodyScale; // modify internal scaling based on presence of a crest
+        $supportX = (1000 * (1-$supportScale)) / 2;
+        $body = "<g transform=\"translate($supportX,0) scale($supportScale) \">$body</g>$supports";
+        // But might need to scale down if there isn't a compartment
+        if (!isset($compartment)) {
+            $body = '<g transform="translate(50,0) scale(0.9)">' . $body . '</g>';
+        }
+    }
+
+    // specials for pauldrons
+    if (count($mottoes) && $options['shape'] == 'pauldron') {
+        $body = '<g transform="translate(0,-100) ">' . $body . '</g>' . $mottoes[0];
+    }
+
+    if (isset($compartment)) {
+        $scale = 1000 / $compartment['width'];
+        $body = quickPlace($compartment['body'], $compartment['width'], $compartment['height'],
+                1000, 1200, 500,  1200 - ($compartment['height'] * $scale)/2,
+                rgb($compartment['fill']), $compartment['adjustments']) .
+                 '<g transform="' . $compartment['transform'] . '">' . $body . '</g>';
+    }
+
+    foreach($mottoes as $motto) {
+        $position = $motto['position'] ?? 'below';
+        switch ($position) {
+            case 'above':
+                $body .= quickPlace($motto['body'], $motto['width'], $motto['height'],
+                    1000, 200, 500, 105, null, $motto['adjustments']);
+                break;
+            default: // might add some more later
+            case 'below':
+                $body .= quickPlace($motto['body'], $motto['width'], $motto['height'],
+                    1000, 200, 500, 1085, null, $motto['adjustments']);
+                break;
+        }
+    }
+    return $body;
+}

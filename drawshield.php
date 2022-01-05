@@ -145,47 +145,6 @@ if ( $options['blazon'] == '' ) {
 $xpath = new DOMXPath($dom);
 
 /*
- * Update any options that were set in the blazon itself
- */
-$blazonOptions = $xpath->query('//instructions/child::*');
-if (!is_null($blazonOptions)) {
-  for ($i = 0; $i < $blazonOptions->length; $i++) {
-    $blazonOption = $blazonOptions->item($i);
-    switch ($blazonOption->nodeName) {
-      case blazonML::E_COLOURSET:
-          switch ($blazonOption->getAttribute('keyterm')) {
-          case 'web':
-              $options['useWebColours'] = true;
-              break;
-          case 'tartan':
-              $options['useTartanColours'] = true;
-              break;
-          case 'warhammer':
-              $options['useWarhammerColours'] = true;
-              break;
-          default:
-              // just ignore - should probably be an error message
-              break;
-          }
-          break;
-
-      case blazonML::E_SHAPE:
-        $options['shape'] = $blazonOption->getAttribute('keyterm');
-        break;
-      case blazonML::E_PALETTE:
-        $options['palette'] = $blazonOption->getAttribute('keyterm');
-        break;
-      case blazonML::E_EFFECT:
-        $options['effect'] = $blazonOption->getAttribute('keyterm');
-        break;
-      case blazonML::E_ASPECT:
-        $ar = $blazonOption->getAttribute('keyterm');
-        break;
-    }
-  }
-}
-
-/*
  * General options tidy-up
  */
 if ($options['asFile']) {
@@ -194,21 +153,8 @@ if ($options['asFile']) {
 }
 // Minimum sensible size
 if ( $options['size'] < 100 ) $options['size'] = 100;
-if (!array_key_exists('shape',$options)) {
-    $options['shape'] = 'heater';
-} elseif (in_array($options['shape'],array('circular','round'))) {
-    // Synonyms for circle shape
-    $options['shape'] = 'circle';
-} elseif ($options['shape'] == 'flag') {
-    if ($ar != null) {
-      $options['aspectRatio'] = calculateAR($ar);
-    }
-    $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
-}
 
-
-if ($options['palette'] == 'default') $options['palette'] = 'drawshield';
-
+tidyOptions();;
   // Read in the drawing code  ( All formats start out as SVG )
 
 

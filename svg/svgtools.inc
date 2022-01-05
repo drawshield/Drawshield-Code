@@ -85,7 +85,7 @@ function splitStyle ( $styles, $attributeKeys, $strokeCol, $strokeWidth ) {
        if ( array_key_exists("raw",$options) ) {
           $retval .= ' fill="' . $value . '" '; // leave alone
        } else {
-            if (in_array(strtolower($value), $strokeColours)) {
+            if ($strokeColours && in_array(strtolower($value), $strokeColours)) {
                 $retval .= 'fill="' . $strokeCol . '" ';
           // Any of the "primary" colours are just placeholders, to be replaced by the charge colour
             } elseif (!in_array( $value, $targetColours )) {
@@ -146,6 +146,7 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
       case 'style':
         $style = splitStyle( $data, $existingAttributes, $strokeCol, $strokeWidth);
         break;
+      case 'xlink:href':
       case 'href':
         $retval .= 'xlink:href="' . $data . '" ';
         break;
@@ -351,7 +352,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
 
 
   $item = "<$name ";
-    if ($id == 'textPath') $item .= ' id="textPath" '; // need this for the motto
+    if (substr($id, 0, 8) == 'textPath') $item .= ' id="' . $id . '" '; // need this for the motto
     if ($id != null && substr($id, 0, 4) != 'path' && substr($id, 0, 5) != 'group') {
     // We allow multiple features with numeric flags at the end
     $len = strlen($id);
@@ -378,7 +379,8 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
   if ( !$visible )
     return '';
 
-  $item .= rewriteAttributes($element->attributes(), $strokeCol, $strokeWidth, $class, $fillSet);
+   $item .= rewriteAttributes($element->attributes(), $strokeCol, $strokeWidth, $class, $fillSet);
+    $item .= rewriteAttributes($element->attributes("xlink",true), $strokeCol, $strokeWidth );
   $subitem = '';
   if ( $name == 'text' or $name == 'tspan' or $name == 'textPath' ) {
       // We need to preserve some of the important text related attributes

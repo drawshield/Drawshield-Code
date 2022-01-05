@@ -29,76 +29,54 @@ class englishGrammar extends grammar
         $this->stateStore->flush();
         $this->phraseMatcher->getMatchedTokens(true);
         $count = 0;
+        $complex = null;
         $node = null;
+        $shields = [];
         $stackedInput = null; // temporary store to try out ignoring words
-        while (true) {
+        while (true) { // this is the retry loop for unrecognised words
             if ($count++ > $this->tokenList->num_tokens) {
                 // echo "<p>loop error</p>\n";
                 break;
             }
+            $achievementList = [];
             // Try to find complete shield
             /**
              * @var DOMElement $node
              */
             self::ignore(languageDB::BOT_COMMAND);
-            self::drawn(); // allow shapes etc. to be given first, if required
-            self::semicolon();
-            self::comma();
-            $node = self::shield();
-            self::semicolon();
-            if (($overall = self::overall(true)) != null)
-                $node->appendChild($overall);
-            do {
-                $found = false;
-                if (($mantle = self::mantling()) != null) {
-                    $found = true;
-                    $this->addAchievement($mantle);
-                } elseif (($support = self::supporters()) != null) {
-                    $found = true;
-                    $this->addAchievement($support);
-                } elseif (($motto = self::motto()) != null) {
-                    $found = true;
-                    $this->addAchievement($motto);
-                } elseif (($crest = self::crest()) != null) {
-                    $found = true;
-                    $this->addAchievement($crest);
-                } elseif (($compartment = self::compartment()) != null) {
-                    $found = true;
-                    $this->addAchievement($compartment);
-                } elseif (($fringe = self::fringe()) != null) {
-                    $found = true;
-                    $this->addAchievement($fringe);
-                } elseif (($helmet = self::helmet()) != null) {
-                    $found = true;
-                    if (($torse = self::torse()) != null) {
-                        $helmet->appendChild($torse);
-                    }
-                    $this->addAchievement($helmet);
-                } elseif (self::find(languageDB::SHIELD)) {
-                    if (($adjust = $this->getAdjustments()) != null) {
-                        $shieldNode = $this->schema->makeNode(blazonML::E_SHIELD, array( blazonML::A_KEYTERM => 'shield'));
-                        foreach ($adjust as $adj) {
-                            $shieldNode->appendChild($adj);
-                        }
-                        $this->addAchievement($shieldNode);
-                    }
-                } elseif (self::find(languageDB::ACHIEVEMENT)) {
-                    self::ignore(languageDB::WORD_OF);
-                    if (($church = self::ecclesiastic()) != null) {
-                        $this->addAchievement($church);
-                    } else {
-                        $this->addAchievement(null);
-                    }
-                    $found = true;
-                } elseif (self::drawn()) {
-                    $found = true;
+            while (true) { // This is the loop for >1 shield per achievement
+                $preInstructions = self::drawn(); // allow shapes etc. to be given first, if required
+                self::semicolon();
+                self::comma();
+                $node = self::shield();
+                if ($preInstructions)
+                    $node->appendChild($preInstructions);
+                self::semicolon();
+                if (($overall = self::overall(true)) != null)
+                    $node->appendChild($overall);
+                // Look for things that _can_ be part of the shield
+                if (($shieldParts = $this->achievement(false)) != null) {
+                    $node->appendChild($shieldParts);
                 }
-                if ($found) {
-                    self::comma();
-                    self::ignore(languageDB::ANDD);
-                    self::ignore(languageDB::WITH);
+                // if not already found drawing instructions look again
+                if (!$preInstructions && ($instructions = self::drawn()) != null) {
+                    $node->appendChild($instructions);
                 }
-            } while ($found);
+                $shields[] = $node;
+                // Found one shield, maybe with instructions and stuff, look for another
+                $alongside = self::find(languageDB::ALONGSIDE);
+                if (!$alongside) {
+                    break;
+                }
+                $complex = $this->schema->makeNode(blazonML::E_COMPLEX, array( blazonML::A_KEYTERM => $alongside));
+            }
+            // Found all the shields, now look for achievements (if any)
+            while (($achievement = $this->achievement(true)) != null) {
+                $achievementList[] = $achievement;
+            }
+            // and any instructions that come after the final achievements
+            $instructions = self::drawn();
+
             // If last word (or only) is ignored, can't go further
             $lastEntry = $this->tokenList->num_tokens - 1;
             if ($lastEntry < 0 || $this->tokenList->words[$lastEntry][0] == '[')
@@ -127,7 +105,164 @@ class englishGrammar extends grammar
                 break; // All input consumed, success!
             }
         }
-        return $node;
+        if (is_null($complex)) {
+            foreach ($achievementList as $achievement ) {
+                if (!is_null($achievement) && $achievement->hasChildNodes()) {
+                    $node->appendChild($achievement);
+                }
+            }
+            if (!is_null($instructions) && $instructions->hasChildNodes()) {
+                $node->appendChild($instructions);
+            }
+            return $node;
+        } else {
+            $index = 1;
+            foreach($shields as $shield) {
+                $shield->setAttribute(blazonML::A_INDEX, $index++);
+                $complex->appendChild($shield);
+            }
+            foreach ($achievementList as $achievement ) {
+                if (!is_null($achievement) && $achievement->hasChildNodes()) {
+                    $complex->appendChild($achievement);
+                }
+            }
+            if (!is_null($instructions) && $instructions->hasChildNodes()) {
+                $complex->appendChild($instructions);
+            }
+            return $complex;
+        }
+    }
+
+    protected function achievement($allowAll = false)
+    {
+        // switch between only things on a shield and everything
+        $crests = [];
+        $helmets = [];
+        $torses = [];
+        $crestHeight = 'no-crest';
+        $achievement = $this->schema->makeNode(blazonML::E_ACHIEVEMENT);
+        $thisHelmet = null;
+        $thisCrest = null;
+        $thisTorse = null;
+
+        // All the following can only occur once per achievement (but can cause a new "outer" achiecvement to be created)
+        $singleItems = [];
+
+        do { // Order is important here - look for charge LAST so as not to confuse with helmet or torse
+            $found = false;
+            if (!in_array('mantling', $singleItems) && ($mantle = self::mantling()) != null) {
+                $found = true;
+                $singleItems[] = 'mantling';
+                $achievement->appendChild($mantle);
+            } elseif (!in_array('supports', $singleItems) && ($support = self::supporters()) != null) {
+                $found = true;
+                $achievement->appendChild($support);
+                $singleItems[] = 'supports';
+            } elseif (($motto = self::motto()) != null) {
+                $found = true;
+                $achievement->appendChild($motto);
+            } elseif (!in_array('ornament', $singleItems) && (($ornament = self::ornaments()) != null)) {
+                $found = true;
+                // this might just be a marker for helmets etc. or it might be a group
+                if (is_object($ornament)) {
+                    $achievement->appendChild($ornament);
+                    $singleItems[] = 'ornament';
+                }
+            } elseif (($crest = self::find(languageDB::CREST)) != null) {
+                $found = true;
+                if ($crest == 'no-crest') { // this helmet has no crest, move on
+                    $thisCrest = 'no-crest';
+                } else { // if ($crest == 'crest')
+                    if (!is_null($thisCrest)) { // already go a crest, so move on
+                        $crests[] = $thisCrest;
+                        $torses[] = $thisTorse; $thisTorse = null;
+                        $helmets[] = $thisHelmet; $thisHelmet = null;
+                    }
+                    $thisCrest = $this->schema->makeNode(blazonML::E_CREST,
+                        array(blazonML::A_KEYTERM => 'group'));
+                }
+            } elseif (!in_array('compartment', $singleItems) && ($compartment = self::compartment()) != null) {
+                $found = true;
+                $achievement->appendChild($compartment);
+                $singleItems[] = 'compartment';
+            } elseif (($fringe = self::fringe()) != null) {
+                $found = true;
+                $achievement->appendChild($fringe);
+            } elseif (($torse = self::torse()) != null) {
+                $found = true;
+                if (!is_null($thisTorse)) {
+                    self::raiseError(self::ERROR_ORIGIN, "Only one torse per crest");
+                } else {
+                   $thisTorse = $torse;
+                }
+            } elseif (($helmet = self::helmet()) != null) {
+                $found = true;
+                if (!is_null($thisHelmet)) { // already got a helmet, so move on
+                    $crests[] = $thisCrest; $thisCrest = null;
+                    $torses[] = $thisTorse; $thisTorse = null;
+                    $helmets[] = $thisHelmet;
+                }
+                $thisHelmet = $helmet;
+            } elseif (self::find(languageDB::SHIELD)) {
+                if (($adjust = $this->getAdjustments()) != null) {
+                    $shieldNode = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_KEYTERM => 'shield'));
+                    foreach ($adjust as $adj) {
+                        $shieldNode->appendChild($adj);
+                    }
+                    $achievement->appendChild($shieldNode);
+                }
+            } elseif (($charge = self::charge(true,false,false)) != null) {
+                $found = true;
+                if (is_null($thisCrest)) {
+                    $thisCrest = $this->schema->makeNode(blazonML::E_CREST,
+                        array(blazonML::A_KEYTERM => 'group'));
+                }
+                $thisCrest->appendChild($charge);
+            } elseif (!in_array('achievement', $singleItems) && self::find(languageDB::ACHIEVEMENT)) {
+                    // this is OK, it is just a marker between the shield and the achievements
+                    $singleItems[] = 'achievement';
+                    $found = true;
+            }
+            if ($found) {
+                self::comma();
+                self::ignore(languageDB::ANDD);
+                self::ignore(languageDB::WITH);
+            }
+        } while ($found);
+        // Finish off any pending crest bits
+        if (!is_null($thisHelmet) || !is_null($thisCrest) || !is_null($thisTorse)) {
+            $crests[] = $thisCrest;
+            $helmets[] = $thisHelmet;
+            $torses[] = $thisTorse;
+        }
+        // Now sort all the crests, helmets and torses into groups (up to 3)
+        $numCrests = max(count($crests), count($helmets), count($torses));
+        if ($numCrests) $crestHeight = 'short-crest'; // unless we find out more later
+        for ($i = 0; $i < $numCrests; $i++) {
+            // replace explicit no crest with null
+            if (isset($crests[$i]) && $crests[$i] == 'no-crest') $crests[$i] = null;
+            if (isset($crests[$i]) && is_object($crests[$i]) && !$crests[$i]->hasChildNodes()) $crests[$i] = null;
+            if (isset($crests[$i]) && isset($helmets[$i])) {
+                $crestHeight = 'tall-crest';
+            }
+            if (!isset($crests[$i])) {
+                $crests[$i] = $this->schema->makeNode(blazonML::E_CREST,
+                    array(blazonML::A_KEYTERM => 'group'));
+            }
+            if (isset($helmets[$i])) {
+                $crests[$i]->appendChild($helmets[$i]);
+            }
+            if (isset($torses[$i])) {
+                $crests[$i]->appendChild($torses[$i]);
+            }
+            if ($crests[$i]->hasChildNodes()) $achievement->appendChild($crests[$i]);
+        }
+        if ($achievement->hasChildNodes()) {
+            $achievement->setAttribute(blazonML::A_KEYTERM, $crestHeight);
+            //        return ['instructions' => $instructions, 'achievement' => $achievement];
+            return $achievement;
+        } // else
+        return null;
     }
 
     /**
@@ -155,17 +290,18 @@ class englishGrammar extends grammar
         return $node;
     }
 
+    // To add more debug options add them to lexicon.inc under drawn mods
+    // then add the keyword under case 'grid':
     protected function drawn()
     {
-        global $options;
-
         $found = true;
+        $debugOptions = [];
+        $instructions = $this->schema->makeNode(blazonML::E_INSTRUCTIONS);
         while ($found) {
             $found = false;
             self::ignore(languageDB::USING);
             if ($option = self::find(LanguageDB::DRAWN_MODS)) {
                 $elementName = null;
-                $colour = null;
                 $value = strtolower($this->phraseMatcher->getValue());
                 switch ($option) {
                     case 'colours':
@@ -180,6 +316,9 @@ class englishGrammar extends grammar
                     case 'shape':
                         $elementName = blazonML::E_SHAPE;
                         break;
+                    case 'grid':
+                        $debugOptions[] = $option;
+                        break;
                     case 'aspect':
                         // $value = calculateAR($value);
                         $elementName = blazonML::E_ASPECT;
@@ -191,13 +330,21 @@ class englishGrammar extends grammar
                         self::tokens(),
                         self::lineNo()
                     );
-                    $this->addInstruction($node);
+                    $instructions->appendChild($node);
                 }
                 $found = true;
             }
             self::ignore(languageDB::ANDD);
         }
-        return $found;
+        if (count($debugOptions)) {
+            $node = $this->schema->makeNode(blazonML::E_DEBUG, array(
+                blazonML::A_KEYTERM => implode(',', $debugOptions)) );
+            $instructions->appendChild($node);
+        }
+        if ($instructions->hasChildNodes()) {
+            return $instructions;
+        } // else
+        return null;
     }
 
     private function chief_on($chief_ordinary)
@@ -275,6 +422,11 @@ class englishGrammar extends grammar
             }
             $node = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
             $node->appendChild($simple);
+            if (($adjust = $this->getAdjustments()) != null) {
+                foreach ($adjust as $adj) {
+                    $node->appendChild($adj);
+                }
+            }
         }
         if ($node == null)
             self::restore($state);
@@ -294,7 +446,6 @@ class englishGrammar extends grammar
          */
         $checkOverAllParts = false;
         $node1 = null;
-        //$node1 = builtin(); // TODO re-instate built in database
         if ($node1 == null) $node1 = self::quartered();
         if ($node1 != null) { // found a quartering, check for over all the parts
             $checkOverAllParts = true;
@@ -1663,7 +1814,10 @@ class englishGrammar extends grammar
             $node->appendChild($this->schema->makeMod(languageDB::INVERSE, null, languageDB::INVERSE, self::tokens(), self::lineNo()));
         }
     }
-    self::discard($state);
+ /*   if (self::find(languageDB::DISPLACED)) {
+        $node->appendChild($this->schema->makeMod(languageDB::DISPLACED, null, languageDB::DISPLACED, self::tokens(), self::lineNo()));
+    } */
+      self::discard($state);
     return $node;
   }
 
@@ -1736,6 +1890,12 @@ class englishGrammar extends grammar
     return $node;
   }
 
+  /*
+   * This function has 4 return possibilities
+   * null - nothing found
+   * 'crest' - marker to move on to next crest
+   * 'no-crest
+   */
   protected function crest() {
     if (($type = self::find(languageDB::CREST)) == null) {
       return;
@@ -1785,21 +1945,107 @@ class englishGrammar extends grammar
         return $compartmentNode;
     }
 
-    protected function ecclesiastic() {
-        if (($type = self::find(languageDB::ECCLESIASTIC)) == null) {
-            return;
+    protected function ornaments() {
+        // This function has 3 possible return values:
+        // Null - nothing found
+        // True - the word "ornament" on its own
+        // A node representing a specific group of ornaments
+        if (!self::find(languageDB::ORNAMENT)) return null;
+        $ornamentNode = true;
+
+        self::ignore(languageDB::WORD_OF);
+        self::ignore(languageDB::SIGNIFIER);
+        $tradition = self::find(languageDB::TRADITION);
+
+        // try some actual hits now
+        if (($churchRole = self::find(languageDB::ECCLESIASTIC)) != null) {
+            if (!$tradition) $tradition = 'catholic';
+            $ornamentNode = $this->schema->makeNode(blazonML::E_ORNAMENT, array (
+                blazonML::A_KEYTERM => "$tradition/$churchRole"),
+                self::tokens(),
+                self::lineNo()
+            );
+            if (($tincNode = self::tincture()) != null) {
+                self::raiseError(self::ERROR_ORIGIN,"Ecclesiastic ornaments have fixed colours", true);
+                $ornamentNode->appendChild($tincNode);
+            }
+        } // else look for other types of ornament
+
+        if ($ornamentNode != null && ($adjust = $this->getAdjustments()) != null) {
+            foreach ($adjust as $adj) {
+                $ornamentNode->appendChild($adj);
+            }
         }
-        $mantlingNode = $this->schema->makeNode(blazonML::E_MANTLING, array (
+        return $ornamentNode;
+    }
+
+
+    protected function mantling()
+    {
+        $gotMantling = self::find(languageDB::MANTLING);
+        if ($gotMantling) {
+            self::ignore(languageDB::WORD_OF);
+            self::ignore(languageDB::SIGNIFIER);
+        }
+        $type = self::find(languageDB::MANTLES);
+        if ($type == null && $gotMantling == null)
+            return null; // nothing found
+        if ($type == null)
+            $type = 'ribbons';
+        $pavilion = '';
+        $crowned = '';
+        do {
+            $found = false;
+            $mods = self::find(languageDB::MANTLING_MODS);
+            if ($mods != null) {
+                $found = true;
+                if ($mods == 'pavilion') $pavilion = '-pavilion';
+                elseif ($mods == 'crowned') $crowned = '-crowned';
+            }
+        } while ($found);
+        if (!$gotMantling)
+            self::ignore(languageDB::MANTLING);
+
+        $type .= $pavilion . $crowned;
+
+        $mantlingNode = $this->schema->makeNode(blazonML::E_MANTLING, array(
             blazonML::A_KEYTERM => $type),
             self::tokens(),
             self::lineno());
-        if (($tincNode = self::tincture()) != null) {
-            $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
-                    blazonML::A_KEYTERM => 'default'));
-            $locNode->appendChild($tincNode);
-            $mantlingNode->appendChild($locNode);
+        $locNode = null;
+        if ($type == 'ribbons' || substr($type, 0, 5) == 'cloak') { // have complex colour scheme
+            while (true) {
+                if (($loc = self::find(languageDB::ACHIEVEMENT_LOC)) != null) {
+                    $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array(
+                        blazonML::A_KEYTERM => $loc
+                    ),
+                        self::tokens(),
+                        self::lineno()
+                    );
+                }
+                $tinctures = [];
+                while (($tincNode = self::tincture()) != null) {
+                    $tinctures[] = $tincNode;
+                    self::ignore(languageDB::LINING);
+                }
+                if (count($tinctures)) { // found some colours
+                    if ($locNode == null) { // use a default location
+                        $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array(
+                            blazonML::A_KEYTERM => 'default'));
+                    }
+                    foreach ($tinctures as $tincture)
+                        $locNode->appendChild($tincture);
+                    $mantlingNode->appendChild($locNode);
+                } else {
+                    break;
+                }
+                self::ignore(languageDB::ANDD);
+            }
+        } else {
+            if (self::tincture()) {
+                self::raiseError(self::ERROR_ORIGIN, "Given mantling has fixed colours", true);
+            }
         }
-
         if (($adjust = $this->getAdjustments()) != null) {
             foreach ($adjust as $adj) {
                 $mantlingNode->appendChild($adj);
@@ -1807,50 +2053,6 @@ class englishGrammar extends grammar
         }
         return $mantlingNode;
     }
-
-  protected function mantling() {
-    if (($type = self::find(languageDB::MANTLING)) == null) {
-      return;
-    }
-    $mantlingNode = $this->schema->makeNode(blazonML::E_MANTLING, array (
-      blazonML::A_KEYTERM => $type),
-      self::tokens(),
-      self::lineno());
-    $locNode = null;
-    while (true) {
-      if (($loc = self::find(languageDB::ACHIEVEMENT_LOC)) != null) {
-        $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
-            blazonML::A_KEYTERM => $loc 
-          ),
-          self::tokens(),
-          self::lineno()
-        );
-      }
-      $tinctures = [];
-      while (($tincNode = self::tincture()) != null) {
-        $tinctures[] = $tincNode;
-        self::ignore(languageDB::ANDD);
-      }
-      if (count($tinctures)) { // found some colours
-        if ($locNode == null) { // use a default location
-          $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
-              blazonML::A_KEYTERM => 'default'));
-        }
-        foreach($tinctures as $tincture) 
-          $locNode->appendChild($tincture);
-        $mantlingNode->appendChild($locNode);
-      } else {
-        break;
-      }
-      self::ignore(languageDB::ANDD);
-    }
-      if (($adjust = $this->getAdjustments()) != null) {
-          foreach ($adjust as $adj) {
-              $mantlingNode->appendChild($adj);
-          }
-      }
-    return $mantlingNode;
-  }
 
     protected function supporters() {
         if (($type = self::find(languageDB::SUPPORTERS)) == null) {
@@ -1895,71 +2097,49 @@ class englishGrammar extends grammar
         return $supportNode;
     }
 
-  protected function torse() {
-    if (($type = self::find(languageDB::TORSE)) == null) {
-      return '';
-    }
-    $torseNode = $this->schema->makeNode(blazonML::E_TORSE, array (
-      blazonML::A_KEYTERM => $type),
-      self::tokens(),
-      self::lineno());
-    $locNode = null;
-    while (true) {
-      if (($loc = self::find(languageDB::ACHIEVEMENT_LOC)) != null) {
-        $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
-            blazonML::A_KEYTERM => $loc 
-          ),
-          self::tokens(),
-          self::lineno()
-        );
-      }
-      $tinctures = [];
-      while (($tincNode = self::tincture()) != null) {
-        $tinctures[] = $tincNode;
-        self::ignore(languageDB::ANDD);
-      }
-      if (count($tinctures)) { // found some colours
-        if ($locNode == null) { // use a default location
-          $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
-              blazonML::A_KEYTERM => 'default'));
+    protected function torse() {
+        if (($type = self::find(languageDB::TORSE)) == null) {
+            return null;
         }
-        foreach($tinctures as $tincture) 
-          $locNode->appendChild($tincture);
-        $torseNode->appendChild($locNode);
-      } else {
-        break;
-      }
-      if (($adjust = $this->getAdjustments()) != null) {
-          $torseNode->appendChild($adjust);
-      }
-      self::ignore(languageDB::ANDD);
+        $torseNode = $this->schema->makeNode(blazonML::E_TORSE, array(
+            blazonML::A_KEYTERM => $type),
+            self::tokens(),
+            self::lineno());
+        while (($tincNode = self::tincture()) != null) {
+            $torseNode->appendChild($tincNode);
+            self::ignore(languageDB::ANDD);
+        }
+        if (($adjust = $this->getAdjustments()) != null) {
+            foreach ($adjust as $adj) {
+                $torseNode->appendChild($adj);
+            }
+        }
+        return $torseNode;
     }
 
-    return $torseNode;
-  }
-
-  protected function motto() {
-    if (!self::find(languageDB::MOTTO)) {
-      return null;
+    protected function motto()
+    {
+        if (($keyterm = self::find(languageDB::MOTTO)) == null) {
+            return null;
+        }
+        $text = $this->phraseMatcher->getValue();
+        $mottoNode = $this->schema->makeNode(blazonML::E_MOTTO, array(
+            blazonML::A_KEYTERM => $keyterm,  // expansion to other styles?
+            blazonML::A_TEXT => $text
+        ),
+            self::tokens(),
+            self::lineno()
+        );
+        if (($colour = self::colour()) != null) {
+            $mottoNode->appendChild($colour);
+        }
+        if (($adjust = $this->getAdjustments()) != null) {
+            foreach ($adjust as $adj) {
+                $mottoNode->appendChild($adj);
+            }
+        }
+        return $mottoNode;
     }
-    $text = $this->phraseMatcher->getValue();
-    $mottoNode = $this->schema->makeNode(blazonML::E_MOTTO, array (
-      blazonML::A_KEYTERM => 'plain',  // expansion to other styles? 
-      blazonML::A_TEXT => $text
-      ),
-      self::tokens(),
-      self::lineno()
-    );
-    if (($colour = self::colour()) != null) {
-        $mottoNode->appendChild($colour);
-    }
-      if (($adjust = $this->getAdjustments()) != null) {
-          foreach ($adjust as $adj) {
-              $mottoNode->appendChild($adj);
-          }
-      }
-    return $mottoNode;
-  }
 
     protected function fringe() {
         if (!self::find(languageDB::FRINGED)) {

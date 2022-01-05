@@ -100,7 +100,10 @@ function rgb($keyterm) {
     list($type,$name) = explode('/',$keyterm);
 
     if (array_key_exists($keyterm, $tinctures)) {
-        return TinctureData::fix_url($tinctures[$keyterm]);
+        // in case of a mismatch between the parser and the tincture file
+        $retval = TinctureData::fix_url($tinctures[$keyterm]);
+        if (empty($retval)) $retval = '#eeeeee';
+        return $retval;
     } else {
         switch($type) {
           case 'heraldic': // should not happen
