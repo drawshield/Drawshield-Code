@@ -34,7 +34,7 @@ if ( existModifierWithKeyterm($node,'compony1') )
   elseif (existModifierWithKeyterm($node,'compony2') )
     $ordinary['body2'] = '<path d="M150,0h350v150h-350z M500,150h350v150h-350z M150,300h350v150h-350z M500,450h350v150h-350z M150,600h350v150h-350z M500,750h350v150h-350z M150,900h350v150h-350z M500,1050h350v150h-350z " />';
 
-$ordinary['chargesOn'] = '300,{%10},400,{%80*}';
+$ordinary['chargesOn'] = array('v', '300,{%10},400,{%80*}');
 
 // TODO for flags
 $ordinary['chargesWithin'] = 'x/125,550,200,800:875,550/x/125,383.33,200,350:125,716.67:875,383.33:875,716.67/x/125,200,250,200:125,550:125,800:875,200:875,550:875,800';

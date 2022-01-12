@@ -170,7 +170,8 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
         $penalty += $currentRNPPenalty;
         // Some things we don't really care about
           // english is the default tradition, so no worries if it is not found
-        if (!in_array($requiredParts[$i], array('english', 'voided', 'upper', 'lower', 'half', 'demi', 'entire', 'head', 'leg', 'reversed', 'inverted' ))) {
+        if (!in_array($requiredParts[$i], array('english', 'voided', 'upper', 'lower', 'half', 'demi',
+            'winged', 'entire', 'head', 'leg', 'reversed', 'inverted' ))) {
           $missing .= $requiredParts[$i] . ' ';
         }
       }

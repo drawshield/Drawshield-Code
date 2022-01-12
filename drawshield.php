@@ -153,7 +153,9 @@ if ($options['asFile']) {
 }
 // Minimum sensible size
 if ( $options['size'] < 100 ) $options['size'] = 100;
-
+if ($ar != null) {
+    $options['aspectRatio'] = calculateAR($ar);
+}
 tidyOptions();;
   // Read in the drawing code  ( All formats start out as SVG )
 
