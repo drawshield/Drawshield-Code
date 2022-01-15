@@ -66,5 +66,13 @@ class messageStore {
       }
     }
   }
+
+  public function getCredits($format = 'html') {
+      $retval = '';
+      foreach($this->messages['licence'] as $message) {
+         $retval .= "<p>" . $message . "</p>\n";
+      }
+      return $retval;
+  }
 }
 

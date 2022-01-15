@@ -110,7 +110,7 @@ function makeAlongside(DOMNode $node, $layout)
             $clipShield = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />');
             $shield = '<g mask="url(#' . $clipShield . ')">' . $shield . '</g>';
             $shield .= '<path fill="none" stroke="#848484" stroke-width="4" d="' . $outline . '" />';
-            if ($options['effect'] == 'inked')
+            if ($options['effect'] == 'inked' || $options['asFile'] == 'printable' )
                 $shield .= '<path fill="none" stroke="#000000" stroke-width="4" d="' . $outline . '" />';
             foreach($kid->childNodes as $grandchild) {
                 if ($grandchild->nodeName == blazonML::E_ACHIEVEMENT) {
