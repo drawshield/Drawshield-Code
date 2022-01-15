@@ -605,7 +605,7 @@ function drawCrest($crest, $crestHeight) {
                     1000, 500, 500, rgb('gray'), $torseData['adjustments']);
                 if ($helmetPresent) {
                     if ($crestHeight == 'tall-crest') { // tall crest, helmet near bottom
-                        $torse = '<g transform="translate(150,480) scale(0.7)">' . $torse . '</g>';
+                        $torse = '<g transform="translate(150,515) scale(0.7)">' . $torse . '</g>';
                     } else { // short crest, helmet near top
                         $torse = '<g transform="translate(150,-280) scale(0.7)">' . $torse . '</g>';
                     }
@@ -635,8 +635,9 @@ function addParts($body, $parts) {
         $crestScale = 0.3;
         $bodyScale = 1.0;
         if ($crestHeight == 'tall-crest') {
-            $bodyScale = 0.65;
-            $crestScale = 0.275;
+            $bodyScale = 0.8;
+            $crestScale = 0.3;
+            $crestOffsetY = -200;
         } elseif ($crestHeight == 'short-crest') {
             $bodyScale = 0.8;
             $crestOffsetY = 20;
