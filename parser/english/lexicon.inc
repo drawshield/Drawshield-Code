@@ -105,6 +105,9 @@ class languageDB extends lexicon
     const SUPPORTERS = 'supporters';
     const ACHIEVEMENT_LOC = 'achievement_loc';
     const MOTTO = 'motto';
+    const MOTTO_POSITION = 'motto_pos';
+    const MOTTO_TYPE = 'motto_type';
+    const MOTTO_TEXT = 'motto_tet';
     const CREST = 'crest';
     const TORSE = 'torse';
     const HELMET = 'helmet';
@@ -248,9 +251,20 @@ class languageDB extends lexicon
                 array('?(the|a|an) (peer|lord)s? helm(et)', 'peer'),
             ),
             self::MOTTO => array (
-                array('?with ?the (motto|devi[sc]e) *', 'below'),
-                array('?with ?the (motto|devi[sc]e) below *', 'below'),
-                array('?with ?the (motto|devi[sc]e) above *', 'above'),
+                array('(motto|devi[sc]e)', 'motto'),
+            ),
+            self::MOTTO_TEXT => array (
+                array ('*', self::MOTTO_TEXT),
+            ),
+            self::MOTTO_POSITION => array (
+                array ('above', 'above'),
+                array ('(at|on) ?the top', 'above'),
+                array ('below', 'below'),
+                array ('(at|on) ?the bottom', 'below'),
+            ),
+            self::MOTTO_TYPE => array (
+              array ('ribbons?', 'ribbon' ),
+                array ('scrolls?', 'scroll' ),
             ),
             self::BLAZONED => array('(em)blazoned ?(with|of)', 'with ?(a|the) blazon ?of'),
             self::SPLITS => array(

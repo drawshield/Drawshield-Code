@@ -334,7 +334,7 @@ function drawMotto($mottoNode, $layout) {
     }
     if ($options['shape'] == 'pauldron') {
         $builder = new WordBuilder('hooge');
-        $svgText = file_get_contents("svg/components/scroll/plaque.svg");
+        $svgText = file_get_contents("svg/components/motto/plaque.svg");
         $svgText .= "<g transform=\"translate(50,1000)\">\n" .
         $builder->fitWordsToRect($text, 160, 900, $colour) . "</g>\n";
         $svgText = '<g transform="scale(0.9,0.9) translate(50,180)">' . $svgText . "</g>\n";
@@ -353,7 +353,10 @@ function drawMotto($mottoNode, $layout) {
             }
         }
         $svgDOM = new DOMDocument;
-        $svgDOM->load("svg/components/scroll/$position.svg");
+        $svgDOM->load("svg/components/motto/$position.svg");
+        if (($dash = strpos($position,'-')) > 0) {
+            $position = substr($position,$dash + 1);
+        }
         $svgXpath = new DOMXPath($svgDOM);
         $text = htmlentities($text, ENT_XML1);
         $style = "font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:serif;-inkscape-font-specification:'serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:1;stroke:none;";
@@ -365,7 +368,7 @@ function drawMotto($mottoNode, $layout) {
         $textPath = $svgXpath->query('//svg:textPath');
         $textPath->item(0)->setAttribute('transform',$transform);
         $svg = simplexml_import_dom($svgDOM);
-        $retval = getSvgFragment($svg, array(), 'scroll', $position, array(), getStroke(null, true));
+        $retval = getSvgFragment($svg, array(), 'motto', $position, array(), getStroke(null, true));
         $retval['adjustments'] = $adjustments;
         $retval['position'] = $position;
         $retval = array_merge($retval, getMetaDataFromSVG($svg,'achievement','motto'));
