@@ -211,7 +211,7 @@ class englishGrammar extends grammar
                     }
                     $achievement->appendChild($shieldNode);
                 }
-            } elseif (($charge = self::charge(true,false,false)) != null) {
+            } elseif (($charge = self::charge(true,true,false)) != null) {
                 $found = true;
                 if (is_null($thisCrest)) {
                     $thisCrest = $this->schema->makeNode(blazonML::E_CREST,
