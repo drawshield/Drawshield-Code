@@ -57,7 +57,7 @@ function getPropertyValuePairs($string) {
         } else {
           $state = PREPROPERTY;
           $retval[$property] = $value;
-          // error_log("Found $property as $value");
+//          error_log("Found $property as $value");
           $property = '';
           $value = '';
         }
@@ -66,7 +66,7 @@ function getPropertyValuePairs($string) {
   }
   if ($property && $value) {
     $retval[$property] = $value;
-    // error_log("Found $property as $value");
+//     error_log("Found $property as $value");
   }
   return $retval;
 }
@@ -606,7 +606,11 @@ function getCharge( DOMElement $node, $layout ) {
       if ( $charge_col->hasChildNodes()) {
         $col_type = $charge_col->firstChild;
         if ( $col_type->nodeName == 'proper' ) {
-          $body_col = getProper($chargeGroup, $chargeName, null, !$chg_data['verbatim'] );
+            if (isset($chg_data['proper'])) { // TODO handle proper as an array, with this one as 'body'
+                $body_col = rgb($chg_data['proper']);
+            } else {
+                $body_col = getProper($chargeGroup, $chargeName, null, !$chg_data['verbatim']);
+            }
           $col_type->setAttribute('spec', $body_col);
           $feat_cols['proper'] = true; // Also use proper for any features not coloured explicitly
         }

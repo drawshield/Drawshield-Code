@@ -2119,10 +2119,34 @@ class englishGrammar extends grammar
 
     protected function motto()
     {
-        if (($keyterm = self::find(languageDB::MOTTO)) == null) {
+        $type = '';
+        $position = '';
+        $text = '';
+
+        $type = self::find(languageDB::MOTTO_TYPE);
+        $keyterm = self::find(languageDB::MOTTO);
+
+        if ($keyterm == null && $type == null) {
             return null;
         }
+        if ($type == null) {
+            self::ignore(languageDB::WORD_OF);
+            self::ignore(languageDB::SIGNIFIER);
+            $type = self::find(languageDB::MOTTO_TYPE);
+        }
+
+        if ($type == null) {
+            $type = 'ribbon';
+        }
+
+        if (($position = self::find(languageDB::MOTTO_POSITION)) == null) {
+            $position = 'below';
+        }
+
+        self::find(languageDB::MOTTO_TEXT); // get the next word
         $text = $this->phraseMatcher->getValue();
+        $keyterm = $type . '-' . $position;
+
         $mottoNode = $this->schema->makeNode(blazonML::E_MOTTO, array(
             blazonML::A_KEYTERM => $keyterm,  // expansion to other styles?
             blazonML::A_TEXT => $text
