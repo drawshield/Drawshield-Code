@@ -71,7 +71,7 @@ if (isset($_FILES['blazonfile']) && ($_FILES['blazonfile']['name'] != "")) {
 
 if (isset($request['outputformat'])) $options['outputFormat'] = strip_tags ($request['outputformat']);
 if (isset($request['saveformat'])) $options['saveFormat'] = strip_tags ($request['saveformat']);
-if (isset($request['asfile'])) $options['asFile'] = ($request['asfile'] == "1");
+if (isset($request['asfile']) && $request['asfile'] != '0') $options['asFile'] = strip_tags($request['asfile']);
 if (isset($request['palette'])) $options['palette'] = strip_tags($request['palette']);
 if (isset($request['shape'])) $options['shape'] = strip_tags($request['shape']);
 if (isset($request['stage'])) $options['stage'] = strip_tags($request['stage']);
@@ -204,7 +204,7 @@ $output = draw();
 
 
 // Output content header
-if ( $options['asFile'] ) {
+if ( $options['asFile'] == '1') {
     $name = $options['filename'];
     if ($name == '') $name = 'shield';
     $pageWidth = $pageHeight = false;
@@ -342,8 +342,21 @@ if ( $options['asFile'] ) {
       break;
     default:
     case 'svg':
-      header('Content-Type: text/xml; charset=utf-8');
-      echo $output;
+        if ($options['asFile'] == 'printable') {
+            $xpath = new DOMXPath($dom); // re-build xpath with new messages
+            header('Content-Type: text/html; charset=utf-8');
+            echo "<!doctype html>\n\n<html lang=\"en\">\n<head>\n<title>Shield</title>\n";
+            echo "<style>\nsvg { margin-left:auto; margin-right:auto; display:block;}</style>\n</head>\n<body>\n";
+            echo "<div>\n$output</div>\n";
+            echo "<h2>Blazon</h2>\n";
+            echo "<p class=\"blazon\">${options['blazon']}</p>\n";
+            echo "<h2>Image Credits</h2>\n";
+            echo $messages->getCredits();
+            echo "</body>\n</html>\n";
+        } else {
+            header('Content-Type: text/xml; charset=utf-8');
+            echo $output;
+        }
       break;
   }
 }

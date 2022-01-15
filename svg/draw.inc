@@ -266,7 +266,7 @@ function draw() {
             $body .=  '<path fill="none" stroke="' . rgb('division-stroke') . '" stroke-width="4" d="' . $outline . '" />';
         }
         // Rest depends on output format
-        if ( !$options['asFile'] /* && !$options['printable'] */ ) { // minimal decoration, no metadata
+        if ( $options['asFile'] != '1' /* && !$options['printable'] */ ) { // minimal decoration, no metadata
             $y1Location = '1190';
             if ($layout->shape == 'flag')
                 $y1Location = $layout->size->height + $extraSpace + 40;
