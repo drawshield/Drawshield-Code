@@ -10,15 +10,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <defs
-     id="defs5">
-    <clipPath
-       id="artboard_clip_path">
-      <path
-         d="M 38 63 L 324 63 L 324 414 L 38 414 Z"
-         id="path2" />
-    </clipPath>
-  </defs>
   <metadata
      id="metadata7"> Produced by OmniGraffle 7.11.5 
     <dc:date>2021-07-03 13:04:13 +0000</dc:date>
@@ -40,7 +31,7 @@
        id="title9">Rose Slipped &amp; Leaved (1)</title>
     <g
        id="Rose_Slipped___Leaved_(1): Layer 2"
-       clip-path="url(#artboard_clip_path)">
+       >
       <title
          id="title11">Layer 2</title>
       <g

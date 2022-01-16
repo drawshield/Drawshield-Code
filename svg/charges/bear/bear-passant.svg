@@ -10,15 +10,7 @@
    width="304.25157"
    viewBox="33.248434 72.131605 304.25157 215.8684"
    version="1.1">
-  <defs
-     id="defs5">
-    <clipPath
-       id="artboard_clip_path">
-      <path
-         id="path2"
-         d="M 33.248434 72.131605 L 337.5 72.131605 L 337.5 288 L 33.248434 288 Z" />
-    </clipPath>
-  </defs>
+
   <metadata
      id="metadata7"> Produced by OmniGraffle 7.11.5 
     <dc:date>2021-02-21 22:46:50 +0000</dc:date>
@@ -46,7 +38,6 @@
     <title
        id="title9">Bear Passant (5)</title>
     <g
-       clip-path="url(#artboard_clip_path)"
        id="Bear_Passant_(5): Layer 2">
       <title
          id="title11">Layer 2</title>

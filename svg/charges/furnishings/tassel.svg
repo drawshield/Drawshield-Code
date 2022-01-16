@@ -10,15 +10,7 @@
    width="143.74998"
    viewBox="0 0 143.74999 322.27"
    version="1.1">
-  <defs
-     id="defs5">
-    <clipPath
-       id="artboard_clip_path">
-      <path
-         id="path2"
-         d="M 38.83518,58.71797 H 186.16482 V 382.5 H 38.83518 Z" />
-    </clipPath>
-  </defs>
+
   <metadata
      id="metadata7"> Produced by OmniGraffle 7.11 test 
     <dc:date>2019-07-18 17:14:04 +0000</dc:date>
@@ -39,7 +31,7 @@
     <title
        id="title9">Tassel (1)</title>
     <g
-       clip-path="url(#artboard_clip_path)"
+
        id="Tassel_(1): Layer 2">
       <title
          id="title11">Layer 2</title>

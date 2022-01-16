@@ -10,15 +10,7 @@
    width="292.5"
    viewBox="36 63 292.5 261"
    version="1.1">
-  <defs
-     id="defs1891">
-    <clipPath
-       id="artboard_clip_path">
-      <path
-         id="path1888"
-         d="M 36 63 L 328.5 63 L 328.5 324 L 36 324 Z" />
-    </clipPath>
-  </defs>
+fill:#ff0000
   <metadata
      id="metadata1893"> Produced by OmniGraffle 7.11.5 
     <dc:date>2021-02-26 07:00:33 +0000</dc:date>
@@ -46,7 +38,7 @@
     <title
        id="title1895">Legs, Triskelion of, Armored</title>
     <g
-       clip-path="url(#artboard_clip_path)"
+
        id="Legs,_Triskelion_of,_Armored: Layer 2">
       <title
          id="title1897">Layer 2</title>

@@ -10,15 +10,7 @@
    width="274"
    viewBox="45.5 58.5 274 310.5"
    version="1.1">
-  <defs
-     id="defs3002">
-    <clipPath
-       id="artboard_clip_path">
-      <path
-         id="path2999"
-         d="M 45.5 58.5 L 319.5 58.5 L 319.5 369 L 45.5 369 Z" />
-    </clipPath>
-  </defs>
+fill:#ff0000
   <metadata
      id="metadata3004"> Produced by OmniGraffle 7.11.5 
     <dc:date>2021-01-27 03:54:37 +0000</dc:date>
@@ -46,7 +38,7 @@
     <title
        id="title3006">Lymphad with Oars Shipped (1)</title>
     <g
-       clip-path="url(#artboard_clip_path)"
+
        id="Lymphad_with_Oars_Shipped_(1): Layer 2">
       <title
          id="title3008">Layer 2</title>
