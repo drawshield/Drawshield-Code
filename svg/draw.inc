@@ -261,9 +261,10 @@ function draw() {
             $body = getEffect($effect, 'below') . '<g ' . getEffect($effect, 'filter') . '>' . $body . getEffect($effect, 'above') . '</g>';
         }
         // Add outline of shield shape, only if required
-        if ( $options['palette'] == 'outline') {
+        error_log($options['asFile']);
+        if ( $options['palette'] == 'outline' || $options['asFile'] == 'printable' ) {
             $outline = getShape($layout);
-            $body .=  '<path fill="none" stroke="' . rgb('division-stroke') . '" stroke-width="4" d="' . $outline . '" />';
+            $body .=  '<path fill="none" stroke="' . rgb('gray') . '" stroke-width="4" d="' . $outline . '" />';
         }
         // Rest depends on output format
         if ( $options['asFile'] != '1' /* && !$options['printable'] */ ) { // minimal decoration, no metadata
