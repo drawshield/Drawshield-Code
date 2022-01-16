@@ -524,6 +524,7 @@ function getAchievementParts($node, $layout) {
     $mottoes = [];
     $adjustments = [];
     $crestHeight = $node->getAttribute(blazonML::A_KEYTERM);
+    $retval['mantlingType'] = null;
 
     foreach ($node->childNodes as $subNode) {
         switch ($subNode->nodeName) {
@@ -535,6 +536,7 @@ function getAchievementParts($node, $layout) {
                 break;
             case blazonML::E_MANTLING:
                 $retval['mantling'] = drawMantling($subNode);
+                $retval['mantlingType'] = $subNode->getAttribute(blazonML::A_KEYTERM);
                 break;
             case blazonML::E_FRINGE:
                 $retval['fringe'] = drawFringe($subNode, $layout);
@@ -628,6 +630,8 @@ function addParts($body, $parts) {
 
     extract($parts); // creates $crests, $crestHeight and other variables
     // At this point $body contains the shield in a 1000x1200 box, does it have any helmets etc. to add on top?
+    // If there is some mantling, the type is available in $mantlingType as some things need to be scaled
+    // and positioned differently
 
     $bodyScale = 1;
     if (count($crests)) {
@@ -635,9 +639,17 @@ function addParts($body, $parts) {
         $crestScale = 0.3;
         $bodyScale = 1.0;
         if ($crestHeight == 'tall-crest') {
-            $bodyScale = 0.8;
-            $crestScale = 0.3;
-            $crestOffsetY = -200;
+            switch ($mantlingType) {
+                case 'ribbons':
+                    $bodyScale = 0.8;
+                    $crestScale = 0.3;
+                    $crestOffsetY = -200;
+                    break;
+                default:
+                    $bodyScale = 0.65;
+                    $crestScale = 0275;
+                    break;
+            }
         } elseif ($crestHeight == 'short-crest') {
             $bodyScale = 0.8;
             $crestOffsetY = 20;
