@@ -278,7 +278,10 @@ class languageDB extends lexicon
                 array('?the field', 'field'),
             ),
             self::LAYERING => array('over', 'under'), // recognised, not implemented
-            self::WITH => array(array('(with|upon)', 'with')),
+            self::WITH => array(
+                array('(with|upon)', 'with'),
+                array ('bearing', 'with')
+            ),
             self::BETWEEN => array('between', 'inter', 'inside', 'within', 'surrounded by', 'accompagne', 'cantonned by'),
             self::QUARTERED => array(
                 array('quartered', 'quartered'), // Always a marshalling
