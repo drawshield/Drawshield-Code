@@ -261,7 +261,6 @@ function draw() {
             $body = getEffect($effect, 'below') . '<g ' . getEffect($effect, 'filter') . '>' . $body . getEffect($effect, 'above') . '</g>';
         }
         // Add outline of shield shape, only if required
-        error_log($options['asFile']);
         if ( $options['palette'] == 'outline' || $options['asFile'] == 'printable' ) {
             $outline = getShape($layout);
             $body .=  '<path fill="none" stroke="' . rgb('gray') . '" stroke-width="4" d="' . $outline . '" />';

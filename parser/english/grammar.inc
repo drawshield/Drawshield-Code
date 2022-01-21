@@ -402,6 +402,7 @@ class englishGrammar extends grammar
     {
         $state = self::save();
         self::ignore(languageDB::ONFIELDOF);
+        self::ignore(languageDB::WITH);
 
         /**
          * @var DOMElement $node

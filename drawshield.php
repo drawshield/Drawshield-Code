@@ -252,7 +252,21 @@ if ($options['asFile'] == '1') {
             echo $im->getimageblob();
             break;
         case 'jpg':
-            $im = new Imagick();
+            $dir = sys_get_temp_dir();
+            $base = tempnam($dir, 'shield');
+            rename($base, $base . '.svg');
+            file_put_contents($base . '.svg', $output);
+            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.jpg");
+            unlink($base . '.svg');
+            header("Content-type: application/force-download");
+            header('Content-Disposition: inline; filename="' . $name);
+            header("Content-Transfer-Encoding: binary");
+            header('Content-Disposition: attachment; filename="' . $name);
+            header('Content-Type: image/jpg');
+            echo file_get_contents($base . '.jpg');
+            unlink($base . '.jpg');
+            break;
+/*            $im = new Imagick();
             $im->readimageblob($output);
             $im->setimageformat('jpeg');
             $im->setimagecompressionquality(90);
@@ -266,24 +280,8 @@ if ($options['asFile'] == '1') {
             header('Content-Disposition: attachment; filename="' . $name);
             header('Content-Type: image/jpg');
             echo $im->getimageblob();
-            break;
-        case 'png-batik':
-            $dir = sys_get_temp_dir();
-            $base = tempnam($dir, 'shield');
-            rename($base, $base . '.svg');
-            file_put_contents($base . '.svg', $output);
-            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.png");
-            unlink($base . '.svg');
-            header("Content-type: application/force-download");
-            header('Content-Disposition: inline; filename="' . $name);
-            header("Content-Transfer-Encoding: binary");
-            header('Content-Disposition: attachment; filename="' . $name);
-            header('Content-Type: image/png');
-            echo file_get_contents($base . '.png');
-            unlink($base . '.png');
-            break;
-        case 'png':
-        default:
+            break; */
+        case 'png-old':
             $im = new Imagick();
             $im->setBackgroundColor(new ImagickPixel('transparent'));
             $im->readimageblob($output);
@@ -299,17 +297,43 @@ if ($options['asFile'] == '1') {
             header('Content-Type: image/png');
             echo $im->getimageblob();
             break;
+        case 'png':
+        default:
+            $dir = sys_get_temp_dir();
+            $base = tempnam($dir, 'shield');
+            rename($base, $base . '.svg');
+            file_put_contents($base . '.svg', $output);
+            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.png");
+            unlink($base . '.svg');
+            header("Content-type: application/force-download");
+            header('Content-Disposition: inline; filename="' . $name);
+            header("Content-Transfer-Encoding: binary");
+            header('Content-Disposition: attachment; filename="' . $name);
+            header('Content-Type: image/png');
+            echo file_get_contents($base . '.png');
+            unlink($base . '.png');
+            break;
+
     }
 } else {
     switch ($options['outputFormat']) {
         case 'jpg':
-            $im = new Imagick();
+            $dir = sys_get_temp_dir();
+            $base = tempnam($dir, 'shield');
+            rename($base, $base . '.svg');
+            file_put_contents($base . '.svg', $output);
+            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.jpg");
+            unlink($base . '.svg');
+            header('Content-Type: image/jpg');
+            echo file_get_contents($base . '.jpg');
+            unlink($base . '.jpg');
+/*            $im = new Imagick();
             $im->readimageblob($output);
             $im->setimageformat('jpeg');
             $im->setimagecompressionquality(90);
             // $im->scaleimage(1000,1200);
             header('Content-Type: image/jpg');
-            echo $im->getimageblob();
+            echo $im->getimageblob(); */
             break;
         case 'json':
             $newDom = new DOMDocument();
@@ -346,7 +370,7 @@ if ($options['asFile'] == '1') {
             header('Content-Type: application/json');
             echo json_encode($json);
             break;
-        case 'png':
+        case 'png-old':
             $im = new Imagick();
             $im->setBackgroundColor(new ImagickPixel('transparent'));
             $im->readimageblob($output);
@@ -355,14 +379,12 @@ if ($options['asFile'] == '1') {
             header('Content-Type: image/png');
             echo $im->getimageblob();
             break;
-        case 'png-batik':
+        case 'png':
             $dir = sys_get_temp_dir();
             $base = tempnam($dir, 'shield');
             rename($base, $base . '.svg');
             file_put_contents($base . '.svg', $output);
             $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.png");
-            error_log($result);
-            unlink($base);
             unlink($base . '.svg');
             header('Content-Type: image/png');
             echo file_get_contents($base . '.png');
