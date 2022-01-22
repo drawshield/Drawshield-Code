@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="svg4745"
+   viewBox="0 0 121.26881 121.26881"
+   version="1.1"
+   width="121.26881"
+   height="121.26881"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs4747">
+    <linearGradient
+       id="linearGradient4581-4">
+      <stop
+         id="stop4583-5"
+         style="stop-color:#e9e9e9"
+         offset="0" />
+      <stop
+         id="stop4585-3"
+         style="stop-color:#d9d9d9"
+         offset=".29558" />
+      <stop
+         id="stop4587-0"
+         style="stop-color:#d0d0d0"
+         offset=".51485" />
+      <stop
+         id="stop4589-9"
+         style="stop-color:#b5b5b5"
+         offset=".76966" />
+      <stop
+         id="stop4591-9"
+         style="stop-color:#2d2d2d"
+         offset="1" />
+    </linearGradient>
+    <radialGradient
+       id="radialGradient7124"
+       xlink:href="#linearGradient4581-4"
+       gradientUnits="userSpaceOnUse"
+       cy="147.12"
+       cx="221.06"
+       r="2.6973" />
+    <radialGradient
+       id="radialGradient7144"
+       gradientUnits="userSpaceOnUse"
+       cy="278.22"
+       cx="421.62"
+       r="189.23"
+       gradientTransform="matrix(0.32042,0,0,0.32042,219.51,393.78)">
+      <stop
+         id="stop3184-6-0"
+         style="stop-color:#4e4e4e"
+         offset="0" />
+      <stop
+         id="stop6455"
+         style="stop-color:#656565"
+         offset=".60017" />
+      <stop
+         id="stop3192-2-3"
+         style="stop-color:#c7c7c7"
+         offset=".72592" />
+      <stop
+         id="stop3194-0-2"
+         style="stop-color:#a8a8a8"
+         offset=".90665" />
+      <stop
+         id="stop3186-3-9"
+         style="stop-color:#696969"
+         offset="1" />
+    </radialGradient>
+    <radialGradient
+       id="radialGradient7148"
+       xlink:href="#linearGradient4581-4"
+       gradientUnits="userSpaceOnUse"
+       cy="278.22"
+       cx="421.62"
+       r="196.56" />
+    <radialGradient
+       id="radialGradient7150"
+       gradientUnits="userSpaceOnUse"
+       cy="278.22"
+       cx="421.62"
+       r="196.63">
+      <stop
+         id="stop4563-4"
+         style="stop-color:#e9e9e9"
+         offset="0" />
+      <stop
+         id="stop4565-6"
+         style="stop-color:#d9d9d9;stop-opacity:0"
+         offset=".71796" />
+      <stop
+         id="stop4567-8"
+         style="stop-color:#d0d0d0"
+         offset=".86975" />
+      <stop
+         id="stop4569-6"
+         style="stop-color:#b5b5b5"
+         offset=".92836" />
+      <stop
+         id="stop4571-6"
+         style="stop-color:#2d2d2d"
+         offset="1" />
+    </radialGradient>
+    <radialGradient
+       id="radialGradient7152"
+       gradientUnits="userSpaceOnUse"
+       cy="278.22"
+       cx="421.62"
+       r="189.23">
+      <stop
+         id="stop4533-0"
+         style="stop-color:#e9e9e9"
+         offset="0" />
+      <stop
+         id="stop4543-2"
+         style="stop-color:#d9d9d9"
+         offset=".29558" />
+      <stop
+         id="stop4541-5"
+         style="stop-color:#d0d0d0"
+         offset=".51485" />
+      <stop
+         id="stop4539-6"
+         style="stop-color:#b5b5b5"
+         offset=".67998" />
+      <stop
+         id="stop4535-9"
+         style="stop-color:#2d2d2d"
+         offset="1" />
+    </radialGradient>
+    <radialGradient
+       id="radialGradient7162"
+       gradientUnits="userSpaceOnUse"
+       cy="189.03999"
+       cx="470.45999"
+       gradientTransform="matrix(0.09651311,0.0110347,-0.0105765,0.09250525,321.47513,444.49217)"
+       r="189.23">
+      <stop
+         id="stop6502"
+         style="stop-color:#ffffff"
+         offset="0" />
+      <stop
+         id="stop6504"
+         style="stop-color:#ffffff;stop-opacity:0"
+         offset="1" />
+    </radialGradient>
+    <radialGradient
+       xlink:href="#linearGradient4581-4"
+       id="radialGradient1193"
+       gradientUnits="userSpaceOnUse"
+       cx="221.06"
+       cy="147.12"
+       r="2.6973" />
+    <radialGradient
+       xlink:href="#linearGradient4581-4"
+       id="radialGradient1195"
+       gradientUnits="userSpaceOnUse"
+       cx="221.06"
+       cy="147.12"
+       r="2.6973" />
+    <radialGradient
+       xlink:href="#linearGradient4581-4"
+       id="radialGradient1197"
+       gradientUnits="userSpaceOnUse"
+       cx="221.06"
+       cy="147.12"
+       r="2.6973" />
+  </defs>
+  <g
+     id="layer4"
+     transform="translate(-293.97015,-422.29364)">
+    <g
+       id="g1549"
+       transform="rotate(18.355775,354.60455,482.92804)">
+      <circle
+         id="path3343-1-7"
+         style="fill:url(#radialGradient7144);stroke-width:0.32042"
+         cx="354.60455"
+         cy="482.92804"
+         r="60.634403" />
+      <g
+         id="g4203"
+         transform="translate(-10.352,229.52)">
+        <circle
+           id="path3343-1-7-4"
+           style="fill:none;stroke:url(#radialGradient7148);stroke-width:14.655;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:14.6552, 14.6552"
+           transform="matrix(0.20471,0,0,0.20471,278.72,196.38)"
+           cx="421.61707"
+           cy="278.22247"
+           r="189.23415" />
+        <circle
+           id="path3343-1-7-4-3"
+           style="fill:url(#radialGradient7150)"
+           transform="matrix(0.20268,0,0,0.20268,279.5,197.01)"
+           cx="421.61707"
+           cy="278.22247"
+           r="189.23415" />
+        <circle
+           id="path3343-1-7-4-3-3"
+           style="fill:url(#radialGradient7152)"
+           transform="matrix(0.19076,0,0,0.19076,284.53,200.33)"
+           cx="421.61707"
+           cy="278.22247"
+           r="189.23415" />
+      </g>
+      <g
+         id="g5122"
+         transform="translate(-3.6004e-6)">
+        <circle
+           id="path4217-5"
+           style="fill:url(#radialGradient1193)"
+           transform="matrix(1.3478,0,0,1.3478,8.2221,297.84)"
+           cx="221.06311"
+           cy="147.11755"
+           r="2.6973217" />
+        <circle
+           id="path4217-9"
+           style="fill:url(#radialGradient1195)"
+           transform="matrix(1.3478,0,0,1.3478,72.642,332.09)"
+           cx="221.06311"
+           cy="147.11755"
+           r="2.6973217" />
+        <circle
+           id="path4217-96"
+           style="fill:url(#radialGradient1197)"
+           transform="matrix(1.3478,0,0,1.3478,105.29,270.68)"
+           cx="221.06311"
+           cy="147.11755"
+           r="2.6973217" />
+        <circle
+           id="path4217-59"
+           style="fill:url(#radialGradient7124)"
+           transform="matrix(1.3478,0,0,1.3478,39.478,237.78)"
+           cx="221.06311"
+           cy="147.11755"
+           r="2.6973217" />
+      </g>
+      <circle
+         id="path3343-1-7-4-3-3-8"
+         style="opacity:0.8;fill:url(#radialGradient7162);stroke-width:0.19076"
+         cx="354.60767"
+         cy="482.92371"
+         r="36.098305" />
+    </g>
+  </g>
+  <metadata
+     id="metadata934">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:date>2012-03-31T16:13:53</dc:date>
+        <dc:description>Classic Viking Shield</dc:description>
+        <dc:source>https://openclipart.org/detail/169242/classic-viking-shield-by-gribba</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Gribba</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>Classic Viking Shield</rdf:li>
+            <rdf:li>Shield</rdf:li>
+            <rdf:li>Viking Shield</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>

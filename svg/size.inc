@@ -307,6 +307,10 @@ class ShieldLayout
             case 'lozenge':
                 $charge_hint = new ShieldRect(clone $cross_point, $size->scaled(0.8));
                 break;
+            case 'scutum':
+                $charge_hint = new ShieldRect(new ShieldPos(500, 600), new ShieldSize(640, 1200));
+                $cross_point = new ShieldPos(500, 600);
+                break;
             default:
             break;
         }

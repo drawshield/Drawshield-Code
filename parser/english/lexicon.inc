@@ -903,6 +903,7 @@ class languageDB extends lexicon
                 array('sinister gore', 'gore-sinister'),
                 array('pallium', 'pallium'),
                 array('pale', 'pale'),
+                array('boss', 'boss'),
                 // array ( '(file|lam?bel)', 'label'),
                 array('point', 'point'), // TODO draw this - see meaning 2 parker/point
                 array('plaine? point', 'base'), // (plain) point and base are synonyms

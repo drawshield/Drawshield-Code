@@ -150,7 +150,7 @@ class properColour {
       'baseball' => self::$white,
       'pelican' => self::$white,
       'mitre' => self::$yellow,
-      'mitre' => self::$yellow,
+      'boss' => self::$gray,
       'rose-tudor' => self::$red,
       'rose-york' => self::$white,
       'rose-lancaster' => self::$red,
