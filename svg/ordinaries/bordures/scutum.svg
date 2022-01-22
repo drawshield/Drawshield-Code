@@ -12,58 +12,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <defs
-     id="defs4">
-    <linearGradient
-       id="linearGradient11327">
-      <stop
-         id="stop16185"
-         offset="0"
-         style="stop-color:#b0a096;stop-opacity:1;" />
-      <stop
-         id="stop15214"
-         offset="0.40000001"
-         style="stop-color:#f2efee;stop-opacity:1;" />
-      <stop
-         style="stop-color:#9e8f83;stop-opacity:1;"
-         offset="0.69999999"
-         id="stop24463" />
-      <stop
-         id="stop14242"
-         offset="1"
-         style="stop-color:#dbd5d1;stop-opacity:1;" />
-    </linearGradient>
-    <radialGradient
-       xlink:href="#linearGradient11327"
-       id="radialGradient2292"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(2.6902474e-5,-11.336956,6.6132104,1.5701069e-5,-2065.3241,4047.6153)"
-       cx="332.54996"
-       cy="357.11224"
-       fx="332.54996"
-       fy="357.11224"
-       r="6.5799999" />
-    <radialGradient
-       xlink:href="#linearGradient11327"
-       id="radialGradient2296"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(2.6902474e-5,-11.336956,6.6132104,1.5701069e-5,-2448.9107,3909.8211)"
-       cx="332.54996"
-       cy="357.11224"
-       fx="332.54996"
-       fy="357.11224"
-       r="6.5799999" />
-    <radialGradient
-       xlink:href="#linearGradient11327"
-       id="radialGradient3269"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(-1.2244988e-5,-6.6792849,6.6132104,-1.2119146e-5,-2448.8978,2373.4136)"
-       cx="329.86795"
-       cy="322.39093"
-       fx="329.86795"
-       fy="322.39093"
-       r="6.5799999" />
-  </defs>
+
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -76,10 +25,8 @@
     </rdf:RDF>
   </metadata>
   <g
-     id="layer1">
+     >
     <path
-       id="rect2160"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5.02318;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;enable-background:accumulate"
        d="M 541.86523 0.61132812 C 488.69808 -0.358762 435.27957 3.47475 382.53711 9.734375 C 316.53132 16.89801 250.44315 27.565119 187.95312 48.630859 C 149.08931 86.461705 169.48178 142.47476 162.66797 188.74023 C 158.24917 481.22214 150.37333 774.01008 164.64844 1066.3555 C 169.11763 1123.8147 227.13458 1163.1831 286.07812 1172.8145 C 442.11636 1215.078 612.27005 1204.2475 764.70508 1155.4219 C 814.51271 1132.9901 835.97433 1081.2941 832.51172 1033.3301 C 844.12339 719.86503 836.90652 406.09755 830.19531 92.603516 C 826.94036 32.144831 746.90383 36.293069 699.68555 20.316406 C 647.94742 7.3552508 595.03239 1.5814183 541.86523 0.61132812 z M 535.45312 32.957031 C 580.92493 33.874749 626.18203 39.338186 670.43164 51.599609 C 710.81561 66.713741 779.2689 62.789665 782.05273 119.98438 C 787.79257 416.55383 793.96421 713.38178 784.0332 1009.9238 C 786.99464 1055.2984 768.63956 1104.203 726.04102 1125.4238 C 595.66924 1171.6134 450.14291 1181.8588 316.68945 1141.877 C 266.27732 1132.7655 216.65826 1095.5232 212.83594 1041.166 C 200.62699 764.60347 207.36139 487.62335 211.14062 210.93164 C 216.96821 167.1639 199.52692 114.17324 232.76562 78.384766 C 286.21092 58.4563 342.73336 48.366737 399.18555 41.589844 C 444.29414 35.668157 489.98132 32.039313 535.45312 32.957031 z " />
   </g>
 </svg>
