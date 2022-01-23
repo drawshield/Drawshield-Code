@@ -26,8 +26,8 @@ foreach ( $node->childNodes as $child ) {
 }
 $messages->addMessage('licence','boss - https://commons.wikimedia.org/wiki/File:Viking_shield.svg');
 // boss is 121 x 121 units
-$centerX = 500 - 121;
-$centerY = ($layout->size->height / 2) - 121;
+$centerX = $layout->cross_point->x - 121;
+$centerY = $layout->cross_point->y - 121;
 $ordinary['body'] = "  <g transform=\"translate($centerX, $centerY) scale(2) \">" .
     preg_replace('/<\?xml.*?\?>/i', '', file_get_contents('svg/ordinaries/boss.svg'))  .
   '</g>';

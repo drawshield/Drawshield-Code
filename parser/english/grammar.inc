@@ -2014,7 +2014,7 @@ class englishGrammar extends grammar
             self::tokens(),
             self::lineno());
         $locNode = null;
-        if ($type == 'ribbons' || substr($type, 0, 5) == 'cloak') { // have complex colour scheme
+        if ($type == 'ribbons' || substr($type, 0, 5) == 'cloak' || $type == 'leaves') { // have complex colour scheme
             while (true) {
                 if (($loc = self::find(languageDB::ACHIEVEMENT_LOC)) != null) {
                     $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array(
@@ -2042,6 +2042,11 @@ class englishGrammar extends grammar
                 }
                 self::ignore(languageDB::ANDD);
             }
+   /*     } elseif ($type == 'leaves') {
+            if (($tincNode = self::tincture()) == null) {
+                $tincNode = createColourNode('vert');
+            }
+            $mantlingNode->appendChild($tincNode); */
         } else {
             if (self::tincture()) {
                 self::raiseError(self::ERROR_ORIGIN, "Given mantling has fixed colours", true);

@@ -155,6 +155,9 @@ function drawMantling($mantlingNode)
             $yShift = 460;
             $scale = 0.55;
             break;
+        case 'leaves':
+            $yShift = 270; $scale = 0.65;
+            break;
         case 'ribbons':
             $yShift = 170; $scale = 0.75;
             break;
@@ -171,7 +174,7 @@ function drawMantling($mantlingNode)
     getMetaDataFromSVG($svg, 'achievement', 'mantling'); // just for the credit licence
     $defs = [];
 
-    if ($type == 'ribbons' || substr($type, 0, 5) == 'cloak' ){ // have complex colour scheme
+    if ($type == 'ribbons' || substr($type, 0, 5) == 'cloak' || $type = 'leaves' ){ // have complex colour scheme
         // default colours
         $features = array_merge( $features, array(
             'sinister1' => $default1,
@@ -645,9 +648,14 @@ function addParts($body, $parts) {
                     $crestScale = 0.3;
                     $crestOffsetY = -200;
                     break;
+                case 'leaves':
+                    $bodyScale = 0.9;
+                    $crestScale = 0.35;
+                    $crestOffsetY = -400;
+                    break;
                 default:
                     $bodyScale = 0.65;
-                    $crestScale = 0275;
+                    $crestScale = 0.275;
                     break;
             }
         } elseif ($crestHeight == 'short-crest') {

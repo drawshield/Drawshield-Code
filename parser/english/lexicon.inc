@@ -167,6 +167,7 @@ class languageDB extends lexicon
             self::MANTLES => array (
                 array('ribbons', 'ribbons'),  // note default
                 array('cloak', 'cloak'),
+                array('lea(f|ves)', 'leaves'),
                     array('royal', 'royal'),
                 array('cloak ermine', 'cloak-ermine'),
                 array('ermine cloak', 'cloak-ermine'),

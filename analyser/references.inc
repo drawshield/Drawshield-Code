@@ -105,6 +105,13 @@ class references {
       }
     }
 
+    // Make sure that the boss is on top(!)
+      $nodeList = $this->xpath->query('//ordinary[@keyterm="boss"]');
+      foreach ($nodeList as $sourceNode ) {
+          $parent = $sourceNode->parentNode;
+          $parent->appendChild($sourceNode);
+      }
+
     // Resolve tinctures that remain as "pending" (i.e. not given but same as previous - if there was one)
     $nodeList = $this->xpath->query('//tincture[@origin="pending"]');
     foreach ($nodeList as $sourceNode ) {
