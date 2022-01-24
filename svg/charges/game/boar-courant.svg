@@ -30,8 +30,7 @@
            rdf:resource="http://creativecommons.org/ns#Notice" /><cc:requires
            rdf:resource="http://creativecommons.org/ns#Attribution" /><cc:permits
            rdf:resource="http://creativecommons.org/ns#DerivativeWorks" /><cc:requires
-           rdf:resource="http://creativecommons.org/ns#ShareAlike" /></cc:License></rdf:RDF></metadata><defs
-     id="defs109" /><sodipodi:namedview
+           rdf:resource="http://creativecommons.org/ns#ShareAlike" /></cc:License></rdf:RDF></metadata><sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1"

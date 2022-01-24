@@ -10,15 +10,7 @@
    width="283.9818"
    viewBox="40.2591 60.84808 283.9818 302.625"
    version="1.1">
-  <defs
-     id="defs5">
-    <clipPath
-       id="artboard_clip_path">
-      <path
-         id="path2"
-         d="M 40.2591 60.84808 L 324.2409 60.84808 L 324.2409 363.4731 L 40.2591 363.4731 Z" />
-    </clipPath>
-  </defs>
+
   <metadata
      id="metadata7"> Produced by OmniGraffle 7.11.5 
     <dc:date>2021-02-26 07:00:33 +0000</dc:date>
@@ -46,7 +38,7 @@
     <title
        id="title9">Arms, Triskelion of</title>
     <g
-       clip-path="url(#artboard_clip_path)"
+
        id="Arms,_Triskelion_of: Layer 2">
       <title
          id="title11">Layer 2</title>

@@ -17,6 +17,7 @@ This file is part of the DrawShield.net heraldry image creation program
 
 function getShape($layout) {
   global $messages;
+  $credit = 'https://commons.wikimedia.org/wiki/User:MG';
 
   switch ($layout->shape) {
       case 'stamp':
@@ -44,6 +45,10 @@ function getShape($layout) {
     case 'lozenge':
     	$outline = "m 500,0 c 0,0 -500,500 -500,500 0,0 500,500 500,500 0,0 500,-500 500,-500 0,0 -500,-500 -500,-500";
     	break;
+      case 'scutum':
+          $outline = "m 187.95215,48.630851 c -38.86381,37.830846 -18.47117,93.844089 -25.28498,140.109559 -4.4188,292.48191 -12.29299,585.2695 1.98212,877.61489 4.46919,57.4592 62.4852,96.827 121.42874,106.4584 156.03824,42.2635 326.19291,31.4341 478.62794,-17.3915 49.80763,-22.4318 71.26849,-74.1289 67.80588,-122.0929 11.61167,-313.46505 4.39531,-627.23184 -2.3159,-940.725877 C 826.941,32.144738 746.90424,36.293584 699.68596,20.316921 596.20971,-5.60539 488.02168,-2.78422 382.53675,9.73503 316.53096,16.898665 250.44217,27.565111 187.95215,48.630851 Z";
+          $credit = "https://commons.wikimedia.org/wiki/File:Roman_shield.svg";
+          break;
     case 'square':
     	$outline = "m 0,0 h 1000 v 1000 h -1000 z";
     	break;
@@ -74,7 +79,7 @@ function getShape($layout) {
       break;
   }	
   if ($messages != null )
-    $messages->addMessage('licence','Shield Shape - https://commons.wikimedia.org/wiki/User:MG');
+    $messages->addMessage('licence', $layout->shape . ' shape - ' . $credit);
 
   return $outline;
 }

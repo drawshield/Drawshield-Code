@@ -204,160 +204,212 @@ $output = draw();
 
 
 // Output content header
-if ( $options['asFile'] == '1') {
+if ($options['asFile'] == '1') {
     $name = $options['filename'];
     if ($name == '') $name = 'shield';
     $pageWidth = $pageHeight = false;
     if ($options['units'] == 'in') {
-	$options['printSize'] *= 90;
+        $options['printSize'] *= 90;
     } elseif ($options['units'] == 'cm') {
-	$options['printSize'] *= 35;
+        $options['printSize'] *= 35;
     }
-  $proportion = ($options['shape'] == 'flag') ? $options['aspectRatio'] : 1.2;
-  switch ($options['saveFormat']) {
-    case 'svg':
-        if (substr($name,-4) != '.svg') $name .= '.svg';
-     header("Content-type: application/force-download");
-     header('Content-Disposition: inline; filename="' . $name );
-     header("Content-Transfer-Encoding: text");
-     header('Content-Disposition: attachment; filename="' . $name);
-     header('Content-Type: image/svg+xml');
-     echo $output;
-     break;
-      case 'pdfLtr':
-          $pageWidth = 765;
-          $pageHeight = 990;
-          // flowthrough
-    case 'pdfA4':
-        if (!$pageWidth) $pageWidth = 744;
-        if (!$pageHeight) $pageHeight = 1051;
-    $im = new Imagick();
-    $im->readimageblob($output);
-    $im->setimageformat('pdf');
-    $margin = 40; // bit less than 1/2"
-    $maxWidth = $pageWidth - $margin - $margin;
-    $imageWidth = $options['printSize'];
-    if ($imageWidth > $maxWidth) $imageWidth = $maxWidth;
-    $imageHeight = $imageWidth * $proportion;
-    $im->scaleImage($imageWidth, $imageHeight);
-    $fromBottom = $pageHeight - $margin - $margin - $imageHeight;
-    $fromSide = $margin + (($pageWidth - $margin - $margin - $imageWidth) / 2);
-    $im->setImagePage($pageWidth,$pageHeight,$fromSide * 0.9,$fromBottom * 0.9);
-        if (substr($name,-4) != '.pdf') $name .= '.pdf';
-    header("Content-type: application/force-download");
-    header('Content-Disposition: inline; filename="' . $name);
-    header("Content-Transfer-Encoding: 8bit");
-    header('Content-Disposition: attachment; filename="' . $name);
-    header('Content-Type: application/pdf');
-    echo $im->getimageblob();
-    break;
-    case 'jpg':
-      $im = new Imagick();
-      $im->readimageblob($output);
-      $im->setimageformat('jpeg');
-      $im->setimagecompressionquality(90);
-    $imageWidth = $options['printSize'];
-    $imageHeight = $imageWidth * $proportion;
-      $im->scaleimage($imageWidth,$imageHeight);
-        if (substr($name,-4) != '.jpg') $name .= '.jpg';
-      header("Content-type: application/force-download");
-      header('Content-Disposition: inline; filename="' . $name);
-      header("Content-Transfer-Encoding: binary");
-      header('Content-Disposition: attachment; filename="' . $name);
-      header('Content-Type: image/jpg');
-      echo $im->getimageblob();
-      break;
-    case 'png':
-    default:
-     $im = new Imagick();
-     $im->setBackgroundColor(new ImagickPixel('transparent'));
-     $im->readimageblob($output);
-     $im->setimageformat('png32');
-    $imageWidth = $options['printSize'];
-    $imageHeight = $imageWidth * $proportion;
-      $im->scaleimage($imageWidth,$imageHeight);
-      if (substr($name,-4) != '.png') $name .= '.png';
-      header("Content-type: application/force-download");
-     header('Content-Disposition: inline; filename="' . $name);
-     header("Content-Transfer-Encoding: binary");
-     header('Content-Disposition: attachment; filename="' . $name);
-     header('Content-Type: image/png');
-     echo $im->getimageblob();
-     break;
-   }
-} else {
-  switch ($options['outputFormat']) {
-    case 'jpg':
-      $im = new Imagick();
-      $im->readimageblob($output);
-      $im->setimageformat('jpeg');
-      $im->setimagecompressionquality(90);
-      // $im->scaleimage(1000,1200);
-      header('Content-Type: image/jpg');
-      echo $im->getimageblob();
-      break;
-    case 'json':
-        $newDom = new DOMDocument();
-        $newDom->loadXML($output);
-      $im = new Imagick();
-      $im->setBackgroundColor(new ImagickPixel('transparent'));
-      $im->readimageblob($output);
-      $im->setimageformat('png32');
-      $json = [];
-      $json['image'] = base64_encode($im->getimageblob());
-      $json['options'] = $options;
-      $allMessages = $newDom->getElementsByTagNameNS('http://drawshield.net/blazonML','message');
-      $messageArray = [];
-     foreach($allMessages as $node) {
-          $thisMessage = [];
-          for ($i = 0; $i < $node->attributes->length; $i++) {
-              $thisMessage[$node->attributes->item($i)->nodeName] = $node->attributes->item($i)->nodeValue;
-          }
-          $thisMessage['content'] = $node->nodeValue;
-          $messageArray[] = $thisMessage;
-      }
-      $json['messages'] = $messageArray;
-      $json['tree'] = $dom->saveXML();
-      $baggage = $dom->getElementsByTagNameNS('http://drawshield.net/blazonML','input')->item(0);
-      $baggage->parentNode->removeChild($baggage);
-      $baggage = $dom->getElementsByTagNameNS('http://drawshield.net/blazonML','messages')->item(0);
-      $baggage->parentNode->removeChild($baggage);
-      $minTree = $dom->saveXML();
-      $minTree = preg_replace('/blazonML:/', '', $minTree);
-      $minTree = preg_replace('/<\?xml.*\?>\n/','', $minTree);
-      $minTree = preg_replace('/<\/?blazon.*>\n/','', $minTree);
-      $minTree = preg_replace('/[<>"]/','', $minTree);
-      $json['mintree'] = $minTree;
-      header('Content-Type: application/json');
-      echo json_encode($json);
-      break;
-    case 'png':
-      $im = new Imagick();
-      $im->setBackgroundColor(new ImagickPixel('transparent'));
-      $im->readimageblob($output);
-      $im->setimageformat('png32');
-      // $im->scaleimage(1000,1200);
-      header('Content-Type: image/png');
-      echo $im->getimageblob();
-      break;
-    default:
-    case 'svg':
-        if ($options['asFile'] == 'printable') {
-            $xpath = new DOMXPath($dom); // re-build xpath with new messages
-            header('Content-Type: text/html; charset=utf-8');
-            echo "<!doctype html>\n\n<html lang=\"en\">\n<head>\n<title>Shield</title>\n";
-            echo "<style>\nsvg { margin-left:auto; margin-right:auto; display:block;}</style>\n</head>\n<body>\n";
-            echo "<div>\n$output</div>\n";
-            echo "<h2>Blazon</h2>\n";
-            echo "<p class=\"blazon\">${options['blazon']}</p>\n";
-            echo "<h2>Image Credits</h2>\n";
-            echo $messages->getCredits();
-            echo "</body>\n</html>\n";
-        } else {
-            header('Content-Type: text/xml; charset=utf-8');
+    $proportion = ($options['shape'] == 'flag') ? $options['aspectRatio'] : 1.2;
+    switch ($options['saveFormat']) {
+        case 'svg':
+            if (substr($name, -4) != '.svg') $name .= '.svg';
+            header("Content-type: application/force-download");
+            header('Content-Disposition: inline; filename="' . $name);
+            header("Content-Transfer-Encoding: text");
+            header('Content-Disposition: attachment; filename="' . $name);
+            header('Content-Type: image/svg+xml');
             echo $output;
-        }
-      break;
-  }
+            break;
+        case 'pdfLtr':
+            $pageWidth = 765;
+            $pageHeight = 990;
+        // flowthrough
+        case 'pdfA4':
+            if (!$pageWidth) $pageWidth = 744;
+            if (!$pageHeight) $pageHeight = 1051;
+            $im = new Imagick();
+            $im->readimageblob($output);
+            $im->setimageformat('pdf');
+            $margin = 40; // bit less than 1/2"
+            $maxWidth = $pageWidth - $margin - $margin;
+            $imageWidth = $options['printSize'];
+            if ($imageWidth > $maxWidth) $imageWidth = $maxWidth;
+            $imageHeight = $imageWidth * $proportion;
+            $im->scaleImage($imageWidth, $imageHeight);
+            $fromBottom = $pageHeight - $margin - $margin - $imageHeight;
+            $fromSide = $margin + (($pageWidth - $margin - $margin - $imageWidth) / 2);
+            $im->setImagePage($pageWidth, $pageHeight, $fromSide * 0.9, $fromBottom * 0.9);
+            if (substr($name, -4) != '.pdf') $name .= '.pdf';
+            header("Content-type: application/force-download");
+            header('Content-Disposition: inline; filename="' . $name);
+            header("Content-Transfer-Encoding: 8bit");
+            header('Content-Disposition: attachment; filename="' . $name);
+            header('Content-Type: application/pdf');
+            echo $im->getimageblob();
+            break;
+        case 'jpg':
+            $dir = sys_get_temp_dir();
+            $base = tempnam($dir, 'shield');
+            rename($base, $base . '.svg');
+            file_put_contents($base . '.svg', $output);
+            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.jpg");
+            unlink($base . '.svg');
+            header("Content-type: application/force-download");
+            header('Content-Disposition: inline; filename="' . $name);
+            header("Content-Transfer-Encoding: binary");
+            header('Content-Disposition: attachment; filename="' . $name);
+            header('Content-Type: image/jpg');
+            echo file_get_contents($base . '.jpg');
+            unlink($base . '.jpg');
+            break;
+/*            $im = new Imagick();
+            $im->readimageblob($output);
+            $im->setimageformat('jpeg');
+            $im->setimagecompressionquality(90);
+            $imageWidth = $options['printSize'];
+            $imageHeight = $imageWidth * $proportion;
+            $im->scaleimage($imageWidth, $imageHeight);
+            if (substr($name, -4) != '.jpg') $name .= '.jpg';
+            header("Content-type: application/force-download");
+            header('Content-Disposition: inline; filename="' . $name);
+            header("Content-Transfer-Encoding: binary");
+            header('Content-Disposition: attachment; filename="' . $name);
+            header('Content-Type: image/jpg');
+            echo $im->getimageblob();
+            break; */
+        case 'png-old':
+            $im = new Imagick();
+            $im->setBackgroundColor(new ImagickPixel('transparent'));
+            $im->readimageblob($output);
+            $im->setimageformat('png32');
+            $imageWidth = $options['printSize'];
+            $imageHeight = $imageWidth * $proportion;
+            $im->scaleimage($imageWidth, $imageHeight);
+            if (substr($name, -4) != '.png') $name .= '.png';
+            header("Content-type: application/force-download");
+            header('Content-Disposition: inline; filename="' . $name);
+            header("Content-Transfer-Encoding: binary");
+            header('Content-Disposition: attachment; filename="' . $name);
+            header('Content-Type: image/png');
+            echo $im->getimageblob();
+            break;
+        case 'png':
+        default:
+            $dir = sys_get_temp_dir();
+            $base = tempnam($dir, 'shield');
+            rename($base, $base . '.svg');
+            file_put_contents($base . '.svg', $output);
+            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.png");
+            unlink($base . '.svg');
+            header("Content-type: application/force-download");
+            header('Content-Disposition: inline; filename="' . $name);
+            header("Content-Transfer-Encoding: binary");
+            header('Content-Disposition: attachment; filename="' . $name);
+            header('Content-Type: image/png');
+            echo file_get_contents($base . '.png');
+            unlink($base . '.png');
+            break;
+
+    }
+} else {
+    switch ($options['outputFormat']) {
+        case 'jpg':
+            $dir = sys_get_temp_dir();
+            $base = tempnam($dir, 'shield');
+            rename($base, $base . '.svg');
+            file_put_contents($base . '.svg', $output);
+            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.jpg");
+            unlink($base . '.svg');
+            header('Content-Type: image/jpg');
+            echo file_get_contents($base . '.jpg');
+            unlink($base . '.jpg');
+/*            $im = new Imagick();
+            $im->readimageblob($output);
+            $im->setimageformat('jpeg');
+            $im->setimagecompressionquality(90);
+            // $im->scaleimage(1000,1200);
+            header('Content-Type: image/jpg');
+            echo $im->getimageblob(); */
+            break;
+        case 'json':
+            $newDom = new DOMDocument();
+            $newDom->loadXML($output);
+            $im = new Imagick();
+            $im->setBackgroundColor(new ImagickPixel('transparent'));
+            $im->readimageblob($output);
+            $im->setimageformat('png32');
+            $json = [];
+            $json['image'] = base64_encode($im->getimageblob());
+            $json['options'] = $options;
+            $allMessages = $newDom->getElementsByTagNameNS('http://drawshield.net/blazonML', 'message');
+            $messageArray = [];
+            foreach ($allMessages as $node) {
+                $thisMessage = [];
+                for ($i = 0; $i < $node->attributes->length; $i++) {
+                    $thisMessage[$node->attributes->item($i)->nodeName] = $node->attributes->item($i)->nodeValue;
+                }
+                $thisMessage['content'] = $node->nodeValue;
+                $messageArray[] = $thisMessage;
+            }
+            $json['messages'] = $messageArray;
+            $json['tree'] = $dom->saveXML();
+            $baggage = $dom->getElementsByTagNameNS('http://drawshield.net/blazonML', 'input')->item(0);
+            $baggage->parentNode->removeChild($baggage);
+            $baggage = $dom->getElementsByTagNameNS('http://drawshield.net/blazonML', 'messages')->item(0);
+            $baggage->parentNode->removeChild($baggage);
+            $minTree = $dom->saveXML();
+            $minTree = preg_replace('/blazonML:/', '', $minTree);
+            $minTree = preg_replace('/<\?xml.*\?>\n/', '', $minTree);
+            $minTree = preg_replace('/<\/?blazon.*>\n/', '', $minTree);
+            $minTree = preg_replace('/[<>"]/', '', $minTree);
+            $json['mintree'] = $minTree;
+            header('Content-Type: application/json');
+            echo json_encode($json);
+            break;
+        case 'png-old':
+            $im = new Imagick();
+            $im->setBackgroundColor(new ImagickPixel('transparent'));
+            $im->readimageblob($output);
+            $im->setimageformat('png32');
+            // $im->scaleimage(1000,1200);
+            header('Content-Type: image/png');
+            echo $im->getimageblob();
+            break;
+        case 'png':
+            $dir = sys_get_temp_dir();
+            $base = tempnam($dir, 'shield');
+            rename($base, $base . '.svg');
+            file_put_contents($base . '.svg', $output);
+            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.png");
+            unlink($base . '.svg');
+            header('Content-Type: image/png');
+            echo file_get_contents($base . '.png');
+            unlink($base . '.png');
+            break;
+        default:
+        case 'svg':
+            if ($options['asFile'] == 'printable') {
+                $xpath = new DOMXPath($dom); // re-build xpath with new messages
+                header('Content-Type: text/html; charset=utf-8');
+                echo "<!doctype html>\n\n<html lang=\"en\">\n<head>\n<title>Shield</title>\n";
+                echo "<style>\nsvg { margin-left:auto; margin-right:auto; display:block;}</style>\n</head>\n<body>\n";
+                echo "<div>\n$output</div>\n";
+                echo "<h2>Blazon</h2>\n";
+                echo "<p class=\"blazon\">${options['blazon']}</p>\n";
+                echo "<h2>Image Credits</h2>\n";
+                echo "<p>This work is licensed under a <em>Creative Commons Attribution-ShareAlike 4.0 International License</em>.";
+                echo " It is a derivative work based on the following source images:</p>";
+                echo $messages->getCredits();
+                echo "</body>\n</html>\n";
+            } else {
+                header('Content-Type: text/xml; charset=utf-8');
+                echo $output;
+            }
+            break;
+    }
 }
 

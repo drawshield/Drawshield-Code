@@ -16,8 +16,7 @@
    version="1.1"><metadata
      id="metadata1389"><rdf:RDF><cc:Work
          rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
-     id="defs1387" /><pattern
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><pattern
      overflow="visible"
      viewBox="2.125 -70.896 69 69"
      id="Polka_Dot_Pattern"

@@ -83,7 +83,18 @@ $options['asFile'] = "1";
       header('Content-Type: image/png');
        echo $im->getimageblob();
       break;
-    default:
+      case 'png-batik':
+        $dir = sys_get_temp_dir();
+        $base = tempnam($dir, 'shield');
+        rename($base, $base . '.svg');
+        file_put_contents($base . '.svg', $output);
+        $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.png");
+        unlink($base . '.svg');
+        header('Content-Type: image/png');
+        echo file_get_contents($base . '.png');
+        unlink($base . '.png');
+        break;
+        default:
     case 'svg':
       header('Content-Type: text/xml; charset=utf-8');
       echo $output;

@@ -167,6 +167,7 @@ class languageDB extends lexicon
             self::MANTLES => array (
                 array('ribbons', 'ribbons'),  // note default
                 array('cloak', 'cloak'),
+                array('lea(f|ves)', 'leaves'),
                     array('royal', 'royal'),
                 array('cloak ermine', 'cloak-ermine'),
                 array('ermine cloak', 'cloak-ermine'),
@@ -278,7 +279,10 @@ class languageDB extends lexicon
                 array('?the field', 'field'),
             ),
             self::LAYERING => array('over', 'under'), // recognised, not implemented
-            self::WITH => array(array('(with|upon)', 'with')),
+            self::WITH => array(
+                array('(with|upon)', 'with'),
+                array ('bearing', 'with')
+            ),
             self::BETWEEN => array('between', 'inter', 'inside', 'within', 'surrounded by', 'accompagne', 'cantonned by'),
             self::QUARTERED => array(
                 array('quartered', 'quartered'), // Always a marshalling
@@ -900,6 +904,7 @@ class languageDB extends lexicon
                 array('sinister gore', 'gore-sinister'),
                 array('pallium', 'pallium'),
                 array('pale', 'pale'),
+                array('boss', 'boss'),
                 // array ( '(file|lam?bel)', 'label'),
                 array('point', 'point'), // TODO draw this - see meaning 2 parker/point
                 array('plaine? point', 'base'), // (plain) point and base are synonyms

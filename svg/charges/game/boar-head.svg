@@ -10,15 +10,7 @@
    width="297"
    viewBox="33.75 60.75 297 267.75"
    version="1.1">
-  <defs
-     id="defs5">
-    <clipPath
-       id="artboard_clip_path">
-      <path
-         id="path2"
-         d="M 33.75 60.75 L 330.75 60.75 L 330.75 328.5 L 255.32143 328.5 L 33.75 328.5 Z" />
-    </clipPath>
-  </defs>
+
   <metadata
      id="metadata7"> Produced by OmniGraffle 7.11.5 
     <dc:date>2021-02-21 22:46:50 +0000</dc:date>
@@ -47,7 +39,7 @@
     <title
        id="title9">Boar's Head Couped (1)</title>
     <g
-       clip-path="url(#artboard_clip_path)"
+
        id="Boar_s_Head_Couped_(1): Layer 2">
       <title
          id="title11">Layer 2</title>

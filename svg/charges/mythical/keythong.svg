@@ -10,15 +10,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <defs
-     id="defs5">
-    <clipPath
-       id="artboard_clip_path">
-      <path
-         id="path2"
-         d="M 40.5 62.5 L 324 62.5 L 324 396 L 40.5 396 Z" />
-    </clipPath>
-  </defs>
+
   <metadata
      id="metadata7"> Produced by OmniGraffle 7.7.1 
     <dc:date>2018-03-13 07:12:51 +0000</dc:date>

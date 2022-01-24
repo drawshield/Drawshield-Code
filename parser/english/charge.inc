@@ -748,6 +748,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'beans?', 'plant/bean' ),
       array ( 'pepper pods?', 'plant/pepper-pod' ),
       array ( 'rye', 'plant/rye' ),
+       array ( 'clovers?', 'plant/clover' ),
       array ( 'iv(y|ies)', 'plant/ivy' ),
       array ( 'ivy vines?', 'plant/ivy-vine' ),
       array ( 'ivy wreaths?', 'plant/ivy-wreath' ),

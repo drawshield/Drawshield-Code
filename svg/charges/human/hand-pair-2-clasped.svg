@@ -10,15 +10,7 @@
    width="310.5"
    viewBox="54 76.5 310.5 106.69886"
    version="1.1">
-  <defs
-     id="defs5">
-    <clipPath
-       id="artboard_clip_path">
-      <path
-         id="path2"
-         d="m 54,76.5 h 315 v 117 H 54 Z" />
-    </clipPath>
-  </defs>
+
   <metadata
      id="metadata7"> Produced by OmniGraffle 7.11.5 
     <dc:date>2021-02-13 00:56:24 +0000</dc:date>
@@ -47,7 +39,7 @@
     <title
        id="title9">Foi</title>
     <g
-       clip-path="url(#artboard_clip_path)"
+
        id="Foi: Art">
       <title
          id="title11">Art</title>

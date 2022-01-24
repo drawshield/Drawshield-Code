@@ -25,8 +25,7 @@
            rdf:resource="http://creativecommons.org/ns#Notice" /><cc:requires
            rdf:resource="http://creativecommons.org/ns#Attribution" /><cc:permits
            rdf:resource="http://creativecommons.org/ns#DerivativeWorks" /><cc:requires
-           rdf:resource="http://creativecommons.org/ns#ShareAlike" /></cc:License></rdf:RDF></metadata><defs
-     id="defs266" /><v:documentProperties
+           rdf:resource="http://creativecommons.org/ns#ShareAlike" /></cc:License></rdf:RDF></metadata><v:documentProperties
      v:viewMarkup="false"
      v:langID="1033" /><style
      id="style6"

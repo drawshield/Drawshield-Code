@@ -10,15 +10,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <defs
-     id="defs5">
-    <clipPath
-       id="artboard_clip_path">
-      <path
-         d="M 33.58981 63.065444 L 330.9102 63.065444 L 330.9102 266.77767 L 33.58981 266.77767 Z"
-         id="path2" />
-    </clipPath>
-  </defs>
   <metadata
      id="metadata7"> Produced by OmniGraffle 7.11.5 
     <dc:date>2021-07-03 13:31:57 +0000</dc:date>
@@ -40,7 +31,7 @@
        id="title9">Boar Passant (1)</title>
     <g
        id="Boar_Passant_(1): Layer 2"
-       clip-path="url(#artboard_clip_path)">
+       >
       <title
          id="title11">Layer 2</title>
       <g

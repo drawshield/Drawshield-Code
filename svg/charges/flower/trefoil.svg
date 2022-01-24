@@ -10,15 +10,7 @@
    width="293"
    viewBox="36 67.5 293 333"
    version="1.1">
-  <defs
-     id="defs5">
-    <clipPath
-       id="artboard_clip_path">
-      <path
-         id="path2"
-         d="M 36 67.5 L 329 67.5 L 329 400.5 L 36 400.5 Z" />
-    </clipPath>
-  </defs>
+
   <metadata
      id="metadata7"> Produced by OmniGraffle 7.11.5 
     <dc:date>2020-11-14 09:58:01 +0000</dc:date>
@@ -41,7 +33,7 @@
     <title
        id="title9">Trefoil (1)</title>
     <g
-       clip-path="url(#artboard_clip_path)"
+
        id="Trefoil_(1): Layer 2">
       <title
          id="title11">Layer 2</title>
