@@ -2042,11 +2042,6 @@ class englishGrammar extends grammar
                 }
                 self::ignore(languageDB::ANDD);
             }
-   /*     } elseif ($type == 'leaves') {
-            if (($tincNode = self::tincture()) == null) {
-                $tincNode = createColourNode('vert');
-            }
-            $mantlingNode->appendChild($tincNode); */
         } else {
             if (self::tincture()) {
                 self::raiseError(self::ERROR_ORIGIN, "Given mantling has fixed colours", true);

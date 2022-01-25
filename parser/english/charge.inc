@@ -781,6 +781,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'paternosters?', 'christian/rosary' ),
       array ( 'tombstones?', 'christian/tombstone' ),
       array ( 'cherub(im)?s?', 'christian/cherub' ),
+       array ( 'sleeping cherub(im)?s?', 'christian/sleeping-cherub' ),
       array ( '(paschal|holy) lambs?', 'christian/paschal-lamb' ),
       array ( 'lambs? of god', 'christian/paschal-lamb' ),
       array ( 'agnus dei', 'christian/paschal-lamb' ),
