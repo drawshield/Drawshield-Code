@@ -157,6 +157,7 @@ function drawMantling($mantlingNode)
             break;
         case 'leaves':
             $yShift = 270; $scale = 0.65;
+            $default1 = $default2 = rgb('vert');
             break;
         case 'ribbons':
             $yShift = 170; $scale = 0.75;
