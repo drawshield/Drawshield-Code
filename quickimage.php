@@ -74,7 +74,7 @@ $options['asFile'] = "1";
       header('Content-Type: image/jpg');
       echo $im->getimageblob();
       break;
-    case 'png':
+    case 'png-old':
       $im = new Imagick();
       $im->readimageblob($output);
       $im->setimageformat('png');
@@ -83,7 +83,7 @@ $options['asFile'] = "1";
       header('Content-Type: image/png');
        echo $im->getimageblob();
       break;
-      case 'png-batik':
+      case 'png':
         $dir = sys_get_temp_dir();
         $base = tempnam($dir, 'shield');
         rename($base, $base . '.svg');

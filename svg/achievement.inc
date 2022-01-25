@@ -366,7 +366,11 @@ function drawMotto($mottoNode, $layout) {
         $style .= "font-size:${fontSize}px;fill:$colour";
         $transform = "translate(0,$up)";
         $tspan = $svgXpath->query('//svg:tspan');
+        $tspan->item(0)->setAttribute('font-size',"${fontSize}px");
+        $tspan->item(0)->setAttribute('fill',$colour);
         $tspan->item(0)->setAttribute('style',$style);
+        $tspan->item(0)->setAttribute('text-align','center');
+        $tspan->item(0)->setAttribute('text-anchor','middle');
         $tspan->item(0)->firstChild->nodeValue = $text;
         $textPath = $svgXpath->query('//svg:textPath');
         $textPath->item(0)->setAttribute('transform',$transform);
