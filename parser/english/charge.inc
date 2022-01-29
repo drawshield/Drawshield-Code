@@ -299,6 +299,8 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'sparrow hawks?', 'hawking/falcon' ),
       array ( 'imperial eagles?', 'hawking/imperial-eagle' ),
       array ( 'eagles?', 'hawking/eagle' ),
+       array ( 'napole[ao]n(ic|s)? eagles?', 'hawking/napoleonic-eagle?P' ),
+       array ( 'eagles? ?of napole[ao]n ', 'hawking/napoleonic-eagle?P' ),
       array ( '?hawks? lures?', 'hawking/hawk-lure' ),
       array ( 'hawks? bells?', 'hawking/hawkbell' ),
       array ( 'hawkbells?', 'hawking/hawkbell' ),

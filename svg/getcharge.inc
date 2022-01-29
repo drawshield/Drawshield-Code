@@ -618,7 +618,7 @@ function getCharge( DOMElement $node, $layout ) {
     }
     //------------------------------------------------------------------------------
     // set a default stroke colour based on whether the body colour is light or dark
-    if (!$strokeCol)
+    if ( !$chg_data['verbatim'] && !$strokeCol)
         $strokeCol = getStroke($charge_col, array_key_exists('fixStroke',$chg_data)); 
 
     //------------------------------------------------------------------------------
