@@ -56,7 +56,7 @@ class languageDB extends lexicon
     const ORDINARY = 'ordinary';
     const ORDINARY_PREFIX = 'ordprefix';
     const ORDINARY_MODS = 'ordmods';
-    const COLOUR_MODS = 'compony';
+    const COLOUR_MODS = 'colourmods';
     const CROWN_MODS = 'crownmods';
     const LINETYPE_PREFIX = 'linepre';
     const LINETYPE_POSTFIX = 'linepost';
@@ -966,8 +966,6 @@ class languageDB extends lexicon
                 array('pointed', 'pointed'),
             ),
             self::COLOUR_MODS => array(
-                array('(compony|gobon[ey]|gobonated)', 'compony1'),
-                array('counter (compony|gobon[ey]|gobonated)', 'compony2'),
                 array('(fimbri?ated|edged)', 'fimbriated'),
             ),
             self::LINETYPE_PREFIX => array(
@@ -981,6 +979,8 @@ class languageDB extends lexicon
                 array('(at|on) ?the bottom', 'bottom-only'),
             ),
             self::ORDINARY_MODS => array( // only come after ordinary
+                array('(compony|gobon[ey]|gobonated)', 'compony1'),
+                array('counter (compony|gobon[ey]|gobonated)', 'compony2'),
                 'closetted', 'embowed',
                 array('?nowy quadrate', 'quadrate'),
                 array('nowy lozengy', 'nowy-lozengy'),

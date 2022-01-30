@@ -391,13 +391,13 @@ function makeOrdinary( DOMElement &$node, $layout ) {
 	// Start to build return string
   $retval = apply_tincture ( $tinc1, $bodySVG, $layout, null, $rot, $mirrored, $inverted );
 
-	// Do we need to add a second tincture as an overlay
-  if ( ($compNode = getModifierNodeWithKeyterm($node,'compony1', false)) != null or
-    ($compNode = getModifierNodeWithKeyterm($node, 'compony2', false )) != null ) {
-    if ( ($body2_col = getTinctureNode($compNode)) == null or
-      !array_key_exists('body2', $ord_data)) {
-        $messages->addMessage('warning','Cannot apply compony to ' . $subtype);
-    } else {
+	// Do we need to add a second tincture as an overlay?
+    if (array_key_exists('body2', $ord_data)) {
+        $body2_col = getTinctureNode($node,'2');
+        if ($body2_col == null) {
+            $messages->addMessage('warning','Second colour required for ordinary, gray substituted');
+            $body2_col = createColourNode('gray','2');
+        }
       $body2_spec = subPercent($ord_data['body2'], $layout);
       if ( $body2_spec[0] != '<' ) {
         $linetype = null;
@@ -410,10 +410,12 @@ function makeOrdinary( DOMElement &$node, $layout ) {
       $body2_fill = add_def( 'pattern patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="0" ' .
                              'y="0" width="'.$layout->size->width.'" height="'.$layout->size->height.'"', $body2 );
       $retval .= add_def() . '<g fill="url(#' . $body2_fill . ')">' . $bodySVG . '</g>';
+  } elseif ( (getModifierNodeWithKeyterm($node,'compony1', false)) != null or
+    (getModifierNodeWithKeyterm($node, 'compony2', false )) != null ){
+        $messages->addMessage('warning','Sorry, compony not supported for ' . $subtype);
     }
-  }
-	
-	// Fimbriation goes on top of everything else
+
+    // Fimbriation goes on top of everything else
 	if ( ($fimbriated = getModifierNodeWithKeyterm($node,'fimbriated')) != null ) {
 		$fim_rgb = get_rgb( getTinctureNode($fimbriated) );
 	  $retval .= '<g stroke="' . $fim_rgb . '" stroke-width="15" fill="none">' . "$bodySVG</g>";

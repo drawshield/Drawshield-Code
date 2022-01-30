@@ -1257,6 +1257,7 @@ class englishGrammar extends grammar
 
 // TODO check makeMod everywhere, does it need $this->phraseMatcher->getValue() as 2nd arg?
         $foundTinc = false;
+        $tincIndex = 1;
         while (self::moreInput()) { // Look for prefixes again, just in case, and other common ordinary modifiers (e.g. "a bend sinister")
             self::comma();
             self::ignore(LanguageDB::ANDD);
@@ -1286,6 +1287,8 @@ class englishGrammar extends grammar
                 }
                 $ord->appendChild($mod);
             } elseif ($tinc = self::tincture(false)) {
+                $tinc->setAttribute(blazonML::A_INDEX,"$tincIndex");
+                $tincIndex++;
                 $ord->appendChild($tinc);
                 $foundTinc = true;
             } else break;
