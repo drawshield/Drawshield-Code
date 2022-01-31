@@ -946,7 +946,8 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'dragons?', 'dragon/dragon' ),
       array ( 'w[yi]vern?s?', 'dragon/wyvern' ),
       // mythical / stylised creatures
-      array ( 'deer goats?', 'mythical/deer-goat' ),
+      array ( 'minotaurs?', 'mythical/minotaur' ),
+       array ( 'deer goats?', 'mythical/deer-goat' ),
       array ( '?worms? ou?rou?boro(i|s|ses)', 'mythical/ouroboros' ),
       array ( 'lion goats?', 'mythical/lion-goat' ),
       array ( 'camelopardels?', 'mythical/giraffe-horned' ),
