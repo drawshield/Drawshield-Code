@@ -25,7 +25,20 @@ if ( existModifierWithKeyterm($node,'couped') ) {
   $ordinary['shape_spec'] = 'X100Y-8U1a908c408E908g408';
   $ordinary['chargesOn'] = array ('h','200,50,600,200');
 } elseif ( existModifierWithKeyterm($node,'lozengy')) {
-  $ordinary['body'] = '<path d="M0,0l83.3,150 83.3,-150 83.3,150 83.3,-150 83.3,150 83.3,-150 83.3,150 83.3,-150 83.3,150 83.3,-150 83.3,150 83.3,-150 v300 l-83.3,-150 -83.3,150 -83.3,-150 -83.3,150 -83.3,-150 -83.3,150 -83.3,-150 -83.3,150 -83.3,-150 -83.3,150 -83.3,-150 -83.3,150 " />';
+    // lozengy can have 1 colour, in which case it is just conjoined lozenges in that colour
+    // or two colours, in which case:
+    // The first colour is a normal, straight edged fess
+    // The second colour is the conjoined lozenges superimposed
+    $numCols = 0;
+    foreach($node->childNodes as $childNode) {
+        if ($childNode->nodeName == blazonML::E_TINCTURE) $numCols++;
+    }
+    if ($numCols < 2) {
+        $ordinary['body'] = '<path d="M0,0 l83.3,{%60} 83.3,-{%60} 83.3,{%60} 83.3,-{%60} 83.3,{%60} 83.3,-{%60} 83.3,{%60} 83.3,-{%60} 83.3,{%60} 83.3,-{%60} 83.3,{%60} 83.3,-{%60} v{%120} l-83.3,-{%60} -83.3,{%60} -83.3,-{%60} -83.3,{%60} -83.3,-{%60} -83.3,{%60} -83.3,-{%60} -83.3,{%60} -83.3,-{%60} -83.3,{%60} -83.3,-{%60} -83.3,{%60} " />';
+    } else {
+        $ordinary['body'] = '<path d="M-50,0 h 1300 v{%120} h-1300 z" />';
+        $ordinary['body2'] = '<path d="M0,0 l83.3,{%60} 83.3,-{%60} 83.3,{%60} 83.3,-{%60} 83.3,{%60} 83.3,-{%60} 83.3,{%60} 83.3,-{%60} 83.3,{%60} 83.3,-{%60} 83.3,{%60} 83.3,-{%60} v{%120} l-83.3,-{%60} -83.3,{%60} -83.3,-{%60} -83.3,{%60} -83.3,-{%60} -83.3,{%60} -83.3,-{%60} -83.3,{%60} -83.3,-{%60} -83.3,{%60} -83.3,-{%60} -83.3,{%60} " />';
+    }
   $ordinary['chargesOn'] = array ('h','100,50,800,200'); // Or an error?
 } elseif ( existModifierWithKeyterm($node, 'voided')) {
   $ordinary['shape_spec'] = 'X-100Y300U1a1200c40E1200g40';

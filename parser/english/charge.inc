@@ -1078,6 +1078,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'barbers? poles?', 'crafts/barber-pole' ),
       array ( 'spools? ?of threads?', 'crafts/thread-spool' ),
       // household
+       array ( 'stacks? of coins?', 'household/stack-of-coins'),
       array ( 'bungs? ?of ?a ?tun', 'household/bung' ),
       array ( 'fire steels?', 'household/fire-steel' ),
       array ( 'furisons?', 'household/fire-steel' ),
