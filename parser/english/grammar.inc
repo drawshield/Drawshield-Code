@@ -2123,6 +2123,8 @@ class englishGrammar extends grammar
 
     protected function motto()
     {
+        $state = self::save();
+        self::ignore(languageDB::SIGNIFIER);
         $type = '';
         $position = '';
         $text = '';
@@ -2131,8 +2133,10 @@ class englishGrammar extends grammar
         $keyterm = self::find(languageDB::MOTTO);
 
         if ($keyterm == null && $type == null) {
+            self::restore($state);
             return null;
         }
+        self::discard($state);
         if ($type == null) {
             self::ignore(languageDB::WORD_OF);
             self::ignore(languageDB::SIGNIFIER);
