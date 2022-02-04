@@ -189,6 +189,9 @@ function draw() {
         $displayScale = $options['size'] / 1000;
         $displayWidth = $options['size'];
         $displayHeight = (int)(($layout->size->height + 40 + $extraSpace) * $displayScale);
+        // clip to flag shape
+        $clipFlag = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />' );
+        $body = '<g mask="url(#' . $clipFlag . ')">' . $body . '</g>';
 
         $header = '<?xml version="1.0" encoding="utf-8" ?>
     <svg version="1.1"
