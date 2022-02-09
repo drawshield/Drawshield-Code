@@ -920,5 +920,7 @@ HERE;
   $chg_data['hold_point'] = $hold_point;
   $chg_data['hold_radius'] = $hold_radius;
   $chg_data['bounding_box'] = $bounding_box;
+  $chg_data['name'] = $chargeName;
+  $chg_data['group'] = $chargeGroup;
   return $chg_data;
 }
