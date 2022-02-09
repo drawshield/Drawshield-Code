@@ -406,7 +406,7 @@ function PlaceCharge ( $node,  // images
   }
 
   // sometimes we can ignore the orientation as we are already "that way up"
-  if ($orientation == $situation) $orientation = null;
+  if ($charge['group'] != 'quadrate' && $orientation == $situation) $orientation = null;
 
     $shownRotation = $hints->angle;
     $boundX *= $hints->scale_x;
