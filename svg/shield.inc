@@ -230,9 +230,18 @@ function makeshield(DOMElement &$node, $layout)
         if ($child->nodeName == blazonML::E_INSTRUCTIONS) {
             setOptionsFromBlazon($child);
             $layout = ShieldLayout::from_options($options);
+            // The palette can be overwritten later so set a separate flag to
+            // cause the hatching patterns to be created at the maximum height needed
+            if ($options['palette'] == 'hatching' && !array_key_exists('addHatching', $options)) {
+                    $options['addHatching'] = $layout->size->height;
+            }
         }
     }
-    // then again to draw the shields
+    // If at a later date we find a taller shield, use that height instead
+    if (array_key_exists('addHatching', $options) && $options['addHatching'] < $layout->size->height) {
+        $options['addHatching'] = $layout->size->height;
+    }
+// then again to draw the shields
     foreach ($node->childNodes as $child) {
         $children = $child->childNodes;
         switch ($child->nodeName) {

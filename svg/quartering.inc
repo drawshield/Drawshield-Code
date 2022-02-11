@@ -28,7 +28,6 @@ class Quarter
         $this->section = "quarter";
         $this->shape = $shape;
         $this->cross_point = null;
-
     }
 
     function svg_transform()

@@ -20,7 +20,7 @@ $div_data = array ( 166.67, 600, 'v600l83.3,-300z m166.67,0v600l-83.3,-300z', );
 
 $retval = '<path d="';
 list($width, $height, $pattern ) = $div_data;
-for ( $y = 0; $y < 1200; $y += $height )
+for ( $y = 0; $y < $layout->size->height; $y += $height )
   for ( $x = 0; $x < 1000; $x += $width )
     $retval .= "M$x,$y $pattern ";
 $retval .= '" />';

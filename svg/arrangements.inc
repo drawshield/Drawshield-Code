@@ -866,8 +866,14 @@ function get_placement(DOMElement $item, $layout) {
         if ( $placement == '' ) {
             // special case placements, put some charges in exact centre of cross
             if ( $forceCentre ) {
-                $boundingBox = $boundingBox->relative_box(0.9, 0.9, 0.9, 0.9);
-                $boundingBox->pos = clone $layout->cross_point;
+                // We re-center the bounding box on the cross point, but also need to make
+                // sure that it still fits within the shield boundary (by checking the space
+                // available between the top of the shield and the bounding box, leaving
+                // a 20% margin) Issue 257 refers
+                $availableHeight = ($layout->cross_point->y) * 0.8;
+                // $boundingBox = $boundingBox->relative_box(0.9, 0.9, 0.9, 0.9);
+                // $boundingBox->pos = clone $layout->cross_point;
+                $boundingBox = new ShieldRect(clone $layout->cross_point, new ShieldSize($availableHeight * 2, $availableHeight * 2));
             }
             $placement = calcPlace($item,'w',$boundingBox);
         }

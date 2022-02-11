@@ -15,19 +15,19 @@ This file is part of the DrawShield.net heraldry image creation program
     You should have received a copy of the GNU General Public License
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
-function mkGules() {
+function mkGules($maxHeight) {
 	$retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
-	for ($i = 0; $i <= 1200; $i += 20) {
-		$retval .= "<path d=\"M $i, 0 V 1200\"/>\n";
+	for ($i = 0; $i <= 1000; $i += 20) {
+		$retval .= "<path d=\"M $i, 0 V $maxHeight\"/>\n";
 	}
 	$retval .= "</g>\n";
 	return $retval;
 }
 
 
-function mkCelestialAzure() {
+function mkCelestialAzure($maxHeight) {
     $retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\" stroke-dasharray='5,7,21,7'>\n";
-    for ($i = 0; $i <= 1200; $i += 40) {
+    for ($i = 0; $i <= $maxHeight; $i += 40) {
         $retval .= "<path d=\"M 0,$i H 1000\"/>\n";
         $i2 = $i + 20;
         $retval .= "<path d=\"M -20,$i2 H 1040\"/>\n";
@@ -36,62 +36,64 @@ function mkCelestialAzure() {
     return $retval;
 }
 
-function mkOrange() {
+function mkOrange($maxHeight) {
+    $maxHeightPlus = $maxHeight + 30;
     $retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\" stroke-dasharray='5,7,21,7'>\n";
     for ($i = 0; $i <= 1000; $i += 40) {
-        $retval .= "<path d=\"M $i,0 V 1200\"/>\n";
+        $retval .= "<path d=\"M $i,0 V $maxHeight\"/>\n";
         $i2 = $i + 20;
-        $retval .= "<path d=\"M $i2,-20 V 1230\"/>\n";
+        $retval .= "<path d=\"M $i2,-20 V $maxHeightPlus\"/>\n";
     }
     $retval .= "</g>\n";
     return $retval;
 }
 
-function mkCendree() {
+function mkCendree($maxHeight) {
     $retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\" stroke-dasharray='40,40'>\n";
     for ($i = -20; $i <= 1020; $i += 80) {
-        $retval .= "<path d=\"M $i,-20 V 1200\"/>\n";
+        $retval .= "<path d=\"M $i,-20 V $maxHeight\"/>\n";
     }
-    for ($i = 0; $i <= 1200; $i += 80) {
+    for ($i = 0; $i <= $maxHeight; $i += 80) {
         $retval .= "<path d=\"M 0,$i H 1000\"/>\n";
     }
     for ($i = 20; $i <= 1020; $i += 80) {
-        $retval .= "<path d=\"M $i,20 V 1200\"/>\n";
+        $retval .= "<path d=\"M $i,20 V $maxHeight\"/>\n";
     }
-    for ($i = 40; $i <= 1240; $i += 80) {
+    for ($i = 40; $i <= $maxHeight + 40; $i += 80) {
         $retval .= "<path d=\"M -40,$i H 1000\"/>\n";
     }
     $retval .= "</g>\n";
     return $retval;
 }
 
-function mkBisque() {
+function mkBisque($maxHeight) {
+    $maxHeightPlus = $maxHeight + 30;
     $retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\" stroke-dasharray='40,40'>\n";
     for ($i = 0; $i <= 1000; $i += 40) {
-            $retval .= "<path d=\"M $i,0 V 1200\"/>\n";
+            $retval .= "<path d=\"M $i,0 V $maxHeight\"/>\n";
             $i2 = $i + 20;
-            $retval .= "<path d=\"M $i2,40 V 1230\"/>\n";
+            $retval .= "<path d=\"M $i2,40 V $maxHeightPlus\"/>\n";
     }
     $retval .= "</g>\n";
     return $retval;
 }
 
-function mkbrunatre() {
+function mkbrunatre($maxHeight) {
     $retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
-    for ($i = 0; $i <= 1200; $i += 20) {
-        $retval .= "<path d=\"M $i, 0 V 1200\"/>\n";
+    for ($i = 0; $i <= $maxHeight; $i += 20) {
+        $retval .= "<path d=\"M $i, 0 V $maxHeight\"/>\n";
         $retval .= "<path d=\"M 0, $i l 1420, 1420\"/>\n";
         $retval .= "<path d=\"M $i, 0 l 1420, 1420\"/>\n";
-        $retval .= "<path d=\"M 0, $i H 1200\"/>\n";
+        $retval .= "<path d=\"M 0, $i H $maxHeight\"/>\n";
     }
     $retval .= "</g>\n";
     return $retval;
 }
 
-function mkTenne() {
+function mkTenne($maxHeight) {
     $retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
-    for ($i = 0; $i <= 1200; $i += 20) {
-        $retval .= "<path d=\"M $i, 0 V 1200\"/>\n";
+    for ($i = 0; $i <= $maxHeight; $i += 20) {
+        $retval .= "<path d=\"M $i, 0 V $maxHeight\"/>\n";
         $retval .= "<path d=\"M 0, $i l 1420, 1420\"/>\n";
         $retval .= "<path d=\"M $i, 0 l 1420, 1420\"/>\n";
     }
@@ -99,28 +101,28 @@ function mkTenne() {
     return $retval;
 }
 
-function mkAzure() {
+function mkAzure($maxHeight) {
 	$retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
-	for ($i = 0; $i <= 1200; $i += 20) {
+	for ($i = 0; $i <= $maxHeight; $i += 20) {
 		$retval .= "<path d=\"M 0, $i H 1200\"/>\n";
 	}
 	$retval .= "</g>\n";
 	return $retval;
 }
 
-function mkSable() {
+function mkSable($maxHeight) {
 	$retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
-	for ($i = 0; $i <= 1200; $i += 20) {
+	for ($i = 0; $i <= $maxHeight; $i += 20) {
 		$retval .= "<path d=\"M 0, $i H 1200\"/>\n";
-		$retval .= "<path d=\"M $i, 0 V 1200\"/>\n";
+		$retval .= "<path d=\"M $i, 0 V $maxHeight\"/>\n";
 	}
 	$retval .= "</g>\n";
 	return $retval;
 }
 
-function mkVert() {
+function mkVert($maxHeight) {
 	$retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
-	for ($i = 0; $i <= 1200; $i += 20) {
+	for ($i = 0; $i <= $maxHeight; $i += 20) {
 		$retval .= "<path d=\"M 0, $i l 1420, 1420\"/>\n";
 		$retval .= "<path d=\"M $i, 0 l 1420, 1420\"/>\n";
 	}
@@ -128,9 +130,9 @@ function mkVert() {
 	return $retval;
 }
 
-function mkRose() {
+function mkRose($maxHeight) {
 	$retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
-	for ($i = 0; $i < 1200; $i += 40) {
+	for ($i = 0; $i < $maxHeight; $i += 40) {
 		$retval .= "<path stroke-dasharray=\"15 10 40 10\" d=\"M 1200, $i l -1420, 1420\"/>\n";
         $retval .= "<path stroke-dasharray=\"15 10 40 10\" d=\"M $i, 0 l -1420, 1420\"/>\n";
         $j = $i + 20;
@@ -142,9 +144,9 @@ function mkRose() {
 }
 
 
-function mkPurpure() {
+function mkPurpure($maxHeight) {
 	$retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
-	for ($i = 0; $i < 1200; $i += 20) {
+	for ($i = 0; $i < $maxHeight; $i += 20) {
 		$retval .= "<path d=\"M 1200, $i l -1420, 1420\"/>\n";
 		$retval .= "<path d=\"M $i, 0 l -1420, 1420\"/>\n";
 	}
@@ -152,13 +154,13 @@ function mkPurpure() {
 	return $retval;
 }
 
-function mkMurrey() {
+function mkMurrey($maxHeight) {
 	$retval = "<g fill=\"none\" stroke=\"#000000\" stroke-width=\"2\">\n";
-	for ($i = 0; $i <= 1200; $i += 20) {
+	for ($i = 0; $i <= $maxHeight; $i += 20) {
 		$retval .= "<path d=\"M 1200, $i l -1420, 1420\"/>\n";
 		$retval .= "<path d=\"M $i, 0 l -1420, 1420\"/>\n";
 	}
-	for ($i = 0; $i <= 1200; $i += 20) {
+	for ($i = 0; $i <= $maxHeight; $i += 20) {
 		$retval .= "<path d=\"M 0, $i l 1420, 1420\"/>\n";
 		$retval .= "<path d=\"M $i, 0 l 1420, 1420\"/>\n";
 	}
@@ -167,10 +169,10 @@ function mkMurrey() {
 }
 
 
-function mkOr() {
+function mkOr($maxHeight) {
 	$retval = "<g stroke=\"none\" fill=\"#000000\">\n";
-	for ($i = 0; $i <= 1200; $i += 40) {
-		for ($j = 0; $j <= 1200; $j += 40) {
+	for ($i = 0; $i <= $maxHeight; $i += 40) {
+		for ($j = 0; $j <= $maxHeight; $j += 40) {
 			$retval .= "<circle cx=\"$i\" cy=\"$j\" r=\"2\" />\n";
 			$k = $i + 20;
 			$l = $j + 20;
@@ -182,76 +184,76 @@ function mkOr() {
 }
 
 
-function mkHatches() {
+function mkHatches($maxHeight) {
     $defs = "";
     $defs .= "<g id=\"gules\" >\n";
-    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
-    $defs .= mkGules();
+    $defs .= '<rect x="0" y="0" width="1000" height="' . $maxHeight . '" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkGules($maxHeight);
     $defs .= "</g>\n";
 
     $defs .= "<g id=\"azure\" >\n";
-    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
-    $defs .= mkAzure();
+    $defs .= '<rect x="0" y="0" width="1000" height="' . $maxHeight . '" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkAzure($maxHeight);
     $defs .= "</g>\n";
 
     $defs .= "<g id=\"cendree\" >\n";
-    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
-    $defs .= mkCendree();
+    $defs .= '<rect x="0" y="0" width="1000" height="' . $maxHeight . '" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkCendree($maxHeight);
     $defs .= "</g>\n";
 
     $defs .= "<g id=\"orange\" >\n";
-    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
-    $defs .= mkOrange();
+    $defs .= '<rect x="0" y="0" width="1000" height="' . $maxHeight . '" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkOrange($maxHeight);
     $defs .= "</g>\n";
 
     $defs .= "<g id=\"celestialAzure\" >\n";
-    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
-    $defs .= mkcelestialAzure();
+    $defs .= '<rect x="0" y="0" width="1000" height="' . $maxHeight . '" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkcelestialAzure($maxHeight);
     $defs .= "</g>\n";
 
     $defs .= "<g id=\"or\" >\n";
-    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
-    $defs .= mkOr();
+    $defs .= '<rect x="0" y="0" width="1000" height="' . $maxHeight . '" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkOr($maxHeight);
     $defs .= "</g>\n";
 
     $defs .= "<g id=\"sable\"  >\n";
-    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
-    $defs .= mkSable();
+    $defs .= '<rect x="0" y="0" width="1000" height="' . $maxHeight . '" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkSable($maxHeight);
     $defs .= "</g>\n";
 
     $defs .= "<g id=\"rose\" >\n";
-    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
-    $defs .= mkRose();
+    $defs .= '<rect x="0" y="0" width="1000" height="' . $maxHeight . '" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkRose($maxHeight);
     $defs .= "</g>\n";
 
     $defs .= "<g id=\"vert\" >\n";
-    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
-    $defs .= mkVert();
+    $defs .= '<rect x="0" y="0" width="1000" height="' . $maxHeight . '" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkVert($maxHeight);
     $defs .= "</g>\n";
 
     $defs .= "<g id=\"purpure\"  >\n";
-    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
-    $defs .= mkPurpure();
+    $defs .= '<rect x="0" y="0" width="1000" height="' . $maxHeight . '" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkPurpure($maxHeight);
     $defs .= "</g>\n";
 
     $defs .= "<g id=\"bisque\"  >\n";
-    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
-    $defs .= mkBisque();
+    $defs .= '<rect x="0" y="0" width="1000" height="' . $maxHeight . '" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkBisque($maxHeight);
     $defs .= "</g>\n";
 
     $defs .= "<g id=\"tenne\"  >\n";
-    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
-    $defs .= mkTenne();
+    $defs .= '<rect x="0" y="0" width="1000" height="' . $maxHeight . '" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkTenne($maxHeight);
     $defs .= "</g>\n";
 
     $defs .= "<g id=\"brunatre\"  >\n";
-    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
-    $defs .= mkbrunatre();
+    $defs .= '<rect x="0" y="0" width="1000" height="' . $maxHeight . '" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkbrunatre($maxHeight);
     $defs .= "</g>\n";
 
     $defs .= "<g id=\"murrey\"  >\n";
-    $defs .= '<rect x="0" y="0" width="1200" height="1200" fill="#ffffff" stroke="none" />' . "\n";
-    $defs .= mkMurrey();
+    $defs .= '<rect x="0" y="0" width="1000" height="' . $maxHeight . '" fill="#ffffff" stroke="none" />' . "\n";
+    $defs .= mkMurrey($maxHeight);
     $defs .= "</g>\n";
     return $defs;
 }
