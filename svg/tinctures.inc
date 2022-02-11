@@ -434,7 +434,7 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
         // We make some things a wee bit smaller if on a charge, just for looks
         $chgX = $chg_size->width;
         $chgY = $chg_size->height;
-        $scale = max ( $chgX / 1000, $chgY / 1200 ); // multiply here to adjust relative size of fur etc. on a charge
+        $scale = max ( $chgX / 1000, $chgY / $layout->size->height ); // multiply here to adjust relative size of fur etc. on a charge
         $data->pattern_transform = ' scale(' . $scale . ') ';
     } elseif ($layout->shape == 'flag') { // adjust size based on flag AR?
         $data->pattern_transform = ' scale(0.5) ';
@@ -500,7 +500,7 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
             switch ($targetType) {
                 case 'division':
                     $new_div = makeDivision( $data->type_node, $layout );
-                    $mask_id = add_def ( 'mask width="1200" height="1400" maskUnits="userSpaceOnUse"',
+                    $mask_id = add_def ( 'mask width="1200" height="' . ($layout->size->height + 200) . '" maskUnits="userSpaceOnUse"',
                     $title . "<desc>Division used to fill $targetKeyterm</desc>" .
                     '<g fill="white">' . $targetSVG . '</g>' );
                     $retval = add_def();
@@ -512,7 +512,7 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
                 case 'ordinary':
                     if ( strpos($targetKeyterm, 'cross') !== false || strpos($targetKeyterm, 'bend') !== false || strpos($targetKeyterm, 'saltire') !== false ) {
                         $new_div = makeDivision( $data->type_node, $layout );
-                        $mask_id = add_def ( 'mask width="1200" height="1400" maskUnits="userSpaceOnUse"',
+                        $mask_id = add_def ( 'mask width="1200" height="' . ($layout->size->height + 200) . '" maskUnits="userSpaceOnUse"',
                             $title . "<desc>Division used to fill $targetKeyterm</desc>" .
                             '<g fill="white">' . $targetSVG . '</g>' );
                         $retval = add_def();
@@ -563,12 +563,26 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
                         ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="' . $offset . '" y="0" width="' .
                         $treat_data['width'] . '" height="' . $treat_data['height'] . '"',
                         '<g class="treatment">' . $treat_data['body'] . '</g>' );
-                    $fill = '<g fill="url(#' . $treatPatt_id . ')"  ><path d="M0,0 h1000 v1200 h-1000 z" /></g>';
+                    $fill = '<g fill="url(#' . $treatPatt_id . ')"  ><path d="M0,0 h1000 v' . $layout->size->height . ' h-1000 z" /></g>';
                     $patt_id = add_def('mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>');
                     $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $fill . '</g>';
                 } else {
-                    $messages->addMessage ('error','Counterchange requires two colour field' );
-                    return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $targetSVG . '</g>';
+                    $fur = $xpath->query('preceding::field/tincture/fur',$data->node);
+                    if ($fur->length) {
+                        $counterFur = $fur->item(($fur->length) - 1);
+                        $fur_data = makeFur($counterFur->getAttribute(blazonML::A_KEYTERM), true);
+                        $furPatt_id = add_def ( 'pattern ' . $data->pattern_transform .
+                            ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="0" y="0" width="' .
+                            $fur_data['width'] . '" height="' . $fur_data['height'] . '"',
+                            '<g class="fur">' . $fur_data['body'] . '</g>' );
+                        $fill = '<g fill="url(#' . $furPatt_id . ')"  ><path d="M0,0 h1000 v' . $layout->size->height. ' h-1000 z" /></g>';
+                        $patt_id = add_def('mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>');
+                        $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $fill . '</g>';
+                        } else {
+                            $messages->addMessage('error', 'Counterchange requires two colour field');
+                            return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $targetSVG . '</g>';
+                        }
+
                 }
             }
             break;

@@ -17,105 +17,131 @@ This file is part of the DrawShield.net heraldry image creation program
  */
 
 
-function makeFur ( $name ) {
+function makeFur ( $name, $counterChange = false ) {
   global $messages;
   $fur_data = array (
-    'counter-ermine' => array (  'width' => 222, 'height' => 400, 'body' => '<polygon points="0,0 222,0 222,400 0,400" fill="' . rgb('sable') . '"/>
-        <g fill="' . rgb('argent') . ' ">
+    'counter-ermine' => array (  'width' => 222, 'height' => 400,
+        'background' => rgb('sable'), 'foreground' => rgb('argent'),
+        'body' => '<polygon points="0,0 222,0 222,400 0,400" fill="%BACKGROUND%"/>
+        <g fill="%FOREGROUND%">
             <circle stroke-width="2" stroke="' . rgb('pattern-stroke') . '" r="10" cx="55" cy="30"/>
             <circle stroke-width="2" stroke="' . rgb('pattern-stroke') . '" r="10" cx="36" cy="55"/>
             <circle stroke-width="2" stroke="' . rgb('pattern-stroke') . '" r="10" cx="74" cy="55"/>
             <path stroke-width="2" stroke="' . rgb('pattern-stroke') . '" d="M 53 60 A 50 210 0 0,1 10,180 A 60 40 0 0,0 45,170 A 30 40 0, 0,0 55 200 A 30 40 0, 0,0 62,170 A 60 40 0 0,0 101, 180 A 50 210 0 0,1 57 60 Z"/>
         </g>
-        <g transform="translate(111,200)" fill="' . rgb('argent') . '">
+        <g transform="translate(111,200)" fill="%FOREGROUND%">
             <circle stroke-width="2" stroke="' . rgb('pattern-stroke') . '" r="10" cx="55" cy="30"/>
             <circle stroke-width="2" stroke="' . rgb('pattern-stroke') . '" r="10" cx="36" cy="55"/>
             <circle stroke-width="2" stroke="' . rgb('pattern-stroke') . '" r="10" cx="74" cy="55"/>
             <path stroke-width="2" stroke="' . rgb('pattern-stroke') . '" d="M 53 60 A 50 210 0 0,1 10,180 A 60 40 0 0,0 45,170 A 30 40 0, 0,0 55 200 A 30 40 0, 0,0 62,170 A 60 40 0 0,0 101, 180 A 50 210 0 0,1 57 60 Z"/>
         </g>'  ),
-    'counter-potent' => array ( 'width' => 333, 'height' => 200, 'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,200 333,200 333,0" fill="' . rgb('argent') . '"/>
-        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 209,0 209,50 292,50 292,98 42,98 42,50 125,50" fill="' . rgb('azure') . '" />
-        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="scale(1,-1) translate(0,-200)" points="125,0 209,0 209,50 292,50 292,98 42,98 42,50 125,50" fill="' . rgb('azure') . '" />' ),
-    'counter-vair' => array (  'link' => 'http://drawshield.net/reference/parker/c/counter-vair.html', 'width' => 250, 'height' => 480, 'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,480 250,480 250,0" fill="' . rgb('argent') . '"/>
-        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 193,40 193,200 250,238 0,238 66,200 66,40" fill="' . rgb('azure') . '"/>
-        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="scale(1,-1) translate(0,-480)" points="125,0 193,40 193,200 250,238 0,238 66,200 66,40" fill="' . rgb('azure') . '"/>' ),
-    'ermine' => array (  'link' => 'http://drawshield.net/reference/parker/e/ermine.html', 'width' => 222, 'height' => 400, 'body' => '        <polygon points="0,0 222,0 222,400 0,400" fill="' . rgb('argent') . '"/>
-        <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" fill="' . rgb('sable') . '">
+    'counter-potent' => array ( 'width' => 333, 'height' => 200,
+        'background' => rgb('argent'), 'foreground' => rgb('azure'),
+        'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,200 333,200 333,0" fill="%BACKGROUND%"/>
+        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 209,0 209,50 292,50 292,98 42,98 42,50 125,50" fill="%FOREGROUND%" />
+        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="scale(1,-1) translate(0,-200)" points="125,0 209,0 209,50 292,50 292,98 42,98 42,50 125,50" fill="%FOREGROUND%" />' ),
+    'counter-vair' => array (  'link' => 'http://drawshield.net/reference/parker/c/counter-vair.html', 'width' => 250, 'height' => 480,
+        'background' => rgb('argent'), 'foreground' => rgb('azure'),
+        'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,480 250,480 250,0" fill="%BACKGROUND%"/>
+        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 193,40 193,200 250,238 0,238 66,200 66,40" fill="%FOREGROUND%"/>
+        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="scale(1,-1) translate(0,-480)" points="125,0 193,40 193,200 250,238 0,238 66,200 66,40" fill="%FOREGROUND%"/>' ),
+    'ermine' => array (  'link' => 'http://drawshield.net/reference/parker/e/ermine.html',
+        'width' => 222, 'height' => 400,
+        'background' => rgb('argent'), 'foreground' => rgb('sable'),
+        'body' => '        <polygon points="0,0 222,0 222,400 0,400" fill="%BACKGROUND%"/>
+        <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" fill="%FOREGROUND%">
             <circle r="10" cx="55" cy="30"/>
             <circle r="10" cx="36" cy="55"/>
             <circle r="10" cx="74" cy="55"/>
             <path d="M 53 60 A 50 210 0 0,1 10,180 A 60 40 0 0,0 45,170 A 30 40 0, 0,0 55 200 A 30 40 0, 0,0 62,170 A 60 40 0 0,0 101, 180 A 50 210 0 0,1 57 60 Z"/>
         </g>
-        <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="translate(111,200)" fill="' . rgb('sable') . '">
+        <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="translate(111,200)" fill="%FOREGROUND%">
             <circle r="10" cx="55" cy="30"/>
             <circle r="10" cx="36" cy="55"/>
             <circle r="10" cx="74" cy="55"/>
             <path d="M 53 60 A 50 210 0 0,1 10,180 A 60 40 0 0,0 45,170 A 30 40 0, 0,0 55 200 A 30 40 0, 0,0 62,170 A 60 40 0 0,0 101, 180 A 50 210 0 0,1 57 60 Z"/>
         </g>' ),
-    'erminites' => array (  'link' => 'http://drawshield.net/reference/parker/e/ermine.html', 'width' => 222, 'height' => 400, 'body' => '        <polygon points="0,0 222,0 222,400 0,400" fill="' . rgb('argent') . '"/>
-        <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" fill="' . rgb('sable') . '">
+    'erminites' => array (  'link' => 'http://drawshield.net/reference/parker/e/ermine.html', 'width' => 222, 'height' => 400,
+        'background' => rgb('argent'), 'foreground' => rgb('sable'),
+        'body' => '        <polygon points="0,0 222,0 222,400 0,400" fill="%BACKGROUND%"/>
+        <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" fill="%FOREGROUND%">
             <circle r="10" cx="55" cy="30" fill="' . rgb('gules') . '"/>
             <circle r="10" cx="36" cy="55" fill="' . rgb('gules') . '"/>
             <circle r="10" cx="74" cy="55" fill="' . rgb('gules') . '"/>
             <path d="M 53 60 A 50 210 0 0,1 10,180 A 60 40 0 0,0 45,170 A 30 40 0, 0,0 55 200 A 30 40 0, 0,0 62,170 A 60 40 0 0,0 101, 180 A 50 210 0 0,1 57 60 Z"/>
         </g>
-       <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="translate(111,200)" fill="' . rgb('sable') . '">
+       <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="translate(111,200)" fill="%FOREGROUND%">
             <circle r="10" cx="55" cy="30" fill="' . rgb('gules') . '"/>
             <circle r="10" cx="36" cy="55" fill="' . rgb('gules') . '"/>
             <circle r="10" cx="74" cy="55" fill="' . rgb('gules') . '"/>
             <path d="M 53 60 A 50 210 0 0,1 10,180 A 60 40 0 0,0 45,170 A 30 40 0, 0,0 55 200 A 30 40 0, 0,0 62,170 A 60 40 0 0,0 101, 180 A 50 210 0 0,1 57 60 Z"/>
         </g>' ),
-    'erminois' => array (  'link' => 'http://drawshield.net/reference/parker/e/ermine.html', 'width' => 222, 'height' => 400, 'body' => '<polygon points="0,0 222,0 222,400 0,400" fill="' . rgb('or') . '"/>
-        <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" fill="' . rgb('sable') . '">
+    'erminois' => array (  'link' => 'http://drawshield.net/reference/parker/e/ermine.html', 'width' => 222, 'height' => 400,
+        'background' => rgb('or'), 'foreground' => rgb('sable'),
+        'body' => '<polygon points="0,0 222,0 222,400 0,400" fill="%BACKGROUND%"/>
+        <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" fill="%FOREGROUND%">
             <circle r="10" cx="55" cy="30"/>
             <circle r="10" cx="36" cy="55"/>
             <circle r="10" cx="74" cy="55"/>
             <path d="M 53 60 A 50 210 0 0,1 10,180 A 60 40 0 0,0 45,170 A 30 40 0, 0,0 55 200 A 30 40 0, 0,0 62,170 A 60 40 0 0,0 101, 180 A 50 210 0 0,1 57 60 Z"/>
         </g>
-        <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="translate(111,200)" fill="' . rgb('sable') . '">
+        <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="translate(111,200)" fill="%FOREGROUND%">
             <circle r="10" cx="55" cy="30"/>
             <circle r="10" cx="36" cy="55"/>
             <circle r="10" cx="74" cy="55"/>
             <path d="M 53 60 A 50 210 0 0,1 10,180 A 60 40 0 0,0 45,170 A 30 40 0, 0,0 55 200 A 30 40 0, 0,0 62,170 A 60 40 0 0,0 101, 180 A 50 210 0 0,1 57 60 Z"/>
         </g>' ),
-    'pean' => array (  'link' => 'http://drawshield.net/reference/parker/p/pean.html', 'width' => 222, 'height' => 400, 'body' => '<polygon points="0,0 222,0 222,400 0,400" fill="' . rgb('sable') . '"/>
-        <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" fill="' . rgb('or') . '">
+    'pean' => array (  'link' => 'http://drawshield.net/reference/parker/p/pean.html', 'width' => 222, 'height' => 400,
+        'background' => rgb('sable'), 'foreground' => rgb('or'),
+        'body' => '<polygon points="0,0 222,0 222,400 0,400" fill="%BACKGROUND%"/>
+        <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" fill="%FOREGROUND%">
             <circle r="10" cx="55" cy="30"/>
             <circle r="10" cx="36" cy="55"/>
             <circle r="10" cx="74" cy="55"/>
             <path d="M 53 60 A 50 210 0 0,1 10,180 A 60 40 0 0,0 45,170 A 30 40 0, 0,0 55 200 A 30 40 0, 0,0 62,170 A 60 40 0 0,0 101, 180 A 50 210 0 0,1 57 60 Z"/>
         </g>
-        <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="translate(111,200)" fill="' . rgb('or') . '">
+        <g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="translate(111,200)" fill="%FOREGROUND%">
             <circle r="10" cx="55" cy="30"/>
             <circle r="10" cx="36" cy="55"/>
             <circle r="10" cx="74" cy="55"/>
             <path d="M 53 60 A 50 210 0 0,1 10,180 A 60 40 0 0,0 45,170 A 30 40 0, 0,0 55 200 A 30 40 0, 0,0 62,170 A 60 40 0 0,0 101, 180 A 50 210 0 0,1 57 60 Z"/>
         </g>' ),
-    'potent' => array (  'width' => 333, 'height' => 200, 'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,400 333,400 333,0" fill="' . rgb('argent') . '"/>
-        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 209,0 209,50 292,50 292,100 42,100 42,50 125,50" fill="' . rgb('azure') . '" />
-        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,100 42,100 42,150 125,150 125,200 0,200" fill="' . rgb('azure') . '"/>
-        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="209,200 209,150 292,150 292,100 333,100 333,200" fill="' . rgb('azure') . '"/>' ),
-    'potent-counter-potent' => array ( 'width' => 333, 'height' => 200, 'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,400 333,400 333,0" fill="' . rgb('argent') . '"/>
-        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 209,0 209,50 292,50 292,98 42,98 42,50 125,50" fill="' . rgb('azure') . '" />
-        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="scale(1,-1) translate(0,-300)" points="0,100 42,100 42,150 125,150 125,200 0,200" fill="' . rgb('azure') . '"/>
-        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="scale(1,-1) translate(0,-300)" points="209,200 209,150 292,150 292,100 333,100 333,200" fill="' . rgb('azure') . '"/>' ),
-    'vair' => array ( 'width' => 250, 'height' => 480, 'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,480 250,480 250,0" fill="' . rgb('argent') . '"/>
-        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="' . rgb('azure') . '"/>
-        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="translate(125,240)" points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="' . rgb('azure') . '"/>
-        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="translate(-125,240)" points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="' . rgb('azure') . '"/>' ),
-      'vair-ancient' => array ( 'width' => 250, 'height' => 480, 'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,480 250,480 250,0" fill="' . rgb('argent') . '"/>
-        <path stroke-width="2" stroke="' . rgb('pattern-stroke') . '" d="m 125,19.999988 c 24.42022,0 62.5,23.702556 62.5,50 V 169.99999 c 0,20 25.25918,50.29794 62.5,50.00001 v 20 H 0.67287425 L 0.16756524,220 C 34.983834,220 62.5,193.00988 62.5,169.99999 V 69.999988 c 0,-23.760378 38.07978,-50 62.5,-50 z" fill="' . rgb('azure') . '"/>
-        <path stroke-width="2" stroke="' . rgb('pattern-stroke') . '" d="m 125,258.63284 c 24.42022,0 62.5,23.70256 62.5,50 v 100 c 0,20 25.25918,50.29794 62.5,50.00001 v 20 H 0.67287375 l -0.50531,-20 c 34.81627025,0 62.33243025,-26.99012 62.33243025,-50.00001 v -100 c 0,-23.76038 38.079786,-50 62.500006,-50 z" fill="' . rgb('azure') . '"/>
+    'potent' => array (  'width' => 333, 'height' => 200,
+        'background' => rgb('argent'), 'foreground' => rgb('azure'),
+        'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,400 333,400 333,0" fill="%BACKGROUND%"/>
+        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 209,0 209,50 292,50 292,100 42,100 42,50 125,50" fill="%FOREGROUND%" />
+        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,100 42,100 42,150 125,150 125,200 0,200" fill="%FOREGROUND%"/>
+        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="209,200 209,150 292,150 292,100 333,100 333,200" fill="%FOREGROUND%"/>' ),
+    'potent-counter-potent' => array ( 'width' => 333, 'height' => 200,
+        'background' => rgb('argent'), 'foreground' => rgb('azure'),
+        'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,400 333,400 333,0" fill="%BACKGROUND%"/>
+        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 209,0 209,50 292,50 292,98 42,98 42,50 125,50" fill="%FOREGROUND%" />
+        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="scale(1,-1) translate(0,-300)" points="0,100 42,100 42,150 125,150 125,200 0,200" fill="%FOREGROUND%"/>
+        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="scale(1,-1) translate(0,-300)" points="209,200 209,150 292,150 292,100 333,100 333,200" fill="%FOREGROUND%"/>' ),
+    'vair' => array ( 'width' => 250, 'height' => 480,
+        'background' => rgb('argent'), 'foreground' => rgb('azure'),
+        'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,480 250,480 250,0" fill="%BACKGROUND%"/>
+        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="%FOREGROUND%"/>
+        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="translate(125,240)" points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="%FOREGROUND%"/>
+        <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="translate(-125,240)" points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="%FOREGROUND%"/>' ),
+      'vair-ancient' => array ( 'width' => 250, 'height' => 480,
+          'background' => rgb('argent'), 'foreground' => rgb('azure'),
+          'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,480 250,480 250,0" fill="%BACKGROUND%"/>
+        <path stroke-width="2" stroke="' . rgb('pattern-stroke') . '" d="m 125,19.999988 c 24.42022,0 62.5,23.702556 62.5,50 V 169.99999 c 0,20 25.25918,50.29794 62.5,50.00001 v 20 H 0.67287425 L 0.16756524,220 C 34.983834,220 62.5,193.00988 62.5,169.99999 V 69.999988 c 0,-23.760378 38.07978,-50 62.5,-50 z" fill="%FOREGROUND%"/>
+        <path stroke-width="2" stroke="' . rgb('pattern-stroke') . '" d="m 125,258.63284 c 24.42022,0 62.5,23.70256 62.5,50 v 100 c 0,20 25.25918,50.29794 62.5,50.00001 v 20 H 0.67287375 l -0.50531,-20 c 34.81627025,0 62.33243025,-26.99012 62.33243025,-50.00001 v -100 c 0,-23.76038 38.079786,-50 62.500006,-50 z" fill="%FOREGROUND%"/>
 ' ),
-    'vair-en-point' => array (  'width' => 125, 'height' => 240, 'body' => '<g transform="scale(0.5)">
-            <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,480 250,480 250,0" fill="' . rgb('argent') . '"/>
-            <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="' . rgb('azure') . '"/>
+    'vair-en-point' => array (  'width' => 125, 'height' => 240,
+        'background' => rgb('argent'), 'foreground' => rgb('azure'),
+        'body' => '<g transform="scale(0.5)">
+            <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,480 250,480 250,0" fill="%BACKGROUND%"/>
+            <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="%FOREGROUND%"/>
             <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="scale(1,-1) translate(125,-480)"
-                points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="' . rgb('azure') . '"/>
+                points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="%FOREGROUND%"/>
             <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" transform="scale(1,-1) translate(-125,-480)"
-                points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="' . rgb('azure') . '"/>
+                points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="%FOREGROUND%"/>
         </g>'),
-    'tapisse' => array ( 'width' => 200, 'height' => 180, 'body' => '  <g
+    'tapisse' => array ( 'width' => 200, 'height' => 180,
+        'body' => '  <g
     >
    <path
       d="M5.0 -1.99999999495e-05C5.0 -1.99999999495e-05 95.0 39.99998 95.0 39.99998C97.531258 41.12498 100.0 42.22998 100.0 44.99998C100.0 44.99998 100.0 224.99999 100.0 224.99999C100.0 227.76999 97.531258 231.12499 95.0 229.99999C95.0 229.99999 5.0 189.99999 5.0 189.99999C2.468742 188.87499 0.0 187.76999 0.0 184.99999C0.0 184.99999 0.0 4.99998 0.0 4.99998C0.0 2.22998 2.468742 -1.12502 5.0 -1.99999999495e-05C5.0 -1.99999999495e-05 5.0 -1.99999999495e-05 5.0 -1.99999999495e-05"
@@ -133,18 +159,18 @@ function makeFur ( $name ) {
       style="fill:' . rgb('or') . '" />
    <path
       d="M1.43786 -0.69161C0.8078 -0.71361 0.18768 -0.62161 -0.36487 -0.43381C-1.46999 -0.0582099999999 -2.33411 0.61779 -3.02308 1.38849C-4.40101 2.92989 -5.21058 4.88779 -5.21058 7.01549C-5.21058 7.01549 -5.21058 187.01539 -5.21058 187.01539C-5.21058 189.14309 -4.0601 190.99059 -2.74183 192.06819C-1.42355 193.14569 0.00622 193.73719 1.2738 194.30059C1.2738 194.30059 91.2738 234.30059 91.2738 234.30059C92.46586 234.83039 93.83861 234.84019 94.94372 234.46469C96.04883 234.08909 96.91295 233.41309 97.60192 232.64239C98.97986 231.10089 99.78942 229.14309 99.78942 227.01539C99.78942 227.01539 99.78942 47.01549 99.78942 47.01549C99.78942 44.88779 98.63894 43.04029 97.32067 41.96269C96.0024 40.88519 94.57263 40.29369 93.30505 39.73029C93.30505 39.73029 3.30505 -0.26971 3.30505 -0.26971C2.70902 -0.53461 2.06793 -0.66951 1.43786 -0.69161C1.43786 -0.69161 1.43786 -0.69161 1.43786 -0.69161M1.2445 4.30059C1.3142 4.27659 1.2002 4.26759 1.2738 4.30059C1.2738 4.30059 91.2738 44.30059 91.2738 44.30059C92.53747 44.86219 93.6077 45.38509 94.15661 45.83379C94.70553 46.28249 94.78942 46.37319 94.78942 47.01549C94.78942 47.01549 94.78942 227.01539 94.78942 227.01539C94.78942 227.65769 94.36461 228.76299 93.87536 229.31039C93.63074 229.58399 93.40404 229.70849 93.33435 229.73219C93.26465 229.75619 93.37865 229.76319 93.30505 229.73219C93.30505 229.73219 3.30505 189.73219 3.30505 189.73219C2.04137 189.17049 0.97115 188.64769 0.42223 188.19899C-0.12668 187.74839 -0.21058 187.65769 -0.21058 187.01539C-0.21058 187.01539 -0.21058 7.01549 -0.21058 7.01549C-0.21058 6.37319 0.21424 5.26779 0.70349 4.72049C0.94811 4.44689 1.17481 4.32429 1.2445 4.30059C1.2445 4.30059 1.2445 4.30059 1.2445 4.30059"
-      style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
+      style="fill:'  . rgb('pattern-stroke') . '" />
    <path
       d="M193.14098 -0.69161C192.51092 -0.66961 191.86982 -0.53461 191.2738 -0.26971C191.2738 -0.26971 101.2738 39.73029 101.2738 39.73029C100.00621 40.29369 98.57644 40.88519 97.25817 41.96269C95.9399 43.04029 94.78942 44.88779 94.78942 47.01549C94.78942 47.01549 94.78942 227.01539 94.78942 227.01539C94.78942 229.14309 95.59899 231.10089 96.97692 232.64239C97.66589 233.41309 98.53001 234.08909 99.63512 234.46469C100.74024 234.84019 102.11299 234.83039 103.30504 234.30059C103.30504 234.30059 193.30504 194.30059 193.30504 194.30059C194.57263 193.73719 196.0024 193.14569 197.32067 192.06819C198.63894 190.99059 199.78942 189.14309 199.78942 187.01539C199.78942 187.01539 199.78942 7.01549 199.78942 7.01549C199.78942 4.88779 198.97986 2.92989 197.60192 1.38849C196.91295 0.61779 196.04883 -0.0582099999999 194.94372 -0.43381C194.39116 -0.62151 193.77105 -0.71361 193.14098 -0.69161C193.14098 -0.69161 193.14098 -0.69161 193.14098 -0.69161M193.30504 4.30059C193.37864 4.26759 193.26464 4.27659 193.33434 4.30059C193.40404 4.32459 193.63073 4.44689 193.87536 4.72049C194.36461 5.26779 194.78942 6.37319 194.78942 7.01549C194.78942 7.01549 194.78942 187.01539 194.78942 187.01539C194.78942 187.65769 194.70552 187.74839 194.15661 188.19709C193.60769 188.64579 192.53747 189.16859 191.2738 189.73029C191.2738 189.73029 101.2738 229.73029 101.2738 229.73029C101.2002 229.76329 101.3142 229.75629 101.2445 229.73029C101.1748 229.70629 100.94811 229.58209 100.70348 229.30849C100.21423 228.76109 99.78942 227.65579 99.78942 227.01349C99.78942 227.01349 99.78942 47.01549 99.78942 47.01549C99.78942 46.37319 99.87332 46.28249 100.42223 45.83379C100.97115 45.38509 102.04137 44.86219 103.30504 44.30059C103.30504 44.30059 193.30504 4.30059 193.30504 4.30059"
-      style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
+      style="' . rgb('pattern-stroke') . '" />
    <path
       d="M1.43786 -190.69161C0.8078 -190.71371 0.18768 -190.62161 -0.36487 -190.4338C-1.46999 -190.05826 -2.33411 -189.38225 -3.02308 -188.61153C-4.40101 -187.07009 -5.21058 -185.11228 -5.21058 -182.98458C-5.21058 -182.98458 -5.21058 -2.98454 -5.21058 -2.98454C-5.21058 -0.85681 -4.0601 0.99059 -2.74183 2.06819C-1.42355 3.14579 0.00622 3.73719 1.2738 4.30059C1.2738 4.30059 91.2738 44.30059 91.2738 44.30059C92.46586 44.83039 93.83861 44.84019 94.94372 44.46469C96.04883 44.08909 96.91295 43.41309 97.60192 42.64239C98.97986 41.10099 99.78942 39.14319 99.78942 37.01549C99.78942 37.01549 99.78942 -142.98454 99.78942 -142.98454C99.78942 -145.11224 98.63894 -146.95974 97.32067 -148.03734C96.0024 -149.11484 94.57263 -149.70634 93.30505 -150.26974C93.30505 -150.26974 3.30505 -190.26973 3.30505 -190.26973C2.70902 -190.53464 2.06793 -190.66954 1.43786 -190.69161C1.43786 -190.69161 1.43786 -190.69161 1.43786 -190.69161M1.2445 -185.69942C1.3142 -185.72312 1.2002 -185.73212 1.2738 -185.69942C1.2738 -185.69942 91.2738 -145.69944 91.2738 -145.69944C92.53747 -145.13774 93.6077 -144.61494 94.15661 -144.16624C94.70553 -143.71754 94.78942 -143.62684 94.78942 -142.98454C94.78942 -142.98454 94.78942 37.01549 94.78942 37.01549C94.78942 37.65779 94.36461 38.76309 93.87536 39.31039C93.63074 39.58399 93.40404 39.70859 93.33435 39.73229C93.26465 39.75629 93.37865 39.76329 93.30505 39.73229C93.30505 39.73229 3.30505 -0.26771 3.30505 -0.26771C2.04138 -0.82931 0.97115 -1.35221 0.42224 -1.80091C-0.12668 -2.25161 -0.21058 -2.34221 -0.21058 -2.98454C-0.21058 -2.98454 -0.21058 -182.98458 -0.21058 -182.98458C-0.21058 -183.62688 0.21424 -184.73219 0.70349 -185.2795C0.94811 -185.55315 1.17481 -185.67574 1.2445 -185.69942C1.2445 -185.69942 1.2445 -185.69942 1.2445 -185.69942"
-      style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
+      style="' . rgb('pattern-stroke') . '" />
    <path
       d="M193.14098 -190.69161C192.51092 -190.66951 191.86982 -190.53464 191.2738 -190.26973C191.2738 -190.26973 101.2738 -150.26974 101.2738 -150.26974C100.00621 -149.70634 98.57644 -149.11484 97.25817 -148.03734C95.9399 -146.95974 94.78942 -145.11224 94.78942 -142.98454C94.78942 -142.98454 94.78942 37.01549 94.78942 37.01549C94.78942 39.14319 95.59899 41.10099 96.97692 42.64239C97.66589 43.41309 98.53001 44.08909 99.63512 44.46469C100.74024 44.84019 102.11299 44.83039 103.30504 44.30059C103.30504 44.30059 193.30504 4.30059 193.30504 4.30059C194.57263 3.73719 196.0024 3.14579 197.32067 2.06819C198.63894 0.99059 199.78942 -0.85681 199.78942 -2.98454C199.78942 -2.98454 199.78942 -182.98458 199.78942 -182.98458C199.78942 -185.11228 198.97986 -187.07009 197.60192 -188.61153C196.91295 -189.38225 196.04883 -190.05826 194.94372 -190.4338C194.39116 -190.62157 193.77105 -190.71368 193.14098 -190.69161C193.14098 -190.69161 193.14098 -190.69161 193.14098 -190.69161M193.30504 -185.69942C193.37864 -185.73212 193.26464 -185.72312 193.33434 -185.69942C193.40404 -185.67572 193.63073 -185.55315 193.87536 -185.2795C194.36461 -184.7322 194.78942 -183.62688 194.78942 -182.98458C194.78942 -182.98458 194.78942 -2.98454 194.78942 -2.98454C194.78942 -2.34221 194.70552 -2.25161 194.15661 -1.80291C193.60769 -1.35421 192.53747 -0.83131 191.2738 -0.26971C191.2738 -0.26971 101.2738 39.73029 101.2738 39.73029C101.2002 39.76329 101.3142 39.75629 101.2445 39.73029C101.1748 39.70629 100.94811 39.58209 100.70348 39.30839C100.21423 38.76309 99.78942 37.65779 99.78942 37.01549C99.78942 37.01549 99.78942 -142.98454 99.78942 -142.98454C99.78942 -143.62684 99.87332 -143.71744 100.42223 -144.16614C100.97115 -144.61484 102.04137 -145.13774 103.30504 -145.69934C103.30504 -145.69934 193.30504 -185.69942 193.30504 -185.69942"
-      style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
- </g>'),
-    'vair-in-pale' => array ( 'width' => 250, 'height' => 240, 'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,240 250,240 250,0" fill="' . rgb('argent') . '"/>
+      style="' . rgb('pattern-stroke') . '" /> </g>'),
+    'vair-in-pale' => array ( 'width' => 250, 'height' => 240,
+        'body' => '<polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="0,0 0,240 250,240 250,0" fill="' . rgb('argent') . '"/>
         <polygon stroke-width="2" stroke="' . rgb('pattern-stroke') . '" points="125,0 193,40 193,200 250,240 0,240 66,200 66,40" fill="' . rgb('azure') . '"/>'),
       'soccer-field' => array ( 'width' => 1000, 'height' => 1200, 'body' => '<polygon points="0,0 1000,0 1000,1200 0,1200" fill="' . rgb('vert') . '"/>
               <g stroke="' . rgb('white-line') . '" stroke-width="10" stroke-linecap="square" fill="none">
@@ -185,7 +211,8 @@ function makeFur ( $name ) {
     <path d="M600.5,1040.5 L500.5,1040.5" />
     <path d="M500.5,870.5 C528.114,870.5 550.5,888.409 550.5,910.5" />
   </g>'),
-      'american-football-field' => array( 'width' => 1000, 'height' => 1200, 'licence' => 'http://en.wikipedia.org/wiki/User:Xyzzy_n', 'body' => '<g>
+      'american-football-field' => array( 'width' => 1000, 'height' => 1200, 'licence' => 'http://en.wikipedia.org/wiki/User:Xyzzy_n',
+          'body' => '<g>
     <path d="M1000,-0 L1000,2072.727 L-0,2072.727 L-0,-0 z" fill="' . rgb('vert') . '" />
     <g >
       <path d="M945.455,54.536 L945.455,2018.189 L54.546,2018.189 L54.546,54.536 z" fill="' . rgb('vert') . '"/>
@@ -247,10 +274,12 @@ function makeFur ( $name ) {
       </text>
     </g>
     '),
-      'tennis-court' => array('width' => 1000, 'height' => 1200, 'licence' => 'https://commons.wikimedia.org/wiki/User:Ed_g2s', 'body' => '<polygon points="0,0 1000,0 1000,1200 0,1200" fill="' . rgb('vert') . '"/>
+      'tennis-court' => array('width' => 1000, 'height' => 1200, 'licence' => 'https://commons.wikimedia.org/wiki/User:Ed_g2s',
+          'body' => '<polygon points="0,0 1000,0 1000,1200 0,1200" fill="' . rgb('vert') . '"/>
             <path d="M507.039,39.764 L507.039,44.91 L957.677,44.91 L957.677,2007.41 L507.039,2007.41 L507.039,2011.187 L494.539,2011.187 L494.539,2007.41 L45.177,2007.41 L45.177,44.91 L494.539,44.91 L494.539,39.764 L507.039,39.764 z M945.177,1032.41 L845.177,1032.41 L845.177,1994.91 L945.177,1994.91 L945.177,1032.41 z M832.677,1557.41 L170.177,1557.41 L170.177,1994.91 L494.539,1994.91 L494.539,1974.173 L507.039,1974.173 L507.039,1994.91 L832.677,1994.91 L832.677,1557.41 z M157.677,1032.41 L57.677,1032.41 L57.677,1994.91 L157.677,1994.91 L157.677,1032.41 z M832.677,1032.41 L507.677,1032.41 L507.677,1544.91 L832.677,1544.91 L832.677,1032.41 z M495.177,1032.41 L170.177,1032.41 L170.177,1544.91 L495.177,1544.91 L495.177,1032.41 z M945.177,57.41 L845.177,57.41 L845.177,1019.91 L945.177,1019.91 L945.177,57.41 z M832.677,507.41 L507.677,507.41 L507.677,1019.91 L832.677,1019.91 L832.677,507.41 z M495.177,507.41 L170.177,507.41 L170.177,1019.91 L495.177,1019.91 L495.177,507.41 z M157.677,57.41 L57.677,57.41 L57.677,1019.91 L157.677,1019.91 L157.677,57.41 z M494.539,57.41 L170.177,57.41 L170.177,494.91 L832.677,494.91 L832.677,57.41 L507.039,57.41 L507.039,76.778 L494.539,76.778 L494.539,57.41 z" fill="' . rgb('white-line') . '"/>
 '),
-      'basket-ball' => array('width' => 1000, 'height' => 1200, 'licence' => 'https://commons.wikimedia.org/wiki/User:Mangostar', 'body' => '<polygon points="0,0 1000,0 1000,1200 0,1200" fill="' . rgb('tenne') . '"/>
+      'basket-ball' => array('width' => 1000, 'height' => 1200, 'licence' => 'https://commons.wikimedia.org/wiki/User:Mangostar',
+          'body' => '<polygon points="0,0 1000,0 1000,1200 0,1200" fill="' . rgb('tenne') . '"/>
                   <g stroke="' . rgb('sable') . '" fill="none" stroke-width="11.639">
                       <path d="M34.822,967 L959.955,967" />
     <path d="M887.763,1786.177 C887.768,1556.33 713.428,1370.029 498.432,1370.134 C283.435,1370.238 109.254,1556.708 109.454,1786.555" />
@@ -288,6 +317,17 @@ function makeFur ( $name ) {
   }
     if (array_key_exists('licence',$fur_data[$name])) {
         $messages->addMessage('licence', $name . ' ' . $fur_data[$name]['licence']);
+    }
+    if ($counterChange) {
+        if (array_key_exists('background', $fur_data[$name])) { // we need to edit in these colour codes
+            $fur_data[$name]['body'] = preg_replace(array('/%FOREGROUND%/', '/%BACKGROUND%/'), array($fur_data[$name]['background'], $fur_data[$name]['foreground']), $fur_data[$name]['body']);
+        } else {
+            $messages->addMessage('internal',"Cannot counterchange fur $name");
+        }
+    } else {
+        if (array_key_exists('background', $fur_data[$name])) { // we need to edit in these colour codes
+            $fur_data[$name]['body'] = preg_replace(array('/%FOREGROUND%/', '/%BACKGROUND%/'), array($fur_data[$name]['foreground'],$fur_data[$name]['background']), $fur_data[$name]['body']);
+        }
     }
   return $fur_data[$name];
 }

@@ -132,13 +132,10 @@ function draw() {
     $fringe = '';
     $shieldAdjustments = [];
     $y1Location = 0;
-    $extraDefs = '';
     $extraSpace = 0;
     $partsList= [];
-    if ($options['palette'] == 'hatching') {
-        require("hatching.inc");
-        $extraDefs = mkHatches();
-    }
+    $layout = ShieldLayout::from_options($options);
+    if ($options['palette'] == 'hatching') $options['addHatching'] = true;
 
     $rdf = '<rdf:RDF>
       <cc:Work
@@ -155,7 +152,6 @@ function draw() {
       </rdf:RDF>';
 
     $blazonNode = $dom->documentElement;
-    $layout = ShieldLayout::from_options($options);
     $effect = $options['effect'];
 
     if ($layout->shape == 'flag') {
@@ -205,7 +201,6 @@ function draw() {
          'preserveAspectRatio="xMidYMid meet" height="' . $displayHeight . '" width="' . $displayWidth . '" ';
         $header .= 'viewBox="'. getEffect($effect, 'viewbox',1000, $layout->size->height + $extraSpace + 40) . ' ">';
         $meta = '';
-        $defs = '<defs>' . getEffect($effect, 'defs') . $extraDefs . '</defs>';
         $trailer =  "</svg>\n";
 
 
@@ -222,7 +217,6 @@ function draw() {
         'preserveAspectRatio="xMidYMid meet" height="' . (int)($options['size'] * 1.2) . '" width="' . $options['size'];
         $header .= '" viewBox="'. getEffect($effect, 'viewbox') . ' ">';
         $meta = '';
-        $defs = '<defs>' . getEffect($effect, 'defs') . $extraDefs .  '</defs>';
         $trailer =  "</svg>\n";
         if ( $options['palette'] == 'outline' || $options['palette'] == 'hatching') {
             $header .= '  <filter id="grayscale">
@@ -311,5 +305,11 @@ function draw() {
         include "ordinaries/grid.inc";
         $body .= '<g fill="#555555">' . $ordinary['body'] . '</g>';
     }
+    $extraDefs = '';
+    if (array_key_exists('addHatching', $options)) {
+        require("hatching.inc");
+        $extraDefs = mkHatches($options['addHatching']);
+    }
+    $defs = '<defs>' . getEffect($effect, 'defs') . $extraDefs .  '</defs>';
     return $header . $meta . $defs . $body . $trailer;
 }
