@@ -260,8 +260,8 @@ Class WordBuilder
     } */
 
     private function stringToArch($text) {
-        // M 0,285 C250,0 750,0 1000,285
-        if (strlen($text) < 2) $text = " $text "; // start & end of a path might have wierd tangents, so just put spaces there
+        // TODO change this to work with multiple segments
+        if (strlen($text) < 2) $text = " $text "; // make sure a single character ends up central
         $retval = '';
         $dParser = new SvgDParser();
         $pathD = "M 0,285 C250,0 750,0 1000,285";
@@ -284,9 +284,7 @@ Class WordBuilder
             $totalGlyphWidth += $x;
             $glyphCount += 1;
         }
-        // We want to spread the glyphs along the starting halfway across the first character and ending
-        // halfway across the last. These are both spaces so we can just take off one space width
-        // $scale = $archLength / ($totalGlyphWidth - $glyphs[0]['x']);
+        // We want to spread the glyphs along the shape so scale them to fit
         $scale = $archLength / $totalGlyphWidth;
         $f = 0;
         $overhang = null;
@@ -296,18 +294,19 @@ Class WordBuilder
             $f += $halfGlyph * $scale;
             $segment = $compiledArch->sub_paths()[0]->segments()[0]->segment_at_length($f);
             $angle = rad2deg($segment->tangent());
-            // Calculate how much we "stick out" at the ends (for width calculation)
+            // Calculate how much we "stick out" at the ends (for final width calculation)
             if ($overhang == null) {
                 $overhang = ($y * $scale) * cos($segment->tangent());
-                // error_log("$y $scale $overhang $angle");
             }
+            // strictly speaking the angles might be different at each end so should really
+            // calculate both sides, not assume they are the same...
             $point = $compiledArch->sub_paths()[0]->point_at_length($f);
             $retval .= "<g transform=\"translate({$point->x},{$point->y}) rotate($angle) scale($scale) translate(-$halfGlyph,-$y)\">{$glyph['svg']}</g>";
             $f += $halfGlyph * $scale;
         }
         // debug - visible path
         // $retval .= "<path d=\"$pathD\" stroke=\"black\" fill=\"none\" width=\"3px\"/>";
-        // calculate the actual dimensions (based on fontheight) 155 is the height of the arch path.
+        // calculate the actual dimensions (based on font height)
         $height = $pathHeight + ($y * $scale);
         $width = $pathWidth + $overhang + $overhang;
         $retval ="<g transform=\"translate($overhang,0)\">$retval</g>";
