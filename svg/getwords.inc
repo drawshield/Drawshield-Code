@@ -71,7 +71,9 @@ Class WordBuilder
         $this->ySize = abs($this->fontInfo['ascent']) + abs($this->fontInfo['descent']);
         if (isset($child['invert'])) $this->invert = true;
         if (isset($this->fontInfo['credit']))
-            $messages->addMessage('licence',$child['credit']);
+            $messages->addMessage('licence',$this->fontInfo['credit']);
+        elseif (isset($this->fontInfo['licence']))
+            $messages->addMessage('licence',$this->fontInfo['licence']);
         // set a guesstimate when underline data not set in the font file
         if (!isset($this->fontInfo['underline-thickness'])) $this->fontInfo['underline-thickness'] = $this->ySize / 20;
         if (!isset($this->fontInfo['underline-position'])) $this->fontInfo['underline-position'] = $this->ySize * 0.9;
@@ -198,9 +200,6 @@ Class WordBuilder
                 $svgList .= "<g transform=\"translate($xLength,0)\">$svg</g>\n";
             $xLength += $x;
         }
-        // temporary box to show boundaries
-    //    $svg .= '<path fill="none" stroke="black" stroke-width="10" d="M0,0 h' . $xLength . ' v' . $this->ySize 
-     //       . ' h-' . $xLength . 'z" />';
         return Array('body' => $svgList, 'width' => $xLength);
     }
 
@@ -262,6 +261,59 @@ Class WordBuilder
 
     private function stringToArch($text) {
         // M 0,285 C250,0 750,0 1000,285
+        if (strlen($text) < 2) $text = " $text "; // start & end of a path might have wierd tangents, so just put spaces there
+        $retval = '';
+        $dParser = new SvgDParser();
+        $pathD = "M 0,285 C250,0 750,0 1000,285";
+        $pathWidth = 1000; // need to hard code these, sorry
+        $pathHeight = 155;
+        $arch = $dParser->parse_d($pathD);
+        $compiledArch = $arch->compile();
+        $archLength = $compiledArch->sub_paths()[0]->length();
+        $glyphs = [];
+        $glyphCount = 0;
+        $totalGlyphWidth = 0;
+        $y = $this->yHeight;
+        foreach ($this->str_split_unicode($text) as $char) {
+            $glyph = $this->getGlyph($char);
+            $x = $glyph['x'];
+            // debug, put box around glyph extents
+            // $glyph['svg'] = "<path d=\"m 0 0 h$x v$y h-$x v-$y \" stroke=\"black\" fill=\"none\" stroke-width=\"10px\"/>"
+            //     . $glyph['svg'];
+            $glyphs[] = $glyph;
+            $totalGlyphWidth += $x;
+            $glyphCount += 1;
+        }
+        // We want to spread the glyphs along the starting halfway across the first character and ending
+        // halfway across the last. These are both spaces so we can just take off one space width
+        // $scale = $archLength / ($totalGlyphWidth - $glyphs[0]['x']);
+        $scale = $archLength / $totalGlyphWidth;
+        $f = 0;
+        $overhang = null;
+        for ($i = 0; $i < $glyphCount; $i++) {
+            $glyph = $glyphs[$i];
+            $halfGlyph = $glyph['x'] / 2;
+            $f += $halfGlyph * $scale;
+            $segment = $compiledArch->sub_paths()[0]->segments()[0]->segment_at_length($f);
+            $angle = rad2deg($segment->tangent());
+            // Calculate how much we "stick out" at the ends (for width calculation)
+            if ($overhang == null) {
+                $overhang = ($y * $scale) * cos($segment->tangent());
+                // error_log("$y $scale $overhang $angle");
+            }
+            $point = $compiledArch->sub_paths()[0]->point_at_length($f);
+            $retval .= "<g transform=\"translate({$point->x},{$point->y}) rotate($angle) scale($scale) translate(-$halfGlyph,-$y)\">{$glyph['svg']}</g>";
+            $f += $halfGlyph * $scale;
+        }
+        // debug - visible path
+        // $retval .= "<path d=\"$pathD\" stroke=\"black\" fill=\"none\" width=\"3px\"/>";
+        // calculate the actual dimensions (based on fontheight) 155 is the height of the arch path.
+        $height = $pathHeight + ($y * $scale);
+        $width = $pathWidth + $overhang + $overhang;
+        $retval ="<g transform=\"translate($overhang,0)\">$retval</g>";
+        $retval = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' . $height . '" ' .
+            'width="' . $width . '"><g id="body">' . $retval . '</g></svg>';
+        return $retval;
     }
         
 
