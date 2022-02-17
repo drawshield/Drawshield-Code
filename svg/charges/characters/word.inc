@@ -51,7 +51,7 @@ if ( existModifierWithKeyterm($node,'underlined') )
   if (existModifierWithKeyterm($node, 'to-centre')) 
       $builder->option(WordBuilder::ALIGN, WordBuilder::CENTRE);
   if (existModifierWithKeyterm($node,'encircled')) { // This is first, so any modifier added for "encircled-by" overrides others
-    $textLayout = 'encircled';
+      $builder->option(WordBuilder::LAYOUT, WordBuilder::ENCIRCLED);
   } elseif ( existModifierWithKeyterm($node,'text-inline')) {
       $builder->option(WordBuilder::LAYOUT, WordBuilder::INLINE);
   } elseif (existModifierWithKeyterm($node,'text-stacked')) {
@@ -61,9 +61,9 @@ if ( existModifierWithKeyterm($node,'underlined') )
   } elseif (existModifierWithKeyterm($node,'enarched')) {
       $builder->option(WordBuilder::LAYOUT, WordBuilder::ENARCHED);
   } elseif (existModifierWithKeyterm($node,'embowed')) {
-    $textLayout = 'embowed';
+      $builder->option(WordBuilder::LAYOUT, WordBuilder::EMBOWED);
   } elseif (existModifierWithKeyterm($node,'wavy')) {
-    $textLayout = 'wavy';
+      $builder->option(WordBuilder::LAYOUT, WordBuilder::WAVY);
 }
 $charge['svgCode'] = $builder->getSVG($item);
 

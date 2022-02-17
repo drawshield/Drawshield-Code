@@ -426,8 +426,8 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
      array ( 'one (within|inside) ?the other', 'concentric'),
      array ( 'concentric', 'concentric'),
      // Theme Pack - Font Effects
-     array ( '(en)?faced ?of *', 'font'), // also embowed, encircled
-     'enarched', 'underlined', 'wavy',
+     array ( '(en)?faced ?of *', 'font'),
+     'embowed', 'enarched', 'underlined', 'wavy', 'encircled',
      array ( 'enlarged', 'bold' ),
      array ( 'aslant(ed)?', 'italic' ),
      array ( '(dispo[sn]|arrang)ed in fess', 'text-inline' ),
