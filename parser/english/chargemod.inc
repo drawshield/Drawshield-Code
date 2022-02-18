@@ -426,10 +426,15 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
      array ( 'one (within|inside) ?the other', 'concentric'),
      array ( 'concentric', 'concentric'),
      // Theme Pack - Font Effects
-     array ( '(en)?faced ?of *', 'font'), // also embowed, encircled
-     'enarched', 'underlined', 'wavy',
-     array ( 'enlarged', 'bold' ),
-     array ( 'aslant(ed)?', 'italic' ),
+     array ( '(en)?faced ?of *', 'font'),
+       array ( 'styled ?of *', 'font'),
+     array ('opposite ?to *', 'opposite'),
+     'embowed', 'enarched', 'underlined', 'wavy', 'encircled',
+     'cursive', 'serif', 'plain', // font families
+     array ('(engraved|graven)', 'engraved'),
+       array ('carve[dn]', 'carved'),
+     array ( 'enlarged', 'bold' ), // ignored for now
+     array ( 'aslant(ed)?', 'italic' ), // ignored for now
      array ( '(dispo[sn]|arrang)ed in fess', 'text-inline' ),
      array ( '(dispo[sn]|arrang)ed in pale', 'text-stacked' ),
      array ( '(dispo[sn]|arrang)ed in ?a block', 'text-block' ),
