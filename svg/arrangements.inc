@@ -597,7 +597,8 @@ function get_placement(DOMElement $item, $layout) {
     $number = $item->getAttribute('number');
     $overall = ($item->parentNode != null && $item->parentNode->parentNode != null && $item->parentNode->parentNode->nodeName == 'overall');
     // $apply_location = true;
-    $forceCentre = (!($entire) && !count($pos) && ($layout->shape != 'pauldron') && ($group == "quadrate" || $group == 'geometric') && $number == 1);
+    $forceCentre = (!($entire) && !count($pos) && ($layout->shape != 'pauldron') &&
+        ($group == "quadrate" || $group == 'geometric' || $group == 'characters') && $number == 1);
     $div_node = $xpath->query("parent::objects/parent::simple/field/tincture/division", $item);
     if ( $div_node->length > 0 ) {
       /**
@@ -621,7 +622,7 @@ function get_placement(DOMElement $item, $layout) {
     $margin = 0;
     // Figure out default bounding box size for this aspect ratio, chief presence && entire
     $center = new ShieldPos($layout->size->width / 2, $layout->size->height / 2);
-    static $full_box_arrangements = ["inannulo", "inbend", "inbendsin", "inpalethrough", 'infessthrough', 'incross'];
+    static $full_box_arrangements = ["inannulo", "inbend", "inbendsin", "inpalethrough", 'infessthrough', 'incross', 'incrosspoint'];
     if ( $entire || in_array($arr, $full_box_arrangements) )
     {
         $boundingBox = new ShieldRect($center, clone $layout->size);

@@ -19,35 +19,57 @@ Class WordBuilder
 {
     private $textOptions;
 
-    const UNDERLINE = "underlined";
+    // option names
+    const FONT = 'font';
     const LAYOUT = "layout";
+    const ALIGN = 'alignment';
+    const TEXT1 = 'text1';
+    const TEXT2 = 'text2';
+    const GIVENPATH = 'path';
+    const LEFTOVERHANG = 'overl';
+    const RIGHTOVERHANG = 'overr';
+    // const BOLD = 'bold'; // these 2 are ignored for now
+    // const ITALIC = 'italic';
+    // option values
+    const UNDERLINE = "underlined";
     const STACKED = 'stacked';
     const INLINE = 'inline';
-    const ALIGN = 'alignment';
     const LEFT = 'alignLeft';
     const RIGHT = 'alignRight';
     const CENTRE = 'alignCentre';
+    const BLOCK = 'block';
     const ENARCHED = 'enarched';
     const EMBOWED = 'embowed';
     const ENCIRCLED = 'encircled';
+    const GIVEN = 'given';
     const WAVY = 'wavy';
 
-    function __construct($fontName = 'serif') {
-        global $messages;
-
-        if (!$fontName) $fontName = 'serif'; // in case null is passed
-        $this->invert = false;
-        if (!file_exists("svg/fonts/$fontName.svg")) {
-            $fontName = $this->fontMap($fontName);
-        }
+    function __construct($fontname = null)
+    {
         $this->textOptions = [ // set some defaults
-                self::LAYOUT => self::INLINE,
-                self::ALIGN => self::CENTRE,
+            self::LAYOUT => self::INLINE,
+            self::ALIGN => self::CENTRE,
+            self::FONT => 'serif',
+            self::LEFTOVERHANG => 0,
+            self::RIGHTOVERHANG => 0,
         ];
         $this->defaultXSize = 500;
         $this->ySize = 500;
         $this->words = [];
         $this->longest = null;
+        $this->yHeight = 500;
+
+        if (!is_null($fontname)) {
+            $this->textOptions[self::FONT] = $fontname;
+            $this->compile();
+        }
+    }
+
+    public function compile() {
+        global $messages;
+
+        $this->invert = false;
+        $fontName = $this->fontMap();
         $font = simplexml_load_file("svg/fonts/$fontName.svg");
         if (!$font) {
               $messages->addMessage('internal', "No font file for $fontName");
@@ -85,16 +107,30 @@ Class WordBuilder
     }
 
     /* map basic names to our specific chosen font files */
-    private function fontMap($fontName) {
-        switch ($fontName) {
+    private function fontMap(): string
+    {
+        global $messages;
+
+        switch ($this->textOptions[self::FONT]) {
+            case 'hooge':
+                $fontName = 'hooge';
+                break;
             case 'cursive':
             case 'script':
+            case 'fantasy':
                 $fontName = 'lisbon-cursive';
                 break;
+            case 'carved':
+                $fontName = 'merrycle-carved';
+                break;
             case 'serif':
+            case 'roman':
                 $fontName = 'noto-serif';
                 break;
-            case 'fantasy':
+            case 'engraved':
+            case 'graven':
+                $fontName = 'de-soto-engraved';
+                break;
             case 'monospace':
             case 'times':
             case 'baskerville':
@@ -113,8 +149,15 @@ Class WordBuilder
         return($fontName);
   }
 
-    public function option($name, $value = true) {
+    public function setOption($name, $value = true) {
         $this->textOptions[$name] = $value;
+    }
+
+    public function getOption($name) : string {
+        if (array_key_exists($name, $this->textOptions)) {
+            return $this->textOptions[$name];
+        } // else
+        return '';
     }
 
     private function splitWords($text) {
@@ -194,7 +237,8 @@ Class WordBuilder
 
     }
     
-    private function stringToGlyphs($words) {
+    private function stringToSVG($words): array
+    {
         $svgList = '';
         $xLength = 0;
         foreach ($this->str_split_unicode($words) as $char) {
@@ -229,7 +273,7 @@ Class WordBuilder
             $yShift = ($height / $lineCount) * ($lineCount - 1) * -1;
         }
         foreach ($lines as $line) {
-            $glyphLine = $this->stringToGlyphs($line);
+            $glyphLine = $this->stringToSVG($line);
             $scale = min($width / $glyphLine['width'], $height / $lineCount / $this->ySize);
             $centering = ($width - ($glyphLine['width'] * $scale)) / 2;
             $temp = "<g fill=\"$fill\" transform=\"translate($centering,$yShift) scale($scale, -$scale)\">\n" .
@@ -262,7 +306,7 @@ Class WordBuilder
         $height = intval(ceil($aspectRatio/$width));
     } */
 
-    private function bezierCircle($r, $shape = null)
+    private function bezierCircle($r, $shape = null): string
     {
         $c = 0.551915 * $r;
         $cBar = $r - $c;
@@ -271,7 +315,7 @@ Class WordBuilder
                 $path = "M -$r,0 C -$r,-$c -$c,-$r 0,-$r  $c,-$r $r,-$c $r,0";
                 break;
             case 'bottom':
-                $path = "M $r,0  $r,$c $c,$r 0,$r  -$c,$r -$r,$cBar -$r,";
+                $path = "M -$r,0 C -$r,$c -$cBar,$r 0,$r $c,$r $r,$c $r,0";
                 break;
             default:
                 $path = "M -$r,0 C -$r,-$c -$c,-$r 0,-$r  $c,-$r $r,-$c $r,0  $r,$c $c,$r 0,$r  -$c,$r -$r,$cBar -$r,0";
@@ -280,51 +324,15 @@ Class WordBuilder
         return $path;
     }
 
-    private function stringToArch($text) {
-        $retval = '';
-        $pathD = ''; // this and following to suppress warnings
-        $pathHeight = $pathWidth = $yShift = 0;
-        $dParser = new SvgDParser();
-        switch ($this->textOptions[self::LAYOUT]) {
-            case self::EMBOWED:
-                if (strlen($text) < 2) $text = " $text "; // make sure a single character ends up central
-                // put a space in between character so they don't overlap at the top
-                $newText = '';
-                $len = strlen($text);
-                for ($i = 0; $i < $len - 1; $i++) {
-                    $newText .= $text[$i];
-                    $newText .= ' ';
-                }
-                $newText .= $text[$len - 1];
-                $text = $newText;
-                $pathD = "m 3.04,1.64 c 0,0 195.18,149.86 501.61,151.46 C 811.1,154.7 1003.4,1.64 1003.4,1.64";
-                $pathWidth = 1000; // need to hard code these, sorry
-                $pathHeight = 151;
-                $yShift = $this->yHeight * -1;
-                break;
-            case self::ENCIRCLED:
-                if (strlen($text) < 4) $text = " $text "; // Not sensible to have < 4 characters
-                $text .= ' '; //  put in a space so we don't eat our own tail
-                // We build our path once we have the total length of glyphs
-                $yShift = $this->yHeight * -1;
-                break;
-            case self::WAVY:
-                if (strlen($text) < 2) $text = " $text "; // make sure a single character ends up central
-                $pathD = "m 2.72,149.64 c 0,0 195.18,-149.86 501.62,-151.46 306.4,-1.6 498.66,151.46 498.66,151.46 m 0,0 c 0,0 195.2,149.86 501.7,151.46 306.4,1.6 498.7,-151.46 498.7,-151.46";
-                $pathWidth = 2000;
-                $pathHeight = 301;
-                $yShift = $this->yHeight * -1;
-                break;
-            default:
-            case self::ENARCHED:
-                if (strlen($text) < 2) $text = " $text "; // make sure a single character ends up central
-                $pathD = "M 0,285 C250,0 750,0 1000,285";
-                $pathWidth = 1000; // need to hard code these, sorry
-                $pathHeight = 155;
-                $yShift = $this->yHeight * -1;
-                break;
+    public function totalPathLength($compiledPath) : float {
+        $pathLength = 0.0;
+        foreach($compiledPath->sub_paths() as $sub_path) {
+            $pathLength += $sub_path->length();
         }
-        // Get all the glyphs so we know the length we need to cater for
+        return $pathLength;
+    }
+
+    public function glyphsAsArray($text) : array {
         $glyphs = [];
         $glyphCount = 0;
         $totalGlyphWidth = 0;
@@ -339,68 +347,189 @@ Class WordBuilder
             $totalGlyphWidth += $x;
             $glyphCount += 1;
         }
-        $requiredRadius = 0;
-        if ($this->textOptions['layout'] == self::ENCIRCLED) {
-            $requiredRadius = $totalGlyphWidth / ( 2 * pi());
-            $pathD = $this->bezierCircle($requiredRadius);
-            $pathWidth = $pathHeight = $requiredRadius * 2;
-        }
-        // Now get the length of the arch shape
-        $arch = $dParser->parse_d($pathD);
-        $compiledArch = $arch->compile();
-        $archLength = 0;
-        foreach($compiledArch->sub_paths() as $sub_path) {
-            $archLength += $sub_path->length();
-        }
+        return array('glyphs' => $glyphs, 'width' => $totalGlyphWidth, 'count' => $glyphCount);
+    }
 
+    public function glyphsAlongPathAsSVG($glyphs, $compiledPath, $scale = 1, $side = 'above', $offset = 0) : string
+    {
         // We want to spread the glyphs along the shape so scale them to fit
-        $scale = $archLength / $totalGlyphWidth;
-        $f = 0;
-        $overhang = null;
+        $f = $offset;
+        switch($side) {
+            default:
+            case 'above':
+                $yShift = $this->yHeight * -1;
+                break;
+            case 'below':
+                $yShift = 0;
+                break;
+            case 'raised':
+                $yShift = $this->ySize * -0.95;
+                break;
+            case 'hanging':
+                $yShift = $this->ySize * -0.05;
+                break;
+        }
+        // $yShift = $side == 'above' ? $this->yHeight * -1 : 0;
+        $retval = '';
+        $glyphCount = count($glyphs);
         $currentSubPath = 0;
         for ($i = 0; $i < $glyphCount; $i++) {
             $glyph = $glyphs[$i];
             $halfGlyph = $glyph['x'] / 2;
             $f += $halfGlyph * $scale;
-            if ($f > $compiledArch->sub_paths()[$currentSubPath]->length()) {
+            if ($f > $compiledPath->sub_paths()[$currentSubPath]->length() && !is_null($compiledPath->sub_paths()[$currentSubPath + 1])) {
                 $currentSubPath += 1;
                 $f = $glyph['x'] * $scale;
             }
-            $segment = $compiledArch->sub_paths()[$currentSubPath]->segments()[0]->segment_at_length($f);
-            $angle = rad2deg($segment->tangent());
-            // Calculate how much we "stick out" at the ends (for final width calculation)
-            // strictly speaking the angles might be different at each end so should really
-            // calculate both sides, not assume they are the same...
-            if ($overhang == null) {
-                $overhang = ($y * $scale) * cos($segment->tangent());
+            $segment = $compiledPath->sub_paths()[$currentSubPath]->segments()[0]->segment_at_length($f);
+            if ($i == 0) {
+                $this->setOption(self::LEFTOVERHANG, ($this->yHeight * $scale) * cos($segment->tangent()));
             }
-            $point = $compiledArch->sub_paths()[$currentSubPath]->point_at_length($f);
+            if ($i == $glyphCount - 1) {
+                $this->setOption(self::RIGHTOVERHANG, ($this->yHeight * $scale) * cos($segment->tangent()));
+            }
+            $angle = rad2deg($segment->tangent());
+            $point = $compiledPath->sub_paths()[$currentSubPath]->point_at_length($f);
             $retval .= "<g transform=\"translate({$point->x},{$point->y}) rotate($angle) scale($scale) translate(-$halfGlyph,$yShift)\">{$glyph['svg']}</g>";
             $f += $halfGlyph * $scale;
         }
-        // debug - visible path
-        // $retval .= "<path d=\"$pathD\" stroke=\"black\" fill=\"none\" width=\"10px\"/>";
-        // calculate the actual dimensions (based on font height)
-        switch ($this->textOptions[self::LAYOUT]) {
-            case self::ENCIRCLED:
-                $height = $width = $pathHeight + (2 * $y * $scale);
-                $overhang = $requiredRadius + ($y *  $scale);
-                $retval ="<g transform=\"translate($overhang,$overhang)\">$retval</g>";
-                break;
+        return $retval;
+    }
+    private function oppositeTextAsSVG($text1, $text2) : string {
+        $dParser = new SvgDParser();
+        if (mb_strlen($text1) < 4) $text1 = " $text1 "; // Not sensible to have < 4 characters
+        if (mb_strlen($text2) < 4) $text2 = " $text2 "; // Not sensible to have < 4 characters
+        // Get all the glyphs so we know the length we need to cater for
+        $glyphArrays[] = $this->glyphsAsArray($text1);
+        $glyphArrays[] = $this->glyphsAsArray($text2);
+        $longestText = ($glyphArrays[0]['width'] > $glyphArrays[1]['width']) ? 0 : 1;
+        $difference = abs($glyphArrays[0]['width'] - $glyphArrays[1]['width']);
+        $requiredRadius = ($glyphArrays[$longestText]['width'] / ( 2 * pi())) * 2;
+        // We build our path once we have the total length of glyphs
+        $upperPath = $this->bezierCircle($requiredRadius, 'top');
+        // adjust the lower radius to account for descenders
+        // TODO This is different if the lower text is the longest...
+        // $lowerPath = $this->bezierCircle($requiredRadius - ($this->ySize - $this->yHeight), 'bottom');
+        $lowerPath = $this->bezierCircle($requiredRadius, 'bottom');
+        $pathHeight = $requiredRadius * 2;
+        $path = $dParser->parse_d($upperPath);
+        $compiledUpper = $path->compile();
+        $path = $dParser->parse_d($lowerPath);
+        $compiledLower = $path->compile();
+        if ($longestText == 0) {
+            $retval = $this->glyphsAlongPathAsSVG($glyphArrays[0]['glyphs'], $compiledUpper, 1, 'raised');
+            // adjust the difference to account for descenders
+            // $difference -= ((pi() / 2) * ($this->ySize - $this->yHeight)) * 2; // is already negative
+            $retval .= $this->glyphsAlongPathAsSVG($glyphArrays[1]['glyphs'], $compiledLower, 1, 'hanging', $difference / 2) ;
+        } else {
+            $retval = $this->glyphsAlongPathAsSVG($glyphArrays[0]['glyphs'], $compiledUpper, 1, 'raised', $difference / 2);
+            $retval .= $this->glyphsAlongPathAsSVG($glyphArrays[1]['glyphs'], $compiledLower, 1, 'hanging');
+        }
+        //$height = $width = $pathHeight + (2 * $this->yHeight);
+        // $overhang = $requiredRadius + $this->yHeight;
+
+        $height = $width = $pathHeight + (2 * $this->ySize);
+        $overhang = $requiredRadius + $this->ySize;
+        $retval ="<g transform=\"translate($overhang,$overhang)\">$retval</g>";
+        $retval = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' . $height . '" ' .
+            'width="' . $width . '"><g id="body">' . $retval . '</g></svg>';
+        return $retval;
+    }
+
+    private function encircleTextAsSVG($text) : string {
+        $dParser = new SvgDParser();
+        // encircled text is slightly different. We first pad the string so it is at least 3 characters long
+        // then always add a final space so that the end does not abut the beginning.
+        // We then find out the total length of all the glyphs and construct an approximate circle of
+        // that circumference from 4 bezier curves, starting at the 9 o'clock position. The glyphs are then
+        // spread around this path as usual. We can't determine our bounding box until we have the
+        // bezier path so this is done later.
+        if (mb_strlen($text) < 4) $text = " $text "; // Not sensible to have < 4 characters
+        $text .= ' '; //  put in a space so we don't eat our own tail
+        // Get all the glyphs so we know the length we need to cater for
+        $glyphArray = $this->glyphsAsArray($text);
+        $glyphs = $glyphArray['glyphs'];
+        $totalGlyphWidth = $glyphArray['width'];
+        $requiredRadius = $totalGlyphWidth / ( 2 * pi());
+        // We build our path once we have the total length of glyphs
+        $pathD = $this->bezierCircle($requiredRadius);
+        $pathHeight = $requiredRadius * 2;
+        $path = $dParser->parse_d($pathD);
+        $compiledPath = $path->compile();
+        $retval = $this->glyphsAlongPathAsSVG($glyphs, $compiledPath);
+        $height = $width = $pathHeight + (2 * $this->yHeight);
+        $overhang = $requiredRadius + $this->yHeight;
+        $retval ="<g transform=\"translate($overhang,$overhang)\">$retval</g>";
+        $retval = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' . $height . '" ' .
+            'width="' . $width . '"><g id="body">' . $retval . '</g></svg>';
+        return $retval;
+    }
+
+    private function textToShapeAsSVG($text, $shape): string
+    {
+        // following to suppress warnings
+        $side = 'above';
+        $dParser = new SvgDParser();
+        switch ($shape) {
             case self::EMBOWED:
-                $height = ($y * $scale) - $pathHeight;
-                $width = $pathWidth;
+                // Embowed text is scaled so that it fits exactly along a pre-defined arc
+                // We also need to know the bounding box for that arc but it is easier to
+                // hard code these as $pathHeight and $pathWidth below
+                if (mb_strlen($text) < 2) $text = " $text "; // make sure a single character ends up central
+                $pathD = "m 3.04,1.64 c 0,0 195.18,149.86 501.61,151.46 C 811.1,154.7 1003.4,1.64 1003.4,1.64";
+                $pathWidth = 1000; // need to hard code these, sorry
+                $pathHeight = 151;
+                $side = 'below';
+                break;
+            case self::WAVY:
+                // wavy text uses the same technique as above. As the "wave" is quite shallow we don't
+                // worry about characters overlapping at the top corners
+                if (mb_strlen($text) < 2) $text = " $text "; // make sure a single character ends up central
+                $pathD = "m 2.72,149.64 c 0,0 195.18,-149.86 501.62,-151.46 306.4,-1.6 498.66,151.46 498.66,151.46 c 0,0 195.2,149.86 501.7,151.46 306.4,1.6 498.7,-151.46 498.7,-151.46";
+                $pathWidth = 2000;
+                $pathHeight = 301;
                 break;
             default:
+            case self::ENARCHED:
+                // enarched text again uses a pre-define arc and hard coded bounding box
+                if (mb_strlen($text) < 2) $text = " $text "; // make sure a single character ends up central
+                $pathD = "M 0,285 C250,0 750,0 1000,285";
+                $pathWidth = 1000; // need to hard code these, sorry
+                $pathHeight = 155;
+                break;
+            }
+        // Get all the glyphs so we know the length we need to cater for
+        $glyphArray = $this->glyphsAsArray($text);
+        $glyphs = $glyphArray['glyphs'];
+        $totalGlyphWidth = $glyphArray['width'];
+        $y = $this->yHeight;
+        // Now get the length of the arch shape
+        $arch = $dParser->parse_d($pathD);
+        $compiledArch = $arch->compile();
+        $archLength = $this->totalPathLength($compiledArch);
+
+        // We want to spread the glyphs along the shape so scale them to fit
+        $scale = $archLength / $totalGlyphWidth;
+        $retval = $this->glyphsAlongPathAsSVG($glyphs, $compiledArch, $scale, $side);
+        // debug - visible pah
+        $retval .= "<path d=\"$pathD\" stroke=\"black\" fill=\"none\" width=\"10px\"/>";
+        // calculate the actual dimensions (based on font height)
+        switch ($this->textOptions[self::LAYOUT]) {
             case self::WAVY:
                 $height = $pathHeight + ($y * $scale);
+                $overhang = floatval($this->getOption(self::LEFTOVERHANG));
                 $width = $pathWidth + $overhang;
                 $retval ="<g transform=\"translate($overhang,0)\">$retval</g>";
                 break;
             case self::ENARCHED:
+            case self::EMBOWED:
                 $height = $pathHeight + ($y * $scale);
-                $width = $pathWidth + $overhang + $overhang;
-                $retval ="<g transform=\"translate($overhang,0)\">$retval</g>";
+                $leftOverhang = floatval($this->getOption(self::LEFTOVERHANG));
+                $rightOverhang = floatval($this->getOption(self::RIGHTOVERHANG));
+                $width = $pathWidth + $leftOverhang + $rightOverhang;
+                $retval ="<g transform=\"translate($leftOverhang,0)\">$retval</g>";
+                break;
+            default:
                 break;
         }
         $retval = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' . $height . '" ' .
@@ -409,17 +538,25 @@ Class WordBuilder
     }
         
 
-    public function getSVG($text) {
+    public function getSVG() {
         $retval = '';
+        $text = $this->textOptions[self::TEXT1];
         switch ($this->textOptions[self::LAYOUT]) {
         case self::ENCIRCLED:
+            $text2 = $this->getOption(self::TEXT2);
+            if ($text2 == '') { // just a normal circle
+                $retval = $this->encircleTextAsSVG($text);
+            } else { // flip lower text
+                $retval = $this->oppositeTextAsSVG($text, $text2);
+            }
+            break;
         case self::ENARCHED:
         case self::WAVY:
         case self::EMBOWED:
-            $retval = $this->stringToArch($text);
+            $retval = $this->textToShapeAsSVG($text, $this->textOptions[self::LAYOUT]);
             break;
         case self::INLINE:
-            $line = $this->stringToGlyphs($text);
+            $line = $this->stringToSVG($text);
             $retval = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' .
                 $this->ySize . '" width="' . $line['width'] . '"><g id="body">' . $line['body'] . '</g></svg>';
             break;
@@ -429,7 +566,7 @@ Class WordBuilder
             $renders = [];
             $longest = 0;
             for ($i = 0; $i < count($this->words); $i++) {
-                $render = $this->stringToGlyphs($this->words[$i]);
+                $render = $this->stringToSVG($this->words[$i]);
                 if ($render['width'] > $longest) $longest = $render['width'];
                 $renders[] = $render;
             }

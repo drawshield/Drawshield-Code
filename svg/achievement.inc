@@ -756,19 +756,20 @@ function addParts($body, $parts) {
                 rgb($compartment['fill']), $compartment['adjustments']) .
                  '<g transform="' . $compartment['transform'] . '">' . $body . '</g>';
     }
-
-    foreach($mottoes as $motto) {
-        $position = $motto['position'] ?? 'below';
-        switch ($position) {
-            case 'above':
-                $body .= quickPlace($motto['body'], $motto['width'], $motto['height'],
-                    1000, 200, 500, 105, null, $motto['adjustments']);
-                break;
-            default: // might add some more later
-            case 'below':
-                $body .= quickPlace($motto['body'], $motto['width'], $motto['height'],
-                    1000, 200, 500, 1085, null, $motto['adjustments']);
-                break;
+    if ($options['shape'] != 'pauldron') {
+        foreach ($mottoes as $motto) {
+            $position = $motto['position'] ?? 'below';
+            switch ($position) {
+                case 'above':
+                    $body .= quickPlace($motto['body'], $motto['width'], $motto['height'],
+                        1000, 200, 500, 105, null, $motto['adjustments']);
+                    break;
+                default: // might add some more later
+                case 'below':
+                    $body .= quickPlace($motto['body'], $motto['width'], $motto['height'],
+                        1000, 200, 500, 1085, null, $motto['adjustments']);
+                    break;
+            }
         }
     }
     return $body;
