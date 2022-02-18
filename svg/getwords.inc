@@ -512,7 +512,7 @@ Class WordBuilder
         $scale = $archLength / $totalGlyphWidth;
         $retval = $this->glyphsAlongPathAsSVG($glyphs, $compiledArch, $scale, $side);
         // debug - visible pah
-        $retval .= "<path d=\"$pathD\" stroke=\"black\" fill=\"none\" width=\"10px\"/>";
+        // $retval .= "<path d=\"$pathD\" stroke=\"black\" fill=\"none\" width=\"10px\"/>";
         // calculate the actual dimensions (based on font height)
         switch ($this->textOptions[self::LAYOUT]) {
             case self::WAVY:
