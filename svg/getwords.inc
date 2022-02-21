@@ -28,7 +28,7 @@ Class WordBuilder
     const GIVENPATH = 'path';
     const LEFTOVERHANG = 'overl';
     const RIGHTOVERHANG = 'overr';
-    const STROKE =  false;
+    const STROKE =  'stroke';
     // const BOLD = 'bold'; // these 2 are ignored for now
     // const ITALIC = 'italic';
     // option values
