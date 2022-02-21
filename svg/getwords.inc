@@ -228,8 +228,12 @@ Class WordBuilder
                return Array($x => 0, $svg => '');
         }
         $d = $glyph['d'];
-        $x = $glyph['horiz-adv-x'] ?? $this->defaultXSize;;
-        $svg .= "<path d=\"$d\" />\n";
+        $x = $glyph['horiz-adv-x'] ?? $this->defaultXSize;
+        $stroke = '';
+        if ($this->getOption(self::STROKE)) {
+            $stroke = " stroke-width=\"" . $this->strokeWidth . "\" stroke=\"#CCCCCC\" ";
+        }
+        $svg .= "<path $stroke d=\"$d\" />\n";
         // Manage underlining - should we underline this character?
         if (isset($this->textOptions[self::UNDERLINE]) && (mb_strpos($this->fontInfo['descenders'],$char) === false) ) {
             $offset = 0; $skew = 0; // these are displacements if the font slopes
@@ -248,12 +252,8 @@ Class WordBuilder
         /* $y = $this->ySize;
         $svg= "<path d=\"m 0 0 h$x v$y h-$x v-$y \" stroke=\"black\" fill=\"none\" stroke-width=\"10px\"/>"
             . $svg; */
-        $stroke = '';
-        if ($this->getOption(self::STROKE)) {
-            $stroke = " stroke-width=\"" . $this->strokeWidth . "\" stroke=\"#CCCCCC\" ";
-        }
         if (isset($this->fontInfo['invert'])) {
-            $svg = '<g ' . $stroke  . ' transform="scale(1,-1) translate(0, -' . $this->yHeight . ')">' . $svg . "</g>";
+            $svg = '<g transform="scale(1,-1) translate(0, -' . $this->yHeight . ')">' . $svg . "</g>";
         }
         return compact('x', 'svg');
 
