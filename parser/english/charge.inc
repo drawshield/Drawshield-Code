@@ -1211,7 +1211,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'roman ?letter *', 'characters/roman' ),
       array ( 'words? *', 'characters/word' ),
       array ( '(legend|phrase) *', 'characters/word' ),
-      array ( '(monogram|cypher)s? *', 'characters/letter' ),
+      array ( '(monogram|cypher)s? *', 'characters/monogram' ),
       array ( 'question marks?', 'characters/question' ),
       // symbols
       array ( 'astronomical (character|symbol)s? ?(of|for) ?the ?planet *', 'astronomical/symbol' ),

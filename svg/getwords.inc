@@ -28,6 +28,7 @@ Class WordBuilder
     const GIVENPATH = 'path';
     const LEFTOVERHANG = 'overl';
     const RIGHTOVERHANG = 'overr';
+    const STROKE =  false;
     // const BOLD = 'bold'; // these 2 are ignored for now
     // const ITALIC = 'italic';
     // option values
@@ -58,6 +59,7 @@ Class WordBuilder
         $this->words = [];
         $this->longest = null;
         $this->yHeight = 500;
+        $this->strokeWidth = 25;
 
         if (!is_null($fontname)) {
             $this->textOptions[self::FONT] = $fontname;
@@ -92,9 +94,16 @@ Class WordBuilder
                 }
             }
         }
-        $this->yHeight = abs($this->fontInfo['ascent']);
-        $this->ySize = abs($this->fontInfo['ascent']) + abs($this->fontInfo['descent']);
+        $this->yHeight = abs(intval($this->fontInfo['ascent']));
+        $this->ySize = $this->yHeight + abs(intval($this->fontInfo['descent']));
+        $this->strokeWidth = $this->ySize / 50;
         if (isset($child['invert'])) $this->invert = true;
+        if (isset($child['horiz-adv-x'])) {
+            $t = intval($child['horiz-adv-x']);
+            if ($t != 0) {
+                $this->defaultXSize = $t;
+            }
+        }
         if (isset($this->fontInfo['credit']))
             $messages->addMessage('licence',$this->fontInfo['credit']);
         elseif (isset($this->fontInfo['licence']))
@@ -112,6 +121,11 @@ Class WordBuilder
         global $messages;
 
         switch ($this->textOptions[self::FONT]) {
+            case 'gothic':
+            case 'gothik':
+            case 'gothick':
+                $fontName = 'gothicE';
+                break;
             case 'hooge':
                 $fontName = 'hooge';
                 break;
@@ -220,8 +234,8 @@ Class WordBuilder
         if (isset($this->textOptions[self::UNDERLINE]) && (mb_strpos($this->fontInfo['descenders'],$char) === false) ) {
             $offset = 0; $skew = 0; // these are displacements if the font slopes
             if (isset($this->fontInfo['slope'])) {
-                $factor = tan(deg2rad(abs($this->fontInfo['slope'])));
-                $offset = $factor * abs($this->fontInfo['underline-position']);
+                $factor = tan(deg2rad(abs(intval($this->fontInfo['slope']))));
+                $offset = $factor * abs(intval($this->fontInfo['underline-position']));
                 $skew = $factor * $this->fontInfo['underline-thickness'];
             }
             $svg .= "<path d=\""
@@ -230,8 +244,16 @@ Class WordBuilder
                 . ' l' . $skew . ',' . $this->fontInfo['underline-thickness'] // move top right
                 . ' h-' . $x . 'z"/>';                          // horizontally to top left & close
         }
+        // debug, put box around glyph extents
+        /* $y = $this->ySize;
+        $svg= "<path d=\"m 0 0 h$x v$y h-$x v-$y \" stroke=\"black\" fill=\"none\" stroke-width=\"10px\"/>"
+            . $svg; */
+        $stroke = '';
+        if ($this->getOption(self::STROKE)) {
+            $stroke = " stroke-width=\"" . $this->strokeWidth . "\" stroke=\"#CCCCCC\" ";
+        }
         if (isset($this->fontInfo['invert'])) {
-            $svg = '<g transform="scale(1,-1) translate(0, -' . $this->yHeight . ')">' . $svg . "</g>";
+            $svg = '<g ' . $stroke  . ' transform="scale(1,-1) translate(0, -' . $this->yHeight . ')">' . $svg . "</g>";
         }
         return compact('x', 'svg');
 
@@ -284,27 +306,22 @@ Class WordBuilder
         return "<g>$retval</g>\n";
     }
 
-    public function inlineText($text) {
+    // overlap is a percentage to overlap the previous character, 0 = none, 100 = completely
+    public function inlineText($text, $overlap = 0) {
         $svgList = '';
         $xLength = 0;
         foreach ($this->str_split_unicode($text) as $char) {
+            if (isset($x) && $overlap != 0) { // i.e. 2nd character or more
+                $xLength -= $x * ($overlap / 100); // shift back a bit
+            }
             extract($this->getGlyph($char)); // creates $x and $svg
-            $svgList .= "<g transform=\"translate($xLength,0)\">$svg</g>\n";
+            $svgList = "<g transform=\"translate($xLength,0)\">$svg</g>\n" . $svgList;
             $xLength += $x;
         }
         $retval = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' .
         $this->ySize . '" width="' . $xLength . '"><g id="body">' . $svgList . '</g></svg>';
         return $retval;
     }
-
-    /* public function textInBox($text,$aspectRatio) {
-        // first, rough character count
-        $chars = mb_strlen($text);
-        $this->splitWords($text)
-        // then guess an ideal width (in characters)
-        $width = max($this->longest, intval(ceil(sqrt($chars/$aspectRatio))));
-        $height = intval(ceil($aspectRatio/$width));
-    } */
 
     private function bezierCircle($r, $shape = null): string
     {
@@ -340,9 +357,6 @@ Class WordBuilder
         foreach ($this->str_split_unicode($text) as $char) {
             $glyph = $this->getGlyph($char);
             $x = $glyph['x'];
-            // debug, put box around glyph extents
-            // $glyph['svg'] = "<path d=\"m 0 0 h$x v$y h-$x v-$y \" stroke=\"black\" fill=\"none\" stroke-width=\"10px\"/>"
-            //      . $glyph['svg'];
             $glyphs[] = $glyph;
             $totalGlyphWidth += $x;
             $glyphCount += 1;
@@ -403,7 +417,7 @@ Class WordBuilder
         $glyphArrays[] = $this->glyphsAsArray($text1);
         $glyphArrays[] = $this->glyphsAsArray($text2);
         $longestText = ($glyphArrays[0]['width'] > $glyphArrays[1]['width']) ? 0 : 1;
-        $difference = abs($glyphArrays[0]['width'] - $glyphArrays[1]['width']);
+        $difference = abs(intval($glyphArrays[0]['width']) - intval($glyphArrays[1]['width']));
         $requiredRadius = ($glyphArrays[$longestText]['width'] / ( 2 * pi())) * 2;
         // We build our path once we have the total length of glyphs
         $upperPath = $this->bezierCircle($requiredRadius, 'top');
