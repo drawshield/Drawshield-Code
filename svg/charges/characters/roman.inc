@@ -18,14 +18,15 @@ This file is part of the DrawShield.net heraldry image creation program
 
 // Roman letter
 
-$charge['default_colour'] = 'sable';
 
 $item = getModifierValueByKeyterm( $node, 'value' );
-if ( $item == null )
-  $item = '?';
-else
-  $item = strtoupper($item{0});
-$charge['svgCode'] = '<svg height="44" width="25"><text stroke="none" x="12.5" y="44" text-anchor="middle" font-size="44" font-family="serif">' .
-      $item . '</text></svg>';
+if ( $item == null ) $item = 'huh?';
 
+$builder = new WordBuilder();
+$builder->setOption(WordBuilder::STROKE);
+$builder->setOption(WordBuilder::FONT, 'serif');
 
+include "char_helper.inc";
+
+$builder->compile();
+$charge['svgCode'] = $builder->inlineText($item);

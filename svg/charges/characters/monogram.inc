@@ -24,7 +24,7 @@ include "char_helper.inc";
 
 
 $builder->compile();
-$charge['svgCode'] = $builder->inlineText($item);
+$charge['svgCode'] = $builder->inlineText($item,50);
 
 
 

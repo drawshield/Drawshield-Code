@@ -433,6 +433,7 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
      'cursive', 'serif', 'plain', // font families
      array ('(engraved|graven)', 'engraved'),
        array ('carve[dn]', 'carved'),
+       array ('gothi(c|k|ck)', 'gothic'),
      array ( 'enlarged', 'bold' ), // ignored for now
      array ( 'aslant(ed)?', 'italic' ), // ignored for now
      array ( '(dispo[sn]|arrang)ed in fess', 'text-inline' ),

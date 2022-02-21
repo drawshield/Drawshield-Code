@@ -18,75 +18,17 @@ This file is part of the DrawShield.net heraldry image creation program
 
 // word
 
-$charge['default_colour'] = 'sable';
-
 $item = getModifierValueByKeyterm( $node, 'value' );
 if ( $item == null ) $item = 'huh?';
 
 $builder = new WordBuilder();
 $builder->setOption(WordBuilder::TEXT1, $item);
 
-foreach ($node->childNodes as $child) {
-    if ($child->nodeName == blazonML::E_MODIFIER) {
-        switch ($child->getAttribute(blazonML::A_KEYTERM)) {
-            case 'opposite':
-                $item = $child->getAttribute(blazonML::A_PARAM);
-                if ( $item == null ) $item = 'huh?';
-                $builder->setOption(WordBuilder::TEXT2, $item);
-                break;
-            case 'bold':
-            case 'italic':
-                $messages->addMessage('blazon','Bold and italic are now longer supported');
-                break;
-            case 'font':
-                $builder->setOption(WordBuilder::FONT, getModifierValueByKeyterm($node, 'font'));
-                break;
-            case 'engraved':
-            case 'cursive':
-            case 'serif':
-            case 'plain':
-            case 'carved':
-                $builder->setOption(WordBuilder::FONT, $child->getAttribute(blazonML::A_KEYTERM));
-                break;
-            case 'underlined':
-                $builder->setOption(WordBuilder::UNDERLINE);
-                break;
-            case  'to-dexter':
-                $builder->setOption(WordBuilder::ALIGN, WordBuilder::LEFT);
-                break;
-            case  'to-sinister':
-                $builder->setOption(WordBuilder::ALIGN, WordBuilder::RIGHT);
-                break;
-            case  'to-centre':
-                $builder->setOption(WordBuilder::ALIGN, WordBuilder::CENTRE);
-                break;
-            case 'encircled':
-                $builder->setOption(WordBuilder::LAYOUT, WordBuilder::ENCIRCLED);
-                break;
-            case 'text-inline':
-                $builder->setOption(WordBuilder::LAYOUT, WordBuilder::INLINE);
-                break;
-            case 'text-stacked':
-                $builder->setOption(WordBuilder::LAYOUT, WordBuilder::STACKED);
-                break;
-            case 'text-block':
-                $builder->setOption(WordBuilder::LAYOUT, WordBuilder::BLOCK);
-                break;
-            case 'enarched':
-                $builder->setOption(WordBuilder::LAYOUT, WordBuilder::ENARCHED);
-                break;
-            case 'embowed':
-                $builder->setOption(WordBuilder::LAYOUT, WordBuilder::EMBOWED);
-                break;
-            case 'wavy':
-                $builder->setOption(WordBuilder::LAYOUT, WordBuilder::WAVY);
-                break;
+include "char_helper.inc";
 
-        }
-    }
-}
+
 $builder->compile();
-$charge['svgCode'] = $builder->getSVG($item);
+$charge['svgCode'] = $builder->getSVG();
 
 
 
