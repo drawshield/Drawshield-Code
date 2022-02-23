@@ -134,6 +134,10 @@ Class WordBuilder
                     case 'wavy':
                         $this->setOption(self::LAYOUT, self::WAVY);
                         break;
+                    case 'stroked':
+                        $this->setOption(self::STROKE);
+                        $this->setOption(self::STROKECOLOUR, rgb($child->getAttribute(blazonML::A_PARAM)));
+                        break;
 
                 }
             }

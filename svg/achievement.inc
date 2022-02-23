@@ -345,33 +345,54 @@ function drawMotto($mottoNode, $layout) {
         $svgText = '<g transform="scale(0.9,0.9) translate(50,180)">' . $svgText . "</g>\n";
         return $svgText;
     } else {
+        // Some hard-coded tweaks (sorry about this, has to be judged by eye)
+        $maxHeight = 50;
+        switch ($position) {
+            case 'ribbon-above':
+                $maxHeight = 55;
+                break;
+        }
+
+        // open the motto file as SVG, extract the body & size etc.
         $svgDOM = new DOMDocument;
         $svgDOM->load("svg/components/motto/$position.svg");
+        $svgXML = simplexml_import_dom($svgDOM);
+        $retval = getSvgFragment($svgXML, array(), 'motto', $position, array(), getStroke(null, true));
+
+        // Just extract the position for use later
         if (($dash = strpos($position,'-')) > 0) {
             $position = substr($position,$dash + 1);
         }
-        $svgXpath = new DOMXPath($svgDOM);
-        $text = htmlentities($text, ENT_XML1);
-        $textPath = $svgXpath->query('//*[@id="textPath"]');
-        $d = $textPath->item(0)->getAttribute('d');
+
+        // We have the SVG text as the body, find an path with the ID textPath
+        $svg = $retval['body'];
+        preg_match('/<path\s+?id="textPath".*?d="(.*?)".*?\/>/s',$svg,$matches, PREG_OFFSET_CAPTURE);
+        $start = $matches[0][1];
+        $end = strlen($matches[0][0]);
+        $d = $matches[1][0];
+
+        // Get ourselves a word builder and set up the options
         $builder = new WordBuilder();
+        $text = htmlentities($text, ENT_XML1);
         // set some defaults
         $builder->setOption(WordBuilder::FONT, 'serif');
-        $builder->setOption(WordBuilder::GIVENPATH, $d);
         $builder->setOption(WordBuilder::TEXT1, $text);
+        $builder->setOption(WordBuilder::GIVENPATH, $d);
         // set the user options
         $builder->setOptionsFromModifiers($mottoNode);
         // overwrite the layout, just in case
         $builder->setOption(WordBuilder::LAYOUT, WordBuilder::GIVEN);
         $builder->setOption(WordBuilder::FILL, $colour);
-        $builder->setOption(WordBuilder::MAXHEIGHT, 50);
+        $builder->setOption(WordBuilder::MAXHEIGHT, $maxHeight);
         $builder->setOption(WordBuilder::STANDALONE, false);
         $builder->compile();
         $mottoSVG = $builder->getSVG(); // get SVG fragment
 
-        $svg = simplexml_import_dom($svgDOM);
-        $retval = getSvgFragment($svg, array(), 'motto', $position, array(), getStroke(null, true));
-        $retval['body'] = $retval['body'] . $mottoSVG;
+        // now replace the path we found with the SVG fragment
+        $svg = substr_replace($svg, $mottoSVG, $start, $end);
+
+        // Set the rest of the  parameters
+        $retval['body'] = $svg;
         $retval['adjustments'] = $adjustments;
         $retval['position'] = $position;
         return $retval;
