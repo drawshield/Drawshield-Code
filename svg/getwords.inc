@@ -29,6 +29,11 @@ Class WordBuilder
     const LEFTOVERHANG = 'overl';
     const RIGHTOVERHANG = 'overr';
     const STROKE =  'stroke';
+    const STROKECOLOUR =  'strokecolour';
+    const FILL = 'fill';
+    const MAXHEIGHT = 'maxheight';
+    const STANDALONE = 'standalone';
+
     // const BOLD = 'bold'; // these 2 are ignored for now
     // const ITALIC = 'italic';
     // option values
@@ -53,6 +58,8 @@ Class WordBuilder
             self::FONT => 'serif',
             self::LEFTOVERHANG => 0,
             self::RIGHTOVERHANG => 0,
+            self::STROKECOLOUR => '#CCCCCC',
+            self::STANDALONE => true,
         ];
         $this->defaultXSize = 500;
         $this->ySize = 500;
@@ -66,6 +73,73 @@ Class WordBuilder
             $this->compile();
         }
     }
+
+    public function setOptionsFromModifiers($node) {
+        global $messages;
+
+        foreach ($node->childNodes as $child) {
+            if ($child->nodeName == blazonML::E_MODIFIER) {
+                switch ($child->getAttribute(blazonML::A_KEYTERM)) {
+                    case 'opposite':
+                        $item = $child->getAttribute(blazonML::A_PARAM);
+                        if ($item == null) $item = 'huh?';
+                        $this->setOption(self::TEXT2, $item);
+                        break;
+                    case 'bold':
+                    case 'italic':
+                        $messages->addMessage('blazon', 'Bold and italic are now longer supported');
+                        break;
+                    case 'font':
+                        $this->setOption(self::FONT, getModifierValueByKeyterm($node, 'font'));
+                        break;
+                    case 'engraved':
+                    case 'cursive':
+                    case 'gothic':
+                    case 'serif':
+                    case 'plain':
+                    case 'carved':
+                        $this->setOption(self::FONT, $child->getAttribute(blazonML::A_KEYTERM));
+                        break;
+                    case 'underlined':
+                        $this->setOption(self::UNDERLINE);
+                        break;
+                    case  'to-dexter':
+                        $this->setOption(self::ALIGN, self::LEFT);
+                        break;
+                    case  'to-sinister':
+                        $this->setOption(self::ALIGN, self::RIGHT);
+                        break;
+                    case  'to-centre':
+                        $this->setOption(self::ALIGN, self::CENTRE);
+                        break;
+                    case 'encircled':
+                        $this->setOption(self::LAYOUT, self::ENCIRCLED);
+                        break;
+                    case 'text-inline':
+                        $this->setOption(self::LAYOUT, self::INLINE);
+                        break;
+                    case 'text-stacked':
+                        $this->setOption(self::LAYOUT, self::STACKED);
+                        break;
+                    case 'text-block':
+                        $messages->addMessage('blazon', 'Text in blocks is no longer supported');
+                        // $this->setOption(self::LAYOUT, self::BLOCK);
+                        break;
+                    case 'enarched':
+                        $this->setOption(self::LAYOUT, self::ENARCHED);
+                        break;
+                    case 'embowed':
+                        $this->setOption(self::LAYOUT, self::EMBOWED);
+                        break;
+                    case 'wavy':
+                        $this->setOption(self::LAYOUT, self::WAVY);
+                        break;
+
+                }
+            }
+        }
+    }
+
 
     public function compile() {
         global $messages;
@@ -231,9 +305,13 @@ Class WordBuilder
         $x = $glyph['horiz-adv-x'] ?? $this->defaultXSize;
         $stroke = '';
         if ($this->getOption(self::STROKE)) {
-            $stroke = " stroke-width=\"" . $this->strokeWidth . "\" stroke=\"#CCCCCC\" ";
+            $stroke = " stroke-width=\"" . $this->strokeWidth . "\" stroke=\"" . $this->getOption(self::STROKECOLOUR) . "\" ";
         }
-        $svg .= "<path $stroke d=\"$d\" />\n";
+        $fill = '';
+        if ($this->getOption(self::FILL)) {
+            $fill = " fill=\"" . $this->getOption(self::FILL) . "\" ";
+        }
+        $svg .= "<path $stroke $fill d=\"$d\" />\n";
         // Manage underlining - should we underline this character?
         if (isset($this->textOptions[self::UNDERLINE]) && (mb_strpos($this->fontInfo['descenders'],$char) === false) ) {
             $offset = 0; $skew = 0; // these are displacements if the font slopes
@@ -308,6 +386,7 @@ Class WordBuilder
 
     // overlap is a percentage to overlap the previous character, 0 = none, 100 = completely
     public function inlineText($text, $overlap = 0) {
+        $text = htmlentities($text, ENT_XML1);
         $svgList = '';
         $xLength = 0;
         foreach ($this->str_split_unicode($text) as $char) {
@@ -353,7 +432,6 @@ Class WordBuilder
         $glyphs = [];
         $glyphCount = 0;
         $totalGlyphWidth = 0;
-        $y = $this->yHeight;
         foreach ($this->str_split_unicode($text) as $char) {
             $glyph = $this->getGlyph($char);
             $x = $glyph['x'];
@@ -445,8 +523,7 @@ Class WordBuilder
         $height = $width = $pathHeight + (2 * $this->ySize);
         $overhang = $requiredRadius + $this->ySize;
         $retval ="<g transform=\"translate($overhang,$overhang)\">$retval</g>";
-        $retval = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' . $height . '" ' .
-            'width="' . $width . '"><g id="body">' . $retval . '</g></svg>';
+        $retval = $this->wrapSVG($retval, $height, $width);
         return $retval;
     }
 
@@ -474,8 +551,7 @@ Class WordBuilder
         $height = $width = $pathHeight + (2 * $this->yHeight);
         $overhang = $requiredRadius + $this->yHeight;
         $retval ="<g transform=\"translate($overhang,$overhang)\">$retval</g>";
-        $retval = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' . $height . '" ' .
-            'width="' . $width . '"><g id="body">' . $retval . '</g></svg>';
+        $retval = $this->wrapSVG($retval, $height, $width);
         return $retval;
     }
 
@@ -485,6 +561,11 @@ Class WordBuilder
         $side = 'above';
         $dParser = new SvgDParser();
         switch ($shape) {
+            case self::GIVEN:
+                $pathD = $this->getOption(self::GIVENPATH);
+                $width = $pathWidth = 1000; // need to hard code these, sorry
+                $height = $pathHeight = 151; // in this case they are ignored anyway
+                break;
             case self::EMBOWED:
                 // Embowed text is scaled so that it fits exactly along a pre-defined arc
                 // We also need to know the bounding box for that arc but it is easier to
@@ -524,7 +605,14 @@ Class WordBuilder
 
         // We want to spread the glyphs along the shape so scale them to fit
         $scale = $archLength / $totalGlyphWidth;
-        $retval = $this->glyphsAlongPathAsSVG($glyphs, $compiledArch, $scale, $side);
+        $offset = 0;
+        if (($maxHeight = $this->getOption(self::MAXHEIGHT)) != false) {
+            if ($this->ySize * $scale > $maxHeight) {
+                $scale = $maxHeight / $this->ySize;
+                $offset = ($archLength - ( $totalGlyphWidth * $scale)) / 2;
+            }
+        }
+        $retval = $this->glyphsAlongPathAsSVG($glyphs, $compiledArch, $scale, $side, $offset);
         // debug - visible pah
         // $retval .= "<path d=\"$pathD\" stroke=\"black\" fill=\"none\" width=\"10px\"/>";
         // calculate the actual dimensions (based on font height)
@@ -546,15 +634,24 @@ Class WordBuilder
             default:
                 break;
         }
-        $retval = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' . $height . '" ' .
-            'width="' . $width . '"><g id="body">' . $retval . '</g></svg>';
+        $retval = $this->wrapSVG($retval, $height, $width);
         return $retval;
     }
+
+    private function wrapSVG($svg, $height = 0, $width = 0) {
+        if ($this->getOption(self::STANDALONE) == true) {
+
+            $svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' .
+                $height . '" width="' . $width . '"><g id="body">' . $svg . '</g></svg>';
+        }
+        return $svg;
+}
         
 
     public function getSVG() {
         $retval = '';
         $text = $this->textOptions[self::TEXT1];
+        $text = htmlentities($text, ENT_XML1);
         switch ($this->textOptions[self::LAYOUT]) {
         case self::ENCIRCLED:
             $text2 = $this->getOption(self::TEXT2);
@@ -567,12 +664,12 @@ Class WordBuilder
         case self::ENARCHED:
         case self::WAVY:
         case self::EMBOWED:
+        case self::GIVEN:
             $retval = $this->textToShapeAsSVG($text, $this->textOptions[self::LAYOUT]);
             break;
         case self::INLINE:
             $line = $this->stringToSVG($text);
-            $retval = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' .
-                $this->ySize . '" width="' . $line['width'] . '"><g id="body">' . $line['body'] . '</g></svg>';
+            $retval = $this->wrapSVG($line['body'], $this->ySize, $line['width']);
             break;
         case self::STACKED:
             $this->splitWords($text);
@@ -602,8 +699,7 @@ Class WordBuilder
                     break;
                 }
             }
-            $retval = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' .
-                ($this->ySize * $i) . '" width="' . $longest . '"><g id="body">' . $retval . '</g></svg>';
+            $retval = $this->wrapSVG($retval, ($this->ySize * $i), $longest);
         default:
             break;
         }

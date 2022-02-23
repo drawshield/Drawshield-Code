@@ -2162,12 +2162,18 @@ class englishGrammar extends grammar
             self::tokens(),
             self::lineno()
         );
-        if (($colour = self::colour()) != null) {
-            $mottoNode->appendChild($colour);
-        }
-        if (($adjust = $this->getAdjustments()) != null) {
-            foreach ($adjust as $adj) {
-                $mottoNode->appendChild($adj);
+        while (self::moreInput()) {
+            if (($colour = self::colour()) != null) {
+                $mottoNode->appendChild($colour);
+            } elseif (($adjust = $this->getAdjustments()) != null) {
+                foreach ($adjust as $adj) {
+                    $mottoNode->appendChild($adj);
+                }
+            } elseif ($keyterm = self::find(languageDB::CHARGE_MODS)) {
+                    $mottoNode->appendChild($this->schema->makeMod(languageDB::CHARGE_MODS,
+                        $this->phraseMatcher->getValue(), $keyterm, self::tokens(), self::lineNo()));
+            } else {
+                break;
             }
         }
         return $mottoNode;

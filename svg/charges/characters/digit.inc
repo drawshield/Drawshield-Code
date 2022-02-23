@@ -24,7 +24,8 @@ This file is part of the DrawShield.net heraldry image creation program
 $builder = new WordBuilder();
 $builder->setOption(WordBuilder::STROKE);
 
-include "char_helper.inc";
+$charge['default_colour'] = 'sable';
+$builder->setOptionsFromModifiers($node);
 
 
 $builder->compile();

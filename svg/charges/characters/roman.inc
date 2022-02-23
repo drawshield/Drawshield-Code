@@ -22,11 +22,12 @@ This file is part of the DrawShield.net heraldry image creation program
 $item = getModifierValueByKeyterm( $node, 'value' );
 if ( $item == null ) $item = 'huh?';
 
+$charge['default_colour'] = 'sable';
 $builder = new WordBuilder();
 $builder->setOption(WordBuilder::STROKE);
 $builder->setOption(WordBuilder::FONT, 'serif');
 
-include "char_helper.inc";
+$builder->setOptionsFromModifiers($node);
 
 $builder->compile();
 $charge['svgCode'] = $builder->inlineText($item);

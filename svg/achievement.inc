@@ -337,6 +337,7 @@ function drawMotto($mottoNode, $layout) {
         }
     }
     if ($options['shape'] == 'pauldron') {
+        $text = htmlentities($text, ENT_XML1);
         $builder = new WordBuilder('hooge');
         $svgText = file_get_contents("svg/components/motto/plaque.svg");
         $svgText .= "<g transform=\"translate(50,1000)\">\n" .
@@ -344,18 +345,6 @@ function drawMotto($mottoNode, $layout) {
         $svgText = '<g transform="scale(0.9,0.9) translate(50,180)">' . $svgText . "</g>\n";
         return $svgText;
     } else {
-        $fontSize = 45;
-        $up = 2;
-        $textLen = strlen($text);
-        //adjust for long mottos
-        if ($textLen > 10) {
-            $fontSize -= (0.7 * ($textLen - 10)); // one pixel smaller per extra letter
-            $up = ($textLen - 10) / 1.5;
-            if ($fontSize < 15) {
-                $fontSize = 15; // but have a lower limit
-                $up = 12;
-            }
-        }
         $svgDOM = new DOMDocument;
         $svgDOM->load("svg/components/motto/$position.svg");
         if (($dash = strpos($position,'-')) > 0) {
@@ -363,23 +352,28 @@ function drawMotto($mottoNode, $layout) {
         }
         $svgXpath = new DOMXPath($svgDOM);
         $text = htmlentities($text, ENT_XML1);
-        $style = "font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:serif;-inkscape-font-specification:'serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:1;stroke:none;";
-        $style .= "font-size:${fontSize}px;fill:$colour";
-        $transform = "translate(0,$up)";
-        $tspan = $svgXpath->query('//svg:tspan');
-        $tspan->item(0)->setAttribute('font-size',"${fontSize}px");
-        $tspan->item(0)->setAttribute('fill',$colour);
-        $tspan->item(0)->setAttribute('style',$style);
-        $tspan->item(0)->setAttribute('text-align','center');
-        $tspan->item(0)->setAttribute('text-anchor','middle');
-        $tspan->item(0)->firstChild->nodeValue = $text;
-        $textPath = $svgXpath->query('//svg:textPath');
-        $textPath->item(0)->setAttribute('transform',$transform);
+        $textPath = $svgXpath->query('//*[@id="textPath"]');
+        $d = $textPath->item(0)->getAttribute('d');
+        $builder = new WordBuilder();
+        // set some defaults
+        $builder->setOption(WordBuilder::FONT, 'serif');
+        $builder->setOption(WordBuilder::GIVENPATH, $d);
+        $builder->setOption(WordBuilder::TEXT1, $text);
+        // set the user options
+        $builder->setOptionsFromModifiers($mottoNode);
+        // overwrite the layout, just in case
+        $builder->setOption(WordBuilder::LAYOUT, WordBuilder::GIVEN);
+        $builder->setOption(WordBuilder::FILL, $colour);
+        $builder->setOption(WordBuilder::MAXHEIGHT, 50);
+        $builder->setOption(WordBuilder::STANDALONE, false);
+        $builder->compile();
+        $mottoSVG = $builder->getSVG(); // get SVG fragment
+
         $svg = simplexml_import_dom($svgDOM);
         $retval = getSvgFragment($svg, array(), 'motto', $position, array(), getStroke(null, true));
+        $retval['body'] = $retval['body'] . $mottoSVG;
         $retval['adjustments'] = $adjustments;
         $retval['position'] = $position;
-        $retval = array_merge($retval, getMetaDataFromSVG($svg,'achievement','motto'));
         return $retval;
     }
     return null;
