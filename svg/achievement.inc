@@ -337,6 +337,7 @@ function drawMotto($mottoNode, $layout) {
         }
     }
     if ($options['shape'] == 'pauldron') {
+        $text = htmlentities($text, ENT_XML1);
         $builder = new WordBuilder('hooge');
         $svgText = file_get_contents("svg/components/motto/plaque.svg");
         $svgText .= "<g transform=\"translate(50,1000)\">\n" .
@@ -344,42 +345,56 @@ function drawMotto($mottoNode, $layout) {
         $svgText = '<g transform="scale(0.9,0.9) translate(50,180)">' . $svgText . "</g>\n";
         return $svgText;
     } else {
-        $fontSize = 45;
-        $up = 2;
-        $textLen = strlen($text);
-        //adjust for long mottos
-        if ($textLen > 10) {
-            $fontSize -= (0.7 * ($textLen - 10)); // one pixel smaller per extra letter
-            $up = ($textLen - 10) / 1.5;
-            if ($fontSize < 15) {
-                $fontSize = 15; // but have a lower limit
-                $up = 12;
-            }
+        // Some hard-coded tweaks (sorry about this, has to be judged by eye)
+        $maxHeight = 50;
+        switch ($position) {
+            case 'ribbon-above':
+                $maxHeight = 55;
+                break;
         }
+
+        // open the motto file as SVG, extract the body & size etc.
         $svgDOM = new DOMDocument;
         $svgDOM->load("svg/components/motto/$position.svg");
+        $svgXML = simplexml_import_dom($svgDOM);
+        $retval = getSvgFragment($svgXML, array(), 'motto', $position, array(), getStroke(null, true));
+
+        // Just extract the position for use later
         if (($dash = strpos($position,'-')) > 0) {
             $position = substr($position,$dash + 1);
         }
-        $svgXpath = new DOMXPath($svgDOM);
+
+        // We have the SVG text as the body, find an path with the ID textPath
+        $svg = $retval['body'];
+        preg_match('/<path\s+?id="textPath".*?d="(.*?)".*?\/>/s',$svg,$matches, PREG_OFFSET_CAPTURE);
+        $start = $matches[0][1];
+        $end = strlen($matches[0][0]);
+        $d = $matches[1][0];
+
+        // Get ourselves a word builder and set up the options
+        $builder = new WordBuilder();
         $text = htmlentities($text, ENT_XML1);
-        $style = "font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:serif;-inkscape-font-specification:'serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:1;stroke:none;";
-        $style .= "font-size:${fontSize}px;fill:$colour";
-        $transform = "translate(0,$up)";
-        $tspan = $svgXpath->query('//svg:tspan');
-        $tspan->item(0)->setAttribute('font-size',"${fontSize}px");
-        $tspan->item(0)->setAttribute('fill',$colour);
-        $tspan->item(0)->setAttribute('style',$style);
-        $tspan->item(0)->setAttribute('text-align','center');
-        $tspan->item(0)->setAttribute('text-anchor','middle');
-        $tspan->item(0)->firstChild->nodeValue = $text;
-        $textPath = $svgXpath->query('//svg:textPath');
-        $textPath->item(0)->setAttribute('transform',$transform);
-        $svg = simplexml_import_dom($svgDOM);
-        $retval = getSvgFragment($svg, array(), 'motto', $position, array(), getStroke(null, true));
+        // set some defaults
+        $builder->setOption(WordBuilder::FONT, 'serif');
+        $builder->setOption(WordBuilder::TEXT1, $text);
+        $builder->setOption(WordBuilder::GIVENPATH, $d);
+        // set the user options
+        $builder->setOptionsFromModifiers($mottoNode);
+        // overwrite the layout, just in case
+        $builder->setOption(WordBuilder::LAYOUT, WordBuilder::GIVEN);
+        $builder->setOption(WordBuilder::FILL, $colour);
+        $builder->setOption(WordBuilder::MAXHEIGHT, $maxHeight);
+        $builder->setOption(WordBuilder::STANDALONE, false);
+        $builder->compile();
+        $mottoSVG = $builder->getSVG(); // get SVG fragment
+
+        // now replace the path we found with the SVG fragment
+        $svg = substr_replace($svg, $mottoSVG, $start, $end);
+
+        // Set the rest of the  parameters
+        $retval['body'] = $svg;
         $retval['adjustments'] = $adjustments;
         $retval['position'] = $position;
-        $retval = array_merge($retval, getMetaDataFromSVG($svg,'achievement','motto'));
         return $retval;
     }
     return null;
