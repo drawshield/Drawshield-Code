@@ -430,7 +430,7 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
        array ( 'styled ?of *', 'font'),
      array ('opposite ?to *', 'opposite'),
      'embowed', 'enarched', 'underlined', 'wavy', 'encircled',
-     'cursive', 'serif', 'plain', // font families
+     'cursive', 'serif', 'plain', 'celtic', // font families
      array ('(engraved|graven)', 'engraved'),
        array ('carve[dn]', 'carved'),
        array ('gothi(c|k|ck)', 'gothic'),
