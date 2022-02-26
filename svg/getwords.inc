@@ -74,7 +74,8 @@ Class WordBuilder
         }
     }
 
-    public function setOptionsFromModifiers($node) {
+    public function setOptionsFromModifiers($node)
+    {
         global $messages;
 
         foreach ($node->childNodes as $child) {
@@ -95,6 +96,7 @@ Class WordBuilder
                     case 'engraved':
                     case 'cursive':
                     case 'gothic':
+                    case 'celtic':
                     case 'serif':
                     case 'plain':
                     case 'carved':
@@ -143,6 +145,7 @@ Class WordBuilder
             }
         }
     }
+
 
 
     public function compile() {
@@ -203,6 +206,9 @@ Class WordBuilder
             case 'gothik':
             case 'gothick':
                 $fontName = 'gothicE';
+                break;
+            case'celtic':
+                $fontName = 'IrishUncialfabeta-Bold';
                 break;
             case 'hooge':
                 $fontName = 'hooge';
