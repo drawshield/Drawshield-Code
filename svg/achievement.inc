@@ -110,6 +110,10 @@ function drawMantling($mantlingNode)
             $yShift = 460;
             $scale = 0.55;
             break;
+        case 'royal':
+            $yShift = 0;
+            $scale = 0.8;
+            break;
         case 'prince-hre':
             $yShift = 260;
             $scale = 0.55;
