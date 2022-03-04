@@ -68,73 +68,7 @@
   </metadata>
   <desc
      id="desc4">Flag of Canton of Valais (Wallis)</desc>
-  <defs
-     id="defs6">
-    <linearGradient
-       id="linearGradient2893">
-      <stop
-         id="stop2895"
-         offset="0"
-         style="stop-color:white;stop-opacity:0.3137255;" />
-      <stop
-         style="stop-color:white;stop-opacity:0.25098041;"
-         offset="0.19"
-         id="stop2897" />
-      <stop
-         id="stop2901"
-         offset="0.60000002"
-         style="stop-color:#6b6b6b;stop-opacity:0.1254902;" />
-      <stop
-         id="stop2899"
-         offset="1"
-         style="stop-color:black;stop-opacity:0.1254902;" />
-    </linearGradient>
-    <g
-       id="s">
-      <g
-         id="c">
-        <path
-           transform="rotate(18,3.1569,-0.5)"
-           d="m 0,0 v 1 h 0.5 z"
-           id="t" />
-        <use
-           height="540"
-           width="810"
-           y="0"
-           x="0"
-           id="use2144"
-           transform="scale(-1,1)"
-           xlink:href="#t" />
-      </g>
-      <g
-         id="a">
-        <use
-           height="540"
-           width="810"
-           y="0"
-           x="0"
-           id="use2147"
-           transform="rotate(72)"
-           xlink:href="#c" />
-        <use
-           height="540"
-           width="810"
-           y="0"
-           x="0"
-           id="use2149"
-           transform="rotate(144)"
-           xlink:href="#c" />
-      </g>
-      <use
-         height="540"
-         width="810"
-         y="0"
-         x="0"
-         id="use2151"
-         transform="scale(-1,1)"
-         xlink:href="#a" />
-    </g>
-  </defs>
+
   <g
      transform="translate(-183.14,-21.253)"
      style="display:inline"
