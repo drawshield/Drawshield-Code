@@ -239,6 +239,7 @@ This file is part of the DrawShield.net heraldry image creation program
       
       // Exotic (but lifelike) animals
       array ( 'raccoons?', 'animal/raccoon' ),
+       array ( 'capybaras?', 'animal/capybara' ),
       array ( 'tortoises?', 'animal/tortoise' ),
       array ( 'dinosaurs?', 'animal/dinosaur' ),
       array ( 'llamas?', 'animal/llama' ),
