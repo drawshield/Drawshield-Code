@@ -24,6 +24,9 @@ $width = 300;
 if ( existModifierWithKeyterm($node,'couped') ) {
     $width = 200;
     $ordinary['shape_spec'] = (string)build_bend($layout, $width, 200);
+} elseif ( existModifierWithKeyterm($node,'double-fracted') ) {
+        $width = 250;
+        $ordinary['shape_spec'] = (string)build_bend_fracted($layout, $width, 2);
 } elseif ( existModifierWithKeyterm($node, 'engouled')) {
   $ordinary['body'] = '<g
      transform="translate(0,540)"

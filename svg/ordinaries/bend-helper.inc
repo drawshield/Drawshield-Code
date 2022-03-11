@@ -15,6 +15,34 @@ This file is part of the DrawShield.net heraldry image creation program
     You should have received a copy of the GNU General Public License
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
+function build_bend_fracted($layout, $width = 200, $count = 2, $path_builder = null) {
+    $unit = $layout->size->height / 5;
+    if ($unit > 200) $unit = 200;
+
+    $finalDistance = ($unit + $unit + ($layout->size->height - (5 * $unit))) * M_SQRT2;
+    $forwardLeg = $unit * M_SQRT2;
+    $backwardLeg = ($unit/2) * M_SQRT2;
+
+    if ( $path_builder == null )
+        $path_builder = new PathBuilder();
+
+    return $path_builder
+        ->move( $width + ($unit / 2), 0)
+        ->down_right($forwardLeg)
+        ->down_left($backwardLeg)
+        ->down_right($forwardLeg)
+        ->down_left($backwardLeg)
+        ->down_right($finalDistance)
+        ->left_plain($width)
+        ->up_left($finalDistance)
+        ->up_right($backwardLeg)
+        ->up_left($forwardLeg)
+        ->up_right($backwardLeg)
+        ->up_left($forwardLeg)
+        ->right_plain($width)
+        ;
+}
+
 function build_bend($layout, $width, $margin, $offset = 0, $path_builder = null)
 {
     $base = min($layout->cross_point->x, $layout->cross_point->y) - $margin;

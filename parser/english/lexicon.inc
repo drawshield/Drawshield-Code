@@ -959,6 +959,7 @@ class languageDB extends lexicon
                 array('(rompu|downset)', 'rompu'),
                 array('removed', 'removed'),
                 array('(debruised|fracted)', 'fracted'),
+                array('double (debruised|fracted)', 'double-fracted'),
                 array('(eclate|burst|split)', 'burst'),
                 array('(disjoint|disjointed|brisse)', 'disjointed'),
                 array('(debrui|depres|oppres)sed (with|by|of)', 'depressed'),
