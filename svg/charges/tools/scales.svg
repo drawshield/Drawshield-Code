@@ -29,38 +29,6 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <defs
-     id="defs3382">
-    <linearGradient
-       id="linearGradient3820">
-      <stop
-         id="stop3822"
-         style="stop-color:#ffcc00;stop-opacity:1"
-         offset="0" />
-      <stop
-         id="stop3824"
-         style="stop-color:#ffcc00;stop-opacity:0"
-         offset="1" />
-    </linearGradient>
-    <linearGradient
-       x1="-773.2453"
-       y1="818.77765"
-       x2="-777.27264"
-       y2="1064.9441"
-       id="linearGradient4030"
-       xlink:href="#linearGradient3820"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.4645969,0,0,2.1550757,215.0092,-1105.3202)" />
-    <linearGradient
-       x1="-773.2453"
-       y1="818.77765"
-       x2="-777.27264"
-       y2="1064.9441"
-       id="linearGradient4032"
-       xlink:href="#linearGradient3820"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.4645969,0,0,2.1550757,26.472566,-1487.3633)" />
-  </defs>
   <g
      id="layer1">
     <path

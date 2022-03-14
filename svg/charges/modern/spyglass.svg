@@ -10,57 +10,6 @@
    id="svg2"
    viewBox="0 0 941.52271 163.52"
    version="1.0">
-  <defs
-     id="defs4">
-    <linearGradient
-       id="linearGradient4826">
-      <stop
-         id="stop4828"
-         style="stop-color:#967b1a"
-         offset="0" />
-      <stop
-         id="stop4830"
-         style="stop-color:#ffffff"
-         offset=".86398" />
-      <stop
-         id="stop4832"
-         style="stop-color:#967b1a"
-         offset="1" />
-    </linearGradient>
-    <linearGradient
-       id="linearGradient3215">
-      <stop
-         id="stop3217"
-         style="stop-color:#9e6e21"
-         offset="0" />
-      <stop
-         id="stop3219"
-         style="stop-color:#fffbdc"
-         offset="1" />
-    </linearGradient>
-    <pattern
-       id="pattern4789"
-       width="11.663105"
-       patternUnits="userSpaceOnUse"
-       patternTransform="translate(313.53 -389.09)"
-       height="9.2499956">
-      <path
-         id="path4769"
-         style="opacity:.50246;stroke:#aa4400;stroke-width:.50237;fill:none"
-         d="m0.25118 0.25118h11.161" />
-      <path
-         id="path4771"
-         style="opacity:.50246;stroke:#552200;stroke-width:.50237;fill:none"
-         d="m0.25118 0.71677h11.161" />
-      <rect
-         id="rect4787"
-         style="opacity:.50246;fill:none"
-         height="8.346"
-         width="11.288"
-         y="0.904"
-         x=".12477" />
-    </pattern>
-  </defs>
   <g
      id="layer1"
      transform="translate(-53.6603,-249.8)">

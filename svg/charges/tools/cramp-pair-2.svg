@@ -30,38 +30,6 @@
   </metadata>
   <desc
      id="desc4">Blason Vide 3D</desc>
-  <defs
-     id="defs6">
-    <linearGradient
-       id="linearGradient2893">
-      <stop
-         offset="0"
-         style="stop-color:#ffffff;stop-opacity:0.3137255"
-         id="stop2895" />
-      <stop
-         offset="0.19"
-         style="stop-color:#ffffff;stop-opacity:0.25098041"
-         id="stop2897" />
-      <stop
-         offset="0.60000002"
-         style="stop-color:#6b6b6b;stop-opacity:0.1254902"
-         id="stop2901" />
-      <stop
-         offset="1"
-         style="stop-color:#000000;stop-opacity:0.1254902"
-         id="stop2899" />
-    </linearGradient>
-    <radialGradient
-       gradientTransform="matrix(1.353218,0,0,1.348928,-77.62935,-85.74693)"
-       gradientUnits="userSpaceOnUse"
-       xlink:href="#linearGradient2893"
-       id="radialGradient3163"
-       fy="226.33101"
-       fx="221.44487"
-       r="300"
-       cy="226.33101"
-       cx="221.44487" />
-  </defs>
   <path
      id="crampon_1_"
      d="m 298.05471,5.554707 -118.5,154.000003 58.5,-25 v 103.5 H 5.5547069 l 154.0000031,118.5 -25,-58.5 h 103.5 v 232.5 l 118.5,-154 -58.5,25 v -103.5 h 232.5 l -154,-118.5 25,58.5 h -103.5 z"

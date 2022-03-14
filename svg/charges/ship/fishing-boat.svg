@@ -46,28 +46,6 @@
   </metadata>
   <desc
      id="desc4">Flag of Canton of Valais (Wallis)</desc>
-  <defs
-     id="defs6">
-    <linearGradient
-       id="linearGradient2893">
-      <stop
-         id="stop2895"
-         offset="0"
-         style="stop-color:white;stop-opacity:0.3137255;" />
-      <stop
-         style="stop-color:white;stop-opacity:0.25098041;"
-         offset="0.19"
-         id="stop2897" />
-      <stop
-         id="stop2901"
-         offset="0.60000002"
-         style="stop-color:#6b6b6b;stop-opacity:0.1254902;" />
-      <stop
-         id="stop2899"
-         offset="1"
-         style="stop-color:black;stop-opacity:0.1254902;" />
-    </linearGradient>
-  </defs>
   <g
      transform="translate(-117.36143,-334.56672)"
      id="layer4">
