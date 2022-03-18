@@ -19,3 +19,6 @@ This file is part of the DrawShield.net heraldry image creation program
 
 $ordinary['shape_spec'] = 'X-8Y600B577C208e408g600';
 if ( $node->getAttribute('number') == '2') $ordinary['shape_spec'] .= '    X1008Y600c600e408G208H577';
+
+// :w
+$ordinary['chargesOn'] = '200,975,150,150/125,885,140,140:275,1040,140,140/200,975,120,120:100,875:300,1075';

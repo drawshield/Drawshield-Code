@@ -26,6 +26,7 @@ $bend_length = 1600; // future - adjust for flag height???
 //  error_log("height is $height");
   $palet_length = sprintf("%d", $height + 200);
 //}
+if ($layout->shape != 'flag' && $height == 1200) $height = 1000;
 
 // bar
 // ( although a "bar sinister" is a bend sinister
