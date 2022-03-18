@@ -45,38 +45,6 @@
   </metadata>
   <desc
      id="desc4" />
-  <defs
-     id="defs6">
-    <linearGradient
-       id="linearGradient2893">
-      <stop
-         id="stop2895"
-         offset="0"
-         style="stop-color:white;stop-opacity:0.3137255;" />
-      <stop
-         style="stop-color:white;stop-opacity:0.25098041;"
-         offset="0.19"
-         id="stop2897" />
-      <stop
-         id="stop2901"
-         offset="0.60000002"
-         style="stop-color:#6b6b6b;stop-opacity:0.1254902;" />
-      <stop
-         id="stop2899"
-         offset="1"
-         style="stop-color:black;stop-opacity:0.1254902;" />
-    </linearGradient>
-    <radialGradient
-       r="300"
-       fy="226.33101"
-       fx="221.44487"
-       cy="226.33101"
-       cx="221.44487"
-       gradientTransform="matrix(1.353218,0,0,1.348928,-77.17802,-84.24665)"
-       gradientUnits="userSpaceOnUse"
-       id="radialGradient3163"
-       xlink:href="#linearGradient2893" />
-  </defs>
   <g
      transform="translate(-123.29278,-59.629626)"
      style="display:inline"

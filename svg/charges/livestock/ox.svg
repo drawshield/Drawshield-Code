@@ -55,45 +55,6 @@
       </cc:License>
     </rdf:RDF>
   </metadata>
-  <defs
-     id="defs29">
-    <linearGradient
-       id="linearGradient2893">
-      <stop
-         offset="0"
-         style="stop-color:#ffffff;stop-opacity:0.3137255"
-         id="stop2895" />
-      <stop
-         offset="0.19"
-         style="stop-color:#ffffff;stop-opacity:0.25098041"
-         id="stop2897" />
-      <stop
-         offset="0.60000002"
-         style="stop-color:#6b6b6b;stop-opacity:0.1254902"
-         id="stop2901" />
-      <stop
-         offset="1"
-         style="stop-color:#000000;stop-opacity:0.1254902"
-         id="stop2899" />
-    </linearGradient>
-    <radialGradient
-       gradientTransform="matrix(1.215027,0,0,1.266667,-839.1924,-490.4894)"
-       gradientUnits="userSpaceOnUse"
-       xlink:href="#linearGradient2893"
-       id="radialGradient3236"
-       fy="579.93323"
-       fx="858.04236"
-       r="300"
-       cy="579.93323"
-       cx="858.04236" />
-    <clipPath
-       id="clipPath3468">
-      <path
-         style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="path3470"
-         d="M 1.5,1.5 V 460.36794 C 1.5,626.67854 135.81454,761.5 301.49993,761.5 467.1854,761.5 601.5,626.67854 601.5,460.36794 V 1.5 Z" />
-    </clipPath>
-  </defs>
   <g
      transform="translate(-46.252567,-36.934354)"
      style="display:inline"

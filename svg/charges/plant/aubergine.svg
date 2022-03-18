@@ -10,34 +10,6 @@
    height="660"
    width="250"
    version="1.1">
-  <defs
-     id="defs4">
-    <linearGradient
-       gradientUnits="userSpaceOnUse"
-       id="linearGradient3102"
-       y2="526"
-       x2="-185"
-       y1="531"
-       x1="-190">
-      <stop
-         offset="0"
-         style="stop-color:#61b94c;stop-opacity:1"
-         id="stop7" />
-      <stop
-         offset="1"
-         style="stop-color:#106224;stop-opacity:1"
-         id="stop9" />
-    </linearGradient>
-    <linearGradient
-       gradientTransform="translate(-61.80014,378.31932)"
-       gradientUnits="userSpaceOnUse"
-       xlink:href="#linearGradient3102"
-       id="linearGradient3003"
-       y2="526"
-       x2="-185"
-       y1="531"
-       x1="-190" />
-  </defs>
   <metadata
      id="metadata13">
     <rdf:RDF>

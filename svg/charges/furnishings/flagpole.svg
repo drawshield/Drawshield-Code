@@ -10,38 +10,6 @@
    id="svg3814"
    height="315.10464"
    width="23.408577">
-  <defs
-     id="defs3816">
-    <linearGradient
-       gradientTransform="matrix(-1,0,0,1,-1.3690185e-6,0)"
-       gradientUnits="userSpaceOnUse"
-       y2="-62.449249"
-       x2="70.101028"
-       y1="-62.449249"
-       x1="57.672455"
-       id="linearGradient4826-9"
-       xlink:href="#linearGradient4820-8" />
-    <linearGradient
-       id="linearGradient4820-8">
-      <stop
-         id="stop4822-3"
-         offset="0"
-         style="stop-color:#b3b3b3;stop-opacity:1;" />
-      <stop
-         id="stop4824-8"
-         offset="1"
-         style="stop-color:#b3b3b3;stop-opacity:0;" />
-    </linearGradient>
-    <linearGradient
-       xlink:href="#linearGradient4820-8"
-       id="linearGradient4877"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(-0.99999991,0,0,1,1.9278016e-7,8.6250608e-6)"
-       x1="57.672455"
-       y1="-62.449249"
-       x2="70.101028"
-       y2="-62.449249" />
-  </defs>
   <metadata
      id="metadata3819">
     <rdf:RDF>
