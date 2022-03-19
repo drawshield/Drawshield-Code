@@ -68,6 +68,7 @@ function makeDivision( DOMElement $node, ShieldLayout $layout, $counter = false 
     if ( $child->nodeName == 'tincture' )
       $tinctures[$child->getAttribute('index') - 1] = $child;
   }
+  $counterchanged =  ($tinctures[0]->firstChild->nodeName == 'counterchanged');
 
   // Safety checks
   if (!isset($tinctures[0]) || !is_object($tinctures[0]->firstChild))
@@ -78,7 +79,7 @@ function makeDivision( DOMElement $node, ShieldLayout $layout, $counter = false 
   $height = $layout->size->height;
 
   $in_divs = [''];
-  for ( $i = 2; isset($division["div$i"]) && $i - 1 < count($tinctures); $i++ )
+  for ( $i = 2; isset($division["div$i"]) && ($counterchanged || $i - 1 < count($tinctures)) ; $i++ )
   {
     $in_divs[] = $division["div$i"];
   }
@@ -88,9 +89,9 @@ function makeDivision( DOMElement $node, ShieldLayout $layout, $counter = false 
   $ncols = count($tinctures);
 
   // set the main colours
-  if ($tinctures[0]->firstChild->nodeName == 'counterchanged') {
+  if ($counterchanged) {
     $out_divs = [
-        apply_tincture( $tinctures[0], $in_divs[0], $layout )
+        apply_tincture( $tinctures[0], $in_divs[1], $layout )
     ];
   } else {
     if ( $counter ) { // shuffle tinctures around for counterchanging, (depends how many colours in total)
