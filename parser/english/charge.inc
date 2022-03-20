@@ -233,10 +233,11 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'mol(diwarp|e)s?', 'wildlife/mole' ),
       array ( 'bears? and ragged sta(ff|ve)s?', 'bear/bear-ragged-staff' ),
       array ( 'otters?', 'wildlife/otter' ),
+       array ( 'jerboas?', 'animal/jerboa' ),
       // lions
       array ( 'lions?', 'lion/lion' ),
       array ( 'lioncell?e?s?', 'lion/lion' ),
-      
+
       // Exotic (but lifelike) animals
       array ( 'raccoons?', 'animal/raccoon' ),
        array ( 'capybaras?', 'animal/capybara' ),
@@ -1356,6 +1357,7 @@ This file is part of the DrawShield.net heraldry image creation program
      array ( 'spacestations?', 'retro-scifi/space-station' ),
      array ( 'space stations?', 'retro-scifi/space-station' ),
      array ( 'planet earths?', 'retro-scifi/planet-earth' ),
+       array ( 'planet mars?', 'retro-scifi/planet-mars' ),
      array ( '(rocket|space) m[ae]n', 'retro-scifi/rocket-man' ),
      array ( '(rocket|space)m[ae]n', 'retro-scifi/rocket-man' ),
        // sports
