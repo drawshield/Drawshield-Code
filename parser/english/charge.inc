@@ -1357,6 +1357,7 @@ This file is part of the DrawShield.net heraldry image creation program
      array ( 'spacestations?', 'retro-scifi/space-station' ),
      array ( 'space stations?', 'retro-scifi/space-station' ),
      array ( 'planet earths?', 'retro-scifi/planet-earth' ),
+       array ( 'planet mars?', 'retro-scifi/planet-mars' ),
      array ( '(rocket|space) m[ae]n', 'retro-scifi/rocket-man' ),
      array ( '(rocket|space)m[ae]n', 'retro-scifi/rocket-man' ),
        // sports
