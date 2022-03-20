@@ -233,10 +233,11 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'mol(diwarp|e)s?', 'wildlife/mole' ),
       array ( 'bears? and ragged sta(ff|ve)s?', 'bear/bear-ragged-staff' ),
       array ( 'otters?', 'wildlife/otter' ),
+       array ( 'jerboas?', 'animal/jerboa' ),
       // lions
       array ( 'lions?', 'lion/lion' ),
       array ( 'lioncell?e?s?', 'lion/lion' ),
-      
+
       // Exotic (but lifelike) animals
       array ( 'raccoons?', 'animal/raccoon' ),
        array ( 'capybaras?', 'animal/capybara' ),
