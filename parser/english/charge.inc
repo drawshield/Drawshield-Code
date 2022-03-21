@@ -1352,6 +1352,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'rocketships?', 'retro-scifi/rocket' ),
      array ( 'atoms?', 'retro-scifi/atom' ),
      array ( 'stars?', 'retro-scifi/star' ),
+     array ( '?guild heighliners?', 'retro-scifi/heighliner'),
      array ( 'sputniks?', 'retro-scifi/sputnik' ),
      array ( 'spiral galax(y|ies)', 'retro-scifi/spiral-galaxy' ),
      array ( 'spacestations?', 'retro-scifi/space-station' ),
