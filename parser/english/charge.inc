@@ -309,6 +309,7 @@ This file is part of the DrawShield.net heraldry image creation program
       // badges
       array ( 'badges? of clan ross', 'badges/clan-ross'),
        array ( 'badges? of wales', 'badges/wales?P'),
+       array ( 'badges? of ?the prince of wales', 'badges/prince-of-wales?P'),
       // sea birds
       array ( 'bitterns?', 'seabird/bittern' ),
       array ( 'liver birds?', 'seabird/cormorant' ),
