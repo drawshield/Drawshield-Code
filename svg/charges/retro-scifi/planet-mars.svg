@@ -6,11 +6,25 @@
    height="680"
    id="svg4327"
    version="1.1"
+   sodipodi:docname="planet-mars.svg"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="namedview21"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:current-layer="svg4327" />
   <defs
      id="defs4329" />
   <metadata
@@ -26,6 +40,7 @@
             <dc:title>https://commons.wikimedia.org/wiki/File:Mars_sketch_vector.svg</dc:title>
           </cc:Agent>
         </dc:creator>
+        <dc:description>proper=gules</dc:description>
       </cc:Work>
     </rdf:RDF>
   </metadata>

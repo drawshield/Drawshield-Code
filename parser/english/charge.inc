@@ -1221,6 +1221,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'astrological(al)? (character|symbol)s? ?(of|for) *', 'zodiac/symbol' ),
       array ( 'alchemical (character|symbol)s? ?(of|for) ?the ?element *', 'alchemical/symbol' ),
       array ( '(character|symbol)s? ?(of|for) *', 'symbol/any' ),
+      array ( 'bowls? of hygi?eia', 'symbol/bowl-of-hygeia'),
       // farming
       array ( 'shepherds crooks?', 'farming/shepherds-crook' ),
       array ( 'crooks? of basel', 'farming/crook-basel' ),
@@ -1352,6 +1353,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'rocketships?', 'retro-scifi/rocket' ),
      array ( 'atoms?', 'retro-scifi/atom' ),
      array ( 'stars?', 'retro-scifi/star' ),
+     array ( '?guild heighliners?', 'retro-scifi/heighliner'),
      array ( 'sputniks?', 'retro-scifi/sputnik' ),
      array ( 'spiral galax(y|ies)', 'retro-scifi/spiral-galaxy' ),
      array ( 'spacestations?', 'retro-scifi/space-station' ),
