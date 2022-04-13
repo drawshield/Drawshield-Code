@@ -1011,7 +1011,8 @@ class languageDB extends lexicon
             self::COTTICE_MODS => array(
                 array('cott?i(s|ss|c)ed', '1'),
                 array('close coupled', '1'),
-                array('(endorsed|addorsed|cost)', '1',),
+                array('(endorsed|addorsed)', '1',),
+                array('cost', '1',), // TODO should only really be 0.5 (i.e. single cottice above)
                 array('doubl[ey] cott?i(s|ss|c)ed', '2',),
                 array('(triple|treble|triply) cott?i(s|ss|c)ed', '3',),
             ),
