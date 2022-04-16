@@ -135,7 +135,7 @@ function draw() {
     $extraSpace = 0;
     $partsList= [];
     $layout = ShieldLayout::from_options($options);
-    if ($options['palette'] == 'hatching') $options['addHatching'] = true;
+    if ($options['palette'] == 'hatching') $options['addHatching'] = $layout->size->height;
 
     $rdf = '<rdf:RDF>
       <cc:Work
