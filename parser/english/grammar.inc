@@ -854,6 +854,9 @@ class englishGrammar extends grammar
                     if (($colour = self::colour()) != null) {
                         $adjustments[] = $this->schema->makeMod(languageDB::SHOWN_MODS,
                             $colour->getAttribute(blazonML::A_KEYTERM), $keyterm, self::tokens(), self::lineNo());
+                    } else {
+                        $adjustments[] = $this->schema->makeMod(languageDB::SHOWN_MODS,
+                            'gray', $keyterm, self::tokens(), self::lineNo());
                     }
                     break;
                 case 'much':
