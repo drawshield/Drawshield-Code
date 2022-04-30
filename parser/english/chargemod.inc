@@ -73,6 +73,7 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
      'drooping', 'voided', 'beaded', 'ringed', 'masonry',
      array ( 'leather(s|ed)?', 'leathered'),
      array ( 'pole(s|d)?', 'pole'),
+       array ( 'portal(s|ed)?', 'portal'),
      array ( 'cuff(s|ed)?', 'cuff'),
      array ( 'in profile', 'in-profile'),
      array ( 'turned up', 'turned-up'),

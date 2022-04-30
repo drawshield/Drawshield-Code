@@ -94,6 +94,7 @@ function drawMantling($mantlingNode)
     $extras = array(); // not used at present (but required for getSVGFragment)
     $features = array();
     $adjustments = [];
+    $useRawSVG = true;
 
     $yShift = 160;
     $scale = 0.7;
@@ -120,23 +121,27 @@ function drawMantling($mantlingNode)
             break;
         case 'cloak':
         case 'cloak-ermine':
+            $useRawSVG = false;
             $features['background'] = rgb('argent');
             $features['tails'] = rgb('sable');
             $yShift = 270;
             break;
         case 'cloak-pean':
+            $useRawSVG = false;
             $features['background'] = rgb('sable');
             $features['tails'] = rgb('or');
             $yShift = 270;
             $type = 'cloak-ermine';
             break;
         case 'cloak-counter-ermine':
+            $useRawSVG = false;
             $features['background'] = rgb('sable');
             $features['tails'] = rgb('argent');
             $yShift = 270;
             $type = 'cloak-ermine';
             break;
         case 'cloak-erminois':
+            $useRawSVG = false;
             $features['background'] = rgb('or');
             $features['tails'] = rgb('sable');
             $yShift = 270;
@@ -160,10 +165,12 @@ function drawMantling($mantlingNode)
             $scale = 0.55;
             break;
         case 'leaves':
+            $useRawSVG = false;
             $yShift = 270; $scale = 0.65;
             $default1 = $default2 = rgb('vert');
             break;
         case 'ribbons':
+            $useRawSVG = false;
             $yShift = 170; $scale = 0.75;
             break;
     }
@@ -179,7 +186,7 @@ function drawMantling($mantlingNode)
     getMetaDataFromSVG($svg, 'achievement', 'mantling'); // just for the credit licence
     $defs = [];
 
-    if ($type == 'ribbons' || substr($type, 0, 5) == 'cloak' || $type = 'leaves' ){ // have complex colour scheme
+    if (!$useRawSVG){ // have complex colour scheme
         // default colours
         $features = array_merge( $features, array(
             'sinister1' => $default1,
@@ -550,6 +557,7 @@ function getAchievementParts($node, $layout) {
     $crests = [];
     $mottoes = [];
     $adjustments = [];
+    $shieldStroke = '';
     $crestHeight = $node->getAttribute(blazonML::A_KEYTERM);
     $retval['mantlingType'] = null;
 
@@ -576,7 +584,13 @@ function getAchievementParts($node, $layout) {
                 break;
             case blazonML::E_SHIELD:
                 foreach ($subNode->childNodes as $child) {
-                    $adjustments[] = $child->getAttribute(blazonML::A_KEYTERM);
+                    if ($child->getAttribute(blazonML::A_KEYTERM) == 'stroked') {
+                        $colour = $child->getAttribute(blazonML::A_PARAM);
+                        if ($colour == '') $colour = 'gray';
+                        $shieldStroke = '<path fill="none" stroke-width="8" stroke="' . rgb($colour) . '" d="' . getShape($layout) . '" ></path>';
+                    } else {
+                        $adjustments[] = $child->getAttribute(blazonML::A_KEYTERM);
+                    }
                 }
                 break;
             case blazonML::E_CREST:
@@ -592,6 +606,7 @@ function getAchievementParts($node, $layout) {
     $retval['crests'] = $crests;
     $retval['mottoes'] = $mottoes;
     $retval['adjustments'] = $adjustments;
+    $retval['shieldStroke'] = $shieldStroke;
     return $retval;
 }
 
@@ -659,6 +674,8 @@ function addParts($body, $parts) {
     // At this point $body contains the shield in a 1000x1200 box, does it have any helmets etc. to add on top?
     // If there is some mantling, the type is available in $mantlingType as some things need to be scaled
     // and positioned differently
+
+    if ($shieldStroke != '') $body .= $shieldStroke;
 
     $bodyScale = 1;
     if (count($crests)) {
@@ -791,5 +808,6 @@ function addParts($body, $parts) {
             }
         }
     }
+
     return $body;
 }
