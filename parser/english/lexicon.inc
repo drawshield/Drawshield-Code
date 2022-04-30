@@ -1167,7 +1167,7 @@ class languageDB extends lexicon
             self::SHOWN_MODS => array(
                 array('(shown|shewn|moved) ?somewhat', 'shown'),
                 array('somewhat', 'shown'),
-                array('?(from|to|of|than) ?(the|is) (normal|usual) ?(position|location|place)s?', 'than-normal'),
+                array('(from|to|of|than) ?(the|is) (normal|usual) ?(position|location|place)s?', 'than-normal'),
                 array('very much', 'very-much'),
                 array('a great deal', 'very-much'),
                 array('much', 'much'),
@@ -1205,7 +1205,7 @@ class languageDB extends lexicon
                 array('(raised|lifted|higher)', 'raised'),
                 array('(lowere?d?|dropped)', 'lowered'),
                 array('further apart', 'further-apart'),
-                array('closer? together', 'closer-together'),
+                array('closer? ?together', 'closer-together'),
                 array('wide(r|nd)','wider'),
                 array('narrowe[rd]','narrower'),
                 array('taller','taller'),
