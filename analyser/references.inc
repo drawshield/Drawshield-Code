@@ -342,7 +342,7 @@ class references {
 
     // If there are lots of quarterings, force a squarish shape
     $nodeList = $this->xpath->query("//shield");
-    if ($options['shape'] == 'default' && $nodeList->length > 8) $options['shape'] = 'french';
+    if (!$options['shapeSet'] && $nodeList->length > 8) $options['shape'] = 'french';
 
     return $this->dom;
   }

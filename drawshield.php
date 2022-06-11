@@ -73,7 +73,10 @@ if (isset($request['outputformat'])) $options['outputFormat'] = strip_tags ($req
 if (isset($request['saveformat'])) $options['saveFormat'] = strip_tags ($request['saveformat']);
 if (isset($request['asfile']) && $request['asfile'] != '0') $options['asFile'] = strip_tags($request['asfile']);
 if (isset($request['palette'])) $options['palette'] = strip_tags($request['palette']);
-if (isset($request['shape'])) $options['shape'] = strip_tags($request['shape']);
+if (isset($request['shape'])) {
+    $options['shape'] = strip_tags($request['shape']);
+    $options['shapeSet'] = true;
+}
 if (isset($request['stage'])) $options['stage'] = strip_tags($request['stage']);
 if (isset($request['filename'])) $options['filename'] = strip_tags($request['filename']);
 //  if (isset($request['printable'])) $options['printable'] = ($request['printable'] == "1");
