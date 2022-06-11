@@ -1,0 +1,16 @@
+# as requested by opshtray via discord
+
+or=#F1C40F
+azure=#3498DB
+vert=#27AE60
+gules=#C0392B
+argent=#ECF0F1
+sable=#2C3E50
+purpure=#5E335E
+murrey=#662722
+sanguine=#662722
+brunatre=#5F4535
+cendree=#95A5A6
+tenne=#D35400
+orange=#E67E22 
+
