@@ -284,6 +284,7 @@ This file is part of the DrawShield.net heraldry image creation program
       // snakes and stuff
       array ( '(asp|serpent)s?', 'serpent/serpent' ),
       array ( 'snakes?', 'serpent/snake' ),
+      array ( 'cobras?', 'serpent/cobra' ),
       array ( 'p[iy]thons?', 'serpent/pithon' ),
       array ( 'bisciones?','serpent/serpent-vorant-a-child'),
       // waterfowl
