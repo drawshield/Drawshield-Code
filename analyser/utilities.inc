@@ -19,7 +19,7 @@ function tidyOptions() {
     global $options;
 
     // Tidy up options
-    if (!array_key_exists('shape',$options)) {
+    if (!array_key_exists('shape',$options) || $options['shape'] == 'default') {
         $options['shape'] = 'heater';
     } elseif (in_array($options['shape'],array('circular','round'))) {
         // Synonyms for circle shape
