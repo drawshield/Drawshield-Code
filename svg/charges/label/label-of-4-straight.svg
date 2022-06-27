@@ -6,12 +6,12 @@
    version="1.1"
    xml:space="preserve"
    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5"
-   id="svg335"
+   id="svg1771"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"><defs
-   id="defs339" />
+   id="defs1775" />
     <path
-   d="M 0,0 V 200 H 100 V 400 H 360 V 200 H 858.51 L 860,400 h 280 V 200 h 500 v 200 h 260 V 200 h 100 V 0 Z"
+   d="M 0,0 V 200 H 100 V 400 H 300 V 200 H 624 V 400 H 824 V 200 h 350.1 l 1.9,200 h 200 V 200 h 324 v 200 h 200 V 200 h 100 V 0 Z"
    style="fill:#ff0000;stroke:#808080;stroke-width:9px"
-   id="path333" />
+   id="path1769" />
 </svg>

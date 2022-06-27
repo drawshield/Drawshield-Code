@@ -6,16 +6,16 @@
    version="1.1"
    xml:space="preserve"
    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5"
-   id="svg465"
+   id="svg1810"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"><defs
-   id="defs469" />
+   id="defs1814" />
     <g
    transform="matrix(1.07143,0,0,1.5,-5.68434e-14,-150)"
-   id="g463">
+   id="g1808">
         <path
-   d="M 0,300 100,100 h 1200 l 100,200 h -274.7 l 40,-100 H 797.33 l 40,100 H 562.67 L 604.88,200 H 234.67 l 40,100 z"
+   d="M 0,300 100,100 h 1200 l 100,200 h -200 l 40,-100 H 976.67 l 30.03,100 H 806.67 l 40,-100 H 553.33 l 40,100 h -200 l 40,-100 H 160 l 40,100 z"
    style="fill:#ff0000;stroke:#808080;stroke-width:3.84px"
-   id="path461" />
+   id="path1806" />
     </g>
 </svg>

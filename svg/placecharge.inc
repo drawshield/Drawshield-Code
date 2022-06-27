@@ -81,6 +81,8 @@ function place_charges ( DOMElement $node, $placement, $layout ) {
   } elseif ( $child = getModifierNodeWithKeyterm($node,'beside')) {
     $retval .= place_charges( $child->firstChild, get_placement($child->firstChild, $layout), $layout);
   }
+  $splitArray = preg_split(':/:', $node->getAttribute('keyterm'));
+  list($group,$chargeKey) = $splitArray;
 
   $cx = 500; // default values
   $cy = 500;
@@ -89,71 +91,78 @@ function place_charges ( DOMElement $node, $placement, $layout ) {
   $rev = 0;
   $bbx = 200;
   $bby = 200;
-  $num_of_list = explode('/', $placement);
-  // Choose the placement substring to use
-  if ( $num_of > count( $num_of_list ) ) {
-    $place_list = 's';
-  } else {
-    $place_list = $num_of_list[$num_of - 1];
-    if ( $place_list == '' ) { // use next highest
-      for ( $i = $num_of; $i < count($num_of_list); $i++ )
-        if ( $num_of_list[$i] != '' ) $place_list = $num_of_list[$i];
+      
+    $num_of_list = explode('/', $placement);
+    // Choose the placement substring to use
+    if ( $num_of > count( $num_of_list ) ) {
+      $place_list = 's';
+    } else {
+      $place_list = $num_of_list[$num_of - 1];
+      if ( $place_list == '' ) { // use next highest
+        for ( $i = $num_of; $i < count($num_of_list); $i++ )
+          if ( $num_of_list[$i] != '' ) $place_list = $num_of_list[$i];
+      }
     }
-  }
-  switch($place_list[0]) {
-    case '':
-      $messages->addMessage('internal', 'Bad placement');
+    switch($place_list[0]) {
+      case '':
+        $messages->addMessage('internal', 'Bad placement');
+        return '';
+      case 's':
+        $messages->addMessage( 'warning', 'Not enough space for charges' );
+        return '';
+      case 't':
+        $messages->addMessage( 'internal', 'Not done charge placement yet (sorry)' );
+        return '';
+      case 'x':
+        $messages->addMessage( 'warning', $node->getAttribute('keyterm') . ' - Wrong number for placement');
+        return '';
+      case 'c':
+        $place_list = ltrim(calcPlace($node,'w','100,100,800,800'),'x/');
+        break;
+    }
+    $place_list = explode(':', $place_list);
+    if ( count($place_list) < $num_of ) {
+      $messages->addMessage('internal', 'Bad placement list');
       return '';
-    case 's':
-      $messages->addMessage( 'warning', 'Not enough space for charges' );
-      return '';
-    case 't':
-      $messages->addMessage( 'internal', 'Not done charge placement yet (sorry)' );
-      return '';
-    case 'x':
-      $messages->addMessage( 'warning', $node->getAttribute('keyterm') . ' - Wrong number for placement');
-      return '';
-    case 'c':
-      $place_list = ltrim(calcPlace($node,'w','100,100,800,800'),'x/');
-      break;
-  }
-  $place_list = explode(':', $place_list);
-  if ( count($place_list) < $num_of ) {
-    $messages->addMessage('internal', 'Bad placement list');
-    return '';
-  }
-	
-  for ( $count = 0; $count < $num_of; $count++ ) {
-    if ( $place_list[$count] == '' ) {
-      $messages->addMessage('internal', 'Bad place item' );
-      continue;
     }
-    $items = explode(',', $place_list[$count]);
-    if ( isset($items[0]) && $items[0] != '' && is_numeric($items[0])) {
-      $cx = $items[0];
-  //    if ( $sinister )$cx = 1000 - $cx;
-    }
-    if ( isset($items[1]) && $items[1] != '' && is_numeric($items[1]) ) {
-      $cy = $items[1];
-    //  if ( $inverted) $cy = 1200 - $cy;
-   //   if ( $enhanced) $cy -= 200;
-   //   if ( $abased) $cy += 200;
-    }
-    if ( isset($items[2]) && $items[2] != '' ) $bbx = $items[2];
-    if ( isset($items[3]) && $items[3] != '' ) $bby = $items[3];
-    if ( isset($items[4]) && $items[4] != '' ) {
-      $rot = $items[4];
-  //    if ( $sinister ) { if ( $rot != 0 ) { $rot += 90; } }
-  //    if ( $inverted ) { if ( $rot != 0 ) { $rot -= 90; } }
-    }
-    if ( isset($items[5]) && $items[5] != '' ) $inv = $items[5];
-    if ( isset($items[6]) && $items[6] != '' ) $rev = $items[6];
-    $item = $node;
-    if ( $between && ( ($count+1) <= $half or ($count+1) > ($num_of - $half))) 
-      $item = $between;
+    
+    for ( $count = 0; $count < $num_of; $count++ ) {
+      if ( $place_list[$count] == '' ) {
+        $messages->addMessage('internal', 'Bad place item' );
+        continue;
+      }
+      $items = explode(',', $place_list[$count]);
+      if ( isset($items[0]) && $items[0] != '' && is_numeric($items[0])) {
+        $cx = $items[0];
+    //    if ( $sinister )$cx = 1000 - $cx;
+      }
+      if ( isset($items[1]) && $items[1] != '' && is_numeric($items[1]) ) {
+        $cy = $items[1];
+      //  if ( $inverted) $cy = 1200 - $cy;
+    //   if ( $enhanced) $cy -= 200;
+    //   if ( $abased) $cy += 200;
+      }
+      if ( isset($items[2]) && $items[2] != '' ) $bbx = $items[2];
+      if ( isset($items[3]) && $items[3] != '' ) $bby = $items[3];
+      if ( isset($items[4]) && $items[4] != '' ) {
+        $rot = $items[4];
+    //    if ( $sinister ) { if ( $rot != 0 ) { $rot += 90; } }
+    //    if ( $inverted ) { if ( $rot != 0 ) { $rot -= 90; } }
+      }
+      if ( isset($items[5]) && $items[5] != '' ) $inv = $items[5];
+      if ( isset($items[6]) && $items[6] != '' ) $rev = $items[6];
+      $item = $node;
+      if ( $between && ( ($count+1) <= $half or ($count+1) > ($num_of - $half))) 
+        $item = $between;
 
-    $retval .= PlaceCharge( $item, $layout, $bbx, $bby, $cx, $cy, $rot, $inv, $rev );
-  }
+      if ($num_of == 1 && $group == 'label') {
+        $cx = 500;
+        $cy = 150;
+        $bbx = 1000;
+        $bby = 200;
+      }
+      $retval .= PlaceCharge( $item, $layout, $bbx, $bby, $cx, $cy, $rot, $inv, $rev );
+    }
   return $retval;
 }
 
@@ -540,7 +549,7 @@ function PlaceCharge ( $node,  // images
   if (!isset($charge['title'])) $charge['title'] = 'a charge';
   // $retval = "<g transform=\"$transform\" >\n<title>" . htmlentities(transliterate($charge['title'])) . '</title>' . $retval . "</g>\n";
   //$retval = "<g transform=\"$transform\" >\n<title>" . htmlentities($charge['title'], ENT_HTML5) . '</title>' . $retval . "</g>\n";
-  $retval = "<g transform=\"$transform\" >\n<title>" . $charge['title'] . '</title>' . $retval . "</g>\n";
+  $retval = "<g class=\"PlaceCharge\" transform=\"$transform\" >\n<title>" . $charge['title'] . '</title>' . $retval . "</g>\n";
 
   $retval = apply_tincture( $tincture, $retval, $layout, new ShieldSize($chargeX, $chargeY), $rotation, $reversed, $inverted );
   return $retval;

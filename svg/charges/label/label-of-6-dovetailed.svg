@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="100%"
+   height="100%"
+   viewBox="0 0 2000 300"
+   version="1.1"
+   xml:space="preserve"
+   style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5"
+   id="svg1975"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs1979" />
+    <g
+   transform="matrix(1,0,0,1.5,-1.13687e-13,-150)"
+   id="g1973">
+        <path
+   d="M 0,300 100,100 h 1800 l 100,200 h -200 l 40,-100 h -240 l 40,100 h -200 l 38.5,-100 H 1240 l 40,100 h -200 l 39.3,-100 H 880 l 40,100 H 720 L 762.21,200 H 520 l 40,100 H 360 L 400,200 H 160 l 40,100 z"
+   style="fill:#ff0000;stroke:#808080;stroke-width:3.92px"
+   id="path1971" />
+    </g>
+</svg>

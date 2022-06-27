@@ -124,6 +124,7 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
       array ( 'bladed?s?', 'blade' ),
       array ( 'h(andl|elv)ed?s?', 'handle' ),
       array ( 'leaves?d?', 'leaved' ),
+      array ( 'leafed', 'leaved' ),
       array ( '(b?e?legged|membered)', 'legged' ),
       array ( '(u?o?ngull?ed|hoo[fv]ed?s?)', 'unguled' ),
       array ( 'trunks?e?d?', 'trunked' ),
@@ -169,9 +170,10 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
       );
    
    $this->patterns[languageDB::CHARGE_WITH] = array ( 
-      array ( '?(each|all|both) (enrich|charg|deck)ed (by|with|of)', 'charged-with' ),
+      array ( '(enrich|charg|deck)ed (by|with|of)', 'charged-with' ),
+      array ( '?(each|all|both) (enrich|charg|deck)ed (by|with|of)', 'charged-each' ),
       array ( 'thereon', 'charged-with' ),
-      array ( 'charged (at|on) each ?(point|corner|limb) ?with', 'charged-with' ),
+      array ( 'charged (at|on) each ?(point|corner|limb) ?with', 'charged-each' ),
       array ( 'surmounted (by|with|of)', 'charged-with' ),
       array ( '(en)?circled (by|with|of)', 'encircled-by' ),
       array ( 'all within', 'encircled-by' ),
@@ -233,7 +235,7 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
      // animal positions
       'couchant', 'courant', 'coward', 'dormant', 'migrant',
       'erect', 'pierced', 'passant', 'cadent', 'counterpassant',
-      'salient', 'statant', 'equipped', 'accrued', 'clymant',
+      'statant', 'equipped', 'accrued', 'clymant',
       'segreant', 'dexter', 'sinister', 'closed', 'accosted',
       'ambulant', 'anime', 'annodated', 'arrondie', 'aversant',
       'ayrant', 'baillone', 'bi corporate', 'cantoned', 'cloue',
@@ -244,7 +246,7 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
       'laminated', 'marined', 'mounted', 'naissant', 'nageant',
       'nimbus', 'eradicated', 'pascuant', 'pinioned', 'removed',
       'retorted', 'sanglat', 'scintillant', 'natural', 'nude',
-      'spancelled', 'springing', 'surgeant', 'torqued', 'transfluent',
+      'spancelled', 'surgeant', 'torqued', 'transfluent',
       'transposed', 'tricoporate', 'troncone', 'trussed', 'vervelled',
       'vorant', 'ancient', 'blasted', 'forcene', 'broken',
       'covered', 'uncovered', 'waved', 'vambraced', 'double',
@@ -375,6 +377,7 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
       array ( '(entire|firme)',   'entire' ),
       array ( 'en soleil',   'ensoleil'),
       array ( '(rampant|climant)',  'rampant'  ),
+      array ( '(springing|salient)',  'salient'  ),
       array ( '(gliding|glissant)',  'glissant'  ),
       array ( 'bendw(ise|ays) sinister' ,'bendsinwise', ),
       array ( 'bendw(ise|ays)',          'bendwise',    ),
