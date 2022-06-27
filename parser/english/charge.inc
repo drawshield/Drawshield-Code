@@ -1140,7 +1140,6 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( '(astral|celestial) (crown|coronet)s?', 'crown/astral?O' ),
       array ( 'baron(ial|s)? (crown|coronet)s?', 'crown/baron?O' ),
       array ( 'civil crowns?', 'crown/civil?O' ),
-      array ( 'ducal (crown|coronet)s?', 'crown/ducal?O' ),
       array ( 'dukes? (crown|coronet)s?', 'crown/duke?O' ),
       array ( 'earls? (crown|coronet)s?', 'crown/earl?O' ),
       array ( 'eastern (crown|coronet)s?', 'crown/eastern?O' ),
@@ -1169,6 +1168,7 @@ This file is part of the DrawShield.net heraldry image creation program
        array ( 'celestial crowns?', 'crown/celestial?P' ),
        array ( 'napolean(s|ic) crowns?', 'crown/napoleanic?P' ),
        array ( 'crowns? of napolean', 'crown/napoleanic?P' ),
+      array ( 'ducal (crown|coronet)s?', 'crown/ducal?P' ),
       // music
       array ( 'musical notes?', 'music/musical-note' ),
       array ( 'musical half notes?', 'music/note-half' ),

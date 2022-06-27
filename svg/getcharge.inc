@@ -207,6 +207,9 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
   closedir($dh);
   if ($bestMissing && $warn )
     $messages->addMessage('warning', $base . ' may not be drawn with ' . $bestMissing);
+    if (strstr($bestMissing, 'rampant')) {
+      $messages->addMessage('warning', ' try salient instead of rampant?');
+    }
   // if ($bestExtra) $messages->addMessage('other', $base . ' is also ' . $bestExtra);
   return $bestFilename;
 }
@@ -345,7 +348,7 @@ function makeList($chgList, $layout) {
 
 }
 
-function chargeInAnnulo($node, &$charge, $base_name, $dir)
+function chargeInAnnulo($node, $charge, $base_name, $dir)
 {
     static $attitudes = [];
 
@@ -795,14 +798,20 @@ HERE;
    * @var DOMElement $chargeOn
    */
   foreach ($chargeOnMods as $chargeOn) {
-    // What type of "on" is this?
-    $chargeWithType = $chargeOn->getAttribute('keyterm');
     $chargeToAdd = $chargeOn->firstChild;
     if ($chargeToAdd->nodeName == 'missing') {
       // error already rasied in parser
       // $messages->addMessage('error', "Missing charge for 'on'"); 
       continue;
     }    
+    // What type of "on" is this?
+    $chargeWithType = $chargeOn->getAttribute('keyterm');
+    if ($chargeWithType == 'charged-each') {
+      $num_of = getModifierValueByKeyterm($node, 'of-num');
+      if ($num_of > 0) {
+      }
+      $chargeWithType = 'charged-with';
+    }
     $chargeToAddType = $chargeToAdd->getAttribute('keyterm');
     if ( $chargeToAdd->nodeName == 'ordinary') {
       //$messages->addMessage('Warning', "Charge charged with ordinary not supported");
@@ -843,6 +852,10 @@ HERE;
         break;
       // TODO Add more of the above!
       default:
+        if ($chargeGroup == 'label') {
+          $body .= place_charges($chargeToAdd, $chg_data['placement'], $new_layout);
+          break;
+        }
         $charges = makeCharge($chargeToAdd, $new_layout);
         // We now have one or more superposed charges scaled to fit into a 1000x1000 box
         // We want to shrink the superposed charges by a factor (so they leave plenty of space
@@ -871,7 +884,7 @@ HERE;
         $xShift = ($width * ($xPos / 100)) - $targetCentre; // convert percentage to factor
         $yShift = ($height * ($yPos / 100)) - $targetCentre; // convert percentage to factor
         // scale to fit onto charge - then move so charges are central
-        $charges = sprintf('<g transform="translate(%2f,%2f) scale(%4f)">%s</g>',
+        $charges = sprintf('<g class="881" transform="translate(%2f,%2f) scale(%4f)">%s</g>',
                 $xShift, 
                 $yShift,
                 $scale, 
