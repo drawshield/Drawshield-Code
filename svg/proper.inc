@@ -75,6 +75,7 @@ class properColour {
       'badges' => self::$red, // dummy entry
     );
     self::$charges = array(
+        'group' => self::$gray,  // dummy value, group is not visible
         'peacock' => $hatching ? self::$blue : '#0020c2',
         'chaplet' => self::$green,
         'grassy-mound' => self::$green,

@@ -866,9 +866,7 @@ class languageDB extends lexicon
                 array('(6[5-9]|[7-9][0-9]|[1-9][0-9][0-9]+)', 'bignum'),
             ),
             self::ORIENTATION => array(
-                'sinister', 'reversed', 'dexter', 'inverted', 'enhanced',
-                array('(abased|abaisse)', 'abased',),
-                array('de(bas|hanc)ed', 'abased',),
+                'sinister', 'reversed', 'dexter', 'inverted'
             ),
             self::ORDINARY => array(
                 'another', // special term, means "voided of" (should only be used after "on" or "charged with"
@@ -980,9 +978,13 @@ class languageDB extends lexicon
                 array('(at|on) ?the bottom', 'bottom-only'),
             ),
             self::ORDINARY_MODS => array( // only come after ordinary
+                array('(hause|enhanced)', 'enhanced'),
+                array('(abased|abaisse)', 'abased',),
+                array('(abased|abaisse)', 'abased',),
+                array('de(bas|hanc)ed', 'abased',),
                 array('(compony|gobon[ey]|gobonated)', 'compony1'),
                 array('counter (compony|gobon[ey]|gobonated)', 'compony2'),
-                'closetted', 'embowed',
+                'closetted', 'embowed', 
                 array('?nowy quadrate', 'quadrate'),
                 array('nowy lozengy', 'nowy-lozengy'),
                 array('rivett?ed', 'riveted'),
