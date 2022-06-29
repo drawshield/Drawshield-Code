@@ -202,3 +202,8 @@ function calculateAR($ar) {
   }
   return $ar;
 }
+
+function trace($filename, $linenumber) {
+  $filename = basename($filename);
+  return " class=\"$filename:$linenumber\" ";
+}

@@ -347,12 +347,16 @@ if ($options['asFile'] == '1') {
         case 'json':
             $newDom = new DOMDocument();
             $newDom->loadXML($output);
-            $im = new Imagick();
-            $im->setBackgroundColor(new ImagickPixel('transparent'));
-            $im->readimageblob($output);
-            $im->setimageformat('png32');
+            $dir = sys_get_temp_dir();
+            $base = tempnam($dir, 'shield');
+            rename($base, $base . '.svg');
+            file_put_contents($base . '.svg', $output);
+            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.png");
+            unlink($base . '.svg');
+            header('Content-Type: image/png');
             $json = [];
-            $json['image'] = base64_encode($im->getimageblob());
+            $json['image'] = base64_encode(file_get_contents($base . '.png'));
+            unlink($base . '.png');
             $json['options'] = $options;
             $allMessages = $newDom->getElementsByTagNameNS('http://drawshield.net/blazonML', 'message');
             $messageArray = [];

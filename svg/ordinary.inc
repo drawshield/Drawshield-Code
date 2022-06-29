@@ -534,7 +534,7 @@ function makeOrdinary( DOMElement &$node, $layout ) {
     $transform .= 'translate(0, ' . $yshift . ') ';
   }
   if ( $transform != '' ) {
-    $retval = '<g transform="' . $transform . '">' . $retval . "</g>\n";
+    $retval = '<g ' . trace(__FILE__,__LINE__) . ' transform="' . $transform . '">' . $retval . "</g>\n";
   }
   // have we been moved to a different position (or more than one)?
   // For ease of use in switch statemes we combine any "sinister" modifier

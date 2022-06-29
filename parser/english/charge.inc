@@ -1282,6 +1282,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'escut?cheons? ?of ?pretence', 'special/escutcheon' ),
       array ( 'socheons?', 'special/escutcheon' ),
       array ( 'flags?', 'special/flag' ),
+      array ( 'group(ing)?s? ?of', 'special/group?P'),
       // emblem
       array ( '(garlands?|chaplets?|wreaths?)', 'emblem/chaplet' ),
       array ( '(staff|rod)s? ?of (a|e|ae)scu?l[ae]pi?us', 'emblem/rod-of-esclapius' ),

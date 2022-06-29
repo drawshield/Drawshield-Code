@@ -171,6 +171,7 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
    
    $this->patterns[languageDB::CHARGE_WITH] = array ( 
       array ( '(enrich|charg|deck)ed (by|with|of)', 'charged-with' ),
+      array ( 'consisting ?of', 'charged-with'),
       array ( '?(each|all|both) (enrich|charg|deck)ed (by|with|of)', 'charged-each' ),
       array ( 'thereon', 'charged-with' ),
       array ( 'charged (at|on) each ?(point|corner|limb) ?with', 'charged-each' ),
