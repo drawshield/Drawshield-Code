@@ -166,6 +166,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( '?# ?masted ships?', 'ship/ship' ),
       array ( 'anchors?', 'ship/anchor' ),
       array ( 'caravels?', 'ship/caravel' ),
+       array ( '?sailing barges?', 'ship/barge' ),
       array ( 'coracles?', 'ship/coracle' ),
       array ( '?lighter boats?', 'ship/boat' ),
       array ( 'fishing boats?', 'ship/fishing-boat' ),
