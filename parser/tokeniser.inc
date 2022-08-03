@@ -47,13 +47,15 @@ class tokeniser {
     $part_word = '';
     $end = strlen($blazon);
     $lookBehind = '';
+    $anyEndQuote = false;
     while ( $i < $end ) {
       $lookAhead = '';
       if ($i + 1 < $end) {
-        $lookAhead = $blazon[$i+1];
+        $lookAhead = mb_substr($blazon, $i+1, 1);
       }
+      $curChar = mb_substr($blazon, $i, 1);
       if ($blockComment) { // ignore everything to matching close
-        if ($blazon[$i] == '*' && $lookAhead == '/') {
+        if ($curChar == '*' && $lookAhead == '/') {
           $blockComment = false;
           $i++;
         }
@@ -61,14 +63,14 @@ class tokeniser {
         continue;
       }
       if ($lineComment) { // shortcut, ignore all up to new line
-        if ($blazon[$i] == "\n") {
+        if ($curChar == "\n") {
           $lineNo += 1;
           $lineComment = false;    
         } 
         $i++;
         continue;
       }
-      switch ( $blazon[$i] ) {
+      switch ( $curChar ) {
         case "'": // like a space (unless in a string)
         case "`":
           if ( $incAll ) {
@@ -89,13 +91,13 @@ class tokeniser {
             if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
             $part_word = '';
           } // else ignore it
-          if ($blazon[$i] == "\n") {
+          if ($curChar == "\n") {
             $lineNo += 1;
           }
           break;
         case '{':
           if ( $incAll ) {
-            $part_word .= $blazon[$i];
+            $part_word .= $curChar;
             break;
           }
           if ( $part_word != '' ) {
@@ -106,7 +108,7 @@ class tokeniser {
           break;
         case '}':
           if ( $incAll ) {
-            $part_word .= $blazon[$i];
+            $part_word .= $curChar;
             break;
           }
           if ( $part_word != '' ) {
@@ -120,7 +122,7 @@ class tokeniser {
         case '(':
         case '[':
           if ( $incAll ) {
-            $part_word .= $blazon[$i];
+            $part_word .= $curChar;
             break;
           }
           if ( $part_word != '' ) {
@@ -128,11 +130,11 @@ class tokeniser {
             $this->lineNos[] = $lineNo;
             $part_word = '';
           }
-          $comment = $blazon[$i];
+          $comment = $curChar;
           break;
         case '*':
           if ( $incAll ) {
-            $part_word .= $blazon[$i];
+            $part_word .= $curChar;
             break;
           }
           if ('*' == $comment && $lookAhead == '/') { // match bracket type
@@ -150,7 +152,7 @@ class tokeniser {
           break;
         case ')':
           if ( $incAll ) {
-            $part_word .= $blazon[$i];
+            $part_word .= $curChar;
             break;
           }
           if ($comment == '(') { // match bracket type
@@ -160,14 +162,14 @@ class tokeniser {
               if ( $part_word != '' ) {
                 $this->words[] = $part_word; $this->lineNos[] = $lineNo;
             }
-            $this->words[] = $blazon[$i];
+            $this->words[] = $curChar;
             $this->lineNos[] = $lineNo;
             $part_word = '';
           }
           break;
         case ']':
           if ( $incAll ) {
-            $part_word .= $blazon[$i];
+            $part_word .= $curChar;
             break;
           }
           if ($comment == '[') { // match bracket type
@@ -215,31 +217,31 @@ class tokeniser {
             $part_word = '';
           }
           if ($comment) break;
-          if ( $i > 0 && strstr(  " \t\n\r'\",.", $blazon[$i-1])) {
+          if ( $i > 0 && mb_strstr(  " \t\n\r'\",.", mb_substr($blazon, $i-1, 1))) {
             $i = $end;
           }
-          if ( $i < $end - 1 && $blazon[$i+1] == '-' ) {
+          if ( $i < $end - 1 && mb_substr($blazon,$i+1, 1) == '-' ) {
             $i = $end;
           }
           break;
         case '.':
         case ':':
           if ( $incAll ) {
-            $part_word .= $blazon[$i];
+            $part_word .= $curChar;
             break;
           }
           if (ctype_digit($lookBehind) && ctype_digit($lookAhead)) {
-            $part_word .= $blazon[$i];
+            $part_word .= $curChar;
             break;
           } elseif ( $part_word != '' ) {
             if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
             $part_word = '';
           }
-          if ( !$comment ) { $this->words[] = $blazon[$i]; $this->lineNos[] = $lineNo; }
+          if ( !$comment ) { $this->words[] = $curChar; $this->lineNos[] = $lineNo; }
           break;
         case ';':
           if ( $incAll ) {
-            $part_word .= $blazon[$i];
+            $part_word .= $curChar;
             break;
           }
           if ( $part_word != '' ) {
@@ -257,14 +259,53 @@ class tokeniser {
           break;
         case ',':
           if ( $incAll ) {
-            $part_word .= $blazon[$i];
+            $part_word .= $curChar;
             break;
           }
           if ( $part_word != '' ) {
             if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
             $part_word = '';
           }
-          if ( !$comment ) { $this->words[] = $blazon[$i]; $this->lineNos[] = $lineNo; }
+          if ( !$comment ) { $this->words[] = $curChar; $this->lineNos[] = $lineNo; }
+          break;
+        case "«": // list of quote chars from https://stackoverflow.com/questions/20025030/convert-all-types-of-smart-quotes-with-php
+        case "»":
+        case "‘":
+        case "’":
+        case "‚":
+        case "‛":
+        case "“":
+        case "”":
+        case "„":
+        case "‟":
+        case "‹":
+        case "›":
+          if ( $in_string ) { // If we are inside normal quotes just add to the word
+            if ($anyEndQuote) {
+              if ($part_word != '') {
+                $this->words[] = $part_word;
+                $this->lineNos[] = $lineNo;
+              }
+              $part_word = '';
+              $in_string = false;
+              $incAll = false;
+              $anyEndQuote = false;
+            } else {
+              $part_word .= $curChar;
+            }
+          } else { // otherwise treat it the same as a normal quote
+            if ( $in_string ) {
+              if ( $part_word != '' ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
+              $part_word = '';
+              $in_string = false;
+              $incAll = false;
+            } else {
+              // $part_word = '"';
+              $incAll = true;
+              $in_string = true;
+              $anyEndQuote = true;
+            }
+          }
           break;
         case '"':
           if ( $in_string ) {
@@ -276,6 +317,7 @@ class tokeniser {
             // $part_word = '"';
             $incAll = true;
             $in_string = true;
+            $anyEndQuote = false;
           }
           break;
         case '\\':
@@ -288,18 +330,17 @@ class tokeniser {
               $part_word .= '\\';
           }
           break;
-        case '`':
         case '~':
         case '^':
           if ( $incAll ) {
-            $part_word .= $blazon[$i];
+            $part_word .= $curChar;
           }
           break;
         default:
-          $part_word .= $blazon[$i];
+          $part_word .= $curChar;
           break;
       }
-      if ($i < $end) $lookBehind = $blazon[$i];
+      if ($i < $end) $lookBehind = $curChar;
       $i++;
     }
     if ( $part_word != '' ) {
@@ -318,7 +359,7 @@ class tokeniser {
     elseif ( $offset < 0 )
       $offset = 0;
     // in case already ignored, try ignoring next word
-    while ( substr($this->words[$offset],0,1) == '[' && $offset < $this->num_tokens  )
+    while ( mb_substr($this->words[$offset],0,1) == '[' && $offset < $this->num_tokens  )
       $offset++;
     $this->words[$offset] = '[' . $this->words[$offset] . ']';
     if ($trace) echo "<p>Ignoring - " . $this->words[$offset] . "</p>\n";
