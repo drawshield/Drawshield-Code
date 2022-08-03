@@ -52,6 +52,7 @@ $this->patterns[languageDB::TRADITION_PREFIX] = array (
     array ( 'polish', 'polish'),
     array ( 'spanish', 'spanish'),
     array ( 'german', 'german'),
+    array ( 'african', 'african'),
     array ( 'hungarian', 'hungarian'),
 );
 
