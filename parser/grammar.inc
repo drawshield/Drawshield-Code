@@ -67,7 +67,7 @@ abstract class grammar  {
       $this->achievementNode->appendChild($child);
   } */
 
-  public function __construct( $language = 'english', BlazonML $schema) {
+  public function __construct(  BlazonML $schema, $language = 'english') {
     switch ( $language ) {
       case 'english':
         include_once "english/lexicon.inc";
