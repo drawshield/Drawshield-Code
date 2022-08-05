@@ -15,7 +15,7 @@ This file is part of the DrawShield.net heraldry image creation program
     You should have received a copy of the GNU General Public License
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
-function drawSupporters($supportNode, $layout) {
+function drawFrontSupporters($supportNode, $layout) {
     if ($supportNode == null) return '';
     $boundX = 300;
     $boundY = 600;
@@ -42,7 +42,9 @@ function drawSupporters($supportNode, $layout) {
             case 'sinister':
                 $retval .= placeCharge($location->firstChild, $layout, $boundX, $boundY, $sinisterX, $centreY, 0, 0, 0);
                 break;
-        }
+            case 'centre':
+                break;
+            }
     }
     if ($supportCount == 1) { // only one supplied, so repeat it
         $retval .= placeCharge($location->firstChild, $layout, $boundX, $boundY, $sinisterX, $centreY, 0, 0, 0);
@@ -564,7 +566,7 @@ function getAchievementParts($node, $layout) {
     foreach ($node->childNodes as $subNode) {
         switch ($subNode->nodeName) {
             case blazonML::E_SUPPORTERS:
-                $retval['supports'] = drawSupporters($subNode, $layout);
+                $retval['frontSupports'] = drawFrontSupporters($subNode, $layout);
                 break;
             case blazonML::E_ORNAMENT:
                 $retval['ornament'] = drawOrnament($subNode);
@@ -770,10 +772,10 @@ function addParts($body, $parts) {
     }
 
     // Supporters - try to fit in making maximum use of space, so a bit complicated
-    if (isset($supports)) {
+    if (isset($frontSupports)) {
         $supportScale = 0.7 / $bodyScale; // modify internal scaling based on presence of a crest
         $supportX = (1000 * (1-$supportScale)) / 2;
-        $body = "<g transform=\"translate($supportX,0) scale($supportScale) \">$body</g>$supports";
+        $body = "<g transform=\"translate($supportX,0) scale($supportScale) \">$body</g>$frontSupports";
         // But might need to scale down if there isn't a compartment
         if (!isset($compartment)) {
             $body = '<g transform="translate(50,0) scale(0.9)">' . $body . '</g>';
