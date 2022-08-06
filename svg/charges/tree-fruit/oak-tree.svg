@@ -10,15 +10,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <defs
-     id="defs5">
-    <clipPath
-       id="artboard_clip_path">
-      <path
-         d="m 33.75,72 h 297 v 264.1 l -11.25,8.32 -285.75,2.08 z"
-         id="path2" />
-    </clipPath>
-  </defs>
   <g
      id="body"
      stroke-opacity="1"
@@ -29,7 +20,6 @@
        id="title7">Oak Tree Fructed and Eradicated (7)</title>
     <g
        id="Oak_Tree_Fructed_and_Eradicated_(7)_Art"
-       clip-path="url(#artboard_clip_path)">
       <title
          id="title9">Art</title>
       <g
