@@ -669,7 +669,7 @@ function drawCrest($crest, $crestHeight) {
     return $helmet . $crestCharges . $torse;
 }
 
-function addParts($body, $parts) {
+function addParts($body, $parts, $layout) {
     global $messages, $options;
 
     extract($parts); // creates $crests, $crestHeight and other variables

@@ -288,7 +288,7 @@ function draw() {
     }
     if (count($partsList)) {
         foreach($partsList as $parts ) {
-            $body = addParts($body, $parts);
+            $body = addParts($body, $parts, $layout);
         }
     }
 
