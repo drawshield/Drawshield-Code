@@ -162,22 +162,21 @@ function draw() {
                 $body .= makeshield($node, $layout);
                 break;
                 case 'achievement':
-                foreach ($node->childNodes as $subNode) {
+                /* foreach ($node->childNodes as $subNode) {
                     switch ($subNode->nodeName) {
                         case blazonML::E_FRINGE:
                             $fringe = drawFringe($subNode, $layout);
+                            $extraSpace = 150;
+                            error_log("called");
                             break;
                         // other achievement parts don't really make sense (do they?)
                         default:
                             break;
                     }
-                }
+                } */
                 break;
                 // other elements for future expansion
             }
-        }
-        if ($fringe) {
-            $extraSpace = 150;
         }
 
         $outline = getShape($layout);
@@ -265,8 +264,10 @@ function draw() {
         // Rest depends on output format
         if ( $options['asFile'] != '1' /* && !$options['printable'] */ ) { // minimal decoration, no metadata
             $y1Location = '1190';
-            if ($layout->shape == 'flag')
+            if ($layout->shape == 'flag') {
+                if (count($partsList)) $extraSpace = 120; // should really check for fringe being present
                 $y1Location = $layout->size->height + $extraSpace + 40;
+            }
             if ( $options['outputFormat'] == 'svg' || $options['outputFormat'] == 'json') {
                 $messages->addMessage('legal',"Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.");
                 $messages->insertMessages();
