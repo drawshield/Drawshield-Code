@@ -39,7 +39,7 @@ class parser {
     switch ( $language ) {
       case 'english':
         include_once "english/grammar.inc";
-        $this->grammar = new englishGrammar($language, $this->xmlMaker);
+        $this->grammar = new englishGrammar( $this->xmlMaker, $language);
         break;
       default:
         echo 'Wah! No language found in parser';
