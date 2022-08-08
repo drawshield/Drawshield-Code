@@ -242,7 +242,8 @@ class languageDB extends lexicon
             self::ACHIEVEMENT_LOC => array(
                 array('?to ?the sinister', 'sinister'),
                 array('?to ?the dexter', 'dexter'),
-                array('?(in|of|to) ?the (middle|centre|center)', 'centre'),
+                array('?(in|of|to) ?the (middle|centre|center|rear)', 'centre'),
+                array('behind', 'centre'),
             ),
             self::HELMET => array(
                 array('?(the|a|an) royal helm(et)', 'royal'),

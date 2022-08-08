@@ -121,7 +121,7 @@ function rotatePath( $path, $theta ) {
   if ( $theta == 0 ) return $path;
   $newPath = '';
   $numbers = array();
-  $chunks = preg_split('/([a-z])/i', $path, null, PREG_SPLIT_DELIM_CAPTURE );
+  $chunks = preg_split('/([a-z])/i', $path, -1, PREG_SPLIT_DELIM_CAPTURE );
   for ( $i = 0; $i < count($chunks); $i++ ) {
     $command = $chunks[$i];
     if ( isset($chunks[$i+1]) )

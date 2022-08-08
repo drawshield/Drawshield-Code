@@ -43,11 +43,29 @@ function drawFrontSupporters($supportNode, $layout) {
                 $retval .= placeCharge($location->firstChild, $layout, $boundX, $boundY, $sinisterX, $centreY, 0, 0, 0);
                 break;
             case 'centre':
+                // This is dealt with elsewhere
                 break;
             }
     }
     if ($supportCount == 1) { // only one supplied, so repeat it
         $retval .= placeCharge($location->firstChild, $layout, $boundX, $boundY, $sinisterX, $centreY, 0, 0, 0);
+    }
+    return $retval;
+}
+
+function drawRearSupporters($supportNode, $layout) {
+    if ($supportNode == null) return '';
+    $boundX = 1000;
+    $boundY = 1200;
+    $centreY = $layout->size->height / 2;
+    $centreX = 500;
+
+    $retval = '';
+    for ($i = 0; $i < $supportNode->childNodes->length; $i++) {
+        $location = $supportNode->childNodes->item($i);
+        if ($location->getAttribute('keyterm') == 'centre') {
+                $retval .= placeCharge($location->firstChild, $layout, $boundX, $boundY, $centreX, $centreY, 0, 0, 0);
+        }
     }
     return $retval;
 }
@@ -567,6 +585,7 @@ function getAchievementParts($node, $layout) {
         switch ($subNode->nodeName) {
             case blazonML::E_SUPPORTERS:
                 $retval['frontSupports'] = drawFrontSupporters($subNode, $layout);
+                $retval['rearSupports'] = drawRearSupporters($subNode, $layout);
                 break;
             case blazonML::E_ORNAMENT:
                 $retval['ornament'] = drawOrnament($subNode);
@@ -772,7 +791,14 @@ function addParts($body, $parts, $layout) {
     }
 
     // Supporters - try to fit in making maximum use of space, so a bit complicated
-    if (isset($frontSupports)) {
+    if (isset($rearSupports) && $rearSupports != '') {
+        // Always scale body down just a bit so at least some of the charge is visible
+        $rearSupportScale = 0.8;
+        $rearSupportX = (1000 * (1-$rearSupportScale)) / 2;
+        $rearSupportY = (1200 * (1-$rearSupportScale)) / 2;
+        $body = "$rearSupports<g transform=\"translate($rearSupportX,$rearSupportY) scale($rearSupportScale) \">$body</g>";
+    }
+    if (isset($frontSupports) && $frontSupports != '') {
         $supportScale = 0.7 / $bodyScale; // modify internal scaling based on presence of a crest
         $supportX = (1000 * (1-$supportScale)) / 2;
         $body = "<g transform=\"translate($supportX,0) scale($supportScale) \">$body</g>$frontSupports";
