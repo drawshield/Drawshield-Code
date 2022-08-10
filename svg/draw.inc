@@ -34,41 +34,44 @@ include "pathtools.inc";
 include "treatment.inc";
 include "getwords.inc";
 
-function getLine($node) {
-  $retval = '';
-  if ($node !== null) {
-    $lineNo = $node->getAttribute(BlazonML::A_LINENUMBER);
-    if ($lineNo != null) {
-      $retval = " near line $lineNo";
+function getLine($node)
+{
+    $retval = '';
+    if ($node !== null) {
+        $lineNo = $node->getAttribute(BlazonML::A_LINENUMBER);
+        if ($lineNo != null) {
+            $retval = " near line $lineNo";
+        }
     }
-  }
-  return $retval;
+    return $retval;
 }
 
 
-function makeOrdChgs( $node, $layout ) {
-  $retval = '';
-  foreach ( $node->childNodes as $child ) {
-    switch ( $child->nodeName ) {
-      case 'ordinary':
-        $retval .= makeOrdinary( $child, $layout );
-        break;
-      case 'division':
-        $retval .= makeDivision( $child, $layout );
-        break;
-      case 'list':
-          $retval .= makeList( $child, $layout );
-          break;
-      case 'missing':
-      case 'charge':
-        $retval .= makeCharge( $child, $layout );
-        break;
+function makeOrdChgs($node, $layout)
+{
+    $retval = '';
+    foreach ($node->childNodes as $child) {
+        switch ($child->nodeName) {
+            case 'ordinary':
+                $retval .= makeOrdinary($child, $layout);
+                break;
+            case 'division':
+                $retval .= makeDivision($child, $layout);
+                break;
+            case 'list':
+                $retval .= makeList($child, $layout);
+                break;
+            case 'missing':
+            case 'charge':
+                $retval .= makeCharge($child, $layout);
+                break;
+        }
     }
-  }
-  return $retval;
+    return $retval;
 }
 
-function setOptionsFromBlazon( $node ) {
+function setOptionsFromBlazon($node)
+{
     global $options;
 
     foreach ($node->childNodes as $blazonOption) {
@@ -112,7 +115,8 @@ function setOptionsFromBlazon( $node ) {
     tidyOptions();
 }
 
-function draw() {
+function draw()
+{
     global $dom;
     global $options;
     global $version;
@@ -133,7 +137,7 @@ function draw() {
     $shieldAdjustments = [];
     $y1Location = 0;
     $extraSpace = 0;
-    $partsList= [];
+    $partsList = [];
     $layout = ShieldLayout::from_options($options);
     if ($options['palette'] == 'hatching') $options['addHatching'] = $layout->size->height;
 
@@ -154,57 +158,8 @@ function draw() {
     $blazonNode = $dom->documentElement;
     $effect = $options['effect'];
 
-    if ($layout->shape == 'flag') {
-        $body = '';
-        foreach ( $blazonNode->childNodes as $node ) {
-            switch ( $node->nodeName ) {
-                case 'shield':
-                $body .= makeshield($node, $layout);
-                break;
-                case 'achievement':
-                /* foreach ($node->childNodes as $subNode) {
-                    switch ($subNode->nodeName) {
-                        case blazonML::E_FRINGE:
-                            $fringe = drawFringe($subNode, $layout);
-                            $extraSpace = 150;
-                            error_log("called");
-                            break;
-                        // other achievement parts don't really make sense (do they?)
-                        default:
-                            break;
-                    }
-                } */
-                break;
-                // other elements for future expansion
-            }
-        }
 
-        $outline = getShape($layout);
-
-        $displayScale = $options['size'] / 1000;
-        $displayWidth = $options['size'];
-        $displayHeight = (int)(($layout->size->height + 40 + $extraSpace) * $displayScale);
-        // clip to flag shape
-        $clipFlag = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />' );
-        $body = '<g mask="url(#' . $clipFlag . ')">' . $body . '</g>';
-
-        $header = '<?xml version="1.0" encoding="utf-8" ?>
-    <svg version="1.1"
-         baseProfile="full"
-         xmlns="http://www.w3.org/2000/svg"
-         xmlns:xlink="http://www.w3.org/1999/xlink"
-         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-         xmlns:cc="http://creativecommons.org/ns#"
-         xmlns:dc="http://purl.org/dc/elements/1.1/" 
-         xmlns:blazonML="http://drawshield.net/blazonML" ' .
-         'preserveAspectRatio="xMidYMid meet" height="' . $displayHeight . '" width="' . $displayWidth . '" ';
-        $header .= 'viewBox="'. getEffect($effect, 'viewbox',1000, $layout->size->height + $extraSpace + 40) . ' ">';
-        $meta = '';
-        $trailer =  "</svg>\n";
-
-
-    } else {
-        $header = '<?xml version="1.0" encoding="utf-8" ?>
+    $header = '<?xml version="1.0" encoding="utf-8" ?>
     <svg version="1.1"
         baseProfile="full"
         xmlns="http://www.w3.org/2000/svg"
@@ -214,41 +169,40 @@ function draw() {
          xmlns:dc="http://purl.org/dc/elements/1.1/" 
         xmlns:blazonML="http://drawshield.net/blazonML" ' .
         'preserveAspectRatio="xMidYMid meet" height="' . (int)($options['size'] * 1.2) . '" width="' . $options['size'];
-        $header .= '" viewBox="'. getEffect($effect, 'viewbox') . ' ">';
-        $meta = '';
-        $trailer =  "</svg>\n";
-        if ( $options['palette'] == 'outline' || $options['palette'] == 'hatching') {
-            $header .= '  <filter id="grayscale">
+    $header .= '" viewBox="' . getEffect($effect, 'viewbox') . ' ">';
+    $meta = '';
+    $trailer = "</svg>\n";
+    if ($options['palette'] == 'outline' || $options['palette'] == 'hatching') {
+        $header .= '  <filter id="grayscale">
     <feColorMatrix type="saturate" values="0.10"/>
   </filter>';
-        }
+    }
 
-        $blazonNode = $dom->documentElement;
-        $body = '';
-        foreach ( $blazonNode->childNodes as $node ) {
-            switch ( $node->nodeName ) {
-                case 'complex':
-                    $body .= makeAlongside($node, $layout);
-                    break;
-                case 'shield':
-                    $body .= makeshield($node, $layout);
-                    $layout = ShieldLayout::from_options($options);
-                    // options may have changed in makeShield
-                    $outline = getShape($layout);
-                    $effect = $options['effect'];
-                    if (!array_key_exists('nomask', $options)) {
-                        $clipShield = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />' );
-                        $body = '<g mask="url(#' . $clipShield . ')">' . $body . '</g>';
+    $blazonNode = $dom->documentElement;
+    $body = '';
+    foreach ($blazonNode->childNodes as $node) {
+        switch ($node->nodeName) {
+            case 'complex':
+                $body .= makeAlongside($node, $layout);
+                break;
+            case 'shield':
+                $body .= makeshield($node, $layout);
+                $layout = ShieldLayout::from_options($options);
+                // options may have changed in makeShield
+                $outline = getShape($layout);
+                $effect = $options['effect'];
+                if (!array_key_exists('nomask', $options)) {
+                    $clipShield = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />');
+                    $body = '<g mask="url(#' . $clipShield . ')">' . $body . '</g>';
+                }
+                if ($options['effect'] == 'inked')
+                    $body .= '<path fill="none" stroke="#000000" stroke-width="4" d="' . $outline . '" />';
+                foreach ($node->childNodes as $childNode) {
+                    if ($childNode->nodeName == blazonML::E_ACHIEVEMENT) {
+                        $partsList[] = getAchievementParts($childNode, $layout);
                     }
-                    if ( $options['effect'] == 'inked')
-                        $body .=  '<path fill="none" stroke="#000000" stroke-width="4" d="' . $outline . '" />';
-                    foreach ($node->childNodes as $childNode) {
-                        if ($childNode->nodeName == blazonML::E_ACHIEVEMENT) {
-                            $partsList[] = getAchievementParts($childNode, $layout);
-                        }
-                    }
-                    break;
-            }
+                }
+                break;
         }
     }
     if (!array_key_exists('nomask', $options)) {
@@ -257,24 +211,24 @@ function draw() {
             $body = getEffect($effect, 'below') . '<g ' . getEffect($effect, 'filter') . '>' . $body . getEffect($effect, 'above') . '</g>';
         }
         // Add outline of shield shape, only if required
-        if ( $options['palette'] == 'outline' || $options['asFile'] == 'printable' ) {
+        if ($options['palette'] == 'outline' || $options['asFile'] == 'printable') {
             $outline = getShape($layout);
-            $body .=  '<path fill="none" stroke="' . rgb('gray') . '" stroke-width="4" d="' . $outline . '" />';
+            $body .= '<path fill="none" stroke="' . rgb('gray') . '" stroke-width="4" d="' . $outline . '" />';
         }
         // Rest depends on output format
-        if ( $options['asFile'] != '1' /* && !$options['printable'] */ ) { // minimal decoration, no metadata
+        if ($options['asFile'] != '1' /* && !$options['printable'] */) { // minimal decoration, no metadata
             $y1Location = '1190';
             if ($layout->shape == 'flag') {
                 if (count($partsList)) $extraSpace = 120; // should really check for fringe being present
                 $y1Location = $layout->size->height + $extraSpace + 40;
             }
-            if ( $options['outputFormat'] == 'svg' || $options['outputFormat'] == 'json') {
-                $messages->addMessage('legal',"Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.");
+            if ($options['outputFormat'] == 'svg' || $options['outputFormat'] == 'json') {
+                $messages->addMessage('legal', "Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.");
                 $messages->insertMessages();
                 $xpath = new DOMXPath($dom);
-                $nodes = array_reverse(iterator_to_array($xpath->evaluate('//*') ) );
+                $nodes = array_reverse(iterator_to_array($xpath->evaluate('//*')));
                 foreach ($nodes as $node) {
-                    $replacement = $dom->createElementNS('http://drawshield.net/blazonML', 'blazonML:'.$node->localName);
+                    $replacement = $dom->createElementNS('http://drawshield.net/blazonML', 'blazonML:' . $node->localName);
                     foreach ($xpath->evaluate('node()|@*', $node) as $childNode) {
                         $replacement->appendChild($childNode);
                     }
@@ -288,7 +242,7 @@ function draw() {
         }
     }
     if (count($partsList)) {
-        foreach($partsList as $parts ) {
+        foreach ($partsList as $parts) {
             $body = addParts($body, $parts, $layout);
         }
     }
@@ -301,7 +255,7 @@ function draw() {
         $body = getEffect($effect, 'below') . '<g ' . getEffect($effect, 'filter') . '>' . $body . getEffect($effect, 'above') . '</g>';
     }
 
-    if (array_key_exists('debug', $options) && strpos($options['debug'],'grid') !== false) {
+    if (array_key_exists('debug', $options) && strpos($options['debug'], 'grid') !== false) {
         $ordinary = [];
         include "ordinaries/grid.inc";
         $body .= '<g fill="#555555">' . $ordinary['body'] . '</g>';
@@ -311,6 +265,6 @@ function draw() {
         require("hatching.inc");
         $extraDefs = mkHatches($options['addHatching']);
     }
-    $defs = '<defs>' . getEffect($effect, 'defs') . $extraDefs .  '</defs>';
+    $defs = '<defs>' . getEffect($effect, 'defs') . $extraDefs . '</defs>';
     return $header . $meta . $defs . $body . $trailer;
 }
