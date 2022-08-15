@@ -334,7 +334,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
         return null;
     if (( strpos($name,'sodipodi:') !== false ) or (strpos($name,'inkscape:') !== false ))
         return null;
-    $id = isset($element['id']) ? (string)$element['id'] : null;
+    $id = isset($element['id']) ? (string)$element['id'] : "";
     if ( $id == "hold-point" )
         return '';
     $class = '';

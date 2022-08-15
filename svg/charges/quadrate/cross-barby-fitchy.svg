@@ -11,10 +11,6 @@
    xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs5921" />
-  <path
-     id="path5915"
-     style="fill:#ff0000;stroke:#808080"
-     d="M 100 0 L 60 40 L 79 40 L 79 79 L 40 79 L 40 60 L 0 100 L 40 140 L 40 121 L 79 121 L 79 160 L 60 160 L 100 200 L 140 160 L 121 160 L 121 121 L 160 121 L 160 140 L 200 100 L 160 60 L 160 79 L 121 79 L 121 40 L 140 40 L 100 0 z " />
   <metadata
      id="metadata6458">
     <rdf:RDF>
@@ -28,4 +24,8 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
+  <path
+     id="path6585"
+     style="fill:#ff0000;stroke:#808080"
+     d="M 100,0 60,40 H 79 V 79 H 40 V 60 l -40,40 40,40 v -19 h 39 v 39 l 21,60 21,-60 v -39 h 39 v 19 L 200,100 160,60 V 79 H 121 V 40 h 19 z" />
 </svg>
