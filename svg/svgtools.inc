@@ -408,7 +408,7 @@ function getSvgFragment ($svg, $featureTinctures, $chargeGroup, $chargeName, $ex
     $retval = array();
 
     $viewbox = $svg['viewBox'] ?? '0 0 100 100';
-    list($x0,$y0,$x1,$y1) = explode(' ',$viewbox);
+    list($x0,$y0,$x1,$y1) = preg_split('/[ ,]/',$viewbox);
     // safety checks in case of dodgy SVG
     if (!is_numeric($x0)) $x0 = 0;
     if (!is_numeric($y0)) $y0 = 0;
