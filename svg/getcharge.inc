@@ -268,7 +268,7 @@ function read_chg_file(DOMElement $node) {
     $subfolder = '';
     if (($title = $node->getAttribute('tokens')) == null ) $title = $chargeKey;
     $tincture = getTinctureNode($node);
-    if ($tincture != null && $tincture->firstChild->nodeName == blazonML::E_PROPER) {
+    if (!is_null($tincture) && !is_null($tincture->firstChild) && $tincture->firstChild->nodeName == blazonML::E_PROPER) {
         // Charge is proper let's see if there is a special version for this
         if (file_exists($folder . "proper/" . $chargeKey . '.svg')) {
             $subfolder .= "proper/";

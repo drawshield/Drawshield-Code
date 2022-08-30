@@ -398,7 +398,7 @@ function mirrorPath ( $path, $axis = 'x' ) {
 function scalePath ( $path, $xScale = 1, $yScale = 1 ) {
   $newPath = '';
   $numbers = array();
-  $chunks = preg_split('/([a-z])/i', $path, null, PREG_SPLIT_DELIM_CAPTURE );
+  $chunks = preg_split('/([a-z])/i', $path, 0, PREG_SPLIT_DELIM_CAPTURE );
   for ( $i = 0; $i < count($chunks); $i++ ) {
     $command = $chunks[$i];
     if ( isset($chunks[$i+1]) ) {
