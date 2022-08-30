@@ -22,7 +22,7 @@ require_once("shield_shape_utils.inc");
 $margin = -100;
 $width = 180;
 
-if ( strpos($layout->section, "quarter") !== false )
+if ( !is_null($layout->section) && strpos($layout->section, "quarter") !== false )
 {
     $width /= 1.3;
     $margin /= 2;

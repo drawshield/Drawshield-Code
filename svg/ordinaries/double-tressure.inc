@@ -32,7 +32,7 @@ if ( $layout->shape == "flag" )
 
 }
 
-if ( strpos($layout->section, "quarter") !== false )
+if (!is_null($layout->section) &&  strpos($layout->section, "quarter") !== false )
 {
     $width *= 1.3;
     $gap *= 1.5;

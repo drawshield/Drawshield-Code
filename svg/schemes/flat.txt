@@ -1,4 +1,4 @@
-# as requested by opshtray via discord
+// as requested by opshtray via discord
 
 or=#F1C40F
 azure=#3498DB
