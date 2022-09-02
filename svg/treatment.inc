@@ -89,7 +89,7 @@ function makeTreatment ( $node, $layout, $counter = false ) {
         }
   }
   // Do we need to offset to make treatment symmetrical on the field?
-  $offset = intval((1000 % $size_x) / 2);
+  $offset = (1000 % intval($size_x) / 2);
   if (in_array($name, array('gingham', 'buffalo-check', 'glen-check', 'houndstooth', 'shepherd-check'))) $offset += intval($size_x / 4);
   $retval = array ( 'width' =>  $size_x, 'height' => $size_y, 'offset' => $offset,
       'body' => $base . '<g stroke-width="2" stroke="' . rgb('pattern-stroke') . '" >' .$pattern . '</g>' );

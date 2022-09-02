@@ -294,8 +294,8 @@ class TinctureData
 
     static function fix_url($fill)
     {
-        if ( $fill && $fill[0] == '"' )
-            return "url(" . substr($fill, 1, -1) . ")";
+        if ( $fill && ($fill[0] == '"' || $fill[0] == "'"))
+            return "url('/" . substr($fill, 1, -1) . "')";
         return $fill;
     }
 

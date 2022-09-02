@@ -42,12 +42,18 @@ $ordinary['shape_spec'] = $path_builder;
 if ( existModifierWithKeyterm($node,'compony1') )
 {
     $ordinary['body2'] = $shape->compony($layout, 0, $width + $margin)->to_svg_path();
+    if ($ordinary['body2'] == "") {
+        unset($ordinary['body2']);
+    }
 }
 elseif (existModifierWithKeyterm($node,'compony2') )
 {
     $body2 = $shape->compony($layout, 0, $width + $margin);
     $shape->svg_path($layout, ($width + $margin) / 2, true, $body2);
     $ordinary['body2'] = $body2->to_svg_path();
+    if ($ordinary['body2'] == "") {
+        unset($ordinary['body2']);
+    }
 }
 
 $ordinary['chargesWithin'] = $layout->rect_area()->margin(250, 0, 250, 350);

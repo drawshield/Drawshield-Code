@@ -240,19 +240,25 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'lions?', 'lion/lion' ),
       array ( 'lioncell?e?s?', 'lion/lion' ),
 
+      // Prehistoric stuff
+       array ( 'mammoths?', 'prehistoric/mammoth' ),
+       array ( 'dinosaurs?', 'prehistoric/dinosaur' ),
+       array ( 'sauropods?', 'prehistoric/sauropod' ),
+       array ( 'ammonites?', 'prehistoric/ammonite' ),
+       array ( 'trilobytes?', 'prehistoric/trilobyte' ),
+       array ( 'dodoe?s?', 'prehistoric/dodo' ),
+
       // Exotic (but lifelike) animals
       array ( 'raccoons?', 'animal/raccoon' ),
        array ( 'capybaras?', 'animal/capybara' ),
-      array ( 'tortoises?', 'animal/tortoise' ),
-      array ( 'dinosaurs?', 'animal/dinosaur' ),
       array ( 'llamas?', 'animal/llama' ),
       array ( 'reindeers?', 'animal/reindeer' ),
       array ( 'crocodiles?', 'animal/crocodile' ),
       array ( 'antelopes?', 'animal/antelope' ),
+       array ( 'tortoises?', 'animal/tortoise' ),
       array ( 'armadilloe?s?', 'animal/armadillo' ),
       array ( 'anteaters?', 'animal/anteater' ),
       array ( 'ant eaters?', 'animal/anteater' ),
-      array ( 'mammoths?', 'animal/mammoth' ),
       array ( 'hippos?', 'animal/hippo' ),
       array ( 'hippopotamuse?s?', 'animal/hippo' ),
       array ( 'hippopotami', 'animal/hippo' ),
