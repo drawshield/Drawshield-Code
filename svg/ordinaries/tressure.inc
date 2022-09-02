@@ -72,7 +72,7 @@ else
     $margin = 24.2;
     $width = 40.4;
 
-    if ( strpos($layout->section, "quarter") !== false )
+    if ( !is_null($layout->section) && strpos($layout->section, "quarter") !== false )
     {
         $width *= 2;
         $margin *= 2;
