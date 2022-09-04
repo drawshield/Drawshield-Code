@@ -158,6 +158,12 @@ function draw()
     $blazonNode = $dom->documentElement;
     $effect = $options['effect'];
 
+    $svgHeight = (int)($options['size'] * 1.2);
+    $svgWidth = $options['size'];
+ /*   if ($options['shape'] == "flag") {
+        $svgWidth = $options['printSize'];
+        $svgHeight = $svgWidth * $options['aspectRatio'];
+    } */
 
     $header = '<?xml version="1.0" encoding="utf-8" ?>
     <svg version="1.1"
@@ -168,7 +174,7 @@ function draw()
          xmlns:cc="http://creativecommons.org/ns#"
          xmlns:dc="http://purl.org/dc/elements/1.1/" 
         xmlns:blazonML="http://drawshield.net/blazonML" ' .
-        'preserveAspectRatio="xMidYMid meet" height="' . (int)($options['size'] * 1.2) . '" width="' . $options['size'];
+        'preserveAspectRatio="xMidYMid meet" height="' . $svgHeight . '" width="' . $svgWidth;
     $header .= '" viewBox="' . getEffect($effect, 'viewbox') . ' ">';
     $meta = '';
     $trailer = "</svg>\n";
@@ -264,6 +270,13 @@ function draw()
     if (array_key_exists('addHatching', $options)) {
         require("hatching.inc");
         $extraDefs = mkHatches($options['addHatching']);
+    }
+    if ($options['shape'] == 'flag') { // need to scale tall flags to fit
+        if ($options['aspectRatio'] > 1.18) {
+            $shrinkFactor = 1.18 / $options['aspectRatio'];
+            $shiftFactor = (1000 *  (1-$shrinkFactor)) / 2;
+            $body = "<g transform=\"translate($shiftFactor, 0) scale($shrinkFactor)\">$body</g>";
+        }
     }
     $defs = '<defs>' . getEffect($effect, 'defs') . $extraDefs . '</defs>';
     return $header . $meta . $defs . $body . $trailer;

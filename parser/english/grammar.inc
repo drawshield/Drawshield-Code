@@ -302,7 +302,7 @@ class englishGrammar extends grammar
             self::ignore(languageDB::USING);
             if ($option = self::find(LanguageDB::DRAWN_MODS)) {
                 $elementName = null;
-                $value = strtolower($this->phraseMatcher->getValue());
+                $value = strtolower($this->phraseMatcher->getValue() ?? "");
                 switch ($option) {
                     case 'colours':
                         $elementName = blazonML::E_COLOURSET;

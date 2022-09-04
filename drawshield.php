@@ -37,7 +37,6 @@ $xpath = null;
 $messages = null;
 
 $spareRoom = str_repeat('*', 1024 * 1024);
-$size = 500;
 
 //
 // Argument processing
@@ -52,8 +51,6 @@ if (isset($argc)) {
 
 // Process arguments
 $ar = null;
-$size = null;
-
 $request = array_merge($_GET, $_POST);
 
 // For backwards compatibility we support argument in GET, but prefer POST
@@ -216,7 +213,8 @@ if ($options['asFile'] == '1') {
     } elseif ($options['units'] == 'cm') {
         $options['printSize'] *= 35;
     }
-    $proportion = ($options['shape'] == 'flag') ? $options['aspectRatio'] : 1.2;
+    // $proportion = ($options['shape'] == 'flag') ? $options['aspectRatio'] : 1.2;
+    $proportion = 1.2;
     switch ($options['saveFormat']) {
         case 'svg':
             if (substr($name, -4) != '.svg') $name .= '.svg';

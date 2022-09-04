@@ -241,7 +241,11 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'lioncell?e?s?', 'lion/lion' ),
 
       // Prehistoric stuff
+       array ( 'velociraptors?', 'prehistoric/velociraptor' ),
        array ( 'mammoths?', 'prehistoric/mammoth' ),
+       array ( 'menhirs?', 'prehistoric/menhir' ),
+       array ( 'dolmens?', 'prehistoric/dolmen' ),
+       array ( 'standing stones?', 'prehistoric/menhir' ),
        array ( 'dinosaurs?', 'prehistoric/dinosaur' ),
        array ( 'sauropods?', 'prehistoric/sauropod' ),
        array ( 'ammonites?', 'prehistoric/ammonite' ),
