@@ -115,6 +115,7 @@ This file is part of the DrawShield.net heraldry image creation program
      array ( 'jerusalem cross(es)?', 'quadrate/cross-jerusalem' ),
       // human
       array ( 'mounted knights?', 'human/knight-mounted'),
+       array ( 'knights?', 'human/knight-statant'),
       array ( '(fallen|dead) knights?', 'human/fallen-knight-embowed'),
       array ( 'triskes?lions? of arms', 'human/triskelion-of-arms' ),
       array ( 'triskes?lions? of legs ?armou?red', 'human/triskelion-of-legs-armored' ),
@@ -241,7 +242,11 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'lioncell?e?s?', 'lion/lion' ),
 
       // Prehistoric stuff
+       array ( 'velociraptors?', 'prehistoric/velociraptor' ),
        array ( 'mammoths?', 'prehistoric/mammoth' ),
+       array ( 'menhirs?', 'prehistoric/menhir' ),
+       array ( 'dolmens?', 'prehistoric/dolmen' ),
+       array ( 'standing stones?', 'prehistoric/menhir' ),
        array ( 'dinosaurs?', 'prehistoric/dinosaur' ),
        array ( 'sauropods?', 'prehistoric/sauropod' ),
        array ( 'ammonites?', 'prehistoric/ammonite' ),
