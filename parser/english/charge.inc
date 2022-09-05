@@ -1304,6 +1304,7 @@ This file is part of the DrawShield.net heraldry image creation program
        array ( 'chains? of navarre square', 'emblem/chain-of-navarre-square' ),
        array ( 'square chains? of navarre', 'emblem/chain-of-navarre-square' ),
       array ( 'ankhs?', 'emblem/ankh' ),
+       array ( 'triple moons?', 'emblem/triple-moon' ),
       array ( 'caduce(i|us)', 'emblem/caduceus' ),
       array ( 'laurel wreaths?', 'emblem/laurel-wreath' ),
       array ( 'lions? of (saint|st) marks?', 'emblem/lion-of-st-marks' ),
