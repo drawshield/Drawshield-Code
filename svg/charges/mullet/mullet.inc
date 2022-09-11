@@ -17,9 +17,8 @@ This file is part of the DrawShield.net heraldry image creation program
 
 $num_of = getModifierValueByKeyterm($node, 'of-num', true);
 
-if ( !existModifierWithKeyterm($node, "interlaced") )
-{
-    if ( $num_of  < 4 )
+if ( !existModifierWithKeyterm($node, "interlaced") ) {
+    if ($num_of < 4)
         $num_of = 5;
 
     $size = 400;
@@ -27,9 +26,17 @@ if ( !existModifierWithKeyterm($node, "interlaced") )
     $cy = $size / 2;
     $stroke = 3;
     $r1 = $size / 2 - $stroke;
-    $r_scale = min(($num_of - 5) / (64-5) * .2 + .5, 0.7);
-    if ( $num_of == 4 )
-        $r_scale = 0.4;
+    switch ($num_of) {
+        case 5:
+            $r_scale = 0.3815;
+            break;
+        case 6:
+            $r_scale = 0.577;
+            break;
+        default:
+            $r_scale = min(($num_of - 5) / (64 - 5) * .2 + .5, 0.7);
+            break;
+        }
     $r2 = $r1 * $r_scale;
     $d = "M $cx " . ($cy - $r1) . " L ";
     $angle = M_PI * 2 / $num_of;

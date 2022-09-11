@@ -47,7 +47,7 @@ abstract class ShieldShape
 //             case "english":
 //                 return new HeaterShieldShape(new ShieldPos(13,-26.5), new ShieldPos(375.5,169), new ShieldPos(413,-3.3830906), 0);
             case "french":
-                return new HeaterShieldShape(new ShieldPos(100,-20), new ShieldPos(493,-60), new ShieldPos(500,-122.7), 30);
+                return new HeaterShieldShape(new ShieldPos(100,-20), new ShieldPos(493,-60), new ShieldPos(500,-122.7), 90);
             case "circle":
             case "oval":
                 return new EllipseShieldShape();

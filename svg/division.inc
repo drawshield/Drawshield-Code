@@ -68,7 +68,7 @@ function makeDivision( DOMElement $node, ShieldLayout $layout, $counter = false 
     if ( $child->nodeName == 'tincture' )
       $tinctures[$child->getAttribute('index') - 1] = $child;
   }
-  $counterchanged =  ($tinctures[0]->firstChild->nodeName == 'counterchanged');
+  $counterchanged =   $tinctures[0]->hasChildNodes() && ($tinctures[0]->firstChild->nodeName == 'counterchanged');
 
   // Safety checks
   if (!isset($tinctures[0]) || !is_object($tinctures[0]->firstChild))

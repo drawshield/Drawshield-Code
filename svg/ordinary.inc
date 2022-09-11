@@ -237,7 +237,7 @@ function getSpecial($type, $node, $layout)
     $special['body'] = $tempBody;
 
     $paths = $svg->xpath('//svg:g[@id="body2"]/*');
-    if (is_array($paths)) {
+    if (is_array($paths) && count($paths)) {
         $tempBody = '';
         foreach ($paths as $path) {
             $tempBody .= $path->asXML();
@@ -397,7 +397,6 @@ function makeOrdinary(DOMElement &$node, $layout)
             $body2_col = createColourNode('gray', '2');
         }
         $body2_spec = subPercent($ord_data['body2'], $layout);
-        if ($body2_spec == '') error_log("Bad body2 in $subtype"); // Trying to trace error
         if ($body2_spec[0] != '<') {
             $linetype = null;
             // Is there a linetype here also
