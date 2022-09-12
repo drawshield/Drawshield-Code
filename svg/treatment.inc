@@ -151,7 +151,7 @@ function makeGrady( $node ) {
   $background = $charge = null;
   foreach ( $children as $child ) {
     if ( $child->nodeName == 'tincture' ) {
-      if ($child->firstChild->nodeName == 'colour') {
+      if ($child->hasChildNodes() && $child->firstChild->nodeName == 'colour') {
         $colours[] = $child->firstChild->getAttribute("keyterm");
       } else {
         $messages->addMessage('blazon',"Grady tinctures must be colours");

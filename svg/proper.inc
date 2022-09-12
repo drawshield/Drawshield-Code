@@ -216,6 +216,7 @@ class properColour {
       'rocket/inflamed' => self::$red,
       'zebra/striped' => self::$black,
       'zebra/unguled' => self::$black,
+        'unguled' => self::$grey,
       'vulning' => self::$red,
       'nest' => self::$brown,
       'rose-lancaster/seeded' => self::$white,
