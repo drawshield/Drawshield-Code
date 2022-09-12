@@ -339,6 +339,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'feathers?', 'bird/feather' ),
       array ( 'starlings?', 'bird/starling' ),
       array ( 'condors?', 'bird/condor' ),
+       array ( 'lapwings?', 'bird/lapwing' ),
       array ( '(sky)?larks?', 'bird/lark' ),
       array ( 'quails?', 'bird/quail' ),
       array ( 'bats?', 'bird/bat' ),

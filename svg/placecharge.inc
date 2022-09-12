@@ -449,7 +449,7 @@ function PlaceCharge ( $node,  // images
     $rotation = 0; // An explicit charge orientation overrides a rotation from the arrangement
     switch ( $orientation ) {
       case 'fesswise':
-          $retval = "<g transform=\"translate(0,$chargeY) rotate(-90)\"><desc>fesswise charge</desc>$retval</g>\n";
+          $retval = "<g transform=\"translate(0,$chargeX) rotate(-90)\"><desc>fesswise charge</desc>$retval</g>\n";
           $temp = $chargeX; $chargeX = $chargeY; $chargeY = $temp;
           $temp = $Xflex; $Xflex = $Yflex; $Yflex = $temp;
         break;

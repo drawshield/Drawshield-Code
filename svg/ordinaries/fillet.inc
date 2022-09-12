@@ -18,5 +18,5 @@ This file is part of the DrawShield.net heraldry image creation program
 
 
 
-$ordinary['shape_spec'] = 'X-8Y450A1016c100E1016g100';
+$ordinary['shape_spec'] = 'X-8Y150A1016c100E1016g100';
 $ordinary['feature-size'] = 40;

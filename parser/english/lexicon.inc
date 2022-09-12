@@ -787,6 +787,8 @@ class languageDB extends lexicon
             self::DIVISION_MODS => array(
                 array('of # ?pieces?', 'ofnum'),
                 array('rivett?ed', 'riveted'),
+                array('enhanced', 'enhanced'),
+                array('abased', 'abased'),
             ),
             self::QUANTITY => array(
                 array('(a|an|the|some)', "1"),
