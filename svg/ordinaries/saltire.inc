@@ -168,3 +168,4 @@ $ordinary['chargesWithin'] = array_to_placement([
     ]
 ]);
 
+$ordinary['rotate_pattern'] = 'translate(4,5) rotate(-45) scale(0.6) ';

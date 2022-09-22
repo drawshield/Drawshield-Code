@@ -120,6 +120,9 @@ else
 }
 
 $chevron_width = 200;
+//$ordinary['rotate_pattern'] = 45;
+
+$ordinary['rotate_pattern'] = 'translate(4,5) rotate(-45) scale(0.6) ';
 
 $ordinary['chargesOn'] = placement_chevron($layout, $chevron_width, 0.6);
 

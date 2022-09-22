@@ -106,6 +106,8 @@ if ( division_to_modifier($node, 'quarterly') )
   $ordinary['body2'] = 'X-100Y-100B848D200f848h200   X1100Y1100F849H200b849d200';
 
 $ordinary['rotate_pattern'] = 45;
+// Below is the transform for checky of 3 rows
+// $ordinary['rotate_pattern'] = 'translate(54,-16) rotate(-45) scale(0.6) ';
 
 $ordinary['chargesOn'] = placement_in_bend($layout->rect_area(), false, 45);
 

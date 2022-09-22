@@ -21,9 +21,8 @@
     </rdf:RDF>
   </metadata>
   <g
-     transform="matrix(-1.6666499,0,0,1.66665,333.32999,0)"
      class="treatment">
     <path
-       d="M 0,100 H 100 V 0 H 0 Z M 100,200 H 200 V 100 H 100 Z" />
+       d="M 0,166.665 H 166.665 V 0 H 0 Z M 166.665,333.3299 H 333.3299 V 166.665 H 166.665 Z" />
   </g>
 </svg>
