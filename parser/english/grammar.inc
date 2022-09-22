@@ -1806,14 +1806,19 @@ class englishGrammar extends grammar
     self::ignore(languageDB::WORD_OF);
     if ($ofNum = self::find(languageDB::NUMBER))
         self::ignore(languageDB::POINTS);
-    if ($ofNum == null || $ofNum < 5)
-        $ofNum = 5;
-    elseif ($ofNum > 10)
-        $ofNum = 10;
-    if ($keyterm == 'mulletty')
+    if ($keyterm == 'mulletty') {
+        if ($ofNum == null || $ofNum < 5)
+            $ofNum = 5;
+        elseif ($ofNum > 10)
+            $ofNum = 10;
         $keyterm .= '-' . $ofNum;
-    if ($keyterm == 'checky' && $ofNum == 9) {
-        $keyterm = 'checky9';
+    }
+    if ($keyterm == 'checky') {
+        if ($ofNum == 9) {
+            $keyterm = 'checky9';
+     /*   } elseif ($ofNum == 3) {
+            $keyterm = 'checky3'; */
+        }
     }
     $node = $this->schema->makeNode(blazonML::E_TREATMENT, array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
     if (substr($keyterm, 0, 5) == 'grady') {

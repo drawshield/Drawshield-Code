@@ -570,7 +570,7 @@ class languageDB extends lexicon
             self::WORD_OF => array('of'),
             self::WORD_ON => array('on'),
             self::WORD_IN => array('in ?the'),
-            self::POINTS => array('points'),
+            self::POINTS => array('points', 'rows'),
             self::ANDD => array(
                 array('(and|&|also)', 'and'),
                 array('(and|&) also', 'and'),
@@ -608,7 +608,7 @@ class languageDB extends lexicon
                 array('deau', 'argent'),
                 array('de larmes', 'azure'),
                 array('de sangu?e?', 'gules'),
-                array('de vin', 'gules'),
+                array('de vin', 'purpure'),
                 array('de poix', 'sable'),
                 array('d huile', 'vert'),
                 array('dhuile', 'vert'),
