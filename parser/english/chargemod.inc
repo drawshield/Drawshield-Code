@@ -392,7 +392,7 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
       array ( 'erect in pale',           'palewise',    ),
       array ( 'hauri[ea]nt', 'haurient' ), // of fish
       array ( 'na[it]ant?', 'fesswise' ), // of fish
-      array ( '(dispo[sn]|arrang)ed', 'arranged' ),
+      array ( 'disposed?', 'arranged' ),
       array ( 'affront(e|ed|ant|y|ee)', 'affronty' ),
       array ( '(lying|laying)', 'laying' ),
       // Next 4 Mostly for labels

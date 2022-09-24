@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   viewBox="54 81 256.5 256.5"
+   width="256.5"
+   height="256.5"
+   id="svg3364"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs3908" />
+  <g
+     id="Gemstone,_Step-Cut_(2)"
+     stroke-opacity="1"
+     fill-opacity="1"
+     stroke-dasharray="none">
+    <title
+       id="title3325">Gemstone, Step-Cut (2)</title>
+    <g
+       id="Gemstone,_Step-Cut_(2)_Art"
+       style="fill:#ffff00;stroke:#808080">
+      <title
+         id="title3327">Art</title>
+      <g
+         id="Group_111"
+         style="fill:#ffff00;stroke:#808080">
+        <g
+           id="Graphic_121"
+           style="fill:#ffff00;stroke:#808080">
+          <path
+             d="M 112.15385 87.75 L 60.75 139.15385 L 60.75 279.34615 L 112.15385 330.75 L 252.34615 330.75 L 303.75 279.34615 L 303.75 139.15385 L 252.34615 87.75 Z"
+             fill="#FFFFFF"
+             id="path3329"
+             style="fill:#ffff00;stroke:#808080" />
+          <path
+             d="M 112.15385 87.75 L 60.75 139.15385 L 60.75 279.34615 L 112.15385 330.75 L 252.34615 330.75 L 303.75 279.34615 L 303.75 139.15385 L 252.34615 87.75 Z"
+             stroke="black"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="2"
+             id="path3331"
+             style="fill:#ffff00;stroke:#808080" />
+        </g>
+        <g
+           id="Graphic_120"
+           style="fill:#ffff00;stroke:#808080">
+          <path
+             d="M 144.86538 153.17308 L 126.17308 171.86538 L 126.17308 246.63462 L 144.86538 265.32692 L 219.63462 265.32692 L 238.32692 246.63462 L 238.32692 171.86538 L 219.63462 153.17308 Z"
+             stroke="black"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="2"
+             id="path3334"
+             style="fill:#ffff00;stroke:#808080" />
+        </g>
+        <g
+           id="Line_119"
+           style="fill:#ffff00;stroke:#808080">
+          <line
+             x1="112.15385"
+             y1="87.75"
+             x2="144.86538"
+             y2="153.17308"
+             stroke="black"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="2"
+             id="line3337"
+             style="fill:#ffff00;stroke:#808080" />
+        </g>
+        <g
+           id="Line_118"
+           style="fill:#ffff00;stroke:#808080">
+          <line
+             x1="60.75"
+             y1="139.15385"
+             x2="126.17308"
+             y2="171.86538"
+             stroke="black"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="2"
+             id="line3340"
+             style="fill:#ffff00;stroke:#808080" />
+        </g>
+        <g
+           id="Line_117"
+           style="fill:#ffff00;stroke:#808080">
+          <line
+             x1="252.34615"
+             y1="87.75"
+             x2="219.63462"
+             y2="153.17308"
+             stroke="black"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="2"
+             id="line3343"
+             style="fill:#ffff00;stroke:#808080" />
+        </g>
+        <g
+           id="Line_116"
+           style="fill:#ffff00;stroke:#808080">
+          <line
+             x1="303.75"
+             y1="139.15385"
+             x2="238.32692"
+             y2="171.86538"
+             stroke="black"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="2"
+             id="line3346"
+             style="fill:#ffff00;stroke:#808080" />
+        </g>
+        <g
+           id="Line_115"
+           style="fill:#ffff00;stroke:#808080">
+          <line
+             x1="112.15385"
+             y1="330.75"
+             x2="144.86538"
+             y2="265.32692"
+             stroke="black"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="2"
+             id="line3349"
+             style="fill:#ffff00;stroke:#808080" />
+        </g>
+        <g
+           id="Line_114"
+           style="fill:#ffff00;stroke:#808080">
+          <line
+             x1="60.75"
+             y1="279.34615"
+             x2="126.17308"
+             y2="246.63462"
+             stroke="black"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="2"
+             id="line3352"
+             style="fill:#ffff00;stroke:#808080" />
+        </g>
+        <g
+           id="Line_113"
+           style="fill:#ffff00;stroke:#808080">
+          <line
+             x1="252.34615"
+             y1="330.75"
+             x2="219.63462"
+             y2="265.32692"
+             stroke="black"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="2"
+             id="line3355"
+             style="fill:#ffff00;stroke:#808080" />
+        </g>
+        <g
+           id="Line_112"
+           style="fill:#ffff00;stroke:#808080">
+          <line
+             x1="303.75"
+             y1="279.34615"
+             x2="238.32692"
+             y2="246.63462"
+             stroke="black"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="2"
+             id="line3358"
+             style="fill:#ffff00;stroke:#808080" />
+        </g>
+      </g>
+    </g>
+  </g>
+  <metadata
+     id="metadata3889">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>heraldicart.org</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

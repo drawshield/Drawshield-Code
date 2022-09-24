@@ -296,6 +296,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'paws? ?prints?', 'animal/paw-print' ),
       // snakes and stuff
       array ( '(asp|serpent)s?', 'serpent/serpent' ),
+       array ( '(asp|serpent)s? in ann?ull?o', 'serpent/serpent-in-annulo' ),
       array ( 'snakes?', 'serpent/snake' ),
       array ( 'cobras?', 'serpent/cobra' ),
       array ( 'p[iy]thons?', 'serpent/pithon' ),
@@ -962,6 +963,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'welsh dragons?', 'dragon/welsh-dragon' ),
        array ( 'tudor dragons?', 'dragon/tudor-dragon?P' ),
       array ( 'dragons?', 'dragon/dragon' ),
+       array ( 'dragons? in ann?ull?o', 'dragon/dragon-in-annulo' ),
       array ( 'w[yi]vern?s?', 'dragon/wyvern' ),
       // mythical / stylised creatures
       array ( 'minotaurs?', 'mythical/minotaur' ),
@@ -1323,6 +1325,7 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( '(star|shield)s? of david', 'emblem/star-of-david' ),
       array ( 'fleurs? de l(y|i)s', 'emblem/fleur-de-lys' ),
        array ( 'fleurs? de l(y|i)s florence', 'emblem/fleur-de-lys-florence' ),
+       array ( 'fleurs? de l(y|i)s quebec(ois)?', 'emblem/fleur-de-lys-quebec' ),
        array ( 'lily blossomed', 'emblem/fleur-de-lys-florence' ),
       array ( 'gozdawas?', 'emblem/fleur-de-lys-double' ),
       array ( 'heralds? (staff|stave|baton)s?', 'emblem/heralds-staff' ),
@@ -1360,8 +1363,12 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( '(gemel|gimmel) rings?', 'jewel/gemel-ring' ),
       array ( 'gimballs?', 'jewel/gemel-ring' ),
       array ( '?royal (orbs?|mounds?) ?royal', 'jewel/orb' ),
-      array ( 'rub(y|ies)', 'jewel/ruby' ),
+      array ( 'rub(y|ies)', 'jewel/ruby' ), // done
       array ( 'crystals?', 'jewel/crystal' ),
+       array ( '?hexagon(al)? ?cut gemstones?', 'jewel/gemstone' ), // done
+       array ( 'step cut gemstones?', 'jewel/step-cut-gemstone' ), // done
+       array ( 'indented gemstones?', 'jewel/indented-gemstone' ), // done
+       array ( '?cut gemstones? in profile', 'jewel/gemstone-in-profile' ), // done
       array ( 'diamonds?', 'jewel/crystal' ),
       array ( 'tor(c|que)s?', 'jewel/torque'),
       // retro sci-fi

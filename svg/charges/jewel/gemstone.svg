@@ -1,0 +1,864 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   viewBox="49.5 72 265.5 306"
+   width="265.5"
+   height="306"
+   id="svg4408"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs4432" />
+  <g
+     id="Gemstone,_Hexagonal"
+     stroke-opacity="1"
+     fill-opacity="1"
+     stroke-dasharray="none">
+    <title
+       id="title4198">Gemstone, Hexagonal</title>
+    <g
+       id="Gemstone,_Hexagonal_Layer_2"
+       style="fill:#ffff00;stroke:#808080">
+      <title
+         id="title4200">Layer 2</title>
+      <g
+         id="Group_675"
+         style="fill:#ffff00;stroke:#808080">
+        <g
+           id="Graphic_673"
+           style="fill:#ffff00;stroke:#808080">
+          <path
+             d="M 181.99923 372.8008 L 54.02069 298.9004 L 54.02069 151.0996 L 181.99923 77.19922 L 309.97778 151.0996 L 309.97778 298.9004 Z"
+             fill="#FFFFFF"
+             id="path4202"
+             style="fill:#ffff00;stroke:#808080" />
+          <path
+             d="M 181.99923 372.8008 L 54.02069 298.9004 L 54.02069 151.0996 L 181.99923 77.19922 L 309.97778 151.0996 L 309.97778 298.9004 Z"
+             stroke="black"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="2"
+             id="path4204"
+             style="fill:#ffff00;stroke:#808080" />
+        </g>
+        <g
+           id="Group_669"
+           style="fill:#ffff00;stroke:#808080">
+          <g
+             id="Line_672"
+             style="fill:#ffff00;stroke:#808080">
+            <line
+               x1="181.99923"
+               y1="372.44788"
+               x2="181.99923"
+               y2="77.55212"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width="2"
+               id="line4207"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_671"
+             style="fill:#ffff00;stroke:#808080">
+            <line
+               x1="54"
+               y1="298.72394"
+               x2="309.99847"
+               y2="151.27606"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width="2"
+               id="line4210"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_670"
+             style="fill:#ffff00;stroke:#808080">
+            <line
+               x1="54"
+               y1="151.27606"
+               x2="309.99847"
+               y2="298.72394"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width="2"
+               id="line4213"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+        </g>
+        <g
+           id="Group_674"
+           style="fill:#ffff00;stroke:#808080">
+          <g
+             id="Line_668"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 182.31484 342.43703 L 284.76582 283.3838 M 182.36934 342.2752 L 284.3606 283.572"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4217"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_667"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 181.96973 321.94776 L 267.17092 273.13473 M 182.0461 321.82368 L 266.72267 273.26115"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4220"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_666"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 181.48025 301.55057 L 248.22992 262.47173 M 181.53103 301.3834 L 247.78826 262.62406"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4223"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_665"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 182.84098 290.41783 L 239.55827 257.4142 M 182.9139 290.28828 L 239.1204 257.58596"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4226"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_664"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 181.93788 280.5946 L 231.0351 252.27177 M 181.9859 280.42155 L 230.6006 252.46237"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4229"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_663"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 182.21895 270.0853 L 222.51245 247.13024 M 182.289 269.94994 L 222.03426 247.2574"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4232"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_662"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 181.31957 260.2685 L 213.09626 241.7438 M 181.41118 260.17108 L 212.62475 241.8975"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4235"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_661"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 182.2354 249.39155 L 204.13 236.86028 M 182.30215 249.25063 L 203.66082 237.03034"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4238"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_660"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 182.06898 239.13337 L 195.46357 231.81218 M 182.1576 239.03023 L 194.99322 231.9921"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4241"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_659"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 182.07416 353.3666 L 293.30405 288.62048 M 182.13731 353.2203 L 292.8457 288.83633"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4244"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_658"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 181.53703 332.54475 L 275.96088 277.78102 M 181.62216 332.43615 L 275.45942 277.93575"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4247"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_657"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 182.27162 311.43207 L 257.62522 267.95957 M 182.33175 311.28004 L 257.12756 268.1338"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4250"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_656"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 181.66363 364.3879 L 302.43315 294.97417 M 181.7456 364.27365 L 301.9394 295.1683"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4253"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+        </g>
+        <g
+           id="Group_642"
+           style="fill:#ffff00;stroke:#808080">
+          <g
+             id="Line_654"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 280.7809 196.3413 L 280.91677 168.11823 M 280.84455 196.2474 L 281.00463 168.69058"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4257"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_653"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 262.86406 210.7981 L 263.10012 178.42603 M 262.8776 210.70375 L 263.11278 179.00447"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4260"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_652"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 244.946 220.05135 L 245.2842 188.6681 M 245.00317 219.9572 L 245.31468 189.25313"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4263"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_651"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 236.0013 223.58075 L 235.65823 193.84393 M 236.0084 223.488 L 235.7242 194.4366"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4266"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_650"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 227.03835 224.72646 L 226.799 198.84867 M 227.08908 224.6331 L 226.88372 199.44773"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4269"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_649"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 218.0808 226.955 L 217.94058 203.1034 M 218.08141 226.8618 L 217.9495 203.7095"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4272"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_648"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 209.12198 228.92336 L 209.08256 209.13454 M 209.16624 228.8297 L 209.10902 209.74691"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4275"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_647"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 200.16025 229.33066 L 200.22646 214.6525 M 200.24815 229.23688 L 200.26854 215.27115"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4278"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_646"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 290.1226 186.76677 L 290.28627 163.20557 M 290.1604 186.67263 L 290.3468 163.83089"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4281"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_645"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 271.82094 204.34568 L 272.08398 172.25016 M 271.90237 204.25183 L 272.1638 172.88225"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4284"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_644"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 253.90264 215.16 L 254.2681 183.4133 M 253.93397 215.06553 L 254.27197 184.05114"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4287"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_643"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 299.39316 175.7603 L 299.06595 156.68185 M 299.46813 175.66687 L 299.11117 157.32826"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4290"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+        </g>
+        <g
+           id="Group_629"
+           style="fill:#ffff00;stroke:#808080">
+          <g
+             id="Line_641"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 107.92971 296.46483 L 83.56288 282.37826 M 108.01083 296.39294 L 83.81075 282.39755"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4294"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_640"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 129.4086 288.17592 L 101.35188 272.12866 M 129.46493 288.14758 L 101.6161 272.13296"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4297"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_639"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 146.38193 277.28376 L 119.7334 262.22133 M 146.46007 277.21762 L 119.96773 262.29202"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4300"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_638"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 153.42554 271.01773 L 128.60142 256.40937 M 153.4778 270.9945 L 128.84886 256.4684"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4303"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_637"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 159.38414 264.1135 L 137.31902 251.2658 M 159.45868 264.05274 L 137.5831 251.30998"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4306"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_636"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 165.79942 257.45877 L 145.28463 246.1258 M 165.85048 257.4423 L 145.56738 246.15158"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4309"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_635"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 171.48968 250.41487 L 154.89415 240.7401 M 171.56095 250.3597 L 155.14281 240.83707"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4312"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_634"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 176.32244 242.8589 L 164.05562 235.85414 M 176.4157 242.766 L 164.3218 235.93543"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4315"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_633"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 94.969 299.76438 L 74.42519 288.15102 M 95.0376 299.71512 L 74.70787 288.2172"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4318"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_632"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 119.33757 292.71458 L 91.96497 276.5567 M 119.42753 292.62726 L 92.26063 276.61234"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4321"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_631"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 137.17608 282.32112 L 110.4946 266.73494 M 137.24079 282.27708 L 110.8069 266.77552"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4324"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_630"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 80.31941 302.0005 L 64.51285 292.8609 M 80.40619 301.9188 L 64.7947 292.96746"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4327"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+        </g>
+        <g
+           id="Group_616"
+           style="fill:#ffff00;stroke:#808080">
+          <g
+             id="Line_628"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 265.47395 142.0186 L 279.3862 133.55987 M 265.5571 141.90742 L 279.22365 133.57659"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4331"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_627"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 246.0529 132.77617 L 261.78998 123.5622 M 246.11103 132.62158 L 261.6301 123.59549"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4334"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_626"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 228.87515 122.05466 L 244.02525 113.46703 M 228.95566 121.93754 L 243.8216 113.43608"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4337"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_625"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 220.7003 116.5931 L 235.2946 107.83114 M 220.75443 116.43337 L 235.09735 107.82839"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4340"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_624"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 213.36858 110.67047 L 226.6119 102.97958 M 213.4456 110.5479 L 226.41777 102.99343"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4343"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_623"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 206.26902 104.61541 L 217.92983 98.1293 M 206.32221 104.44875 L 217.7378 98.15872"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4346"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_622"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 199.0705 98.34605 L 208.9861 92.3683 M 199.1437 98.21823 L 208.80329 92.42839"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4349"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_621"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 192.50398 91.8339 L 200.17995 87.44726 M 192.55312 91.6621 L 199.95138 87.44033"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4352"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_620"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 276.83193 146.0719 L 288.65797 139.11974 M 276.90224 145.93828 L 288.43503 139.13758"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4355"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_619"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 255.426 137.74978 L 270.8612 129.00683 M 255.51847 137.65376 L 270.6407 129.04046"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4358"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_618"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 237.52998 127.4105 L 253.04836 118.1269 M 237.59667 127.2715 L 252.83566 118.18875"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4361"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_617"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 288.84872 150.032 L 298.40863 144.47711 M 288.9379 149.9304 L 298.1984 144.55588"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4364"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+        </g>
+        <g
+           id="Group_603"
+           style="fill:#ffff00;stroke:#808080">
+          <g
+             id="Line_615"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 136.42707 214.9633 L 150.63816 206.52124 M 136.51288 214.8562 L 150.39099 206.56394"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4368"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_614"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 116.52318 206.0093 L 133.04231 196.52432 M 116.58424 205.8586 L 132.79748 196.58283"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4371"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_613"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 99.34327 195.2839 L 115.2782 186.43029 M 99.42633 195.17091 L 115.03528 186.50494"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4374"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_612"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 91.6534 189.53763 L 105.80002 181.54853 M 91.71169 189.38109 L 105.51634 181.56478"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4377"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_611"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 84.32968 183.6286 L 97.10969 175.93396 M 84.40874 183.51046 L 96.83398 175.98146"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4380"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_610"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 76.74313 177.85523 L 88.42811 171.08432 M 76.79748 177.6935 L 88.15449 171.14645"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4383"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_609"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 69.53132 171.56266 L 79.49439 166.09081 M 69.608256 171.43829 L 79.2212 166.16542"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4386"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_608"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 63.46675 164.79492 L 70.675216 160.39738 M 63.51621 164.62857 L 70.41495 160.50926"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4389"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_607"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 147.78711 219.01993 L 159.91111 212.08325 M 147.8603 218.89024 L 159.60294 212.1246"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4392"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_606"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 125.89454 210.97975 L 142.1143 201.9704 M 125.94385 210.806 L 141.80848 202.02757"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4395"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_605"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 108.00791 200.65642 L 123.54577 191.08078 M 108.07655 200.52193 L 123.25215 191.17662"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4398"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+          <g
+             id="Line_604"
+             style="fill:#ffff00;stroke:#808080">
+            <path
+               d="M 159.8099 222.9902 L 168.90452 217.42835 M 159.90144 222.89286 L 168.61514 217.5436"
+               stroke="black"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width=".75"
+               id="path4401"
+               style="fill:#ffff00;stroke:#808080" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <metadata
+     id="metadata4413">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>heraldicart.org</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>
