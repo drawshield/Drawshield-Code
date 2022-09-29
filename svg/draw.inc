@@ -160,22 +160,7 @@ function draw()
 
     $svgHeight = (int)($options['size'] * 1.2);
     $svgWidth = $options['size'];
- /*   if ($options['shape'] == "flag") {
-        $svgWidth = $options['printSize'];
-        $svgHeight = $svgWidth * $options['aspectRatio'];
-    } */
 
-    $header = '<?xml version="1.0" encoding="utf-8" ?>
-    <svg version="1.1"
-        baseProfile="full"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink" 
-         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-         xmlns:cc="http://creativecommons.org/ns#"
-         xmlns:dc="http://purl.org/dc/elements/1.1/" 
-        xmlns:blazonML="http://drawshield.net/blazonML" ' .
-        'preserveAspectRatio="xMidYMid meet" height="' . $svgHeight . '" width="' . $svgWidth;
-    $header .= '" viewBox="' . getEffect($effect, 'viewbox') . ' ">';
     $meta = '';
     $trailer = "</svg>\n";
     if ($options['palette'] == 'outline' || $options['palette'] == 'hatching') {
@@ -252,9 +237,10 @@ function draw()
             $body = addParts($body, $parts, $layout);
         }
     }
-
+    $versionSpace = 0;
     if (!$options['asFile']) {
         $body .= '<text id="test1" x="10" y="' . $y1Location . '" font-size="30" >' . $version['website'] . '</text><text id="release-id" x="990" y="' . $y1Location . '" text-anchor="end" font-size="30" >' . $version['release'] . '</text>';
+        $versionSpace = 60;
     }
     if ($effect != 'shiny') { // other effects are applied everywhere
         $body .= add_def();
@@ -271,13 +257,35 @@ function draw()
         require("hatching.inc");
         $extraDefs = mkHatches($options['addHatching']);
     }
+    $vbHeight = 1200;
     if ($options['shape'] == 'flag') { // need to scale tall flags to fit
         if ($options['aspectRatio'] > 1.18) {
-            $shrinkFactor = 1.18 / $options['aspectRatio'];
-            $shiftFactor = (1000 *  (1-$shrinkFactor)) / 2;
-            $body = "<g transform=\"translate($shiftFactor, 0) scale($shrinkFactor)\">$body</g>";
+            // $shrinkFactor = 1.18 / $options['aspectRatio'];
+            // $shiftFactor = (1000 *  (1-$shrinkFactor)) / 2;
+            // $body = "<g transform=\"translate($shiftFactor, 0) scale($shrinkFactor)\">$body</g>";
+            $svgHeight = $svgWidth * $options['aspectRatio'];
+            $vbHeight = 1000 * $options['aspectRatio'] + $versionSpace;
+        } elseif ($options['aspectRatio'] < 1.22 ) {
+            $svgHeight = $svgWidth * $options['aspectRatio'];
+            $vbHeight = 1000 * $options['aspectRatio'] + $versionSpace;
         }
     }
+    /*   if ($options['shape'] == "flag") {
+           $svgWidth = $options['printSize'];
+           $svgHeight = $svgWidth * $options['aspectRatio'];
+       } */
+
+    $header = '<?xml version="1.0" encoding="utf-8" ?>
+    <svg version="1.1"
+        baseProfile="full"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink" 
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:cc="http://creativecommons.org/ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/" 
+        xmlns:blazonML="http://drawshield.net/blazonML" ' .
+        'preserveAspectRatio="xMidYMid meet" height="' . $svgHeight . '" width="' . $svgWidth;
+    $header .= '" viewBox="' . getEffect($effect, 'viewbox' , 1000, $vbHeight ) . ' ">';
     $defs = '<defs>' . getEffect($effect, 'defs') . $extraDefs . '</defs>';
     return $header . $meta . $defs . $body . $trailer;
 }

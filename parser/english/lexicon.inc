@@ -947,7 +947,7 @@ class languageDB extends lexicon
                 array('lozenge throughout', 'vetu'),
                 array('lozenge in point', 'vetu'),
                 array('vetu', 'vetu'),
-                array('ent[ey] ?[ie]n ?point', 'enty'),
+                array('ent(e|y|ee) ?[ie]n ?point', 'enty'),
                 array('nordic cross', 'cross-nordic'),
                 array('point ?in (point|pointed|enty)', 'point-in-point'),
                 array('point dexter', 'point-dexter'),
