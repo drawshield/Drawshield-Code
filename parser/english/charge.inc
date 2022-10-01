@@ -401,6 +401,9 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'swords? of (st|saint) paul', 'sword/swordstpaul' ),
       array ( '(2|two) handed swords?', 'sword/arming-sword' ),
       array ( '?arming swords?', 'sword/arming-sword' ), // default sword
+       array ( 'broken swords?', 'sword/broken-sword' ),
+      array ('swords? cortana', 'sword/sword-cortana'),
+       array ('swords? fracted', 'sword/sword-fracted'),
       // hand projectile weapons
       array ( '(musket|pistol|potgun)s?', 'projectile/musket' ),
       array ( 'pot guns?', 'projectile/musket' ),
