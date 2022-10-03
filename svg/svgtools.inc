@@ -358,10 +358,11 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
     if (substr($id, 0, 8) == 'textPath') $item .= ' id="' . $id . '" '; // need this for the motto
     if ($id != null && substr($id, 0, 4) != 'path' && substr($id, 0, 5) != 'group') {
     // We allow multiple features with numeric flags at the end
-    $len = strlen($id);
+        $id = rtrim($id, "-0123456789");
+/*    $len = strlen($id);
     if ($len >= 2 && $id[$len-2] == '-' && ctype_digit($id[$len-1])) {
       $id = substr($id, 0, $len - 2);
-    }
+    } */
     if (array_key_exists($id, $featureColours)) { // this is a feature with a given colour
       $class = "feature $id";
       $item .= ' fill="' . $featureColours[$id] . '" ';
@@ -407,6 +408,8 @@ function getSvgFragment ($svg, $featureTinctures, $chargeGroup, $chargeName, $ex
     global $messages, $options;
     $retval = array();
 
+    $viewBoxTransform = "";
+
     $viewbox = $svg['viewBox'] ?? '0 0 100 100';
     list($x0,$y0,$x1,$y1) = preg_split('/[ ,]/',$viewbox);
     // safety checks in case of dodgy SVG
@@ -415,6 +418,15 @@ function getSvgFragment ($svg, $featureTinctures, $chargeGroup, $chargeName, $ex
     if (!is_numeric($x1)) $x1 = 100;
     if (!is_numeric($y1)) $y1 = 100;
 
+    // do we need to adapt for offset view box (e.g. traceable heraldic art)
+    if ( $x0 != 0 || $y0 != 0 )
+    {
+        $y1 -= $y0;
+        $x1 -= $x0;
+        $x0 *= -1;
+        $y0 *= -1;
+        $viewBoxTransform = "translate($x0,$y0)";
+    }
 
     $heightVal = $svg['height'] ?? $x1;
     if (substr($heightVal,-1) == '%')
@@ -440,12 +452,8 @@ function getSvgFragment ($svg, $featureTinctures, $chargeGroup, $chargeName, $ex
     $x0 += $bounding_box->left();
     $y0 += $bounding_box->top();
 
-    // do we need to adapt for offset view box (e.g. traceable heraldic art)
-    if ( $x0 != 0 || $y0 != 0 )
-    {
-        $x0 *= -1;
-        $y0 *= -1;
-        $fragment = "<g transform=\"translate($x0, $y0)\">$fragment</g>\n";
+    if ($viewBoxTransform != "") {
+        $fragment = "<g transform=\"$viewBoxTransform\">$fragment</g>\n";
     }
 
     $retval['body'] = $fragment;

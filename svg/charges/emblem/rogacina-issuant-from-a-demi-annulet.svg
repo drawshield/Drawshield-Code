@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     viewBox="33.75 60.33333 297 272.66667"
+     width="297"
+     height="272.66667"
+     preserveAspectRatio="xMidYMid meet"
+     zoomAndPan="magnify"
+     contentScriptType="application/ecmascript"
+     contentStyleType="text/css">
+   <defs/>
+   <metadata xmlns="" xmlns:svg="http://www.w3.org/2000/svg"
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:cc="http://creativecommons.org/ns#">
+      <rdf:RDF>
+         <cc:Work rdf:about="">
+            <dc:creator>
+               <cc:Agent>
+                  <dc:title>http://heraldicart.org Rogacina Issuant From A Demi-Annulet.svg</dc:title>
+               </cc:Agent>
+            </dc:creator>
+         </cc:Work>
+      </rdf:RDF>
+   </metadata>
+   <g stroke="#505050" fill="#ffff00" stroke-opacity="1" stroke-dasharray="none"
+      fill-opacity="1">
+      <title>Rogacina Issuant From A Demi-Annulet</title>
+      <g>
+         <title>Layer 2</title>
+         <g>
+            <path d="M 171.41667 110.20238 L 171.41667 236.8788 C 122.66726 241.8187 84.75 279.7045 84.75 325.70833 L 106.41667 325.70833 C 106.41667 288.31404 140.36846 258 182.25 258 C 224.13154 258 258.08333 288.31404 258.08333 325.70833 L 279.75 325.70833 C 279.75 279.7045 241.83274 241.8187 193.08333 236.8788 L 193.08333 110.20238 L 193.08333 109.23907 C 193.08333 109.23907 247.25 162.08372 252.66667 224.83673 C 279.75 201.7172 328.5 198.4144 328.5 198.4144 L 182.25 63 L 182.25 63 L 36 201.23554 C 36 201.23554 84.75 204.60714 111.83333 228.20833 C 117.25 164.14796 171.41667 110.20238 171.41667 110.20238 Z"/>
+            <path d="M 171.41667 110.20238 L 171.41667 236.8788 C 122.66726 241.8187 84.75 279.7045 84.75 325.70833 L 106.41667 325.70833 C 106.41667 288.31404 140.36846 258 182.25 258 C 224.13154 258 258.08333 288.31404 258.08333 325.70833 L 279.75 325.70833 C 279.75 279.7045 241.83274 241.8187 193.08333 236.8788 L 193.08333 110.20238 L 193.08333 109.23907 C 193.08333 109.23907 247.25 162.08372 252.66667 224.83673 C 279.75 201.7172 328.5 198.4144 328.5 198.4144 L 182.25 63 L 182.25 63 L 36 201.23554 C 36 201.23554 84.75 204.60714 111.83333 228.20833 C 117.25 164.14796 171.41667 110.20238 171.41667 110.20238 Z"
+                  stroke="black"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"/>
+         </g>
+      </g>
+   </g>
+</svg>
