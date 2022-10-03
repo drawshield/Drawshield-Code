@@ -154,6 +154,8 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
     if (substr($entry,-4) != '.svg') { continue; } // ignore non-svg files
     $filenameParts = preg_split('/(\.|-)/', $entry);
     $numFilenameParts = count($filenameParts) - 1; // last entry is 'svg', so ignore it
+      // if the final part is something like (1), (2) etc. ignore that too
+      if (preg_match("/([0-9])/",$filenameParts[$numFilenameParts])) $numFilenameParts -= 1;
     // Base name of the item MUST match
     if ($requiredParts[0] != $filenameParts[0]) { continue; }
 
@@ -223,6 +225,7 @@ function featuresThatAreAlsoMods($node) {
     'clasped',
     'collared',
     'jessant',
+      'jessed',
       'leathered',
     'voided',
     'holding-nut',

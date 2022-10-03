@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     viewBox="36 63 292.5 292.5"
+     width="292.5"
+     height="292.5"
+     preserveAspectRatio="xMidYMid meet"
+     zoomAndPan="magnify"
+     contentScriptType="application/ecmascript"
+     contentStyleType="text/css">
+   <defs/>
+   <metadata xmlns="" xmlns:svg="http://www.w3.org/2000/svg"
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:cc="http://creativecommons.org/ns#">
+      <rdf:RDF>
+         <cc:Work rdf:about="">
+            <dc:creator>
+               <cc:Agent>
+                  <dc:title>http://heraldicart.org Cross Alisée.svg</dc:title>
+               </cc:Agent>
+            </dc:creator>
+         </cc:Work>
+      </rdf:RDF>
+   </metadata>
+   <g stroke="#505050" fill="#ffff00" stroke-opacity="1" stroke-dasharray="none"
+      fill-opacity="1">
+      <title>Cross Alisée</title>
+      <g>
+         <title>Art</title>
+         <g>
+            <path d="M 304.3002 285.7041 C 318.20765 263.54914 326.24984 237.33877 326.24977 209.25 C 326.24984 181.16123 318.20765 154.95086 304.3002 132.7959 L 195.52532 195.97468 L 258.7041 87.19979 C 236.54914 73.29235 210.33877 65.25016 182.25 65.25023 C 154.16123 65.25016 127.95086 73.29235 105.79589 87.19979 L 168.97468 195.97468 L 60.199786 132.7959 C 46.292346 154.95086 38.25016 181.16123 38.25023 209.25 C 38.25016 237.33877 46.292346 263.54914 60.199786 285.7041 L 168.97468 222.52532 L 105.79589 331.3002 C 127.95086 345.20765 154.16123 353.24984 182.25 353.24977 C 210.33877 353.24984 236.54914 345.20765 258.7041 331.3002 L 195.52532 222.52532 Z"/>
+            <path d="M 304.3002 285.7041 C 318.20765 263.54914 326.24984 237.33877 326.24977 209.25 C 326.24984 181.16123 318.20765 154.95086 304.3002 132.7959 L 195.52532 195.97468 L 258.7041 87.19979 C 236.54914 73.29235 210.33877 65.25016 182.25 65.25023 C 154.16123 65.25016 127.95086 73.29235 105.79589 87.19979 L 168.97468 195.97468 L 60.199786 132.7959 C 46.292346 154.95086 38.25016 181.16123 38.25023 209.25 C 38.25016 237.33877 46.292346 263.54914 60.199786 285.7041 L 168.97468 222.52532 L 105.79589 331.3002 C 127.95086 345.20765 154.16123 353.24984 182.25 353.24977 C 210.33877 353.24984 236.54914 345.20765 258.7041 331.3002 L 195.52532 222.52532 Z"
+                  stroke="black"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"/>
+         </g>
+      </g>
+   </g>
+</svg>

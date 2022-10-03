@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xl="http://www.w3.org/1999/xlink"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     viewBox="35 98 232 232"
+     width="232"
+     height="232"
+     preserveAspectRatio="xMidYMid meet"
+     zoomAndPan="magnify"
+     contentScriptType="application/ecmascript"
+     contentStyleType="text/css">
+   <defs/>
+   <metadata xmlns="" xmlns:svg="http://www.w3.org/2000/svg"
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:cc="http://creativecommons.org/ns#">
+      <rdf:RDF>
+         <cc:Work rdf:about="">
+            <dc:creator>
+               <cc:Agent>
+                  <dc:title>http://heraldicart.org Vair Bell.svg</dc:title>
+               </cc:Agent>
+            </dc:creator>
+         </cc:Work>
+      </rdf:RDF>
+   </metadata>
+   <metadata> Produced by OmniGraffle 7.11.5 
+    <dc:date>2021-04-11 19:08:24 +0000</dc:date>
+  </metadata>
+   <g fill-opacity="1" fill="#ffff00" stroke-dasharray="none" stroke="#505050"
+      stroke-opacity="1">
+      <title>Vair Bell</title>
+      <g>
+         <title>Layer 2</title>
+         <g>
+            <path d="M 39.414214 325.0858 L 92.78921 271.7108 C 93.16429 271.3357 93.375 270.827 93.375 270.29657 L 93.375 157.20343 C 93.375 156.673 93.58571 156.16429 93.96079 155.78921 L 149.33579 100.41421 C 150.11684 99.63316 151.38316 99.63316 152.16421 100.41421 C 152.16421 100.41421 152.16421 100.41421 152.16421 100.41421 L 207.53921 155.78921 C 207.91429 156.16429 208.125 156.673 208.125 157.20343 L 208.125 270.29657 C 208.125 270.827 208.33571 271.3357 208.71079 271.7108 L 262.0858 325.0858 C 262.86684 325.86684 262.86684 327.13316 262.0858 327.9142 C 261.7107 328.2893 261.202 328.5 260.67157 328.5 L 40.828427 328.5 C 39.723858 328.5 38.828427 327.60457 38.828427 326.5 C 38.828427 325.96957 39.03914 325.46086 39.414214 325.0858 Z"
+                  fill="#f5f5f5"/>
+            <path d="M 39.414214 325.0858 L 92.78921 271.7108 C 93.16429 271.3357 93.375 270.827 93.375 270.29657 L 93.375 157.20343 C 93.375 156.673 93.58571 156.16429 93.96079 155.78921 L 149.33579 100.41421 C 150.11684 99.63316 151.38316 99.63316 152.16421 100.41421 C 152.16421 100.41421 152.16421 100.41421 152.16421 100.41421 L 207.53921 155.78921 C 207.91429 156.16429 208.125 156.673 208.125 157.20343 L 208.125 270.29657 C 208.125 270.827 208.33571 271.3357 208.71079 271.7108 L 262.0858 325.0858 C 262.86684 325.86684 262.86684 327.13316 262.0858 327.9142 C 261.7107 328.2893 261.202 328.5 260.67157 328.5 L 40.828427 328.5 C 39.723858 328.5 38.828427 327.60457 38.828427 326.5 C 38.828427 325.96957 39.03914 325.46086 39.414214 325.0858 Z"
+                  stroke="black"
+                  stroke-linecap="round"
+                  stroke-linejoin="miter"
+                  stroke-width="2"/>
+         </g>
+      </g>
+   </g>
+</svg>

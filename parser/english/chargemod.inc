@@ -74,6 +74,7 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
      'shelled', 'tied', 'headed', // NOT heads
      'drooping', 'voided', 'beaded', 'ringed', 'masonry',
      array ( 'leather(s|ed)?', 'leathered'),
+       array ( 'jessed?', 'jessed' ),
      array ( 'pole(s|d)?', 'pole'),
        array ( 'portal(s|ed)?', 'portal'),
      array ( 'cuff(s|ed)?', 'cuff'),
@@ -341,7 +342,6 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
       array ( 'r?e?verted', 'reflexed' ),
       array ( 'radiant|rayonne|irradiated', 'radiant' ),
       array ( '(open|expanded|extended|overt)', 'open' ), // CAUTION needs to match prefix open
-      array ( 'jessed?', 'jessed' ),
       array ( 'in increment', 'increscent' ),
       array ( 'guarde?d?', 'guarded' ),
       array ( 'doubl(ed|ing)', 'doubled' ),
