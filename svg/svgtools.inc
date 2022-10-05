@@ -358,7 +358,8 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
     if (substr($id, 0, 8) == 'textPath') $item .= ' id="' . $id . '" '; // need this for the motto
     if ($id != null && substr($id, 0, 4) != 'path' && substr($id, 0, 5) != 'group') {
     // We allow multiple features with numeric flags at the end
-        $id = rtrim($id, "-0123456789");
+        $id = rtrim($id, "0123456789");
+        $id = rtrim($id, "-");
 /*    $len = strlen($id);
     if ($len >= 2 && $id[$len-2] == '-' && ctype_digit($id[$len-1])) {
       $id = substr($id, 0, $len - 2);
