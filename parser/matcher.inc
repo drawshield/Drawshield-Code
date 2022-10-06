@@ -132,7 +132,43 @@ class matcher {
   //   }
   //   return false;
   // }
-  
+
+    public function searchMatch2 ( $patterns ) {
+        global $trace;
+        $this->matchedvalue = null;
+
+        if ( $trace ) echo "<p>$patterns</p>\n"; // DEBUG
+
+        $first_token = $this->tokenList->cur_word;
+        if ( $first_token >= $this->tokenList->num_tokens ) return null;
+        $max_match = 0;
+        $match = null;
+        $terms = $this->patternDB->getPatterns($patterns);
+        if ($terms == null ) {
+            $this->errors[] = 'Bad search pattern - ' . $patterns;
+            return null;
+        }
+        foreach ($terms as $term) {
+            $term = ltrim($term);
+            if ($term == '' || $term[0] == '#') continue;
+            list($searchTerm,$keyTerm) = preg_split('/=/',$term);
+            if ($keyTerm == '') $keyTerm = $searchTerm;
+            if ( ( $count = self::check_match($searchTerm)) ) {
+                if ( $count > $max_match ) {
+                    $max_match = $count;
+                    $match = $keyTerm;
+                    $this->matchedValue = $this->value;
+                }
+            }
+        }
+        if ( $match != null ) {
+            $match = trim($match);
+            if ( $trace ) echo "<p>FOUND $match</p>\n"; // DEBUG
+            $this->tokenList->cur_word = $max_match;
+        }
+        return $match;
+    }
+
   public function searchMatch ( $patterns ) {
     global $trace;
     $this->matchedvalue = null;
@@ -157,7 +193,6 @@ class matcher {
     // } // Otherwise, carry out normal search routine
     $max_match = 0;
     $match = null;
-    $max_word = null;
     $terms = $this->patternDB->getPatterns($patterns);
     if ($terms == null ) { 
       $this->errors[] = 'Bad search pattern - ' . $patterns;

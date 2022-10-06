@@ -173,7 +173,7 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
         // Some things we don't really care about
           // english is the default tradition, so no worries if it is not found
         if (!in_array($requiredParts[$i], array('english', 'voided', 'upper', 'lower', 'half', 'demi',
-            'winged', 'entire', 'head', 'leg', 'reversed', 'inverted' ))) {
+            'winged', 'entire', 'head', 'leg', 'reversed', 'inverted', 'slipped', 'leaved' ))) {
           $missing .= $requiredParts[$i] . ' ';
         }
       }
@@ -223,6 +223,8 @@ function featuresThatAreAlsoMods($node) {
     'claw',
     'leg',
     'clasped',
+    'slipped',
+    'leaved',
     'collared',
     'jessant',
       'jessed',
