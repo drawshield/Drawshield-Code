@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     viewBox="36 90 292.5 288"
+     width="292.5"
+     height="288"
+     preserveAspectRatio="xMidYMid meet"
+     zoomAndPan="magnify"
+     contentScriptType="application/ecmascript"
+     contentStyleType="text/css">
+   <defs/>
+   <metadata xmlns="" xmlns:svg="http://www.w3.org/2000/svg"
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:cc="http://creativecommons.org/ns#">
+      <rdf:RDF>
+         <cc:Work rdf:about="">
+            <dc:creator>
+               <cc:Agent>
+                  <dc:title>http://heraldicart.org Geranium Flower.svg</dc:title>
+               </cc:Agent>
+            </dc:creator>
+         </cc:Work>
+      </rdf:RDF>
+   </metadata>
+   <g stroke="#505050" fill="#ffff00" stroke-opacity="1" stroke-dasharray="none"
+      fill-opacity="1">
+      <title>Geranium Flower</title>
+      <g>
+         <title>Layer 2</title>
+         <g>
+            <g>
+               <path d="M 251.06907 144.83854 C 246.92213 110.75055 224.11154 93.99619 181.9946 93.99628 C 141.0602 93.99619 118.36322 109.8229 113.31358 142.00817 C 81.28592 136.3506 58.96135 152.664 45.64695 191.33212 C 32.12012 230.6166 40.126805 257.4447 69.991854 272.58082 C 53.75638 301.7983 62.1356 328.49117 95.2872 353.47257 C 128.46894 378.4769 156.45817 379.15245 180.0823 355.42643 C 202.85274 379.89597 230.82848 380.1754 264.83162 356.36604 C 298.8659 332.5351 308.1575 306.1245 292.89298 276.3249 C 323.20135 262.23043 332.1121 235.71026 319.9756 196.01385 C 307.6509 155.7013 284.93 138.79169 251.06907 144.83853 Z"/>
+               <path d="M 251.06907 144.83854 C 246.92213 110.75055 224.11154 93.99619 181.9946 93.99628 C 141.0602 93.99619 118.36322 109.8229 113.31358 142.00817 C 81.28592 136.3506 58.96135 152.664 45.64695 191.33212 C 32.12012 230.6166 40.126805 257.4447 69.991854 272.58082 C 53.75638 301.7983 62.1356 328.49117 95.2872 353.47257 C 128.46894 378.4769 156.45817 379.15245 180.0823 355.42643 C 202.85274 379.89597 230.82848 380.1754 264.83162 356.36604 C 298.8659 332.5351 308.1575 306.1245 292.89298 276.3249 C 323.20135 262.23043 332.1121 235.71026 319.9756 196.01385 C 307.6509 155.7013 284.93 138.79169 251.06907 144.83853 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="3"/>
+            </g>
+            <g>
+               <g>
+                  <path d="M 178.39036 221.66542 C 178.39036 221.66542 174.37804 197.71442 155.71097 175.16579 C 137.0439 152.61715 112.5 142.07404 112.5 142.07404"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1"/>
+               </g>
+               <g>
+                  <path d="M 178.39036 221.66542 C 178.39036 221.66542 174.37804 197.71442 155.71097 175.16579 C 137.0439 152.61715 112.5 142.07404 112.5 142.07404"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1"/>
+               </g>
+            </g>
+            <g>
+               <g>
+                  <path d="M 195.86124 231.26054 C 195.86124 231.26054 217.40012 220.04333 233.0767 195.32199 C 248.7533 170.60064 251.1959 144 251.1959 144"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1"/>
+               </g>
+               <g>
+                  <path d="M 195.86124 231.26054 C 195.86124 231.26054 217.40012 220.04333 233.0767 195.32199 C 248.7533 170.60064 251.1959 144 251.1959 144"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1"/>
+               </g>
+            </g>
+            <g>
+               <g>
+                  <path d="M 193.5 249.10438 C 193.5 249.10438 210.82408 266.12276 239.1798 273.39276 C 267.53554 280.66277 293.58906 274.76578 293.58906 274.76578"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1"/>
+               </g>
+               <g>
+                  <path d="M 193.5 249.10438 C 193.5 249.10438 210.82408 266.12276 239.1798 273.39276 C 267.53554 280.66277 293.58906 274.76578 293.58906 274.76578"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1"/>
+               </g>
+            </g>
+            <g>
+               <g>
+                  <path d="M 173.72589 251.53484 C 173.72589 251.53484 162.89388 273.27 164.7421 302.48444 C 166.59032 331.6989 180.24966 354.655 180.24966 354.655"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1"/>
+               </g>
+               <g>
+                  <path d="M 173.72589 251.53484 C 173.72589 251.53484 162.89388 273.27 164.7421 302.48444 C 166.59032 331.6989 180.24966 354.655 180.24966 354.655"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1"/>
+               </g>
+            </g>
+            <g>
+               <g>
+                  <path d="M 165.14783 235.71097 C 165.14783 235.71097 141.1292 232.12565 113.91573 242.91117 C 86.70226 253.6967 69.09068 273.78133 69.09068 273.78133"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1"/>
+               </g>
+               <g>
+                  <path d="M 165.14783 235.71097 C 165.14783 235.71097 141.1292 232.12565 113.91573 242.91117 C 86.70226 253.6967 69.09068 273.78133 69.09068 273.78133"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1"/>
+               </g>
+            </g>
+            <g>
+               <circle cx="182.05067" cy="238.24037" r="20.4493582439853" fill="#ff0000"/>
+               <circle cx="182.05067" cy="238.24037" r="20.4493582439853" stroke="black"
+                       stroke-linecap="round"
+                       stroke-linejoin="round"
+                       stroke-width="2"/>
+            </g>
+         </g>
+      </g>
+   </g>
+</svg>
