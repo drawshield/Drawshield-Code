@@ -691,7 +691,7 @@ class englishGrammar extends grammar
         }
         $charge = $this->schema->makeNode(blazonML::E_CHARGE, array(blazonML::A_NUMBER => "$chgNum"), self::tokens(), self::lineNo());
         // Look for words indicating a multiple charge (e.g. "2 bundles of arrows")
-        if ($keyterm = self::find(languageDB::BUNDLE)) {
+        if ($keyterm = self::find2(languageDB::BUNDLE)) {
             // Is the number made explicit?
             $num = self::find(languageDB::NUMBER);
             if (!$num) $num = ($keyterm == 'pair') ? '2' : '3';
@@ -707,7 +707,7 @@ class englishGrammar extends grammar
         }
         // Now look for actual charges
         // TODO in herald knowledge replace special/same
-        if (($keyterm = self::find(languageDB::CHARGE_NOT_ORDINARY)) or (($keyterm = self::find(languageDB::ORDINARY_OR_CHARGE)) and $chgNum > 1) or ($keyterm = self::find(languageDB::CHARGE))) {
+        if (($keyterm = self::find2(languageDB::CHARGE_NOT_ORDINARY)) or (($keyterm = self::find(languageDB::ORDINARY_OR_CHARGE)) and $chgNum > 1) or ($keyterm = self::find2(languageDB::CHARGE))) {
             // don't care if no flags
             list($keyterm, $flags) = explode('?', $keyterm . '?');
             $charge->setAttribute(blazonML::A_KEYTERM, $keyterm);
@@ -747,7 +747,7 @@ class englishGrammar extends grammar
         }
 
         // Look for bundle again (e.g. "two arrow bundles"
-        if ($keyterm = self::find(languageDB::BUNDLE))
+        if ($keyterm = self::find2(languageDB::BUNDLE))
             $mods[] = $this->schema->makeMod(languageDB::BUNDLE, null, $keyterm, self::tokens(), self::lineNo());
         // Now look for postfix stuff, including tinctures and arrangements
         $foundTinc = false;
@@ -761,7 +761,7 @@ class englishGrammar extends grammar
             // self::ignore(languageDB::ANDD);
             // self::ignore(languageDB::WITH);
             self::ignore(languageDB::GROUP);
-            if ($keyterm = self::find(languageDB::CHARGE_MODS))
+            if ($keyterm = self::find2(languageDB::CHARGE_MODS))
                 $mods[] = $this->schema->makeMod(languageDB::CHARGE_MODS, $this->phraseMatcher->getValue(), $keyterm, self::tokens(), self::lineNo());
             elseif ($crowns = self::getCrowns($foundTinc))
                 $mods[] = $crowns;
@@ -796,7 +796,7 @@ class englishGrammar extends grammar
                     $mods[] = $tinc;
                     $foundTinc = true;
                 }
-            } elseif ($keyterm = self::find(languageDB::CHARGE_FEATURES)) {
+            } elseif ($keyterm = self::find2(languageDB::CHARGE_FEATURES)) {
                 $feature = $this->schema->makeMod(blazonML::V_FEATURE, null, $keyterm, self::tokens(), self::lineNo());
                 if (($foundTinc || $always_proper) && ($tinc = self::tincture()))
                     $feature->appendChild($tinc);
@@ -1223,7 +1223,7 @@ class englishGrammar extends grammar
             }
         }
         // Check that there is no confusion with charges that look a bit like ordinaries
-        if (self::find(languageDB::CHARGE_NOT_ORDINARY)) {
+        if (self::find2(languageDB::CHARGE_NOT_ORDINARY)) {
             self::restore($state);
             return null;
         }
@@ -1244,7 +1244,7 @@ class englishGrammar extends grammar
             }
             $keyterm = $type;
         } // check if found something earlier, or actually have a nice easy ordinary...
-        if (($keyterm != null) or ($keyterm = self::find(languageDB::ORDINARY))) {
+        if (($keyterm != null) or ($keyterm = self::find2(languageDB::ORDINARY))) {
             $ord->setAttribute(blazonML::A_KEYTERM, $keyterm);
             $ord->setAttribute(blazonML::A_NUMBER, "$ordNum");
             $ord->setAttribute(blazonML::A_TOKENS, self::tokens());
@@ -1573,21 +1573,21 @@ class englishGrammar extends grammar
         // if a colour set is enabled, those colours OVERRIDE heraldic colours
         if (!$heraldicOnly) {
             if ( $options['useTartanColours'])
-                $keyterm = self::find(languageDB::TARTANCOLS);
+                $keyterm = self::find2(languageDB::TARTANCOLS);
             if ($keyterm == null && $options['useWebColours'])
-                $keyterm = self::find(languageDB::WEBCOLS);
+                $keyterm = self::find2(languageDB::WEBCOLS);
             if ($keyterm == null && $options['useWarhammerColours'])
-                $keyterm = self::find(languageDB::WHCOLS);
+                $keyterm = self::find2(languageDB::WHCOLS);
         }
         if ($keyterm == null)
             $keyterm = self::find(languageDB::COLOUR);
         // If not enabled, we still search for them, but AFTER heraldic colours
         if ($keyterm == null && !$options['useTartanColours'])
-            $keyterm = self::find(languageDB::TARTANCOLS);
+            $keyterm = self::find2(languageDB::TARTANCOLS);
         if ($keyterm == null && !$options['useWebColours'])
-            $keyterm = self::find(languageDB::WEBCOLS);
+            $keyterm = self::find2(languageDB::WEBCOLS);
         if ($keyterm == null && !$options['useWarhammerColours'])
-            $keyterm = self::find(languageDB::WHCOLS);
+            $keyterm = self::find2(languageDB::WHCOLS);
         // FFS! Have we found anything yet? If not, give up
         if ($keyterm == null) {
             self::restore($state);
@@ -2177,7 +2177,7 @@ class englishGrammar extends grammar
                 foreach ($adjust as $adj) {
                     $mottoNode->appendChild($adj);
                 }
-            } elseif ($keyterm = self::find(languageDB::CHARGE_MODS)) {
+            } elseif ($keyterm = self::find2(languageDB::CHARGE_MODS)) {
                     $mottoNode->appendChild($this->schema->makeMod(languageDB::CHARGE_MODS,
                         $this->phraseMatcher->getValue(), $keyterm, self::tokens(), self::lineNo()));
             } else {
@@ -2266,7 +2266,7 @@ class englishGrammar extends grammar
           $treat->appendChild($tinc1);
           self::ignore(languageDB::ANDD);
           // Some treatments only require one tincture
-          if ( !in_array( $keyterm, array ( 'bezanty', 'hurty', 'platy' ))) {
+          if ( !in_array( $keyterm, array ( 'bezanty', 'hurty', 'platy', 'guzy', 'pommy', 'torty' ))) {
             $tinc2 = self::tincture(!$grady);
             if ($tinc2 != null) {
               $tinc2->setAttribute(blazonML::A_INDEX, '2');

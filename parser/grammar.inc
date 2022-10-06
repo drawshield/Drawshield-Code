@@ -101,6 +101,7 @@ abstract class grammar  {
   // shorthand functions to make code read better
   protected function ignore ( $key ) { $this->phraseMatcher->searchMatch($key); }
   protected function find ( $key ) { return $this->phraseMatcher->searchMatch($key); }
+    protected function find2 ( $key ) { return $this->phraseMatcher->searchMatch2($key); }
   protected function tokens () { return $this->phraseMatcher->getMatchedTokens(); }
   protected function lineNo () { return $this->phraseMatcher->getLineNo(); }
   protected function lookAhead ( $offset ) { $this->phraseMatcher->lookahead( $offset ); }
