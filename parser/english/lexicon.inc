@@ -1243,9 +1243,9 @@ class languageDB extends lexicon
                 array('in (a|the) * (font|face|style|script)', 'font'),
             ),
         );
-        $this->patterns[languageDB::CHARGE] = file("parser/english/charge.txt");
-        $this->patterns[languageDB::CHARGE_NOT_ORDINARY] = file("parser/english/charge-not-ordinary.txt");
-        $this->patterns[languageDB::CHARGE_MODS] = file("parser/english/charge-mods.txt");
+        $this->patterns[languageDB::CHARGE] = file("parser/english/charge.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $this->patterns[languageDB::CHARGE_NOT_ORDINARY] = file("parser/english/charge-not-ordinary.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $this->patterns[languageDB::CHARGE_MODS] = file("parser/english/charge-mods.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         include "chargemod.inc";
         include "web-colours.inc";
         include "warhammer-colours.inc";
