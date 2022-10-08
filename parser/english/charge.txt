@@ -150,6 +150,7 @@ mol(diwarp|e)s?=wildlife/mole
 bears? and ragged sta(ff|ve)s?=bear/bear-ragged-staff
 otters?=wildlife/otter
 jerboas?=animal/jerboa
+chameleons?=animal/chameleon
      # lions
 lions?=lion/lion
 (snow|tibetan) lions?=lion/snow-lion
@@ -194,6 +195,7 @@ bengal t(i|y)gers?=animal/tiger-natural
 springboks?=animal/springbok
 scorpions?=animal/scorpion
 camels?=animal/camel
+bactrian camels?=animal/bactrian-camel
 bisons?=animal/bison
 buffaloe?s??=animal/bison
 frogs?=animal/frog
@@ -924,6 +926,7 @@ dragons? in ann?ull?o=dragon/dragon-in-annulo
 w[yi]vern?s?=dragon/wyvern
      # mythical / stylised creatures
 minotaurs?=mythical/minotaur
+allocameluse?s?=mythical/allocamelus
 deer goats?=mythical/deer-goat
 ?worms? ou?rou?boro(i|s|ses)=mythical/ouroboros
 lion goats?=mythical/lion-goat
@@ -974,6 +977,9 @@ melusines?=mythical/melusine
 panthers?=mythical/panther
 ounces?=mythical/panther
 krakens?=mythical/kraken
+bog beasts=mythical/bog-beast
+calygreyhounds?=mythical/calygreyhound
+chimeras?=mythical/chimera
     # utensils (and crockery)
 ?water b(ou|ed)gets?=utensil/water-bouget
 dossers?=utensil/water-bouget
