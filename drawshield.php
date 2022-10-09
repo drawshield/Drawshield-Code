@@ -36,8 +36,6 @@ $xpath = null;
  */
 $messages = null;
 
-$spareRoom = str_repeat('*', 1024 * 1024);
-
 //
 // Argument processing
 //
@@ -88,18 +86,6 @@ if (isset($request['customPalette']) && is_array($request['customPalette'])) $op
 
 $options['blazon'] = preg_replace("/&#?[a-z0-9]{2,8};/i","",$options['blazon']); // strip all entities.
 $options['blazon'] = preg_replace("/\\x[0-9-a-f]{2}/i","",$options['blazon']); // strip all entities.
-
- register_shutdown_function(function()
-    {
-        global $options, $spareRoom;
-        $spareRoom = null;
-        if ((!is_null($err = error_get_last()))  
-              && (!in_array($err['type'], array (E_NOTICE, E_WARNING))) // comment this line to get all
-               )
-        {
-           error_log($err['message'] . " (" . $err['type'] . ") at " . $err['file'] . ":" . $err['line'] . ' - ' ); // . $options['blazon']);
-        }
-    });
 
 // Quick response for empty blazon
 if ( $options['blazon'] == '' ) {
@@ -197,7 +183,7 @@ function report_errors_svg($errno, $errstr, $errfile, $errline)
     return false;
 }
 
-if (array_key_exists('HTTP_REFERER',$_SERVER) && strpos($_SERVER["HTTP_REFERER"], "demopage.php") !== false )
+// if (array_key_exists('HTTP_REFERER',$_SERVER) && strpos($_SERVER["HTTP_REFERER"], "demopage.php") !== false )
     set_error_handler("report_errors_svg");
 
 $output = draw();
