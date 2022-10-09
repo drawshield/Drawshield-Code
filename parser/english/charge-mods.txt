@@ -30,7 +30,7 @@ aversant=
 
 ayrant=
 baillone=
-bi corporate=
+bi corporate=bi-corporate
 cantoned=
 cloue=
 

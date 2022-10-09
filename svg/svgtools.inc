@@ -329,7 +329,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
     $extras, $strokeCol, $strokeWidth, ShieldRect &$bounding_box, $fillSet = false ) {
     $name = $element->getName();
     if ( $name == "image" )
-        return $element->asXML();
+        return null;
     if ( in_array($name, array( 'metadata', 'defs', 'title' ) ))
         return null;
     if (( strpos($name,'sodipodi:') !== false ) or (strpos($name,'inkscape:') !== false ))
