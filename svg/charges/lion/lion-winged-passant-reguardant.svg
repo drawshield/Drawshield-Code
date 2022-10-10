@@ -31,8 +31,8 @@
          <title>Layer 2</title>
          <g>
             <g>
-               <g xmlns="" id="outline-0">
-                  <path xmlns="http://www.w3.org/2000/svg"
+               <g  id="outline-0">
+                  <path
                         d="M 269.56182 153.30436 L 216.47203 153.30436 L 93.34888 178.1549 L 95.60802 190.58018 L 213.08332 217.68986 L 237.93386 208.6533 Z"
                         fill="black"/>
                </g>

@@ -62,7 +62,11 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
 );
 
 // TODO Deal with all the stuff in _quadrate8.inc
-   $this->patterns[languageDB::CHARGE_FEATURES] = array ( 
+   $this->patterns[languageDB::CHARGE_FEATURES] = array (
+
+// generic (temporary) feature
+       'feature=',
+
      'crossed=',
  'fructed=',
  'beaked=',

@@ -151,8 +151,8 @@
                      stroke-width="1.5"/>
             </g>
             <g>
-               <g xmlns="" id="feature-0">
-                  <path xmlns="http://www.w3.org/2000/svg"
+               <g  id="feature-0">
+                  <path
                         d="M 187.49585 331.79017 L 177.00415 331.38256 L 182.45956 85.30267 Z"
                         fill="#ff0000"/>
                </g>
