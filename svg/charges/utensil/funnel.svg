@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     viewBox="49.5 67.5 265.5 342"
+     width="265.5"
+     height="342"
+     preserveAspectRatio="xMidYMid meet"
+     zoomAndPan="magnify"
+     contentScriptType="application/ecmascript"
+     contentStyleType="text/css">
+   <defs/>
+   <metadata  xmlns:svg="http://www.w3.org/2000/svg"
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:cc="http://creativecommons.org/ns#">
+      <rdf:RDF>
+         <cc:Work rdf:about="">
+            <dc:creator>
+               <cc:Agent>
+                  <dc:title>http://heraldicart.org Funnel.svg</dc:title>
+               </cc:Agent>
+            </dc:creator>
+         </cc:Work>
+      </rdf:RDF>
+   </metadata>
+   <g stroke="#505050" fill="#ffff00" stroke-opacity="1" stroke-dasharray="none"
+      fill-opacity="1">
+      <title>Funnel</title>
+      <g>
+         <title>Layer 2</title>
+         <g>
+            <g>
+               <path d="M 52.173765 104.20728 L 53.00537 105.70527 L 168.46709 313.6893 L 168.46709 403.93777 L 168.46855 403.93777 C 168.41618 404.78907 169.76134 405.6443 172.50402 406.2939 C 177.88658 407.5687 186.61342 407.5687 191.99598 406.2939 C 194.73866 405.6443 196.08382 404.78907 196.03145 403.93777 L 196.03291 403.93777 L 196.03291 313.6893 L 310.9596 106.66906 C 306.22167 112.57026 294.2095 118.2085 274.9231 122.77631 C 223.7888 134.88713 140.8838 134.88713 89.74949 122.77631 C 69.415534 117.9604 57.16749 111.95461 53.00537 105.70527 C 52.673735 105.20733 52.393435 104.70784 52.16447 104.20728 Z"/>
+               <path d="M 52.173765 104.20728 L 53.00537 105.70527 L 168.46709 313.6893 L 168.46709 403.93777 L 168.46855 403.93777 C 168.41618 404.78907 169.76134 405.6443 172.50402 406.2939 C 177.88658 407.5687 186.61342 407.5687 191.99598 406.2939 C 194.73866 405.6443 196.08382 404.78907 196.03145 403.93777 L 196.03291 403.93777 L 196.03291 313.6893 L 310.9596 106.66906 C 306.22167 112.57026 294.2095 118.2085 274.9231 122.77631 C 223.7888 134.88713 140.8838 134.88713 89.74949 122.77631 C 69.415534 117.9604 57.16749 111.95461 53.00537 105.70527 C 52.673735 105.20733 52.393435 104.70784 52.16447 104.20728 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="2"/>
+            </g>
+            <g>
+               <ellipse cx="182.25" cy="100.76155" rx="130.937876512791" ry="31.0116023319768"
+                        fill="#ff0000"/>
+               <ellipse cx="182.25" cy="100.76155" rx="130.937876512791" ry="31.0116023319768"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"/>
+            </g>
+            <g>
+               <path d="M 182.25 313.02178 L 196.03291 313.02178 C 196.03291 315.02496 189.8621 316.64886 182.25 316.64886 C 174.6379 316.64886 168.46709 315.02496 168.46709 313.02178 L 182.25 313.02178 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+         </g>
+      </g>
+   </g>
+</svg>
