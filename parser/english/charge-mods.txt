@@ -113,6 +113,7 @@ rousant=
 latin=
 fouled=
 filled=
+flower(s|ed)?=flower
 
 ?(dexter|sinister) forepaws? raised=forepaw-raised
 (with|and) ?an arrow=with-arrow

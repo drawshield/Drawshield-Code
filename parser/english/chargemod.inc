@@ -196,7 +196,6 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
        '(horned|acorne)=horned' ,
        'horns=horned' ,
        '(fimbriated|edged?s?)=fimbriated' ,
-       '(flower|bud)(s|d?ed)=flowers' ,
        'j[eo]llopped=wattled' ,
        'wattle(s|d)?=wattled' ,
        'hull(s|ed)?=hulled' ,
