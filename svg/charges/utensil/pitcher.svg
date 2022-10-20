@@ -9,7 +9,6 @@
    contentScriptType="application/ecmascript"
    contentStyleType="text/css"
    id="svg232"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -43,28 +42,6 @@
        id="g228">
       <title
          id="title135">Layer 2</title>
-      <g
-         id="g143">
-        <rect
-           x="296.53704"
-           y="393.8976"
-           width="76.752"
-           height="92.1024"
-           id="rect137" />
-        <g
-           id="g141">
-          <image
-             xlink:href="image178.pdf"
-             width="240"
-             height="337"
-             transform="translate(303.71304 396.1388) scale(.26)"
-             xlink:type="simple"
-             xlink:show="embed"
-             xlink:actuate="onLoad"
-             preserveAspectRatio="xMidYMid meet"
-             id="image139" />
-        </g>
-      </g>
       <g
          id="g226">
         <g
