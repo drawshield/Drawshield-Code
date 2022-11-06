@@ -162,7 +162,7 @@ function draw()
     $svgWidth = $options['size'];
 
     $meta = '';
-    $trailer = "</svg>\n";
+    $trailer = "</svg>\n"; // TODO this code is redundant..?
     if ($options['palette'] == 'outline' || $options['palette'] == 'hatching') {
         $header .= '  <filter id="grayscale">
     <feColorMatrix type="saturate" values="0.10"/>

@@ -35,6 +35,8 @@ class languageDB extends lexicon
     const WORD_THE = 'wordthe';
     const WORD_OF = 'wordof';
     const WORD_ON = 'wordon';
+    const WORD_AT = 'wordat';
+    const WORD_TO = 'wordto';
     const WORD_IN = 'wordin';
     const COLOUR = 'colour';
     const BACKREF = 'backref';
@@ -107,7 +109,7 @@ class languageDB extends lexicon
     const MOTTO = 'motto';
     const MOTTO_POSITION = 'motto_pos';
     const MOTTO_TYPE = 'motto_type';
-    const MOTTO_TEXT = 'motto_tet';
+    const MOTTO_TEXT = 'string';
     const CREST = 'crest';
     const TORSE = 'torse';
     const HELMET = 'helmet';
@@ -116,7 +118,7 @@ class languageDB extends lexicon
     const ECCLESIASTIC = 'ecclesiastic';
     const EACH = 'each';
     const BLAZONED = 'blazoned';
-    const VALUE = 'value';
+    const VALUE = 'string';
     const TARTAN = 'tartan';
     const WEBCOLS = 'webcols';
     const WHCOLS = 'whcols';
@@ -131,9 +133,18 @@ class languageDB extends lexicon
     const SIGNIFIER = 'signifier';
     const ALONGSIDE = 'alongside';
  #   const DISPLACED = 'displaced';
+ #
+    const LEXEMEFILE = 'parser/english/lexemes.txt';
 
     public function __construct()
     {
+        if (!file_exists(self::LEXEMEFILE)) {
+                $this->createLexemes();
+        }
+        $this->patterns = file(self::LEXEMEFILE, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
+    }
+
+    public function createLexemes() {
         $this->language = 'english';
 
         // Each top level element of the patterns array is a named sub-array
@@ -146,12 +157,12 @@ class languageDB extends lexicon
         $this->patterns = array(
             self::BOT_COMMAND => array ( '!draw', '!test', '!todo' ),
             self::CHGLIST => array ("and also", "& also", "along with"),
-            self::VALUE => array("*"),
+            // self::VALUE => array("*"),
             self::WORD_THE => array('the'),
             self::SIGNIFIER => array('the', 'a', 'an'),
             self::OVERALL => array('overall', 'sur le tout', 'all with(in)?', "over all", "in pretence"),
             self::METAOVERALL => array(
-                array ('over(all)? ?all ?the ?# (quarters|quarterings|halves|parts|sections)', 'metaoverall'),
+                array ('over(all)? ?all ?the ?% (quarters|quarterings|halves|parts|sections)', 'metaoverall'),
                 array ('o(n|ver) the whole', 'metaoverall')
             ),
       /*      self::DISPLACED => array (
@@ -184,10 +195,16 @@ class languageDB extends lexicon
                     array('holy roman empire princes?', 'prince-hre'),
                 ),
             self::LINING => array( 'doubled', 'lined', 'and', '&'),
-            self::FRINGED => array ('?a fringed?'),
-            self::SUPPORTERS => array ('supporters?'),
+            self::FRINGED => array (
+                array ('?a fringed?', 'fringed')
+            ),
+            self::SUPPORTERS => array (
+                array('supporters?','supporter')
+            ),
             self::ACHIEVEMENT => array('achievement', 'hatchment' ),
-            self::ORNAMENT => array('ornaments?'),
+            self::ORNAMENT => array(
+                array('ornaments?', 'ornaments')
+            ),
             self::CREST => array(
                 array('?(a|the) crest ?of', 'crest'), // room for other crest types?
                 array('?with no crest', 'no-crest'),
@@ -240,10 +257,10 @@ class languageDB extends lexicon
                 array('?the (interior|contents?)', 'interior'),
             ),
             self::ACHIEVEMENT_LOC => array(
-                array('?to ?the sinister', 'sinister'),
-                array('?to ?the dexter', 'dexter'),
-                array('?(in|of|to) ?the (middle|centre|center|rear)', 'centre'),
-                array('behind', 'centre'),
+                array('sinister', 'sinister'),
+                array('dexter', 'dexter'),
+                array('(middle|centre|center)', 'centre'),
+                array('(rear|behind)', 'centre'), // in case we to treat it differently
             ),
             self::HELMET => array(
                 array('?(the|a|an) royal helm(et)', 'royal'),
@@ -255,9 +272,9 @@ class languageDB extends lexicon
             self::MOTTO => array (
                 array('(motto|devi[sc]e)', 'motto'),
             ),
-            self::MOTTO_TEXT => array (
-                array ('*', self::MOTTO_TEXT),
-            ),
+            // self::MOTTO_TEXT => array (
+              //   array ('*', self::MOTTO_TEXT),
+            // ),
             self::MOTTO_POSITION => array (
                 array ('above', 'above'),
                 array ('(at|on) ?the top', 'above'),
@@ -268,7 +285,10 @@ class languageDB extends lexicon
               array ('ribbons?', 'ribbon' ),
                 array ('scrolls?', 'scroll' ),
             ),
-            self::BLAZONED => array('(em)blazoned ?(with|of)', 'with ?(a|the) blazon ?of'),
+            self::BLAZONED => array(
+                array('(em)blazoned ?(with|of)', 'blazoned'),
+                array('with ?(a|the) blazon ?of', 'blazoned'),
+        ),
             self::SPLITS => array(
                 array('impaled with', 'impaled'),
                 array('impaling', 'impaled'),
@@ -564,11 +584,15 @@ class languageDB extends lexicon
                 array('(lxiv|lxiiii)', 64),
             ),
             self::COLON => array (':'),
-            self::SEMICOLON => array(':', ';', '\\.'), // need to escape '.' as this is regex special character
+            // self::SEMICOLON => array(':', ';', '\\.'), // need to escape '.' as this is regex special character
             self::DOUBLESEMI => array(';;'),
-            self::COMMA => array(',', '\\.'), // allow periods in more places
+            // self::COMMA => array(',', '\\.'), // allow periods in more places
             self::WORD_OF => array('of'),
             self::WORD_ON => array('on'),
+            self::WORD_AT => array('at'),
+            self::WORD_TO => array(
+                array ('to(wards?)?', 'to'),
+            ),
             self::WORD_IN => array('in ?the'),
             self::POINTS => array('points', 'rows'),
             self::ANDD => array(
@@ -785,7 +809,7 @@ class languageDB extends lexicon
                 array('barry indented ?the (one|1) in the other', 'barry-indented-oio',),
             ),
             self::DIVISION_MODS => array(
-                array('of # ?pieces?', 'ofnum'),
+                array('of % ?pieces?', 'ofnum'),
                 array('rivett?ed', 'riveted'),
                 array('enhanced', 'enhanced'),
                 array('abased', 'abased'),
@@ -957,6 +981,7 @@ class languageDB extends lexicon
                 'sinister', 'reversed', 'dexter', 'inverted',
                 array('(hause|enhanced)', 'enhanced'),
                 array('(abased|abaisse)', 'abased',),
+                array('de(bas|hanc)ed', 'abased',),
                 array('(rompu|downset)', 'rompu'),
                 array('removed', 'removed'),
                 array('(debruised|fracted)', 'fracted'),
@@ -971,18 +996,17 @@ class languageDB extends lexicon
                 array('(fimbri?ated|edged)', 'fimbriated'),
             ),
             self::LINETYPE_PREFIX => array(
-                array('the (dexter|first|1st|upper|higher) ?(one|1)', 'barmod-up'),
-                array('the (sinister|last|lower|lowest) ?(one|1)', 'barmod-down'),
-                array('the (inner|inside) ?ones?', 'barmod-in'),
-                array('the (outer|outside) ?ones?', 'barmod-out'),
+                array('(dexter|first|1st|upper|higher) ?(one|1)', 'barmod-up'),
+                array('(sinister|last|lower|lowest) ?(one|1)', 'barmod-down'),
+                array('(inner|inside) ?ones?', 'barmod-in'),
+                array('(outer|outside) ?ones?', 'barmod-out'),
             ),
             self::LINETYPE_POSTFIX => array(
-                array('(at|on) ?the top', 'top-only'),
-                array('(at|on) ?the bottom', 'bottom-only'),
+                array('top', 'top-only'),
+                array('bottom', 'bottom-only'),
             ),
             self::ORDINARY_MODS => array( // only come after ordinary
                 array('(hause|enhanced)', 'enhanced'),
-                array('(abased|abaisse)', 'abased',),
                 array('(abased|abaisse)', 'abased',),
                 array('de(bas|hanc)ed', 'abased',),
                 array('(compony|gobon[ey]|gobonated)', 'compony1'),
@@ -1008,7 +1032,7 @@ class languageDB extends lexicon
                 array('double dancetty', 'fracted'),
                 array('bott?onn?(ee|y)', 'botonny'),
                 array('engouled ?(into|by) ?dragons? ?heads?', 'engouled'),
-                array('of # (point|peak)s', 'points'), // only if label is a ordinary
+                array('of % (point|peak)s', 'points'), // only if label is a ordinary
                 // array ( '(de)?bruised|fracted|disjoint ?at ?the ?top', 'fracted' ),
                 array('en(aluron|urney|toire|toyre)', 'entire'),
                 'lozengy', 'triangular', 'throughout', 'of pretence', 'ploye',
@@ -1220,19 +1244,18 @@ class languageDB extends lexicon
                 array('in ?a fancy style','fancy'),
                 array('embellished','fancy'),
             ),
-            self::USING => array ( 'with', 'in', 'using', 'on'),
+            self::USING => array ( array ('drawn ?(with|using)', 'drawn') ),
             self::DRAWN_MODS => array(
-                array('drawn', 'drawn'),
-                array('?(a|an|the) * (palette|tinctures)', 'palette'),
-                array('?the * colours?', 'colours'),
-                array('?(a|an|the) * shape', 'shape'),
-                array('?(a|an|the) shape ?of ?an? *', 'shape'),
-                array('?(a|an|the) * (appearance|style|effect)', 'style'),
-                array('?(a|an|the) aspect ?ratio ?of *', 'aspect'),
-                array('?(a|an|the) * aspect ?ratio', 'aspect'),
-                array('?(a|an|the) proportions? ?of *', 'aspect'),
-                array('?(a|an|the) * proportions?', 'aspect'),
-                array('?a grid(ded)?', 'grid'),
+                array('* (palette|tinctures)', 'palette'),
+                array('* colours?', 'colours'),
+                array('* shape', 'shape'),
+                array('shape ?of ?an? *', 'shape'),
+                array('* (appearance|style|effect)', 'style'),
+                array('aspect ?ratio ?of *', 'aspect'),
+                array('with * aspect ?ratio', 'aspect'),
+                array('proportions? ?of *', 'aspect'),
+                array('with * proportions?', 'aspect'),
+                array('grid(ded)?', 'grid'),
             ),
             self::QUARTERMODS => array(
                 array('per cross', 'per-cross'),
@@ -1251,5 +1274,35 @@ class languageDB extends lexicon
         include "warhammer-colours.inc";
         include "tartan-colours.inc";
         SmartChargeGroup::instance()->add_patterns($this);
+        $this->dumpPatterns(self::LEXEMEFILE);
+    }
+
+    public function dumpPatterns($filename) {
+	$currentPrefix = '';
+        $outputFile = fopen($filename, "w");
+        foreach($this->patterns as $lexCat => $lexPats) {
+            fwrite($outputFile, "=$lexCat\n");
+            foreach($lexPats as $lexitem) {
+		    if (is_array($lexitem)) { // has both pattern and separate keyword
+			    fwrite($outputFile, "${lexitem[0]}=${lexitem[1]}\n");
+		    } else { // a string, either a single word, or already in x=y format
+			    if (strpos($lexitem,'=') === false) { // a plain string, same as keyword
+				    fwrite($outputFile,"$lexitem=\n");
+			    } else { // already in the right format, does it have a prefix?
+				    if (strpos($lexitem,"/")) { // need to extract the prefix
+					    preg_match('/(.*=)(.*\/)(.*$)/', $lexitem, $match);
+					    if ($match[2] != $currentPrefix) {
+						    fwrite($outputFile,"=$lexCat/${match[2]}\n");
+                            $currentPrefix = $match[2];
+					    }
+                        $chargeCat =rtrim($match[3],'/');
+					    fwrite($outputFile,"${match[1]}$chargeCat\n");
+				    } else {
+					    fwrite($outputFile,"$lexitem\n");
+				    }
+			    }
+		    }
+            }
+        }
     }
 }

@@ -142,8 +142,25 @@ class blazonML extends DOMDocument {
     $this->uid = new unique();
     parent::__construct($version, $encoding);
   }
-  
-  public function makeNode ( $element, $params = null, $tokens = null, $lineNo = null ) {
+
+    public function makeNodeFromLexeme ( string $element, Lexeme $lexeme, array $params = null )
+    {
+        $node = parent::createElement($element);
+        $node->setAttribute(self::A_ID, $this->uid->getRef("N"));
+        $node->setIdAttribute(self::A_ID, true);
+        $node->setAttribute(self::A_KEYTERM, $lexeme->keyterm);
+        $node->setAttribute(self::A_TOKENS, $lexeme->tokens);
+        $node->setAttribute(self::A_LINENUMBER, $lexeme->startPos . '-' . $lexeme->endPos);
+        if (!is_null($lexeme->value)) $node->setAttribute(self::A_PARAM, $lexeme->value);
+        if (is_array($params)) {
+            foreach ($params as $attribute => $value)
+                if ($value)
+                    $node->setAttribute($attribute, $value);
+        }
+        return $node;
+    }
+
+        public function makeNode ( $element, $params = null, $tokens = null, $lineNo = null ) {
     $node = parent::createElement($element);
     $node->setAttribute( self::A_ID, $this->uid->getRef("N"));
     $node->setIdAttribute(self::A_ID,true); 
@@ -160,6 +177,14 @@ class blazonML extends DOMDocument {
   public function makeMod ( $type, $value = null, $keyterm = null, $tokens = null, $lineNo = null ) {
     $mod = self::makeNode(self::E_MODIFIER, array ( self::A_TYPE => $type, self::A_PARAM => $value, self::A_KEYTERM => $keyterm ), $tokens, $lineNo );
     return $mod;   
+  }
+
+  public function makeModFromLexeme($lexeme, $type, $value = null) {
+      $overrides = array(self::A_TYPE => $type);
+      if (!is_null($value)) {
+          $overrides[self::A_PARAM] = $value;
+      }
+      return $this->makeNodeFromLexeme(self::E_MODIFIER, $lexeme, $overrides);
   }
 }
 
