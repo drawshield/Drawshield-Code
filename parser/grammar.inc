@@ -61,35 +61,30 @@ abstract class grammar
      */
 
     abstract function getShield();
+    abstract function getRoll();
+
 
     public function getAST($tokenList)
     {
         $this->matcher = new matcher($tokenList, $this->patternDB);
 
-        $shield = $this->getShield();
+        $shield = $this->getRoll();
+        if (is_null($shield)) $shield = $this->getShield();
         foreach ($this->matcher->getMatcherErrors() as $matchError) {
             $this->raiseError("blazon", $matchError);
         }
+        $inputNode = $this->schema->makeNode(blazonML::E_INPUT);
+        foreach ($this->matcher->listLexemes() as $lexText) {
+              $tokenNode = $this->schema->makeNode(blazonML::E_TOKEN);
+              $tokenNode->appendChild($this->schema->makeTextNode($lexText));
+              $inputNode->appendChild($tokenNode);;
+        }
         if ($shield == null)
-            $shield = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0')); // TODO - add a field?
-        return array($shield, /* $this->achievementNode, $this->notesNode, */ $this->messagesNode);
+            $shield = $this->schema->makeIDNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0')); // TODO - add a field?
+        return array($shield, $inputNode, $this->messagesNode);
     }
 
     // shorthand functions to make code read better
-    protected function ignore($key)
-    {
-        $this->matcher->searchMatch3($key);
-    }
-
-    protected function find($key)
-    {
-        return $this->matcher->searchMatch3($key);
-    }
-
-    protected function find2($key)
-    {
-        return $this->matcher->searchMatch3($key);
-    }
 
     protected function findLex($key)
     {
@@ -176,23 +171,12 @@ abstract class grammar
     {
 
         $retval = false;
-        if (self::find(languageDB::SEMICOLON)) {
+        if (self::findLex(languageDB::SEMICOLON)) {
             $retval = true;
         } elseif ($lookback) {
             if (self::lookBack(languageDB::SEMICOLON)) $retval = true;
         }
         return $retval;
-    }
-
-
-    protected function comma()
-    {
-
-        // Consume a comma (or similar) character if present, and return true
-        // But also return true if the *previous* character was a comma
-        if (self::find(languageDB::COMMA)) return true;
-        if (self::lookBack(languageDB::COMMA)) return true;
-        return false;
     }
 
     protected function restoreAnd()

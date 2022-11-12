@@ -36,10 +36,10 @@ This file is part of the DrawShield.net heraldry image creation program
       array ( 'square shaped?', 'shape-square'),
       array ( 'heater ?shaped?', 'shape-heater'),
       array ( 'equal armed', 'equal-armed'),
-      array ( 'sinister (half|halves|parts?) ?of ?(a|an|the)', 'sinister-half'),
+      /* array ( 'sinister (half|halves|parts?) ?of ?(a|an|the)', 'sinister-half'),
       array ( 'dexter (half|halves|parts?) ?of ?(a|an|the)', 'dexter-half'),
       array ( '(upper|top) (half|halves|parts?) ?of ?(a|an|the)', 'upper-half'),
-      array ( '(lower|bottom) (half|halves|parts?) ?of ?(a|an|the)', 'lower-half'),
+      array ( '(lower|bottom) (half|halves|parts?) ?of ?(a|an|the)', 'lower-half'), */
       array ( 'leather(s|ed)?', 'leathered'),
       );
 
@@ -55,10 +55,17 @@ $this->patterns[languageDB::TRADITION_PREFIX] = array (
     array ( 'african', 'african'),
     array ( 'persian', 'persian'),
     array ( 'hungarian', 'hungarian'),
+    array ( 'round', 'circle'),
+    array ( 'heater', 'heater'),
+    array ( 'oval', 'oval'),
+    'lozenge', 'square', 'circle', 'sca', 'scutum', 'swatch', 'pauldron', 'stamp',
+    array ( 'roman', 'scutum'),
+    array ( 'flag', 'flag'),
 );
 
 $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
-    'shaped?', 'styled?', 'tradition', 'origin'
+    array ('shaped?', 'shape'),
+    array ('styled?', 'shape'), 'tradition', 'origin'
 );
 
 // TODO Deal with all the stuff in _quadrate8.inc
@@ -227,9 +234,9 @@ $this->patterns[languageDB::TRADITION_DESCRIPTION] = array (
    
    $this->patterns[languageDB::CHARGE_WITH] = array ( 
       array ( '(enrich|charg|deck)ed (by|with|of)', 'charged-with' ),
-      array ( 'consisting of', 'charged-with'),
-       array ( 'comprised of', 'charged-with'),
-       array ( 'made up of', 'charged-with'),
+      // array ( 'consisting of', 'charged-with'),
+       // array ( 'comprised of', 'charged-with'),
+      // array ( 'made up of', 'charged-with'),
       array ( '?(each|all|both) (enrich|charg|deck)ed (by|with|of)', 'charged-each' ),
       array ( 'thereon', 'charged-with' ),
       array ( 'charged (at|on) each ?(point|corner|limb) ?with', 'charged-each' ),

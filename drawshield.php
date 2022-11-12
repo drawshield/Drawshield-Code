@@ -123,7 +123,7 @@ if (isset($_FILES['blazonfile']) && ($_FILES['blazonfile']['name'] != "")) {
         $options['blazon'] = file_get_contents($fileTmpName);
     }
 } else {
-    if (isset($request['blazon'])) $options['blazon'] = strip_tags(trim($request['blazon']));
+    if (isset($request['blazon'])) $options['blazon'] = strip_tags($request['blazon']);
 }
 
 if (isset($request['outputformat'])) $options['outputFormat'] = strip_tags ($request['outputformat']);

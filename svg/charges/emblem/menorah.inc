@@ -17,6 +17,6 @@ This file is part of the DrawShield.net heraldry image creation program
 
 $charge['file'] = 'menorah-of-7.svg';
 
-if ( getModifierValueByKeyterm($node, 'of-num') == 9) {
+if ( getModifierValueByKeyterm($node, 'ofnum') == 9) {
   $charge['file'] = 'menorah-of-9.svg';
 }

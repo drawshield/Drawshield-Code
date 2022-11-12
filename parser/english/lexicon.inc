@@ -23,6 +23,10 @@ class languageDB extends lexicon
 {
     // These constants acts as keys into the pattern database
     // Some are also used to indicate the type of modifier
+    const ROLL = 'roll';
+    const NEXT = 'next';
+    const CONSISTING = 'consisting';
+    const SKIP = 'skip';
     const OVERALL = 'overall';
     const BOT_COMMAND = 'bot_command';
     const METAOVERALL = 'metaoverall';
@@ -32,6 +36,7 @@ class languageDB extends lexicon
     const COLON = 'colon';
     const DOUBLESEMI = 'doublesemi';
     const COMMA = 'comma';
+    const PERIOD = 'period';
     const WORD_THE = 'wordthe';
     const WORD_OF = 'wordof';
     const WORD_ON = 'wordon';
@@ -86,6 +91,7 @@ class languageDB extends lexicon
     const CHARGE_MODS = 'chargemod';
     const POSITION = 'position';
     const POINTS = 'points';
+    const HALF = 'half';
     // const SUPPLEMENTARY = 'supplementary';
     const SHOWN_EXTRA = 'shownextra';
     const SHOWN_MODS = 'shown';
@@ -107,7 +113,7 @@ class languageDB extends lexicon
     const SUPPORTERS = 'supporters';
     const ACHIEVEMENT_LOC = 'achievement_loc';
     const MOTTO = 'motto';
-    const MOTTO_POSITION = 'motto_pos';
+    const VERTICAL_POSITION = 'vert_pos';
     const MOTTO_TYPE = 'motto_type';
     const MOTTO_TEXT = 'string';
     const CREST = 'crest';
@@ -132,6 +138,10 @@ class languageDB extends lexicon
     const TRADITION = 'tradition';
     const SIGNIFIER = 'signifier';
     const ALONGSIDE = 'alongside';
+    const PIECES = 'pieces';
+    const CAPTION = 'caption';
+    const BACKGROUND = 'background';
+    const TITLE = 'title';
  #   const DISPLACED = 'displaced';
  #
     const LEXEMEFILE = 'parser/english/lexemes.txt';
@@ -168,6 +178,26 @@ class languageDB extends lexicon
       /*      self::DISPLACED => array (
                 'alternate', 'displaced',
             ), */
+            self::BACKGROUND => array ('background', 'ground', 'upon'),
+            self::CAPTION => array ('caption', 'captioned', 'label', 'labelled'),
+            self::TITLE => array('title','titled'),
+            self::ROLL => array (
+                'roll', 'armorial', 'table'
+            ),
+            self::NEXT => array (
+                'then', 'next'
+            ),
+            self::CONSISTING => array (
+                'consisting','comprised', 'showing', 'made up', 'comprising'
+            ),
+            self::SKIP => array (
+                'skip'
+            ),
+            self::CAPTION => array (
+                'caption', 'label', 'labelled'
+            ),
+            self::PIECES => array (
+                array ( '(part|column|piece|section)s?', 'pieces' )),
             self::ALONGSIDE => array (
                 array ("joined (with|to)", "joined"),
                 array ("next to", "alongside"),
@@ -203,7 +233,7 @@ class languageDB extends lexicon
             ),
             self::ACHIEVEMENT => array('achievement', 'hatchment' ),
             self::ORNAMENT => array(
-                array('ornaments?', 'ornaments')
+                array('ornaments?', 'ornament')
             ),
             self::CREST => array(
                 array('?(a|the) crest ?of', 'crest'), // room for other crest types?
@@ -275,7 +305,7 @@ class languageDB extends lexicon
             // self::MOTTO_TEXT => array (
               //   array ('*', self::MOTTO_TEXT),
             // ),
-            self::MOTTO_POSITION => array (
+            self::VERTICAL_POSITION => array (
                 array ('above', 'above'),
                 array ('(at|on) ?the top', 'above'),
                 array ('below', 'below'),
@@ -594,7 +624,8 @@ class languageDB extends lexicon
                 array ('to(wards?)?', 'to'),
             ),
             self::WORD_IN => array('in ?the'),
-            self::POINTS => array('points', 'rows'),
+            self::POINTS => array(
+                array ('(point|row|peak)s?', 'points')),
             self::ANDD => array(
                 array('(and|&|also)', 'and'),
                 array('(and|&) also', 'and'),
@@ -755,10 +786,25 @@ class languageDB extends lexicon
                 array('basketball', 'basket-ball'),
                 array('basket ball', 'basket-ball'),
             ),
-            self::SEMY => array('(semee?|semy) (de|with|of)', '(aspersed|strewn) with', '(poudre|powdered) with'),
-            self::GROUP => array('(both|all|the|his|her|its)',),
-            self::PROPER => array('(proper|ppr)'),
-            self::COUNTERCHANGE => array('interchanged?', 'transmuted', 'counter cha[nr]ged?', 'countercha[nr]ged?', 'countercoloured', 'de l un en l autre'),
+            self::SEMY => array(
+                array ( '(semee?|semy) (de|with|of)', 'semy'),
+                array ('(aspersed|strewn) with', 'semy'),
+                array ('(poudre|powdered) with', 'semy'),
+            ),
+            self::GROUP => array(
+                array ('(both|all|the|his|her|its)','group'),
+            ),
+            self::PROPER => array(
+                array('(proper|ppr)', 'proper'),
+            ),
+            self::COUNTERCHANGE => array(
+                array ('interchanged?', 'counter'),
+                array ('transmuted', 'counter'),
+                array ('counter cha[nr]ged?', 'counter'),
+                array ('countercha[nr]ged?', 'counter'),
+                array ('countercoloured', 'counter'),
+                array ('de l un en l autre', 'counter'),
+            ),
             self::DIVISION => array(
                 array('pily', 'pily',),
                 array('quarterly', 'quarterly',),
@@ -809,7 +855,7 @@ class languageDB extends lexicon
                 array('barry indented ?the (one|1) in the other', 'barry-indented-oio',),
             ),
             self::DIVISION_MODS => array(
-                array('of % ?pieces?', 'ofnum'),
+             //   array('of % pieces?', 'ofnum'),
                 array('rivett?ed', 'riveted'),
                 array('enhanced', 'enhanced'),
                 array('abased', 'abased'),
@@ -1032,7 +1078,7 @@ class languageDB extends lexicon
                 array('double dancetty', 'fracted'),
                 array('bott?onn?(ee|y)', 'botonny'),
                 array('engouled ?(into|by) ?dragons? ?heads?', 'engouled'),
-                array('of % (point|peak)s', 'points'), // only if label is a ordinary
+                // array('of % (point|peak)s', 'points'), // only if label is a ordinary
                 // array ( '(de)?bruised|fracted|disjoint ?at ?the ?top', 'fracted' ),
                 array('en(aluron|urney|toire|toyre)', 'entire'),
                 'lozengy', 'triangular', 'throughout', 'of pretence', 'ploye',
@@ -1154,6 +1200,10 @@ class languageDB extends lexicon
                 array('upper', 'upper'),
                 array('lower', 'lower'),
             ),
+            self::HALF => array (
+                'side', 'half', 'part',
+                array ('halves', 'half')
+            ),
             self::EACH => array(
                 array('(each|every|all|both) ?of ?the', 'each'),
             ),
@@ -1187,13 +1237,13 @@ class languageDB extends lexicon
                 array('resting (each|its|his|her) claws? (up)?on', 'above'),
                 array('sustaining', 'below'),
             ),
-            self::SHOWN_EXTRA => array(
+            /* self::SHOWN_EXTRA => array(
                 array('to ?the dexter', 'to-dexter'),
                 array('to ?the sinister', 'to-sinister'),
+            ), */
+            self::SHOWN_MODS => array(
                 array('likewise', 'likewise'),
                 array('?in the same (way|fashion|manner)', 'likewise'),
-            ),
-            self::SHOWN_MODS => array(
                 array('(shown|shewn|moved) ?somewhat', 'shown'),
                 array('somewhat', 'shown'),
                 array('(from|to|of|than) ?(the|is) (normal|usual) ?(position|location|place)s?', 'than-normal'),
@@ -1248,8 +1298,8 @@ class languageDB extends lexicon
             self::DRAWN_MODS => array(
                 array('* (palette|tinctures)', 'palette'),
                 array('* colours?', 'colours'),
-                array('* shape', 'shape'),
-                array('shape ?of ?an? *', 'shape'),
+                // array('* shape', 'shape'),
+             //   array('shape ?of ?an? *', 'shape'),
                 array('* (appearance|style|effect)', 'style'),
                 array('aspect ?ratio ?of *', 'aspect'),
                 array('with * aspect ?ratio', 'aspect'),

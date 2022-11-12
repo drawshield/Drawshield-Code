@@ -205,7 +205,7 @@ class matcher
         }
         $this->currentMatch = 0; // reset counter for future search_match
         $this->patternDB->patterns = array(); // don't need this anymore, save the space
-        if ($options['stage'] == 'lexemes' || $options['stage'] == 'parser') {
+        if ($options['stage'] == 'lexemes') {
             foreach ($this->allMatches as $myMatch) {
                 echo $myMatch[0]->tokens . "=";
                 foreach ($myMatch as $possible) {
@@ -218,11 +218,26 @@ class matcher
                 }
                 echo "\n";
             }
-            if ($options['stage'] == 'lexemes') {
-                echo "Execution time: " . microtime(true) - $startTime;
-                exit(0);
-            }
+            echo "Execution time: " . microtime(true) - $startTime;
+            exit(0);
         }
+    }
+
+    public function listLexemes() {
+        $lexemeList = [];
+        foreach ($this->allMatches as $myMatch) {
+            $listItem =  $myMatch[0]->startPos . ' ' . $myMatch[0]->tokens . "=";
+            foreach ($myMatch as $possible) {
+                if (!is_null($possible->value)) {
+                    $value = ' (' . $possible->value . ')';
+                } else {
+                    $value = '';
+                }
+                $listItem .=  $possible->category . ':' . $possible->keyterm . $value . '   ';
+            }
+            $lexemeList[] = $listItem;
+        }
+        return $lexemeList;
     }
 
     // Try to match each of the regular expressions in the array
@@ -251,7 +266,7 @@ class matcher
             // Do we want the whole of the next token?
             // Optional & negative do not make sense here, so ignore
             if ($regex == '*' && isset($this->tokenList[$t_word])) {
-                $this->value = $this->tokenList[$t_word]->match;
+                $this->value = $this->tokenList[$t_word]->text;
                 $t_word++;
                 continue;
             }
@@ -323,11 +338,6 @@ class matcher
         return $t_word;
     }
 
-    public function searchMatch3($category) {
-        $retval = $this->matchLexeme($category);
-        if (!is_null($retval)) $retval = $retval->keyterm;
-        return $retval;
-    }
 
     public function matchLexeme($catList)
     {
@@ -359,7 +369,7 @@ class matcher
         if ($only) {
             $checkList = [];
         } else { // automatically add in some usual stuff
-            $checkList = array(languageDB::COMMA, languageDB::COLON);
+            $checkList = array(languageDB::COMMA, languageDB::COLON, languageDB::PERIOD);
         }
         if (is_array($catList)) {
             $checkList = array_merge($checkList, $catList);
@@ -412,7 +422,7 @@ class matcher
             $this->currentMatch += 1;
         }
         if ($skipList != '') {
-            $this->errors[] = "Don't understand: $skipList ($skipStart-$skipEnd)";
+            $this->errors[] = "Not able to process: $skipList ($skipStart-$skipEnd)";
         }
         return ($this->currentMatch < count($this->allMatches));
     }

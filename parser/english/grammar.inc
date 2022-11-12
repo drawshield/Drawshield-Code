@@ -22,7 +22,7 @@ class englishGrammar extends grammar
     /**
      * @return DOMElement
      */
-    public function getShield() // DONE
+    public function getShield($syncTo = true) // DONE
     {
 
         $complex = null;
@@ -31,13 +31,12 @@ class englishGrammar extends grammar
         $achievementList = [];
         // Try to find complete shield
         $this->matcher->syncOver();
-        self::ignore(languageDB::BOT_COMMAND);
+        self::findLex(languageDB::BOT_COMMAND);
         while (true) { // This is the loop for >1 shield per achievement
             $this->matcher->syncOver();
             $preInstructions = self::drawn(); // allow shapes etc. to be given first, if required
-            self::semicolon();
-            self::comma();
-            $node = self::shield();
+            $this->matcher->syncOver(languageDB::SEMICOLON);
+            $node = self::shield($syncTo);
             if ($preInstructions)
                 $node->appendChild($preInstructions);
             self::semicolon();
@@ -66,8 +65,14 @@ class englishGrammar extends grammar
         // and any instructions that come after the final achievements
         $instructions = self::drawn();
 
+        // and finally look for a caption
+        $caption = null;
+        if (self::findLex(languageDB::CAPTION)) {
+            $caption = self::findLex(languageDB::VALUE);
+        }
+
         // Report anything left that we don't understand
-        $this->matcher->syncTo(array('NOT_A_CATEGORY'));
+        if ($syncTo) $this->matcher->syncTo(array('NOT_A_CATEGORY'));
 
         if (is_null($complex)) {
             foreach ($achievementList as $achievement ) {
@@ -77,6 +82,9 @@ class englishGrammar extends grammar
             }
             if (!is_null($instructions) && $instructions->hasChildNodes()) {
                 $node->appendChild($instructions);
+            }
+            if (!is_null($caption)) {
+                $node->setAttribute(blazonML::A_CAPTION, $caption->value);
             }
             return $node;
         } else {
@@ -92,6 +100,9 @@ class englishGrammar extends grammar
             }
             if (!is_null($instructions) && $instructions->hasChildNodes()) {
                 $complex->appendChild($instructions);
+            }
+            if (!is_null($caption)) {
+                $node->setAttribute(blazonML::A_CAPTION, $caption->value);
             }
             return $complex;
         }
@@ -169,7 +180,7 @@ class englishGrammar extends grammar
                 $thisHelmet = $helmet;
             } elseif ($lexeme = self::findLex(languageDB::SHIELD)) {
                 if (($adjust = $this->getAdjustments()) != null) {
-                    $shieldNode = $this->schema->makeNodeFromLexeme(blazonML::E_SHIELD, $lexeme);
+                    $shieldNode = $this->schema->makeIDNodeFromLexeme(blazonML::E_SHIELD, $lexeme);
                     foreach ($adjust as $adj) {
                         $shieldNode->appendChild($adj);
                     }
@@ -289,6 +300,13 @@ class englishGrammar extends grammar
                 }
                 $found = true;
                 $this->matcher->syncOver(languageDB::ANDD);
+            } elseif (($trad = $phrase->add(self::findLex(languageDB::TRADITION_PREFIX))) != null) {
+                $phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION));
+                $phrase->add(self::findLex(languageDB::WORD_OF));
+                $node = $this->schema->makeNodeFromLexeme(blazonML::E_SHAPE, $phrase->create($trad->keyterm ));
+                $instructions->appendChild($node);
+                $this->matcher->syncOver(languageDB::ANDD);
+                $found = true;
             } else {
                self::discardPhrase($phrase);
             }
@@ -304,7 +322,7 @@ class englishGrammar extends grammar
         return null;
     }
 
-    private function chief_on($chief_ordinary) // TODO What does this do?
+    private function chief_on($chief_ordinary)
     {
         $xpath = new DOMXPath($chief_ordinary->ownerDocument);
         $on_list = $xpath->query("modifier[@type='wordon']", $chief_ordinary);
@@ -358,7 +376,7 @@ class englishGrammar extends grammar
         $phrase->add(self::findLex(array(languageDB::ONFIELDOF, languageDB::WITH)));
 
         $node = null;
-        // $chief = null;
+        $chief = null;
         if (($tinc = self::tincture()) != null) {
             $field = $this->schema->makeNode(blazonML::E_FIELD);
             $simple = $this->schema->makeNode(blazonML::E_PLAIN);
@@ -367,11 +385,11 @@ class englishGrammar extends grammar
             $ordChgs = self::objects();
             $simple->appendChild($field);
             if ( $ordChgs ) {
-          //       $chief = $this->adjust_chief($simple, $ordChgs);
+                 $chief = $this->adjust_chief($simple, $ordChgs);
                 if ( $ordChgs->hasChildNodes() )
                     $simple->appendChild($ordChgs);
             }
-            $node = $this->schema->makeNodeFromLexeme(blazonML::E_SHIELD,
+            $node = $this->schema->makeIDNodeFromLexeme(blazonML::E_SHIELD,
                 $phrase->create(languageDB::ONFIELDOF), array(blazonML::A_INDEX => '0'));
             $node->appendChild($simple);
             if (($adjust = $this->getAdjustments()) != null) {
@@ -385,10 +403,11 @@ class englishGrammar extends grammar
         return $node;
     }
 
-    protected function shield() // DONE
+    protected function shield($syncTo = true) // DONE
     {
         $this->matcher->syncOver();
         $checkOverAllParts = false;
+        $node1 = null;
         // This loop discards things until we find a dang shield!
         while (self::moreInput()) {
             $node1 = null;
@@ -400,16 +419,22 @@ class englishGrammar extends grammar
             if ($node1 == null) $node1 = self::simple();
             if (!is_null($node1)) break; // found something!
             // else, no we didn't. Chuck stuff away until we get something useful
-            $this->matcher->syncTo( array (
-               languageDB::COLOUR, languageDB::QUARTERED, languageDB::DIVISION,
-               languageDB::FUR, languageDB::TREATMENT
-            ));
+            if ($syncTo) {
+                $this->matcher->syncTo(array(
+                    languageDB::COLOUR, languageDB::QUARTERED, languageDB::DIVISION,
+                    languageDB::FUR, languageDB::TREATMENT
+                ));
+            }
         }
+
         // Okay, we really couldn't find one...
         if ($node1 == null) {
-            $node1 = $this->schema->makeNode(blazonML::E_SHIELD);
+            $node1 = $this->schema->makeIDNode(blazonML::E_SHIELD);
             $node1->appendChild($this->schema->makeNode(blazonML::E_MISSING));
             self::raiseError(self::ERROR_ORIGIN, 'Expected quartering or tincture');
+            if (!$syncTo) {
+                return $node1;
+            }
         }
         $this->matcher->syncOver();
         if ($checkOverAllParts && ($overall = self::overall(true)) != null) {
@@ -437,7 +462,7 @@ class englishGrammar extends grammar
             }
             // Okay, we really couldn't find one...
             if ($node2 == null) {
-                $node2 = $this->schema->makeNode(blazonML::E_SHIELD);
+                $node2 = $this->schema->makeIDNode(blazonML::E_SHIELD);
                 $node2->appendChild($this->schema->makeNode(blazonML::E_MISSING));
                 self::raiseError(self::ERROR_ORIGIN, 'Expected quartering or tincture');
             }
@@ -448,7 +473,7 @@ class englishGrammar extends grammar
                 $node2->appendChild($overall);
             }
             // Got two nodes, now create a mother node
-            $motherNode = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
+            $motherNode = $this->schema->makeIDNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
             $daughterNode = $this->schema->makeNodeFromLexeme(blazonML::E_COMPLEX, $split);
             $node1->setAttribute(blazonML::A_INDEX, '1');
             $node2->setAttribute(blazonML::A_INDEX, '2');
@@ -500,7 +525,7 @@ class englishGrammar extends grammar
                 $foundPos = false;
                 foreach ($specifiers as $specifier) {
                     $newPosition = null;
-                    switch ($specifier->keyterm) {
+                    switch ($specifier) {
                         case 'first':
                             $newPosition = 'inQ1';
                             break;
@@ -611,36 +636,110 @@ class englishGrammar extends grammar
             return null;
     }
 
+    public function getRoll() {
+        $phrase = self::newPhrase();
+
+        $phrase->add(self::findLex(languageDB::SIGNIFIER));
+        if (!$phrase->add(self::findLex(languageDB::ROLL))) {
+            self::discardPhrase($phrase);
+            return null;
+        }
+        $phrase->add(self::findLex(languageDB::ROLL)); // allow, e.g. armorial roll
+        $background = null;
+        $title = null;
+        $numCols = 3;
+        do {
+            $found = false;
+            $phrase->add(self::findLex(languageDB::WITH));
+            $phrase->add(self::findLex(languageDB::WORD_OF));
+            $num = $phrase->add(self::findLex(languageDB::NUMBER));
+            if (!is_null($num)) {
+                $phrase->add(self::findLex(languageDB::PIECES));
+                $numCols = $num->keyterm;
+                $found = true;
+            } elseif ($phrase->add(self::findLex(languageDB::BACKGROUND))) {
+                $phrase->add(self::findLex(languageDB::WORD_OF));
+                $background = self::tincture(true);
+                $found = true;
+            } elseif ($phrase->add(self::findLex(languageDB::TITLE))) {
+                $title = $phrase->add(self::findLex(languageDB::VALUE));
+                $found = true;
+            }
+        } while ($found);
+        $phrase->add(self::findLex(languageDB::CONSISTING));
+        $phrase->add(self::findLex(languageDB::WORD_OF));
+        $node = $this->schema->makeNodeFromLexeme(blazonML::E_ROLL, $phrase->create());
+        $node->setAttribute(blazonML::A_COLS, $numCols);
+        if (!is_null($background)) {
+            $node->appendChild($background);
+        }
+        if (!is_null($title)) {
+            $node->setAttribute(blazonML::A_TITLE, $title->value); // default columns
+        }
+
+        while(self::moreInput()) {
+            $node->appendChild(self::getShield(false));
+            if (self::findLex(languageDB::NEXT)) continue;
+            if (self::findLex(languageDB::SKIP)) {
+                $skipNum = self::findLex(languageDB::NUMBER);
+                $skips = is_null($skipNum) ? 1 : intval($skipNum->keyterm);
+                for ($i = 0; $i < $skips; $i++) {
+                    $node->appendChild($this->schema->makeNode(blazonML::E_MISSING));
+                }
+                continue;
+            }
+            // not found skip or next
+            break;
+        }
+        $this->matcher->syncTo(array('NOT_A_CATEGORY'));
+
+        return $node;
+
+    }
+
     protected function getCrowns($foundTinc) // DONE
     {
         $crownType = 'default'; // default crown
         $modifierType = '';
         $phrase = self::newPhrase();
-        while ($crown = self::findLex(languageDB::CROWN_MODS)) {
+        while ($crown = $phrase->add(self::findLex(languageDB::CROWN_MODS))) {
+            $modifierType = '';
             switch ($crown->keyterm) {
-                case 'crown': // just ignore (as in gorged with a naval crown
-                    break;
                 case 'wreathed':
                     $crownType = 'wreath';
                     $modifierType = 'crowned';
                     break;
                 case 'crowned':
                 case 'gorged':
-                    $modifierType = $crown;
+                    $modifierType = $crown->keyterm;
                     break;
+                case 'crown': // just ignore (as in gorged with a naval crown
                 default:
-                    $crownType = $crown;
+                    $crownType = $crown->keyterm;
                     break;
             }
         }
-        if ($modifierType == '') {
+        if ($modifierType == '') { // TODO here, $crown can be null....?
             self::discardPhrase($phrase);
             return null;
         }
-        $modifier = $this->schema->makeModFromLexeme($crown, languageDB::CROWN_MODS, $crownType);
+        $modifier = $this->schema->makeModFromLexeme($phrase->create($modifierType), languageDB::CROWN_MODS, $crownType);
         if ($foundTinc and ($tinc = self::tincture()))
             $modifier->appendChild($tinc);
         return $modifier;
+    }
+
+    protected function half_charge() {
+        $phrase = self::newPhrase();
+        if ($spec = $phrase->add(self::findLex(languageDB::SPECIFIER))) {
+            if (!($half = $phrase->add(self::findLex(languageDB::HALF)))) {
+                self::discardPhrase($phrase);
+                return null;
+            } // else
+            $phrase->add(self::findLex(languageDB::WORD_OF));
+            return $phrase->create($spec->keyterm . '-' . $half->keyterm);
+        }
+        return null;
     }
 
     protected function charge_prefix() // DONE
@@ -649,10 +748,12 @@ class englishGrammar extends grammar
         $phrase->add(self::findLex(languageDB::SIGNIFIER));
         if (($keyterm = self::findLex(languageDB::CHARGE_PREFIX)) != null) {
             return ($this->schema->makeModFromLexeme($keyterm, languageDB::CHARGE_MODS));
-        } elseif (($phrase->add(self::findLex(languageDB::TRADITION_PREFIX))) != null) {
+        } elseif (($trad = $phrase->add(self::findLex(languageDB::TRADITION_PREFIX))) != null) {
             $phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION));
             $phrase->add(self::findLex(languageDB::WORD_OF));
-            return ($this->schema->makeModFromLexeme($phrase->create(languageDB::TRADITION_PREFIX), languageDB::TRADITION_PREFIX));
+            return ($this->schema->makeModFromLexeme($phrase->create($trad->keyterm), languageDB::TRADITION_PREFIX));
+        } elseif ($halfCharge = self::half_charge()) {
+            return ($this->schema->makeModFromLexeme($halfCharge, languageDB::CHARGE_MODS));
         }
         return null;
     }
@@ -749,6 +850,8 @@ class englishGrammar extends grammar
             $group = self::findLex(languageDB::GROUP);
             if ($chargeMods = self::findLex(languageDB::CHARGE_MODS))
                 $mods[] = $this->schema->makeModFromLexeme($chargeMods, languageDB::CHARGE_MODS );
+            elseif ($chargeMods = self::ofNumber())
+                $mods[] = $this->schema->makeModFromLexeme($chargeMods, languageDB::CHARGE_MODS );
             elseif ($crowns = self::getCrowns($foundTinc))
                 $mods[] = $crowns;
             elseif ($allowPos and $positions = self::getPositions())
@@ -771,7 +874,7 @@ class englishGrammar extends grammar
                     break;
                 } elseif ($count > 1) {
                     $mods[] = $this->schema->makeModFromLexeme(
-                        $phrase4->create('arrange-by-rows'), array(blazonML::A_PARAM => implode(',', $rows)), 'rows');
+                        $phrase4->create('arrange-by-rows'), 'rows',  implode(',', $rows));
                 }
             } elseif (!$foundTinc && ($tinc = self::tincture())) {
                 if ($always_proper && is_object($tinc->firstChild) && $tinc->firstChild->nodeName != 'proper') {
@@ -785,7 +888,7 @@ class englishGrammar extends grammar
                 if (($foundTinc || $always_proper) && ($tinc = self::tincture()))
                     $feature->appendChild($tinc);
                 else {
-                    $feature->appendChild($this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'pending',
+                    $feature->appendChild($this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'pending',
                         blazonML::A_INDEX => '1')));
                 }
                 $mods[] = $feature;
@@ -809,7 +912,7 @@ class englishGrammar extends grammar
                 $tinc->appendChild($this->schema->makeNode(blazonML::E_PROPER));
                 $mods[] = $tinc;
             } else {
-                $mods[] = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'pending',
+                $mods[] = $this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'pending',
                     blazonML::A_INDEX => '1'));
             }
         }
@@ -825,7 +928,7 @@ class englishGrammar extends grammar
         $foundMuch = false;
         $foundShown = false;
         while ((($shownLex = self::findLex(languageDB::SHOWN_MODS)) != null) ||
-            (($foundShown || $foundMuch) && ($shownLex = self::findLex(languageDB::SHOWN_EXTRA)) != null)) {
+            (($foundShown || $foundMuch) && ($shownLex = self::achievementLocation()) != null)) {
             $keyterm = $shownLex->keyterm;
             switch ($keyterm) {
                 case 'than-normal':
@@ -1071,7 +1174,7 @@ class englishGrammar extends grammar
             // We treat a counterchanged division a bit like an ordinary
             if ($counterchangedDivision = self::division(true)) {
                 $node->appendChild($counterchangedDivision);
-                self::comma();
+                $this->matcher->syncOver();
                 $found = true;
             } elseif ($item = self::ordinary()) {
                 $found = true;
@@ -1220,7 +1323,7 @@ class englishGrammar extends grammar
         if ($lexeme = self::findLex(languageDB::WORD_ON)) $onMod = $this->schema->makeModFromLexeme($lexeme, languageDB::WORD_ON);
         // if found, remember "inside" for later
         if ($lexeme = self::findLex(languageDB::BETWEEN)) $insideMod = $this->schema->makeModFromLexeme($lexeme, languageDB::BETWEEN);
-        self::ignore(languageDB::LAYERING); // over x a y, not needed, under x a y not implementd
+        self::findLex(languageDB::LAYERING); // over x a y, not needed, under x a y not implementd
         // Look for a number (or assume one)
         $lexeme = self::findLex(languageDB::QUANTITY);
         if (!$lexeme) $lexeme = self::findLex(languageDB::NUMBER);
@@ -1309,7 +1412,7 @@ class englishGrammar extends grammar
         }
         // Have we found a colour yet?
         if (!$foundTinc) {
-            $ord->appendChild($this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1', blazonML::A_ORIGIN => 'pending')));
+            $ord->appendChild($this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1', blazonML::A_ORIGIN => 'pending')));
         }
         // Does this ordinary go "between" some charges?
         $lexeme = null;
@@ -1422,9 +1525,8 @@ class englishGrammar extends grammar
                 $quartered->appendChild($this->schema->makeModFromLexeme($qmod, languageDB::QUARTERMODS));
             }
             $this->matcher->syncOver();
-            if (self::findLex(languageDB::WORD_OF)) { // like "quarterly of 4"
-                $lexeme = self::findLex(languageDB::NUMBER); // But ignore it and count the quarters we are given
-                $numberStated = $lexeme->keyterm;
+            if ($lexeme = self::ofNumber(languageDB::PIECES)) { // like "quarterly of 4"
+                $numberStated = $lexeme->value;
                 $this->matcher->syncOver();
             }
 
@@ -1451,18 +1553,18 @@ class englishGrammar extends grammar
                     $found = $foundQuarter = true;
                 }
                 if ($found) {
-                    $ID = null;
+                    // $ID = null;
                     $this->matcher->syncOver(languageDB::QUANTIFIER);
                     $quarter = self::shield(); // Look for the description of this quarter
-                    if ($quarter != null and count($indices) > 1) {
+                    // if ($quarter != null and count($indices) > 1) {
                         $ID = $quarter->getAttribute('ID');
-                    }
+                    // }
                     if ($subshields[$indices[0]] != null)
                         self::raiseError(self::ERROR_ORIGIN, 'Duplicate quarter', true);
                     else
                         $subshields[$indices[0]] = $quarter; // Set the first quarter to this description
                     for ($i = 1; $i < count($indices); $i++) {
-                        // $reference = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_IDREF => $ID)); // Set other quarters to point to this one
+                        // $reference = $this->schema->makeIDNode(blazonML::E_SHIELD, array(blazonML::A_IDREF => $ID)); // Set other quarters to point to this one
                         $reference = $quarter->cloneNode(true);
                         $reference->setAttribute('ID',unique('clone'));
                         if ($subshields[$indices[$i]] != null)
@@ -1488,9 +1590,9 @@ class englishGrammar extends grammar
             }
             for ($i = 1; $i <= $highest; $i++) {
                 if ($subshields[$i] == null) {
-                    $pendingShield = $this->schema->makeNode(blazonML::E_SHIELD);
+                    $pendingShield = $this->schema->makeIDNode(blazonML::E_SHIELD);
                     $pendingShield->setAttribute('index', $i);
-                    $pendingShield->appendChild($this->schema->makeNode(blazonML::E_PENDING));
+                    $pendingShield->appendChild($this->schema->makeIDNode(blazonML::E_PENDING));
                     $subshields[$i] = $pendingShield;
                     // self::raiseError(self::ERROR_ORIGIN,'Missing quarter (' . $i . ')', true);
                 } else {
@@ -1506,7 +1608,7 @@ class englishGrammar extends grammar
             $quartered->setAttribute('order', $order);
             for ($i = 1; $i <= $highest; $i++)
                 $quartered->appendChild($subshields[$i]);
-            $node = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
+            $node = $this->schema->makeIDNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
             $node->appendChild($quartered);
         }
         return $node;
@@ -1537,7 +1639,7 @@ class englishGrammar extends grammar
             $shield2->setAttribute('index', '2');
             $half->appendChild($shield1);
             $half->appendChild($shield2);
-            $node = $this->schema->makeNode(blazonML::E_SHIELD,
+            $node = $this->schema->makeIDNode(blazonML::E_SHIELD,
                 array(blazonML::A_INDEX => '0'));
             $node->appendChild($half);
         }
@@ -1740,8 +1842,7 @@ class englishGrammar extends grammar
         $found = true;
         while ($found) {
             if (self::semicolon()) break;
-            self::ignore(languageDB::ANDD);
-            self::comma();
+            $this->matcher->syncOver(languageDB::ANDD);
             if (($colour = self::colour()) != null) {
                 $size = null;
                 if (!self::semicolon())
@@ -1798,10 +1899,12 @@ class englishGrammar extends grammar
         self::discardPhrase($phrase);
       return null;
     }
-    $this->matcher->syncOver(languageDB::WORD_OF);
+    $ofNum = null;
 
-    if ($ofNum = $phrase->add(self::findLex(languageDB::NUMBER)))
-        $phrase->add(self::findLex(languageDB::POINTS));
+    $numLexeme = $phrase->add(self::ofNumber(languageDB::POINTS));
+    if (!is_null($numLexeme)) {
+        $ofNum = $numLexeme->keyterm;
+    }
     if ($treatment->keyterm == 'mulletty') {
         if ($ofNum == null || $ofNum < 5)
             $ofNum = 5;
@@ -1816,13 +1919,27 @@ class englishGrammar extends grammar
             $keyterm = 'checky3'; */
         }
     }
-    $node = $this->schema->makeNodeFromLexeme(blazonML::E_TREATMENT, $treatment);
+    $node = $this->schema->makeNodeFromLexeme(blazonML::E_TREATMENT, $phrase->create($treatment->keyterm));
     if (substr($treatment->keyterm, 0, 5) == 'grady') {
         if ($inverse = self::findLex(languageDB::INVERSE)) {
             $node->appendChild($this->schema->makeModFromLexeme($inverse, languageDB::INVERSE));
         }
     }
     return $node;
+  }
+
+  protected function ofNumber($descriptor = null) {
+        $phrase = self::newPhrase();
+        if (is_null($phrase->add(self::findLex(languageDB::WORD_OF)))) return null;
+        $number = $phrase->add(self::findLex(languageDB::NUMBER));
+        if (!is_null($descriptor)) {
+            $phrase->add(self::findLex($descriptor));
+        }
+        if (is_null($number)) {
+            self::discardPhrase($phrase);
+            return null;
+        } // else
+        return $phrase->create('ofnum', $number->keyterm);
   }
 
   protected function division( $onlyCounterchanged = false ) { // DONE
@@ -1862,6 +1979,8 @@ class englishGrammar extends grammar
           $node->appendChild( $this->schema->makeModFromLexeme($lexeme, blazonML::A_LINETYPE));
         } elseif ( $lexeme = self::findLex(languageDB::DIVISION_MODS)) {
           $node->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::DIVISION_MODS));
+        } elseif ( $lexeme = self::ofNumber(languageDB::PIECES)) {
+            $node->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::DIVISION_MODS));
         } elseif ($lexeme = self::findLex(languageDB::ORIENTATION)) {
           $node->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::ORIENTATION));
         } elseif ( ($tincCount < $maxTinc) && ($tinc = self::tincture(false)) ) {
@@ -1893,35 +2012,6 @@ class englishGrammar extends grammar
     return $node;
   }
 
-  /*
-   * This function has 4 return possibilities
-   * null - nothing found
-   * 'crest' - marker to move on to next crest
-   * 'no-crest
-   */
-  /* protected function crest() {
-    if (($type = self::find(languageDB::CREST)) == null) {
-      return;
-    }
-    $crestNode = $this->schema->makeNode(blazonML::E_CREST, array (
-      blazonML::A_KEYTERM => $type),
-      self::tokens(),
-      self::lineno());
-    $charge = self::charge(true,true,false); // assume number, allow arrangements, don't allow positions
-    if ($charge == null) {
-      self::raiseError(self::ERROR_ORIGIN,"Expected charge for the crest", true);
-      return null;
-    } else {
-      $crestNode->appendChild($charge);
-    }
-      if (($adjust = $this->getAdjustments()) != null) {
-          foreach ($adjust as $adj) {
-              $crestNode->appendChild($adj);
-          }
-      }
-    return $crestNode;
-  } */
-
 
     protected function compartment() { // DONE
         $phrase = self::newPhrase();
@@ -1952,7 +2042,11 @@ class englishGrammar extends grammar
         // True - the word "ornament" on its own
         // A node representing a specific group of ornaments
         $phrase = self::newPhrase();
-        if (!$phrase->add(self::findLex(languageDB::ORNAMENT))) return null;
+        $phrase->add(self::findLex(languageDB::SIGNIFIER));
+        if (!$phrase->add(self::findLex(languageDB::ORNAMENT))) {
+            self:$this->discardPhrase($phrase);
+            return null;
+        }
         $ornamentNode = true;
 
         $phrase->add(self::findLex(languageDB::WORD_OF));
@@ -2019,6 +2113,8 @@ class englishGrammar extends grammar
 
         $tinctures = [];
         $locNode = null;
+        $tincture = null;
+        $adjust = null;
         $allowTincture = ($type == 'ribbons' || substr($type, 0, 5) == 'cloak' || $type == 'leaves');  // have complex colour scheme
         // Look for any combination of tinctures, adjustments and locations
         while (!is_null($lexeme = self::achievementLocation())
@@ -2072,7 +2168,7 @@ class englishGrammar extends grammar
             return null;
         }
         $this->matcher->syncOver(languageDB::ANDD);
-        return $phrase->create();
+        return $phrase->create($loc->keyterm);
 
     }
 
@@ -2084,7 +2180,7 @@ class englishGrammar extends grammar
         $locNode = null;
         while (true) {
             if (!is_null($loc = self::achievementLocation())) {
-                $locNode = $this->schema->makeNode(blazonML::E_LOCATION, $loc);
+                $locNode = $this->schema->makeNodeFromLexeme(blazonML::E_LOCATION, $loc);
             }
             $charge = self::charge(true,false,false); // assume number, don't allow positions or arrangements
             if ($charge == null) {
@@ -2146,13 +2242,13 @@ class englishGrammar extends grammar
 
         if ($typeLex == null) { // look again
             $phrase->add(self::findLex(languageDB::WORD_OF));
-            $phrase->add(self::ignore(languageDB::SIGNIFIER));
+            $phrase->add(self::findLex(languageDB::SIGNIFIER));
             $typeLex = $phrase->add(self::findLex(languageDB::MOTTO_TYPE));
         }
 
         $type = !is_null($typeLex) ? $typeLex->keyterm : 'ribbon';
 
-        $posLex = $phrase->add(self::findLex(languageDB::MOTTO_POSITION));
+        $posLex = $phrase->add(self::findLex(languageDB::VERTICAL_POSITION));
         $position = !is_null($posLex) ? $posLex->keyterm : 'below';
         $keyterm = $type . '-' . $position;
 
@@ -2228,8 +2324,8 @@ class englishGrammar extends grammar
 
     $found = true;
     $colourOrFur = null;
-    $state = self::save();
-    $node = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
+    $phrase = self::newPhrase();
+    $node = $this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
         blazonML::A_ORIGIN => 'given'));
 
     if ( ($colourOrFur = self::colour())
@@ -2237,16 +2333,15 @@ class englishGrammar extends grammar
         || ($colourOrFur = self::tartan()) ) {
       // This could be [colour] [treatment] [colour],
       // unless it is followed by a semi colon
-      // self::comma();
-      if ( !self::comma() ) {
+      if ( is_null(self::findLex(languageDB::COMMA)) ) {
         if ( ($treat = self::treatment()) ) {
           $keyterm = $treat->getAttribute('keyterm');
           $grady = (substr($keyterm,0,5) == 'grady');
-          $tinc1 = $this->schema->makeNode(blazonML::E_TINCTURE, array ( blazonML::A_INDEX => '1'));
+          $tinc1 = $this->schema->makeIDNode(blazonML::E_TINCTURE, array ( blazonML::A_INDEX => '1'));
           $tinc1->appendChild($colourOrFur);
           $colourOrFur = null; // used
           $treat->appendChild($tinc1);
-          self::ignore(languageDB::ANDD);
+          $this->matcher->syncOver(languageDB::ANDD);
           // Some treatments only require one tincture
           if ( !in_array( $keyterm, array ( 'bezanty', 'hurty', 'platy', 'guzy', 'pommy', 'torty' ))) {
             $tinc2 = self::tincture(!$grady);
@@ -2259,7 +2354,7 @@ class englishGrammar extends grammar
           // Could also be [colour] [semyde] [charge]
         } elseif ( $lexeme = self::findLex(languageDB::SEMY) ) {
           $semyde = $this->schema->makeNodeFromLexeme(blazonML::E_SEMYDE, $lexeme);
-          $tinc1 = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
+          $tinc1 = $this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
               blazonML::A_ORIGIN => 'given'));
           $tinc1->appendChild($colourOrFur);
           $colourOrFur = null; // used
@@ -2270,13 +2365,12 @@ class englishGrammar extends grammar
             $semyde->appendChild($this->schema->makeNode(blazonML::E_MISSING));
           }
           // we also allow a second charge, which MUST be preceeded by AND
-            $state2 = self::save();
+            $phrase2 = self::newPhrase();
             if (!self::semicolon() && self::findLex(languageDB::ANDD)) {
                 if ($charge2 = self::simpleCharge(true)) {
                     $semyde->appendChild($charge2);
-                    self::discard($state2);
                 } else {
-                    self::restore($state2);
+                    self::discardPhrase($phrase2);
                 }
             }
           $node->appendChild($semyde);
@@ -2284,7 +2378,7 @@ class englishGrammar extends grammar
       }
       // Look for [treatment] [colour] [colour]
     } elseif ( ($treat = self::treatment()) ) {
-      self::comma();
+        $this->matcher->syncOver();
       $keyterm = $treat->getAttribute('keyterm');
       $treat->appendChild(self::tincture(true));
       $grady = (substr($keyterm, 0, 5) == 'grady');
@@ -2349,14 +2443,13 @@ class englishGrammar extends grammar
         $node->setAttribute( blazonML::A_ORIGIN, $backref->keyterm);
       // Or a reference to proper
     } elseif ( $lexeme = self::findLex(languageDB::PROPER) ) {
-      $proper = $this->schema->makeNodeFromLexeme(blazonML::E_PROPER,$lexeme);
+      $proper = $this->schema->makeIDNodeFromLexeme(blazonML::E_PROPER,$lexeme);
       $node->appendChild($proper);
       // Look for a colour or a fur
     } else { // Didn't find anything
-      self::restore($state);
+      self::discardPhrase($phrase);
       $found = false;
     }
-    self::discard($state);
     if ( $colourOrFur ) {
         $node->appendChild($colourOrFur); // we have a colour or fur on its own
         $this->foundColours[] = $node->cloneNode(true);
@@ -2365,7 +2458,7 @@ class englishGrammar extends grammar
         $this->foundTinctures[] = $node->cloneNode(true);
     } else {
       if ( $required ) {
-        $node = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
+        $node = $this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
             blazonML::A_ORIGIN => 'pending'));
       } else {
         $node = null;

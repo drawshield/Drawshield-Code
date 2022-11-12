@@ -183,8 +183,7 @@ in ?her (complement|plenitude)=full
 in ?her increment=increscent
 in ?her de[ct]r[ie]ment=decrescent
 ?mounted on % (degree|step|ascent|grice|griece)s?=on-steps
- # CAUTION This is the default for charge of number
-of % ?(point|ray|branche?)s=of-num
+of % (point|ray|branche?)s=ofnum
 in % places=places
 ?each of % links=links
 vuln(ed|ing)=vulned
@@ -252,6 +251,7 @@ erect in pale=palewise
 hauri[ea]nt=haurient
 na[it]ant?=fesswise
 disposed?=arranged
+arranged?=arranged
 affront(e|ed|ant|y|ee)=affronty
 (lying|laying)=laying
 # Next 4 Mostly for labels

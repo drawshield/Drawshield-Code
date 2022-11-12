@@ -64,21 +64,26 @@ class parser {
     $topNode->setAttribute("creatorName", $version['website']);
     $topNode->setAttribute("creatorVersion", $version['release']);
     $topNode->setAttribute("timestamp", time());
-    $inputNode = $this->xmlMaker->createElement(blazonML::E_INPUT);
+    /* $inputNode = $this->xmlMaker->createElement(blazonML::E_INPUT);
     $inputNode->setAttribute("blazonText",$blazon);
-    for($i = 0; $i < count($tokenList); $i++) {
+     for($i = 0; $i < count($tokenList); $i++) {
       $tokenNode = $this->xmlMaker->createElement(blazonML::E_TOKEN);
       $tokenNode->setAttribute(blazonML::A_INDEX,$i);
       $tokenNode->appendChild($this->xmlMaker->createTextNode($tokenList[$i]->text));
       $inputNode->appendChild($tokenNode);
     }
-    $topNode->appendChild($inputNode);
+    $topNode->appendChild($inputNode); */
     $this->xmlMaker->appendChild($topNode);
 
     // Do the parsing
     $nodes = $this->grammar->getAST($tokenList);
     foreach ($nodes as $node) {
-      if ($node != NULL) $topNode->appendChild($node);
+        if ($node != NULL) {
+            if ($node->nodeName == blazonML::E_INPUT) {
+                $node->setAttribute("blazonText", $blazon);
+            }
+            $topNode->appendChild($node);
+        }
     }
 
     // Return the result

@@ -115,6 +115,28 @@ function setOptionsFromBlazon($node)
     tidyOptions();
 }
 
+function drawShield($node, $layout) {
+    global $options;
+
+    $partsList = [];
+    $body = makeshield($node, $layout);
+    $layout = ShieldLayout::from_options($options);
+    // options may have changed in makeShield
+    $outline = getShape($layout);
+    if (!array_key_exists('nomask', $options)) {
+        $clipShield = add_def('mask', '<path fill="#FFFFFF" d="' . $outline . '" />');
+        $body = '<g mask="url(#' . $clipShield . ')">' . $body . '</g>';
+    }
+    if ($options['effect'] == 'inked')
+        $body .= '<path fill="none" stroke="#000000" stroke-width="4" d="' . $outline . '" />';
+    foreach ($node->childNodes as $childNode) {
+        if ($childNode->nodeName == blazonML::E_ACHIEVEMENT) {
+            $partsList[] = getAchievementParts($childNode, $layout);
+        }
+    }
+    return array ('body' => $body, 'parts' => $partsList);
+}
+
 function draw()
 {
     global $dom;
@@ -138,6 +160,7 @@ function draw()
     $y1Location = 0;
     $extraSpace = 0;
     $partsList = [];
+    $vbHeight = null;
     $layout = ShieldLayout::from_options($options);
     if ($options['palette'] == 'hatching') $options['addHatching'] = $layout->size->height;
 
@@ -173,10 +196,70 @@ function draw()
     $body = '';
     foreach ($blazonNode->childNodes as $node) {
         switch ($node->nodeName) {
-            case 'complex':
+            case blazonML::E_COMPLEX:
                 $body .= makeAlongside($node, $layout);
                 break;
-            case 'shield':
+            case blazonML::E_ROLL:
+                $columns = $node->getAttribute(blazonML::A_COLS);
+                $scale = 1 / $columns;
+                $colCount = -1;
+                $rowCount = 0;
+                $gap = 100;
+                $offset = $gap * $scale * -1;
+                $background = null;
+                foreach ($node->childNodes as $childNode) {
+                    if ($childNode->nodeName == blazonML::E_TINCTURE) {
+                        $background = $childNode;
+                        continue;
+                    }
+                    $colCount += 1;
+                    if ($colCount >= $columns) {
+                        $colCount = 0;
+                        $rowCount += 1;
+                        $offset += 100 * $scale;
+                    }
+                    $xShift = $colCount * (1000 * $scale);
+                    $yShift = $offset + $rowCount * (1200 * $scale);
+                    if ($childNode->nodeName != blazonML::E_MISSING) {
+                        $rollEntry = "<g transform=\"translate($xShift,$yShift) scale($scale)\">";
+                        $entry = drawShield($childNode, $layout);
+                        $rollEntry .= $entry['body'];
+                        if (count($partsList)) {
+                            foreach ($partsList as $parts) {
+                                $rollEntry .= addParts($rollEntry, $parts, $layout);
+                            }
+                        }
+                        if ($caption = $childNode->getAttribute(blazonML::A_CAPTION)) {
+                            $builder = new WordBuilder();
+                            $builder->setOption(WordBuilder::TEXT1, $caption);
+                            $builder->setOption(WordBuilder::ALIGN, WordBuilder::CENTRE);
+                            // leave everything else as a default for now
+                            $builder->compile();
+                            $result = $builder->getSVG(true);
+                            $capWidth = $result['width'];
+                            $capHeight = $result['height'];
+                            // work out how to scale & place it - it needs to go into a box 100 * 1000 at 0,1200
+                            // first, will it fit if we just scale the height?
+                            $capScale = ($gap * 0.8) / $capHeight;
+                            $newWidth = $capWidth * $capScale;
+                            if ($newWidth > 1000) { // fit width instead
+                                $capScale = 940 / $capWidth;
+                                $newWidth = 940;
+                            }
+                            $xShift = (1000 - $newWidth) / 2;
+                            $yShift = 1200 + ($gap * 0.1);
+                            $rollEntry .= "<g transform=\"translate($xShift,$yShift) scale($capScale)\">{$result['svg']}</g>";
+                        }
+                        $rollEntry .= '</g>';
+                        $body .= $rollEntry;
+                    }
+                }
+                $vbHeight =  (($rowCount + 1) * ($gap + 1200)) * $scale;
+                if (!is_null($background)) {
+                    $body = apply_tincture($background, "<path d=\"m0 0 h1000 v$vbHeight h-1000 z\"/>", $layout) . $body;
+                }
+                break;
+            case blazonML::E_SHIELD:
                 $body .= makeshield($node, $layout);
                 $layout = ShieldLayout::from_options($options);
                 // options may have changed in makeShield
@@ -238,10 +321,10 @@ function draw()
         }
     }
     $versionSpace = 0;
-    if (!$options['asFile']) {
+  /*  if (!$options['asFile']) {
         $body .= '<text id="test1" x="10" y="' . $y1Location . '" font-size="30" >' . $version['website'] . '</text><text id="release-id" x="990" y="' . $y1Location . '" text-anchor="end" font-size="30" >' . $version['release'] . '</text>';
         $versionSpace = 60;
-    }
+    } */
     if ($effect != 'shiny') { // other effects are applied everywhere
         $body .= add_def();
         $body = getEffect($effect, 'below') . '<g ' . getEffect($effect, 'filter') . '>' . $body . getEffect($effect, 'above') . '</g>';
@@ -257,17 +340,19 @@ function draw()
         require("hatching.inc");
         $extraDefs = mkHatches($options['addHatching']);
     }
-    $vbHeight = 1200;
-    if ($options['shape'] == 'flag') { // need to scale tall flags to fit
-        if ($options['aspectRatio'] > 1.18) {
-            // $shrinkFactor = 1.18 / $options['aspectRatio'];
-            // $shiftFactor = (1000 *  (1-$shrinkFactor)) / 2;
-            // $body = "<g transform=\"translate($shiftFactor, 0) scale($shrinkFactor)\">$body</g>";
-            $svgHeight = $svgWidth * $options['aspectRatio'];
-            $vbHeight = 1000 * $options['aspectRatio'] + $versionSpace;
-        } elseif ($options['aspectRatio'] < 1.22 ) {
-            $svgHeight = $svgWidth * $options['aspectRatio'];
-            $vbHeight = 1000 * $options['aspectRatio'] + $versionSpace;
+    if (is_null($vbHeight)) {
+        $vbHeight = 1200;
+        if ($options['shape'] == 'flag') { // need to scale tall flags to fit
+            if ($options['aspectRatio'] > 1.18) {
+                // $shrinkFactor = 1.18 / $options['aspectRatio'];
+                // $shiftFactor = (1000 *  (1-$shrinkFactor)) / 2;
+                // $body = "<g transform=\"translate($shiftFactor, 0) scale($shrinkFactor)\">$body</g>";
+                $svgHeight = $svgWidth * $options['aspectRatio'];
+                $vbHeight = 1000 * $options['aspectRatio'] + $versionSpace;
+            } elseif ($options['aspectRatio'] < 1.22) {
+                $svgHeight = $svgWidth * $options['aspectRatio'];
+                $vbHeight = 1000 * $options['aspectRatio'] + $versionSpace;
+            }
         }
     }
     /*   if ($options['shape'] == "flag") {

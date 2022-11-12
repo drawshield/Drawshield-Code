@@ -301,7 +301,7 @@ class Tokeniser {
           }
           break;
         case '.':
-        case ':': // treat like commas, for now, change later if needed.
+        case ':':
           if ( $incAll ) {
             $part_word .= $curChar;
             break;
@@ -313,7 +313,7 @@ class Tokeniser {
             if ( !$comment ) { $words[] = new Token($part_word, "$lineNo:$wordStart"); }
             $part_word = ''; $wordStart = $charCount + 1;
           }
-        if ( !$comment ) { $words[] = new Token($curChar, "$lineNo:$wordStart", null, languageDB::COMMA); }
+        if ( !$comment ) { $words[] = new Token($curChar, "$lineNo:$wordStart", null, languageDB::PERIOD); }
           break;
         case ';':
           if ( $incAll ) {
