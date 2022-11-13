@@ -298,6 +298,7 @@ function draw()
             }
             if ($options['outputFormat'] == 'svg' || $options['outputFormat'] == 'json') {
                 $messages->addMessage('legal', "Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.");
+                $messages->addMessage('legal', "{$version['website']} Version {$version['release']} {$version['email']}");
                 $messages->insertMessages();
                 $xpath = new DOMXPath($dom);
                 $nodes = array_reverse(iterator_to_array($xpath->evaluate('//*')));

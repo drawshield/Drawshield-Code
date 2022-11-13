@@ -194,7 +194,7 @@ class languageDB extends lexicon
                 'skip'
             ),
             self::CAPTION => array (
-                'caption', 'label', 'labelled'
+                'caption', 'captioned', 'labelled'
             ),
             self::PIECES => array (
                 array ( '(part|column|piece|section)s?', 'pieces' )),
