@@ -16,27 +16,98 @@ This file is part of the DrawShield.net heraldry image creation program
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/.
  */
 
-class tokeniser {
+class Token {
+  public $text;     // this is original set of characters from the blazon
+  public $match;    // this is a length limited, lowercase version of the above for use in comparisons
+  public $startPos;     // this is a string in the form line:character giving the position of the START of the token
+    public $endPos;  // as above for the end, if null, just add the length of the tex
+  public $category; // if not null this is the category to assign to the token, as determined by the tokeniser
 
-  public $words = array(); // Used internally to manage tokens
-  public $lineNos = array();
-  public $badWords = false; // Set if unknown token encountered
-  public $cur_word;
-  public $num_tokens;
+  public function __construct($text, $start = null, $end = null, $category = null) {
+    $this->text = $text;
+    $this->match = transliterate(mb_strtolower(mb_substr($text, 0, 192, "UTF-8")));
+    $this->startPos = $start;
+    if (is_null($end)) {
+        list($line,$char) = preg_split('/:/', $start);
+        $end = $line . ':' . $char + mb_strlen($text) - 1;
+    }
+    $this->endPos = $end;
+    $this->category = $category;
+  }
+
+  public function __toString() {
+      $retval = "{$this->text} ({$this->startPos}-{$this->endPos})";
+      if (!is_null($this->category)) {
+          $retval .= " [{$this->category}]";
+      }
+      return $retval;
+  }
+
+}
+
+class Phrase {
+    public $keyterm;
+    protected $text;
+    protected $start;
+    protected $end;
+    protected $state;
+
+    public function __construct($state = null) {
+        $this->text = '';
+        $this->state = $state;
+        $this->start = null;
+    }
+
+    public function getState() {
+        return $this->state;
+    }
+
+    public function isEmpty() {
+        return is_null($this->start);
+    }
+
+    public function add($lexeme): ?Lexeme {
+        if (!is_null($lexeme)) {
+            $this->text .= $lexeme->tokens . ' ';
+            if (is_null($this->start)) {
+                $this->start = $lexeme->startPos;
+            }
+            $this->end = $lexeme->endPos;
+            // We always use the most recently found keyterm (but can override it)
+            $this->keyterm = $lexeme->keyterm;
+        }
+        return $lexeme; // so we can chain assignment
+    }
+
+    public function __toString() {
+        return rtrim($this->text);
+    }
+
+    public function create($keyterm = null, $value = null): Lexeme {
+        if (is_null($keyterm)) $keyterm = $this->keyterm;
+        return new Lexeme("phrase", $keyterm, rtrim($this->text), $this->start, $this->end, $value);
+    }
+}
+
+class Tokeniser {
+
   // Constructor
   // Fill the words array with words from the blazon
   // Punctuation and spaces ignored
-  function __construct($blazon) {
-    
+  function __construct() {
+      // set any options here
+  }
+
+  function tokenise($blazon) {
+
     #$blazon = iconv("UTF-8", "ASCII//TRANSLIT", $blazonText);
     #$blazon = preg_replace(array('/è/','/é/','/ê/','/ç/','/à/','/á/','/â/','/È/','/É/','/Ê/','/Ç/','/À/','/Á/','/Â/'),
     #				       array('e','e','e','c','a','a','a','e','e','e','c','a','a','a'),
     #               $blazonText);
                    
-    $this->words = array();
-    $this->lineNos = array();
-    $this->cur_word = 0;
+    $words = array();
     $lineNo = 1;
+    $charCount = 1;
   
     $i = 0;
     $lineComment = false;
@@ -48,6 +119,7 @@ class tokeniser {
     $end = strlen($blazon);
     $lookBehind = '';
     $anyEndQuote = false;
+    $wordStart = 1;
     while ( $i < $end ) {
       $lookAhead = '';
       if ($i + 1 < $end) {
@@ -57,14 +129,17 @@ class tokeniser {
       if ($blockComment) { // ignore everything to matching close
         if ($curChar == '*' && $lookAhead == '/') {
           $blockComment = false;
+          $charCount++;
           $i++;
         }
         $i++;
+          $charCount++;
         continue;
       }
       if ($lineComment) { // shortcut, ignore all up to new line
         if ($curChar == "\n") {
           $lineNo += 1;
+          $charCount = 0;
           $lineComment = false;    
         } 
         $i++;
@@ -77,7 +152,7 @@ class tokeniser {
             $part_word .= "'";
           }
           // elseif ( $part_word == '' ) {
-          //   if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
+          //   if ( !$comment ) { $words[] = $part_word; $this->lineNos[] = $lineNo; }
             // $part_word = '';
           // } // else ignore it
           break;
@@ -88,11 +163,15 @@ class tokeniser {
           if ( $incAll )
             $part_word .= ' ';
           elseif ( $part_word != '' ) {
-            if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
-            $part_word = '';
+            if ( !$comment ) { $words[] = new Token($part_word, "$lineNo:$wordStart"); }
+            $part_word = ''; $wordStart = $charCount + 1;
+          } else {
+              $wordStart = $charCount + 1;
           } // else ignore it
           if ($curChar == "\n") {
             $lineNo += 1;
+            $charCount = 0;
+            $wordStart = 1;
           }
           break;
         case '{':
@@ -101,7 +180,7 @@ class tokeniser {
             break;
           }
           if ( $part_word != '' ) {
-            if ( !$comment ) { $this->words[] = $part_word;  $this->lineNos[] = $lineNo; }
+            if ( !$comment ) { $words[] = new Token($part_word, "$lineNo:$wordStart"); }
           }
           $part_word = '{';
           $incAll = true;
@@ -113,10 +192,9 @@ class tokeniser {
           }
           if ( $part_word != '' ) {
             $part_word .= '}';
-            $this->words[] = $part_word;
-            $this->lineNos[] = $lineNo;
+            $words[] = new Token($part_word, "$lineNo:$wordStart");
           }
-          $part_word = '';
+          $part_word = ''; $wordStart = $charCount + 1;
           $incAll = false;
           break;
         case '(':
@@ -126,9 +204,8 @@ class tokeniser {
             break;
           }
           if ( $part_word != '' ) {
-            $this->words[] = $part_word; 
-            $this->lineNos[] = $lineNo;
-            $part_word = '';
+            $words[] = new Token($part_word, "$lineNo:$wordStart");
+            $part_word = ''; $wordStart = $charCount + 1;
           }
           $comment = $curChar;
           break;
@@ -139,15 +216,15 @@ class tokeniser {
           }
           if ('*' == $comment && $lookAhead == '/') { // match bracket type
             $comment = false;
-            $part_word = '';
+            $part_word = ''; $wordStart = $charCount + 1;
             $i += 1;
+              $charCount++;
           } else {
             if ( $part_word != '' ) {
-              $this->words[] = $part_word; $this->lineNos[] = $lineNo;
+              $words[] = new Token($part_word, "$lineNo:$wordStart");
             }
-            $this->words[] = '*';
-            $this->lineNos[] = $lineNo;
-            $part_word = '';
+            $words[] = new Token('*', "$lineNo:$wordStart");
+            $part_word = ''; $wordStart = $charCount + 1;
           }
           break;
         case ')':
@@ -157,14 +234,13 @@ class tokeniser {
           }
           if ($comment == '(') { // match bracket type
             $comment = false;
-            $part_word = '';
+            $part_word = ''; $wordStart = $charCount + 1;
           } else {
               if ( $part_word != '' ) {
-                $this->words[] = $part_word; $this->lineNos[] = $lineNo;
+                $words[] = new Token($part_word, "$lineNo:$wordStart");
             }
-            $this->words[] = $curChar;
-            $this->lineNos[] = $lineNo;
-            $part_word = '';
+            $words[] = new Token($curChar, "$lineNo:$wordStart");
+            $part_word = ''; $wordStart = $charCount + 1;
           }
           break;
         case ']':
@@ -174,9 +250,9 @@ class tokeniser {
           }
           if ($comment == '[') { // match bracket type
             $comment = false;
-            $part_word = '';
+            $part_word = ''; $wordStart = $charCount + 1;
           } elseif ( $part_word != '' ) {
-                $this->words[] = $part_word; $this->lineNos[] = $lineNo;
+            $words[] = new Token($part_word, "$lineNo:$wordStart");
           }
           break;
         case '/':
@@ -185,8 +261,8 @@ class tokeniser {
             break;
           }
           if ( $part_word != '' ) {
-            if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
-            $part_word = '';
+            if ( !$comment ) { $words[] = new Token($part_word, "$lineNo:$wordStart"); }
+            $part_word = ''; $wordStart = $charCount + 1;
           }
           if ($lookAhead == '/') {
             $lineComment = true;
@@ -202,8 +278,8 @@ class tokeniser {
             break;
           }
           if ( $part_word != '' ) {
-            if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
-            $part_word = '';
+            if ( !$comment ) { $words[] = new Token($part_word, "$lineNo:$wordStart"); }
+            $part_word = ''; $wordStart = $charCount + 1;
           }
           $lineComment = true;
           break;
@@ -213,8 +289,8 @@ class tokeniser {
             break;
           }
           if ( $part_word != '' ) {
-            if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
-            $part_word = '';
+            if ( !$comment ) { $words[] = new Token($part_word, "$lineNo:$wordStart"); }
+            $part_word = ''; $wordStart = $charCount + 1;
           }
           if ($comment) break;
           if ( $i > 0 && mb_strstr(  " \t\n\r'\",.", mb_substr($blazon, $i-1, 1))) {
@@ -234,10 +310,10 @@ class tokeniser {
             $part_word .= $curChar;
             break;
           } elseif ( $part_word != '' ) {
-            if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
-            $part_word = '';
+            if ( !$comment ) { $words[] = new Token($part_word, "$lineNo:$wordStart"); }
+            $part_word = ''; $wordStart = $charCount + 1;
           }
-          if ( !$comment ) { $this->words[] = $curChar; $this->lineNos[] = $lineNo; }
+        if ( !$comment ) { $words[] = new Token($curChar, "$lineNo:$wordStart", null, languageDB::PERIOD); }
           break;
         case ';':
           if ( $incAll ) {
@@ -245,16 +321,19 @@ class tokeniser {
             break;
           }
           if ( $part_word != '' ) {
-            if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
-            $part_word = '';
+            if ( !$comment ) { $words[] = new Token($part_word, "$lineNo:$wordStart"); }
+            $part_word = ''; $wordStart = $charCount + 1;
           }
           if ( !$comment ) {
+              $type = languageDB::SEMICOLON;
             $temp_word = ';';
             if ($lookAhead == ';') { // treat double semi-colon as its own symbol
+                $type = languageDB::DOUBLESEMI;
               $temp_word = ";;";
               $i += 1;
+                $charCount++;
             }
-            $this->words[] = $temp_word; $this->lineNos[] = $lineNo;
+            $words[] = new Token($temp_word, "$lineNo:$wordStart", null, $type);
           }
           break;
         case ',':
@@ -263,10 +342,10 @@ class tokeniser {
             break;
           }
           if ( $part_word != '' ) {
-            if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
-            $part_word = '';
+            if ( !$comment ) { $words[] = new Token($part_word, "$lineNo:$wordStart"); }
+            $part_word = ''; $wordStart = $charCount + 1;
           }
-          if ( !$comment ) { $this->words[] = $curChar; $this->lineNos[] = $lineNo; }
+          if ( !$comment ) { $words[] = new Token($curChar, "$lineNo:$wordStart", null, languageDB::COMMA); }
           break;
         case "«": // list of quote chars from https://stackoverflow.com/questions/20025030/convert-all-types-of-smart-quotes-with-php
         case "»":
@@ -283,10 +362,9 @@ class tokeniser {
           if ( $in_string ) { // If we are inside normal quotes just add to the word
             if ($anyEndQuote) {
               if ($part_word != '') {
-                $this->words[] = $part_word;
-                $this->lineNos[] = $lineNo;
+                $words = new Token($part_word, "$lineNo:$wordStart", null, "string");
               }
-              $part_word = '';
+              $part_word = ''; $wordStart = $charCount + 1;
               $in_string = false;
               $incAll = false;
               $anyEndQuote = false;
@@ -295,8 +373,8 @@ class tokeniser {
             }
           } else { // otherwise treat it the same as a normal quote
             if ( $in_string ) {
-              if ( $part_word != '' ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
-              $part_word = '';
+              if ( $part_word != '' ) { $words[] = new Token($part_word, "$lineNo:$wordStart", null, "string"); }
+              $part_word = ''; $wordStart = $charCount + 1;
               $in_string = false;
               $incAll = false;
             } else {
@@ -309,8 +387,8 @@ class tokeniser {
           break;
         case '"':
           if ( $in_string ) {
-            if ( $part_word != '' ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
-            $part_word = '';
+            if ( $part_word != '' ) { $words[] = new Token($part_word, "$lineNo:$wordStart", null, "string"); }
+            $part_word = ''; $wordStart = $charCount + 1;
             $in_string = false;
             $incAll = false;
           } else {
@@ -324,6 +402,7 @@ class tokeniser {
           if ( $incAll ) {
             if ( $lookAhead == '"' ) {
               $part_word .= '"';
+                $charCount++;
               $i++;
 
             } else
@@ -342,58 +421,13 @@ class tokeniser {
       }
       if ($i < $end) $lookBehind = $curChar;
       $i++;
+        $charCount++;
     }
     if ( $part_word != '' ) {
-      if ( !$comment ) { $this->words[] = $part_word; $this->lineNos[] = $lineNo; }
+      if ( !$comment ) { $words[] = new Token($part_word, "$lineNo:$wordStart"); }
     }
-    $this->num_tokens = count($this->words);
-    $this->origWords = $this->words;
-  }
-  
-  public function ignoreWord($offset) {
-    global $trace;
-    
-    $this->badWords = true;
-    if ( $offset >= $this->num_tokens )
-      $offset = $this->num_tokens - 1;
-    elseif ( $offset < 0 )
-      $offset = 0;
-    // in case already ignored, try ignoring next word
-    while ( mb_substr($this->words[$offset],0,1) == '[' && $offset < $this->num_tokens  )
-      $offset++;
-    $this->words[$offset] = '[' . $this->words[$offset] . ']';
-    if ($trace) echo "<p>Ignoring - " . $this->words[$offset] . "</p>\n";
-  }
-
-  public function restoreWord($offset) {
-    global $trace;
-
-
-    if ( $offset >= $this->num_tokens or $offset < 0 ) return;
-    $this->words[$offset] = trim($this->words[$offset],'[]');
-
-    if ($trace) echo "<p>Restoring - " . $this->words[$offset] . "</p>\n";
-  }
-  
-  public function resetToken() {
-    global $trace;
-    
-    if ($trace) echo "<p>RESET TOKENS</p>\n"; // DEBUG
-    $this->cur_word = 0;
-  }
-  
-  public function moreInput() {
-    return ( $this->cur_word < $this->num_tokens );
-  }
-  
-  public function getTokens() {
-    return $this->words;
-  }
-  
-  public function getLineNos() {
-    return $this->lineNos;
+    return $words;
   }
   
 }
      
-?>

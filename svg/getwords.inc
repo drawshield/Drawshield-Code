@@ -67,6 +67,8 @@ Class WordBuilder
         $this->longest = null;
         $this->yHeight = 500;
         $this->strokeWidth = 25;
+        $this->finalHeight = 0;
+        $this->finalWidth = 0;
 
         if (!is_null($fontname)) {
             $this->textOptions[self::FONT] = $fontname;
@@ -328,7 +330,7 @@ Class WordBuilder
             if (isset($this->fontInfo['slope'])) {
                 $factor = tan(deg2rad(abs(intval($this->fontInfo['slope']))));
                 $offset = $factor * abs(intval($this->fontInfo['underline-position']));
-                $skew = $factor * $this->fontInfo['underline-thickness'];
+                $skew = $factor * floatval($this->fontInfo['underline-thickness']);
             }
             $svg .= "<path d=\""
                 . 'M-' . $offset . ' ' .  $this->fontInfo['underline-position'] // start bottom left
@@ -654,11 +656,13 @@ Class WordBuilder
             $svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="' .
                 $height . '" width="' . $width . '"><g id="body">' . $svg . '</g></svg>';
         }
+        $this->finalHeight = $height;
+        $this->finalWidth = $width;
         return $svg;
 }
         
 
-    public function getSVG() {
+    public function getSVG($asArray = false) {
         $retval = '';
         $text = $this->textOptions[self::TEXT1];
         $text = htmlentities($text, ENT_XML1);
@@ -713,6 +717,9 @@ Class WordBuilder
         default:
             break;
         }
+        if ($asArray) {
+            return array ('svg' => $retval, 'width' => $this->finalWidth, 'height' => $this->finalHeight);
+        } // else
         return $retval;
     }
 

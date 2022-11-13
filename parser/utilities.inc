@@ -75,6 +75,8 @@ class blazonML extends DOMDocument {
   const E_INPUT = 'input';
   const E_TOKEN = 'token';
   const E_SHIELD = 'shield';
+  const E_ROLL = 'roll';
+  const A_COLS = 'columns';
   const E_PLAIN = 'simple';
   const E_COMPLEX = 'complex';
   const E_INSTRUCTIONS = 'instructions';
@@ -98,6 +100,8 @@ class blazonML extends DOMDocument {
   const E_LOCATION = 'location';
   const E_ASPECT = 'aspect';
   const A_INDEX = 'index';
+  const A_CAPTION = 'caption';
+  const A_TITLE = 'title';
   const A_TOKENS = 'tokens';
   const A_LINENUMBER = 'linenumber';
   const A_LINERANGE = 'linerange';
@@ -142,24 +146,62 @@ class blazonML extends DOMDocument {
     $this->uid = new unique();
     parent::__construct($version, $encoding);
   }
-  
-  public function makeNode ( $element, $params = null, $tokens = null, $lineNo = null ) {
-    $node = parent::createElement($element);
+    public function makeIDNodeFromLexeme ( string $element, Lexeme $lexeme, array $params = null ) {
+      $node = $this->makeNodeFromLexeme( $element, $lexeme, $params);
+        $node->setAttribute(self::A_ID, $this->uid->getRef("N"));
+        $node->setIdAttribute(self::A_ID, true);
+        return $node;
+    }
+
+    public function makeNodeFromLexeme ( string $element, Lexeme $lexeme, array $params = null )
+    {
+        $node = parent::createElement($element);
+        $node->setAttribute(self::A_KEYTERM, $lexeme->keyterm);
+        $node->setAttribute(self::A_TOKENS, $lexeme->tokens);
+        $node->setAttribute(self::A_LINENUMBER, $lexeme->startPos . '-' . $lexeme->endPos);
+        if (!is_null($lexeme->value)) $node->setAttribute(self::A_PARAM, $lexeme->value);
+        if (is_array($params)) {
+            foreach ($params as $attribute => $value)
+                if ($value)
+                    $node->setAttribute($attribute, $value);
+        }
+        return $node;
+    }
+
+    public function makeNode ( $element, $params = null, $tokens = null, $lineNo = null ) {
+        $node = parent::createElement($element);
+        if ( is_array($params) ) {
+            foreach ( $params as $attribute => $value )
+                if ( $value )
+                    $node->setAttribute($attribute,$value);
+        }
+        if ( $tokens ) $node->setAttribute(self::A_TOKENS, $tokens);
+        if ( $lineNo ) $node->setAttribute(self::A_LINENUMBER, $lineNo);
+        return $node;
+    }
+
+        public function makeIDNode ( $element, $params = null, $tokens = null, $lineNo = null ) {
+      $node = self::makeNode($element, $params, $tokens, $lineNo);
     $node->setAttribute( self::A_ID, $this->uid->getRef("N"));
     $node->setIdAttribute(self::A_ID,true); 
-    if ( is_array($params) ) {
-      foreach ( $params as $attribute => $value )
-        if ( $value )
-          $node->setAttribute($attribute,$value);
-    }
-    if ( $tokens ) $node->setAttribute(self::A_TOKENS, $tokens);
-    if ( $lineNo ) $node->setAttribute(self::A_LINENUMBER, $lineNo);
-    return $node;       
+    return $node;
+  }
+
+  public function makeTextNode($text) {
+      return parent::createTextNode($text);
   }
   
   public function makeMod ( $type, $value = null, $keyterm = null, $tokens = null, $lineNo = null ) {
     $mod = self::makeNode(self::E_MODIFIER, array ( self::A_TYPE => $type, self::A_PARAM => $value, self::A_KEYTERM => $keyterm ), $tokens, $lineNo );
     return $mod;   
+  }
+
+  public function makeModFromLexeme($lexeme, $type, $value = null) {
+      $overrides = array(self::A_TYPE => $type);
+      if (!is_null($value)) {
+          $overrides[self::A_PARAM] = $value;
+      }
+      return $this->makeNodeFromLexeme(self::E_MODIFIER, $lexeme, $overrides);
   }
 }
 

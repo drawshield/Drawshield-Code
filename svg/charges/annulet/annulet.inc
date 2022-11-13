@@ -34,9 +34,9 @@ foreach($annuletMods as $aMod) {
 }
 
 $of_num = '';
-if (existModifierWithKeyterm($node, 'of-num')) {
-  $of_num = '-of' . getModifierValueByKeyterm($node, 'of-num');
-  if (!$modded) { // set a default mod if "of-num" is present alone
+if (existModifierWithKeyterm($node, 'ofnum')) {
+  $of_num = '-of' . getModifierValueByKeyterm($node, 'ofnum');
+  if (!$modded) { // set a default mod if "ofnum" is present alone
     $modded = "-concentric";
   }
 }

@@ -242,10 +242,10 @@ class PlacementHints
             case 'lowered':
                 $this->offset_y += 60;
                 break;
-            case 'to-dexter':
+            case 'dexter':
                 $this->offset_x -= 50;
                 break;
-            case 'to-sinister':
+            case 'sinister':
                 $this->offset_x += 50;
                 break;
             case 'slightly-smaller':
@@ -262,10 +262,10 @@ class PlacementHints
             case 'slightly-lowered':
                 $this->offset_y += 30;
                 break;
-            case 'slightly-to-dexter':
+            case 'slightly-dexter':
                 $this->offset_x -= 25;
                 break;
-            case 'slightly-to-sinister':
+            case 'slightly-sinister':
                 $this->offset_x += 25;
                 break;
             case 'much-smaller':
@@ -282,10 +282,10 @@ class PlacementHints
             case 'much-lowered':
                 $this->offset_y += 120;
                 break;
-            case 'much-to-dexter':
+            case 'much-dexter':
                 $this->offset_x -= 100;
                 break;
-            case 'much-to-sinister':
+            case 'much-sinister':
                 $this->offset_x += 100;
                 break;
             case 'very-much-smaller':
@@ -302,10 +302,10 @@ class PlacementHints
             case 'very-much-lowered':
                 $this->offset_y += 240;
                 break;
-            case 'very-much-to-dexter':
+            case 'very-much-dexter':
                 $this->offset_x -= 200;
                 break;
-            case 'very-much-to-sinister':
+            case 'very-much-sinister':
                 $this->offset_x += 200;
                 break;
             case 'narrower':

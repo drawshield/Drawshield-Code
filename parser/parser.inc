@@ -32,7 +32,6 @@ class parser {
    * @var englishGrammar $grammar
    */
   protected $grammar;
-  protected $tokenList;
 
   public function __construct( $language = 'english' ) {
     $this->xmlMaker = new blazonML('1.0',"utf-8");
@@ -48,41 +47,45 @@ class parser {
   }
   
   public function parse($blazon, $format = 'xml' ) {
-    global $version;
+    global $version, $options;
     // set things up
-    $this->tokenList = new tokeniser($blazon);
-    // $topNode = $this->xmlMaker->makeNode(blazonML::E_BLAZON, 
-    //     array ( "blazonText" => $blazon,
-    //             "blazonTokens" => (implode(' ', $this->tokenList->getTokens())),
-    //             "creatorName" => $version['website'],
-    //             "creatorVersion" => $version['release'],
-    //             "timestamp" => time(),
-    //           )
-    //   );
+    $tokeniser = new Tokeniser();
+    $tokenList = $tokeniser->tokenise($blazon);
+    if ($options["stage"] == "tokens") {
+        echo $blazon . "\n";
+        echo "         11111111112222222222333333333344444444445555555555666666666677777777778888888888\n";
+        echo "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789\n";
+        foreach($tokenList as $token) {
+            echo $token . "\n";
+        }
+        exit(0);
+    }
     $topNode = $this->xmlMaker->createElementNS('http://drawshield.net/blazonML',blazonML::E_BLAZON);
-    // $topNode->setAttribute("blazonText",$blazon);
-    // $topNode->setAttribute("blazonTokens", (implode(' ', $this->tokenList->getTokens())));
     $topNode->setAttribute("creatorName", $version['website']);
     $topNode->setAttribute("creatorVersion", $version['release']);
     $topNode->setAttribute("timestamp", time());
-    $inputNode = $this->xmlMaker->createElement(blazonML::E_INPUT);
+    /* $inputNode = $this->xmlMaker->createElement(blazonML::E_INPUT);
     $inputNode->setAttribute("blazonText",$blazon);
-    $tokens = $this->tokenList->getTokens();
-    for($i = 0; $i < count($tokens); $i++) {
+     for($i = 0; $i < count($tokenList); $i++) {
       $tokenNode = $this->xmlMaker->createElement(blazonML::E_TOKEN);
       $tokenNode->setAttribute(blazonML::A_INDEX,$i);
-      $tokenNode->appendChild($this->xmlMaker->createTextNode($tokens[$i]));
+      $tokenNode->appendChild($this->xmlMaker->createTextNode($tokenList[$i]->text));
       $inputNode->appendChild($tokenNode);
     }
-    $topNode->appendChild($inputNode);
+    $topNode->appendChild($inputNode); */
     $this->xmlMaker->appendChild($topNode);
 
     // Do the parsing
-    $nodes = $this->grammar->readGrammar($this->tokenList);
+    $nodes = $this->grammar->getAST($tokenList);
     foreach ($nodes as $node) {
-      if ($node != NULL) $topNode->appendChild($node);
+        if ($node != NULL) {
+            if ($node->nodeName == blazonML::E_INPUT) {
+                $node->setAttribute("blazonText", $blazon);
+            }
+            $topNode->appendChild($node);
+        }
     }
-    
+
     // Return the result
     switch ( $format ) {
       case 'dom':

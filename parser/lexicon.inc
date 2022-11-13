@@ -17,7 +17,7 @@ This file is part of the DrawShield.net heraldry image creation program
  */
 
 class lexicon {
-   protected $patterns = array(); // of objects
+   public $patterns = array(); // of objects
    protected $language;
     
    public function getPatterns($key) {
