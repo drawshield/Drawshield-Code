@@ -812,7 +812,7 @@ HERE;
     // What type of "on" is this?
     $chargeWithType = $chargeOn->getAttribute('keyterm');
     if ($chargeWithType == 'charged-each') {
-      $num_of = getModifierValueByKeyterm($node, 'of-num');
+      $num_of = getModifierValueByKeyterm($node, 'ofnum');
       if ($num_of > 0) {
       }
       $chargeWithType = 'charged-with';

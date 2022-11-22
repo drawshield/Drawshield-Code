@@ -22,7 +22,7 @@ if (existModifierWithKeyterm($node,'dovetailed')) {
   $suffix = '-pattee';
 }
 
-$num_of = getModifierValueByKeyterm($node, 'of-num');
+$num_of = getModifierValueByKeyterm($node, 'ofnum');
 if ( $num_of < 3 )
   $num_of = 3;
 elseif ( $num_of > 7 )

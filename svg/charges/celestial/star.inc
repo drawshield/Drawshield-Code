@@ -16,7 +16,7 @@ This file is part of the DrawShield.net heraldry image creation program
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
 
-$num_of = getModifierValueByKeyterm($node, 'of-num', true);
+$num_of = getModifierValueByKeyterm($node, 'ofnum', true);
 if ( $num_of < 4 )
     $num_of = 6;
 elseif ( $num_of > 10 )

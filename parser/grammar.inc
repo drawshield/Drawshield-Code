@@ -15,206 +15,173 @@ This file is part of the DrawShield.net heraldry image creation program
     You should have received a copy of the GNU General Public License
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
-abstract class grammar  {
-  const ERROR_ORIGIN = 'parser';
-  const PRIORWORDS = 6;
+abstract class grammar
+{
+    const ERROR_ORIGIN = 'parser';
+    const PRIORWORDS = 6;
 
-  /**
-   * @var tokeniser $tokenList
-   */
-  protected $tokenList;
-  /**
-   * @var BlazonML $schema
-   */
-  protected $schema;
-  /**
-   * @var languageDB $patternDB
-   */
-  protected $patternDB;
-  /**
-   * @var matcher $phraseMatcher
-   */
-  protected $phraseMatcher;
-  protected $messages = array();
-  /**
-   * @var persistentStore $stateStore
-   */
-  protected $stateStore;
+    /**
+     * @var BlazonML $schema
+     */
+    protected $schema;
+    /**
+     * @var languageDB $patternDB
+     */
+    protected $patternDB;
+    /**
+     * @var matcher $matcher
+     */
+    protected $matcher;
+    protected $messages = array();
 
-  protected $foundTinctures = [];
-  protected $foundColours = [];
+    protected $foundTinctures = [];
+    protected $foundColours = [];
 
-  protected $shieldNode;
-  // protected $achievementNode = null;
-  // protected $notesNode = null;
-  protected $messagesNode = null;
-  
- /* protected function addInstruction($child) {
-    if ($this->notesNode == null)
-          $this->notesNode = $this->schema->makeNode(blazonML::E_INSTRUCTIONS);
-    $this->notesNode->appendChild($child);
-  } */
+    protected $shieldNode;
+    // protected $achievementNode = null;
+    // protected $notesNode = null;
+    protected $messagesNode = null;
 
-  /*  protected function clearAchievement() {
-        $this->achievementNode = null;
+    public function __construct(BlazonML $schema, $language = 'english')
+    {
+        switch ($language) {
+            case 'english':
+                include_once "english/lexicon.inc";
+                break;
+            default:
+                echo 'Urgh! No language ' . $language;
+                break;
+        }
+        $this->patternDB = new languageDB();
+        $this->schema = $schema;
     }
 
-  protected function addAchievement($child) {
-    if ($this->achievementNode == null) {
-      $this->achievementNode = $this->schema->makeNode(blazonML::E_ACHIEVEMENT);
+    /**
+     * @return DOMElement
+     */
+
+    abstract function getShield();
+    abstract function getRoll();
+
+
+    public function getAST($tokenList)
+    {
+        $this->matcher = new matcher($tokenList, $this->patternDB);
+
+        $shield = $this->getRoll();
+        if (is_null($shield)) $shield = $this->getShield();
+        foreach ($this->matcher->getMatcherErrors() as $matchError) {
+            $this->raiseError("blazon", $matchError);
+        }
+        $inputNode = $this->schema->makeNode(blazonML::E_INPUT);
+        foreach ($this->matcher->listLexemes() as $lexText) {
+              $tokenNode = $this->schema->makeNode(blazonML::E_TOKEN);
+              $tokenNode->appendChild($this->schema->makeTextNode($lexText));
+              $inputNode->appendChild($tokenNode);;
+        }
+        if ($shield == null)
+            $shield = $this->schema->makeIDNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0')); // TODO - add a field?
+        return array($shield, $inputNode, $this->messagesNode);
     }
-    if ($child != null)
-      $this->achievementNode->appendChild($child);
-  } */
 
-  public function __construct(  BlazonML $schema, $language = 'english') {
-    switch ( $language ) {
-      case 'english':
-        include_once "english/lexicon.inc";
-        break;
-      default:
-        echo 'Urgh! No language ' . $language;
-        break;
+    // shorthand functions to make code read better
+
+    protected function findLex($key)
+    {
+        return $this->matcher->matchLexeme($key);
     }
-    $this->patternDB = new languageDB();
-    $this->stateStore = new persistentStore();
-    $this->schema = $schema;
-  }
 
-  /**
-   * @return DOMElement
-   */
-
-  abstract function getShield();
-
-  public function readGrammar ( tokeniser $tokenList ) {
-    $this->phraseMatcher = new matcher($tokenList, $this->patternDB);
-    $this->tokenList = $tokenList;
-
-    $shield = $this->getShield();
-    if ($shield == null)
-      $shield = $this->schema->makeNode(blazonML::E_SHIELD, array ( blazonML::A_INDEX => '0' )); // TODO - add a field?
-    $this->checkBadWords();
-    return array ($shield, /* $this->achievementNode, $this->notesNode, */ $this->messagesNode);
-  }
-
-  // shorthand functions to make code read better
-  protected function ignore ( $key ) { $this->phraseMatcher->searchMatch($key); }
-  protected function find ( $key ) { return $this->phraseMatcher->searchMatch($key); }
-    protected function find2 ( $key ) { return $this->phraseMatcher->searchMatch2($key); }
-  protected function tokens () { return $this->phraseMatcher->getMatchedTokens(); }
-  protected function lineNo () { return $this->phraseMatcher->getLineNo(); }
-  protected function lookAhead ( $offset ) { $this->phraseMatcher->lookahead( $offset ); }
-  protected function moreInput() { return $this->tokenList->moreInput(); }
-    
-  // Interface implementation
-  public function save() {
-    return ( $this->stateStore->store($this->tokenList->cur_word) );
-  }
-
-  public function atWord() {
-    return ( $this->tokenList->cur_word );
-  }
-  
-  public function restore($state) {
-    global $trace;
-    
-    $data = $this->stateStore->restore($state);
-    if ( $trace ) echo "<p>Restore to $data</p>\n";
-    if ($data !== null ) {
-      $this->tokenList->cur_word = $data;
-    } else {
-      self::raiseError ( 'internal', 'No state to restore' );
+    protected function tokens()
+    {
+        return $this->matcher->getMatchedTokens();
     }
-  }
-  
-  public function discard($state) {
-    $this->stateStore->discard($state);
-  }
-  
-  protected function raiseError ( $type, $message, $getOffset = false ) {
-    if ($this->messagesNode == NULL) 
-      $this->messagesNode = $this->schema->makeNode(blazonML::E_MESSAGES);
-    $context = '';
-    $lineNo = '';
-    if ( $getOffset === true ) {
-      $tokens = $this->tokenList->getTokens();
-      $lineNos = $this->tokenList->getLineNos();
-      $offset = $this->phraseMatcher->getTokenOffset();
-      if ($offset >= count($tokens)) $offset = count($tokens) - 1;
-      $start = $offset - self::PRIORWORDS;
-         $start = $start < 0 ? 0 : $start; 
-         for ( $i = $start; $i < $offset; $i++ ) 
-           $context .= $tokens[$i] . ' ';
-        if (isset($lineNos[$offset]))
-          $lineNo = " near line " . $lineNos[$offset];
-    } elseif ( $getOffset !== false )
-      $context = $getOffset;
-    $messageNode = $this->schema->makeNode(blazonML::E_MESSAGE, array ( 
-      blazonML::A_CATEGORY => 'blazon',
-      blazonML::A_CONTEXT => $context,
-      blazonML::A_LINERANGE => $lineNo,
-    ));
-    $messageText = $this->schema->createTextNode($message);
-    $messageNode->appendChild($messageText);
-    $this->messagesNode->appendChild($messageNode);
-  }
-  
-  protected function clearErrors( $type = null ) {
-    if (is_null($this->messagesNode) || !$this->messagesNode->hasChildNodes()) return;
-    for ($i = 0; $i < $this->messagesNode->childNodes->length; $i++ ) {
-      $message = $this->messagesNode->childNodes->item($i);
-      if ($type == null || $message->getAttribute(blazonML::A_CATEGORY) == $type ) 
-        $this->messagesNode->removeChild($message);
-    }
-  }
 
-  public function checkBadWords () {
-    // Was there any unknown input?
-    if ( $this->tokenList->badWords ) {
-      $allTokens = $this->tokenList->getTokens();
-      for ($i = 0; $i < count($allTokens); $i++ ) {
-        if ($allTokens[$i][0] == '[') break;
-      }
-      $start = max(1,$i - 5);
-      self::raiseError('blazon',"Don't understand:", '...' . implode(' ', array_slice($allTokens, $start, 10)) . '...');
+    protected function lineNo()
+    {
+        return $this->matcher->getLineNo();
     }
-  }
-      
-  protected function semicolon($lookback = false) {
-  
-    $retval = false;
-    if ( self::find(languageDB::SEMICOLON) ) {
-      $retval = true;
-    } elseif ( $lookback ) {
-      $state = self::save();
-      if ( self::lookAhead(-1) && self::find(languageDB::SEMICOLON) != null ) $retval = true;
-      self::restore($state);
+
+    protected function lookBack($category)
+    {
+        return $this->matcher->prevMatch($category);
     }
-    return $retval;
-  }
-  
-  
-  protected function comma() {
-    
-    // Consume a comma (or similar) character if present, and return true
-    // But also return true if the *previous* character was a comma
-    if ( self::find(languageDB::COMMA) ) return true;
-    $state = self::save();
-    if ( self::lookAhead(-1) && self::find(languageDB::COMMA) ) { self::discard($state); return true; }
-    self::restore($state); 
-    return false;
-  }
-  
-  protected function restoreAnd() {
-    // If the last word was "and", put it back again
-    $state = self::save();
-    self::lookAhead(-1);
-    if ($keyterm = self::find(languageDB::ANDD)) {
-      self::lookAhead(-1);
-      self::discard($state);
-    } else
-      self::restore($state);
-  }
+
+    protected function moreInput()
+    {
+        return $this->matcher->moreInput();
+    }
+
+    protected function newPhrase()
+    {
+        return new Phrase($this->matcher->getState());
+    }
+
+    protected function discardPhrase($phrase)
+    {
+        $this->matcher->restoreState($phrase->getState());
+    }
+
+    // Interface implementation
+    public function save()
+    {
+        return ($this->matcher->save());
+    }
+
+    public function restore($state)
+    {
+        $this->matcher->restore($state);
+    }
+
+    public function discard($state)
+    {
+        $this->matcher->discard($state);
+    }
+
+    protected function raiseError($type, $message, $context = null)
+    {
+        if ($this->messagesNode == NULL)
+            $this->messagesNode = $this->schema->makeNode(blazonML::E_MESSAGES);
+        $lineNo = '';
+        $tokens = '';
+        // TODO temporary, remove this once all raiseError updated
+        if (is_bool($context)) $context = null;
+        if (!is_null($context)) {
+            switch (get_class($context)) {
+                case 'Lexeme':
+                    $lineNo = " at " . $context->startPos . ':' . $context->endPos;
+                    $tokens = $context->tokens;
+                    break;
+                case 'DomNode':
+                    $tokens = $context->getAttribute(blazonML::A_TOKENS);
+                    $lineNo = $context->getAttribute(blazonML::A_LINENUMBER);
+                    break;
+            }
+        }
+        $messageNode = $this->schema->makeNode(blazonML::E_MESSAGE, array(
+            blazonML::A_CATEGORY => $type,
+            blazonML::A_CONTEXT => $tokens,
+            blazonML::A_LINERANGE => $lineNo,
+        ));
+        $messageText = $this->schema->createTextNode($message);
+        $messageNode->appendChild($messageText);
+        $this->messagesNode->appendChild($messageNode);
+    }
+
+    protected function semicolon($lookback = false)
+    {
+
+        $retval = false;
+        if (self::findLex(languageDB::SEMICOLON)) {
+            $retval = true;
+        } elseif ($lookback) {
+            if (self::lookBack(languageDB::SEMICOLON)) $retval = true;
+        }
+        return $retval;
+    }
+
+    protected function restoreAnd()
+    {
+        $this->matcher->putBack(languageDB::ANDD);
+    }
 }
 

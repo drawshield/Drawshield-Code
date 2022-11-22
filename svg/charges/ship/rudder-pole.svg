@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns:xl="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     viewBox="54 94.5 315 81"
+     width="315"
+     height="81"
+     preserveAspectRatio="xMidYMid meet"
+     zoomAndPan="magnify"
+     contentScriptType="application/ecmascript"
+     contentStyleType="text/css">
+   <defs/>
+   <metadata  xmlns:svg="http://www.w3.org/2000/svg"
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:cc="http://creativecommons.org/ns#">
+      <rdf:RDF>
+         <cc:Work rdf:about="">
+            <dc:creator>
+               <cc:Agent>
+                  <dc:title>http://heraldicart.org Rudder Pole.svg</dc:title>
+               </cc:Agent>
+            </dc:creator>
+         </cc:Work>
+      </rdf:RDF>
+   </metadata>
+   <g stroke-opacity="1" fill="#ffff00" fill-opacity="1" stroke="#505050"
+      stroke-dasharray="none">
+      <title>Rudder Pole</title>
+      <g>
+         <title>Art</title>
+         <g>
+            <title>layer1</title>
+            <g>
+               <title>g885</title>
+               <g>
+                  <title>path826</title>
+                  <path d="M 60.75 103.73024 L 133.03237 103.74439 C 142.00721 158.51738 313.258 150.56389 334.2229 123.23141 C 318.4057 117.21533 328.0571 101.47113 335.89044 99.1091 C 348.62996 95.47554 364.96007 102.1761 361.86837 119.03768 C 355.49443 144.36748 308.1277 156.74753 285.90112 161.3867 C 176.41975 179.63547 119.54819 169.74054 61.05633 163.5674 Z"/>
+                  <path d="M 60.75 103.73024 L 133.03237 103.74439 C 142.00721 158.51738 313.258 150.56389 334.2229 123.23141 C 318.4057 117.21533 328.0571 101.47113 335.89044 99.1091 C 348.62996 95.47554 364.96007 102.1761 361.86837 119.03768 C 355.49443 144.36748 308.1277 156.74753 285.90112 161.3867 C 176.41975 179.63547 119.54819 169.74054 61.05633 163.5674 Z"
+                        stroke="black"
+                        stroke-linecap="butt"
+                        stroke-linejoin="round"
+                        stroke-width="1.3305878"/>
+               </g>
+               <g>
+                  <title>path828</title>
+                  <path d="M 87.29268 126.9299 L 122.52024 127.335 L 121.86175 148.70064 L 87.40099 148.08553 Z"
+                        stroke="black"
+                        stroke-linecap="butt"
+                        stroke-linejoin="round"
+                        stroke-width="3.3442807"/>
+               </g>
+            </g>
+         </g>
+      </g>
+   </g>
+</svg>

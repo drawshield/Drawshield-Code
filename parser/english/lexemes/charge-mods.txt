@@ -1,120 +1,101 @@
-# animal positions
+=chargemod
+# animal positions=
 couchant=
 courant=
 coward=
 dormant=
 migrant=
-
 erect=
 pierced=
 passant=
 cadent=
 counterpassant=
-
 statant=
 equipped=
 accrued=
 clymant=
-
 segreant=
 dexter=
 sinister=
 closed=
 accosted=
-
 ambulant=
 anime=
 annodated=
 arrondie=
 aversant=
-
 ayrant=
 baillone=
 bi corporate=bi-corporate
 cantoned=
 cloue=
-
 developed=
 disarmed=
 disclosed=
 distilling=
 enraged=
-
 flotant=
 fumant=
 braced=
 conjunct=
-
 gradient=
 increscent=
 crescent=
 unarmed=
-
 incensed=
 issuant=
 jacent=
 questing=
 tergiant=
-
 laminated=
 marined=
 mounted=
 naissant=
 nageant=
-
 nimbus=
 eradicated=
 pascuant=
 pinioned=
 removed=
-
 retorted=
 sanglat=
 scintillant=
 natural=
 nude=
-
 spancelled=
 surgeant=
 torqued=
 transfluent=
-
 transposed=
 tricoporate=
 troncone=
 trussed=
 vervelled=
-
 vorant=
 ancient=
 blasted=
 forcene=
 broken=
-
 covered=
 uncovered=
 waved=
 vambraced=
 double=
-
 skipping=
 recursant=
 fixed=
 ploye=
 clenched=
-
 pometty=
 floretty=
 debruised=
 increscent=
 decrescent=
-
 rousant=
 latin=
 fouled=
 filled=
 flower(s|ed)?=flower
-
 ?(dexter|sinister) forepaws? raised=forepaw-raised
 (with|and) ?an arrow=with-arrow
 (with|and) ?an arrow ?nocked ?and drawn=with-arrow-nocked
@@ -158,7 +139,7 @@ double (tete|head(ed)?)=double-headed
 fitch(y|ee) at ?the foot=fitchyfoot
 crenell[ey] at the ends=crenelly-ends
 fitch(y|ee)=fitchy
-barry wavy of # argent ?and azure=fountain
+barry wavy of % argent ?and azure=fountain
 ?holding a * in (her|his|its|their|the) (dexter|right) hand|paw=righthand
 ?holding a * in (her|his|its|their|the) (dexter|right) foot=rightfoot
 ?holding a * in (her|his|its|their|the) (sinister|left) hand=lefthand
@@ -182,11 +163,10 @@ in ?(her|their) piety=inpiety
 in ?her (complement|plenitude)=full
 in ?her increment=increscent
 in ?her de[ct]r[ie]ment=decrescent
-?mounted on # (degree|step|ascent|grice|griece)s?=on-steps
- # CAUTION This is the default for charge of number
-of # ?(point|ray|branche?)s=of-num
-in # places=places
-?each of # links=links
+?mounted on % (degree|step|ascent|grice|griece)s?=on-steps
+of % (point|ray|branche?)s=ofnum
+in % places=places
+?each of % links=links
 vuln(ed|ing)=vulned
 urin?ant=uriant
 on each side=on-each-side
@@ -199,7 +179,7 @@ tripart(ed|ite)=tripartite
 refle(ct|x)ed=reflexed
 r?e?verted=reflexed
 radiant|rayonne|irradiated=radiant
-# CAUTION needs to match prefix open
+# CAUTION needs to match prefix open=
 (open|expanded|extended|overt)=open
 in increment=increscent
 guarde?d?=guarded
@@ -252,9 +232,10 @@ erect in pale=palewise
 hauri[ea]nt=haurient
 na[it]ant?=fesswise
 disposed?=arranged
+arranged?=arranged
 affront(e|ed|ant|y|ee)=affronty
 (lying|laying)=laying
-# Next 4 Mostly for labels
+# Next 4 Mostly for labels=
 straight=straight
 patt?e(e|y)=pattee
 dovetail(ed)?=dovetailed
@@ -264,7 +245,7 @@ annu(lated|ette|ly)=annulated
 (complexed|intertwined|interlaced)=interlaced
 embelif|aslant=aslant
 ?at anc(hored|hory|re|ed)=at-anchor
-of # masts?=masted
+of % masts?=masted
 in full sail=fullsail
 ?(the|her) sails? set=fullsail
 ?(the|her) sails? furled ?and ?shrouded=sails-furled
@@ -289,13 +270,13 @@ laying to ?the (dexter|right)=to-dexter
 laying to ?the (middle|center|centre)=to-centre
 linked together=linked
 top turned down=turned-down
-# (to|in|on) each=on-each
+% (to|in|on) each=on-each
 long handle[sd]=long-handled
 holding ?a stones? ?in ?the ?dexter ?foot=with-stone
 with rays streaming=rays
 one (within|inside) ?the other=concentric
 concentric=concentric
-# Theme Pack - Font Effects
+# Theme Pack - Font Effects=
 (en)?faced ?of *=font
 styled ?of *=font
 opposite ?to *=opposite
@@ -304,12 +285,11 @@ enarched==
 underlined=
 wavy=
 encircled=
-
 cursive=
 serif=
 plain=
 celtic=
-# font families
+# font families=
 (engraved|graven)=engraved
 carve[dn]=carved
 gothi(c|k|ck)=gothic
@@ -319,3 +299,35 @@ aslant(ed)?=italic
 (dispo[sn]|arrang)ed in pale=text-stacked
 (dispo[sn]|arrang)ed in ?a block=text-block
 (dispo[sn]|arrang)ed in ?a circle=encircled
+=chargepre
+covered=
+standing=
+open=
+heraldic=
+dexter=
+sinister=
+double=
+branched=
+staved=
+single=
+modern=
+winged=
+natural=
+nude=
+fouled=
+spread=displayed
+heads? of ?(a|an|the)=head
+claws? of ?(a|an|the)=claw
+legs? of ?(a|an|the)=leg
+closed?=closed
+(dem[yi]|half)=demi
+like=like
+(tuft|stalk|limb|bough|scrog|branche?)s? of ?(a|an|the)=portion
+sprigs? of ?(a|an|the)=sprig
+double headed=double-headed
+oval shaped?=shape-oval
+lozenge shaped?=shape-lozenge
+square shaped?=shape-square
+heater ?shaped?=shape-heater
+equal armed=equal-armed
+leather(s|ed)?=leathered

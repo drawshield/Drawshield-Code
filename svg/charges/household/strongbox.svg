@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns:xl="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     viewBox="54 81 310.5 198"
+     width="310.5"
+     height="198"
+     preserveAspectRatio="xMidYMid meet"
+     zoomAndPan="magnify"
+     contentScriptType="application/ecmascript"
+     contentStyleType="text/css">
+   <defs/>
+   <metadata  xmlns:svg="http://www.w3.org/2000/svg"
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:cc="http://creativecommons.org/ns#">
+      <rdf:RDF>
+         <cc:Work rdf:about="">
+            <dc:creator>
+               <cc:Agent>
+                  <dc:title>http://heraldicart.org Strongbox.svg</dc:title>
+               </cc:Agent>
+            </dc:creator>
+         </cc:Work>
+      </rdf:RDF>
+   </metadata>
+   <g stroke-opacity="1" fill="#ffff00" fill-opacity="1" stroke="#505050"
+      stroke-dasharray="none">
+      <title>Strongbox</title>
+      <g>
+         <title>Layer 2</title>
+         <g>
+            <g>
+               <path d="M 357.39286 172.44444 L 274.82143 274.44444 L 274.82143 196.73016 L 357.39286 94.73016 Z"/>
+               <path d="M 357.39286 172.44444 L 274.82143 274.44444 L 274.82143 196.73016 L 357.39286 94.73016 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+            <g>
+               <rect x="56.25" y="187.01587" width="223.42857" height="9.714286"/>
+               <rect x="56.25" y="187.01587" width="223.42857" height="9.714286" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+            <g>
+               <rect x="65.964286" y="196.73016" width="208.85714" height="77.71429"/>
+               <rect x="65.964286" y="196.73016" width="208.85714" height="77.71429" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+            <g>
+               <path d="M 56.25 187.01587 L 279.67857 187.01587 L 362.25 85.55556 L 138.82143 85.55556 Z"/>
+               <path d="M 56.25 187.01587 L 279.67857 187.01587 L 362.25 85.55556 L 138.82143 85.55556 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+            <g>
+               <path d="M 362.25 85.55556 L 279.67857 187.01587 L 279.67857 196.73016 L 362.25 95.40476 Z"/>
+               <path d="M 362.25 85.55556 L 279.67857 187.01587 L 279.67857 196.73016 L 362.25 95.40476 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+            <g>
+               <rect x="143.67857" y="206.44444" width="53.42857" height="34" fill="white"/>
+               <rect x="143.67857" y="206.44444" width="53.42857" height="34" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+            <g>
+               <g  id="feature-0">
+                  <path 
+                        d="M 152.85317 196.73016 L 167.96429 196.73016 C 167.96429 196.73016 163.10714 212.42247 163.10714 222.884 C 163.10714 233.34554 158.25 233.34554 158.25 222.884 C 158.25 212.42247 152.85317 196.73016 152.85317 196.73016 Z"
+                        fill="#ff0000"/>
+               </g>
+               <path d="M 152.85317 196.73016 L 167.96429 196.73016 C 167.96429 196.73016 163.10714 212.42247 163.10714 222.884 C 163.10714 233.34554 158.25 233.34554 158.25 222.884 C 158.25 212.42247 152.85317 196.73016 152.85317 196.73016 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+            <g>
+               <g  id="feature-1">
+                  <path 
+                        d="M 179.7114 225.76886 L 178.9738 233.42857 L 183.66905 233.42857 L 182.93144 225.76886 C 183.28018 225.59706 183.60713 225.36607 183.89731 225.0759 C 185.31994 223.65326 185.31994 221.34674 183.89731 219.92412 C 182.4747 218.50149 180.16816 218.50149 178.74554 219.92412 C 177.32291 221.34674 177.32291 223.65326 178.74554 225.0759 C 179.03572 225.36607 179.36268 225.59706 179.7114 225.76886 Z"
+                        fill="#ff0000"/>
+               </g>
+               <path d="M 179.7114 225.76886 L 178.9738 233.42857 L 183.66905 233.42857 L 182.93144 225.76886 C 183.28018 225.59706 183.60713 225.36607 183.89731 225.0759 C 185.31994 223.65326 185.31994 221.34674 183.89731 219.92412 C 182.4747 218.50149 180.16816 218.50149 178.74554 219.92412 C 177.32291 221.34674 177.32291 223.65326 178.74554 225.0759 C 179.03572 225.36607 179.36268 225.59706 179.7114 225.76886 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+         </g>
+      </g>
+   </g>
+</svg>

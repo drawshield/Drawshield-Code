@@ -22,89 +22,58 @@ class englishGrammar extends grammar
     /**
      * @return DOMElement
      */
-    public function getShield()
+    public function getShield($syncTo = true) // DONE
     {
 
-        self::clearErrors(); // in case we are called multiple times
-        $this->stateStore->flush();
-        $this->phraseMatcher->getMatchedTokens(true);
-        $count = 0;
         $complex = null;
         $node = null;
         $shields = [];
-        $stackedInput = null; // temporary store to try out ignoring words
-        while (true) { // this is the retry loop for unrecognised words
-            if ($count++ > $this->tokenList->num_tokens) {
-                // echo "<p>loop error</p>\n";
+        $achievementList = [];
+        // Try to find complete shield
+        $this->matcher->syncOver();
+        self::findLex(languageDB::BOT_COMMAND);
+        while (true) { // This is the loop for >1 shield per achievement
+            $this->matcher->syncOver();
+            $preInstructions = self::drawn(); // allow shapes etc. to be given first, if required
+            $this->matcher->syncOver(languageDB::SEMICOLON);
+            $node = self::shield($syncTo);
+            if ($preInstructions)
+                $node->appendChild($preInstructions);
+            self::semicolon();
+            if (($overall = self::overall(true)) != null)
+                $node->appendChild($overall);
+            // Look for things that _can_ be part of the shield
+            if (($shieldParts = $this->achievement(false)) != null) {
+                $node->appendChild($shieldParts);
+            }
+            // if not already found drawing instructions look again
+            if (!$preInstructions && ($instructions = self::drawn()) != null) {
+                $node->appendChild($instructions);
+            }
+            $shields[] = $node;
+            // Found one shield, maybe with instructions and stuff, look for another
+            $alongside = self::findLex(languageDB::ALONGSIDE);
+            if (is_null($alongside)) {
                 break;
             }
-            $achievementList = [];
-            // Try to find complete shield
-            /**
-             * @var DOMElement $node
-             */
-            self::ignore(languageDB::BOT_COMMAND);
-            while (true) { // This is the loop for >1 shield per achievement
-                $preInstructions = self::drawn(); // allow shapes etc. to be given first, if required
-                self::semicolon();
-                self::comma();
-                $node = self::shield();
-                if ($preInstructions)
-                    $node->appendChild($preInstructions);
-                self::semicolon();
-                if (($overall = self::overall(true)) != null)
-                    $node->appendChild($overall);
-                // Look for things that _can_ be part of the shield
-                if (($shieldParts = $this->achievement(false)) != null) {
-                    $node->appendChild($shieldParts);
-                }
-                // if not already found drawing instructions look again
-                if (!$preInstructions && ($instructions = self::drawn()) != null) {
-                    $node->appendChild($instructions);
-                }
-                $shields[] = $node;
-                // Found one shield, maybe with instructions and stuff, look for another
-                $alongside = self::find(languageDB::ALONGSIDE);
-                if (!$alongside) {
-                    break;
-                }
-                $complex = $this->schema->makeNode(blazonML::E_COMPLEX, array( blazonML::A_KEYTERM => $alongside));
-            }
-            // Found all the shields, now look for achievements (if any)
-            while (($achievement = $this->achievement(true)) != null) {
-                $achievementList[] = $achievement;
-            }
-            // and any instructions that come after the final achievements
-            $instructions = self::drawn();
-
-            // If last word (or only) is ignored, can't go further
-            $lastEntry = $this->tokenList->num_tokens - 1;
-            if ($lastEntry < 0 || $this->tokenList->words[$lastEntry][0] == '[')
-                break;
-            // If input still left
-            if ($this->tokenList->cur_word < $this->tokenList->num_tokens) {
-                $node = null; // discard existing (destroy objects)
-                // self::clearErrors(self::ERROR_ORIGIN);
-                self::clearErrors(); // clear all errors, as we backtrack from the very start
-                $this->phraseMatcher->getMatchedTokens(true);
-                if ($stackedInput == null) { // This is our first time with this error
-                    // Try ignoring previous word
-                    $stackedInput = $this->phraseMatcher->furthestWord - 1;
-                    $this->tokenList->ignoreWord($stackedInput);
-                    $this->tokenList->resetToken();
-                } else { // 2nd time around, try ignoring current word
-                    $this->tokenList->restoreWord($stackedInput);
-                    $this->tokenList->ignoreWord($this->phraseMatcher->furthestWord);
-                    $this->tokenList->resetToken();
-                    $stackedInput = null;
-                }
-                // clear out any stored colours or tinctures from the previous time aroudn
-                $this->foundColours = [];
-                $this->foundTinctures = [];
-            } else {
-                break; // All input consumed, success!
-            }
+            $complex = $this->schema->makeNodeFromLexeme(§blazonML::E_COMPLEX, $alongside);
         }
+        // Found all the shields, now look for achievements (if any)
+        while (($achievement = $this->achievement(true)) != null) {
+            $achievementList[] = $achievement;
+        }
+        // and any instructions that come after the final achievements
+        $instructions = self::drawn();
+
+        // and finally look for a caption
+        $caption = null;
+        if (self::findLex(languageDB::CAPTION)) {
+            $caption = self::findLex(languageDB::VALUE);
+        }
+
+        // Report anything left that we don't understand
+        if ($syncTo) $this->matcher->syncTo(array('NOT_A_CATEGORY'));
+
         if (is_null($complex)) {
             foreach ($achievementList as $achievement ) {
                 if (!is_null($achievement) && $achievement->hasChildNodes()) {
@@ -113,6 +82,9 @@ class englishGrammar extends grammar
             }
             if (!is_null($instructions) && $instructions->hasChildNodes()) {
                 $node->appendChild($instructions);
+            }
+            if (!is_null($caption)) {
+                $node->setAttribute(blazonML::A_CAPTION, $caption->value);
             }
             return $node;
         } else {
@@ -129,11 +101,14 @@ class englishGrammar extends grammar
             if (!is_null($instructions) && $instructions->hasChildNodes()) {
                 $complex->appendChild($instructions);
             }
+            if (!is_null($caption)) {
+                $node->setAttribute(blazonML::A_CAPTION, $caption->value);
+            }
             return $complex;
         }
     }
 
-    protected function achievement($allowAll = false)
+    protected function achievement($allowAll = false) // DONE
     {
         // switch between only things on a shield and everything
         $crests = [];
@@ -145,7 +120,7 @@ class englishGrammar extends grammar
         $thisCrest = null;
         $thisTorse = null;
 
-        // All the following can only occur once per achievement (but can cause a new "outer" achiecvement to be created)
+        // All the following can only occur once per achievement (but can cause a new "outer" achievement to be created)
         $singleItems = [];
 
         do { // Order is important here - look for charge LAST so as not to confuse with helmet or torse
@@ -168,9 +143,9 @@ class englishGrammar extends grammar
                     $achievement->appendChild($ornament);
                     $singleItems[] = 'ornament';
                 }
-            } elseif (($crest = self::find(languageDB::CREST)) != null) {
+            } elseif (($crest = self::findLex(languageDB::CREST)) != null) {
                 $found = true;
-                if ($crest == 'no-crest') { // this helmet has no crest, move on
+                if ($crest->keyterm == 'no-crest') { // this helmet has no crest, move on
                     $thisCrest = 'no-crest';
                 } else { // if ($crest == 'crest')
                     if (!is_null($thisCrest)) { // already go a crest, so move on
@@ -178,7 +153,7 @@ class englishGrammar extends grammar
                         $torses[] = $thisTorse; $thisTorse = null;
                         $helmets[] = $thisHelmet; $thisHelmet = null;
                     }
-                    $thisCrest = $this->schema->makeNode(blazonML::E_CREST,
+                    $thisCrest = $this->schema->makeNodeFromLexeme(blazonML::E_CREST, $crest,
                         array(blazonML::A_KEYTERM => 'group'));
                 }
             } elseif (!in_array('compartment', $singleItems) && ($compartment = self::compartment()) != null) {
@@ -191,7 +166,7 @@ class englishGrammar extends grammar
             } elseif (($torse = self::torse()) != null) {
                 $found = true;
                 if (!is_null($thisTorse)) {
-                    self::raiseError(self::ERROR_ORIGIN, "Only one torse per crest");
+                    self::raiseError(self::ERROR_ORIGIN, "Only one torse per crest", $torse);
                 } else {
                    $thisTorse = $torse;
                 }
@@ -203,9 +178,9 @@ class englishGrammar extends grammar
                     $helmets[] = $thisHelmet;
                 }
                 $thisHelmet = $helmet;
-            } elseif (self::find(languageDB::SHIELD)) {
+            } elseif ($lexeme = self::findLex(languageDB::SHIELD)) {
                 if (($adjust = $this->getAdjustments()) != null) {
-                    $shieldNode = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_KEYTERM => 'shield'));
+                    $shieldNode = $this->schema->makeIDNodeFromLexeme(blazonML::E_SHIELD, $lexeme);
                     foreach ($adjust as $adj) {
                         $shieldNode->appendChild($adj);
                     }
@@ -218,15 +193,13 @@ class englishGrammar extends grammar
                         array(blazonML::A_KEYTERM => 'group'));
                 }
                 $thisCrest->appendChild($charge);
-            } elseif (!in_array('achievement', $singleItems) && self::find(languageDB::ACHIEVEMENT)) {
+            } elseif (!in_array('achievement', $singleItems) && self::findLex(languageDB::ACHIEVEMENT)) {
                     // this is OK, it is just a marker between the shield and the achievements
                     $singleItems[] = 'achievement';
                     $found = true;
             }
             if ($found) {
-                self::comma();
-                self::ignore(languageDB::ANDD);
-                self::ignore(languageDB::WITH);
+                $this->matcher->syncOver(array(languageDB::ANDD, languageDB::WITH));
             }
         } while ($found);
         // Finish off any pending crest bits
@@ -259,28 +232,22 @@ class englishGrammar extends grammar
         }
         if ($achievement->hasChildNodes()) {
             $achievement->setAttribute(blazonML::A_KEYTERM, $crestHeight);
-            //        return ['instructions' => $instructions, 'achievement' => $achievement];
             return $achievement;
         } // else
         return null;
     }
 
-    /**
-     * @return DOMElement
-     */
-    protected function overall($meta = false)
+    protected function overall($meta = false) // DONE
     {
-        /**
-         * @var DOMElement $node
-         */
         $node = null;
         if ($meta)
             $lookFor = languageDB::METAOVERALL;
         else
             $lookFor = languageDB::OVERALL;
 
-        while (self::moreInput() and self::find($lookFor) != null) {
-            if ($node == null) $node = $this->schema->makeNode(blazonML::E_OVERALL, array('keyterm' => 'overall'), self::tokens(), self::lineNo());
+        while (!is_null($overall = self::findLex($lookFor))) {
+            if ($node == null) $node = $this->schema->makeNodeFromLexeme(blazonML::E_OVERALL, $overall, array('keyterm' => 'overall'));
+            $this->matcher->syncOver();
             if (($over = self::objects()) == null) {
                 self::raiseError(self::ERROR_ORIGIN, 'Nothing to go "overall"', true);
                 return null;
@@ -292,18 +259,22 @@ class englishGrammar extends grammar
 
     // To add more debug options add them to lexicon.inc under drawn mods
     // then add the keyword under case 'grid':
-    protected function drawn()
+    protected function drawn() // DONE
     {
         $found = true;
         $debugOptions = [];
         $instructions = $this->schema->makeNode(blazonML::E_INSTRUCTIONS);
         while ($found) {
+            $phrase = self::newPhrase();
             $found = false;
-            self::ignore(languageDB::USING);
-            if ($option = self::find(LanguageDB::DRAWN_MODS)) {
+            $phrase->add(self::findLex(languageDB::USING));
+            $phrase->add(self::findLex(languageDB::WORD_IN));
+            $phrase->add(self::findLex(languageDB::WORD_ON));
+            $phrase->add(self::findLex(languageDB::SIGNIFIER));
+            if ($option = $phrase->add(self::findLex(LanguageDB::DRAWN_MODS))) {
                 $elementName = null;
-                $value = strtolower($this->phraseMatcher->getValue() ?? "");
-                switch ($option) {
+                $value = strtolower($option->value ?? "");
+                switch ($option->keyterm) {
                     case 'colours':
                         $elementName = blazonML::E_COLOURSET;
                         break;
@@ -320,21 +291,25 @@ class englishGrammar extends grammar
                         $debugOptions[] = $option;
                         break;
                     case 'aspect':
-                        // $value = calculateAR($value);
                         $elementName = blazonML::E_ASPECT;
                         break;
                 }
                 if (!is_null($elementName)) {
-                    $node = $this->schema->makeNode($elementName, array(
-                        blazonML::A_KEYTERM => $value),
-                        self::tokens(),
-                        self::lineNo()
-                    );
+                    $node = $this->schema->makeNodeFromLexeme($elementName, $phrase->create($value));
                     $instructions->appendChild($node);
                 }
                 $found = true;
+                $this->matcher->syncOver(languageDB::ANDD);
+            } elseif (($trad = $phrase->add(self::findLex(languageDB::TRADITION_PREFIX))) != null) {
+                $phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION));
+                $phrase->add(self::findLex(languageDB::WORD_OF));
+                $node = $this->schema->makeNodeFromLexeme(blazonML::E_SHAPE, $phrase->create($trad->keyterm ));
+                $instructions->appendChild($node);
+                $this->matcher->syncOver(languageDB::ANDD);
+                $found = true;
+            } else {
+               self::discardPhrase($phrase);
             }
-            self::ignore(languageDB::ANDD);
         }
         if (count($debugOptions)) {
             $node = $this->schema->makeNode(blazonML::E_DEBUG, array(
@@ -395,33 +370,27 @@ class englishGrammar extends grammar
         return null;
     }
 
-    /**
-     * @return DOMElement
-     */
-    protected function simple()
+    protected function simple() // DONE
     {
-        $state = self::save();
-        self::ignore(languageDB::ONFIELDOF);
-        self::ignore(languageDB::WITH);
+        $phrase = self::newPhrase();
+        $phrase->add(self::findLex(array(languageDB::ONFIELDOF, languageDB::WITH)));
 
-        /**
-         * @var DOMElement $node
-         */
         $node = null;
         $chief = null;
         if (($tinc = self::tincture()) != null) {
             $field = $this->schema->makeNode(blazonML::E_FIELD);
             $simple = $this->schema->makeNode(blazonML::E_PLAIN);
-            self::comma();
+            $this->matcher->syncOver();
             $field->appendChild($tinc);
             $ordChgs = self::objects();
             $simple->appendChild($field);
             if ( $ordChgs ) {
-                $chief = $this->adjust_chief($simple, $ordChgs);
+                 $chief = $this->adjust_chief($simple, $ordChgs);
                 if ( $ordChgs->hasChildNodes() )
                     $simple->appendChild($ordChgs);
             }
-            $node = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
+            $node = $this->schema->makeIDNodeFromLexeme(blazonML::E_SHIELD,
+                $phrase->create(languageDB::ONFIELDOF), array(blazonML::A_INDEX => '0'));
             $node->appendChild($simple);
             if (($adjust = $this->getAdjustments()) != null) {
                 foreach ($adjust as $adj) {
@@ -430,57 +399,82 @@ class englishGrammar extends grammar
             }
         }
         if ($node == null)
-            self::restore($state);
-        else
-            self::discard($state);
+            self::discardPhrase($phrase);
         return $node;
     }
 
-    /**
-     * @return DOMElement
-     */
-    protected function shield()
+    protected function shield($syncTo = true) // DONE
     {
-
-        /**
-         * @var DOMElement $node1 $node2
-         */
+        $this->matcher->syncOver();
         $checkOverAllParts = false;
         $node1 = null;
-        if ($node1 == null) $node1 = self::quartered();
-        if ($node1 != null) { // found a quartering, check for over all the parts
-            $checkOverAllParts = true;
+        // This loop discards things until we find a dang shield!
+        while (self::moreInput()) {
+            $node1 = null;
+            if ($node1 == null) $node1 = self::quartered();
+            if ($node1 != null) { // found a quartering, check for over all the parts
+                $checkOverAllParts = true;
+            }
+            if ($node1 == null) $node1 = self::halved();
+            if ($node1 == null) $node1 = self::simple();
+            if (!is_null($node1)) break; // found something!
+            // else, no we didn't. Chuck stuff away until we get something useful
+            if ($syncTo) {
+                $this->matcher->syncTo(array(
+                    languageDB::COLOUR, languageDB::QUARTERED, languageDB::DIVISION,
+                    languageDB::FUR, languageDB::TREATMENT
+                ));
+            }
         }
-        if ($node1 == null) $node1 = self::halved();
-        if ($node1 == null) $node1 = self::simple();
+
+        // Okay, we really couldn't find one...
         if ($node1 == null) {
-            $node1 = $this->schema->makeNode(blazonML::E_SHIELD);
+            $node1 = $this->schema->makeIDNode(blazonML::E_SHIELD);
             $node1->appendChild($this->schema->makeNode(blazonML::E_MISSING));
-            self::raiseError(self::ERROR_ORIGIN, 'Expected a shield description (replaced by blank)', true);
+            self::raiseError(self::ERROR_ORIGIN, 'Expected quartering or tincture');
+            if (!$syncTo) {
+                return $node1;
+            }
         }
+        $this->matcher->syncOver();
         if ($checkOverAllParts && ($overall = self::overall(true)) != null) {
             $node1->appendChild($overall);
-        } elseif (!self::semicolon() && ($overall = self::overall()) != null)
+        } elseif (!self::semicolon() && ($overall = self::overall()) != null) {
             $node1->appendChild($overall);
+        }
         $retval = $node1;
 
         // Now do it all again, in case of "A impaled with B"
-        if (($keyterm = self::find(languageDB::SPLITS)) != null) {
-            $node2 = null;
-            // $node2 = builtin();
-            if ($node2 == null) $node2 = self::quartered();
-            if ($node2 == null) $node2 = self::halved();
-            if ($node2 == null) $node2 = self::simple();
-            if ($node2 == null) {
-                $node2 = $this->schema->makeNode(blazonML::E_SHIELD);
-                $node2->appendChild($this->schema->makeNode(blazonML::E_MISSING));
-                self::raiseError(self::ERROR_ORIGIN, 'Expected a shield description (replaced by blank)', true);
+        $this->matcher->syncOver();
+        if (($split = self::findLex(languageDB::SPLITS)) != null) {
+            // As above, this loop is fairly aggressive about finding a field
+            while (self::moreInput()) {
+                $node2 = null;
+                if ($node2 == null) $node2 = self::quartered();
+                if ($node2 == null) $node2 = self::halved();
+                if ($node2 == null) $node2 = self::simple();
+                if (!is_null($node2)) break; // found something!
+                // else, no we didn't. Chuck stuff away until we get something useful
+                $this->matcher->syncTo(array(
+                    languageDB::COLOUR, languageDB::QUARTERED, languageDB::DIVISION,
+                    languageDB::FUR, languageDB::TREATMENT
+                ));
             }
-            if (!self::semicolon() and ($overall = self::overall()) != null)
+            // Okay, we really couldn't find one...
+            if ($node2 == null) {
+                $node2 = $this->schema->makeIDNode(blazonML::E_SHIELD);
+                $node2->appendChild($this->schema->makeNode(blazonML::E_MISSING));
+                self::raiseError(self::ERROR_ORIGIN, 'Expected quartering or tincture');
+            }
+            $this->matcher->syncOver();
+            if ($checkOverAllParts && ($overall = self::overall(true)) != null) {
                 $node2->appendChild($overall);
+            } elseif (!self::semicolon() && ($overall = self::overall()) != null) {
+                $node2->appendChild($overall);
+            }
             // Got two nodes, now create a mother node
-            $motherNode = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
-            $daughterNode = $this->schema->makeNode(blazonML::E_COMPLEX, array('keyterm' => $keyterm), self::tokens(), self::lineNo());
+            $motherNode = $this->schema->makeIDNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
+            $daughterNode = $this->schema->makeNodeFromLexeme(blazonML::E_COMPLEX, $split);
             $node1->setAttribute(blazonML::A_INDEX, '1');
             $node2->setAttribute(blazonML::A_INDEX, '2');
             $daughterNode->appendChild($node1);
@@ -488,51 +482,46 @@ class englishGrammar extends grammar
             $motherNode->appendChild($daughterNode);
             $retval = $motherNode;
         }
+        $this->matcher->syncOver();
         if (($overall = self::overall()) != null)
             $retval->appendChild($overall);
         return $retval;
     }
 
-    protected function getPositions()
+    protected function getPositions() // DONE
     {
-        // TODO improve mapping of tokens to positions, how about having each
-        // keyterm as a key to the actual tokens, the use array_has_key
-        // instead of in_array and build tokens as we go along?
-        $positions = array();
+        // $positions = array();
+        $phrases = [];
         while (true) {
             $specifiers = array();
             $locations = array();
-            $state = self::save();
+            $quantifier = null;
+            $phrase = self::newPhrase();
 
-            self::ignore(languageDB::ANDD);
-            if (!self::find(languageDB::WORD_IN)) {
-                self::discard($state);
+            $this->matcher->syncOver(languageDB::ANDD);
+            if (!$phrase->add(self::findLex(languageDB::WORD_IN))) {
                 break;
             }
-            self::ignore(languageDB::WORD_THE);
-            while ($keyterm = self::find(languageDB::SPECIFIER)) {
-                $specifiers[] = $keyterm;
-                self::comma();
-                self::ignore(languageDB::ANDD);
+            $phrase->add(self::findLex(languageDB::WORD_THE));
+            while ($lexeme = $phrase->add(self::findLex(languageDB::SPECIFIER))) {
+                $specifiers[] = $lexeme->keyterm;
+                $this->matcher->syncOver(languageDB::ANDD);
             }
-            while ($keyterm = self::find(languageDB::LOCATION)) {
+            while ($keyterm = $phrase->add(self::findLex(languageDB::LOCATION))) {
                 $locations[] = $keyterm;
-                self::comma();
-                self::ignore(languageDB::ANDD);
+                $this->matcher->syncOver(languageDB::ANDD);
             }
-            if ($quantifier = self::find(languageDB::QUANTIFIER)) {
-                self::comma();
-                self::ignore(languageDB::ANDD);
+            if ($quantifier = $phrase->add(self::findLex(languageDB::QUANTIFIER))) {
+                $this->matcher->syncOver(languageDB::ANDD);
             }
             // Did we find anything?
-            if (count($locations) == 0 and count($specifiers) == 0 and $quantifier == null) {
-                self::restore($state);
+            if (count($locations) == 0 && count($specifiers) == 0 && $quantifier == null) {
+                self::discardPhrase($phrase);
                 return null;
             }
-            self::discard($state);
             self::restoreAnd();
             // Yes, now try to combine them into positions
-            if ($quantifier == 'quarter') { // one or more specific quarters
+            if (!is_null($quantifier) && $quantifier->keyterm == 'quarter') { // one or more specific quarters
                 $foundPos = false;
                 foreach ($specifiers as $specifier) {
                     $newPosition = null;
@@ -561,265 +550,361 @@ class englishGrammar extends grammar
                         default:
                     }
                     if ($newPosition != null) {
-                        $positions[] = $newPosition;
+                       //  $positions[] = $newPosition;
+                        $phrases[] = $phrase->create($newPosition);
                         $foundPos = true;
                     }
                 }
                 if (!$foundPos) { // do we also have a chief or base location?
-                    if (in_array('chief', $locations))
-                        $positions[] = 'ineachQ12';
-                    elseif (in_array('base', $locations))
-                        $positions[] = 'ineachQ34';
-                    else
-                        self::raiseError(self::ERROR_ORIGIN, 'Cannot find quarter for position', true);
+                    if (in_array('chief', $locations)) {
+                        // $positions[] = 'ineachQ12';
+                        $phrases[] = $phrase->create('ineachQ12');
+                    } elseif (in_array('base', $locations)) {
+                        // $positions[] = 'ineachQ34';
+                        $phrases[] = $phrase->create('ineachQ34');
+                    } else {
+                        self::raiseError(self::ERROR_ORIGIN, 'Cannot find quarter for position', $phrase->create(languageDB::LOCATION));
+                        $this->matcher->syncOver();
+                    }
                 }
             } elseif (count($locations) > 0) { // no quantifier found (or it was "all"), but we have a location
                 foreach ($locations as $location) {
-                    switch ($location) {
+                    switch ($location->keyterm) {
                         //case 'flank': $positions[] = 'inflank'; break;
                         case 'fesspoint':
-                            $positions[] = 'infesspoint';
+                            $phrases[] = $phrase->create('infesspoint');
                             break;
                         case 'nombril':
-                            $positions[] = 'innombril';
+                            $phrases[] = $phrase->create('innombril');
                             break;
                         case 'abyss':
-                            $positions[] = 'inabyss';
+                            $phrases[] = $phrase->create('inabyss');
                             break;
                         case 'honpoint':
-                            $positions[] = 'inhonpoint';
+                            $phrases[] = $phrase->create('inhonpoint');
                             break;
                         case 'side':
-                            if (in_array('dexter', $specifiers)) $positions[] = 'indexside';
+                            /* if (in_array('dexter', $specifiers)) $positions[] = 'indexside';
                             if (in_array('sinister', $specifiers)) $positions[] = 'insinside';
                             if (in_array('upper', $specifiers)) $positions[] = 'inupperhalf';
-                            if (in_array('lower', $specifiers)) $positions[] = 'inlowerhalf';
+                            if (in_array('lower', $specifiers)) $positions[] = 'inlowerhalf'; */
+                            if (in_array('dexter', $specifiers)) $phrases[] = $phrase->create('indexside');
+                            if (in_array('sinister', $specifiers)) $phrases[] = $phrase->create('insinside');
+                            if (in_array('upper', $specifiers)) $phrases[] = $phrase->create('inupperhalf');
+                            if (in_array('lower', $specifiers)) $phrases[] = $phrase->create('inlowerhalf');
                             break;
                         case 'flank':
                         case 'chief':
                         case 'base':
-                            $count = count($positions);
-                            if (in_array('dexter', $specifiers)) $positions[] = 'in' . 'dex' . $location;
-                            if (in_array('sinister', $specifiers)) $positions[] = 'in' . 'sin' . $location;
-                            if (in_array('middle', $specifiers)) $positions[] = 'in' . 'mid' . $location;
-                            if ($count == count($positions)) // didn't find any specs
-                                $positions[] = 'in' . $location;
+                            $count = count($phrases);
+                            if (in_array('dexter', $specifiers)) $phrases[] = $phrase->create('in' . 'dex' . $location->keyterm);
+                            if (in_array('sinister', $specifiers)) $phrases[] = $phrase->create('in' . 'sin' . $location->keyterm);
+                            if (in_array('middle', $specifiers)) $phrases[] = $phrase->create('in' . 'mid' . $location->keyterm);
+                            if ($count == count($phrases)) { // didn't find any specs
+                                $keyterm = 'in' . $location->keyterm;
+                                // $positions[] = $keyterm;
+                                $phrases[] = $phrase->create($keyterm);
+                            }
                             break;
                     }
                 }
             } else { // no quantifier or location, need to have "each"
                 if (in_array('each', $specifiers)) {
-                    if (in_array('first', $specifiers))
-                        $positions[] = 'ineach1st';
-                    elseif (in_array('second', $specifiers))
-                        $positions[] = 'ineach2nd';
-                    else
-                        $positions[] = 'ineach';
+                    if (in_array('first', $specifiers)) {
+                        // $positions[] = 'ineach1st';
+                        $phrases[] = $phrase->create('ineach1st');
+                    } elseif (in_array('second', $specifiers)) {
+                        // $positions[] = 'ineach2nd';
+                        $phrases[] = $phrase->create('ineach2nd');
+                    } else {
+                        // $positions[] = 'ineach';
+                        $phrases[] = $phrase->create('ineach');
+                    }
                 } else {
-                    self::raiseError(self::ERROR_ORIGIN, 'Do not understand position', true);
+                    self::raiseError(self::ERROR_ORIGIN, 'Do not understand position', $phrase->create(languageDB::LOCATION));
+                    $this->matcher->syncOver();
                 }
             }
         }
-        if (count($positions) > 0) {
+        if (count($phrases) > 0) {
             $posArray = array();
-            foreach ($positions as $position)
-                $posArray[] = $this->schema->makeMod(languageDB::POSITION, null, $position, self::tokens(), self::lineNo());
+            for ($i = 0; $i < count($phrases); $i++) {
+                $posArray[] = $this->schema->makeModFromLexeme($phrases[$i], languageDB::POSITION);
+            }
             return $posArray;
         } else
             return null;
     }
 
-    protected function getCrowns($foundTinc)
+    public function getRoll() {
+        $phrase = self::newPhrase();
+
+        $phrase->add(self::findLex(languageDB::SIGNIFIER));
+        if (!$phrase->add(self::findLex(languageDB::ROLL))) {
+            self::discardPhrase($phrase);
+            return null;
+        }
+        $phrase->add(self::findLex(languageDB::ROLL)); // allow, e.g. armorial roll
+        $background = null;
+        $title = null;
+        $numCols = 3;
+        do {
+            $found = false;
+            $phrase->add(self::findLex(languageDB::WITH));
+            $phrase->add(self::findLex(languageDB::WORD_OF));
+            $num = $phrase->add(self::findLex(languageDB::NUMBER));
+            if (!is_null($num)) {
+                $phrase->add(self::findLex(languageDB::PIECES));
+                $numCols = $num->keyterm;
+                $found = true;
+            } elseif ($phrase->add(self::findLex(languageDB::BACKGROUND))) {
+                $phrase->add(self::findLex(languageDB::WORD_OF));
+                $background = self::tincture(true);
+                $found = true;
+            } elseif ($phrase->add(self::findLex(languageDB::TITLE))) {
+                $title = $phrase->add(self::findLex(languageDB::VALUE));
+                $found = true;
+            }
+        } while ($found);
+        $phrase->add(self::findLex(languageDB::CONSISTING));
+        $phrase->add(self::findLex(languageDB::WORD_OF));
+        $node = $this->schema->makeNodeFromLexeme(blazonML::E_ROLL, $phrase->create());
+        $node->setAttribute(blazonML::A_COLS, $numCols);
+        if (!is_null($background)) {
+            $node->appendChild($background);
+        }
+        if (!is_null($title)) {
+            $node->setAttribute(blazonML::A_TITLE, $title->value); // default columns
+        }
+
+        while(self::moreInput()) {
+            $node->appendChild(self::getShield(false));
+            if (self::findLex(languageDB::NEXT)) continue;
+            if (self::findLex(languageDB::SKIP)) {
+                $skipNum = self::findLex(languageDB::NUMBER);
+                $skips = is_null($skipNum) ? 1 : intval($skipNum->keyterm);
+                for ($i = 0; $i < $skips; $i++) {
+                    $node->appendChild($this->schema->makeNode(blazonML::E_MISSING));
+                }
+                continue;
+            }
+            // not found skip or next
+            break;
+        }
+        $this->matcher->syncTo(array('NOT_A_CATEGORY'));
+
+        return $node;
+
+    }
+
+    protected function getCrowns($foundTinc) // DONE
     {
         $crownType = 'default'; // default crown
         $modifierType = '';
-        $state = self::save();
-        while ($crown = self::find(languageDB::CROWN_MODS)) {
-            switch ($crown) {
-                case 'crown': // just ignore (as in gorged with a naval crown
-                    break;
+        $phrase = self::newPhrase();
+        while ($crown = $phrase->add(self::findLex(languageDB::CROWN_MODS))) {
+            $modifierType = '';
+            switch ($crown->keyterm) {
                 case 'wreathed':
                     $crownType = 'wreath';
                     $modifierType = 'crowned';
                     break;
                 case 'crowned':
                 case 'gorged':
-                    $modifierType = $crown;
+                    $modifierType = $crown->keyterm;
                     break;
+                case 'crown': // just ignore (as in gorged with a naval crown
                 default:
-                    $crownType = $crown;
+                    $crownType = $crown->keyterm;
                     break;
             }
         }
-        if ($modifierType == '') {
-            self::restore($state);
+        if ($modifierType == '') { // TODO here, $crown can be null....?
+            self::discardPhrase($phrase);
             return null;
         }
-        $modifier = $this->schema->makeMod(languageDB::CROWN_MODS, $crownType, $modifierType, self::tokens(), self::lineNo());
-        //$modifier = createModifierNode(languageDB::CROWN_MODS,$modifierType,$crownType);
+        $modifier = $this->schema->makeModFromLexeme($phrase->create($modifierType), languageDB::CROWN_MODS, $crownType);
         if ($foundTinc and ($tinc = self::tincture()))
             $modifier->appendChild($tinc);
         return $modifier;
     }
 
-    protected function charge_prefix()
-    {
-        if (($keyterm = self::find(languageDB::CHARGE_PREFIX)) != null) {
-            return ($this->schema->makeMod(languageDB::CHARGE_MODS, null, $keyterm, self::tokens(), self::lineNo()));
-        } elseif (($keyterm= self::find(languageDB::TRADITION_PREFIX)) != null) {
-            self::ignore(languageDB::TRADITION_DESCRIPTION);
-            self::ignore((languageDB::WORD_OF));
-            return ($this->schema->makeMod(languageDB::TRADITION_PREFIX, null, $keyterm, self::tokens(), self::lineNo()));
+    protected function half_charge() {
+        $phrase = self::newPhrase();
+        if ($spec = $phrase->add(self::findLex(languageDB::SPECIFIER))) {
+            if (!($half = $phrase->add(self::findLex(languageDB::HALF)))) {
+                self::discardPhrase($phrase);
+                return null;
+            } // else
+            $phrase->add(self::findLex(languageDB::WORD_OF));
+            return $phrase->create($spec->keyterm . '-' . $half->keyterm);
         }
         return null;
     }
 
-    protected function simpleCharge($assumeNum = false, $allowArr = false, $allowPos = false)
+    protected function charge_prefix() // DONE
     {
-        $state = self::save();
+        $phrase = self::newPhrase();
+        $phrase->add(self::findLex(languageDB::SIGNIFIER));
+        if (($keyterm = self::findLex(languageDB::CHARGE_PREFIX)) != null) {
+            return ($this->schema->makeModFromLexeme($keyterm, languageDB::CHARGE_MODS));
+        } elseif (($trad = $phrase->add(self::findLex(languageDB::TRADITION_PREFIX))) != null) {
+            $phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION));
+            $phrase->add(self::findLex(languageDB::WORD_OF));
+            return ($this->schema->makeModFromLexeme($phrase->create($trad->keyterm), languageDB::TRADITION_PREFIX));
+        } elseif ($halfCharge = self::half_charge()) {
+            return ($this->schema->makeModFromLexeme($halfCharge, languageDB::CHARGE_MODS));
+        }
+        return null;
+    }
+
+    protected function simpleCharge($assumeNum = false, $allowArr = false, $allowPos = false) // DONE
+    {
+        $phrase = self::newPhrase();
         $mods = array();
         // Look for a number
-        $chgNum = self::find(languageDB::QUANTITY);
-        if ($chgNum === null) $chgNum = self::find(languageDB::NUMBER);
+        $chgNum = $phrase->add(self::findLex(languageDB::QUANTITY));
+        if ($chgNum === null) $chgNum = $phrase->add(self::findLex(languageDB::NUMBER));
         if ($chgNum === null) {
             if ($assumeNum)
-                $chgNum = 1;
+                $chgNum = $phrase->add(new Lexeme('1','','','',1));
             else {
-                self::restore($state);
+                self::discardPhrase($phrase);
                 return null;
             }
         }
-        $charge = $this->schema->makeNode(blazonML::E_CHARGE, array(blazonML::A_NUMBER => "$chgNum"), self::tokens(), self::lineNo());
+        $phrase2 = self::newPhrase();
         // Look for words indicating a multiple charge (e.g. "2 bundles of arrows")
-        if ($keyterm = self::find2(languageDB::BUNDLE)) {
+        if ($bundle = $phrase2->add(self::findLex(languageDB::BUNDLE))) {
             // Is the number made explicit?
-            $num = self::find(languageDB::NUMBER);
-            if (!$num) $num = ($keyterm == 'pair') ? '2' : '3';
-            $mods[] = $this->schema->makeMod(languageDB::BUNDLE, $num, $keyterm, self::tokens(), self::lineNo());
+            $number = $phrase2->add(self::findLex(languageDB::NUMBER));
+            if (is_null($number)) {
+                $num = ($bundle->keyterm == 'pair') ? '2' : '3';
+            } else {
+                $num = $number->keyterm;
+            }
+            $mods[] = $this->schema->makeModFromLexeme($phrase2->create(languageDB::BUNDLE), languageDB::BUNDLE, $num);
         }
         // Look for prefixes, (e.g. "a demi-lion")
         while (($mod = $this->charge_prefix()) != null)
             $mods[] = $mod;
         // Look for ordinaries that we might confuse with charges
-        if (self::find(languageDB::ORDINARY_NOT_CHARGE)) {
-            self::restore($state);
+        if (self::findLex(languageDB::ORDINARY_NOT_CHARGE)) {
+            self::discardPhrase($phrase);
             return null;
         }
         // Now look for actual charges
         // TODO in herald knowledge replace special/same
-        if (($keyterm = self::find2(languageDB::CHARGE_NOT_ORDINARY)) or (($keyterm = self::find(languageDB::ORDINARY_OR_CHARGE)) and $chgNum > 1) or ($keyterm = self::find2(languageDB::CHARGE))) {
-            // don't care if no flags
-            list($keyterm, $flags) = explode('?', $keyterm . '?');
-            $charge->setAttribute(blazonML::A_KEYTERM, $keyterm);
-            $charge->setAttribute(blazonML::A_TOKENS, $charge->getAttribute(blazonML::A_TOKENS) . ' ' . self::tokens());
-            $charge->setAttribute(blazonML::A_LINENUMBER, self::lineNo());
-        } else { // Nothing found
-            self::restore($state);
+        if (!(($chargeLex = $phrase->add(self::findLex(languageDB::CHARGE_NOT_ORDINARY))) ||
+             ($chargeLex = $phrase->add(self::findLex(languageDB::ORDINARY_OR_CHARGE)) && $chgNum > 1) ||
+                 ($chargeLex = $phrase->add(self::findLex(languageDB::CHARGE)))
+             )) {
+            // nothing to see here, move along
+            self::discardPhrase($phrase);
             return null;
         }
+        // We have a charge keyterm in $chargeLex, but $phrase contains any previous tokens.
+        // We need to extract flags from the end of the charge keyterm and combine all the tokens
+        // don't care if no flags
+        list($keyterm, $flags) = explode('?', $chargeLex->keyterm . '?');
+        $chargeNode = $this->schema->makeNodeFromLexeme( blazonML::E_CHARGE, $phrase->create($keyterm) );
+        $chargeNode->setAttribute('number', $chgNum->keyterm);
+        // $chargeNode->setAttribute(blazonML::A_NUMBER, "$chgNum");
         // Set any flags
         $always_proper = strpos($flags, 'P') !== false;
         $optional_tincture = strpos($flags, 'O') !== false;
         // In some cases we want the next input token as a "value" (e.g. "the word Karl" matches "words? *")
-        if ($asterisk = $this->phraseMatcher->getValue())
-            $mods[] = $this->schema->makeMod('value', $asterisk, 'value', self::tokens(), self::lineNo());
+        if (!is_null($chargeLex->value))
+            $mods[] = $this->schema->makeMod('value', $chargeLex->value, 'value');
         if ($keyterm == 'special/flag') {
             $keyterm = "special/escutcheon";
-            $charge->setAttribute("keyterm", $keyterm);
-            $mods[] = $this->schema->makeMod('chargemod', null, 'shape-flag', self::tokens(), self::lineNo());
-            self::ignore(languageDB::USING);
-            if ( $option = self::find(LanguageDB::DRAWN_MODS) ) {
-                $value = strtolower($this->phraseMatcher->getValue());
-                if ( $option == "aspect" ) {
-                    $mods[] = $this->schema->makeNode(blazonML::E_ASPECT, array(
-                        blazonML::A_KEYTERM => $value),
-                        self::tokens(),
-                        self::lineNo()
+            $chargeNode->setAttribute("keyterm", $keyterm);
+            $mods[] = $this->schema->makeMod('chargemod', null, 'shape-flag');
+            $phrase3 = self::newPhrase();
+            $phrase3->add(self::findLex(languageDB::USING));
+            if ( $option = $phrase3->add(self::findLex(LanguageDB::DRAWN_MODS) )) {
+                $value = strtolower($option->value);
+                if ( $option->keyterm == "aspect" ) {
+                    $mods[] = $this->schema->makeNodeFromLexeme(blazonML::E_ASPECT, $phrase3->create('aspect'), array(
+                        blazonML::A_KEYTERM => $value)
                     );
                 }
             }
         }
         if ($keyterm == 'special/escutcheon') {
-            self::ignore(languageDB::BLAZONED);
-            $foundTinc = true; // don't look for a colour, let the shield take it
-            // $mods[] = self::simple(true);
+            $this->matcher->syncOver(languageDB::BLAZONED);
             $mods[] = self::shield();
         }
 
         // Look for bundle again (e.g. "two arrow bundles"
-        if ($keyterm = self::find2(languageDB::BUNDLE))
-            $mods[] = $this->schema->makeMod(languageDB::BUNDLE, null, $keyterm, self::tokens(), self::lineNo());
+        if ($bundle = self::findLex(languageDB::BUNDLE))
+            $mods[] = $this->schema->makeModFromLexeme($bundle, languageDB::BUNDLE);
         // Now look for postfix stuff, including tinctures and arrangements
         $foundTinc = false;
         while (self::moreInput()) {
-            if (self::semicolon(true)) {
-                 self::lookAhead(-1);
+            if (self::semicolon()) {
                 break;
             }
-            $state2 = self::save();
-            self::comma();
-            // self::ignore(languageDB::ANDD);
-            // self::ignore(languageDB::WITH);
-            self::ignore(languageDB::GROUP);
-            if ($keyterm = self::find2(languageDB::CHARGE_MODS))
-                $mods[] = $this->schema->makeMod(languageDB::CHARGE_MODS, $this->phraseMatcher->getValue(), $keyterm, self::tokens(), self::lineNo());
+            $this->matcher->syncOver();
+            $phrase4 = self::newPhrase();
+            $group = self::findLex(languageDB::GROUP);
+            if ($chargeMods = self::findLex(languageDB::CHARGE_MODS))
+                $mods[] = $this->schema->makeModFromLexeme($chargeMods, languageDB::CHARGE_MODS );
+            elseif ($chargeMods = self::ofNumber())
+                $mods[] = $this->schema->makeModFromLexeme($chargeMods, languageDB::CHARGE_MODS );
             elseif ($crowns = self::getCrowns($foundTinc))
                 $mods[] = $crowns;
             elseif ($allowPos and $positions = self::getPositions())
                 $mods = array_merge($mods, $positions);
-            elseif ($allowArr and $keyterm = self::find(languageDB::ARRANGEMENT))
-                $mods[] = $this->schema->makeMod(languageDB::ARRANGEMENT, null, $keyterm, self::tokens(), self::lineNo());
-            elseif ($num = self::find(languageDB::NUMBER)) {
+            elseif ($allowArr and $arrangement = self::findLex(languageDB::ARRANGEMENT))
+                $mods[] = $this->schema->makeModFromLexeme($arrangement, languageDB::ARRANGEMENT);
+            elseif ($num = $phrase4->add(self::findLex(languageDB::NUMBER))) {
                 // This might be rows, but must be >1 number
-                self::comma();
-                self::ignore(languageDB::ANDD);
-                $rows = array($num);
+                $this->matcher->syncOver(languageDB::ANDD);
+                $rows = array($num->keyterm);
                 $count = 1;
-                while (($num = self::find(languageDB::NUMBER))) {
+                while (($num = $phrase4->add(self::findLex(languageDB::NUMBER)))) {
                     $count += 1;
-                    $rows[] = $num;
+                    $rows[] = $num->keyterm;
                     if (self::semicolon(true)) break;
-                    self::comma();
-                    self::ignore(languageDB::ANDD);
+                    $this->matcher->syncOver(languageDB::ANDD);
                 }
                 if ($count == 1) {
-                    self::restore($state2);
+                    self::discardPhrase($phrase4);
                     break;
                 } elseif ($count > 1) {
-                    $mods[] = $this->schema->makeMod('rows', implode(',', $rows), 'arrange-by-rows', self::tokens(), self::lineNo());
-                    self::discard($state2);
+                    $mods[] = $this->schema->makeModFromLexeme(
+                        $phrase4->create('arrange-by-rows'), 'rows',  implode(',', $rows));
                 }
             } elseif (!$foundTinc && ($tinc = self::tincture())) {
                 if ($always_proper && is_object($tinc->firstChild) && $tinc->firstChild->nodeName != 'proper') {
-                    self::raiseError(self::ERROR_ORIGIN, 'Charge is always proper', true);
+                    self::raiseError(self::ERROR_ORIGIN, 'Charge is always proper', $phrase);
                 } else {
                     $mods[] = $tinc;
                     $foundTinc = true;
                 }
-            } elseif ($keyterm = self::find2(languageDB::CHARGE_FEATURES)) {
-                $feature = $this->schema->makeMod(blazonML::V_FEATURE, null, $keyterm, self::tokens(), self::lineNo());
+            } elseif ($chargeFeatures = self::findLex(languageDB::CHARGE_FEATURES)) {
+                $feature = $this->schema->makeModFromLexeme($chargeFeatures, blazonML::V_FEATURE);
                 if (($foundTinc || $always_proper) && ($tinc = self::tincture()))
                     $feature->appendChild($tinc);
                 else {
-                    $feature->appendChild($this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'pending',
+                    $feature->appendChild($this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'pending',
                         blazonML::A_INDEX => '1')));
                 }
                 $mods[] = $feature;
-                self::ignore(languageDB::ANDD);
+                $this->matcher->syncOver(languageDB::ANDD);
                 // Look for non-standard adjusments
             } elseif ($adjustments = self::getAdjustments()) {
                 $mods = array_merge($mods, $adjustments);
-            } elseif ($keyterm = self::find(languageDB::FONT)) {
-                $mods[] = $this->schema->makeMod(languageDB::FONT, $this->phraseMatcher->getValue(), $keyterm, self::tokens(), self::lineNo());
+            } elseif ($lexeme = self::findLex(languageDB::FONT)) {
+                $mods[] = $this->schema->makeModFromLexeme($lexeme, languageDB::FONT);
             } else {
-                self::restore($state2);
+                $this->matcher->syncOver();
                 break;
             }
-            self::ignore(languageDB::COMMA);
-            // self::ignore(languageDB::ANDD);
+            $this->matcher->syncOver();
         }
 
-        self::discard($state);
         if (!$foundTinc) {
             if ($always_proper || $optional_tincture) {
                 $tinc = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'given',
@@ -827,23 +912,24 @@ class englishGrammar extends grammar
                 $tinc->appendChild($this->schema->makeNode(blazonML::E_PROPER));
                 $mods[] = $tinc;
             } else {
-                $mods[] = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'pending',
+                $mods[] = $this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'pending',
                     blazonML::A_INDEX => '1'));
             }
         }
-        self::ignore(languageDB::WITH);
+        $this->matcher->syncOver(languageDB::WITH);
         foreach ($mods as $mod)
-            $charge->appendChild($mod);
-        return $charge;
+            $chargeNode->appendChild($mod);
+        return $chargeNode;
     }
 
-    protected function getAdjustments()
+    protected function getAdjustments() // DONE
     {
         $adjustments = array();
         $foundMuch = false;
         $foundShown = false;
-        while ((($keyterm = self::find(languageDB::SHOWN_MODS)) != null) ||
-            (($foundShown || $foundMuch) && ($keyterm = self::find(languageDB::SHOWN_EXTRA)) != null)) {
+        while ((($shownLex = self::findLex(languageDB::SHOWN_MODS)) != null) ||
+            (($foundShown || $foundMuch) && ($shownLex = self::achievementLocation()) != null)) {
+            $keyterm = $shownLex->keyterm;
             switch ($keyterm) {
                 case 'than-normal':
                     break; // just ignore this (syntactic sugar)
@@ -852,44 +938,42 @@ class englishGrammar extends grammar
                     break;
                 case 'stroked':
                     if (($colour = self::colour()) != null) {
-                        $adjustments[] = $this->schema->makeMod(languageDB::SHOWN_MODS,
-                            $colour->getAttribute(blazonML::A_KEYTERM), $keyterm, self::tokens(), self::lineNo());
+                        $adjustments[] = $this->schema->makeModFromLexeme($shownLex, languageDB::SHOWN_MODS,
+                            $colour->getAttribute(blazonML::A_KEYTERM));
                     } else {
-                        $adjustments[] = $this->schema->makeMod(languageDB::SHOWN_MODS,
-                            'gray', $keyterm, self::tokens(), self::lineNo());
+                        $adjustments[] = $this->schema->makeModFromLexeme( $shownLex, languageDB::SHOWN_MODS,
+                            'gray');
                     }
                     break;
                 case 'much':
                 case 'slightly':
                 case 'very-much':
-                    $foundMuch = $keyterm;
+                    $foundMuch = $shownLex->keyterm;
                     break;
                 default:
-                    if ($foundMuch) $keyterm = "$foundMuch-$keyterm";
-                    $adjustments[] = $this->schema->makeMod(languageDB::SHOWN_MODS, null, $keyterm, self::tokens(), self::lineNo());
+                    if ($foundMuch) $shownLex->keyterm = "$foundMuch-$keyterm";
+                    $adjustments[] = $this->schema->makeModFromLexeme($shownLex, languageDB::SHOWN_MODS, null);
                     $foundMuch = false;
                     $foundShown = true;
                     break;
             }
-            self::ignore(languageDB::ANDD);
-            self::ignore(languageDB::COMMA);
+            $this->matcher->syncOver(languageDB::ANDD);
         }
         if (count($adjustments))
             return $adjustments;
         return null;
     }
 
-    protected function charge($assumeNum = false, $allowArr = true, $allowPos = true)
+    protected function charge($assumeNum = false, $allowArr = true, $allowPos = true) // DONE
     {
-        $state = self::save();
+        $phrase = self::newPhrase();
         $chargeList = null;
         $mods = array();
         $posMods = array();
-        // if ( self::find(languageDB::ANDD) ) $assumeNum = true;
         while (true) {
             // Look for arrangements (e.g "in pale, three whatever...")
-            if ($keyterm = self::find(languageDB::ARRANGEMENT)) {
-                $mods[] = $this->schema->makeMod(languageDB::ARRANGEMENT, null, $keyterm, self::tokens(), self::lineNo());
+            if ($arrange = self::findLex(languageDB::ARRANGEMENT)) {
+                $mods[] = $this->schema->makeModFromLexeme( $arrange, languageDB::ARRANGEMENT);
                 $allowArr = false;
                 // Look for positions - may be more than one (e.g. "in chief and in base"
             } elseif ($positions = self::getPositions()) {
@@ -901,7 +985,7 @@ class englishGrammar extends grammar
         while (true) {
 
             // over x a y, not needed, under x a y not implemented
-            self::ignore(languageDB::LAYERING);
+            $this->matcher->syncOver(languageDB::LAYERING);
 
             /*
              * We support several types of grouped charges:
@@ -926,30 +1010,27 @@ class englishGrammar extends grammar
             $nearMod = null;
             $swapCharges = false;
 
-            if ($keyterm = self::find(languageDB::WORD_ON)) { // (1)
-                self::ignore(languageDB::EACH);
-                $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH, null,
-                    'charged-with', self::tokens(), self::lineNo());
-            } elseif ($keyterm = self::find(languageDB::CHARGE_BETWEEN)) { // (5)
-                $betweenMod = $this->schema->makeMod(languageDB::CHARGE_BETWEEN, null,
-                    $keyterm, self::tokens(), self::lineNo());
+            if ($phrase->add(self::findLex(languageDB::WORD_ON))) { // (1)
+                $phrase->add(self::findLex(languageDB::EACH));
+                $onMod = $this->schema->makeModFromLexeme($phrase->create('charged-with'), languageDB::CHARGE_WITH,
+                    'charged-with');
+            } elseif ($phrase->add(self::findLex(languageDB::CHARGE_BETWEEN))) { // (5)
+                $betweenMod = $this->schema->makeModFromLexeme($phrase->create(), languageDB::CHARGE_BETWEEN, null);
                 $swapCharges = true; // turn this into case (4)
-            } elseif ($keyterm = self::find(languageDB::CHARGE_NEAR)) { // (7)
-                if ($keyterm == 'below') {
-                    $keyterm = 'above';
+            } elseif ($near = self::findLex(languageDB::CHARGE_NEAR)) { // (7)
+                if ($near->keyterm == 'below') {
+                    $near->keyterm = 'above';
                 } else {
                     $swapCharges = true; // turn this into case (6)
                 }
-                $nearMod = $this->schema->makeMod(languageDB::CHARGE_NEAR, null,
-                    $keyterm, self::tokens(), self::lineNo());
+                $nearMod = $this->schema->makeModFromLexeme($near, languageDB::CHARGE_NEAR);
             }
 
             // Look for an actual charge
             if (($topCharge = self::simpleCharge($assumeNum, $allowArr, $allowPos)) == null) {
-                self::restore($state);
+                self::discardPhrase($phrase);
                 return null;
             }
-            self::discard($state);
 
             // Special handling for escutcheon (1)
             if (($onMod != null) && $topCharge->getAttribute(blazonML::A_KEYTERM) == 'special/escutcheon') {
@@ -968,46 +1049,40 @@ class englishGrammar extends grammar
 
 
                 if ($onMod == null) {
-                    if ($keyterm = self::find(languageDB::CHARGE_WITH)) { // (2)
-                        $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH,
-                            $this->phraseMatcher->getValue(), $keyterm, self::tokens(),
-                            self::lineNo());
+                    if ($lexeme = self::findLex(languageDB::CHARGE_WITH)) { // (2)
+                        $onMod = $this->schema->makeModFromLexeme($lexeme,languageDB::CHARGE_WITH);
                     }
                 }
 
                 if ($onMod == null) {
-                    if ($keyterm = self::find(languageDB::HOLDING)) { // (7)
-                        $onMod = $this->schema->makeMod(languageDB::HOLDING,
-                            $this->phraseMatcher->getValue(), $keyterm, self::tokens(),
-                            self::lineNo());
+                    if ($lexeme = self::findLex(languageDB::HOLDING)) { // (7)
+                        $onMod = $this->schema->makeModFromLexeme($lexeme, languageDB::HOLDING);
                         $holding = true;
                     }
                 }
 
                 if ($firstTime && $onMod == null) {
-                    if ($keyterm = self::find(languageDB::WORD_ON)) { // (3)
-                        self::ignore(languageDB::EACH);
-                        $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH, null,
-                            'charged-with', self::tokens(), self::lineNo());
+                    $phrase = self::newPhrase();
+                    if ($phrase->add(self::findLex(languageDB::WORD_ON))) { // (3)
+                        $phrase->add(self::findLex( languageDB::EACH));
+                        $onMod = $this->schema->makeModFromLexeme($phrase->create('charged-with'), languageDB::CHARGE_WITH);
                         $swapCharges = true; // turn this into case (1rose)
                     }
                 }
 
                 if ($betweenMod == null) {
-                    if ($keyterm = self::find(languageDB::CHARGE_BETWEEN)) { // (4)
-                        $betweenMod = $this->schema->makeMod(languageDB::CHARGE_BETWEEN, null,
-                            $keyterm, self::tokens(), self::lineNo());
+                    if ($lexeme = self::findLex(languageDB::CHARGE_BETWEEN)) { // (4)
+                        $betweenMod = $this->schema->makeModFromLexeme($lexeme, languageDB::CHARGE_BETWEEN);
                     }
                 }
 
                 if ($nearMod == null) {
-                    if ($keyterm = self::find(languageDB::CHARGE_NEAR)) { // (6)
-                        if ($keyterm == 'below') {
-                            $keyterm = 'above'; // collapse to a single case
+                    if ($lexeme = self::findLex(languageDB::CHARGE_NEAR)) { // (6)
+                        if ($lexeme->keyterm == 'below') {
+                            $lexeme->keyterm = 'above'; // collapse to a single case
                             $swapCharges = true;
                         }
-                        $nearMod = $this->schema->makeMod(languageDB::CHARGE_NEAR, null,
-                            $keyterm, self::tokens(), self::lineNo());
+                        $nearMod = $this->schema->makeModFromLexeme($lexeme, languageDB::CHARGE_NEAR);
                     }
                 }
 
@@ -1019,6 +1094,7 @@ class englishGrammar extends grammar
                 if ((($otherCharge = self::simpleCharge(true, true, false)) == null) && (($otherCharge = self::ordinary()) == null)) {
                     $otherCharge = $this->schema->makeNode(blazonML::E_MISSING);
                     self::raiseError(self::ERROR_ORIGIN, "Expected something to go with charge", true);
+                    $this->matcher->syncOver();
                     break;
                 } // else
 
@@ -1057,6 +1133,7 @@ class englishGrammar extends grammar
                 $firstTime = false;
             } while ($found);
 
+
             // // Add anything found earlier
             foreach ($mods as $mod)
                 $topCharge->appendChild($mod);
@@ -1064,7 +1141,7 @@ class englishGrammar extends grammar
             if ($chargeList != null)
                 $chargeList->appendChild($topCharge);
             // is there another charge coming?
-            if (self::find(languageDB::CHGLIST)) {
+            if (self::findLex(languageDB::CHGLIST)) {
                 if ($chargeList == null)
                     $chargeList = $this->schema->makeNode(blazonML::E_LIST);
                 $chargeList->appendChild($topCharge);
@@ -1083,43 +1160,44 @@ class englishGrammar extends grammar
         return $topCharge;
     }
 
-    protected function objects()
+    protected function objects() // DONE
     {
-
         $node = $this->schema->makeNode(blazonML::E_OBJECTS);
         $assume_num = false;
         $found = false;
 
-        $state = self::save();
-        self::ignore(languageDB::WITH);
+        $phrase = self::newPhrase();
+        $phrase->add(self::findLex(languageDB::WITH));
 
         while (self::moreInput()) {
+            if (self::findLex(languageDB::ANDD)) $assume_num = true;
             // We treat a counterchanged division a bit like an ordinary
             if ($counterchangedDivision = self::division(true)) {
                 $node->appendChild($counterchangedDivision);
-                self::comma();
+                $this->matcher->syncOver();
                 $found = true;
-            } elseif ($item = self::ordinary() or $item = self::charge($assume_num)) {
+            } elseif ($item = self::ordinary()) {
+                $found = true;
+                $node->appendChild($item);
+                $this->matcher->syncOver();
+                if (self::semicolon()) break;
+            } elseif ( $item = self::charge($assume_num)) {
                 $found = true;
                 $assume_num = false; // reset if it was true
                 $node->appendChild($item);
-                if ( $item->getAttribute("keyterm") == "chief" )
-
-                self::comma();
-                if (self::find(languageDB::ANDD)) $assume_num = true;
+                $this->matcher->syncOver();
+                // if (self::semicolon()) break;
             } else {
                 break;
             }
         }
         if (!$found) {
             $node = null;
-            self::restore($state);
-        } else {
-            self::discard($state);
+            self::discardPhrase($phrase);
         }
-
         return $node;
     }
+
     // TODO put the comented code below into heralds knowledge
     /*         switch ( $num ) {
              case 1:
@@ -1131,30 +1209,31 @@ class englishGrammar extends grammar
                self::raiseError('parser',"strange number of cottices ($num)" ); break;
              } */
 
-    protected function cotticing()
+    protected function cotticing() // DONE
     {
-        $state = self::save();
+        $phrase = self::newPhrase();
         $num = null;
-        if (self::find(languageDB::BETWEEN)) {
-            $num = self::find(languageDB::NUMBER);
-            if (!self::find(languageDB::COTTICE)) {
-                self::restore($state);
+        if ($phrase->add(self::findLex(languageDB::BETWEEN))) {
+            $num = $phrase->add(self::findLex(languageDB::NUMBER));
+            if (!$phrase->add(self::findLex(languageDB::COTTICE))) {
+                self::discardPhrase($phrase);
                 return null;
             }
         }
-        if (!$num) $num = self::find(languageDB::COTTICE_MODS);
+        if (!$num) $num = $phrase->add(self::findLex(languageDB::COTTICE_MODS));
         if (!$num) { // still not found anything
-            self::restore($state);
+            self::discardPhrase($phrase);
             return null;
         } // got something!
-        $mod = $this->schema->makeMod(languageDB::COTTICE_MODS, $num, 'cotticing', self::tokens(), self::lineNo());
+        $mod = $this->schema->makeModFromLexeme($phrase->create('cotticing'), languageDB::COTTICE_MODS, $num->keyterm);
         // now look for a linetype or colour
         $found = true;
-        while ($found) { // TODO can we use linetype function here?
-            if ($keyterm = self::find(languageDB::LINETYPE_PREFIX)) {
-                $mod2 = $this->schema->makeMod(languageDB::LINETYPE_PREFIX, null, $keyterm, self::tokens(), self::lineNo());
-                if ($keyterm = self::find(languageDB::LINETYPE))
-                    $mod2->appendChild($this->schema->makeMod(blazonML::A_LINETYPE, null, $keyterm, self::tokens(), self::lineNo()));
+        while ($found) {
+            $num = null;
+            if ($lexeme = self::linetypePrefix()) {
+                $mod2 = $this->schema->makeModFromLexeme($lexeme, languageDB::LINETYPE_PREFIX);
+                if ($lexeme= self::findLex(languageDB::LINETYPE))
+                    $mod2->appendChild($this->schema->makeModFromLexeme($lexeme, blazonML::A_LINETYPE));
                 if ($tinc = self::tincture(false))
                     $mod2->appendChild($tinc);
                 if (!$mod2->hasChildNodes()) {
@@ -1162,115 +1241,150 @@ class englishGrammar extends grammar
                     self::raiseError(self::ERROR_ORIGIN, "Expected line type or colour", true);
                 }
                 $mod->appendChild($mod2);
-            } elseif ($keyterm = self::find(languageDB::LINETYPE))
-                $mod->appendChild($this->schema->makeMod(blazonML::A_LINETYPE, null, $keyterm, self::tokens(), self::lineNo()));
+            } elseif ($lexeme = self::findLex(languageDB::LINETYPE))
+                $mod->appendChild($this->schema->makeModFromLexeme($lexeme, blazonML::A_LINETYPE));
             elseif ($tinc = self::tincture(false))
                 $mod->appendChild($tinc);
             else
                 $found = false;
         }
-        self::discard($state);
         return $mod;
     }
 
-    protected function linetype()
+    protected function linetypePrefix()
+    {
+        $phrase = self::newPhrase();
+
+        if ($phrase->add(self::findLex(languageDB::WORD_THE))) {
+            $lexeme = $phrase->add(self::findLex(languageDB::LINETYPE_PREFIX));
+            if (is_null($lexeme)) {
+                self::discardPhrase($phrase);
+                return null;
+            } else {
+                return $phrase->create();
+            }
+        }
+        return null;
+    }
+
+    protected function lineTypePostfix() {
+        $phrase = self::newPhrase();
+
+        $phrase->add(self::findLex(languageDB::WORD_ON));
+        $phrase->add(self::findLex(languageDB::WORD_AT));
+        if ($phrase->isEmpty()) {
+            return null;
+        } // else
+        $phrase->add(self::findLex(languageDB::WORD_THE));
+        $lexeme = $phrase->add(self::findLex(languageDB::LINETYPE_POSTFIX));
+        if (is_null($lexeme)) {
+            self::discardPhrase($phrase);
+            return null;
+        } else {
+            return $phrase->create();
+        }
+        return null;
+    }
+
+    protected function linetype() // DONE
     {
         $mod = null;
         // Look for modifiers that are followed a linetype (e.g. "the inner ones wavy")
-        if ($keyterm = self::find(languageDB::LINETYPE_PREFIX)) {
-            $mod = $this->schema->makeMod(languageDB::LINETYPE_PREFIX, null, $keyterm, self::tokens(), self::lineNo());
-            if ($keyterm = self::find(languageDB::LINETYPE))
-                $mod->appendChild($this->schema->makeMod(blazonML::A_LINETYPE, null, $keyterm, self::tokens(), self::lineNo()));
+        if ($lexeme = self::linetypePrefix()) {
+            $mod = $this->schema->makeModFromLexeme($lexeme, languageDB::LINETYPE_PREFIX);
+            if ($lexeme = self::findLex(languageDB::LINETYPE))
+                $mod->appendChild($this->schema->makeModFromLexeme($lexeme, blazonML::A_LINETYPE));
             else {
                 $mod->appendChild($this->schema->makeNode(blazonML::E_MISSING));
                 self::raiseError(self::ERROR_ORIGIN, "Expected line type", true);
+                $this->matcher->syncOver();
             }
             // Look for simple linetype modifiers (e.g. "dancetty")
-        } elseif ($keyterm = self::find(languageDB::LINETYPE))
-            $mod = $this->schema->makeMod(blazonML::A_LINETYPE, null, $keyterm, self::tokens(), self::lineNo());
+        } elseif ($lexeme = self::findLex(languageDB::LINETYPE)) {
+            $mod = $this->schema->makeModFromLexeme($lexeme, blazonML::A_LINETYPE);
+        }
         if ($mod) { // also look for top/bottom modifiers
-            if ($keyterm = self::find(languageDB::LINETYPE_POSTFIX))
-                $mod->appendChild($this->schema->makeMod(languageDB::LINETYPE_POSTFIX, null, $keyterm, self::tokens(), self::lineNo()));
+            if ($lexeme = self::linetypePostfix()) {
+                $mod->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::LINETYPE_POSTFIX));
+            }
         }
         return $mod;
     }
 
-    protected function ordinary()
+    protected function ordinary() // DONE
     {
         $insideMod = null;
-        $ord = $this->schema->makeNode(blazonML::E_ORDINARY);
-        $state = self::save();
+        $phrase = self::newPhrase();
         $found = true;
-        //if ( self::find(languageDB::WORD_IN) and ($keyterm = self::find(languageDB::LOCATION)) )   // TODO what was thie here for?
-        //   $ord->appendChild($this->schema->makeMod(languageDB::ORDINARY_PREFIX,'in' . $keyterm,self::tokens()));
+        $ord = null;
 
         // look for positions (not all make sense, but we don't care at this stage)
         $pos = self::getPositions();
-        if ($keyterm = self::find(languageDB::WORD_ON)) $onMod = $this->schema->makeMod(languageDB::WORD_ON, null, $keyterm, self::tokens(), self::lineNo());
+        if ($lexeme = self::findLex(languageDB::WORD_ON)) $onMod = $this->schema->makeModFromLexeme($lexeme, languageDB::WORD_ON);
         // if found, remember "inside" for later
-        if ($keyterm = self::find(languageDB::BETWEEN)) $insideMod = $this->schema->makeMod(languageDB::BETWEEN, null, $keyterm, self::tokens(), self::lineNo());
-        self::ignore(languageDB::LAYERING); // over x a y, not needed, under x a y not implementd
+        if ($lexeme = self::findLex(languageDB::BETWEEN)) $insideMod = $this->schema->makeModFromLexeme($lexeme, languageDB::BETWEEN);
+        self::findLex(languageDB::LAYERING); // over x a y, not needed, under x a y not implementd
         // Look for a number (or assume one)
-        $ordNum = self::find(languageDB::QUANTITY);
-        if (!$ordNum) $ordNum = self::find(languageDB::NUMBER);
-        if (!$ordNum) $ordNum = 1;
+        $lexeme = self::findLex(languageDB::QUANTITY);
+        if (!$lexeme) $lexeme = self::findLex(languageDB::NUMBER);
+        if (!$lexeme) {
+            $ordNum = 1;
+        } else {
+            $ordNum = $lexeme->keyterm;
+        }
+        $prefixes = [];
         // Look for various prefix modifiers (including positions, sometimes we get "in chief" or "in base"
-        while ($found) {
-            if ($keyterm = self::find(languageDB::ORDINARY_PREFIX)) {
-                $ord->appendChild($this->schema->makeMod(languageDB::ORDINARY_PREFIX, null, $keyterm, self::tokens(), self::lineNo()));
-            } else {
-                $found = false;
-            }
+        while ($lexeme = self::findLex(languageDB::ORDINARY_PREFIX)) {
+                $prefixes[] = $this->schema->makeModFromLexeme($lexeme, languageDB::ORDINARY_PREFIX);
         }
         // Check that there is no confusion with charges that look a bit like ordinaries
-        if (self::find2(languageDB::CHARGE_NOT_ORDINARY)) {
-            self::restore($state);
+        if (self::findLex(languageDB::CHARGE_NOT_ORDINARY)) {
+            self::discardPhrase($phrase);
             return null;
         }
         // Now look for things that are definitely ordinaries
-        $keyterm = self::find(languageDB::ORDINARY_NOT_CHARGE);
+        $lexeme = self::findLex(languageDB::ORDINARY_NOT_CHARGE);
         // Now look for things that could be either but depend on the number given
-        if (($keyterm == null) and $keyterm = self::find(languageDB::ORDINARY_OR_CHARGE)) {
-            $parts = explode('/', $keyterm);
+        if (($lexeme == null) and $lexeme = self::findLex(languageDB::ORDINARY_OR_CHARGE)) {
+            $parts = explode('/', $lexeme->keyterm);
             $type = $parts[1];
             if ($type == 'chevron') {  // TODO draw this (and 2 bends!)
                 if ($ordNum > 3) {// must be a charge
-                    self::restore($state);
+                    self::discardPhrase($phrase);
                     return null;
                 }
             } elseif ($ordNum > 1) { // must be a charge, e.g. 3 frets
-                self::restore($state);
+                self::discardPhrase($phrase);
                 return null;
             }
-            $keyterm = $type;
+            $lexeme->keyterm = $type;
         } // check if found something earlier, or actually have a nice easy ordinary...
-        if (($keyterm != null) or ($keyterm = self::find2(languageDB::ORDINARY))) {
-            $ord->setAttribute(blazonML::A_KEYTERM, $keyterm);
-            $ord->setAttribute(blazonML::A_NUMBER, "$ordNum");
-            $ord->setAttribute(blazonML::A_TOKENS, self::tokens());
-            $ord->setAttribute(blazonML::A_LINENUMBER, self::lineNo());
+        if (($lexeme != null) || ($lexeme = self::findLex(languageDB::ORDINARY))) {
+            $ord = $this->schema->makeNodeFromLexeme(blazonML::E_ORDINARY, $lexeme, array ( blazonML::A_NUMBER => "$ordNum"));
+            foreach ($prefixes as $prefix)
+                $ord->appendChild($prefix);
         } else { // no ordinary found, so backtrack.
-            self::restore($state);
+            self::discardPhrase($phrase);
             return null;
         }
         // Bit of a fudge, we are always "within" a bordure or a tressure
-        if (in_array($keyterm, array("bordure", "tressure", "double-tressure"), true)) {
+        if (in_array($lexeme->keyterm, array("bordure", "tressure", "double-tressure"), true)) {
             $insideMod = null;
         }
 
-// TODO check makeMod everywhere, does it need $this->phraseMatcher->getValue() as 2nd arg?
         $foundTinc = false;
         $tincIndex = 1;
         while (self::moreInput()) { // Look for prefixes again, just in case, and other common ordinary modifiers (e.g. "a bend sinister")
-            self::comma();
-            self::ignore(LanguageDB::ANDD);
-            if ($keyterm = self::find(languageDB::ORDINARY_MODS) or $keyterm = self::find(LanguageDB::ORDINARY_PREFIX)) {
-                $ord->appendChild($this->schema->makeMod(languageDB::ORDINARY_MODS, $this->phraseMatcher->getValue(), $keyterm, self::tokens(), self::lineNo()));
-            } elseif (($keyterm = self::find(languageDB::ORIENTATION)) != null) {
-                $ord->appendChild($this->schema->makeMod(languageDB::ORIENTATION, null, $keyterm, self::tokens(), self::lineNo()));
+            $this->matcher->syncOver(languageDB::ANDD);
+            if ($lexeme = self::findLex(languageDB::ORDINARY_MODS)) {
+                $ord->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::ORDINARY_MODS));
+            } elseif ( $lexeme = self::findLex(LanguageDB::ORDINARY_PREFIX)) {
+                $ord->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::ORDINARY_MODS));
+            } elseif (($lexeme = self::findLex(languageDB::ORIENTATION)) != null) {
+                $ord->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::ORIENTATION));
                 // Look for modifiers that are normally followed by a colour (e.g. "a bend compony vert")
-            } elseif ($keyterm = self::find(languageDB::COLOUR_MODS)) {
-                $comp = $this->schema->makeMod(languageDB::COLOUR_MODS, null, $keyterm, self::tokens(), self::lineNo());
+            } elseif ($lexeme = self::findLex(languageDB::COLOUR_MODS)) {
+                $comp = $this->schema->makeModFromLexeme($lexeme, languageDB::COLOUR_MODS);
                 $tinc2 = self::tincture(true); // Must have a tincture
                 $tinc2->setAttribute('index', '2');
                 $comp->appendChild($tinc2);
@@ -1282,8 +1396,8 @@ class englishGrammar extends grammar
             elseif ($mod = self::linetype()) {
                 $ord->appendChild($mod);
                 // Look for voided, (e.g. "a bend voided or")
-            } elseif ($keyterm = self::find(languageDB::VOIDED)) {
-                $mod = $this->schema->makeMod(languageDB::VOIDED, null, $keyterm, self::tokens(), self::lineNo());
+            } elseif ($lexeme = self::findLex(languageDB::VOIDED)) {
+                $mod = $this->schema->makeModFromLexeme($lexeme, languageDB::VOIDED);
                 // If ordinary already has tincture, look for a void tincture (e.g. "a bend or voided sable")
                 if ($foundTinc && ($tinc = self::tincture(false))) {
                     $mod->appendChild($tinc);
@@ -1298,12 +1412,12 @@ class englishGrammar extends grammar
         }
         // Have we found a colour yet?
         if (!$foundTinc) {
-            $ord->appendChild($this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1', blazonML::A_ORIGIN => 'pending')));
+            $ord->appendChild($this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1', blazonML::A_ORIGIN => 'pending')));
         }
         // Does this ordinary go "between" some charges?
-        $keyterm = null;
-        if (($insideMod != null) or ($keyterm = self::find(languageDB::BETWEEN))) {
-            if (!isset($insideMod)) $insideMod = $this->schema->makeMod(languageDB::BETWEEN, null, $keyterm, self::tokens(), self::lineNo());
+        $lexeme = null;
+        if (($insideMod != null) || ($lexeme = self::findLex(languageDB::BETWEEN))) {
+            if (!isset($insideMod)) $insideMod = $this->schema->makeModFromLexeme($lexeme, languageDB::BETWEEN);
             if (($obj = self::charge(false, true, true)) or ($obj = self::ordinary())) {
                 $insideMod->appendChild($obj);
             } else {
@@ -1312,17 +1426,17 @@ class englishGrammar extends grammar
                 // self::raiseError(self::ERROR_ORIGIN,"Expected charge for within/inside", true);
             }
             // keep looking for more of the same
-            while (!self::semicolon(true) and self::find(languageDB::ANDD) and (($obj = self::charge()) != null)) {
+            while (!self::semicolon(true) && self::findLex(languageDB::ANDD) && (($obj = self::charge()) != null)) {
                 $insideMod->appendChild($obj);
             }
             self::restoreAnd();
             $ord->appendChild($insideMod);
         }
         // Are there charges (or other ordinaries) "on" this one?
-        $keyterm = null;
-        if (isset($onMod) or ($keyterm = self::find(languageDB::CHARGE_WITH))) {
-            self::comma();
-            if (!isset($onMod)) $onMod = $this->schema->makeMod(languageDB::CHARGE_WITH, $this->phraseMatcher->getValue(), $keyterm, self::tokens(), self::lineNo());
+        $lexeme = null;
+        if (isset($onMod) || ($lexeme = self::findLex(languageDB::CHARGE_WITH))) {
+            $this->matcher->syncOver();
+            if (!isset($onMod)) $onMod = $this->schema->makeModFromLexeme($lexeme, languageDB::CHARGE_WITH);
             // in some cases, prefer ordinaries to charges
             if (in_array($ord->getAttribute(blazonML::A_TYPE), array('chief', 'canton'))) {
                 $item = self::ordinary();
@@ -1334,6 +1448,7 @@ class englishGrammar extends grammar
             if (!$item) {
                 $item = $this->schema->makeNode(blazonML::E_MISSING);
                 self::raiseError(self::ERROR_ORIGIN, "Expect something to go on ordinary", true);
+                $this->matcher->syncOver();
             }
             $onMod->appendChild($item);
             $ord->appendChild($onMod);
@@ -1344,103 +1459,88 @@ class englishGrammar extends grammar
                 $ord->appendChild($p);
             }
         }
-        self::discard($state);
         return $ord;
     }
 
-    protected function quartermarker($matchType = null)
+    protected function quartermarker($matchType = null): ?Lexeme // DONE
         // if matchType is null, we can match any quarterMarker
     {
         $state = self::save();
-        $foundType = null;
-        self::ignore(languageDB::WORD_THE);
+        $phrase = self::newPhrase();
+        $phrase->add(self::findLex(languageDB::WORD_THE));
         // Look for an obvious quartering
         if ($matchType == null || $matchType == languageDB::QUARTERS_WORDS) {
-            $keyterm = self::find(languageDB::QUARTERS_WORDS);
-            self::ignore(languageDB::QUARTERMARK);
-            if ($keyterm !== null) {
-                self::discard($state);
-                return array($keyterm, languageDB::QUARTERS_WORDS);
+            $lexeme = $phrase->add(self::findLex(languageDB::QUARTERS_WORDS));
+            $phrase->add(self::findLex(languageDB::QUARTERMARK));
+            if ($lexeme !== null) {
+                return $phrase->create($lexeme->keyterm, languageDB::QUARTERS_WORDS);
             }
         }
         if ($matchType == null || $matchType == languageDB::QUARTERS_ORDINAL) {
-            $keyterm = self::find(languageDB::QUARTERS_ORDINAL);
-            self::ignore(languageDB::QUARTERMARK);
-            if ($keyterm !== null) {
-                self::discard($state);
-                return array($keyterm, languageDB::QUARTERS_ORDINAL);
+            $lexeme = $phrase->add(self::findLex(languageDB::QUARTERS_ORDINAL));
+            $phrase->add(self::findLex(languageDB::QUARTERMARK));
+            if ($lexeme !== null) {
+                return $phrase->create($lexeme->keyterm,  languageDB::QUARTERS_ORDINAL);
             }
         }
         if ($matchType == null || $matchType == languageDB::QUARTERS_ROMAN) {
-            $keyterm = self::find(languageDB::QUARTERS_ROMAN);
-            self::ignore(languageDB::QUARTERMARK);
-            if ($keyterm !== null) {
-                self::discard($state);
-                return array($keyterm, languageDB::QUARTERS_ROMAN);
+            $lexeme = $phrase->add(self::findLex(languageDB::QUARTERS_ROMAN));
+            $phrase->add(self::findLex(languageDB::QUARTERMARK));
+            if ($lexeme !== null) {
+                return $phrase->create($lexeme->keyterm, languageDB::QUARTERS_ROMAN);
             }
         }
         // Look for a number, but it MUST be followed by a quartermarker
         if ($matchType == null || $matchType == languageDB::NUMBER) {
-            $keyterm = self::find(languageDB::NUMBER);
-            if (self::find(languageDB::QUARTERMARK)) {
-                self::discard($state);
-                return array($keyterm, languageDB::NUMBER);
+            $lexeme = $phrase->add(self::findLex(languageDB::NUMBER));
+            if (self::findLex(languageDB::QUARTERMARK)) {
+                return $phrase->create($lexeme->keyterm, languageDB::NUMBER);
             }
         }
         // Look for a letter, but it MUST be followed by a quartermarker
         if ($matchType == null || $matchType == languageDB::LETTERS) {
-            $keyterm = self::find(languageDB::LETTERS);
-            if (self::find(languageDB::QUARTERMARK)) {
-                self::discard($state);
-                return array($keyterm, languageDB::LETTERS);
+            $lexeme = $phrase->add(self::findLex(languageDB::LETTERS));
+            if (self::findLex(languageDB::QUARTERMARK)) {
+                return $phrase->create($lexeme->keyterm, languageDB::LETTERS);
             }
         }
-        self::restore($state);
+        self::discardPhrase($phrase);
         return null;
     }
 
-//  protected function quarteredMods() {
-//    if ( ($qmod = self::find(languageDB::QUARTERMODS)) != null ) {
-//       $quartered->appendChild( $this->schema->makeMod(languageDB::QUARTERMODS, null, $qmod, self::tokens(), self::lineNo()));
-//    }
-//  }
-
-    protected function quartered()
+    protected function quartered() // DONE
     {
-        /**
-         * @var DOMElement[] $subshields
-         */
         $subshields = array_fill(1, 64, null);
 
-        $state = self::save();
+        $phrase = self::newPhrase();
         $node = null;
         $numberStated = 0;
         $highest = 0;
 
-        if (($marshall = self::find(languageDB::QUARTERED)) != null) {
-            $not_quarters = substr($marshall, 0, 4) == "per-";
-            self::ignore(languageDB::COLON); // allow quarterly: ...
-            $quartered = $this->schema->makeNode(blazonML::E_COMPLEX, array('keyterm' => blazonML::V_QUARTERED), self::tokens(), self::lineNo());
-            if (($qmod = self::find(languageDB::QUARTERMODS)) != null) {
-                $quartered->appendChild($this->schema->makeMod(languageDB::QUARTERMODS, null, $qmod, self::tokens(), self::lineNo()));
+        if (($marshall = self::findLex(languageDB::QUARTERED)) != null) {
+            $not_quarters = substr($marshall->keyterm, 0, 4) == "per-";
+            $this->matcher->syncOver(languageDB::COLON); // allow quarterly: ...
+            $quartered = $this->schema->makeNodeFromLexeme(blazonML::E_COMPLEX, $marshall, array('keyterm' => blazonML::V_QUARTERED));
+            if (($qmod = self::findLex(languageDB::QUARTERMODS)) != null) {
+                $quartered->appendChild($this->schema->makeModFromLexeme($qmod, languageDB::QUARTERMODS));
             }
-            self::comma();
-            if (self::find(languageDB::WORD_OF)) { // like "quarterly of 4"
-                $numberStated = self::find(languageDB::NUMBER); // But ignore it and count the quarters we are given
-                self::comma();
+            $this->matcher->syncOver();
+            if ($lexeme = self::ofNumber(languageDB::PIECES)) { // like "quarterly of 4"
+                $numberStated = $lexeme->value;
+                $this->matcher->syncOver();
             }
 
             $foundQuarter = false;
             $quarterType = null; // accept any type of numbering
             do { // Look for quarters
-                if (self::find(languageDB::DOUBLESEMI))
+                if (self::findLex(languageDB::DOUBLESEMI))
                     break;
                 $found = false;
                 $indices = array();
                 while (($quarterMark = self::quartermarker($quarterType)) != null) {
-                    $keyterm = $quarterMark[0];
+                    $keyterm = $quarterMark->keyterm;
                     if ($quarterType == null ) {
-                        $quarterType = $quarterMark[1];
+                        $quarterType = $quarterMark->value;
                         if (in_array($quarterType, $this->previousTypes)) {
                             self::raiseError(self::ERROR_ORIGIN, "Sub quarters should use different numbering scheme", true);
                         }
@@ -1449,23 +1549,22 @@ class englishGrammar extends grammar
                     $indices[] = $keyterm; // make a list of quarter numbers
                     if ($keyterm > $highest)
                         $highest = $keyterm;
-                    self::comma();
-                    self::ignore(languageDB::ANDD);
+                    $this->matcher->syncOver(languageDB::ANDD);
                     $found = $foundQuarter = true;
                 }
                 if ($found) {
-                    $ID = null;
-                    self::ignore(languageDB::QUANTIFIER);
+                    // $ID = null;
+                    $this->matcher->syncOver(languageDB::QUANTIFIER);
                     $quarter = self::shield(); // Look for the description of this quarter
-                    if ($quarter != null and count($indices) > 1) {
+                    // if ($quarter != null and count($indices) > 1) {
                         $ID = $quarter->getAttribute('ID');
-                    }
+                    // }
                     if ($subshields[$indices[0]] != null)
                         self::raiseError(self::ERROR_ORIGIN, 'Duplicate quarter', true);
                     else
                         $subshields[$indices[0]] = $quarter; // Set the first quarter to this description
                     for ($i = 1; $i < count($indices); $i++) {
-                        $reference = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_IDREF => $ID)); // Set other quarters to point to this one
+                        // $reference = $this->schema->makeIDNode(blazonML::E_SHIELD, array(blazonML::A_IDREF => $ID)); // Set other quarters to point to this one
                         $reference = $quarter->cloneNode(true);
                         $reference->setAttribute('ID',unique('clone'));
                         if ($subshields[$indices[$i]] != null)
@@ -1476,8 +1575,8 @@ class englishGrammar extends grammar
                 } // Keep going as long as we find quarters
             } while ($found);
             array_pop($this->previousTypes);
-            if ( ($marshall == 'quarterly' || $not_quarters) and !$foundQuarter) {
-                self::restore($state); // backtrack, assume this is quarterly division
+            if ( ($marshall->keyterm == 'quarterly' || $not_quarters) and !$foundQuarter) {
+                self::discardPhrase($phrase); // backtrack, assume this is quarterly division
                 return null;
             }
             $order = $highest;
@@ -1491,111 +1590,109 @@ class englishGrammar extends grammar
             }
             for ($i = 1; $i <= $highest; $i++) {
                 if ($subshields[$i] == null) {
-                    $pendingShield = $this->schema->makeNode(blazonML::E_SHIELD);
+                    $pendingShield = $this->schema->makeIDNode(blazonML::E_SHIELD);
                     $pendingShield->setAttribute('index', $i);
-                    $pendingShield->appendChild($this->schema->makeNode(blazonML::E_PENDING));
+                    $pendingShield->appendChild($this->schema->makeIDNode(blazonML::E_PENDING));
                     $subshields[$i] = $pendingShield;
                     // self::raiseError(self::ERROR_ORIGIN,'Missing quarter (' . $i . ')', true);
                 } else {
                     $subshields[$i]->setAttribute(blazonML::A_INDEX, "$i");
                 }
             }
-            if ($marshall == 'quartered-per-saltire') {
+            if ($marshall->keyterm == 'quartered-per-saltire') {
                 $order = 4;
                 $quartered->setAttribute("keyterm", "per-saltire");
             } else if ( $not_quarters ) {
-                $quartered->setAttribute("keyterm", $marshall);
+                $quartered->setAttribute("keyterm", $marshall->keyterm);
             }
             $quartered->setAttribute('order', $order);
             for ($i = 1; $i <= $highest; $i++)
                 $quartered->appendChild($subshields[$i]);
-            $node = $this->schema->makeNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
+            $node = $this->schema->makeIDNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
             $node->appendChild($quartered);
         }
         return $node;
     }
 
-    protected function halved()
+    protected function halved() // DONE
     {
 
         $node = null;
-        if (($keyterm = self::find(languageDB::SPLITS)) != null) {
-            $half = $this->schema->makeNode(blazonML::E_COMPLEX, array('keyterm' => $keyterm), self::tokens(), self::lineNo());
+        if (($lexeme = self::findLex(languageDB::SPLITS)) != null) {
+            $half = $this->schema->makeNodeFromLexem(blazonML::E_COMPLEX, $lexeme);
             if (($shield1 = self::shield()) == null) {
-                self::raiseError(self::ERROR_ORIGIN, 'Expected 1st shield description (replaced by blank)', true);
+                self::raiseError(self::ERROR_ORIGIN, 'Expected 1st shield description (replaced by blank)', $lexeme);
                 $shield1 = $this->schema->makeNode(blazonML::E_MISSING);
             }
             $shield1->setAttribute('index', '1');
-            if (!self::find(languageDB::WITH)) {
+            $this->matcher->syncOver(languageDB::WITH);
+            // if (!self::findLex(languageDB::WITH)) {
                 // uncomment to require "impaled A with B"
                 //      self::raiseError('warning','expected "with"');
                 //      return $shield1;
-            }
+            //}
             if (($shield2 = self::shield()) == null) {
                 self::raiseError(self::ERROR_ORIGIN, 'Expected 2nd shield description (replaced by blank)', true);
                 $shield2 = $this->schema->makeNode(blazonML::E_MISSING);
+                $this->matcher->syncOver(languageDB::WITH);
             }
             $shield2->setAttribute('index', '2');
-            //$half = $$this->schema->makeNode($keyterm); // TODO is this needed (not tested yet)
             $half->appendChild($shield1);
             $half->appendChild($shield2);
-            $node = $this->schema->makeNode(blazonML::E_SHIELD,
+            $node = $this->schema->makeIDNode(blazonML::E_SHIELD,
                 array(blazonML::A_INDEX => '0'));
             $node->appendChild($half);
         }
         return $node;
     }
 
-    protected function fur()
+    protected function fur() // DONE
     {
-
-        $state = self::save();
-        self::ignore(languageDB::WORD_OF);
-        $keyterm = self::find(languageDB::FUR);
-        if ($keyterm == null) {
-            self::restore($state);
+        $phrase = self::newPhrase();
+        $phrase->add(self::findLex(languageDB::WORD_OF));
+        $fur = $phrase->add(self::findLex(languageDB::FUR));
+        if ($fur == null) {
+            self::discardPhrase($phrase);
             return null;
         }
-        self::discard($state);
-        return $this->schema->makeNode(blazonML::E_FUR,
-            array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
+        return $this->schema->makeNodeFromLexeme(blazonML::E_FUR,
+            $phrase->create());
+
     }
 
-    protected function colour()
+    protected function colour() // DONE
     {
         global $options;
 
-        $state = self::save();
-        self::ignore(languageDB::WORD_OF);
-        $heraldicOnly = false;
-        if (self::find(languageDB::HERALDIC)) $heraldicOnly = true;
-        $keyterm = null;
-        // if a colour set is enabled, those colours OVERRIDE heraldic colours
+        $phrase = self::newPhrase();
+        $phrase->add(self::findLex(languageDB::WORD_OF));
+        $heraldicOnly =  !is_null($phrase->add(self::findLex(languageDB::HERALDIC)));
+        $colour = null;
+        // if a colour set is enabled, those colours
+        /// OVERRIDE heraldic colours
         if (!$heraldicOnly) {
             if ( $options['useTartanColours'])
-                $keyterm = self::find2(languageDB::TARTANCOLS);
-            if ($keyterm == null && $options['useWebColours'])
-                $keyterm = self::find2(languageDB::WEBCOLS);
-            if ($keyterm == null && $options['useWarhammerColours'])
-                $keyterm = self::find2(languageDB::WHCOLS);
+                $colour = $phrase->add(self::findLex(languageDB::TARTANCOLS));
+            if ($colour == null && $options['useWebColours'])
+                $colour = $phrase->add(self::findLex(languageDB::WEBCOLS));
+            if ($colour == null && $options['useWarhammerColours'])
+                $colour = $phrase->add(self::findLex(languageDB::WHCOLS));
         }
-        if ($keyterm == null)
-            $keyterm = self::find(languageDB::COLOUR);
+        if ($colour == null)
+            $colour = $phrase->add(self::findLex(languageDB::COLOUR));
         // If not enabled, we still search for them, but AFTER heraldic colours
-        if ($keyterm == null && !$options['useTartanColours'])
-            $keyterm = self::find2(languageDB::TARTANCOLS);
-        if ($keyterm == null && !$options['useWebColours'])
-            $keyterm = self::find2(languageDB::WEBCOLS);
-        if ($keyterm == null && !$options['useWarhammerColours'])
-            $keyterm = self::find2(languageDB::WHCOLS);
+        if ($colour == null && !$options['useTartanColours'])
+            $colour = $phrase->add(self::findLex(languageDB::TARTANCOLS));
+        if ($colour == null && !$options['useWebColours'])
+            $colour = $phrase->add(self::findLex(languageDB::WEBCOLS));
+        if ($colour == null && !$options['useWarhammerColours'])
+            $colour = $phrase->add(self::findLex(languageDB::WHCOLS));
         // FFS! Have we found anything yet? If not, give up
-        if ($keyterm == null) {
-            self::restore($state);
+        if ($colour == null) {
+            self::discardPhrase($phrase);
             return null;
         }
-        self::discard($state);
-        return $this->schema->makeNode(blazonML::E_COLOUR,
-            array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
+        return $this->schema->makeNodeFromLexeme(blazonML::E_COLOUR, $phrase->create() );
     }
 
     protected function threadcount($value) {
@@ -1612,7 +1709,7 @@ class englishGrammar extends grammar
             'LG' => 'tartan/light-green',
             'G' => 'tartan/green',
             'DG' => 'tartan/dark-green',
-            'LB' => 'tartan/light-blue',
+            'L' => 'tartan/light-blue',
             'B' => 'tartan/blue',
             'DB' => 'tartan/dark-blue',
             'LP' => 'tartan/light-purple',
@@ -1733,10 +1830,10 @@ class englishGrammar extends grammar
 
     }
 
-    protected function tartan() {
+    protected function tartan() { // DONE
         global $options;
 
-        if (($keyterm = self::find(languageDB::TARTAN)) == null)
+        if (($tartan = self::findLex(languageDB::TARTAN)) == null)
             return null;
 
         $options['useTartanColours'] = true; // triggers search for tartan colours first
@@ -1745,8 +1842,7 @@ class englishGrammar extends grammar
         $found = true;
         while ($found) {
             if (self::semicolon()) break;
-            self::ignore(languageDB::ANDD);
-            self::comma();
+            $this->matcher->syncOver(languageDB::ANDD);
             if (($colour = self::colour()) != null) {
                 $size = null;
                 if (!self::semicolon())
@@ -1763,8 +1859,8 @@ class englishGrammar extends grammar
         }
         if (!count($patternArray)) { // didn't find anything, look for a string
             $state = self::save();
-            self::find(languageDB::VALUE); // always gets something
-            $value = $this->phraseMatcher->getValue();
+            self::findLex(languageDB::VALUE); // always gets something
+            $value = $this->matcher->getValue();
             $patternArray = self::threadcount($value);
             if (count(($patternArray))) {
                 self::discard($state);
@@ -1773,8 +1869,7 @@ class englishGrammar extends grammar
             }
         }
 
-        $node = $this->schema->makeNode(blazonML::E_TREATMENT,
-            array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
+        $node = $this->schema->makeNodeFromLexeme(blazonML::E_TREATMENT, $tartan);
         $last = count($patternArray) - 1;
         if ($last > 0 && $patternArray[$last] == "no-repeat") {
             $node->setAttribute(blazonML::A_KEYTERM, "tartan-no-repeat");
@@ -1787,65 +1882,80 @@ class englishGrammar extends grammar
     }
 
 
-  protected function number() {
-      if (($num = self::find(languageDB::NUMBER)) == null)
+  protected function number() { // DONE
+      if (($num = self::findLex(languageDB::NUMBER)) == null)
           return null;
-      if ($num == 'bignum')
-          $num = $this->phraseMatcher->getValue();
-      return $num;
+      if ($num->keyterm == 'bignum')
+          $number = intval($num->tokens);
+      else
+          $number = $num->keyterm;
+      return $number;
     }
 
-  protected function treatment() {
-    $state = self::save();
-    $keyterm = self::find(languageDB::TREATMENT);
-    if ( $keyterm == null ) {
-      self::restore($state);
+  protected function treatment() { // DONE
+        $phrase = self::newPhrase();
+    $treatment = $phrase->add(self::findLex(languageDB::TREATMENT));
+    if ( $treatment == null ) {
+        self::discardPhrase($phrase);
       return null;
     }
+    $ofNum = null;
 
-    self::ignore(languageDB::WORD_OF);
-    if ($ofNum = self::find(languageDB::NUMBER))
-        self::ignore(languageDB::POINTS);
-    if ($keyterm == 'mulletty') {
+    $numLexeme = $phrase->add(self::ofNumber(languageDB::POINTS));
+    if (!is_null($numLexeme)) {
+        $ofNum = $numLexeme->keyterm;
+    }
+    if ($treatment->keyterm == 'mulletty') {
         if ($ofNum == null || $ofNum < 5)
             $ofNum = 5;
         elseif ($ofNum > 10)
             $ofNum = 10;
-        $keyterm .= '-' . $ofNum;
+        $treatment->keyterm .= '-' . $ofNum;
     }
-    if ($keyterm == 'checky') {
+    if ($treatment->keyterm == 'checky') {
         if ($ofNum == 9) {
             $keyterm = 'checky9';
      /*   } elseif ($ofNum == 3) {
             $keyterm = 'checky3'; */
         }
     }
-    $node = $this->schema->makeNode(blazonML::E_TREATMENT, array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
-    if (substr($keyterm, 0, 5) == 'grady') {
-        if (self::find(languageDB::INVERSE)) {
-            $node->appendChild($this->schema->makeMod(languageDB::INVERSE, null, languageDB::INVERSE, self::tokens(), self::lineNo()));
+    $node = $this->schema->makeNodeFromLexeme(blazonML::E_TREATMENT, $phrase->create($treatment->keyterm));
+    if (substr($treatment->keyterm, 0, 5) == 'grady') {
+        if ($inverse = self::findLex(languageDB::INVERSE)) {
+            $node->appendChild($this->schema->makeModFromLexeme($inverse, languageDB::INVERSE));
         }
     }
- /*   if (self::find(languageDB::DISPLACED)) {
-        $node->appendChild($this->schema->makeMod(languageDB::DISPLACED, null, languageDB::DISPLACED, self::tokens(), self::lineNo()));
-    } */
-      self::discard($state);
     return $node;
   }
 
-  protected function division( $onlyCounterchanged = false ) {
+  protected function ofNumber($descriptor = null) {
+        $phrase = self::newPhrase();
+        if (is_null($phrase->add(self::findLex(languageDB::WORD_OF)))) return null;
+        $number = $phrase->add(self::findLex(languageDB::NUMBER));
+        if (!is_null($descriptor)) {
+            $phrase->add(self::findLex($descriptor));
+        }
+        if (is_null($number)) {
+            self::discardPhrase($phrase);
+            return null;
+        } // else
+        return $phrase->create('ofnum', $number->keyterm);
+  }
+
+  protected function division( $onlyCounterchanged = false ) { // DONE
     $need3Tinc = array ( 'per-pall', 'per-pall-arrondi', 'tierced-in-pale',
     'tierced-in-fess', 'tierced-in-bend', 'tierced-in-bend', 'tierced-in-chevron' );
     $opt3Tinc = array ( 'per-pile', );
     $opt4Tinc = array ( 'quarterly', 'quarterly-per-fess', 'quarterly-per-pale', 'per-saltire' );
     $optInfTinc = array ( 'per-fess', 'per-pale', 'paly', 'barry' );
 
-    $state = self::save();
+    $phrase = self::newPhrase();
     $node = null;
-    if ( ($keyterm = self::find( languageDB::DIVISION )) != null ) {
-        self::ignore(languageDB::COLON); // allow per pale:...
-      $node = $this->schema->makeNode(blazonML::E_DIVISION,array(blazonML::A_KEYTERM => $keyterm), self::tokens(), self::lineNo());
-      self::comma();
+    if ( ($divLexeme = self::findLex( languageDB::DIVISION )) != null ) {
+        $keyterm = $divLexeme->keyterm;
+        $this->matcher->syncOver(languageDB::COLON); // allow per pale:...
+      $node = $this->schema->makeNodeFromLexeme(blazonML::E_DIVISION, $divLexeme);
+      $this->matcher->syncOver();
       // generic modifiers, including tinctures
       $maxTinc = 2;
       $minTinc = 2;
@@ -1864,14 +1974,15 @@ class englishGrammar extends grammar
       $foundCounterchange = false;
       while ( $found ) {
         if (self::semicolon(true)) break;
-        self::comma();
-        self::ignore(languageDB::ANDD);
-        if ($keyterm = self::find(languageDB::LINETYPE)) {
-          $node->appendChild( $this->schema->makeMod(blazonML::A_LINETYPE, null, $keyterm, self::tokens(), self::lineNo()));
-        } elseif ( $keyterm = self::find(languageDB::DIVISION_MODS)) {
-          $node->appendChild($this->schema->makeMod(languageDB::DIVISION_MODS, $this->phraseMatcher->getValue(), $keyterm, self::tokens(), self::lineNo()));
-        } elseif ($keyterm = self::find(languageDB::ORIENTATION)) {
-          $node->appendChild($this->schema->makeMod(languageDB::ORIENTATION,null,$keyterm, self::tokens(), self::lineNo()));
+          $this->matcher->syncOver(languageDB::ANDD);
+        if ($lexeme = self::findLex(languageDB::LINETYPE)) {
+          $node->appendChild( $this->schema->makeModFromLexeme($lexeme, blazonML::A_LINETYPE));
+        } elseif ( $lexeme = self::findLex(languageDB::DIVISION_MODS)) {
+          $node->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::DIVISION_MODS));
+        } elseif ( $lexeme = self::ofNumber(languageDB::PIECES)) {
+            $node->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::DIVISION_MODS));
+        } elseif ($lexeme = self::findLex(languageDB::ORIENTATION)) {
+          $node->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::ORIENTATION));
         } elseif ( ($tincCount < $maxTinc) && ($tinc = self::tincture(false)) ) {
           $tincCount++;
           $tinc->setAttribute(blazonML::A_INDEX,"$tincCount");
@@ -1885,65 +1996,33 @@ class englishGrammar extends grammar
           $found = false;
       }
       if ($onlyCounterchanged && !$foundCounterchange) {
-        self::restore($state);
+          self::discardPhrase($phrase);
         return null;
       }
       // Did we find all the tinctures that we need?
       while ( $tincCount < $minTinc ) {
         $node->appendChild($this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => ++$tincCount,
             blazonML::A_ORIGIN => 'missing' )));
-        self::raiseError(self::ERROR_ORIGIN,"Missing tincture(s) on division", true);
+        self::raiseError(self::ERROR_ORIGIN,"Missing tincture(s) on division", $divLexeme);
       }
       // if ($tincCount == $maxTinc) {
         // self::raiseError(self::ERROR_ORIGIN,"Too many tinctures on division", true);
       // }
     }
-    self::discard($state);
     return $node;
   }
 
-  /*
-   * This function has 4 return possibilities
-   * null - nothing found
-   * 'crest' - marker to move on to next crest
-   * 'no-crest
-   */
-  protected function crest() {
-    if (($type = self::find(languageDB::CREST)) == null) {
-      return;
-    }
-    $crestNode = $this->schema->makeNode(blazonML::E_CREST, array (
-      blazonML::A_KEYTERM => $type),
-      self::tokens(),
-      self::lineno());
-    $charge = self::charge(true,true,false); // assume number, allow arrangements, don't allow positions
-    if ($charge == null) {
-      self::raiseError(self::ERROR_ORIGIN,"Expected charge for the crest", true);
-      return null;
-    } else {
-      $crestNode->appendChild($charge);
-    }
-      if (($adjust = $this->getAdjustments()) != null) {
-          foreach ($adjust as $adj) {
-              $crestNode->appendChild($adj);
-          }
-      }
-    return $crestNode;
-  }
 
-
-    protected function compartment() {
-        if (self::find(languageDB::COMPARTMENT) == null) {
+    protected function compartment() { // DONE
+        $phrase = self::newPhrase();
+        if ($phrase->add(self::findLex(languageDB::COMPARTMENT)) == null) {
             return;
         }
-        $compType = self::find(languageDB::COMP_TYPE);
-        if ($compType == null) {
-            $compType = 'mound'; // default if none give or found
+        $compTypeLex = $phrase->add(self::findLex(languageDB::COMP_TYPE));
+        if ($compTypeLex == null) {
+            $phrase->keyterm = 'mound';
         }
-        $compartmentNode = $this->schema->makeNode(blazonML::E_COMPARTMENT, array (
-            blazonML::A_KEYTERM => $compType),
-            self::tokens(),
-            self::lineno());
+        $compartmentNode = $this->schema->makeNodeFromLexeme(blazonML::E_COMPARTMENT, $phrase->create());
         $tincNode = self::tincture();
         if ($tincNode != null) {
             $compartmentNode->appendChild($tincNode);
@@ -1957,26 +2036,28 @@ class englishGrammar extends grammar
         return $compartmentNode;
     }
 
-    protected function ornaments() {
+    protected function ornaments() { // DONE
         // This function has 3 possible return values:
         // Null - nothing found
         // True - the word "ornament" on its own
         // A node representing a specific group of ornaments
-        if (!self::find(languageDB::ORNAMENT)) return null;
+        $phrase = self::newPhrase();
+        $phrase->add(self::findLex(languageDB::SIGNIFIER));
+        if (!$phrase->add(self::findLex(languageDB::ORNAMENT))) {
+            self:$this->discardPhrase($phrase);
+            return null;
+        }
         $ornamentNode = true;
 
-        self::ignore(languageDB::WORD_OF);
-        self::ignore(languageDB::SIGNIFIER);
-        $tradition = self::find(languageDB::TRADITION);
+        $phrase->add(self::findLex(languageDB::WORD_OF));
+        $phrase->add(self::findLex(languageDB::SIGNIFIER));
+        $tradition = $phrase->add(self::findLex(languageDB::TRADITION));
 
         // try some actual hits now
-        if (($churchRole = self::find(languageDB::ECCLESIASTIC)) != null) {
-            if (!$tradition) $tradition = 'catholic';
-            $ornamentNode = $this->schema->makeNode(blazonML::E_ORNAMENT, array (
-                blazonML::A_KEYTERM => "$tradition/$churchRole"),
-                self::tokens(),
-                self::lineNo()
-            );
+        if (($churchRole = $phrase->add(self::findLex(languageDB::ECCLESIASTIC))) != null) {
+            if (!$tradition->keyterm) $tradition->keyterm = 'catholic';
+            $ornamentNode = $this->schema->makeNodeFromLexeme(blazonML::E_ORNAMENT, $phrase->create(), array (
+                blazonML::A_KEYTERM => "{$tradition->keyterm}/{$churchRole->keyterm}"));
             if (($tincNode = self::tincture()) != null) {
                 self::raiseError(self::ERROR_ORIGIN,"Ecclesiastic ornaments have fixed colours", true);
                 $ornamentNode->appendChild($tincNode);
@@ -1992,97 +2073,114 @@ class englishGrammar extends grammar
     }
 
 
-    protected function mantling()
+    protected function mantling() // DONE
     {
-        $gotMantling = self::find(languageDB::MANTLING);
-        if ($gotMantling) {
-            self::ignore(languageDB::WORD_OF);
-            self::ignore(languageDB::SIGNIFIER);
-        }
-        $type = self::find(languageDB::MANTLES);
-        if ($type == null && $gotMantling == null)
-            return null; // nothing found
-        if ($type == null)
-            $type = 'ribbons';
+        // First set some default values...
+        $type = 'ribbons';
         $pavilion = '';
         $crowned = '';
-        do {
-            $found = false;
-            $mods = self::find(languageDB::MANTLING_MODS);
-            if ($mods != null) {
-                $found = true;
-                if ($mods == 'pavilion') $pavilion = '-pavilion';
-                elseif ($mods == 'crowned') $crowned = '-crowned';
+        $found = false;
+
+        $phrase = self::newPhrase();
+        while (!is_null($lexeme = $phrase->add(self::findLex(
+            array(languageDB::MANTLES, languageDB::MANTLING, languageDB::MANTLING_MODS))))) {
+            switch ($lexeme->category) {
+                case languageDB::MANTLING:
+                    $phrase->add(self::findLex(languageDB::WORD_OF));
+                    $phrase->add(self::findLex(languageDB::SIGNIFIER));
+                    $found = true;
+                    break;
+                case languageDB::MANTLES:
+                    $found = true;
+                    $type = $lexeme->keyterm;
+                    break;
+                case languageDB::MANTLING_MODS:
+                    if ($lexeme->keyterm == 'pavilion') $pavilion = '-pavilion';
+                    elseif ($lexeme->keyterm == 'crowned') $crowned = '-crowned';
+                    break;
+
             }
-        } while ($found);
-        if (!$gotMantling)
-            self::ignore(languageDB::MANTLING);
+        }
+        if (!$found) {
+            self::discardPhrase($phrase);
+            return null;
+        }
 
         $type .= $pavilion . $crowned;
+        $mantlingNode = $this->schema->makeNodeFromLexeme(blazonML::E_MANTLING, $phrase->create($type));
 
-        $mantlingNode = $this->schema->makeNode(blazonML::E_MANTLING, array(
-            blazonML::A_KEYTERM => $type),
-            self::tokens(),
-            self::lineno());
+        // Got the mantling, now get the colours and any adjustments
+
+        $tinctures = [];
         $locNode = null;
-        if ($type == 'ribbons' || substr($type, 0, 5) == 'cloak' || $type == 'leaves') { // have complex colour scheme
-            while (true) {
-                if (($loc = self::find(languageDB::ACHIEVEMENT_LOC)) != null) {
-                    $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array(
-                        blazonML::A_KEYTERM => $loc
-                    ),
-                        self::tokens(),
-                        self::lineno()
-                    );
+        $tincture = null;
+        $adjust = null;
+        $allowTincture = ($type == 'ribbons' || substr($type, 0, 5) == 'cloak' || $type == 'leaves');  // have complex colour scheme
+        // Look for any combination of tinctures, adjustments and locations
+        while (!is_null($lexeme = self::achievementLocation())
+                    || (!is_null($tincture = self::tincture()))
+                    || (!is_null($adjust = $this->getAdjustments()))) {
+            if (!is_null($tincture)) {
+                if (!$allowTincture) {
+                    // Parse all colours and put in the AST but provide an error message
+                    self::raiseError(self::ERROR_ORIGIN, "$type mantling has fixed colours", true);
+                    $allowTincture = true; // suppress further errors
                 }
-                $tinctures = [];
-                while (($tincNode = self::tincture()) != null) {
-                    $tinctures[] = $tincNode;
-                    self::ignore(languageDB::LINING);
-                }
-                if (count($tinctures)) { // found some colours
-                    if ($locNode == null) { // use a default location
-                        $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array(
-                            blazonML::A_KEYTERM => 'default'));
-                    }
+                $tinctures[] = $tincture;
+                $this->matcher->syncOver(languageDB::ANDD);
+            } elseif (!is_null($adjust)) {
+                foreach ( $adjust as $adjustment)
+                    $mantlingNode->appendChild($adjustment);
+            } elseif ($lexeme->category == languageDB::ACHIEVEMENT_LOC) {
+                // Did we previously find another location?
+                if (!is_null($locNode)) {
                     foreach ($tinctures as $tincture)
                         $locNode->appendChild($tincture);
                     $mantlingNode->appendChild($locNode);
-                } else {
-                    break;
-                }
-                self::ignore(languageDB::ANDD);
-            }
-        } else {
-            if (self::tincture()) {
-                self::raiseError(self::ERROR_ORIGIN, "Given mantling has fixed colours", true);
+                    $tinctures = [];
+                } // save it for later
+                $locNode = $this->schema->makeNodeFromLexeme(blazonML::E_LOCATION, $lexeme);
             }
         }
-        if (($adjust = $this->getAdjustments()) != null) {
-            foreach ($adjust as $adj) {
-                $mantlingNode->appendChild($adj);
+        // Do we have any tinctures left over?
+        if (count($tinctures)) { // Yes,
+            if ($locNode == null) { // use a default location
+                $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array(
+                    blazonML::A_KEYTERM => 'default'));
             }
+            foreach ($tinctures as $tincture)
+                $locNode->appendChild($tincture);
+            $mantlingNode->appendChild($locNode);
         }
+
         return $mantlingNode;
     }
 
-    protected function supporters() {
-        if (($type = self::find(languageDB::SUPPORTERS)) == null) {
-            return;
+    protected function achievementLocation() {
+        $phrase = self::newPhrase();
+
+        $phrase->add(self::findLex(languageDB::WORD_TO));
+        $phrase->add(self::findLex(languageDB::WORD_IN));
+        $phrase->add(self::findLex(languageDB::WORD_OF));
+        $phrase->add(self::findLex(languageDB::WORD_THE));
+        if (!$loc = $phrase->add(self::findLex(languageDB::ACHIEVEMENT_LOC))) {
+            self::discardPhrase($phrase);
+            return null;
         }
-        $supportNode = $this->schema->makeNode(blazonML::E_SUPPORTERS, array (
-            blazonML::A_KEYTERM => $type),
-            self::tokens(),
-            self::lineno());
+        $this->matcher->syncOver(languageDB::ANDD);
+        return $phrase->create($loc->keyterm);
+
+    }
+
+    protected function supporters() { // DONE
+        if (is_null($supporters = self::findLex(languageDB::SUPPORTERS))) {
+            return null;
+        }
+        $supportNode = $this->schema->makeNodeFromLexeme( blazonML::E_SUPPORTERS, $supporters);
         $locNode = null;
         while (true) {
-            if (($loc = self::find(languageDB::ACHIEVEMENT_LOC)) != null) {
-                $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
-                    blazonML::A_KEYTERM => $loc
-                ),
-                    self::tokens(),
-                    self::lineno()
-                );
+            if (!is_null($loc = self::achievementLocation())) {
+                $locNode = $this->schema->makeNodeFromLexeme(blazonML::E_LOCATION, $loc);
             }
             $charge = self::charge(true,false,false); // assume number, don't allow positions or arrangements
             if ($charge == null) {
@@ -2104,72 +2202,65 @@ class englishGrammar extends grammar
             $supportNode->appendChild($locNode);
             $locNode = null;
 
-            self::ignore(languageDB::ANDD);
+            $this->matcher->syncOver(languageDB::ANDD);
         }
         return $supportNode;
     }
 
-    protected function torse() {
-        if (($type = self::find(languageDB::TORSE)) == null) {
+    protected function torse() { // DONE
+        if (is_null($torse = self::findLex(languageDB::TORSE))) {
             return null;
         }
-        $torseNode = $this->schema->makeNode(blazonML::E_TORSE, array(
-            blazonML::A_KEYTERM => $type),
-            self::tokens(),
-            self::lineno());
-        while (($tincNode = self::tincture()) != null) {
-            $torseNode->appendChild($tincNode);
-            self::ignore(languageDB::ANDD);
-        }
-        if (($adjust = $this->getAdjustments()) != null) {
-            foreach ($adjust as $adj) {
-                $torseNode->appendChild($adj);
+        $torseNode = $this->schema->makeNodeFromLexeme(blazonML::E_TORSE, $torse);
+        do {
+            $found = false;
+            if (($tincNode = self::tincture()) != null) {
+                $torseNode->appendChild($tincNode);
+                $this->matcher->syncOver(languageDB::ANDD);
+                $found = true;
+            } else if (($adjust = $this->getAdjustments()) != null) {
+                foreach ($adjust as $adj) {
+                    $torseNode->appendChild($adj);
+                }
+                $found = true;
             }
-        }
+        } while ( $found );
         return $torseNode;
     }
 
-    protected function motto()
+    protected function motto() // DONE
     {
-        $state = self::save();
-        self::ignore(languageDB::SIGNIFIER);
-        $type = '';
-        $position = '';
-        $text = '';
-
-        $type = self::find(languageDB::MOTTO_TYPE);
-        $keyterm = self::find(languageDB::MOTTO);
-
-        if ($keyterm == null && $type == null) {
-            self::restore($state);
+        $phrase = self::newPhrase();
+        $phrase->add(self::findLex(languageDB::SIGNIFIER));
+        $typeLex = $phrase->add(self::findLex(languageDB::MOTTO_TYPE));
+        $mottoLex = $phrase->add(self::findLex(languageDB::MOTTO));
+        if ($mottoLex == null && $typeLex == null) {
+            self::discardPhrase($phrase);
             return null;
         }
-        self::discard($state);
-        if ($type == null) {
-            self::ignore(languageDB::WORD_OF);
-            self::ignore(languageDB::SIGNIFIER);
-            $type = self::find(languageDB::MOTTO_TYPE);
+        // We have a motto!
+
+        if ($typeLex == null) { // look again
+            $phrase->add(self::findLex(languageDB::WORD_OF));
+            $phrase->add(self::findLex(languageDB::SIGNIFIER));
+            $typeLex = $phrase->add(self::findLex(languageDB::MOTTO_TYPE));
         }
 
-        if ($type == null) {
-            $type = 'ribbon';
-        }
+        $type = !is_null($typeLex) ? $typeLex->keyterm : 'ribbon';
 
-        if (($position = self::find(languageDB::MOTTO_POSITION)) == null) {
-            $position = 'below';
-        }
-
-        self::find(languageDB::MOTTO_TEXT); // get the next word
-        $text = $this->phraseMatcher->getValue();
+        $posLex = $phrase->add(self::findLex(languageDB::VERTICAL_POSITION));
+        $position = !is_null($posLex) ? $posLex->keyterm : 'below';
         $keyterm = $type . '-' . $position;
 
-        $mottoNode = $this->schema->makeNode(blazonML::E_MOTTO, array(
-            blazonML::A_KEYTERM => $keyterm,  // expansion to other styles?
-            blazonML::A_TEXT => $text
-        ),
-            self::tokens(),
-            self::lineno()
+        $textLex = $phrase->add(self::findLex(languageDB::MOTTO_TEXT)); // get the next word
+
+        $mottoNode = $this->schema->makeNodeFromLexeme(blazonML::E_MOTTO, $phrase->create($mottoLex->keyterm),
+                // override some attributes
+            array ( blazonML::A_KEYTERM => $keyterm, blazonML::A_TEXT => $textLex->value)
         );
+
+
+
         while (self::moreInput()) {
             if (($colour = self::colour()) != null) {
                 $mottoNode->appendChild($colour);
@@ -2177,9 +2268,8 @@ class englishGrammar extends grammar
                 foreach ($adjust as $adj) {
                     $mottoNode->appendChild($adj);
                 }
-            } elseif ($keyterm = self::find2(languageDB::CHARGE_MODS)) {
-                    $mottoNode->appendChild($this->schema->makeMod(languageDB::CHARGE_MODS,
-                        $this->phraseMatcher->getValue(), $keyterm, self::tokens(), self::lineNo()));
+            } elseif ($chargeMod = self::findLex(languageDB::CHARGE_MODS)) {
+                    $mottoNode->appendChild($this->schema->makeNodeFromLexeme(blazonML::E_MODIFIER, $chargeMod));
             } else {
                 break;
             }
@@ -2187,84 +2277,71 @@ class englishGrammar extends grammar
         return $mottoNode;
     }
 
-    protected function fringe() {
-        if (!self::find(languageDB::FRINGED)) {
+    protected function fringe() { // DONE
+        if (is_null($fringe = self::findLex(languageDB::FRINGED))) {
             return null;
         }
-        $fringeNode = $this->schema->makeNode(blazonML::E_FRINGE, array (
-            blazonML::A_KEYTERM => 'fringe',  // expansion to other styles?
-        ),
-            self::tokens(),
-            self::lineno()
-        );
-        if (($tincNode = self::tincture()) != null) {
+        $fringeNode = $this->schema->makeNodeFromLexeme(blazonML::E_FRINGE, $fringe);
+        if (!is_null($tincNode = self::tincture())) {
             $fringeNode->appendChild( $tincNode );
         }
         return $fringeNode;
     }
 
-  protected function helmet() {
-    if (($helmType = self::find(languageDB::HELMET)) == null) {
+  protected function helmet() { // DONE
+        $tincNode = null;
+    if (is_null($helmType = self::findLex(languageDB::HELMET))) {
       return null;
     }
-    $helmetNode = $this->schema->makeNode(blazonML::E_HELMET, array (
-      blazonML::A_KEYTERM => $helmType,  // expansion to other styles? 
-      ),
-      self::tokens(),
-      self::lineno()
-    );
+    $helmetNode = $this->schema->makeNodeFromLexeme(blazonML::E_HELMET, $helmType);
     $locNode = null;
-    if (($loc = self::find(languageDB::ACHIEVEMENT_LOC)) != null) {
-      $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
-          blazonML::A_KEYTERM => $loc 
-        ),
-        self::tokens(),
-        self::lineno()
-      );
-    }
-    if (($tincNode = self::tincture()) != null) {
-      if ($locNode == null) { // use a default location
+    do {
+        $found = false;
+        if (!is_null($loc = self::achievementLocation())) {
+            $locNode = $this->schema->makeNodeFromLexeme(blazonML::E_LOCATION, $loc);
+            $found = true;
+        } else if (($tincNode = self::tincture()) != null) {
+            $found = true;
+        } else if (($adjust = $this->getAdjustments()) != null) {
+            foreach ($adjust as $adj) {
+                $helmetNode->appendChild($adj);
+            }
+            $found = true;
+        }
+    } while ($found);
+    if ($locNode == null) { // use a default location
         $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array (
             blazonML::A_KEYTERM => 'default'));
-      }
-      $locNode->appendChild($tincNode);
-      $helmetNode->appendChild( $locNode );
     }
-
-      if (($adjust = $this->getAdjustments()) != null) {
-          foreach ($adjust as $adj) {
-              $helmetNode->appendChild($adj);
-          }
-      }
+    if (!is_null($tincNode))
+        $locNode->appendChild($tincNode);
+    $helmetNode->appendChild( $locNode );
     return $helmetNode;
   }
 
   // Look for a tincture, return a pending tincture if not found
-  protected function tincture($required=false) {
+  protected function tincture($required=false) { // DONE
 
     $found = true;
     $colourOrFur = null;
-    $state = self::save();
-    $node = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
+    $phrase = self::newPhrase();
+    $node = $this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
         blazonML::A_ORIGIN => 'given'));
-    // zeroth, discard grouping words TODO should this be part of charge & ordinary?
-    self::ignore(languageDB::GROUP);
 
     if ( ($colourOrFur = self::colour())
         || ($colourOrFur = self::fur())
         || ($colourOrFur = self::tartan()) ) {
       // This could be [colour] [treatment] [colour],
       // unless it is followed by a semi colon
-      // self::comma();
-      if ( !self::comma() ) {
+      if ( is_null(self::findLex(languageDB::COMMA)) ) {
         if ( ($treat = self::treatment()) ) {
           $keyterm = $treat->getAttribute('keyterm');
           $grady = (substr($keyterm,0,5) == 'grady');
-          $tinc1 = $this->schema->makeNode(blazonML::E_TINCTURE, array ( blazonML::A_INDEX => '1'));
+          $tinc1 = $this->schema->makeIDNode(blazonML::E_TINCTURE, array ( blazonML::A_INDEX => '1'));
           $tinc1->appendChild($colourOrFur);
           $colourOrFur = null; // used
           $treat->appendChild($tinc1);
-          self::ignore(languageDB::ANDD);
+          $this->matcher->syncOver(languageDB::ANDD);
           // Some treatments only require one tincture
           if ( !in_array( $keyterm, array ( 'bezanty', 'hurty', 'platy', 'guzy', 'pommy', 'torty' ))) {
             $tinc2 = self::tincture(!$grady);
@@ -2275,9 +2352,9 @@ class englishGrammar extends grammar
           }
           $node->appendChild($treat);
           // Could also be [colour] [semyde] [charge]
-        } elseif ( self::find(languageDB::SEMY) ) {
-          $semyde = $this->schema->makeNode(blazonML::E_SEMYDE,null,self::tokens(), self::lineNo());
-          $tinc1 = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
+        } elseif ( $lexeme = self::findLex(languageDB::SEMY) ) {
+          $semyde = $this->schema->makeNodeFromLexeme(blazonML::E_SEMYDE, $lexeme);
+          $tinc1 = $this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
               blazonML::A_ORIGIN => 'given'));
           $tinc1->appendChild($colourOrFur);
           $colourOrFur = null; // used
@@ -2288,13 +2365,12 @@ class englishGrammar extends grammar
             $semyde->appendChild($this->schema->makeNode(blazonML::E_MISSING));
           }
           // we also allow a second charge, which MUST be preceeded by AND
-            $state2 = self::save();
-            if (!self::semicolon() && self::find(languageDB::ANDD)) {
+            $phrase2 = self::newPhrase();
+            if (!self::semicolon() && self::findLex(languageDB::ANDD)) {
                 if ($charge2 = self::simpleCharge(true)) {
                     $semyde->appendChild($charge2);
-                    self::discard($state2);
                 } else {
-                    self::restore($state2);
+                    self::discardPhrase($phrase2);
                 }
             }
           $node->appendChild($semyde);
@@ -2302,12 +2378,11 @@ class englishGrammar extends grammar
       }
       // Look for [treatment] [colour] [colour]
     } elseif ( ($treat = self::treatment()) ) {
-      self::comma();
+        $this->matcher->syncOver();
       $keyterm = $treat->getAttribute('keyterm');
       $treat->appendChild(self::tincture(true));
       $grady = (substr($keyterm, 0, 5) == 'grady');
-      self::comma();
-      self::ignore(languageDB::ANDD);
+      $this->matcher->syncOver(languageDB::ANDD);
       $tinc2 = self::tincture(!$grady); // grady might not need second tincture
       if ($tinc2 != null) {
           $tinc2->setAttribute('index', 2);
@@ -2315,8 +2390,8 @@ class englishGrammar extends grammar
       }
       $node->appendChild($treat);
       // Look for counterchange
-    } elseif ( self::find(languageDB::COUNTERCHANGE) ) {
-      $counter = $this->schema->makeNode(blazonML::E_COUNTERCHANGED, null, self::tokens(), self::lineNo());
+    } elseif ( $lexeme = self::findLex(languageDB::COUNTERCHANGE))  {
+      $counter = $this->schema->makeNodeFromLexeme(blazonML::E_COUNTERCHANGED, $lexeme);
       $node->appendChild($counter);
       // Look for division
     } elseif ( ($div1 = self::division()) ) {
@@ -2324,12 +2399,12 @@ class englishGrammar extends grammar
       // if ( ( $div2 = self::division(true) ) ) $div1->appendChild($div2);
       $node->appendChild($div1);
       // Look for a back reference
-    } elseif ( ($keyterm = self::find(languageDB::BACKREF)) ) {
+    } elseif ( ($backref = self::findLex(languageDB::BACKREF)) ) {
         $numColours = count($this->foundColours);
         $numTinctures = count($this->foundTinctures);
         $refDist = 0;
         $missing = $this->schema->makeNode(blazonML::E_MISSING);
-        switch ($keyterm) {
+        switch ($backref->keyterm) {
             case "ofsame": // means the last TINCTURE of whatever kind
                 if ($numTinctures < 1) {
                     $node = $missing;
@@ -2365,17 +2440,16 @@ class englishGrammar extends grammar
                   $node->setAttribute( blazonML::A_LINENUMBER, self::lineNo());
                   break;
         }
-        $node->setAttribute( blazonML::A_ORIGIN, $keyterm);
+        $node->setAttribute( blazonML::A_ORIGIN, $backref->keyterm);
       // Or a reference to proper
-    } elseif ( self::find(languageDB::PROPER) ) {
-      $proper = $this->schema->makeNode(blazonML::E_PROPER,null,self::tokens(), self::lineNo());
+    } elseif ( $lexeme = self::findLex(languageDB::PROPER) ) {
+      $proper = $this->schema->makeIDNodeFromLexeme(blazonML::E_PROPER,$lexeme);
       $node->appendChild($proper);
       // Look for a colour or a fur
     } else { // Didn't find anything
-      self::restore($state);
+      self::discardPhrase($phrase);
       $found = false;
     }
-    self::discard($state);
     if ( $colourOrFur ) {
         $node->appendChild($colourOrFur); // we have a colour or fur on its own
         $this->foundColours[] = $node->cloneNode(true);
@@ -2384,7 +2458,7 @@ class englishGrammar extends grammar
         $this->foundTinctures[] = $node->cloneNode(true);
     } else {
       if ( $required ) {
-        $node = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
+        $node = $this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
             blazonML::A_ORIGIN => 'pending'));
       } else {
         $node = null;
