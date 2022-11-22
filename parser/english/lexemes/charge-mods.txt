@@ -1,120 +1,101 @@
-# animal positions
+=chargemod
+# animal positions=
 couchant=
 courant=
 coward=
 dormant=
 migrant=
-
 erect=
 pierced=
 passant=
 cadent=
 counterpassant=
-
 statant=
 equipped=
 accrued=
 clymant=
-
 segreant=
 dexter=
 sinister=
 closed=
 accosted=
-
 ambulant=
 anime=
 annodated=
 arrondie=
 aversant=
-
 ayrant=
 baillone=
 bi corporate=bi-corporate
 cantoned=
 cloue=
-
 developed=
 disarmed=
 disclosed=
 distilling=
 enraged=
-
 flotant=
 fumant=
 braced=
 conjunct=
-
 gradient=
 increscent=
 crescent=
 unarmed=
-
 incensed=
 issuant=
 jacent=
 questing=
 tergiant=
-
 laminated=
 marined=
 mounted=
 naissant=
 nageant=
-
 nimbus=
 eradicated=
 pascuant=
 pinioned=
 removed=
-
 retorted=
 sanglat=
 scintillant=
 natural=
 nude=
-
 spancelled=
 surgeant=
 torqued=
 transfluent=
-
 transposed=
 tricoporate=
 troncone=
 trussed=
 vervelled=
-
 vorant=
 ancient=
 blasted=
 forcene=
 broken=
-
 covered=
 uncovered=
 waved=
 vambraced=
 double=
-
 skipping=
 recursant=
 fixed=
 ploye=
 clenched=
-
 pometty=
 floretty=
 debruised=
 increscent=
 decrescent=
-
 rousant=
 latin=
 fouled=
 filled=
 flower(s|ed)?=flower
-
 ?(dexter|sinister) forepaws? raised=forepaw-raised
 (with|and) ?an arrow=with-arrow
 (with|and) ?an arrow ?nocked ?and drawn=with-arrow-nocked
@@ -198,7 +179,7 @@ tripart(ed|ite)=tripartite
 refle(ct|x)ed=reflexed
 r?e?verted=reflexed
 radiant|rayonne|irradiated=radiant
-# CAUTION needs to match prefix open
+# CAUTION needs to match prefix open=
 (open|expanded|extended|overt)=open
 in increment=increscent
 guarde?d?=guarded
@@ -254,7 +235,7 @@ disposed?=arranged
 arranged?=arranged
 affront(e|ed|ant|y|ee)=affronty
 (lying|laying)=laying
-# Next 4 Mostly for labels
+# Next 4 Mostly for labels=
 straight=straight
 patt?e(e|y)=pattee
 dovetail(ed)?=dovetailed
@@ -295,7 +276,7 @@ holding ?a stones? ?in ?the ?dexter ?foot=with-stone
 with rays streaming=rays
 one (within|inside) ?the other=concentric
 concentric=concentric
-# Theme Pack - Font Effects
+# Theme Pack - Font Effects=
 (en)?faced ?of *=font
 styled ?of *=font
 opposite ?to *=opposite
@@ -304,12 +285,11 @@ enarched==
 underlined=
 wavy=
 encircled=
-
 cursive=
 serif=
 plain=
 celtic=
-# font families
+# font families=
 (engraved|graven)=engraved
 carve[dn]=carved
 gothi(c|k|ck)=gothic
@@ -319,3 +299,35 @@ aslant(ed)?=italic
 (dispo[sn]|arrang)ed in pale=text-stacked
 (dispo[sn]|arrang)ed in ?a block=text-block
 (dispo[sn]|arrang)ed in ?a circle=encircled
+=chargepre
+covered=
+standing=
+open=
+heraldic=
+dexter=
+sinister=
+double=
+branched=
+staved=
+single=
+modern=
+winged=
+natural=
+nude=
+fouled=
+spread=displayed
+heads? of ?(a|an|the)=head
+claws? of ?(a|an|the)=claw
+legs? of ?(a|an|the)=leg
+closed?=closed
+(dem[yi]|half)=demi
+like=like
+(tuft|stalk|limb|bough|scrog|branche?)s? of ?(a|an|the)=portion
+sprigs? of ?(a|an|the)=sprig
+double headed=double-headed
+oval shaped?=shape-oval
+lozenge shaped?=shape-lozenge
+square shaped?=shape-square
+heater ?shaped?=shape-heater
+equal armed=equal-armed
+leather(s|ed)?=leathered

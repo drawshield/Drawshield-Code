@@ -1,0 +1,384 @@
+=bot_command
+!draw=
+!test=
+!todo=
+
+=chglist
+and also=
+& also=
+along with=
+
+=wordthe
+the=
+=signifier
+the=
+a=
+an=
+
+=overall
+overall=
+sur le tout=
+all with(in)?=
+over all=
+in pretence=
+
+=metaoverall
+over(all)? ?all ?the ?% (quarters|quarterings|halves|parts|sections)=metaoverall
+o(n|ver) the whole=metaoverall
+
+=pieces
+(part|column|piece|section)s?=pieces
+=alongside
+joined (with|to)=joined
+next to=alongside
+alongside=alongside
+
+=blazoned
+(em)blazoned ?(with|of)=blazoned
+with ?(a|the) blazon ?of=blazoned
+
+=splits
+impaled with=impaled
+impaling=impaled
+dimidiated with=dimidiated
+
+=onfieldof
+?(on|upon) a court ?of=court
+?(on|upon) a field ?of=field
+?the field=field
+
+=layers
+over=
+under=
+
+=with
+(with|upon)=with
+bearing=with
+=between
+between=
+inter=
+inside=
+within=
+surrounded by=
+accompagne=
+cantonned by=
+
+=colon
+:=
+=doublesemi
+;;=
+=wordof
+of=
+=wordon
+on=
+=wordat
+at=
+=wordto
+to(wards?)?=to
+=wordin
+in ?the=
+=points
+(point|row|peak)s?=points
+=andd
+(and|&|also)=and
+(and|&) also=and
+
+=backref
+(like|of|as) the same=ofsame
+(like|of|as) the last=oflast
+(like|of|as) the field=offield
+(like|of|as) the (first|1st)=offirst
+(like|of|as) the (second|2nd)=ofsecond
+(like|of|as) the (third|3rd)=ofthird
+(like|of|as) the (fourth|4th)=offourth
+
+=tartan
+tartan=tartan
+tartan no repeat=tartan-no-repeat
+
+=inverse
+reversed=
+inverted=
+contourny=reversed
+
+
+=group
+(both|all|the|his|her|its)=group
+
+=proper
+(proper|ppr)=proper
+
+=counterchange
+interchanged?=counter
+transmuted=counter
+counter cha[nr]ged?=counter
+countercha[nr]ged?=counter
+countercoloured=counter
+de l un en l autre=counter
+
+
+
+=orientation
+sinister=
+reversed=
+dexter=
+inverted=
+
+=ordprefix
+sinister=
+reversed=
+dexter=
+inverted=
+(hause|enhanced)=enhanced
+(abased|abaisse)=abased
+de(bas|hanc)ed=abased
+(rompu|downset)=rompu
+removed=removed
+(debruised|fracted)=fracted
+double (debruised|fracted)=double-fracted
+(eclate|burst|split)=burst
+(disjoint|disjointed|brisse)=disjointed
+(debrui|depres|oppres)sed (with|by|of)=depressed
+false=voided
+pointed=pointed
+
+=colourmods
+(fimbri?ated|edged)=fimbriated
+
+=linepre
+(dexter|first|1st|upper|higher) ?(one|1)=barmod-up
+(sinister|last|lower|lowest) ?(one|1)=barmod-down
+(inner|inside) ?ones?=barmod-in
+(outer|outside) ?ones?=barmod-out
+
+=linepost
+top=top-only
+bottom=bottom-only
+
+=ordmods
+(hause|enhanced)=enhanced
+(abased|abaisse)=abased
+de(bas|hanc)ed=abased
+(compony|gobon[ey]|gobonated)=compony1
+counter (compony|gobon[ey]|gobonated)=compony2
+closetted=
+embowed=
+?nowy quadrate=quadrate
+nowy lozengy=nowy-lozengy
+rivett?ed=riveted
+[ie]narched=inarched
+(couped|humetty|alese)=couped
+(couped|humetty|alese) ?in sinister=couped-sinister
+(couped|humetty|alese) ?in dexter=couped-dexter
+(couped|humetty|alese) ?in chief=couped-chief
+(couped|humetty|alese) ?in base=couped-base
+fl(o|eu)ry counter fl(o|eu)ry=flory-counter-flory
+fl(o|eu)ry counterfl(o|eu)ry=flory-counter-flory
+pointed in sinister=pointed-sinister
+pointed in dexter=pointed-dexter
+pointed in chief=pointed-chief
+pointed in base=pointed-base
+(bra[zc]ed|interlaced)=braced
+(gemm?ell?(s|ed)?)=gemel
+double dancetty=fracted
+bott?onn?(ee|y)=botonny
+engouled ?(into|by) ?dragons? ?heads?=engouled
+en(aluron|urney|toire|toyre)=entire
+lozengy=
+triangular=
+throughout=
+of pretence=
+ploye=
+
+=cotticemods
+cott?i(s|ss|c)ed=1
+close coupled=1
+(endorsed|addorsed)=1
+cost=1
+doubl[ey] cott?i(s|ss|c)ed=2
+(triple|treble|triply) cott?i(s|ss|c)ed=3
+
+=cottice
+cott?i(s|ss|c)es?=cottice
+
+=voided
+voided=
+
+=ordorchg
+?(plain|holy) cross(es)? ?passant=cross/plain-cross
+chevrons?=geometric/chevron
+(shake|hay)forks?=geometric/shakefork
+chevron(el)?s? couched=geometric/chevron-couched
+cross (formee|patt?ee?)=quadrate/cross-formy
+cross (formy|patt?y)=quadrate/cross-formy
+frets?=geometric/fret
+salta?ires?=cross/saltire
+
+=ordinaryconf
+salta?ire ?double parted ?and fretty=saltire-2fretty
+cross ?double parted ?and fretty=cross-2fretty
+cross tripartite ?and fretty=cross-3fretty
+cross quarter pierced?=cross-pierced
+cross quarterpierced?=cross-pierced
+fillet cross=fillet-cross
+cross fillet=fillet-cross
+frets? couped=fret-couped
+
+=arrangement
+?arranged in ann?ull?o=inannulo
+in ?the pale=inpale
+in ?the pale throughout=inpalethrough
+in ?the pall=inpall
+in ?the fesse? ^point=infess
+in ?the fesse? throughout=infessthrough
+in ?the bend sinister=inbendsin
+in ?the bend ?dexter=inbend
+in ?the chevron=inchevron
+in ?the pile=inpile
+in ?an orle=inorle
+in ?the orle=inorle
+in ?the salti(er|re)=insaltire
+salti(er|re)w(ays|ise)=insaltire
+salti(er|re) w(ays|ise)=insaltire
+in ?the cross=incross
+?in counter passant=counter-passant
+pilewise=pilewise
+in bar=inbar
+bar(wise|ways)=inbar
+in ?the chief throughout=inchiefthrough
+in ?a quadrangle=quadrangle
+chevronwise=chevronwise
+in point=pilewise
+in triangle=triangle
+respecting each other=facing-in
+respectant=facing-in
+counter rampant=facing-in
+(affrontt?ant|aspectant)=facing-in
+confront(e|ing|y)=combattant
+combatt?ant=combattant
+(addorsed|adosse|endorsed)=facing-out
+
+=specifier
+(first|1st)=first
+(second|2nd)=second
+(third|3rd)=third
+(fourth|4th)=fourth
+?each dexter=dexter
+?each sinister=sinister
+(each|every|all|both) ?of ?the=each
+middle=middle
+cent(re|er)=middle
+upper=upper
+lower=lower
+
+=half
+side=
+half=
+part=
+halves=half
+
+=each
+(each|every|all|both) ?of ?the=each
+
+=location
+chief ^throughout ?point=chief
+base ?point=base
+honou?r point=honpoint
+fesse? point=fesspoint
+cross point=fesspoint
+navel point=nombril
+nombril=nombril
+(flanks?|flaunche?s?)=flank
+(abisme|abyss)=abyss
+(side|half)=side
+
+=quantifier
+quarters?=quarter
+(half|section|part)=all
+
+=chgbetween
+(between|betwixt|inter|btw) ?them=between
+
+=chargenear
+above ?(them|it)=above
+(stand|rest)ing on=above
+below ?(them|it)=below
+(hang|depend)ing from=below
+beside=beside
+suspended (by|from|of)=below
+resting (each|its|his|her) claws? (up)?on=above
+sustaining=below
+
+=using
+drawn ?(with|using)=drawn
+
+=drawn
+* (palette|tinctures)=palette
+* colours?=colours
+* (appearance|style|effect)=style
+aspect ?ratio ?of *=aspect
+with * aspect ?ratio=aspect
+proportions? ?of *=aspect
+with * proportions?=aspect
+grid(ded)?=grid
+
+=font
+in (a|the) * (font|face|style|script)=font
+
+
+=tradition-prefix
+swiss=swiss
+french=french
+english=english
+italian=italian
+polish=polish
+spanish=spanish
+german=german
+african=african
+persian=persian
+hungarian=hungarian
+round=circle
+heater=heater
+oval=oval
+lozenge=
+square=
+circle=
+sca=
+scutum=
+swatch=
+pauldron=
+stamp=
+roman=scutum
+flag=flag
+=tradition-desc
+shaped?=shape
+styled?=shape
+tradition=
+origin=
+
+=crownmods
+crowne?d=crowned
+crown=crown
+wreathe?d=wreathed
+(en)?gorged ?(with|by) ?an?=gorged
+antique=
+eastern=
+marquis=
+palisado=
+saxon=
+vallary=
+viscount=
+astral(ly)?=astral
+baron(ially)?=baron
+ducal(ly)?=ducal
+mural(ly)?=mural
+naval(ly)?=naval
+royal(ly)?=royal
+dukes?=duke
+earls?=earl
+grass=crown-of-grass
+mullet=crown-of-mullets
+myrtle=crown-of-myrtle
+oak lea(f|ves?d?)=crown-of-oak-leaves
+king of arms?=king-of-arms
+
