@@ -1983,7 +1983,7 @@ class englishGrammar extends grammar
             $node->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::DIVISION_MODS));
         } elseif ($lexeme = self::findLex(languageDB::ORIENTATION)) {
           $node->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::ORIENTATION));
-        } elseif ( ($tincCount < $maxTinc) && ($tinc = self::tincture(false)) ) {
+        } elseif ( /* ($tincCount < $maxTinc) && */ ($tinc = self::tincture(false)) ) {
           $tincCount++;
           $tinc->setAttribute(blazonML::A_INDEX,"$tincCount");
           $node->appendChild($tinc);
@@ -2005,9 +2005,9 @@ class englishGrammar extends grammar
             blazonML::A_ORIGIN => 'missing' )));
         self::raiseError(self::ERROR_ORIGIN,"Missing tincture(s) on division", $divLexeme);
       }
-      // if ($tincCount == $maxTinc) {
-        // self::raiseError(self::ERROR_ORIGIN,"Too many tinctures on division", true);
-      // }
+       if ($tincCount > $maxTinc) {
+         self::raiseError(self::ERROR_ORIGIN,"Too many tinctures for division", $divLexeme);
+       }
     }
     return $node;
   }
