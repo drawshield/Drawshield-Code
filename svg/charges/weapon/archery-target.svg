@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     viewBox="40.5 67.5 283.5 283.5"
+     width="283.5"
+     height="283.5"
+     preserveAspectRatio="xMidYMid meet"
+     zoomAndPan="magnify"
+     contentScriptType="application/ecmascript"
+     contentStyleType="text/css">
+   <defs/>
+   <metadata  xmlns:svg="http://www.w3.org/2000/svg"
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:cc="http://creativecommons.org/ns#">
+      <rdf:RDF>
+         <cc:Work rdf:about="">
+            <dc:creator>
+               <cc:Agent>
+                  <dc:title>http://heraldicart.org Target, Archery.svg</dc:title>
+               </cc:Agent>
+            </dc:creator>
+         </cc:Work>
+      </rdf:RDF>
+   </metadata>
+   <metadata> Produced by OmniGraffle 7.11.5 
+    <dc:date>2020-12-10 23:56:39 +0000</dc:date>
+  </metadata>
+   <g stroke-dasharray="none" stroke-opacity="1" fill="#ffff00" fill-opacity="1"
+      stroke="#505050">
+      <title>Target, Archery</title>
+      <g>
+         <title>Art</title>
+         <g>
+            <g>
+               <circle cx="181.85225" cy="208.8854" r="91.7152883484554"/>
+               <circle cx="181.85225" cy="208.8854" r="91.7152883484554" stroke="black"
+                       stroke-linecap="round"
+                       stroke-linejoin="round"
+                       stroke-width="2"/>
+            </g>
+            <g>
+               <circle cx="181.98483" cy="209.01798" r="65.1589958738309" stroke="black"
+                       stroke-linecap="round"
+                       stroke-linejoin="round"
+                       stroke-width="2"/>
+            </g>
+            <g>
+               <circle cx="181.98483" cy="209.01798" r="46.2849182929749" stroke="black"
+                       stroke-linecap="round"
+                       stroke-linejoin="round"
+                       stroke-width="2"/>
+            </g>
+            <g>
+               <circle cx="182.11742" cy="209.15056" r="28.5365286894165" stroke="black"
+                       stroke-linecap="round"
+                       stroke-linejoin="round"
+                       stroke-width="2"/>
+            </g>
+            <g>
+               <path d="M 205.17002 120.26652 C 205.20384 83.74831 240.40155 69.71685 240.40155 69.71685 L 123.83328 69.71685 C 123.83328 69.71685 158.98653 83.92393 159.0647 120.19797 C 174.1707 116.31502 190.0734 116.33787 205.17002 120.26652 Z"/>
+               <path d="M 205.17002 120.26652 C 205.20384 83.74831 240.40155 69.71685 240.40155 69.71685 L 123.83328 69.71685 C 123.83328 69.71685 158.98653 83.92393 159.0647 120.19797 C 174.1707 116.31502 190.0734 116.33787 205.17002 120.26652 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="2"/>
+            </g>
+            <g>
+               <path d="M 159.13277 297.80613 C 159.13168 297.9306 159.13113 298.0555 159.13113 298.1808 C 159.13113 334.54443 123.89957 348.78315 123.89957 348.78315 L 240.46784 348.78315 C 240.46784 348.78315 205.2363 334.7382 205.2363 298.1808 C 205.2363 298.0095 205.23528 297.83902 205.23326 297.66934 C 190.14282 301.61992 174.24191 301.66552 159.13277 297.80613 Z"/>
+               <path d="M 159.13277 297.80613 C 159.13168 297.9306 159.13113 298.0555 159.13113 298.1808 C 159.13113 334.54443 123.89957 348.78315 123.89957 348.78315 L 240.46784 348.78315 C 240.46784 348.78315 205.2363 334.7382 205.2363 298.1808 C 205.2363 298.0095 205.23528 297.83902 205.23326 297.66934 C 190.14282 301.61992 174.24191 301.66552 159.13277 297.80613 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="2"/>
+            </g>
+            <g>
+               <path d="M 93.06471 186.16354 C 56.913615 185.97844 42.75 150.93272 42.75 150.93272 L 42.75 267.501 C 42.75 267.501 56.756365 232.3662 93.20174 232.26963 C 89.2501 217.17745 89.20443 201.27447 93.0647 186.16354 Z"/>
+               <path d="M 93.06471 186.16354 C 56.913615 185.97844 42.75 150.93272 42.75 150.93272 L 42.75 267.501 C 42.75 267.501 56.756365 232.3662 93.20174 232.26963 C 89.2501 217.17745 89.20443 201.27447 93.0647 186.16354 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="2"/>
+            </g>
+            <g>
+               <path d="M 270.6015 232.39853 C 270.78264 232.40085 270.9647 232.40202 271.14767 232.40202 C 307.51128 232.40202 321.75 267.63357 321.75 267.63357 L 321.75 151.0653 C 321.75 151.0653 307.70506 186.29686 271.14767 186.29686 C 271.03364 186.29686 270.91997 186.2973 270.80667 186.2982 C 274.64327 201.41197 274.5749 217.31282 270.6015 232.39853 Z"/>
+               <path d="M 270.6015 232.39853 C 270.78264 232.40085 270.9647 232.40202 271.14767 232.40202 C 307.51128 232.40202 321.75 267.63357 321.75 267.63357 L 321.75 151.0653 C 321.75 151.0653 307.70506 186.29686 271.14767 186.29686 C 271.03364 186.29686 270.91997 186.2973 270.80667 186.2982 C 274.64327 201.41197 274.5749 217.31282 270.6015 232.39853 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="2"/>
+            </g>
+         </g>
+      </g>
+   </g>
+</svg>
