@@ -795,10 +795,14 @@ class englishGrammar extends grammar
         }
         // Now look for actual charges
         // TODO in herald knowledge replace special/same
-        if (!(($chargeLex = $phrase->add(self::findLex(languageDB::CHARGE_NOT_ORDINARY))) ||
-             ($chargeLex = $phrase->add(self::findLex(languageDB::ORDINARY_OR_CHARGE)) && $chgNum > 1) ||
-                 ($chargeLex = $phrase->add(self::findLex(languageDB::CHARGE)))
-             )) {
+        $chargeLex = $phrase->add(self::findLex(languageDB::CHARGE_NOT_ORDINARY));
+        if (is_null($chargeLex) && $chgNum->keyterm > 1) {
+            $chargeLex = $phrase->add(self::findLex(languageDB::ORDINARY_OR_CHARGE));
+        }
+        if (is_null($chargeLex)) {
+            $chargeLex = $phrase->add(self::findLex(languageDB::CHARGE));
+        }
+        if (is_null($chargeLex)) {
             // nothing to see here, move along
             self::discardPhrase($phrase);
             return null;

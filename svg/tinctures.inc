@@ -337,7 +337,7 @@ class TinctureData
                 {
                     // set if we are to use the fill found
                     if ( substr($this->fill, 0, 4) == 'url(')
-                        $this->mask = substr($this->fill, 4, -1);
+                        $this->mask = substr($this->fill, 6, -2);
                 }
                 break;
             case 'fur':

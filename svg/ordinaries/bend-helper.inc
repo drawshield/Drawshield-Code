@@ -48,6 +48,8 @@ function build_bend($layout, $width, $margin, $offset = 0, $path_builder = null)
     $base = min($layout->cross_point->x, $layout->cross_point->y) - $margin;
     $length = $base * M_SQRT2 * 2;
     $offset_comp = $offset / M_SQRT2;
+    if (!$layout->chief)
+        $offset_comp -= 50;
 
     if ( $path_builder == null )
         $path_builder = new PathBuilder();
@@ -70,7 +72,7 @@ function placement_in_bend($boundingBox, $sinister, $angle, $scale = 0.23)
     // Special handling for a single charge
     $plac = [];
     $plac[] = $boundingBox->size->width / 2 . ',' . $boundingBox->size->width / 2 . ',' .
-                $boundingBox->size->width * 0.8 * 0.23. ',' . $boundingBox->size->height * 0.8 . ',45,0,0'; 
+                $boundingBox->size->width * 0.8 * 0.23 . ',' . $boundingBox->size->height * 0.8 . ',45,0,0';
     $placement_arr[] = $plac;
     // for the rest, ensure we are working with a square
     $min_extent = min($boundingBox->size->width, $boundingBox->size->height);

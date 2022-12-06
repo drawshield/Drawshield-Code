@@ -189,8 +189,6 @@ class properColour {
       'chough/legged' => self::$red,
       'chough/beaked' => self::$red,
       'rubber-duck/beaked' => self::$red,
-      'dove/legged' => self::$red,
-      'dove/beaked' => self::$red,
       'starling/legged' => self::$red,
       'starling/beaked' => self::$red,
       'fructed' => self::$red,

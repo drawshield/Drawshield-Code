@@ -90,6 +90,7 @@ function getMetaDataFromSVG($svg, $chargeGroup = '', $chargeName = '') {
     @$SVGmetadata = $svg->xpath('//dc:description');
     if ( is_array($SVGmetadata) and count($SVGmetadata) > 0) {
       foreach($SVGmetadata as $metaitem) {
+          $metaitem = (string)$metaitem;
           if (strlen($metaitem)) {
             if ($metaitem[0] == '{') { // treat it as JSON
               $json = @json_decode($metaitem, true);
@@ -615,7 +616,17 @@ function getCharge( DOMElement $node, $layout ) {
         $col_type = $charge_col->firstChild;
         if ( $col_type->nodeName == 'proper' ) {
             if (isset($chg_data['proper'])) { // TODO handle proper as an array, with this one as 'body'
-                $body_col = rgb($chg_data['proper']);
+                if (is_array($chg_data['proper'])) {
+                    foreach ($chg_data['proper'] as $feature => $value) {
+                        if ($feature == 'body') {
+                            $body_col = $value;
+                        } else {
+                            $feat_cols[$feature] = $value;
+                        }
+                    }
+                } else {
+                    $body_col = rgb($chg_data['proper']);
+                }
             } else {
                 $body_col = getProper($chargeGroup, $chargeName, null, !$chg_data['verbatim']);
             }
