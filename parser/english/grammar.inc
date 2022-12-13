@@ -1977,8 +1977,14 @@ class englishGrammar extends grammar
       $found = true;
       $foundCounterchange = false;
       while ( $found ) {
-        if (self::semicolon(true)) break;
-          $this->matcher->syncOver(languageDB::ANDD);
+        if (self::semicolon(false)) {
+            if ($tincCount < 2) { // still need another tincture, let's try again
+                continue;
+            } else {
+                break;
+            }
+        }
+        $this->matcher->syncOver(languageDB::ANDD);
         if ($lexeme = self::findLex(languageDB::LINETYPE)) {
           $node->appendChild( $this->schema->makeModFromLexeme($lexeme, blazonML::A_LINETYPE));
         } elseif ( $lexeme = self::findLex(languageDB::DIVISION_MODS)) {
@@ -1987,7 +1993,7 @@ class englishGrammar extends grammar
             $node->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::DIVISION_MODS));
         } elseif ($lexeme = self::findLex(languageDB::ORIENTATION)) {
           $node->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::ORIENTATION));
-        } elseif ( /* ($tincCount < $maxTinc) && */ ($tinc = self::tincture(false)) ) {
+        } elseif ( $tinc = self::tincture(false) ) {
           $tincCount++;
           $tinc->setAttribute(blazonML::A_INDEX,"$tincCount");
           $node->appendChild($tinc);
