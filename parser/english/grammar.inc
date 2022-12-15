@@ -301,7 +301,10 @@ class englishGrammar extends grammar
                 $found = true;
                 $this->matcher->syncOver(languageDB::ANDD);
             } elseif (($trad = $phrase->add(self::findLex(languageDB::TRADITION_PREFIX))) != null) {
-                $phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION));
+                if (is_null($phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION)))) {
+                    self::discardPhrase($phrase);
+                    return null;
+                }
                 $phrase->add(self::findLex(languageDB::WORD_OF));
                 $node = $this->schema->makeNodeFromLexeme(blazonML::E_SHAPE, $phrase->create($trad->keyterm ));
                 $instructions->appendChild($node);
@@ -749,7 +752,10 @@ class englishGrammar extends grammar
         if (($keyterm = self::findLex(languageDB::CHARGE_PREFIX)) != null) {
             return ($this->schema->makeModFromLexeme($keyterm, languageDB::CHARGE_MODS));
         } elseif (($trad = $phrase->add(self::findLex(languageDB::TRADITION_PREFIX))) != null) {
-            $phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION));
+            if (is_null($phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION)))) {
+               self::discardPhrase($phrase);
+               return null;
+            }
             $phrase->add(self::findLex(languageDB::WORD_OF));
             return ($this->schema->makeModFromLexeme($phrase->create($trad->keyterm), languageDB::TRADITION_PREFIX));
         } elseif ($halfCharge = self::half_charge()) {
@@ -795,10 +801,14 @@ class englishGrammar extends grammar
         }
         // Now look for actual charges
         // TODO in herald knowledge replace special/same
-        if (!(($chargeLex = $phrase->add(self::findLex(languageDB::CHARGE_NOT_ORDINARY))) ||
-             ($chargeLex = $phrase->add(self::findLex(languageDB::ORDINARY_OR_CHARGE)) && $chgNum > 1) ||
-                 ($chargeLex = $phrase->add(self::findLex(languageDB::CHARGE)))
-             )) {
+        $chargeLex = $phrase->add(self::findLex(languageDB::CHARGE_NOT_ORDINARY));
+        if (is_null($chargeLex) && $chgNum->keyterm > 1) {
+            $chargeLex = $phrase->add(self::findLex(languageDB::ORDINARY_OR_CHARGE));
+        }
+        if (is_null($chargeLex)) {
+            $chargeLex = $phrase->add(self::findLex(languageDB::CHARGE));
+        }
+        if (is_null($chargeLex)) {
             // nothing to see here, move along
             self::discardPhrase($phrase);
             return null;
@@ -1973,8 +1983,14 @@ class englishGrammar extends grammar
       $found = true;
       $foundCounterchange = false;
       while ( $found ) {
-        if (self::semicolon(true)) break;
-          $this->matcher->syncOver(languageDB::ANDD);
+        if (self::semicolon(false)) {
+            if ($tincCount < 2) { // still need another tincture, let's try again
+                continue;
+            } else {
+                break;
+            }
+        }
+        $this->matcher->syncOver(languageDB::ANDD);
         if ($lexeme = self::findLex(languageDB::LINETYPE)) {
           $node->appendChild( $this->schema->makeModFromLexeme($lexeme, blazonML::A_LINETYPE));
         } elseif ( $lexeme = self::findLex(languageDB::DIVISION_MODS)) {
@@ -1983,7 +1999,7 @@ class englishGrammar extends grammar
             $node->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::DIVISION_MODS));
         } elseif ($lexeme = self::findLex(languageDB::ORIENTATION)) {
           $node->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::ORIENTATION));
-        } elseif ( /* ($tincCount < $maxTinc) && */ ($tinc = self::tincture(false)) ) {
+        } elseif ( $tinc = self::tincture(false) ) {
           $tincCount++;
           $tinc->setAttribute(blazonML::A_INDEX,"$tincCount");
           $node->appendChild($tinc);

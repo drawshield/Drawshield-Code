@@ -379,6 +379,6 @@ earls?=earl
 grass=crown-of-grass
 mullet=crown-of-mullets
 myrtle=crown-of-myrtle
-oak lea(f|ves?d?)=crown-of-oak-leaves
+oak leaves=crown-of-oak-leaves
 king of arms?=king-of-arms
 

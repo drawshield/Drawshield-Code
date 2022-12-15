@@ -186,8 +186,9 @@ function draw()
 
     $meta = '';
     $trailer = "</svg>\n"; // TODO this code is redundant..?
+    $extraHeader = '';
     if ($options['palette'] == 'outline' || $options['palette'] == 'hatching') {
-        $header .= '  <filter id="grayscale">
+        $extraHeader .= '  <filter id="grayscale">
     <feColorMatrix type="saturate" values="0.10"/>
   </filter>';
     }
@@ -296,6 +297,7 @@ function draw()
                 if (count($partsList)) $extraSpace = 120; // should really check for fringe being present
                 $y1Location = $layout->size->height + $extraSpace + 40;
             }
+        }
             if ($options['outputFormat'] == 'svg' || $options['outputFormat'] == 'json') {
                 $messages->addMessage('legal', "Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.");
                 $messages->addMessage('legal', "{$version['website']} Version {$version['release']} {$version['email']}");
@@ -314,7 +316,6 @@ function draw()
                 $blazonMLText = preg_replace('/<\?xml version="1\.0"( encoding="utf-8")?\?>/i', '', $blazonMLText);
                 $meta = "\n<metadata>\n" . $rdf . $blazonMLText . "\n</metadata>\n";
             }
-        }
     }
     if (count($partsList)) {
         foreach ($partsList as $parts) {
@@ -372,6 +373,6 @@ function draw()
         xmlns:blazonML="http://drawshield.net/blazonML" ' .
         'preserveAspectRatio="xMidYMid meet" height="' . $svgHeight . '" width="' . $svgWidth;
     $header .= '" viewBox="' . getEffect($effect, 'viewbox' , 1000, $vbHeight ) . ' ">';
-    $defs = '<defs>' . getEffect($effect, 'defs') . $extraDefs . '</defs>';
+    $defs = '<defs>' . getEffect($effect, 'defs') . $extraDefs . $extraHeader . '</defs>';
     return $header . $meta . $defs . $body . $trailer;
 }
