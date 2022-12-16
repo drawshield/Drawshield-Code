@@ -395,7 +395,7 @@ class englishGrammar extends grammar
             $node = $this->schema->makeIDNodeFromLexeme(blazonML::E_SHIELD,
                 $phrase->create(languageDB::ONFIELDOF), array(blazonML::A_INDEX => '0'));
             $node->appendChild($simple);
-            if (($adjust = $this->getAdjustments()) != null) {
+            if ($ordChgs && !self::semicolon(true) && (($adjust = $this->getAdjustments()) != null)) {
                 foreach ($adjust as $adj) {
                     $node->appendChild($adj);
                 }
@@ -844,6 +844,9 @@ class englishGrammar extends grammar
         if ($keyterm == 'special/escutcheon') {
             $this->matcher->syncOver(languageDB::BLAZONED);
             $mods[] = self::shield();
+            if ($adjust = self::getAdjustments()) {
+                $mods = array_merge($mods, $adjust);
+            }
         }
 
         // Look for bundle again (e.g. "two arrow bundles"
@@ -895,9 +898,12 @@ class englishGrammar extends grammar
                 }
             } elseif ($chargeFeatures = self::findLex(languageDB::CHARGE_FEATURES)) {
                 $feature = $this->schema->makeModFromLexeme($chargeFeatures, blazonML::V_FEATURE);
-                if (($foundTinc || $always_proper) && ($tinc = self::tincture()))
+                if (($foundTinc || $always_proper) && ($colour = self::colour())) {
+                    $tinc = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'given',
+                        blazonML::A_INDEX => '1'));
+                    $tinc->appendChild($colour);
                     $feature->appendChild($tinc);
-                else {
+                } else {
                     $feature->appendChild($this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'pending',
                         blazonML::A_INDEX => '1')));
                 }
@@ -2360,7 +2366,11 @@ class englishGrammar extends grammar
           $this->matcher->syncOver(languageDB::ANDD);
           // Some treatments only require one tincture
           if ( !in_array( $keyterm, array ( 'bezanty', 'hurty', 'platy', 'guzy', 'pommy', 'torty' ))) {
-            $tinc2 = self::tincture(!$grady);
+            $tinc2 = self::tincture(false);
+              if (!$grady && is_null($tinc2)) {
+                  $tinc2 = $this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
+                      blazonML::A_ORIGIN => 'missing'));
+              }
             if ($tinc2 != null) {
               $tinc2->setAttribute(blazonML::A_INDEX, '2');
               $treat->appendChild($tinc2);
@@ -2396,10 +2406,19 @@ class englishGrammar extends grammar
     } elseif ( ($treat = self::treatment()) ) {
         $this->matcher->syncOver();
       $keyterm = $treat->getAttribute('keyterm');
-      $treat->appendChild(self::tincture(true));
+      $treatTinc1 = self::tincture(false);
+      if (is_null($treatTinc1)) {
+          $treatTinc1 = $this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
+              blazonML::A_ORIGIN => 'missing'));
+      }
+        $treat->appendChild($treatTinc1);
       $grady = (substr($keyterm, 0, 5) == 'grady');
       $this->matcher->syncOver(languageDB::ANDD);
-      $tinc2 = self::tincture(!$grady); // grady might not need second tincture
+      $tinc2 = self::tincture(false); // grady might not need second tincture
+        if (!$grady && is_null($tinc2)) {
+            $tinc2 = $this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
+                blazonML::A_ORIGIN => 'missing'));
+        }
       if ($tinc2 != null) {
           $tinc2->setAttribute('index', 2);
           $treat->appendChild($tinc2);

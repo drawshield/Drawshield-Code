@@ -434,6 +434,10 @@ class matcher
         if ($lexeme->category == $category) {
             return $lexeme->keyterm;
         }
+        $lexeme = $this->finalMatches[count($this->finalMatches) - 1];
+        if ($lexeme->category == $category) {
+            return $lexeme->keyterm;
+        }
         return null;
     }
 
