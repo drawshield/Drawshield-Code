@@ -496,13 +496,21 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
                 new ShieldRect(new ShieldPos(170, $layout->cross_point->y), new ShieldSize(300, 300)),
                 new ShieldRect(new ShieldPos($layout->size->width - 170, $layout->cross_point->y), new ShieldSize(300, 300))
             ];
-        case 'indexchief': return 
+        case 'indexchief': return [
             new ShieldRect(
                 new ShieldPos($width6th, $height6th),
                 new ShieldSize($width3rd, $height3rd)
-            ) ;
-        case 'insinchief': return [($cadency) ? '800,0,200,200' : '650,0,350,300'];
-        case 'inmidchief': return [($cadency) ? '400,0,200,200' : '300,0,400,400'];
+            ) ];
+        case 'insinchief': return   [
+            new ShieldRect(
+                new ShieldPos($layout->size->width - $width6th, $height6th),
+                new ShieldSize($width3rd, $height3rd)
+            ) ];
+        case 'inmidchief': return [ 
+            new ShieldRect(
+                new ShieldPos($width2th, $height6th),
+                new ShieldSize($width3rd, $height3rd)
+            ) ];
         case 'indexbase': return [($cadency) ? '200,800,200,200' :
             new ShieldRect(
                 new ShieldPos($layout->size->width/4, $layout->size->height - 300),
@@ -520,10 +528,16 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
                 new ShieldSize(300, 300)
             )];
         case 'inabyss': return [];
-        case 'inhonpoint': return [($cadency) ? '400,250,200,200' : '250,50,500,500'];
-        case 'infesspoint':
-            $size = $cadency ? 400 : 600;
-            return [new ShieldRect(clone $layout->cross_point, new ShieldSize($size, $size))];
+        case 'inhonpoint': return [
+            new ShieldRect(
+                new ShieldPos($width2th, $height3rd),
+                new ShieldSize($width3rd, $height3rd)
+            ) ];
+        case 'infesspoint': return [
+            new ShieldRect(
+                new ShieldPos($width2th, $height2th + 200),
+                new ShieldSize($width3rd, $height3rd)
+            ) ];
         case 'innombril': return [($cadency) ? '400,800,200,200' : '300,600,400,400'];
         case 'insinflank': return [($cadency) ? '800,500,200,200' : '700,375,300,300'];
         case 'indexflank': return [($cadency) ? '0,500,200,200' : '0,375,300,300'];
