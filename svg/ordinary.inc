@@ -521,9 +521,6 @@ function makeOrdinary(DOMElement &$node, $layout)
     if ($mirrored) {
         $transform .= "translate({$layout->size->width},0) scale(-1,1) ";
     }
-    if ($inverted) {
-        $transform .= "translate(0,{$layout->size->height}) scale(1,-1) ";
-    }
     if (existModifierWithKeyterm($node, 'enhanced')) {
         $yshift = $layout->size->height * -0.1666; // Adjust to change movement for enhanced (match in layout.inc)
         $transform .= 'translate(0,' . $yshift . ') ';
@@ -531,6 +528,9 @@ function makeOrdinary(DOMElement &$node, $layout)
     if (existModifierWithKeyterm($node, 'abased')) {
         $yshift = $layout->size->height * 0.1666; // As above
         $transform .= 'translate(0, ' . $yshift . ') ';
+    }
+    if ($inverted) {
+        $transform .= "translate(0,{$layout->size->height}) scale(1,-1) ";
     }
     if ($transform != '') {
         $retval = '<g ' . trace(__FILE__, __LINE__) . ' transform="' . $transform . '">' . $retval . "</g>\n";

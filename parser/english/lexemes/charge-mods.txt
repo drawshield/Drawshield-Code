@@ -201,6 +201,7 @@ dis(member|join)ed=dismembered
 ?wings (outspread|display|unfold|overture)ed? ?to(wards)? ?chief=displayed
 ?wings (outspread|display|unfold|overture)ed? to(wards)? base=displayed-towards-base
 (sans|without) wings=wingless
+quadrate=
 seje?ant erect=sejant-erect
 (c|k)abo(c|s)(h|s)ed=caboshed
 couped below the shoulders=bust
