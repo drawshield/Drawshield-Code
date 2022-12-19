@@ -371,12 +371,13 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
     $width3rd = $layout->size->width / 3;
     $width6th = $width3rd / 2;
     $width2th = $layout->size->width / 2;
-    $heigth2th = $layout->size->height / 2;
+    $height2th = $layout->size->height / 2;
     if ($cadency) {
         // make things smaller if they are just for marking cadency
         $width3rd = $width6th;
         $height3rd = $height6th;
     }
+    $margin = max($height2th, $width2th) / 5;
 
     switch ( $position )
     {
@@ -398,6 +399,7 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
                         adjustment_quarter(3, $layout, false),
                         adjustment_quarter(4, $layout, false),
                     ];
+                    // TODO replace all of this as per the examples below to account for shield size
                 case 'tierced-in-pale':
                     return ['50,100,233,1000', '383,100,233,1000', '716,100,233,1000'];
                 case 'tierced-in-fess':
@@ -511,22 +513,24 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
                 new ShieldPos($width2th, $height6th),
                 new ShieldSize($width3rd, $height3rd)
             ) ];
-        case 'indexbase': return [($cadency) ? '200,800,200,200' :
-            new ShieldRect(
-                new ShieldPos($layout->size->width/4, $layout->size->height - 300),
-                new ShieldSize(300, 300)
-            )
-        ];
-        case 'insinbase': return [($cadency) ? '600,800,200,200' :
-            new ShieldRect(
-                new ShieldPos($layout->size->width*3/4, $layout->size->height - 300),
-                new ShieldSize(300, 300)
-            )];
-        case 'inmidbase': return [($cadency) ? '400,800,200,200' :
-            new ShieldRect(
-                new ShieldPos($layout->size->width/2, $layout->size->height - 300),
-                new ShieldSize(300, 300)
-            )];
+        case 'indexbase':
+            return [
+                new ShieldRect(
+                    new ShieldPos($width6th, $height2th + $height3rd),
+                    new ShieldSize($width3rd, $height3rd)
+                ) ];
+        case 'insinbase':
+            return   [
+                new ShieldRect(
+                    new ShieldPos($layout->size->width - $width6th, $height2th + $height3rd),
+                    new ShieldSize($width3rd, $height3rd)
+                ) ];
+        case 'inmidbase':
+            return [
+                new ShieldRect(
+                    new ShieldPos($width2th, $height2th + $height3rd),
+                    new ShieldSize($width3rd, $height3rd)
+                ) ];
         case 'inabyss': return [];
         case 'inhonpoint': return [
             new ShieldRect(
@@ -535,16 +539,52 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
             ) ];
         case 'infesspoint': return [
             new ShieldRect(
-                new ShieldPos($width2th, $height2th + 200),
+                new ShieldPos($width2th, $height2th),
                 new ShieldSize($width3rd, $height3rd)
             ) ];
-        case 'innombril': return [($cadency) ? '400,800,200,200' : '300,600,400,400'];
-        case 'insinflank': return [($cadency) ? '800,500,200,200' : '700,375,300,300'];
-        case 'indexflank': return [($cadency) ? '0,500,200,200' : '0,375,300,300'];
-        case 'insinside': return ['550,50,400,900'];
-        case 'indexside': return ['50,50,400,900'];
-        case 'inupperhalf': return ['50,50,900,400'];
-        case 'inlowerhalf': return ['50,550,900,400'];
+        case 'innombril':return [
+            new ShieldRect(
+                new ShieldPos($width2th,2 * $height3rd),
+                new ShieldSize($width3rd, $height3rd)
+            ) ];
+        case 'insinflank':
+            return   [
+                new ShieldRect(
+                    new ShieldPos($layout->size->width - $width6th, $height2th),
+                    new ShieldSize($width3rd, $height3rd)
+                ) ];
+        case 'indexflank':
+            return [
+                new ShieldRect(
+                    new ShieldPos($width6th, $height2th),
+                    new ShieldSize($width3rd, $height3rd)
+                ) ];
+        case 'insinside':
+            return [
+                new ShieldRect(
+                    new ShieldPos($width2th * 1.5, $height2th),
+                    new ShieldSize($width2th - $margin, $layout->size->height - $margin)
+                ) ];
+        case 'indexside':
+            return [
+                new ShieldRect(
+                    new ShieldPos($width2th * 0.5, $height2th),
+                    new ShieldSize($width2th - $margin, $layout->size->height - $margin)
+                ) ];
+        case 'inupperhalf':
+            return [
+                new ShieldRect(
+                    new ShieldPos($width2th, $height2th / 2),
+                    new ShieldSize($layout->size->width - $margin, $height2th - $margin)
+                ) ];
+        case 'inlowerhalf':
+            return [
+                new ShieldRect(
+                    new ShieldPos($width2th, $height2th * 1.5),
+                    new ShieldSize($layout->size->width - $margin, $height2th - $margin)
+                ) ];
+            // TODO All of the following should be like the above, so that it takes account of the actual
+            // size of the shield
         case 'infirst':
             switch ( $underlying_div ) {
                 case 'tierced-in-pale': return ['50,100,233,1000'];

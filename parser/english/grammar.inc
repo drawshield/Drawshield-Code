@@ -773,7 +773,7 @@ class englishGrammar extends grammar
         if ($chgNum === null) $chgNum = $phrase->add(self::findLex(languageDB::NUMBER));
         if ($chgNum === null) {
             if ($assumeNum)
-                $chgNum = $phrase->add(new Lexeme('1','','','',1));
+                $chgNum = $phrase->add(new Lexeme( languageDB::NUMBER, '1','','',''));
             else {
                 self::discardPhrase($phrase);
                 return null;
@@ -853,7 +853,9 @@ class englishGrammar extends grammar
         if ($bundle = self::findLex(languageDB::BUNDLE))
             $mods[] = $this->schema->makeModFromLexeme($bundle, languageDB::BUNDLE);
         // Now look for postfix stuff, including tinctures and arrangements
-        $foundTinc = false;
+        $foundTinc = intval($chgNum->keyterm);
+        if ($foundTinc == 0) $foundTinc = 1;
+        $tincCount = 1;
         while (self::moreInput()) {
             if (self::semicolon()) {
                 break;
@@ -889,12 +891,13 @@ class englishGrammar extends grammar
                     $mods[] = $this->schema->makeModFromLexeme(
                         $phrase4->create('arrange-by-rows'), 'rows',  implode(',', $rows));
                 }
-            } elseif (!$foundTinc && ($tinc = self::tincture())) {
+            } elseif ($foundTinc > 0 && ($tinc = self::tincture())) {
                 if ($always_proper && is_object($tinc->firstChild) && $tinc->firstChild->nodeName != 'proper') {
                     self::raiseError(self::ERROR_ORIGIN, 'Charge is always proper', $phrase);
                 } else {
+                    $tinc->setAttribute(blazonML::A_INDEX, $tincCount++);
                     $mods[] = $tinc;
-                    $foundTinc = true;
+                    $foundTinc -= 1;
                 }
             } elseif ($chargeFeatures = self::findLex(languageDB::CHARGE_FEATURES)) {
                 $feature = $this->schema->makeModFromLexeme($chargeFeatures, blazonML::V_FEATURE);
@@ -921,7 +924,7 @@ class englishGrammar extends grammar
             $this->matcher->syncOver();
         }
 
-        if (!$foundTinc) {
+        if ($tincCount == 1) { // i.e. none found
             if ($always_proper || $optional_tincture) {
                 $tinc = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'given',
                     blazonML::A_INDEX => '1'));

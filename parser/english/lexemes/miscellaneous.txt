@@ -59,9 +59,9 @@ between=
 inter=
 inside=
 within=
-surrounded by=
+surrounded by=surrounded
 accompagne=
-cantonned by=
+cantonn?ed? by=cantonned
 
 =colon
 :=
