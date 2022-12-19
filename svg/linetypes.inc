@@ -619,10 +619,9 @@ c
       if ( $start != '-' ) $start = ($start == 'o') ? 'i' : 'o';
       if ( $end != '-' ) $end = ($end == 'o') ? 'i' : 'o';
     }
-    if ($lineType == 'none' or 
-        ctype_lower($dir) or 
-        (($upperOnly == true ) and ($angle >45) and ($angle < 315)) or
-        $length > $dist ) { // straight, or cannot fit this path into distance
+    if ($lineType == 'none' || 
+        ctype_lower($dir) || 
+        (($upperOnly == true ) && ($angle >45) && ($angle < 315))) {
       $dir = strtolower($dir);
       $start = '-';
       $end = '-';
@@ -663,6 +662,11 @@ c
     $path = preg_replace_callback('/{D.*?}/', 'subFunc', $spec);
     $len = preg_replace_callback('/{D.*?}/', 'subFunc', $length);
     $angle = dir2angle($dir);
+    if ($len > $dist ) { // straight, or cannot fit this path into distance
+      $dir = strtolower($dir);
+      $start = '-';
+      $end = '-';
+    }
     if ( $doMirror )
       $path = mirrorPath($path,'x');
     // Stretch if required to fit
