@@ -426,10 +426,6 @@ function PlaceCharge ( $node,  // images
   if ($charge['group'] != 'quadrate' && $orientation == $situation) $orientation = null;
 
     $shownRotation = $hints->angle;
-    $boundX *= $hints->scale_x;
-    $boundY *= $hints->scale_y;
-    $centreY += $hints->offset_y;
-    $centreX += $hints->offset_x;
 
   $BoundAR = 1;
   if ($boundY != 0) {
@@ -538,6 +534,10 @@ function PlaceCharge ( $node,  // images
       }
     }
   }
+    $Xscale *= $hints->scale_x;
+    $Yscale *= $hints->scale_y;
+    $centreY += $hints->offset_y;
+    $centreX += $hints->offset_x;
   $sizeX = $chargeX * $Xscale;
   $sizeY = $chargeY * $Yscale;
   $posX = $centreX - ($sizeX / 2);

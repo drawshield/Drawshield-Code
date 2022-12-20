@@ -531,12 +531,12 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
                     new ShieldPos($width2th, $height2th + $height3rd),
                     new ShieldSize($width3rd, $height3rd)
                 ) ];
-        case 'inabyss': return [];
         case 'inhonpoint': return [
             new ShieldRect(
                 new ShieldPos($width2th, $height3rd),
                 new ShieldSize($width3rd, $height3rd)
             ) ];
+        case 'inabyss':  // flow through
         case 'infesspoint': return [
             new ShieldRect(
                 new ShieldPos($width2th, $height2th),

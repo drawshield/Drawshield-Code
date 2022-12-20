@@ -297,6 +297,7 @@ class englishGrammar extends grammar
                         continue 2;
                     case 'ratio':
                         $elementName = blazonML::E_ASPECT;
+                        $value = $option->tokens;
                         break;
                 }
                 if (!is_null($elementName)) {
@@ -1963,6 +1964,7 @@ class englishGrammar extends grammar
             self::discardPhrase($phrase);
             return null;
         } // else
+        $phrase->add(self::findLex(languageDB::POINTS));
         return $phrase->create('ofnum', $number->keyterm);
   }
 

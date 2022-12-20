@@ -5,6 +5,7 @@ debug.inc
 .htaccess
 /test/.htaccess
 release.txt
+*.Identifier
 
 drawshield-code.code-workspace
 
