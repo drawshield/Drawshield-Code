@@ -93,7 +93,8 @@ class languageDB extends lexicon
     // const SUPPLEMENTARY = 'supplementary';
     const SHOWN_EXTRA = 'shownextra';
     const SHOWN_MODS = 'shown';
-    const DRAWN_MODS = 'drawn';
+    const DRAWN_MODS = 'drawnmods';
+    const DRAWN = 'drawn';
     const FONT = 'font';
     const LAYERING = "layers";
     const QUARTERMARK = 'quartermark';

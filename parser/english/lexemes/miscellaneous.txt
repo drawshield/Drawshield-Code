@@ -309,18 +309,21 @@ suspended (by|from|of)=below
 resting (each|its|his|her) claws? (up)?on=above
 sustaining=below
 
-=using
-drawn ?(with|using)=drawn
-
 =drawn
+drawn=
+
+=using
+(using|with)=using
+
+=drawnmods
 * (palette|tinctures)=palette
 * colours?=colours
 * (appearance|style|effect)=style
-aspect ?ratio ?of *=aspect
-with * aspect ?ratio=aspect
-proportions? ?of *=aspect
-with * proportions?=aspect
+aspect ?ratio ?of=aspect
+ratio ?of=aspect
+proportions? ?of=aspect
 grid(ded)?=grid
+[1-9][0-9]*(\.|:)[1-9][0:9]*=ratio
 
 =font
 in (a|the) * (font|face|style|script)=font

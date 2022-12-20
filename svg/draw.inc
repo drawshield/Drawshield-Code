@@ -157,7 +157,6 @@ function draw()
     $crests = [];
     $fringe = '';
     $shieldAdjustments = [];
-    $y1Location = 0;
     $extraSpace = 0;
     $partsList = [];
     $vbHeight = null;
@@ -291,11 +290,9 @@ function draw()
             $body .= '<path fill="none" stroke="' . rgb('gray') . '" stroke-width="4" d="' . $outline . '" />';
         }
         // Rest depends on output format
-        if ($options['asFile'] != '1' /* && !$options['printable'] */) { // minimal decoration, no metadata
-            $y1Location = '1190';
+        if ($options['asFile'] != '1' ) { // minimal decoration, no metadata
             if ($layout->shape == 'flag') {
                 if (count($partsList)) $extraSpace = 120; // should really check for fringe being present
-                $y1Location = $layout->size->height + $extraSpace + 40;
             }
             if ($options['outputFormat'] == 'svg' || $options['outputFormat'] == 'json') {
                 $messages->addMessage('legal', "Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.");
@@ -322,11 +319,6 @@ function draw()
             $body = addParts($body, $parts, $layout);
         }
     }
-    $versionSpace = 0;
-  /*  if (!$options['asFile']) {
-        $body .= '<text id="test1" x="10" y="' . $y1Location . '" font-size="30" >' . $version['website'] . '</text><text id="release-id" x="990" y="' . $y1Location . '" text-anchor="end" font-size="30" >' . $version['release'] . '</text>';
-        $versionSpace = 60;
-    } */
     if ($effect != 'shiny') { // other effects are applied everywhere
         $body .= add_def();
         $body = getEffect($effect, 'below') . '<g ' . getEffect($effect, 'filter') . '>' . $body . getEffect($effect, 'above') . '</g>';
@@ -350,10 +342,10 @@ function draw()
                 // $shiftFactor = (1000 *  (1-$shrinkFactor)) / 2;
                 // $body = "<g transform=\"translate($shiftFactor, 0) scale($shrinkFactor)\">$body</g>";
                 $svgHeight = $svgWidth * $options['aspectRatio'];
-                $vbHeight = 1000 * $options['aspectRatio'] + $versionSpace;
+                $vbHeight = 1000 * $options['aspectRatio'];
             } elseif ($options['aspectRatio'] < 1.22) {
                 $svgHeight = $svgWidth * $options['aspectRatio'];
-                $vbHeight = 1000 * $options['aspectRatio'] + $versionSpace;
+                $vbHeight = 1000 * $options['aspectRatio'];
             }
         }
     }

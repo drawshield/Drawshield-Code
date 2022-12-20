@@ -267,11 +267,13 @@ class englishGrammar extends grammar
         while ($found) {
             $phrase = self::newPhrase();
             $found = false;
+            $phrase->add(self::findLex(languageDB::DRAWN));
             $phrase->add(self::findLex(languageDB::USING));
             $phrase->add(self::findLex(languageDB::WORD_IN));
             $phrase->add(self::findLex(languageDB::WORD_ON));
             $phrase->add(self::findLex(languageDB::SIGNIFIER));
             if ($option = $phrase->add(self::findLex(LanguageDB::DRAWN_MODS))) {
+                // $phrase->add(self::findLex(languageDB::USING));
                 $elementName = null;
                 $value = strtolower($option->value ?? "");
                 switch ($option->keyterm) {
@@ -291,6 +293,9 @@ class englishGrammar extends grammar
                         $debugOptions[] = $option;
                         break;
                     case 'aspect':
+                        // only need the ratio
+                        continue 2;
+                    case 'ratio':
                         $elementName = blazonML::E_ASPECT;
                         break;
                 }
