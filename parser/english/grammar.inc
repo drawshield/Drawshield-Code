@@ -877,7 +877,7 @@ class englishGrammar extends grammar
                 $mods[] = $crowns;
             elseif ($allowPos and $positions = self::getPositions())
                 $mods = array_merge($mods, $positions);
-            elseif ($allowArr and $arrangement = self::findLex(languageDB::ARRANGEMENT))
+            elseif ($allowArr and $arrangement = self::arranged())
                 $mods[] = $this->schema->makeModFromLexeme($arrangement, languageDB::ARRANGEMENT);
             elseif ($num = $phrase4->add(self::findLex(languageDB::NUMBER))) {
                 // This might be rows, but must be >1 number
@@ -989,6 +989,21 @@ class englishGrammar extends grammar
         return null;
     }
 
+    protected function arranged() {
+        $phrase = self::newPhrase();
+        $phrase->add(self::findLex(languageDB::ARRANGED));
+        $in = $phrase->add(self::findLex(languageDB::WORD_IN));
+        $phrase->add(self::findLex(languageDB::WORD_THE));
+        $phrase->add(self::findLex(languageDB::SIGNIFIER));
+        if (!is_null($in) && $phrase->add(self::findLex(languageDB::INARRANGEMENT))) {
+            return $phrase->create();
+        } elseif ($phrase->add(self::findLex(languageDB::ARRANGEMENT))) {
+            return $phrase->create();
+        } // else
+        self::discardPhrase($phrase);
+        return null;
+    }
+
     protected function charge($assumeNum = false, $allowArr = true, $allowPos = true) // DONE
     {
         $phrase = self::newPhrase();
@@ -997,7 +1012,7 @@ class englishGrammar extends grammar
         $posMods = array();
         while (true) {
             // Look for arrangements (e.g "in pale, three whatever...")
-            if ($arrange = self::findLex(languageDB::ARRANGEMENT)) {
+            if ($arrange = self::arranged()) {
                 $mods[] = $this->schema->makeModFromLexeme( $arrange, languageDB::ARRANGEMENT);
                 $allowArr = false;
                 // Look for positions - may be more than one (e.g. "in chief and in base"

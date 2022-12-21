@@ -8,6 +8,7 @@ release.txt
 *.Identifier
 
 drawshield-code.code-workspace
+ds-code.code-workspace
 
 /tests/responses/
 /tests/results.txt

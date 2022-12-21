@@ -76,6 +76,8 @@ class languageDB extends lexicon
     const CHARGE_WITH = 'chargewith';
     const HOLDING = 'holding';
     const ARRANGEMENT = 'arrangement';
+    const INARRANGEMENT = 'inarrangement';
+    const ARRANGED = 'arranged';
     const SPECIFIER = 'specifier';
     const LOCATION = 'location';
     const QUANTIFIER = 'quantifier';

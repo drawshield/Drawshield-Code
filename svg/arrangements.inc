@@ -115,7 +115,7 @@ function inOrle($layout, $number) {
        return 'x';
 }
 
-function inAnnulo($number, $box, $layout)
+function inAnnulo($number, $box, $layout, $arc = "f{ull")
 {
     if ( $layout->size == $box->size )
     {
@@ -128,12 +128,32 @@ function inAnnulo($number, $box, $layout)
 
     $radius = min($box->size->height, $box->size->width) / 2;
 
-    $angle = 0;
-    $turn = 360 / $number;
+    $sizeLimit = 160;
+    $turn = 180 / ($number -1);
+    switch($arc) {
+        case "full":
+            $angle = 0;
+            $turn = 360 / $number;
+            $sizeLimit = 200;
+            break;
+        case "upper":
+            $angle = -90;
+            break;
+        case "lower":
+            $angle = 90;
+            break;
+        case "sinister":
+            $angle = 0;
+            break;
+        case "dexter":
+            $angle = -180;
+            break;
+    }
     // Make size dependent on circumference && number
     $size = intval(($radius * M_PI) / ($number * 0.9));
-    if ($size > 150)
-        $size = 200;
+    $size = min($size, $sizeLimit);
+    // if ($size > 150)
+      //   $size = 200;
 
     $radius -= $size / 2;
 
@@ -821,6 +841,18 @@ function get_placement(DOMElement $item, $layout) {
           switch ( $arr ) {
             case 'inannulo':
                 $placement = inAnnulo($number, $boundingBox, $layout);
+                break;
+            case 'inuppersemi':
+                $placement = inAnnulo($number, $boundingBox, $layout, "upper");
+                break;
+            case 'inlowersemi':
+                $placement = inAnnulo($number, $boundingBox, $layout, "lower");
+                break;
+            case 'indextersemi':
+                $placement = inAnnulo($number, $boundingBox, $layout, "dexter");
+                break;
+            case 'insinistersemi':
+                $placement = inAnnulo($number, $boundingBox, $layout, "sinister");
                 break;
             case 'combattant':
                 $placement = placement_combattant($boundingBox, 0, 0);
