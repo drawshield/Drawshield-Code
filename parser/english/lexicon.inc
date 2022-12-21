@@ -119,7 +119,7 @@ class languageDB extends lexicon
     const MOTTO_TEXT = 'string';
     const CREST = 'crest';
     const TORSE = 'torse';
-    const HELMET = 'helmet';
+    const CREST_HELM = 'cresthelm';
     const ACHIEVEMENT = 'achievement';
     const ORNAMENT = 'ornament';
     const ECCLESIASTIC = 'ecclesiastic';

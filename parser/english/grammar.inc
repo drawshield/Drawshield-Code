@@ -862,6 +862,7 @@ class englishGrammar extends grammar
         $foundTinc = intval($chgNum->keyterm);
         if ($foundTinc == 0) $foundTinc = 1;
         $tincCount = 1;
+        $gotMainTincture = false;
         while (self::moreInput()) {
             if (self::semicolon()) {
                 break;
@@ -873,7 +874,7 @@ class englishGrammar extends grammar
                 $mods[] = $this->schema->makeModFromLexeme($chargeMods, languageDB::CHARGE_MODS );
             elseif ($chargeMods = self::ofNumber())
                 $mods[] = $this->schema->makeModFromLexeme($chargeMods, languageDB::CHARGE_MODS );
-            elseif ($crowns = self::getCrowns($foundTinc))
+            elseif ($crowns = self::getCrowns($gotMainTincture))
                 $mods[] = $crowns;
             elseif ($allowPos and $positions = self::getPositions())
                 $mods = array_merge($mods, $positions);
@@ -898,6 +899,7 @@ class englishGrammar extends grammar
                         $phrase4->create('arrange-by-rows'), 'rows',  implode(',', $rows));
                 }
             } elseif ($foundTinc > 0 && ($tinc = self::tincture())) {
+                $gotMainTincture = true;
                 if ($always_proper && is_object($tinc->firstChild) && $tinc->firstChild->nodeName != 'proper') {
                     self::raiseError(self::ERROR_ORIGIN, 'Charge is always proper', $phrase);
                 } else {
@@ -907,7 +909,7 @@ class englishGrammar extends grammar
                 }
             } elseif ($chargeFeatures = self::findLex(languageDB::CHARGE_FEATURES)) {
                 $feature = $this->schema->makeModFromLexeme($chargeFeatures, blazonML::V_FEATURE);
-                if (($foundTinc || $always_proper) && ($colour = self::colour())) {
+                if (($gotMainTincture || $always_proper) && ($colour = self::colour())) {
                     $tinc = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'given',
                         blazonML::A_INDEX => '1'));
                     $tinc->appendChild($colour);
@@ -2208,6 +2210,7 @@ class englishGrammar extends grammar
 
         $phrase->add(self::findLex(languageDB::WORD_TO));
         $phrase->add(self::findLex(languageDB::WORD_IN));
+        $phrase->add(self::findLex(languageDB::WORD_ON));
         $phrase->add(self::findLex(languageDB::WORD_OF));
         $phrase->add(self::findLex(languageDB::WORD_THE));
         if (!$loc = $phrase->add(self::findLex(languageDB::ACHIEVEMENT_LOC))) {
@@ -2337,7 +2340,11 @@ class englishGrammar extends grammar
 
   protected function helmet() { // DONE
         $tincNode = null;
-    if (is_null($helmType = self::findLex(languageDB::HELMET))) {
+        $phrase = new Phrase();
+        $phrase->add(self::findLex(languageDB::WORD_THE));
+      $phrase->add(self::findLex(languageDB::SIGNIFIER));
+    if (is_null($helmType = self::findLex(languageDB::CREST_HELM))) {
+        self::discardPhrase($phrase);
       return null;
     }
     $helmetNode = $this->schema->makeNodeFromLexeme(blazonML::E_HELMET, $helmType);

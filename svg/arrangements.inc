@@ -115,7 +115,7 @@ function inOrle($layout, $number) {
        return 'x';
 }
 
-function inAnnulo($number, $box, $layout, $arc = "f{ull")
+function inAnnulo($number, $box, $layout, $arc = "full")
 {
     if ( $layout->size == $box->size )
     {
@@ -131,11 +131,6 @@ function inAnnulo($number, $box, $layout, $arc = "f{ull")
     $sizeLimit = 160;
     $turn = 180 / ($number -1);
     switch($arc) {
-        case "full":
-            $angle = 0;
-            $turn = 360 / $number;
-            $sizeLimit = 200;
-            break;
         case "upper":
             $angle = -90;
             break;
@@ -147,6 +142,12 @@ function inAnnulo($number, $box, $layout, $arc = "f{ull")
             break;
         case "dexter":
             $angle = -180;
+            break;
+        default:
+        case "full":
+            $angle = 0;
+            $turn = 360 / $number;
+            $sizeLimit = 200;
             break;
     }
     // Make size dependent on circumference && number

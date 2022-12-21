@@ -113,6 +113,7 @@ class Tokeniser {
     $lineComment = false;
     $comment = false;
     $blockComment = false;
+      $tildeComment = false;
     $in_string = false;
     $incAll = false;
     $part_word = '';
@@ -146,16 +147,6 @@ class Tokeniser {
         continue;
       }
       switch ( $curChar ) {
-        case "'": // like a space (unless in a string)
-        case "`":
-          if ( $incAll ) {
-            $part_word .= "'";
-          }
-          // elseif ( $part_word == '' ) {
-          //   if ( !$comment ) { $words[] = $part_word; $this->lineNos[] = $lineNo; }
-            // $part_word = '';
-          // } // else ignore it
-          break;
         case "\n":
         case ' ':
         case "\t":
@@ -347,12 +338,18 @@ class Tokeniser {
           }
           if ( !$comment ) { $words[] = new Token($curChar, "$lineNo:$wordStart", null, languageDB::COMMA); }
           break;
+          case "'": // single quotes are always apostrophes, just ignore unless part of a string
+          case "`":
+          case "’":
+          case "‛":
+              if ( $incAll ) {
+                  $part_word .= "'";
+              }
+              break;
         case "«": // list of quote chars from https://stackoverflow.com/questions/20025030/convert-all-types-of-smart-quotes-with-php
         case "»":
         case "‘":
-        case "’":
         case "‚":
-        case "‛":
         case "“":
         case "”":
         case "„":
@@ -410,6 +407,25 @@ class Tokeniser {
           }
           break;
         case '~':
+            if ( $incAll ) {
+                $part_word .= '~';
+                break;
+            }
+            if ( $part_word != '' ) {
+                if ( !$comment ) { $words[] = new Token($part_word, "$lineNo:$wordStart"); }
+                $part_word = ''; $wordStart = $charCount + 1;
+            }
+            if ($lookAhead == '~') {
+                $i += 1;
+                if ($tildeComment) {
+                    $tildeComment = false;
+                    $comment = false;
+                } else {
+                    $tildeComment = true;
+                    $comment = true;
+                }
+            }
+            break;
         case '^':
           if ( $incAll ) {
             $part_word .= $curChar;
