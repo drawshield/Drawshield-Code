@@ -95,6 +95,27 @@ function adjustDistance($item, $placement) {
   return $placement;
 }
 
+/*
+
+an armorial roll consisting of
+drawn in a heater shape cendree an orle argent
+then
+drawn in a french shape cendree an orle argent
+then 
+drawn in an oval shape cendree an orle argent
+then 
+drawn in a lozenge shape cendree an orle argent
+then 
+drawn in an square shape cendree an orle argent
+then 
+drawn in an italian shape cendree an orle argent
+then 
+drawn in a swiss shape cendree an orle argent
+then 
+drawn in a german shape cendree an orle argent
+
+*/
+
 function inOrle($layout, $number) {
        global $messages;
 

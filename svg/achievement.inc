@@ -512,7 +512,8 @@ function drawHelmet($helmetNode) {
         'peer' => 'gray',
         'royal' => 'or',
         'esquire' => 'argent',
-        'baronet' => 'gray'
+        'baronet' => 'gray',
+        'knight' => 'or'
     );
     if ($helmetNode == null) return null; 
     $torse = null;

@@ -910,7 +910,7 @@ class englishGrammar extends grammar
             } elseif ($chargeFeatures = self::findLex(languageDB::CHARGE_FEATURES)) {
                 $feature = $this->schema->makeModFromLexeme($chargeFeatures, blazonML::V_FEATURE);
                 if (($gotMainTincture || $always_proper) && ($colour = self::colour())) {
-                    $tinc = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'given',
+                    $tinc = $this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'given',
                         blazonML::A_INDEX => '1'));
                     $tinc->appendChild($colour);
                     $feature->appendChild($tinc);
@@ -948,6 +948,7 @@ class englishGrammar extends grammar
             $chargeNode->appendChild($mod);
         return $chargeNode;
     }
+
 
     protected function getAdjustments() // DONE
     {
