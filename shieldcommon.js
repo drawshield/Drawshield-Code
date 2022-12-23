@@ -420,7 +420,7 @@ function format_blazon_ml(element, target_id)
         {
             if ( child instanceof Element )
             {
-                if ( child.tagName != "blazonML:input" )
+                // if ( child.tagName != "blazonML:input" )
                     format_impl(target, child, indent+1);
             }
             else if ( child instanceof Text )

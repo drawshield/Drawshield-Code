@@ -76,6 +76,8 @@ class languageDB extends lexicon
     const CHARGE_WITH = 'chargewith';
     const HOLDING = 'holding';
     const ARRANGEMENT = 'arrangement';
+    const INARRANGEMENT = 'inarrangement';
+    const ARRANGED = 'arranged';
     const SPECIFIER = 'specifier';
     const LOCATION = 'location';
     const QUANTIFIER = 'quantifier';
@@ -93,7 +95,8 @@ class languageDB extends lexicon
     // const SUPPLEMENTARY = 'supplementary';
     const SHOWN_EXTRA = 'shownextra';
     const SHOWN_MODS = 'shown';
-    const DRAWN_MODS = 'drawn';
+    const DRAWN_MODS = 'drawnmods';
+    const DRAWN = 'drawn';
     const FONT = 'font';
     const LAYERING = "layers";
     const QUARTERMARK = 'quartermark';
@@ -116,7 +119,7 @@ class languageDB extends lexicon
     const MOTTO_TEXT = 'string';
     const CREST = 'crest';
     const TORSE = 'torse';
-    const HELMET = 'helmet';
+    const CREST_HELM = 'cresthelm';
     const ACHIEVEMENT = 'achievement';
     const ORNAMENT = 'ornament';
     const ECCLESIASTIC = 'ecclesiastic';

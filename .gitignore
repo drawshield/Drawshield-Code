@@ -5,8 +5,10 @@ debug.inc
 .htaccess
 /test/.htaccess
 release.txt
+*.Identifier
 
 drawshield-code.code-workspace
+ds-code.code-workspace
 
 /tests/responses/
 /tests/results.txt

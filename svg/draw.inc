@@ -157,7 +157,6 @@ function draw()
     $crests = [];
     $fringe = '';
     $shieldAdjustments = [];
-    $y1Location = 0;
     $extraSpace = 0;
     $partsList = [];
     $vbHeight = null;
@@ -202,11 +201,35 @@ function draw()
                 break;
             case blazonML::E_ROLL:
                 $columns = $node->getAttribute(blazonML::A_COLS);
+                $title = $node->getAttribute(blazonML::A_TITLE);
                 $scale = 1 / $columns;
                 $colCount = -1;
                 $rowCount = 0;
                 $gap = 100;
-                $offset = $gap * $scale * -1;
+                $offset = ($gap /2) + $gap * $scale * -1;
+                if (!is_null($title)) {
+                    $builder = new WordBuilder();
+                    $builder->setOption(WordBuilder::TEXT1, $title);
+                    $builder->setOption(WordBuilder::ALIGN, WordBuilder::CENTRE);
+                    $builder->setOption(WordBuilder::UNDERLINE, true);
+                    // leave everything else as a default for now
+                    $builder->compile();
+                    $result = $builder->getSVG(true);
+                    $capWidth = $result['width'];
+                    $capHeight = $result['height'];
+                    // work out how to scale & place it - it needs to go into a box 100 * 1000 at 0,100
+                    // first, will it fit if we just scale the height?
+                    $capScale = ($gap * 0.8) / $capHeight;
+                    $newWidth = $capWidth * $capScale;
+                    if ($newWidth > 1000) { // fit width instead
+                        $capScale = 940 / $capWidth;
+                        $newWidth = 940;
+                    }
+                    $xShift = (1000 - $newWidth) / 2;
+                    $yShift = ($gap * 0.1);
+                    $body .= "<g transform=\"translate($xShift,$yShift) scale($capScale)\">{$result['svg']}</g>";
+                    $offset += 100;
+                }
                 $background = null;
                 foreach ($node->childNodes as $childNode) {
                     if ($childNode->nodeName == blazonML::E_TINCTURE) {
@@ -255,7 +278,10 @@ function draw()
                         $body .= $rollEntry;
                     }
                 }
-                $vbHeight =  (($rowCount + 1) * ($gap + 1200)) * $scale;
+                $vbHeight =  ($gap /2) + (($rowCount + 1) * ($gap + 1200)) * $scale;
+                if (!is_null($title)) {
+                    $vbHeight += 100;
+                }
                 if (!is_null($background)) {
                     $body = apply_tincture($background, "<path d=\"m0 0 h1000 v$vbHeight h-1000 z\"/>", $layout) . $body;
                 }
@@ -291,13 +317,10 @@ function draw()
             $body .= '<path fill="none" stroke="' . rgb('gray') . '" stroke-width="4" d="' . $outline . '" />';
         }
         // Rest depends on output format
-        if ($options['asFile'] != '1' /* && !$options['printable'] */) { // minimal decoration, no metadata
-            $y1Location = '1190';
+        if ($options['asFile'] != '1' ) { // minimal decoration, no metadata
             if ($layout->shape == 'flag') {
                 if (count($partsList)) $extraSpace = 120; // should really check for fringe being present
-                $y1Location = $layout->size->height + $extraSpace + 40;
             }
-        }
             if ($options['outputFormat'] == 'svg' || $options['outputFormat'] == 'json') {
                 $messages->addMessage('legal', "Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.");
                 $messages->addMessage('legal', "{$version['website']} Version {$version['release']} {$version['email']}");
@@ -316,17 +339,13 @@ function draw()
                 $blazonMLText = preg_replace('/<\?xml version="1\.0"( encoding="utf-8")?\?>/i', '', $blazonMLText);
                 $meta = "\n<metadata>\n" . $rdf . $blazonMLText . "\n</metadata>\n";
             }
+        }
     }
     if (count($partsList)) {
         foreach ($partsList as $parts) {
             $body = addParts($body, $parts, $layout);
         }
     }
-    $versionSpace = 0;
-  /*  if (!$options['asFile']) {
-        $body .= '<text id="test1" x="10" y="' . $y1Location . '" font-size="30" >' . $version['website'] . '</text><text id="release-id" x="990" y="' . $y1Location . '" text-anchor="end" font-size="30" >' . $version['release'] . '</text>';
-        $versionSpace = 60;
-    } */
     if ($effect != 'shiny') { // other effects are applied everywhere
         $body .= add_def();
         $body = getEffect($effect, 'below') . '<g ' . getEffect($effect, 'filter') . '>' . $body . getEffect($effect, 'above') . '</g>';
@@ -350,10 +369,10 @@ function draw()
                 // $shiftFactor = (1000 *  (1-$shrinkFactor)) / 2;
                 // $body = "<g transform=\"translate($shiftFactor, 0) scale($shrinkFactor)\">$body</g>";
                 $svgHeight = $svgWidth * $options['aspectRatio'];
-                $vbHeight = 1000 * $options['aspectRatio'] + $versionSpace;
+                $vbHeight = 1000 * $options['aspectRatio'];
             } elseif ($options['aspectRatio'] < 1.22) {
                 $svgHeight = $svgWidth * $options['aspectRatio'];
-                $vbHeight = 1000 * $options['aspectRatio'] + $versionSpace;
+                $vbHeight = 1000 * $options['aspectRatio'];
             }
         }
     }

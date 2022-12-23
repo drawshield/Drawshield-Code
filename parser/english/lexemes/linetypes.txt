@@ -27,6 +27,7 @@ angled (opposite|upper)=angled-upper
 (e?m?battled|crenn?ell?e?y?) arrondi=embattled-arrondi
 invec[kt]ed=invected
 (en)?arched=arched
+(im)?bowed=bowed
 bevill?ed (opposite|upper)=bevilled-upper
 bevill?y (opposite|upper)=bevilled-upper
 bevill?ed ?lower=bevilled

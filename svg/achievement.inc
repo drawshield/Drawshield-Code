@@ -30,17 +30,17 @@ function drawFrontSupporters($supportNode, $layout) {
         switch ($location->getAttribute('keyterm')) {
             case 'default':
                 if ($supportCount == 0) { // assume dexter first
-                    $retval .= placeCharge($location->firstChild, $layout, $boundX, $boundY, $dexterX, $centreY, 0, 0, 1);
+                    $retval .= placeCharge($location->firstChild, $layout, $boundX, $boundY, $dexterX, $centreY, 1, 0, 0, 1);
                     $supportCount++;
                 } else {
-                    $retval .= placeCharge($location->firstChild, $layout, $boundX, $boundY, $sinisterX, $centreY, 0, 0, 0);
+                    $retval .= placeCharge($location->firstChild, $layout, $boundX, $boundY, $sinisterX, $centreY, 1, 0, 0, 0);
                 }
                 break;
             case 'dexter':
-                $retval .= placeCharge($location->firstChild, $layout, $boundX, $boundY, $dexterX, $centreY, 0, 0, 1);
+                $retval .= placeCharge($location->firstChild, $layout, $boundX, $boundY, $dexterX, $centreY, 1, 0, 0, 1);
                 break;
             case 'sinister':
-                $retval .= placeCharge($location->firstChild, $layout, $boundX, $boundY, $sinisterX, $centreY, 0, 0, 0);
+                $retval .= placeCharge($location->firstChild, $layout, $boundX, $boundY, $sinisterX, $centreY, 1, 0, 0, 0);
                 break;
             case 'centre':
                 // This is dealt with elsewhere
@@ -48,7 +48,7 @@ function drawFrontSupporters($supportNode, $layout) {
             }
     }
     if ($supportCount == 1) { // only one supplied, so repeat it
-        $retval .= placeCharge($location->firstChild, $layout, $boundX, $boundY, $sinisterX, $centreY, 0, 0, 0);
+        $retval .= placeCharge($location->firstChild, $layout, $boundX, $boundY, $sinisterX, $centreY, 1, 0, 0, 0);
     }
     return $retval;
 }
@@ -512,7 +512,8 @@ function drawHelmet($helmetNode) {
         'peer' => 'gray',
         'royal' => 'or',
         'esquire' => 'argent',
-        'baronet' => 'gray'
+        'baronet' => 'gray',
+        'knight' => 'or'
     );
     if ($helmetNode == null) return null; 
     $torse = null;

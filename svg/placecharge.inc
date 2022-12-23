@@ -161,7 +161,7 @@ function place_charges ( DOMElement $node, $placement, $layout ) {
         $bbx = 1000;
         $bby = 200;
       }
-      $retval .= PlaceCharge( $item, $layout, $bbx, $bby, $cx, $cy, $rot, $inv, $rev );
+      $retval .= PlaceCharge( $item, $layout, $bbx, $bby, $cx, $cy, $count + 1,$rot, $inv, $rev );
     }
   return $retval;
 }
@@ -365,6 +365,7 @@ function PlaceCharge ( $node,  // images
                             $layout,
                             $boundX, $boundY,  // size of bounding box
                             $centreX, $centreY,// centre of bounding box
+                            $index = 1,
                             $rotation = 0,
                             $inverted = false,
                             $reversed = false ) {
@@ -372,7 +373,7 @@ function PlaceCharge ( $node,  // images
   $charge = getCharge( $node, $layout );
   if ($charge == null) return '';
   $orientation = null;
-  $tincture = null;
+  $tinctures = [];
   $Xflex = array_key_exists('wflex', $charge) ? $charge['wflex'] : 1;
   $Yflex = array_key_exists('hflex', $charge) ? $charge['hflex'] : 1;
   $inArrangement = false;
@@ -410,18 +411,21 @@ function PlaceCharge ( $node,  // images
             break;
       }
     } elseif ( $child->nodeName == 'tincture' ) {
-      $tincture = $child;
+      $tinctures[intval($child->getAttribute(blazonML::A_INDEX))] = $child;
     }
   }
+  // Now try to map the index we are given to the list of tinctures provided
+    if (isset($tinctures[$index])) { // exact match
+        $tincture = $tinctures[$index];
+    } else {
+       $indexes = array_keys($tinctures);
+       $tincture = $tinctures[$indexes[($index - 1) % count($indexes)]];
+    }
 
   // sometimes we can ignore the orientation as we are already "that way up"
   if ($charge['group'] != 'quadrate' && $orientation == $situation) $orientation = null;
 
     $shownRotation = $hints->angle;
-    $boundX *= $hints->scale_x;
-    $boundY *= $hints->scale_y;
-    $centreY += $hints->offset_y;
-    $centreX += $hints->offset_x;
 
   $BoundAR = 1;
   if ($boundY != 0) {
@@ -530,6 +534,10 @@ function PlaceCharge ( $node,  // images
       }
     }
   }
+    $Xscale *= $hints->scale_x;
+    $Yscale *= $hints->scale_y;
+    $centreY += $hints->offset_y;
+    $centreX += $hints->offset_x;
   $sizeX = $chargeX * $Xscale;
   $sizeY = $chargeY * $Yscale;
   $posX = $centreX - ($sizeX / 2);

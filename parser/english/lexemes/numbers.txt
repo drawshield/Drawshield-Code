@@ -131,3 +131,4 @@ sixty three=63
 sixty four=64
 (as|so) many=asmany
 (6[5-9]|[7-9][0-9]|[1-9][0-9][0-9]+)=bignum
+

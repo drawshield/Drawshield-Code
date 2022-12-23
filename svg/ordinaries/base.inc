@@ -31,7 +31,7 @@ if ( existModifierWithKeyterm($node, 'pointed')) {
     ;
     $ordinary['shape_spec'] = $shape;
 } else {
-   $ordinary['shape_spec'] = 'X-8,Y{%75*}A1016c{%26*}e1016g{%26*}';
+   $ordinary['shape_spec'] = 'X-100,Y{%75*}A1200c{%26*}e1200g{%26*}';
 }
 
 if ($layout->shape == 'flag') {

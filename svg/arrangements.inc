@@ -95,6 +95,55 @@ function adjustDistance($item, $placement) {
   return $placement;
 }
 
+/*
+
+an armorial roll
+with title "Please mark orle positions from 3? 4? to 10 on each shield"
+consisting of
+drawn in a heater shape cendree an orle argent a grid sable
+caption "Heater"
+then
+drawn in a french shape cendree an orle argent a grid sable
+caption "French"
+then 
+drawn in an oval shape cendree an orle argent a grid sable
+caption "Oval"
+then 
+drawn in a lozenge shape cendree an orle argent a grid sable
+caption "Lozenge"
+then
+drawn in a square shape cendree an orle argent a grid sable
+caption "Square"
+then 
+drawn in an italian shape cendree an orle argent a grid sable
+caption "Italian"
+then 
+drawn in a swiss shape cendree an orle argent a grid sable
+caption "Swiss"
+then 
+drawn in a german shape cendree an orle argent a grid sable
+caption "German"
+then
+drawn in a african shape cendree an orle argent a grid sable
+caption "African"
+then
+drawn in a polish shape cendree an orle argent a grid sable
+caption "Polish"
+then
+drawn in a spanish shape cendree an orle argent a grid sable
+caption "Spanish"
+then
+drawn in an SCA shape cendree an orle argent a grid sable
+caption "SCA"
+then
+drawn in a hungarian shape cendree an orle argent a grid sable
+caption "Hungarian"
+skip
+then
+drawn in a english shape cendree an orle argent a grid sable
+caption "English"
+*/
+
 function inOrle($layout, $number) {
        global $messages;
 
@@ -115,7 +164,7 @@ function inOrle($layout, $number) {
        return 'x';
 }
 
-function inAnnulo($number, $box, $layout)
+function inAnnulo($number, $box, $layout, $arc = "full")
 {
     if ( $layout->size == $box->size )
     {
@@ -128,12 +177,33 @@ function inAnnulo($number, $box, $layout)
 
     $radius = min($box->size->height, $box->size->width) / 2;
 
-    $angle = 0;
-    $turn = 360 / $number;
+    $sizeLimit = 160;
+    $turn = 180 / ($number -1);
+    switch($arc) {
+        case "upper":
+            $angle = -90;
+            break;
+        case "lower":
+            $angle = 90;
+            break;
+        case "sinister":
+            $angle = 0;
+            break;
+        case "dexter":
+            $angle = -180;
+            break;
+        default:
+        case "full":
+            $angle = 0;
+            $turn = 360 / $number;
+            $sizeLimit = 200;
+            break;
+    }
     // Make size dependent on circumference && number
     $size = intval(($radius * M_PI) / ($number * 0.9));
-    if ($size > 150)
-        $size = 200;
+    $size = min($size, $sizeLimit);
+    // if ($size > 150)
+      //   $size = 200;
 
     $radius -= $size / 2;
 
@@ -371,12 +441,13 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
     $width3rd = $layout->size->width / 3;
     $width6th = $width3rd / 2;
     $width2th = $layout->size->width / 2;
-    $heigth2th = $layout->size->height / 2;
+    $height2th = $layout->size->height / 2;
     if ($cadency) {
         // make things smaller if they are just for marking cadency
         $width3rd = $width6th;
         $height3rd = $height6th;
     }
+    $margin = max($height2th, $width2th) / 5;
 
     switch ( $position )
     {
@@ -398,6 +469,7 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
                         adjustment_quarter(3, $layout, false),
                         adjustment_quarter(4, $layout, false),
                     ];
+                    // TODO replace all of this as per the examples below to account for shield size
                 case 'tierced-in-pale':
                     return ['50,100,233,1000', '383,100,233,1000', '716,100,233,1000'];
                 case 'tierced-in-fess':
@@ -511,40 +583,78 @@ function adjustment_from_position($position, $layout, $underlying_div, $bigOrdin
                 new ShieldPos($width2th, $height6th),
                 new ShieldSize($width3rd, $height3rd)
             ) ];
-        case 'indexbase': return [($cadency) ? '200,800,200,200' :
-            new ShieldRect(
-                new ShieldPos($layout->size->width/4, $layout->size->height - 300),
-                new ShieldSize(300, 300)
-            )
-        ];
-        case 'insinbase': return [($cadency) ? '600,800,200,200' :
-            new ShieldRect(
-                new ShieldPos($layout->size->width*3/4, $layout->size->height - 300),
-                new ShieldSize(300, 300)
-            )];
-        case 'inmidbase': return [($cadency) ? '400,800,200,200' :
-            new ShieldRect(
-                new ShieldPos($layout->size->width/2, $layout->size->height - 300),
-                new ShieldSize(300, 300)
-            )];
-        case 'inabyss': return [];
+        case 'indexbase':
+            return [
+                new ShieldRect(
+                    new ShieldPos($width6th, $height2th + $height3rd),
+                    new ShieldSize($width3rd, $height3rd)
+                ) ];
+        case 'insinbase':
+            return   [
+                new ShieldRect(
+                    new ShieldPos($layout->size->width - $width6th, $height2th + $height3rd),
+                    new ShieldSize($width3rd, $height3rd)
+                ) ];
+        case 'inmidbase':
+            return [
+                new ShieldRect(
+                    new ShieldPos($width2th, $height2th + $height3rd),
+                    new ShieldSize($width3rd, $height3rd)
+                ) ];
         case 'inhonpoint': return [
             new ShieldRect(
                 new ShieldPos($width2th, $height3rd),
                 new ShieldSize($width3rd, $height3rd)
             ) ];
+        case 'inabyss':  // flow through
         case 'infesspoint': return [
             new ShieldRect(
-                new ShieldPos($width2th, $height2th + 200),
+                new ShieldPos($width2th, $height2th),
                 new ShieldSize($width3rd, $height3rd)
             ) ];
-        case 'innombril': return [($cadency) ? '400,800,200,200' : '300,600,400,400'];
-        case 'insinflank': return [($cadency) ? '800,500,200,200' : '700,375,300,300'];
-        case 'indexflank': return [($cadency) ? '0,500,200,200' : '0,375,300,300'];
-        case 'insinside': return ['550,50,400,900'];
-        case 'indexside': return ['50,50,400,900'];
-        case 'inupperhalf': return ['50,50,900,400'];
-        case 'inlowerhalf': return ['50,550,900,400'];
+        case 'innombril':return [
+            new ShieldRect(
+                new ShieldPos($width2th,2 * $height3rd),
+                new ShieldSize($width3rd, $height3rd)
+            ) ];
+        case 'insinflank':
+            return   [
+                new ShieldRect(
+                    new ShieldPos($layout->size->width - $width6th, $height2th),
+                    new ShieldSize($width3rd, $height3rd)
+                ) ];
+        case 'indexflank':
+            return [
+                new ShieldRect(
+                    new ShieldPos($width6th, $height2th),
+                    new ShieldSize($width3rd, $height3rd)
+                ) ];
+        case 'insinside':
+            return [
+                new ShieldRect(
+                    new ShieldPos($width2th * 1.5, $height2th),
+                    new ShieldSize($width2th - $margin, $layout->size->height - $margin)
+                ) ];
+        case 'indexside':
+            return [
+                new ShieldRect(
+                    new ShieldPos($width2th * 0.5, $height2th),
+                    new ShieldSize($width2th - $margin, $layout->size->height - $margin)
+                ) ];
+        case 'inupperhalf':
+            return [
+                new ShieldRect(
+                    new ShieldPos($width2th, $height2th / 2),
+                    new ShieldSize($layout->size->width - $margin, $height2th - $margin)
+                ) ];
+        case 'inlowerhalf':
+            return [
+                new ShieldRect(
+                    new ShieldPos($width2th, $height2th * 1.5),
+                    new ShieldSize($layout->size->width - $margin, $height2th - $margin)
+                ) ];
+            // TODO All of the following should be like the above, so that it takes account of the actual
+            // size of the shield
         case 'infirst':
             switch ( $underlying_div ) {
                 case 'tierced-in-pale': return ['50,100,233,1000'];
@@ -781,6 +891,18 @@ function get_placement(DOMElement $item, $layout) {
           switch ( $arr ) {
             case 'inannulo':
                 $placement = inAnnulo($number, $boundingBox, $layout);
+                break;
+            case 'inuppersemi':
+                $placement = inAnnulo($number, $boundingBox, $layout, "upper");
+                break;
+            case 'inlowersemi':
+                $placement = inAnnulo($number, $boundingBox, $layout, "lower");
+                break;
+            case 'indextersemi':
+                $placement = inAnnulo($number, $boundingBox, $layout, "dexter");
+                break;
+            case 'insinistersemi':
+                $placement = inAnnulo($number, $boundingBox, $layout, "sinister");
                 break;
             case 'combattant':
                 $placement = placement_combattant($boundingBox, 0, 0);

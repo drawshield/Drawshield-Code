@@ -76,6 +76,7 @@ class properColour {
     );
     self::$charges = array(
         'group' => self::$gray,  // dummy value, group is not visible
+        'rainbow' => self::$gray,  // dummy value, rainbow has rainbow colours!
         'peacock' => $hatching ? self::$blue : '#0020c2',
         'chaplet' => self::$green,
         'grassy-mound' => self::$green,
