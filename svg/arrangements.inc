@@ -97,23 +97,51 @@ function adjustDistance($item, $placement) {
 
 /*
 
-an armorial roll consisting of
-drawn in a heater shape cendree an orle argent
+an armorial roll
+with title "Please mark orle positions from 3? 4? to 10 on each shield"
+consisting of
+drawn in a heater shape cendree an orle argent a grid sable
+caption "Heater"
 then
-drawn in a french shape cendree an orle argent
+drawn in a french shape cendree an orle argent a grid sable
+caption "French"
 then 
-drawn in an oval shape cendree an orle argent
+drawn in an oval shape cendree an orle argent a grid sable
+caption "Oval"
 then 
-drawn in a lozenge shape cendree an orle argent
+drawn in a lozenge shape cendree an orle argent a grid sable
+caption "Lozenge"
+then
+drawn in a square shape cendree an orle argent a grid sable
+caption "Square"
 then 
-drawn in an square shape cendree an orle argent
+drawn in an italian shape cendree an orle argent a grid sable
+caption "Italian"
 then 
-drawn in an italian shape cendree an orle argent
+drawn in a swiss shape cendree an orle argent a grid sable
+caption "Swiss"
 then 
-drawn in a swiss shape cendree an orle argent
-then 
-drawn in a german shape cendree an orle argent
-
+drawn in a german shape cendree an orle argent a grid sable
+caption "German"
+then
+drawn in a african shape cendree an orle argent a grid sable
+caption "African"
+then
+drawn in a polish shape cendree an orle argent a grid sable
+caption "Polish"
+then
+drawn in a spanish shape cendree an orle argent a grid sable
+caption "Spanish"
+then
+drawn in an SCA shape cendree an orle argent a grid sable
+caption "SCA"
+then
+drawn in a hungarian shape cendree an orle argent a grid sable
+caption "Hungarian"
+skip
+then
+drawn in a english shape cendree an orle argent a grid sable
+caption "English"
 */
 
 function inOrle($layout, $number) {

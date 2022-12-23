@@ -201,11 +201,35 @@ function draw()
                 break;
             case blazonML::E_ROLL:
                 $columns = $node->getAttribute(blazonML::A_COLS);
+                $title = $node->getAttribute(blazonML::A_TITLE);
                 $scale = 1 / $columns;
                 $colCount = -1;
                 $rowCount = 0;
                 $gap = 100;
-                $offset = $gap * $scale * -1;
+                $offset = ($gap /2) + $gap * $scale * -1;
+                if (!is_null($title)) {
+                    $builder = new WordBuilder();
+                    $builder->setOption(WordBuilder::TEXT1, $title);
+                    $builder->setOption(WordBuilder::ALIGN, WordBuilder::CENTRE);
+                    $builder->setOption(WordBuilder::UNDERLINE, true);
+                    // leave everything else as a default for now
+                    $builder->compile();
+                    $result = $builder->getSVG(true);
+                    $capWidth = $result['width'];
+                    $capHeight = $result['height'];
+                    // work out how to scale & place it - it needs to go into a box 100 * 1000 at 0,100
+                    // first, will it fit if we just scale the height?
+                    $capScale = ($gap * 0.8) / $capHeight;
+                    $newWidth = $capWidth * $capScale;
+                    if ($newWidth > 1000) { // fit width instead
+                        $capScale = 940 / $capWidth;
+                        $newWidth = 940;
+                    }
+                    $xShift = (1000 - $newWidth) / 2;
+                    $yShift = ($gap * 0.1);
+                    $body .= "<g transform=\"translate($xShift,$yShift) scale($capScale)\">{$result['svg']}</g>";
+                    $offset += 100;
+                }
                 $background = null;
                 foreach ($node->childNodes as $childNode) {
                     if ($childNode->nodeName == blazonML::E_TINCTURE) {
@@ -254,7 +278,10 @@ function draw()
                         $body .= $rollEntry;
                     }
                 }
-                $vbHeight =  (($rowCount + 1) * ($gap + 1200)) * $scale;
+                $vbHeight =  ($gap /2) + (($rowCount + 1) * ($gap + 1200)) * $scale;
+                if (!is_null($title)) {
+                    $vbHeight += 100;
+                }
                 if (!is_null($background)) {
                     $body = apply_tincture($background, "<path d=\"m0 0 h1000 v$vbHeight h-1000 z\"/>", $layout) . $body;
                 }
