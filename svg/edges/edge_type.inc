@@ -137,6 +137,10 @@ abstract class EdgeType
                 $edge = new EdgeTypeFull($path->sub_paths()[0]);
                 break;
 
+            case "once":
+                $edge = new EdgeTypeOnce($path->sub_paths()[0]);
+                break;
+
             case "flory":
                 $path_bottom = self::load_path($xpath, 2, $filename)[1];
                 $path_bottom_small = self::load_path($xpath, 3, $filename)[1];
@@ -465,3 +469,39 @@ class EdgeTypeFull extends EdgeTypeBezier
         }
     }
 }
+
+class EdgeTypeOnce extends EdgeTypeBezier
+{
+    function apply_bezier_segment(CompiledBezierSegment $source, MutableShape $target, $feature_width, $feature_height)
+    {
+        // We need to cut a straight segment into 3 parts and put the source shape into the middle one
+        // Therefore we need to know the linear length of the source
+        if ( $source->flags() & BezierSegmentFlags::STRAIGHT ) // todo check that the shape will fit ($source->length())
+        {
+            $sourceStart = ($target->length() - $source->length()) / 2;
+            $sourceFinish = $sourceStart + $source->length();
+            if ( $source->flags() & BezierSegmentFlags::UNDERSIDE )
+                $feature_height *= -1;
+                // Draw a straight line to the start point
+            $p0 = $source->start();
+            $p1 = $target->point_at_length($sourceStart);
+            $target->line_to($p0);
+            $this->skip_segment($source, $target);
+            // Draw the shape
+            $p0 = $target->point_at_length($sourceStart);
+            $p1 = $target->point_at_length($sourceFinish);
+            $target->line_to($p0);
+            $this->apply_line_segment($p0, $p1, $target, $feature_height);
+            // Now complete the rest of the line straight
+            $p0 = $target->point_at_length($sourceFinish);
+            $p1 = $source->finish();
+            $target->line_to($p0);
+            $this->skip_segment($source, $target);
+        }
+        else
+        {
+            $this->skip_segment($source, $target);
+        }
+    }
+}
+
