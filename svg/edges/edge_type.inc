@@ -119,6 +119,7 @@ abstract class EdgeType
                 user_error("$type edge types are not supported yet", E_USER_WARNING);
 
             case "repeating":
+            case "once":
                 // What to do on reverse edges (see constants in EdgeTypeRepeating)
                 $reverse_behaviour = self::get_meta_flag($element, "reverse-behaviour", EdgeTypeRepeating::REVERSE_NORMAL);
 
@@ -130,15 +131,15 @@ abstract class EdgeType
                 // How much to stretch the pattern by along the normal
                 $scale_y = self::get_meta_flag($element, "scale-y", 1);
 
-                $edge = new EdgeTypeRepeating($path->sub_paths()[0], $symmetrical, $reverse_behaviour, $scale_x, $scale_y);
+                if ($type == 'once') {
+                    $edge = new EdgeTypeOnce($path->sub_paths()[0], $symmetrical, $reverse_behaviour, $scale_x, $scale_y);
+                } else {
+                    $edge = new EdgeTypeRepeating($path->sub_paths()[0], $symmetrical, $reverse_behaviour, $scale_x, $scale_y);
+                }
                 break;
 
             case "full":
                 $edge = new EdgeTypeFull($path->sub_paths()[0]);
-                break;
-
-            case "once":
-                $edge = new EdgeTypeOnce($path->sub_paths()[0]);
                 break;
 
             case "flory":
@@ -472,36 +473,37 @@ class EdgeTypeFull extends EdgeTypeBezier
 
 class EdgeTypeOnce extends EdgeTypeBezier
 {
+
+    function __construct(PolyBezier $shape, $symmetrical, $reverse_behaviour, $scale_x, $scale_y)
+    {
+        parent::__construct($shape);
+        $this->symmetrical = $symmetrical;
+        $this->reverse_behaviour = $reverse_behaviour;
+        $this->scale_x = $scale_x;
+        $this->scale_y = $scale_y;
+    }
+
     function apply_bezier_segment(CompiledBezierSegment $source, MutableShape $target, $feature_width, $feature_height)
     {
-        // We need to cut a straight segment into 3 parts and put the source shape into the middle one
-        // Therefore we need to know the linear length of the source
-        if ( $source->flags() & BezierSegmentFlags::STRAIGHT ) // todo check that the shape will fit ($source->length())
+        $feature_width *= $this->scale_x;
+        $feature_height *= $this->scale_y;
+
+        if ( $source->flags() & BezierSegmentFlags::PLAIN )
+            return $this->skip_segment($source, $target);
+
+        if ( $source->flags() & +BezierSegmentFlags::UNDERSIDE )
         {
-            $sourceStart = ($target->length() - $source->length()) / 2;
-            $sourceFinish = $sourceStart + $source->length();
-            if ( $source->flags() & BezierSegmentFlags::UNDERSIDE )
-                $feature_height *= -1;
-                // Draw a straight line to the start point
-            $p0 = $source->start();
-            $p1 = $target->point_at_length($sourceStart);
-            $target->line_to($p0);
-            $this->skip_segment($source, $target);
-            // Draw the shape
-            $p0 = $target->point_at_length($sourceStart);
-            $p1 = $target->point_at_length($sourceFinish);
-            $target->line_to($p0);
-            $this->apply_line_segment($p0, $p1, $target, $feature_height);
-            // Now complete the rest of the line straight
-            $p0 = $target->point_at_length($sourceFinish);
-            $p1 = $source->finish();
-            $target->line_to($p0);
-            $this->skip_segment($source, $target);
+            $feature_height = -$feature_height;
         }
-        else
-        {
-            $this->skip_segment($source, $target);
-        }
+
+        $feature_start = ($source->length() - $feature_width) / 2;
+        $feature_end = $feature_start + $feature_width;
+
+        $p0 = $source->point_at_length($feature_start);
+        $target->line_to($p0);
+        $p1 = $source->point_at_length($feature_end);
+        $this->apply_line_segment($p0, $p1, $target, $feature_height);
+        $target->line_to($source->finish());
+
     }
 }
-

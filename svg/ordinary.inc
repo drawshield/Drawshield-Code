@@ -39,13 +39,13 @@ function createBody($spec, $lineType, $feature_size, $layout)
     return '<path fill-rule="evenodd" d="' . makePath($spec, $lineType, $feature_size) . '" />';
 }
 
-function makeVoid($spec, $layout, $lineType = 'none', $featureSize = 50, $offsetSize = 30)
+function makeVoid($spec, $layout, $lineType = 'none', $featureSize = 50)
 {
     $spec = subPercent($spec, $layout);
     $retval = '';
     // Create the outer edge as normal
     $retval .= makePath($spec, $lineType, $featureSize);
-    $innerSpec = parallelSpec($spec, 'i', $offsetSize);
+    $innerSpec = parallelSpec($spec, 'i', $featureSize);
     $retval .= ' ' . makePath($innerSpec, 'none', 0);
     return $retval;
 }
@@ -54,7 +54,7 @@ function createVoid($spec, $lineType, $feature_size, $layout)
 {
     if ($spec instanceof MutableShape) {
         $new_shape = new MutableShape();
-        $offsetSize = 30;
+        $offsetSize = $feature_size;
         foreach ($spec->sub_paths() as $path) {
             $new_shape->add_path($path);
             $off = $path->offset_copy(-$offsetSize);
@@ -416,7 +416,15 @@ function makeOrdinary(DOMElement &$node, $layout)
     // Fimbriation goes on top of everything else
     if (($fimbriated = getModifierNodeWithKeyterm($node, 'fimbriated')) != null) {
         $fim_rgb = get_rgb(getTinctureNode($fimbriated));
-        $retval .= '<g stroke="' . $fim_rgb . '" stroke-width="15" fill="none">' . "$bodySVG</g>";
+        $fim_width = 15;
+        switch ($subtype) {
+            case 'crancelin':
+                $fim_width = 6;
+                break;
+            default:
+                break;
+        }
+        $retval .= '<g stroke="' . $fim_rgb . '" stroke-width="' . $fim_width . '" fill="none">' . "$bodySVG</g>";
     }
     if (existModifierWithKeyterm($node, 'depressed'))
         $retval .= '<g stroke="#000000" stroke-width="7">' . "$bodySVG</g>";

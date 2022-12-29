@@ -686,19 +686,23 @@ class englishGrammar extends grammar
             $node->setAttribute(blazonML::A_TITLE, $title->value); // default columns
         }
 
-        while(self::moreInput()) {
-            $node->appendChild(self::getShield(false));
-            if (self::findLex(languageDB::NEXT)) continue;
-            if (self::findLex(languageDB::SKIP)) {
-                $skipNum = self::findLex(languageDB::NUMBER);
-                $skips = is_null($skipNum) ? 1 : intval($skipNum->keyterm);
-                for ($i = 0; $i < $skips; $i++) {
-                    $node->appendChild($this->schema->makeNode(blazonML::E_MISSING));
-                }
-                continue;
+        $anotherShield = true;
+        while($anotherShield && self::moreInput()) {
+            if ($anotherShield) {
+                $node->appendChild(self::getShield(false));
             }
-            // not found skip or next
-            break;
+            $anotherShield = false;
+            while ($then = self::findLex(array(languageDB::NEXT, languageDB::SKIP))) {
+                $anotherShield = true;
+                if ($then->keyterm == languageDB::SKIP) {
+                    $skipNum = self::findLex(languageDB::NUMBER);
+                    $skips = is_null($skipNum) ? 1 : intval($skipNum->keyterm);
+                    for ($i = 0; $i < $skips; $i++) {
+                        $node->appendChild($this->schema->makeNode(blazonML::E_MISSING));
+                    }
+                }
+                while (self::findLex(languageDB::NEXT)) {};
+            }
         }
         $this->matcher->syncTo(array('NOT_A_CATEGORY'));
 
@@ -1021,6 +1025,7 @@ class englishGrammar extends grammar
                 // Look for positions - may be more than one (e.g. "in chief and in base"
             } elseif ($positions = self::getPositions()) {
                 $posMods = array_merge($mods, $positions);
+                $mods = [];
                 $allowPos = false;
             } else
                 break;
@@ -1178,11 +1183,15 @@ class englishGrammar extends grammar
 
 
             // // Add anything found earlier
-            foreach ($mods as $mod)
-                $topCharge->appendChild($mod);
             // Are making a list?
-            if ($chargeList != null)
+            if ($chargeList != null) {
+                foreach ($mods as $mod)
+                    $chargeList->appendChild($mod);
                 $chargeList->appendChild($topCharge);
+            } else {
+                foreach ($mods as $mod)
+                    $topCharge->appendChild($mod);
+            }
             // is there another charge coming?
             if (self::findLex(languageDB::CHGLIST)) {
                 if ($chargeList == null)

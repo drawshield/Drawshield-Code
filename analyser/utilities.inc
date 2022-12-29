@@ -177,7 +177,6 @@ function getModifiersByTypeAsArray(DOMElement $node, $type, $returnNodes = false
   return $retval;
 }
 
-
 function getModifierNodeWithKeyterm(DOMElement $node, $keyterm, $markUsed = true) {
   if ( $node == null ) return null;
   /**

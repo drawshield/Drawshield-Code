@@ -41,8 +41,8 @@ if ( existModifierWithKeyterm($node,'fracted') ) {
   $ordinary['body'] = '<path d="M -10.528194,490.00143 247.10288,290.00714 504.73396,490.00143 762.36503,290.00714 1019.9961,490.00143 V 789.99287 L 762.36503,589.99858 504.73396,789.99287 247.10288,589.99858 -10.528194,789.99287 Z" />';
 } elseif ( existModifierWithKeyterm($node,'dancetty')) { // TODO Finish these weird shapes as %ages
   $ordinary['body'] = '<path d="M-100,450L100,250 {%30},450 500,250 700,450 900,250 1100,450 1100,750 900,550 700,750 500,550 {%30},750 100,550 -100,750Z" />';
-} elseif ( existModifierWithKeyterm($node, 'nowy')) { // special handling for some linetypes
-  $ordinary['body'] = '<path d="m 500,200 a 297.98,297.98 0 0 1 257.05,147.98 h 300 v 300 h -292.88 a 297.98,297.98 0 0 1 -257.12,147.98 297.98,297.98 0 0 1 -257.05,-147.98 h -292.95 v -300 h 300 a 297.98,297.98 0 0 1 257.12,-150 z" />';
+// } elseif ( existModifierWithKeyterm($node, 'nowy')) { // special handling for some linetypes
+//   $ordinary['body'] = '<path d="m 500,200 a 297.98,297.98 0 0 1 257.05,147.98 h 300 v 300 h -292.88 a 297.98,297.98 0 0 1 -257.12,147.98 297.98,297.98 0 0 1 -257.05,-147.98 h -292.95 v -300 h 300 a 297.98,297.98 0 0 1 257.12,-150 z" />';
 } elseif ( existModifierWithKeyterm($node, 'quadrate')) { 
   $ordinary['body'] = '<path d="m 250,250 v 100 h -300 v 300 h 300 v 100 h 500 v -100 h 300 v -300 h -300 v -100 z" />';
 } else {

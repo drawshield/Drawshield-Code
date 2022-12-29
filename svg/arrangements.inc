@@ -148,6 +148,9 @@ function inOrle($layout, $number) {
        global $messages;
 
        static $orles = array (
+           'heater-5' => '////160,140,140,140:840,140:860,620:500,1070:130,620',
+           'french-5' => '////160,140,140,140:840,140:860,560:500,990:130,560',
+           'oval-5' => '////370,220,140,140:630,220:810,570:500,980:190,570',
         'heater-11' => '///////////500,100,100,100:100,650:900,650:500,1050:100,100:900,100:100,400:900,400:200,900:800,900:300,100:700,100',
            'heater-12' => '///////////500,100,100,100:100,650:900,650:500,1050:100,100:900,100:100,400:900,400:200,900:800,900:300,100:700,100',
        );
@@ -274,7 +277,7 @@ function placement_from_ordinary($ordinary_file, $boundingBox, $layout)
     return $ordinary['chargesOn'];
 }
 
-function placement_chevron(ShieldLayout $layout, $chev_width, $relative_size)
+function placement_chevron(ShieldLayout $layout, $chev_width, $relative_size, $node)
 {
     $placement = [];
     $plac_size = $chev_width * $relative_size;
@@ -939,7 +942,7 @@ function get_placement(DOMElement $item, $layout) {
                 $placement = calcPlace($item,'h',$boundingBox);
                 break;
             case 'inchevron':
-                $placement = placement_chevron($layout, 200, 0.8);
+                $placement = placement_chevron($layout, 200, 0.8, $item);
                 break;
             case 'incross':
                 $placement = placement_from_ordinary("plain-cross", $boundingBox, $layout);

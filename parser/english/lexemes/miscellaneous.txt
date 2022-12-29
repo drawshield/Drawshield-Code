@@ -61,7 +61,6 @@ inside=
 within=
 surrounded by=surrounded
 accompagne=
-cantonn?ed? by=cantonned
 
 =colon
 :=
@@ -85,7 +84,7 @@ rays?=rays
 branche?s?=branches
 =andd
 (and|&|also)=and
-(and|&) also=and
+#(and|&) also=and
 
 =backref
 (like|of|as) the same=ofsame
@@ -103,7 +102,7 @@ tartan no repeat=tartan-no-repeat
 =inverse
 reversed=
 inverted=
-contourny=reversed
+contourne?y=reversed
 
 
 =group
@@ -282,6 +281,8 @@ quarters?=quarter
 
 =chgbetween
 (between|betwixt|inter|btw) ?them=between
+cantonn?ed? ?by=between
+surrounde?d? by=between
 
 =chargenear
 above ?(them|it)=above
