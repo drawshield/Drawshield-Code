@@ -135,6 +135,7 @@ pendent ?by ?strings=pendent
 ragul(y|ed)=raguly
 double (tete|head(ed)?)=double-headed
 fitch(y|ee) at ?the foot=fitchyfoot
+clubbed=
 crenell[ey] at the ends=crenelly-ends
 fitch(y|ee)=fitchy
 barry wavy of % argent ?and azure=fountain

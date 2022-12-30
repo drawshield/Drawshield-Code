@@ -1002,8 +1002,11 @@ class englishGrammar extends grammar
         $in = $phrase->add(self::findLex(languageDB::WORD_IN));
         $phrase->add(self::findLex(languageDB::WORD_THE));
         $phrase->add(self::findLex(languageDB::SIGNIFIER));
-        if (!is_null($in) && $phrase->add(self::findLex(languageDB::INARRANGEMENT))) {
-            return $phrase->create();
+        if (!is_null($in) && ($arr = $phrase->add(self::findLex(languageDB::INARRANGEMENT)))) {
+            if ($arr->keyterm == 'inbend' && $phrase->add(self::findLex(languageDB::ORIENTATION))) {
+                $arr->keyterm = 'inbendsin';
+            }
+            return $phrase->create($arr->keyterm);
         } elseif ($phrase->add(self::findLex(languageDB::ARRANGEMENT))) {
             return $phrase->create();
         } // else

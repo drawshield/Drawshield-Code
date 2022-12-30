@@ -226,7 +226,6 @@ pale throughout=inpalethrough
 pall=inpall
 fesse? ^point=infess
 fesse? throughout=infessthrough
-bend sinister=inbendsin
 bend ?dexter=inbend
 chevron=inchevron
 pile=inpile

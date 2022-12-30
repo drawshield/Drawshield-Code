@@ -15,6 +15,7 @@ muzzled=
 allume=
 tusked=
 spotted=
+scale[sd]=scaled
 corded=
 chausse=
 crined=
