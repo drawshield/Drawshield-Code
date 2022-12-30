@@ -41,8 +41,8 @@ foreach($node->childNodes as $childNode) {
     }
 } elseif ( existModifierWithKeyterm($node,'voided')) {
   $ordinary['shape_spec'] = 'X350Y-{%4}a300C{%106*}e300G{%106*}';
-} elseif ( existModifierWithKeyterm($node, 'nowy'))  {// special handling for some linetypes
-  $ordinary['body'] = '<path d="m 202.02,500 c 0.15,-105.89 56.48,-203.75 147.98,-257.05 v -352.95 h 300 v 352.88 c 91.52,53.32 147.85,151.2 147.98,257.12 -0.15,105.89 -56.48,203.75 -147.98,257.05 v 552.95 h -300 v -552.88 c -91.52,-53.32 -147.85,-151.2 -147.98,-257.12 z" />';
+//} elseif ( existModifierWithKeyterm($node, 'nowy'))  {// special handling for some linetypes
+//  $ordinary['body'] = '<path d="m 202.02,500 c 0.15,-105.89 56.48,-203.75 147.98,-257.05 v -352.95 h 300 v 352.88 c 91.52,53.32 147.85,151.2 147.98,257.12 -0.15,105.89 -56.48,203.75 -147.98,257.05 v 552.95 h -300 v -552.88 c -91.52,-53.32 -147.85,-151.2 -147.98,-257.12 z" />';
 } elseif ( existModifierWithKeyterm($node, 'quadrate')) { // special handling for some linetypes
   $ordinary['body'] = '<path d="m 350,-100 h 300 v 350 h 100 v 500 h -100 v 550 h -300 v -550 h -100 v -500 h 100 z" />';
 } else {

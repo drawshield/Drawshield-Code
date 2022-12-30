@@ -9,5 +9,7 @@
    height="1200"
    preserveAspectRatio="xMidYMid meet"
    version="1.1"><path stroke-width="1" fill="none" stroke="black" d="M0,0 v-60h120.000v60" 
-       data-drawshield-type="full" />
+       data-drawshield-type="once"
+    data-drawshield-symmetrical="1" />
+
 </svg>

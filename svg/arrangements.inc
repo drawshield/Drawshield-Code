@@ -148,6 +148,11 @@ function inOrle($layout, $number) {
        global $messages;
 
        static $orles = array (
+           'heater-5' => '////160,140,140,140:840,140:860,620:500,1070:130,620',
+           'french-5' => '////160,140,140,140:840,140:860,560:500,990:130,560',
+           'oval-5' => '////370,220,140,140:630,220:810,570:500,980:190,570',
+           'lozenge-5' => '////320,300,140,140:680,300:720,700:500,800:280,700',
+           'square-5' => '////220,140,140,140:780,140:860,560:500,860:140,560',
         'heater-11' => '///////////500,100,100,100:100,650:900,650:500,1050:100,100:900,100:100,400:900,400:200,900:800,900:300,100:700,100',
            'heater-12' => '///////////500,100,100,100:100,650:900,650:500,1050:100,100:900,100:100,400:900,400:200,900:800,900:300,100:700,100',
        );
@@ -274,7 +279,7 @@ function placement_from_ordinary($ordinary_file, $boundingBox, $layout)
     return $ordinary['chargesOn'];
 }
 
-function placement_chevron(ShieldLayout $layout, $chev_width, $relative_size)
+function placement_chevron(ShieldLayout $layout, $chev_width, $relative_size, $node)
 {
     $placement = [];
     $plac_size = $chev_width * $relative_size;
@@ -371,6 +376,33 @@ function placement_pilewise($boundingBox)
         $placement_arr[] = $plac;
     }
     return array_to_placement($placement_arr);
+}
+
+function placement_quadruplet($boundingBox, $layout)
+{
+    $center = $layout->cross_point;
+
+
+    $size = $boundingBox->size->scaled(.4);
+    $halfX = $size->width / 2;
+    $halfY = $size->height / 2;
+    $quarterX = $halfX / 2;
+    $quarterY = $halfY / 2;
+
+    $cross = [
+        new ShieldRect($center->translated(0, -$quarterY), $size),
+        new ShieldRect($center->translated($quarterX, 0), $size),
+        new ShieldRect($center->translated(0, $quarterY), $size),
+        new ShieldRect($center->translated(-$quarterX, 0), $size),
+    ];
+
+    return array_to_placement([
+        [],
+        [],
+        [],
+        $cross,
+        [],
+    ]);
 }
 
 function placement_quadrangle($boundingBox, $layout)
@@ -877,10 +909,18 @@ function get_placement(DOMElement $item, $layout) {
           } elseif ( $xpath->evaluate("boolean(parent::modifier/parent::charge/modifier[@keyterm='arrangement'])",$item) ) {
             $placement = 'i';        
           } else { // Arrange on an open field
-            if ( substr($item->parentNode->parentNode->getAttribute('keyterm'),0,8) == 'quadrate' ) // Special placement for items around a quadrate cross
-              $placement = '///300,300,160,160:700,300,160,160:300,700:700,700';
-            else
-              $placement = 'x/125,500,200,800:875,500/250,200,300,280:750,200,300,280:500,1000/250,200,280,280:750,200,280,280:250,900:750,900/250,200,240,240:750,200,240,240:500,200:250,900:750,900';
+            if ( substr($item->parentNode->parentNode->getAttribute('keyterm'),0,8) == 'quadrate' ) {// Special placement for items around a quadrate cross
+                $placement = '////300,380,160,160:700,380,160,160:300,750:700,750:500,980/';
+            } else {
+                if (existModifierWithKeyterm($item,'facing-out')) {
+                    $placement = 'x/125,500,200,800:875,500,200,800,0,0,1/x/250,200,280,280:750,200,280,280,0,0,1:250,900,280,280,0,0,0:750,900,280,280,0,0,1';
+                } elseif (existModifierWithKeyterm($item,'facing-in')) {
+                    $placement = 'x/125,500,200,800,0,0,1:875,500,200,800,0,0,0/x/250,200,280,280,0,0,1:750,200,280,280,0,0,0:250,900,280,280,0,0,1:750,900,280,280,0,0,0';
+                } else {
+                    $placement = 'x/125,500,200,800:875,500/250,200,300,280:750,200,300,280:500,1000/250,200,280,280:750,200,280,280:250,900:750,900/250,200,240,240:750,200,240,240:500,200:250,900:750,900';
+                }
+
+            }
           }
           // If our parent charge has a position, then we need to apply it to ourselves also
           $pos = getModifiersByTypeAsArray($item->parentNode->parentNode,'position');
@@ -939,7 +979,7 @@ function get_placement(DOMElement $item, $layout) {
                 $placement = calcPlace($item,'h',$boundingBox);
                 break;
             case 'inchevron':
-                $placement = placement_chevron($layout, 200, 0.8);
+                $placement = placement_chevron($layout, 200, 0.8, $item);
                 break;
             case 'incross':
                 $placement = placement_from_ordinary("plain-cross", $boundingBox, $layout);

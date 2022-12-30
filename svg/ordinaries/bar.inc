@@ -73,17 +73,17 @@ if ($subtype == 'bar' && existModifierWithKeyterm($node,'sinister')) {
           $bar_start = '100';
           $bar_length = '800';
           $palet_start = '100';
-          $palet_length = sprintf("%d", $height - 200);;
+          $palet_length = sprintf("%d", $palet_length - 400);;
           $child->setAttribute('value','used');
           break;
         case 'couped-base':
           $palet_start = '-100';
-          $palet_length = sprintf("%d", $height - 200);;
+          $palet_length = sprintf("%d", $palet_length - 300);;
           $child->setAttribute('value','used');
           break;
         case 'couped-chief':
           $palet_start = '100';
-          $palet_length = sprintf("%d", $height - 200);
+          $palet_length = sprintf("%d", $palet_length - 300);
           $child->setAttribute('value','used');
           break;
         case 'couped-dexter':

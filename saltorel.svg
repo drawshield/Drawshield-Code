@@ -4,8 +4,8 @@
                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                 xmlns:svg="http://www.w3.org/2000/svg"
                 xmlns="http://www.w3.org/2000/svg"
-                width="400"
-                height="400"
+                width="520"
+                height="603"
                 version="1.1" >
   <metadata>
     <rdf:RDF>
@@ -22,5 +22,5 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-<g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><path d="M0,100h100v-100h200v100h100v200h-100v100h-200v-100h-100v-200z" /></g>
+<g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><path d="M 518,150 455,87 3,540 66,603 518,150 z M 65,86 2,150 455,602 518,539 65,86 z" /></g>
 </svg>

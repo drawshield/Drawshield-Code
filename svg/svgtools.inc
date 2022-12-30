@@ -292,7 +292,7 @@ function handle_extra($element, $extra, $featureColours, &$bounding_box)
 {
     $item = '';
 
-    if ( $element['id'] == 'crowned' ) { // crowns just use width, then drop to the bottom
+    if ( $element['id'] == 'crowned' || $element['id'] == 'gorged' ) { // crowns just use width, then drop to the bottom
         $scale = ($element['width'] / $extra['width']);
         $yAdjustment = $element['height'] - ($extra['height'] * $scale);
         $xAdjustment = 0;
@@ -307,7 +307,7 @@ function handle_extra($element, $extra, $featureColours, &$bounding_box)
     $transform->translate($element['x'] + $xAdjustment, $element['y'] + $yAdjustment);
     $transform->scale($scale);
 
-    if ( !($element['id'] == 'crowned') && isset($extra["bounding_box"]) )
+    if ( !($element['id'] == 'crowned' || $element['id'] == 'gorged') && isset($extra["bounding_box"]) )
     {
         $bb = $transform->apply_box($extra["bounding_box"]);
         $bounding_box->combine($bb);
@@ -315,8 +315,10 @@ function handle_extra($element, $extra, $featureColours, &$bounding_box)
 
     $item .= '<g transform="' . $transform->to_svg_transform() . '">';
 
-    if ( array_key_exists('crowned', $featureColours) )
+    if ( $element['id'] == 'crowned' && array_key_exists('crowned', $featureColours) )
         $item .= '<g fill="' . $featureColours['crowned'] . '">' . $extra['body'] . '</g>';
+    elseif ($element['id'] == 'gorged' && array_key_exists('gorged', $featureColours) )
+        $item .= '<g fill="' . $featureColours['gorged'] . '">' . $extra['body'] . '</g>';
     else
         $item .= $extra['body'];
 
