@@ -82,27 +82,27 @@ elseif ( existModifierWithKeyterm($node,'inarched') )
 else
 {
 
-    $builder = new PathBuilder();
+    $mutable = new MutableShape();
     $number = (int)$node->getAttribute('number');
     $width = chevron_width($layout, $number);
     switch ( $number )
     {
         case '2':
             $sep = $width * 2;
-            build_chevron($layout, $width, -$sep/4, $builder);
-            build_chevron($layout, $width, $sep*3/4, $builder);
+            build_chevron($layout, $width, -$sep/4, $mutable);
+            build_chevron($layout, $width, $sep*3/4, $mutable);
             break;
         case '3':
             $sep = $layout->cross_point->y / M_SQRT2;
-            build_chevron($layout, $width, -$sep + 50, $builder);
-            build_chevron($layout, $width, 50, $builder);
-            build_chevron($layout, $width, $sep + 50, $builder);
+            build_chevron($layout, $width, -$sep + 50, $mutable);
+            build_chevron($layout, $width, 50, $mutable);
+            build_chevron($layout, $width, $sep + 50, $mutable);
             break;
         default: // just do one
-            build_chevron($layout, $width, 0, $builder);
+            build_chevron($layout, $width, 0, $mutable);
             break;
     }
-    $ordinary['shape_spec'] = (string)$builder;
+    $ordinary['shape_spec'] = $mutable;
 
     if ( existModifierWithKeyterm($node,'compony1') )
     {

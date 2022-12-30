@@ -306,8 +306,16 @@ function makeOrdinary(DOMElement &$node, $layout)
     /**
      * @var DOMElement $rev
      */
-    if ($rev = getModifierNodeWithKeyterm($node, 'reversed', true)) // reversed means inverted for ordinaries
-        $rev->setAttribute('keyterm', 'inverted');
+    if ($rev = getModifierNodeWithKeyterm($node, 'reversed', true)) { // reversed means inverted for most ordinaries
+        switch($subtype) {
+            case 'baton':
+                $rev->setAttribute('keyterm', 'sinister');
+                break;
+            default:
+                $rev->setAttribute('keyterm', 'inverted');
+                break;
+        }
+    }
 
     // On X another Y means "voided", so we fix it here
     // Note, both $on_ord and $on_object might be used later on
@@ -487,6 +495,8 @@ function makeOrdinary(DOMElement &$node, $layout)
                         } else {
                             $onPlacement = subPercent($onPlacement, $layout);
                         }
+                    } elseif (array_key_exists('chargePlacement', $ord_data)) {
+                        $onPlacement = adjustPlacement(get_placement($onObject, $layout), $ord_data['chargePlacement']);
                     } else {
                         $onPlacement = 'n'; // error if no placement for ordinary with charges on it, but let placeCharges handle it
                     }

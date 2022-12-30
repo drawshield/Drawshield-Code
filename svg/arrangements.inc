@@ -909,10 +909,18 @@ function get_placement(DOMElement $item, $layout) {
           } elseif ( $xpath->evaluate("boolean(parent::modifier/parent::charge/modifier[@keyterm='arrangement'])",$item) ) {
             $placement = 'i';        
           } else { // Arrange on an open field
-            if ( substr($item->parentNode->parentNode->getAttribute('keyterm'),0,8) == 'quadrate' ) // Special placement for items around a quadrate cross
-              $placement = '///300,300,160,160:700,300,160,160:300,700:700,700/300,300,160,160:700,300,160,160:300,700:700,700:500,1000';
-            else
-              $placement = 'x/125,500,200,800:875,500/250,200,300,280:750,200,300,280:500,1000/250,200,280,280:750,200,280,280:250,900:750,900/250,200,240,240:750,200,240,240:500,200:250,900:750,900';
+            if ( substr($item->parentNode->parentNode->getAttribute('keyterm'),0,8) == 'quadrate' ) {// Special placement for items around a quadrate cross
+                $placement = '////300,380,160,160:700,380,160,160:300,750:700,750:500,980/';
+            } else {
+                if (existModifierWithKeyterm($item,'facing-out')) {
+                    $placement = 'x/125,500,200,800:875,500,200,800,0,0,1/x/250,200,280,280:750,200,280,280,0,0,1:250,900,280,280,0,0,0:750,900,280,280,0,0,1';
+                } elseif (existModifierWithKeyterm($item,'facing-in')) {
+                    $placement = 'x/125,500,200,800,0,0,1:875,500,200,800,0,0,0/x/250,200,280,280,0,0,1:750,200,280,280,0,0,0:250,900,280,280,0,0,1:750,900,280,280,0,0,0';
+                } else {
+                    $placement = 'x/125,500,200,800:875,500/250,200,300,280:750,200,300,280:500,1000/250,200,280,280:750,200,280,280:250,900:750,900/250,200,240,240:750,200,240,240:500,200:250,900:750,900';
+                }
+
+            }
           }
           // If our parent charge has a position, then we need to apply it to ourselves also
           $pos = getModifiersByTypeAsArray($item->parentNode->parentNode,'position');

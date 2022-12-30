@@ -25,8 +25,7 @@ $ordinary['shape_spec'] = (string)path_builder(-$margin, -$margin)
 ;
 
 $ordinary['if_ord_on'] = 'scale';
-// $qSize = (int)($calcHeight / 2);
-// $outerEdge = $qSize - 40;
-$on_margin = 50;
-$ordinary['chargesOn'] = array("h", ShieldRect::from_corners($on_margin, $on_margin, $layout->cross_point->x - $on_margin, $layout->cross_point->y - $on_margin));
+$area = new ShieldRect(new ShieldPos($margin, $margin), new ShieldSize ( $layout->cross_point->x - $margin - $margin,
+    $layout->cross_point->y - $margin - $margin));
+$ordinary['chargePlacement'] = (string)$area;
 
