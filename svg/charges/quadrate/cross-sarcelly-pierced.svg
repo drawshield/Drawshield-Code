@@ -1,26 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:dc="http://purl.org/dc/elements/1.1/"
-                xmlns:cc="http://creativecommons.org/ns#"
-                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                xmlns:svg="http://www.w3.org/2000/svg"
-                xmlns="http://www.w3.org/2000/svg"
-                width="200"
-                height="200"
-                version="1.1" >
-  <metadata>
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <cc:license rdf:resource=""/>
-        <dc:title/>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>(Drawshield internal)</dc:title>
-          </cc:Agent>
-        </dc:creator>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-<g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><path  d="m100,0c10,-10 25,-5 25,10 0,10 -5,20 -15,15 l0,60 l60,0   c-5,-10 5,-15 15,-15 15,0 20,15 10,25    c10,10 5,25 -10,25 -10,0 -20,-5 -15,-15   l-60,0    l-0,60   c10,-5 15,5 15,15 -0,15 -15,20 -25,10    c-10,10 -25,5 -25,-10 -0,-10 5,-20 15,-15   l-0,-60    l-60,-0   c5,10 -5,15 -15,15 -15,-0 -20,-15 -10,-25    c-10,-10 -5,-25 10,-25 10,-0 20,5 15,15   l60,-0   l0,-60 c-10,5 -15,-5 -15,-15 0,-15 15,-20 25,-10      z M100,90c-4.566,0.144 -5.145,0.144 -7.601,2.832 c-2.688,2.456 -2.688,3.035 -2.832,7.601 c0.144,4.566 0.144,5.145 2.832,7.601 c2.456,2.688 3.035,2.688 7.601,2.832 c4.566,-0.144 5.145,-0.144 7.601,-2.832 c2.688,-2.456 2.688,-3.035 2.832,-7.601 c-0.144,-4.566 -0.144,-5.145 -2.832,-7.601 c-2.457,-2.688 -3.035,-2.688 -7.601,-2.832                  z" /></g>
+<svg
+   version="1.1"
+   preserveAspectRatio="xMidYMid meet"
+   height="1000"
+   width="1000"
+   viewBox="0 0 1000 1000"
+   id="svg33"
+   sodipodi:docname="Cross_sarcelly_pierced.svg"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview35"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="0.68"
+     inkscape:cx="500"
+     inkscape:cy="367.64706"
+     inkscape:window-width="1920"
+     inkscape:window-height="974"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg33" />
+  <defs
+     id="defs2">
+    <defs
+       id="defs29">
+      <mask
+         id="mask3">
+        <path
+           fill="#ffffff"
+           d="m 1000,0 c 0,0 -0.01,1016 -1.72,1053.4 -13.63,56.2 -379.96,80.1 -454.92,90.3 -37.49,5.1 -43.37,32.4 -43.37,32.4 0,0 -5.88,-27.3 -43.37,-32.4 C 381.66,1133.5 15.325,1109.6 1.6939,1053.4 -0.01004119,1016 0,0 0,0 h 500 z"
+           id="path26" />
+      </mask>
+    </defs>
+  </defs>
+  <path
+     id="path12"
+     style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:7.5;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+     d="M 450.78125 99.257812 C 423.4375 100.625 400 122.5 400 160 C 400 200 420 240 460 220 L 460 460 L 220 460 C 240 420 200 400 160 400 C 100 400 80 460 120 500 C 80 540 100 600 160 600 C 200 600 240 580 220 540 L 460 540 L 460 780 C 420 760 400 800 400 840 C 400 900 460 920 500 880 C 540 920 600 900 600 840 C 600 800 580 760 540 780 L 540 540 L 780 540 C 760 580 800 600 840 600 C 900 600 920 540 880 500 C 920 460 900 400 840 400 C 800 400 760 420 780 460 L 540 460 L 540 220 C 580 240 600 200 600 160 C 600 100 540 80 500 120 C 485 105 467.1875 98.4375 450.78125 99.257812 z M 500 460 A 40 40 0 0 1 540 500 A 40 40 0 0 1 500 540 A 40 40 0 0 1 460 500 A 40 40 0 0 1 500 460 z " />
 </svg>
