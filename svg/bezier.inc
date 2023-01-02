@@ -842,7 +842,7 @@ class MutableShape extends ShapeInterface
         return !$this->empty() && !$this->last_path()->empty();
     }
 
-    private function relpoint()
+    function relpoint()
     {
         return $this->has_finish() ? $this->finish()->pos : new ShieldPos(0, 0);
     }

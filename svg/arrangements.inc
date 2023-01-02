@@ -767,9 +767,26 @@ function get_placement(DOMElement $item, $layout) {
     $entire = existModifierWithKeyterm($item,'entire');
     $number = $item->getAttribute('number');
     $overall = ($item->parentNode != null && $item->parentNode->parentNode != null && $item->parentNode->parentNode->nodeName == 'overall');
-    // $apply_location = true;
-    $forceCentre = (!($entire) && !count($pos) && ($layout->shape != 'pauldron') &&
-        ($group == "quadrate" || $group == 'geometric' || $group == 'characters') && $number == 1);
+    // Some charges which appear singly need to be aligned with the center of the shield, e.g. to
+    // appear nicely on a cross todo there may be more to add here.
+    $forceCentre = false;
+    if ($number == 1 && !($entire) && !count($pos) && ($layout->shape != 'pauldron') ) {
+        if ($group == "quadrate" || $group == 'geometric' || $group == 'characters') {
+            $forceCentre = true;
+        } elseif ($group == "cross") {
+            switch ($name) {
+                case "couped":
+                case "saltire":
+                case "calatrava":
+                    $forceCentre = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    }
+
     $div_node = $xpath->query("parent::objects/parent::simple/field/tincture/division", $item);
     if ( $div_node->length > 0 ) {
       /**
