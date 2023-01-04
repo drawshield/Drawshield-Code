@@ -47,20 +47,28 @@ if ( existModifierWithKeyterm($node,'fracted') ) {
   $ordinary['body'] = '<path d="m 250,250 v 100 h -300 v 300 h 300 v 100 h 500 v -100 h 300 v -300 h -300 v -100 z" />';
 } else {
     $margin = 100;
-    $left = -$margin;
-    $right = $layout->size->width + $margin;
+    $start = -$margin;
+    $width = $layout->size->width + $margin;
 
     $couped_size = $layout->size->width / 10;
 
     $couped = existModifierWithKeyterm($node,'couped');
     if ( $couped || existModifierWithKeyterm($node, 'couped-dexter'))
-        $left = $couped_size;
+        $start = $couped_size;
 
     if ( $couped || existModifierWithKeyterm($node, 'couped-sinister'))
         $right = $layout->size->width - $couped_size;
 
-    $width = $layout->size->height * 0.3;
-    $builder = new MutableShape();
+    $height = $layout->size->height * 0.3;
+    $path_builder = new PathBuilder();
+    $ordinary['shape_spec'] = (String)$path_builder
+        ->move($start, $layout->cross_point->y - $height / 2)
+        ->right($width)
+        ->down_plain($height)
+        ->left($width)
+        ->up_plain($height)
+    ;
+    /* $builder = new MutableShape();
     $builder->move_to($left, $layout->cross_point->y - $width / 2)
         ->tag_segment(BezierSegmentFlags::STRAIGHT|BezierSegmentFlags::SYMMETRICAL)
         ->horizontal($right)
@@ -73,7 +81,7 @@ if ( existModifierWithKeyterm($node,'fracted') ) {
         ->close()
     ;
 
-  $ordinary['shape_spec'] = $builder;
+  $ordinary['shape_spec'] = $builder; */
 }
 
 // Add extra layer if compony
