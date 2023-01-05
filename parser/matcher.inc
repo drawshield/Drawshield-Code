@@ -402,10 +402,20 @@ class matcher
         }
     }
 
+    private function suggest($category) {
+        $retval = '';
+        if (substr($category,0,6) == 'charge') {
+            $retval = "Do you need to give the number of charges?";
+        }
+
+        return $retval;
+    }
+
     public function syncTo($catList) {
         $skipList = '';
         $skipStart = '';
         $skipEnd = '';
+        $suggestions = '';
         while ($this->currentMatch < count($this->allMatches)) {
             foreach ($catList as $category) {
                 $lexArray = $this->allMatches[$this->currentMatch];
@@ -416,13 +426,19 @@ class matcher
                     }
                 }
             }
-            if ($skipList == '') $skipStart = $lexArray[0]->startPos;
+            if ($skipList == '') {
+              $skipStart = $lexArray[0]->startPos;
+              $suggestions = $this->suggest($lexArray[0]->category);
+            }
             $skipEnd = $lexArray[0]->endPos;
             $skipList .= $lexArray[0]->tokens . ' ';
             $this->currentMatch += 1;
         }
         if ($skipList != '') {
             $this->errors[] = "Not able to process: $skipList ($skipStart-$skipEnd)";
+        }
+        if ($suggestions) {
+            $this->errors[] = $suggestions;
         }
         return ($this->currentMatch < count($this->allMatches));
     }
