@@ -113,6 +113,9 @@ abstract class EdgeType
 
         // Edge class ["full", "repeating"]
         $type = self::get_meta_flag($element, "type", "repeating");
+        $start = self::get_meta_flag($element, "start", "normal");
+        $end = self::get_meta_flag($element, "end", "normal");
+        $flip_y = self::get_meta_flag($element, "flip-y", 0);
         switch ( $type )
         {
             default:
@@ -132,9 +135,11 @@ abstract class EdgeType
                 $scale_y = self::get_meta_flag($element, "scale-y", 1);
 
                 if ($type == 'once') {
-                    $edge = new EdgeTypeOnce($path->sub_paths()[0], $symmetrical, $reverse_behaviour, $scale_x, $scale_y);
+                    $edge = new EdgeTypeOnce($path->sub_paths()[0], $symmetrical, $reverse_behaviour, $scale_x, $scale_y,
+                                $start, $end);
                 } else {
-                    $edge = new EdgeTypeRepeating($path->sub_paths()[0], $symmetrical, $reverse_behaviour, $scale_x, $scale_y);
+                    $edge = new EdgeTypeRepeating($path->sub_paths()[0], $symmetrical, $reverse_behaviour, $scale_x, $scale_y,
+                            $start, $end, $flip_y);
                 }
                 break;
 
@@ -216,20 +221,27 @@ class EdgeTypeRepeating extends EdgeTypeBezier
     const REVERSE_NORMAL = "normal";
     const REVERSE_FLIP = "flip";
     const REVERSE_PLAIN = "plain";
+    const POSITION_INNER = "inner";
+    const POSITION_OUTER = "outer";
 
-    function __construct(PolyBezier $shape, $can_be_halved, $reverse_behaviour, $scale_x, $scale_y)
+    function __construct(PolyBezier $shape, $can_be_halved, $reverse_behaviour, $scale_x, $scale_y,
+                $start, $end, $flip_y)
     {
         parent::__construct($shape);
         $this->can_be_halved = $can_be_halved;
         $this->reverse_behaviour = $reverse_behaviour;
         $this->scale_x = $scale_x;
         $this->scale_y = $scale_y;
+        $this->start = $start;
+        $this->end = $end;
+        $this->flip_y = $flip_y;
     }
 
     function apply_bezier_segment(CompiledBezierSegment $source, MutableShape $target, $feature_width, $feature_height)
     {
         $feature_width *= $this->scale_x;
         $feature_height *= $this->scale_y;
+        $offset_flip = 1;
 
         if ( $source->flags() & BezierSegmentFlags::PLAIN )
             return $this->skip_segment($source, $target);
@@ -237,14 +249,40 @@ class EdgeTypeRepeating extends EdgeTypeBezier
         if ( $source->flags() & BezierSegmentFlags::UNDERSIDE )
         {
             if ( $this->reverse_behaviour == self::REVERSE_FLIP )
+            {
                 $feature_height = -$feature_height;
+            }
             else if ( $this->reverse_behaviour == self::REVERSE_PLAIN )
                 return $this->skip_segment($source, $target);
+            $offset_flip = -1;
+        }
+        if ($this->flip_y)
+        {
+            $offset_flip = -$offset_flip;
         }
 
         if ( $this->reverse_behaviour == self::REVERSE_NORMAL && $source->flags() & BezierSegmentFlags::MIRROR )
         {
             $feature_height = -$feature_height;
+        }
+       $start_offset = 0;
+        // Do we start outside the basic shape?
+        if ($this->start == self::POSITION_OUTER)
+        {
+            $start_offset = $feature_height / -2; // up from normal start position
+        } elseif ($this->start == self::POSITION_INNER)
+        {
+            $start_offset = $feature_height / 2;  // down from normal start position
+        }
+        // Do we end at a different position to the start?
+        $end_offset = 0;
+        // Do we start outside the basic shape?
+        if ($this->end == self::POSITION_OUTER)
+        {
+            $end_offset = $feature_height / 2;  // line down to normal end position
+        } elseif ($this->end == self::POSITION_INNER)
+        {
+            $end_offset = $feature_height / -2; // line up to normal end position
         }
 
         $count = round($source->length() / $feature_width);
@@ -259,11 +297,26 @@ class EdgeTypeRepeating extends EdgeTypeBezier
         $size = $source->length() / $count;
 
         $p0 = $source->start();
+        // move if we have an offset start
+        if ($start_offset != 0)
+        {
+            $target->vertical($start_offset * $offset_flip, true);
+            $p0 = $p0->translated(0,$start_offset * $offset_flip);
+        }
         for ( $i = 1; $i <= $count; $i++ )
         {
             $p1 = $source->point_at_length($i * $size);
+            if ($start_offset != 0)
+            {
+                $p1 = $p1->translated(0,$start_offset * $offset_flip);
+            }
             $this->apply_line_segment($p0, $p1, $target, $feature_height);
             $p0 = $p1;
+        }
+
+        if ($end_offset != 0)
+        {
+            $target->vertical($end_offset * $offset_flip, true);
         }
 
         if ( $half )
@@ -473,36 +526,135 @@ class EdgeTypeFull extends EdgeTypeBezier
 
 class EdgeTypeOnce extends EdgeTypeBezier
 {
+    /*
+     *  This implements an edge feature that occurs exactly once, in the centre of the target edge.
+     *  The edge feature is connected to the ends of the edge by horizontal lines.
+     *  We need to know the following data:
+     *  - The size of the feature (passed to us as $feature_width, $feature_height)
+     *  - How the ends of the feature line up with the rest of the item (at both ends), i.e.
+     *  - This is part of the shape meta-data, "start" and "end" and can have values as follows:
+     *    + "inner" - the connection to the feature is inside the normal item shape
+     *    + "outer" - the connection to the feature is outside the normal item shape
+     *    + "normal" - the connection to the feature is congruent to the normal edge of the item
+     *  - If the connection is not "normal" we need to adjust our points
+     */
+    const POSITION_INNER = "inner";
+    const POSITION_OUTER = "outer";
+    const REVERSE_PLAIN = "plain";
+    const REVERSE_FLIP = "flip";
 
-    function __construct(PolyBezier $shape, $symmetrical, $reverse_behaviour, $scale_x, $scale_y)
+    function __construct(PolyBezier $shape, $symmetrical, $reverse_behaviour, $scale_x, $scale_y, $start = null, $end = null)
     {
         parent::__construct($shape);
         $this->symmetrical = $symmetrical;
         $this->reverse_behaviour = $reverse_behaviour;
         $this->scale_x = $scale_x;
         $this->scale_y = $scale_y;
+        $this->start = $start;
+        $this->end = $end;
     }
 
     function apply_bezier_segment(CompiledBezierSegment $source, MutableShape $target, $feature_width, $feature_height)
     {
         $feature_width *= $this->scale_x;
         $feature_height *= $this->scale_y;
+        $direction = 1;
+        $offset_flip = 1;
+        $start = $this->start; // need to use local copies in case we flip them
+        $end = $this->end;
 
-        if ( $source->flags() & BezierSegmentFlags::PLAIN )
+        if ($source->flags() & BezierSegmentFlags::PLAIN)
             return $this->skip_segment($source, $target);
 
-        if ( $source->flags() & +BezierSegmentFlags::UNDERSIDE )
-        {
-            $feature_height = -$feature_height;
+        if ($source->flags() & +BezierSegmentFlags::UNDERSIDE) {
+            if ($this->reverse_behaviour == self::REVERSE_PLAIN) {
+                    return $this->skip_segment($source, $target);
+            }
+            elseif ($this->reverse_behaviour == self::REVERSE_FLIP) {
+                $offset_flip = -1;
+                /*   $temp = $start;
+                   $start = $end;
+                   $end = $temp; */
+            }
+              else
+            {
+                $feature_height = -$feature_height;
+            }
+            $direction = -1;
         }
+
+        /*
+         *                          /--Feature Width--|
+         *  Edge Start
+         *     |------Feature Start-|
+         *     |--------------Feature End-------------|                    Edge End
+         *     |                    |                 |                       |
+         */
 
         $feature_start = ($source->length() - $feature_width) / 2;
         $feature_end = $feature_start + $feature_width;
 
+        /*
+         * Example connections:
+         *
+         *                                        ---------------------------- outer
+         *                               (feature)
+         *  + - - - - - - - - - - - - - -(feature) - - - - - - - - - - - - - +
+         *                               (feature)
+         *  inner ------------------------
+         *
+         * The "+" symbols mark the notional start and end points of the edge, so
+         * we need to make appropriate adjustments to node positions
+         */
+
+        $start_offset = 0;
+        // Do we start outside the basic shape?
+        if ($start == self::POSITION_OUTER)
+        {
+            $start_offset = $feature_height / -2; // up from normal start position
+        } elseif ($start == self::POSITION_INNER)
+        {
+            $start_offset = $feature_height / 2;  // down from normal start position
+        }
+        // Do we end at a different position to the start?
+        $end_offset = 0;
+        // Do we start outside the basic shape?
+        if ($end == self::POSITION_OUTER)
+        {
+            $end_offset = $feature_height / 2;  // line down to normal end position
+        } elseif ($end == self::POSITION_INNER)
+        {
+            $end_offset = $feature_height / -2; // line up to normal end position
+        }
+        // find start and end points of feature
         $p0 = $source->point_at_length($feature_start);
-        $target->line_to($p0);
         $p1 = $source->point_at_length($feature_end);
+
+        // move if we have an offset start
+        if ($start_offset != 0)
+        {
+            $target->vertical($start_offset * $offset_flip, true);
+            $p0 = $p0->translated(0,$start_offset * $offset_flip);
+        }
+        if ($end_offset != 0) {
+            $p1 = $p1->translated(0, $end_offset * $offset_flip);
+        }
+
+        // straight line to feature start
+        $target->horizontal($feature_start * $direction, true);
+
+        // Add the feature shape
         $this->apply_line_segment($p0, $p1, $target, $feature_height);
+
+        // straight line to end of edge
+        $target->horizontal($feature_start * $direction, true);
+
+        // Additional line if we are offset from the normal end point
+        if ($end_offset != 0)
+        {
+            $target->vertical($end_offset * $offset_flip, true);
+        }
+
         $target->line_to($source->finish());
 
     }

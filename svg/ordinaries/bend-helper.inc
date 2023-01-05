@@ -59,6 +59,7 @@ function build_bend($layout, $width, $margin, $offset = 0, $path_builder = null)
         ->up_right_plain($width/2)
         ->down_right($length)
         ->down_left_plain($width)
+        // ->tag_segment(BezierSegmentFlags::STRAIGHT|BezierSegmentFlags::SYMMETRICAL|BezierSegmentFlags::UNDERSIDE)
         ->up_left($length)
         ->up_right_plain($width/2)
     ;

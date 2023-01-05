@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xl="http://www.w3.org/1999/xlink"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     viewBox="54 77.03732 256.5 323.4627"
+     width="256.5"
+     height="323.4627"
+     preserveAspectRatio="xMidYMid meet"
+     zoomAndPan="magnify"
+     contentScriptType="application/ecmascript"
+     contentStyleType="text/css">
+   <defs/>
+   <metadata  xmlns:svg="http://www.w3.org/2000/svg"
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:cc="http://creativecommons.org/ns#">
+      <rdf:RDF>
+         <cc:Work rdf:about="">
+            <dc:creator>
+               <cc:Agent>
+                  <dc:title>http://heraldicart.org Egg.svg</dc:title>
+               </cc:Agent>
+            </dc:creator>
+         </cc:Work>
+      </rdf:RDF>
+   </metadata>
+   <metadata> Produced by OmniGraffle 7.11.5 
+    <dc:date>2021-06-10 02:55:03 +0000</dc:date>
+  </metadata>
+   <g stroke-opacity="1" stroke-dasharray="none" stroke="#505050" fill="#ffff00"
+      fill-opacity="1">
+      <title>Egg</title>
+      <g>
+         <title>Layer 2</title>
+         <g>
+            <path d="M 57.004636 259.47144 C 57.004636 162.85846 113.0787 79.01848 182.25 79.01866 C 251.4213 79.01848 307.49536 162.85846 307.49536 259.47144 C 307.49554 328.64275 251.4213 398.51884 182.25 398.51866 C 113.0787 398.51884 57.00446 328.64275 57.004636 259.47144 Z"/>
+            <path d="M 57.004636 259.47144 C 57.004636 162.85846 113.0787 79.01848 182.25 79.01866 C 251.4213 79.01848 307.49536 162.85846 307.49536 259.47144 C 307.49554 328.64275 251.4213 398.51884 182.25 398.51866 C 113.0787 398.51884 57.00446 328.64275 57.004636 259.47144 Z"
+                  stroke="black"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"/>
+         </g>
+      </g>
+   </g>
+</svg>

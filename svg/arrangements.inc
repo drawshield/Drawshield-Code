@@ -767,9 +767,26 @@ function get_placement(DOMElement $item, $layout) {
     $entire = existModifierWithKeyterm($item,'entire');
     $number = $item->getAttribute('number');
     $overall = ($item->parentNode != null && $item->parentNode->parentNode != null && $item->parentNode->parentNode->nodeName == 'overall');
-    // $apply_location = true;
-    $forceCentre = (!($entire) && !count($pos) && ($layout->shape != 'pauldron') &&
-        ($group == "quadrate" || $group == 'geometric' || $group == 'characters') && $number == 1);
+    // Some charges which appear singly need to be aligned with the center of the shield, e.g. to
+    // appear nicely on a cross todo there may be more to add here.
+    $forceCentre = false;
+    if ($number == 1 && !($entire) && !count($pos) && ($layout->shape != 'pauldron') ) {
+        if ($group == "quadrate" || $group == 'geometric' || $group == 'characters') {
+            $forceCentre = true;
+        } elseif ($group == "cross") {
+            switch ($name) {
+                case "couped":
+                case "saltire":
+                case "calatrava":
+                    $forceCentre = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    }
+
     $div_node = $xpath->query("parent::objects/parent::simple/field/tincture/division", $item);
     if ( $div_node->length > 0 ) {
       /**
@@ -986,10 +1003,16 @@ function get_placement(DOMElement $item, $layout) {
                 break;
             case 'insaltire':
                 $placement_arr = explode("/", placement_from_ordinary("saltire", $boundingBox, $layout));
+                // special handling for 2 things, especially if they are long or tall
                 $placement_arr[1] = box_placement($boundingBox->relative_box(0.5, 0.5, 0.75, 0.75), 45, 0, 1) . ":" .
                     box_placement($boundingBox->relative_box(0.5, 0.5, 0.75, 0.75), -45, 0, 0);
                 $placement = implode("/", $placement_arr);
                 break;
+              case 'insheaf':
+                  $placement = 'x/x/' . box_placement($boundingBox->relative_box(0.5, 0.5, 0.75, 0.75), 45, 0, 1) . ":" .
+                      box_placement($boundingBox->relative_box(0.5, 0.5, 0.75, 0.75), -45, 0, 0) . ':' .
+                      box_placement($boundingBox->relative_box(0.5, 0.5, 0.75, 0.75), 0, 0, 0);
+                  break;
             case 'inpile':
                 $placement = 'x/x/250,250,300,300:500,600:750,250/x/x/250,200,200,200:500:750:333.33,500:666.67:500,800';
                 break;

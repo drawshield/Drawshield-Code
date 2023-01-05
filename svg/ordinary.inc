@@ -23,7 +23,7 @@ function createBody($spec, $lineType, $feature_size, $layout)
     if ($spec instanceof MutableShape) {
         $compiled = $spec->compile();
 
-        $feature_size *= 4;
+        $feature_size *= 3;
         if ($lineType) {
             $edge = EdgeType::load($lineType);
             $modified = new MutableShape();

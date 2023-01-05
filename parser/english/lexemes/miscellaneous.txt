@@ -200,6 +200,7 @@ arrayed=
 =arrangement
 salti(er|re)w(ays|ise)=insaltire
 salti(er|re) w(ays|ise)=insaltire
+in ?a shea(f|ves)=insheaf
 pilewise=pilewise
 bar(wise|ways)=inbar
 chevronwise=chevronwise

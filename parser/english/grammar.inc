@@ -119,6 +119,7 @@ class englishGrammar extends grammar
         $thisHelmet = null;
         $thisCrest = null;
         $thisTorse = null;
+        $crestFound = false;
 
         // All the following can only occur once per achievement (but can cause a new "outer" achievement to be created)
         $singleItems = [];
@@ -153,6 +154,7 @@ class englishGrammar extends grammar
                         $torses[] = $thisTorse; $thisTorse = null;
                         $helmets[] = $thisHelmet; $thisHelmet = null;
                     }
+                    $crestFound = true;
                     $thisCrest = $this->schema->makeNodeFromLexeme(blazonML::E_CREST, $crest,
                         array(blazonML::A_KEYTERM => 'group'));
                 }
@@ -186,7 +188,7 @@ class englishGrammar extends grammar
                     }
                     $achievement->appendChild($shieldNode);
                 }
-            } elseif (($charge = self::charge(true,true,false)) != null) {
+            } elseif ($crestFound && ($charge = self::charge(true,true,false)) != null) {
                 $found = true;
                 if (is_null($thisCrest)) {
                     $thisCrest = $this->schema->makeNode(blazonML::E_CREST,
