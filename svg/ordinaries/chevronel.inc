@@ -63,7 +63,8 @@ $dy = 300 / M_SQRT2;
 $cy = -$chevron_width / M_SQRT2;
 $dy0 = $dy / 2;
 
-$builder = new PathBuilder();
+// $builder = new PathBuilder();
+    $builder = new MutableShape();
 if ( $num % 2 )
 {
     $dy0 = $dy;
@@ -76,7 +77,7 @@ if ( $num % 2 )
      build_chevron($layout, $width, $cy - $dy0 - $dy * $i, $builder, 0.5);
 }
 
-    $ordinary['shape_spec'] = (string)$builder;
+    $ordinary['shape_spec'] = $builder;
 }
 
 $ordinary['chargesWithin'] = 'x/x/200,200,180,180:500,900,240,240:800,200,180,180/x/x/x';

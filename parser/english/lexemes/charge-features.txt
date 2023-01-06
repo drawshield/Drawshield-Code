@@ -30,6 +30,7 @@ striped=
 penned=
 stringed=
 aulned=
+breast(ed)?=breast
 stemmed=
 book=
 belled=

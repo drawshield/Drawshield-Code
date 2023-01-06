@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     viewBox="54 87.75 310.5 186.92695"
+     width="310.5"
+     height="186.92695"
+     preserveAspectRatio="xMidYMid meet"
+     zoomAndPan="magnify"
+     contentScriptType="application/ecmascript"
+     contentStyleType="text/css">
+   <defs/>
+   <metadata  xmlns:svg="http://www.w3.org/2000/svg"
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:cc="http://creativecommons.org/ns#">
+      <rdf:RDF>
+         <cc:Work rdf:about="">
+            <dc:creator>
+               <cc:Agent>
+                  <dc:title>http://heraldicart.org Eyeglasses, Pair of (2).svg</dc:title>
+               </cc:Agent>
+            </dc:creator>
+         </cc:Work>
+      </rdf:RDF>
+   </metadata>
+   <g stroke="#505050" fill="#ffff00" stroke-opacity="1" stroke-dasharray="none"
+      fill-opacity="1">
+      <title>Eyeglasses, Pair of (2)</title>
+      <g>
+         <title>Art</title>
+         <g>
+            <g>
+               <path d="M 308.8102 158.0212 C 303.538 145.66527 295.8615 134.09061 285.78063 124.0098 C 243.5139 81.74287 174.98609 81.74287 132.71937 124.0098 C 122.63851 134.09061 114.96199 145.66527 109.68979 158.0212 L 124.60115 158.0212 C 129.03161 149.20439 134.92646 140.93533 142.2857 133.57613 C 179.26908 96.59257 239.23092 96.59257 276.2143 133.57613 C 283.57354 140.93533 289.4684 149.20439 293.89885 158.0212 Z"/>
+               <path d="M 308.8102 158.0212 C 303.538 145.66527 295.8615 134.09061 285.78063 124.0098 C 243.5139 81.74287 174.98609 81.74287 132.71937 124.0098 C 122.63851 134.09061 114.96199 145.66527 109.68979 158.0212 L 124.60115 158.0212 C 129.03161 149.20439 134.92646 140.93533 142.2857 133.57613 C 179.26908 96.59257 239.23092 96.59257 276.2143 133.57613 C 283.57354 140.93533 289.4684 149.20439 293.89885 158.0212 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <circle cx="120.34615" cy="208.2712" r="61.8462526702403"/>
+               <circle cx="120.34615" cy="208.2712" r="61.8462526702403" stroke="black"
+                       stroke-linecap="round"
+                       stroke-linejoin="round"
+                       stroke-width="1.5"/>
+            </g>
+            <g>
+               <circle cx="120.34615" cy="208.2712" r="48.3173848986253" fill="#ff0000"/>
+               <circle cx="120.34615" cy="208.2712" r="48.3173848986253" stroke="black"
+                       stroke-linecap="round"
+                       stroke-linejoin="round"
+                       stroke-width="1.5"/>
+            </g>
+            <g>
+               <circle cx="298.15385" cy="208.2712" r="61.8462526702403"/>
+               <circle cx="298.15385" cy="208.2712" r="61.8462526702403" stroke="black"
+                       stroke-linecap="round"
+                       stroke-linejoin="round"
+                       stroke-width="1.5"/>
+            </g>
+            <g>
+               <circle cx="298.15385" cy="208.2712" r="48.3173848986253" fill="#ff0000"/>
+               <circle cx="298.15385" cy="208.2712" r="48.3173848986253" stroke="black"
+                       stroke-linecap="round"
+                       stroke-linejoin="round"
+                       stroke-width="1.5"/>
+            </g>
+         </g>
+      </g>
+   </g>
+</svg>

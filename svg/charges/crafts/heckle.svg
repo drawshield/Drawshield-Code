@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xl="http://www.w3.org/1999/xlink"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     viewBox="117 72 130.5 333"
+     width="130.5"
+     height="333"
+     preserveAspectRatio="xMidYMid meet"
+     zoomAndPan="magnify"
+     contentScriptType="application/ecmascript"
+     contentStyleType="text/css">
+   <defs/>
+   <metadata  xmlns:svg="http://www.w3.org/2000/svg"
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:cc="http://creativecommons.org/ns#">
+      <rdf:RDF>
+         <cc:Work rdf:about="">
+            <dc:creator>
+               <cc:Agent>
+                  <dc:title>http://heraldicart.org Heckle.svg</dc:title>
+               </cc:Agent>
+            </dc:creator>
+         </cc:Work>
+      </rdf:RDF>
+   </metadata>
+   <metadata> Produced by OmniGraffle 7.11.5 
+    <dc:date>2020-12-19 07:12:48 +0000</dc:date>
+  </metadata>
+   <g stroke-opacity="1" fill="#ffff00" fill-opacity="1" stroke="#505050"
+      stroke-dasharray="none">
+      <title>Heckle</title>
+      <g>
+         <title>Layer 2</title>
+         <g>
+            <g>
+               <path d="M 132.48888 127.97032 L 132.48888 348.9829 L 163.74251 400.4721 L 210.098 400.4721 L 241.35163 348.9829 L 241.35163 127.97032 L 210.098 76.48115 L 163.74251 76.48115 Z M 195.8996 381.10035 L 180.2043 380.8264 L 161.20159 345.1695 C 161.20159 345.1695 167.90316 325.3343 189.01082 326.0298 C 210.11849 326.72532 216.09262 346.08432 216.09262 346.08432 Z M 177.93756 96.04459 L 193.63286 96.31855 L 212.63558 131.97544 C 212.63558 131.97544 205.934 151.81066 184.82634 151.11514 C 163.71868 150.41962 157.74454 131.06062 157.74454 131.06062 Z"/>
+               <path d="M 132.48888 127.97032 L 132.48888 348.9829 L 163.74251 400.4721 L 210.098 400.4721 L 241.35163 348.9829 L 241.35163 127.97032 L 210.098 76.48115 L 163.74251 76.48115 Z M 195.8996 381.10035 L 180.2043 380.8264 L 161.20159 345.1695 C 161.20159 345.1695 167.90316 325.3343 189.01082 326.0298 C 210.11849 326.72532 216.09262 346.08432 216.09262 346.08432 Z M 177.93756 96.04459 L 193.63286 96.31855 L 212.63558 131.97544 C 212.63558 131.97544 205.934 151.81066 184.82634 151.11514 C 163.71868 150.41962 157.74454 131.06062 157.74454 131.06062 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="2"/>
+            </g>
+            <g>
+               <path d="M 163.74251 400.4721 L 132.48888 348.9829 L 132.48888 127.97032 L 163.71413 76.52791 L 153.92914 76.52791 L 122.67551 128.01709 L 122.67551 349.02968 L 153.92914 400.51885 Z"/>
+               <path d="M 163.74251 400.4721 L 132.48888 348.9829 L 132.48888 127.97032 L 163.71413 76.52791 L 153.92914 76.52791 L 122.67551 128.01709 L 122.67551 349.02968 L 153.92914 400.51885 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="2"/>
+            </g>
+            <g>
+               <path d="M 225.73478 239.3537 C 225.36037 260.80663 207.66583 277.89405 186.2129 277.51953 C 164.75997 277.14513 147.67255 259.4506 148.04707 237.99766 C 148.42147 216.54472 166.11601 199.4573 187.56894 199.83182 C 209.02188 200.20623 226.1093 217.90077 225.73478 239.3537"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="202.23067" y1="183.83333" x2="186.45828" y2="199.60573" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="216.41174" y1="186.534" x2="200.63934" y2="202.3064" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="225.61953" y1="193.07289" x2="209.84713" y2="208.84528" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="233.795" y1="202.53752" x2="218.0226" y2="218.3099" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="239.4239" y1="217.3546" x2="223.6515" y2="233.127" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="239.18417" y1="231.088" x2="223.41178" y2="246.8604" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="230.51215" y1="250.0711" x2="214.73976" y2="265.8435" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="214.66274" y1="258.62575" x2="198.89035" y2="274.39814" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="198.45127" y1="259.81466" x2="182.67888" y2="275.58705" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="187.07477" y1="257.02214" x2="171.30238" y2="272.79453" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="176.11937" y1="250.51885" x2="160.34697" y2="266.29124" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="169.3479" y1="240.6628" x2="153.57551" y2="256.4352" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="164.68284" y1="226.8438" x2="148.91045" y2="242.6162" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="165.44905" y1="212.60198" x2="149.67666" y2="228.37437" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="188.44591" y1="186.53649" x2="172.67352" y2="202.30888" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="174.04225" y1="196.58825" x2="158.26986" y2="212.36064" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="193.17947" y1="196.43166" x2="177.40707" y2="212.20406" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="174.80062" y1="209.3578" x2="159.02822" y2="225.1302" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="177.05089" y1="229.36644" x2="161.2785" y2="245.13884" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="185.07746" y1="238.97486" x2="169.30506" y2="254.74725" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="195.24908" y1="246.51182" x2="179.47669" y2="262.2842" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="206.5044" y1="248.18016" x2="190.732" y2="263.95256" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="217.3463" y1="245.42564" x2="201.5739" y2="261.19804" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="220.92518" y1="237.14744" x2="205.15279" y2="252.91983" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="219.63353" y1="226.8217" x2="203.86114" y2="242.5941" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="220.40654" y1="210.6445" x2="204.63414" y2="226.41688" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="211.5608" y1="211.47134" x2="195.7884" y2="227.24374" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="200.87302" y1="205.39726" x2="185.10062" y2="221.16965" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="193.25044" y1="220.47366" x2="177.47805" y2="236.24606" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <line x1="203.33645" y1="232.9154" x2="187.56406" y2="248.6878" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.5"/>
+            </g>
+            <g>
+               <path d="M 182.17811 150.7168 C 183.0343 150.81345 183.918 150.87834 184.82995 150.90839 C 205.9376 151.6039 212.63918 131.76869 212.63918 131.76869 L 193.63647 96.1118 L 177.94116 95.83784 L 177.68447 96.28296 L 184.43258 96.40075 L 203.4353 132.05764 C 203.4353 132.05764 198.14886 147.70433 182.17811 150.7168 Z"/>
+               <path d="M 182.17811 150.7168 C 183.0343 150.81345 183.918 150.87834 184.82995 150.90839 C 205.9376 151.6039 212.63918 131.76869 212.63918 131.76869 L 193.63647 96.1118 L 177.94116 95.83784 L 177.68447 96.28296 L 184.43258 96.40075 L 203.4353 132.05764 C 203.4353 132.05764 198.14886 147.70433 182.17811 150.7168 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="2"/>
+            </g>
+            <g>
+               <path d="M 186.95602 380.73742 L 195.90322 380.8936 L 216.09623 345.87757 C 216.09623 345.87757 210.1221 326.51857 189.01443 325.82305 C 186.65383 325.74526 184.4734 325.92427 182.46239 326.3036 C 201.42327 328.4442 206.89234 346.1665 206.89234 346.1665 Z"/>
+               <path d="M 186.95602 380.73742 L 195.90322 380.8936 L 216.09623 345.87757 C 216.09623 345.87757 210.1221 326.51857 189.01443 325.82305 C 186.65383 325.74526 184.4734 325.92427 182.46239 326.3036 C 201.42327 328.4442 206.89234 346.1665 206.89234 346.1665 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="2"/>
+            </g>
+         </g>
+      </g>
+   </g>
+</svg>
