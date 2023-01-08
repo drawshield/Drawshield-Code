@@ -56,7 +56,7 @@ class englishGrammar extends grammar
             if (is_null($alongside)) {
                 break;
             }
-            $complex = $this->schema->makeNodeFromLexeme(§blazonML::E_COMPLEX, $alongside);
+            $complex = $this->schema->makeNodeFromLexeme(blazonML::E_COMPLEX, $alongside);
         }
         // Found all the shields, now look for achievements (if any)
         while (($achievement = $this->achievement(true)) != null) {
