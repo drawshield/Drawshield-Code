@@ -1,36 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2"
    version="1.0"
    width="390.76138"
    height="601.17145"
-   sodipodi:docname="swan-essorant.svg"
-   inkscape:version="0.92.2 5c3e80d, 2017-08-06">
-
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="640"
-     inkscape:window-height="480"
-     id="namedview23829"
-     showgrid="false"
-     inkscape:zoom="1.7233021"
-     inkscape:cx="197.41168"
-     inkscape:cy="300.58572"
-     inkscape:current-layer="body" />
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs7120" />
   <metadata
      id="metadata49">
     <rdf:RDF>
@@ -39,7 +19,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
         <dc:date>19 III 2008</dc:date>
         <dc:creator>
           <cc:Agent>
@@ -94,10 +73,13 @@
      d="m 57.658459,252.65306 c 6.02234,7.59562 4.16598,14.33476 -2.4139,15.03975 -6.57989,0.70499 -44.414248,2.34996 -45.8242248,2.34996 -1.409976,0 -3.473592,-4.35349 -0.234995,-5.16992"
      style="display:inline;overflow:visible;visibility:visible;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#999999;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
      id="path34599" />
-  <path
-     d="m 39.654179,243.13226 c -2.79747,2.26879 -9.85313,10.29462 -19.18903,12.34075 -9.17742,2.0114 -16.9600338,4.82577 -18.3700098,6.94073 -1.409976,2.11497 -2.269323,5.08439 2.90059,4.61439 5.1699118,-0.46998 5.8345818,-3.33026 14.0594398,-3.09527 8.22486,0.23501 38.92381,-4.89459 41.27377,-6.06957 2.34997,-1.17498 -4.13845,-7.77831 -6.24266,-9.34282 -2.02747,-1.50745 -4.20137,-3.05066 -7.92104,0.49361 -3.63352,3.46219 -7.27679,1.90274 -1.9606,-2.65378 5.4126,-4.63917 -1.67348,-5.5613 -4.55046,-3.22804 z"
-     style="display:inline;overflow:visible;visibility:visible;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#808080;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-     id="path34601" />
+  <g
+     id="beaked">
+    <path
+       d="m 39.654179,243.13226 c -2.79747,2.26879 -9.85313,10.29462 -19.18903,12.34075 -9.17742,2.0114 -16.9600338,4.82577 -18.3700098,6.94073 -1.409976,2.11497 -2.269323,5.08439 2.90059,4.61439 5.1699118,-0.46998 5.8345818,-3.33026 14.0594398,-3.09527 8.22486,0.23501 38.92381,-4.89459 41.27377,-6.06957 2.34997,-1.17498 -4.13845,-7.77831 -6.24266,-9.34282 -2.02747,-1.50745 -4.20137,-3.05066 -7.92104,0.49361 -3.63352,3.46219 -7.27679,1.90274 -1.9606,-2.65378 5.4126,-4.63917 -1.67348,-5.5613 -4.55046,-3.22804 z"
+       style="display:inline;overflow:visible;visibility:visible;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#808080;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       id="path34601" />
+  </g>
   <g
      transform="translate(-81.488661,-23.48915)"
      id="body">
