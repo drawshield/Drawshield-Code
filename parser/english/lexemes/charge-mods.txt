@@ -20,6 +20,7 @@ sinister=
 closed=
 accosted=
 ambulant=
+clawed=
 anime=
 annodated=
 arrondie=

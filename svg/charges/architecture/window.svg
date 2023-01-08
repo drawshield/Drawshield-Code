@@ -1,0 +1,1430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns:xl="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     viewBox="81 85.5 202.5 306"
+     width="202.5"
+     height="306"
+     preserveAspectRatio="xMidYMid meet"
+     zoomAndPan="magnify"
+     contentScriptType="application/ecmascript"
+     contentStyleType="text/css">
+   <defs/>
+   <metadata  xmlns:svg="http://www.w3.org/2000/svg"
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:cc="http://creativecommons.org/ns#">
+      <rdf:RDF>
+         <cc:Work rdf:about="">
+            <dc:creator>
+               <cc:Agent>
+                  <dc:title>http://heraldicart.org Window, Arched.svg</dc:title>
+               </cc:Agent>
+            </dc:creator>
+         </cc:Work>
+      </rdf:RDF>
+   </metadata>
+   <g fill-opacity="1" stroke-opacity="1" stroke="#505050" stroke-dasharray="none"
+      fill="#ffff00">
+      <title>Window, Arched</title>
+      <g>
+         <title>Art</title>
+         <g>
+            <g>
+               <g  id="feature-0">
+                  <path 
+                        d="M 241.07927 146.57927 C 241.07927 114.08875 214.74046 87.75 182.25 87.75 C 149.75954 87.75 123.42073 114.08875 123.42073 146.57927 L 123.42073 389.25 L 241.07927 389.25 Z"
+                        fill="#ff0000"/>
+               </g>
+               <path d="M 241.07927 146.57927 C 241.07927 114.08875 214.74046 87.75 182.25 87.75 C 149.75954 87.75 123.42073 114.08875 123.42073 146.57927 L 123.42073 389.25 L 241.07927 389.25 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1.25"/>
+            </g>
+            <g>
+               <path d="M 187.76524 99.09524 L 187.76524 183.34756 L 230.04878 183.34756 L 230.04878 144.74085 L 230.01408 144.74085 C 229.11788 121.04248 210.9687 101.76108 187.76524 99.09524 Z"/>
+               <path d="M 187.76524 99.09524 L 187.76524 183.34756 L 230.04878 183.34756 L 230.04878 144.74085 L 230.01408 144.74085 C 229.11788 121.04248 210.9687 101.76108 187.76524 99.09524 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+            <g>
+               <g>
+                  <g  id="feature-1">
+                     <path 
+                           d="M 239.24085 271.59146 L 276.00915 244.01524 L 276.00915 354.32012 L 239.24085 381.89634 Z"
+                           fill="#ff0000"/>
+                  </g>
+                  <path d="M 239.24085 271.59146 L 276.00915 244.01524 L 276.00915 354.32012 L 239.24085 381.89634 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.25"/>
+               </g>
+               <g>
+                  <g  id="feature-2">
+                     <path 
+                           d="M 239.24085 381.89634 L 243.02638 381.89634 L 279.79467 354.32012 L 276.00915 354.32012 Z"
+                           fill="#ff0000"/>
+                  </g>
+                  <path d="M 239.24085 381.89634 L 243.02638 381.89634 L 279.79467 354.32012 L 276.00915 354.32012 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.15"/>
+               </g>
+               <g>
+                  <rect x="276.00915" y="244.01524" width="3.6768293" height="110.30488" fill="#ff0000"/>
+                  <rect x="276.00915" y="244.01524" width="3.6768293" height="110.30488" stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.25"/>
+               </g>
+            </g>
+            <g>
+               <g>
+                  <g  id="feature-3">
+                     <path 
+                           d="M 125.25915 271.51398 L 88.49085 243.93776 L 88.49085 354.24264 L 125.25915 381.81886 Z"
+                           fill="#ff0000"/>
+                  </g>
+                  <path d="M 125.25915 271.51398 L 88.49085 243.93776 L 88.49085 354.24264 L 125.25915 381.81886 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.15"/>
+               </g>
+               <g>
+                  <g  id="feature-4">
+                     <path 
+                           d="M 125.25915 381.81886 L 121.47362 381.81886 L 84.70533 354.24264 L 88.49085 354.24264 Z"
+                           fill="#ff0000"/>
+                  </g>
+                  <path d="M 125.25915 381.81886 L 121.47362 381.81886 L 84.70533 354.24264 L 88.49085 354.24264 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.25"/>
+               </g>
+               <g>
+                  <rect x="84.81402" y="243.93776" width="3.6768293" height="110.30488" fill="#ff0000"/>
+                  <rect x="84.81402" y="243.93776" width="3.6768293" height="110.30488" stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.25"/>
+               </g>
+            </g>
+            <g>
+               <rect x="134.45122" y="278.94512" width="42.283537" height="95.59756"/>
+               <rect x="134.45122" y="278.94512" width="42.283537" height="95.59756" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+            <g>
+               <rect x="187.76524" y="278.94512" width="42.283537" height="95.59756"/>
+               <rect x="187.76524" y="278.94512" width="42.283537" height="95.59756" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+            <g>
+               <rect x="134.45122" y="194.37805" width="42.283537" height="73.536585"/>
+               <rect x="134.45122" y="194.37805" width="42.283537" height="73.536585" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+            <g>
+               <rect x="187.76524" y="194.37805" width="42.283537" height="73.536585"/>
+               <rect x="187.76524" y="194.37805" width="42.283537" height="73.536585" stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+            <g>
+               <path d="M 176.73476 99.09524 L 176.73476 183.34756 L 134.45122 183.34756 L 134.45122 144.74085 L 134.48592 144.74085 C 135.38212 121.04248 153.5313 101.76108 176.73476 99.09524 Z"/>
+               <path d="M 176.73476 99.09524 L 176.73476 183.34756 L 134.45122 183.34756 L 134.45122 144.74085 L 134.48592 144.74085 C 135.38212 121.04248 153.5313 101.76108 176.73476 99.09524 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+            <g>
+               <g>
+                  <g>
+                     <ellipse cx="194.728" cy="201.27718" rx="7.0664175414239" ry="6.89914125432625"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="208.8608" cy="201.27718" rx="7.0664175414239" ry="6.89914125432625"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="222.99362" cy="201.27718" rx="7.06641754142391" ry="6.89914125432625"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 187.76524 206.32913 L 187.76524 220.12592 C 189.53899 220.10067 191.30485 219.42734 192.65828 218.10594 C 195.4179 215.41166 195.4179 211.04338 192.65828 208.3491 C 191.30485 207.0277 189.53899 206.35437 187.76524 206.32913 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="201.7944" cy="213.22752" rx="7.06641754142392" ry="6.89914125432626"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="215.9272" cy="213.22752" rx="7.06641754142391" ry="6.89914125432626"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <path d="M 230.04878 220.12665 L 230.04878 206.3284 C 228.24408 206.33118 226.44027 207.00475 225.06332 208.3491 C 222.3037 211.04338 222.3037 215.41166 225.06332 218.10594 C 226.44027 219.4503 228.24408 220.12386 230.04878 220.12665 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <ellipse cx="194.728" cy="225.17117" rx="7.0664175414239" ry="6.89914125432624"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="208.8608" cy="225.17117" rx="7.0664175414239" ry="6.89914125432624"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="222.99362" cy="225.17117" rx="7.06641754142391" ry="6.89914125432624"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 187.76524 230.22312 L 187.76524 244.0199 C 189.53899 243.99466 191.30485 243.32133 192.65828 241.99993 C 195.4179 239.30565 195.4179 234.93737 192.65828 232.2431 C 191.30485 230.9217 189.53899 230.24837 187.76524 230.22312 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="201.7944" cy="237.1215" rx="7.06641754142392" ry="6.89914125432625"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="215.9272" cy="237.1215" rx="7.06641754142391" ry="6.89914125432625"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <path d="M 230.04878 244.02064 L 230.04878 230.2224 C 228.24408 230.22517 226.44027 230.89874 225.06332 232.2431 C 222.3037 234.93737 222.3037 239.30565 225.06332 241.99993 C 226.44027 243.34428 228.24408 244.01785 230.04878 244.02064 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <ellipse cx="194.728" cy="249.06516" rx="7.0664175414239" ry="6.89914125432627"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="208.8608" cy="249.06516" rx="7.0664175414239" ry="6.89914125432627"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="222.99362" cy="249.06516" rx="7.06641754142391" ry="6.89914125432627"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 187.76524 254.1171 L 187.76524 267.91404 C 189.53899 267.8888 191.30485 267.21546 192.65828 265.89404 C 195.4179 263.19974 195.4179 258.8314 192.65828 256.1371 C 191.30485 254.8157 189.53899 254.14236 187.76524 254.1171 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="201.7944" cy="261.01558" rx="7.06641754142392" ry="6.89921344083141"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="215.9272" cy="261.01558" rx="7.06641754142391" ry="6.89921344083141"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <path d="M 230.04878 267.91477 L 230.04878 254.11638 C 228.24408 254.11916 226.44027 254.79274 225.06332 256.1371 C 222.3037 258.8314 222.3037 263.19974 225.06332 265.89404 C 226.44027 267.2384 228.24408 267.912 230.04878 267.91477 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+                  </g>
+               </g>
+            </g>
+            <g>
+               <g>
+                  <g>
+                     <ellipse cx="141.46018" cy="201.27718" rx="7.06641754142394" ry="6.89914125432624"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="155.59299" cy="201.27718" rx="7.06641754142393" ry="6.89914125432624"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="169.7258" cy="201.27718" rx="7.06641754142393" ry="6.89914125432624"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 134.49743 206.32913 L 134.49743 220.12592 C 136.27117 220.10067 138.03703 219.42734 139.39047 218.10594 C 142.15008 215.41166 142.15008 211.04338 139.39047 208.3491 C 138.03703 207.0277 136.27117 206.35437 134.49743 206.32913 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="148.52658" cy="213.22752" rx="7.06641754142393" ry="6.89914125432624"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="162.6594" cy="213.22752" rx="7.06641754142393" ry="6.89914125432624"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <path d="M 176.78096 220.12665 L 176.78096 206.3284 C 174.97626 206.33118 173.17245 207.00475 171.7955 208.3491 C 169.0359 211.04338 169.0359 215.41166 171.7955 218.10594 C 173.17245 219.4503 174.97626 220.12386 176.78096 220.12665 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <ellipse cx="141.46018" cy="225.17117" rx="7.06641754142394" ry="6.89914125432626"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="155.59299" cy="225.17117" rx="7.06641754142393" ry="6.89914125432626"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="169.7258" cy="225.17117" rx="7.06641754142393" ry="6.89914125432626"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 134.49743 230.22312 L 134.49743 244.0199 C 136.27117 243.99466 138.03703 243.32133 139.39047 241.99993 C 142.15008 239.30565 142.15008 234.93737 139.39047 232.2431 C 138.03703 230.9217 136.27117 230.24837 134.49743 230.22312 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="148.52658" cy="237.1215" rx="7.06641754142393" ry="6.89914125432624"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="162.6594" cy="237.1215" rx="7.06641754142393" ry="6.89914125432624"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <path d="M 176.78096 244.02064 L 176.78096 230.2224 C 174.97626 230.22517 173.17245 230.89874 171.7955 232.2431 C 169.0359 234.93737 169.0359 239.30565 171.7955 241.99993 C 173.17245 243.34428 174.97626 244.01785 176.78096 244.02064 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <ellipse cx="141.46018" cy="249.06516" rx="7.06641754142394" ry="6.89914125432626"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="155.59299" cy="249.06516" rx="7.06641754142393" ry="6.89914125432626"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="169.7258" cy="249.06516" rx="7.06641754142393" ry="6.89914125432626"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 134.49743 254.1171 L 134.49743 267.9139 C 136.27117 267.88865 138.03703 267.21533 139.39047 265.89392 C 142.15008 263.19964 142.15008 258.83136 139.39047 256.1371 C 138.03703 254.81568 136.27117 254.14236 134.49743 254.1171 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="148.52658" cy="261.0155" rx="7.06641754142393" ry="6.89914125432626"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <ellipse cx="162.6594" cy="261.0155" rx="7.06641754142393" ry="6.89914125432626"
+                              stroke="black"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width=".75"/>
+                  </g>
+                  <g>
+                     <path d="M 176.78096 267.91463 L 176.78096 254.11638 C 174.97626 254.11916 173.17245 254.79273 171.7955 256.1371 C 169.0359 258.83136 169.0359 263.19964 171.7955 265.89392 C 173.17245 267.23827 174.97626 267.91184 176.78096 267.91463 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+                  </g>
+               </g>
+            </g>
+            <g>
+               <g>
+                  <ellipse cx="194.728" cy="117.77007" rx="7.0664175414239" ry="6.78940003829315"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="208.8608" cy="117.77007" rx="7.0664175414239" ry="6.78940003829315"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 224.59407 124.38398 C 222.58898 120.56654 220.0828 117.0535 217.16294 113.93229 C 215.27295 116.57654 215.55094 120.22082 217.99692 122.57089 C 219.7866 124.29044 222.29746 124.8948 224.59407 124.38398 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 187.76524 122.74166 L 187.76524 136.319 C 189.53899 136.29415 191.30485 135.63153 192.65828 134.33115 C 195.4179 131.67973 195.4179 127.38093 192.65828 124.72951 C 191.30485 123.42913 189.53899 122.76651 187.76524 122.74166 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="201.7944" cy="129.53033" rx="7.06641754142395" ry="6.78940003829315"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="215.9272" cy="129.53033" rx="7.06641754142395" ry="6.78940003829315"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 228.92586 136.2322 C 228.04768 132.25285 226.6736 128.45968 224.87172 124.92082 C 222.30526 127.58383 222.36913 131.74259 225.06332 134.33115 C 226.15367 135.37876 227.5117 136.01245 228.92586 136.23221 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="194.728" cy="141.284" rx="7.0664175414239" ry="6.78940003829314"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="208.8608" cy="141.284" rx="7.0664175414239" ry="6.78940003829314"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="222.99362" cy="141.284" rx="7.06641754142391" ry="6.78940003829314"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 187.76524 146.25558 L 187.76524 159.83292 C 189.53899 159.80807 191.30485 159.14546 192.65828 157.84507 C 195.4179 155.19365 195.4179 150.89485 192.65828 148.24343 C 191.30485 146.94305 189.53899 146.28043 187.76524 146.25558 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="201.7944" cy="153.04425" rx="7.06641754142395" ry="6.78940003829316"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="215.9272" cy="153.04425" rx="7.06641754142395" ry="6.78940003829316"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 230.04878 159.83364 L 230.04878 146.25487 C 228.24408 146.2576 226.44027 146.92046 225.06332 148.24343 C 222.3037 150.89485 222.3037 155.19365 225.06332 157.84507 C 226.44027 159.16804 228.24408 159.8309 230.04878 159.83364 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="194.728" cy="164.79792" rx="7.0664175414239" ry="6.78940003829316"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="208.8608" cy="164.79792" rx="7.0664175414239" ry="6.78940003829316"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="222.99362" cy="164.79792" rx="7.06641754142391" ry="6.78940003829316"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 187.76524 169.7695 L 187.76524 183.34684 C 189.53899 183.322 191.30485 182.65938 192.65828 181.359 C 195.4179 178.70757 195.4179 174.40877 192.65828 171.75735 C 191.30485 170.45697 189.53899 169.79435 187.76524 169.7695 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="201.7944" cy="176.55817" rx="7.06641754142395" ry="6.78940003829314"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="215.9272" cy="176.55817" rx="7.06641754142395" ry="6.78940003829314"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 230.04878 183.34756 L 230.04878 169.76879 C 228.24408 169.77153 226.44027 170.43438 225.06332 171.75735 C 222.3037 174.40877 222.3037 178.70757 225.06332 181.359 C 226.44027 182.68196 228.24408 183.34481 230.04878 183.34756 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 187.76524 99.22243 L 187.76524 112.79976 C 189.53899 112.77492 191.30485 112.1123 192.65828 110.81191 C 195.4179 108.1605 195.4179 103.8617 192.65828 101.21028 C 191.30485 99.90989 189.53899 99.24728 187.76524 99.22243 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 208.8092 106.83244 C 205.17363 104.39829 201.18549 102.4497 196.93757 101.07948 C 196.89048 101.12234 196.84385 101.16594 196.7977 101.21028 C 194.03808 103.8617 194.03808 108.1605 196.7977 110.81191 C 199.5573 113.46335 204.0315 113.46335 206.7911 110.81191 C 207.95306 109.6955 208.62577 108.28703 208.80922 106.83244 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 216.06755 112.79915 C 213.88522 110.61442 211.49252 108.63987 208.92244 106.90848 C 209.11945 108.33605 209.7888 109.71497 210.9305 110.81191 C 212.346 112.17192 214.2126 112.83434 216.06755 112.79916 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+            </g>
+            <g>
+               <g>
+                  <ellipse cx="169.7258" cy="117.77007" rx="7.06641754142393" ry="6.78940003829315"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="155.59299" cy="117.77007" rx="7.06641754142393" ry="6.78940003829315"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 139.85972 124.38398 C 141.86481 120.56654 144.371 117.0535 147.29085 113.93229 C 149.18084 116.57654 148.90285 120.22082 146.45687 122.57089 C 144.66718 124.29044 142.15633 124.8948 139.85972 124.38398 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 176.68855 122.74166 L 176.68855 136.319 C 174.9148 136.29415 173.14895 135.63153 171.7955 134.33115 C 169.0359 131.67973 169.0359 127.38093 171.7955 124.72951 C 173.14895 123.42913 174.9148 122.76651 176.68855 122.74166 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="162.6594" cy="129.53033" rx="7.06641754142393" ry="6.78940003829315"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="148.52658" cy="129.53033" rx="7.06641754142393" ry="6.78940003829315"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 135.52793 136.2322 C 136.40611 132.25285 137.7802 128.45968 139.58208 124.92082 C 142.14853 127.58383 142.08466 131.74259 139.39047 134.33115 C 138.30012 135.37876 136.9421 136.01245 135.52793 136.23221 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="169.7258" cy="141.284" rx="7.06641754142393" ry="6.78940003829314"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="155.59299" cy="141.284" rx="7.06641754142393" ry="6.78940003829314"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="141.46018" cy="141.284" rx="7.06641754142394" ry="6.78940003829314"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 176.68855 146.25558 L 176.68855 159.83292 C 174.9148 159.80807 173.14895 159.14546 171.7955 157.84507 C 169.0359 155.19365 169.0359 150.89485 171.7955 148.24343 C 173.14895 146.94305 174.9148 146.28043 176.68855 146.25558 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="162.6594" cy="153.04425" rx="7.06641754142393" ry="6.78940003829316"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="148.52658" cy="153.04425" rx="7.06641754142393" ry="6.78940003829316"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 134.40501 159.83364 L 134.40501 146.25487 C 136.20971 146.2576 138.01353 146.92046 139.39047 148.24343 C 142.15008 150.89485 142.15008 155.19365 139.39047 157.84507 C 138.01353 159.16804 136.20971 159.8309 134.40501 159.83364 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="169.7258" cy="164.79792" rx="7.06641754142393" ry="6.78940003829316"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="155.59299" cy="164.79792" rx="7.06641754142393" ry="6.78940003829316"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="141.46018" cy="164.79792" rx="7.06641754142394" ry="6.78940003829316"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 176.68855 169.7695 L 176.68855 183.34684 C 174.9148 183.322 173.14895 182.65938 171.7955 181.359 C 169.0359 178.70757 169.0359 174.40877 171.7955 171.75735 C 173.14895 170.45697 174.9148 169.79435 176.68855 169.7695 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="162.6594" cy="176.55817" rx="7.06641754142393" ry="6.78940003829314"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <ellipse cx="148.52658" cy="176.55817" rx="7.06641754142393" ry="6.78940003829314"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 134.40501 183.34756 L 134.40501 169.76879 C 136.20971 169.77153 138.01353 170.43438 139.39047 171.75735 C 142.15008 174.40877 142.15008 178.70757 139.39047 181.359 C 138.01353 182.68196 136.20971 183.34481 134.40501 183.34756 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 176.68855 99.22243 L 176.68855 112.79976 C 174.9148 112.77492 173.14895 112.1123 171.7955 110.81191 C 169.0359 108.1605 169.0359 103.8617 171.7955 101.21028 C 173.14895 99.90989 174.9148 99.24728 176.68855 99.22243 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 155.64458 106.83244 C 159.28016 104.39829 163.2683 102.4497 167.51622 101.07948 C 167.56332 101.12234 167.60994 101.16594 167.6561 101.21028 C 170.4157 103.8617 170.4157 108.1605 167.6561 110.81191 C 164.8965 113.46335 160.4223 113.46335 157.6627 110.81191 C 156.50073 109.6955 155.82802 108.28703 155.64457 106.83244 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+               <g>
+                  <path d="M 148.38625 112.79915 C 150.56857 110.61442 152.96127 108.63987 155.53136 106.90848 C 155.33435 108.33605 154.66499 109.71497 153.52328 110.81191 C 152.10779 112.17192 150.24118 112.83434 148.38624 112.79916 Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width=".75"/>
+               </g>
+            </g>
+            <g>
+               <path d="M 272.33232 254.12652 L 242.91768 276.1875 L 242.91768 371.78506 L 272.33232 349.7241 Z"/>
+               <path d="M 272.33232 254.12652 L 242.91768 276.1875 L 242.91768 371.78506 L 272.33232 349.7241 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+            <g>
+               <path d="M 92.16768 254.04904 L 121.58232 276.11002 L 121.58232 371.7076 L 92.16768 349.6466 Z"/>
+               <path d="M 92.16768 254.04904 L 121.58232 276.11002 L 121.58232 371.7076 L 92.16768 349.6466 Z"
+                     stroke="black"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     stroke-width="1"/>
+            </g>
+            <g>
+               <g>
+                  <g>
+                     <path d="M 252.83386 282.26665 L 252.83386 282.26665 C 252.83387 279.52836 250.54924 279.04985 247.87576 281.02712 C 245.20228 283.00438 242.91766 286.9655 242.91767 289.7038 C 242.91766 292.44208 245.2023 292.9206 247.87576 290.9433 C 250.54924 288.96605 252.83387 285.00493 252.83386 282.26665 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 262.73786 274.84 L 262.73786 274.84 C 262.73787 272.10172 260.45324 271.6232 257.77976 273.6005 C 255.10628 275.57774 252.82166 279.53887 252.82167 282.27715 C 252.82166 285.01544 255.1063 285.49396 257.77976 283.51668 C 260.45324 281.5394 262.73787 277.5783 262.73786 274.84 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 272.64186 267.41337 L 272.64186 267.41337 C 272.64187 264.67508 270.35724 264.19657 267.68377 266.17385 C 265.01028 268.1511 262.72566 272.11223 262.72567 274.8505 C 262.72566 277.5888 265.0103 278.06732 267.68377 276.09004 C 270.35724 274.11277 272.64187 270.15166 272.64186 267.41337 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 257.78475 287.0723 L 257.78475 287.0723 C 257.78476 284.334 255.50013 283.8555 252.82665 285.83278 C 250.15317 287.81003 247.86855 291.77116 247.86856 294.50944 C 247.86855 297.24773 250.1532 297.72625 252.82665 295.74897 C 255.50013 293.7717 257.78476 289.8106 257.78475 287.0723 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 267.68986 279.66563 L 267.68986 279.66563 C 267.68987 276.92735 265.40524 276.44884 262.73177 278.4261 C 260.05828 280.40337 257.77366 284.3645 257.77367 287.10278 C 257.77366 289.84107 260.0583 290.3196 262.73177 288.3423 C 265.40524 286.36504 267.68987 282.40392 267.68986 279.66563 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 272.64186 280.91288 L 272.64186 270.99674 C 269.9755 272.97808 267.7003 276.9285 267.7003 279.66116 C 267.7003 282.3938 269.9755 282.87597 272.64186 280.91288 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 242.91767 293.28218 L 242.91767 303.1983 C 245.58402 301.21697 247.85924 297.26654 247.85923 294.5339 C 247.85924 291.80126 245.58402 291.3191 242.91767 293.28218 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 252.83386 299.3101 L 252.83386 299.3101 C 252.83387 296.57182 250.54924 296.0933 247.87576 298.0706 C 245.20228 300.04784 242.91766 304.00897 242.91767 306.74725 C 242.91766 309.48554 245.2023 309.96406 247.87576 307.98678 C 250.54924 306.0095 252.83387 302.0484 252.83386 299.3101 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 262.73786 291.88347 L 262.73786 291.88347 C 262.73787 289.14518 260.45324 288.66667 257.77976 290.64395 C 255.10628 292.6212 252.82166 296.58233 252.82167 299.3206 C 252.82166 302.0589 255.1063 302.5374 257.77976 300.56014 C 260.45324 298.58287 262.73787 294.62176 262.73786 291.88347 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 272.64186 284.45683 L 272.64186 284.45683 C 272.64187 281.71854 270.35724 281.24004 267.68377 283.2173 C 265.01028 285.19457 262.72566 289.1557 262.72567 291.89398 C 262.72566 294.63227 265.0103 295.11078 267.68377 293.1335 C 270.35724 291.15623 272.64187 287.19512 272.64186 284.45683 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 257.78475 304.11576 L 257.78475 304.11576 C 257.78476 301.37747 255.50013 300.89896 252.82665 302.87624 C 250.15317 304.8535 247.86855 308.8146 247.86856 311.5529 C 247.86855 314.2912 250.1532 314.7697 252.82665 312.79243 C 255.50013 310.81516 257.78476 306.85405 257.78475 304.11576 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 267.68986 296.7091 L 267.68986 296.7091 C 267.68987 293.9708 265.40524 293.4923 262.73177 295.46957 C 260.05828 297.44683 257.77366 301.40795 257.77367 304.14624 C 257.77366 306.88453 260.0583 307.36304 262.73177 305.38576 C 265.40524 303.4085 267.68987 299.4474 267.68986 296.7091 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 272.64186 297.95634 L 272.64186 288.0402 C 269.9755 290.02155 267.7003 293.97198 267.7003 296.70462 C 267.7003 299.43726 269.9755 299.91943 272.64186 297.95634 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 242.91767 310.32564 L 242.91767 320.24177 C 245.58402 318.26043 247.85924 314.31 247.85923 311.57736 C 247.85924 308.8447 245.58402 308.36255 242.91767 310.32564 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 252.83386 316.35357 L 252.83386 316.35357 C 252.83387 313.61528 250.54924 313.13678 247.87576 315.11405 C 245.20228 317.0913 242.91766 321.05243 242.91767 323.7907 C 242.91766 326.529 245.2023 327.0075 247.87576 325.03024 C 250.54924 323.05297 252.83387 319.09186 252.83386 316.35357 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 262.73786 308.92693 L 262.73786 308.92693 C 262.73787 306.18864 260.45324 305.71014 257.77976 307.6874 C 255.10628 309.66467 252.82166 313.6258 252.82167 316.36408 C 252.82166 319.10237 255.1063 319.58088 257.77976 317.6036 C 260.45324 315.62633 262.73787 311.66522 262.73786 308.92693 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 272.64186 301.5003 L 272.64186 301.5003 C 272.64187 298.762 270.35724 298.2835 267.68377 300.26077 C 265.01028 302.23803 262.72566 306.19915 262.72567 308.93744 C 262.72566 311.67573 265.0103 312.15424 267.68377 310.17696 C 270.35724 308.1997 272.64187 304.23858 272.64186 301.5003 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 257.78475 321.15922 L 257.78475 321.15922 C 257.78476 318.42093 255.50013 317.94243 252.82665 319.9197 C 250.15317 321.89696 247.86855 325.85808 247.86856 328.59637 C 247.86855 331.33466 250.1532 331.81317 252.82665 329.8359 C 255.50013 327.85862 257.78476 323.8975 257.78475 321.15922 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 267.68986 313.75256 L 267.68986 313.75256 C 267.68987 311.01427 265.40524 310.53576 262.73177 312.51304 C 260.05828 314.4903 257.77366 318.4514 257.77367 321.1897 C 257.77366 323.928 260.0583 324.4065 262.73177 322.42923 C 265.40524 320.45196 267.68987 316.49085 267.68986 313.75256 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 272.64186 314.9998 L 272.64186 305.08367 C 269.9755 307.065 267.7003 311.01544 267.7003 313.74808 C 267.7003 316.48072 269.9755 316.9629 272.64186 314.9998 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 242.91767 327.3691 L 242.91767 337.28523 C 245.58402 335.3039 247.85924 331.35346 247.85923 328.62082 C 247.85924 325.88818 245.58402 325.406 242.91767 327.3691 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 252.83386 333.39703 L 252.83386 333.39703 C 252.83387 330.65874 250.54924 330.18024 247.87576 332.1575 C 245.20228 334.13477 242.91766 338.0959 242.91767 340.83418 C 242.91766 343.57247 245.2023 344.051 247.87576 342.0737 C 250.54924 340.09643 252.83387 336.1353 252.83386 333.39703 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 262.73786 325.9704 L 262.73786 325.9704 C 262.73787 323.2321 260.45324 322.7536 257.77976 324.73087 C 255.10628 326.70813 252.82166 330.66925 252.82167 333.40754 C 252.82166 336.14583 255.1063 336.62434 257.77976 334.64706 C 260.45324 332.6698 262.73787 328.7087 262.73786 325.9704 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 272.64186 318.54375 L 272.64186 318.54375 C 272.64187 315.80547 270.35724 315.32696 267.68377 317.30423 C 265.01028 319.2815 262.72566 323.2426 262.72567 325.9809 C 262.72566 328.7192 265.0103 329.1977 267.68377 327.22042 C 270.35724 325.24316 272.64187 321.28204 272.64186 318.54375 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 257.78475 338.2027 L 257.78475 338.2027 C 257.78476 335.4644 255.50013 334.9859 252.82665 336.96316 C 250.15317 338.94042 247.86855 342.90154 247.86856 345.63983 C 247.86855 348.3781 250.1532 348.85663 252.82665 346.87935 C 255.50013 344.9021 257.78476 340.94097 257.78475 338.2027 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 267.68986 330.79602 L 267.68986 330.79602 C 267.68987 328.05773 265.40524 327.57923 262.73177 329.5565 C 260.05828 331.53376 257.77366 335.49488 257.77367 338.23317 C 257.77366 340.97146 260.0583 341.44997 262.73177 339.4727 C 265.40524 337.49542 267.68987 333.5343 267.68986 330.79602 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 272.64186 332.04326 L 272.64186 322.12713 C 269.9755 324.10847 267.7003 328.0589 267.7003 330.79154 C 267.7003 333.5242 269.9755 334.00635 272.64186 332.04326 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 242.91767 344.41256 L 242.91767 354.3287 C 245.58402 352.34736 247.85924 348.39693 247.85923 345.6643 C 247.85924 342.93164 245.58402 342.44947 242.91767 344.41256 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 252.83386 350.57896 L 252.83386 350.57896 C 252.83387 347.84067 250.54924 347.36216 247.87576 349.33943 C 245.20228 351.3167 242.91766 355.2778 242.91767 358.0161 C 242.91766 360.7544 245.2023 361.2329 247.87576 359.25562 C 250.54924 357.27836 252.83387 353.31724 252.83386 350.57896 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 262.73786 343.1523 L 262.73786 343.1523 C 262.73787 340.41403 260.45324 339.93552 257.77976 341.9128 C 255.10628 343.89005 252.82166 347.85118 252.82167 350.58946 C 252.82166 353.32775 255.1063 353.80627 257.77976 351.829 C 260.45324 349.8517 262.73787 345.8906 262.73786 343.1523 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 272.64186 335.72568 L 272.64186 335.72568 C 272.64187 332.9874 270.35724 332.5089 267.68377 334.48616 C 265.01028 336.4634 262.72566 340.42454 262.72567 343.16283 C 262.72566 345.9011 265.0103 346.37963 267.68377 344.40235 C 270.35724 342.4251 272.64187 338.46397 272.64186 335.72568 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 257.78475 355.3846 L 257.78475 355.3846 C 257.78476 352.6463 255.50013 352.1678 252.82665 354.1451 C 250.15317 356.12235 247.86855 360.08347 247.86856 362.82175 C 247.86855 365.56004 250.1532 366.03856 252.82665 364.06128 C 255.50013 362.084 257.78476 358.1229 257.78475 355.3846 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 267.68986 347.97794 L 267.68986 347.97794 C 267.68987 345.23966 265.40524 344.76115 262.73177 346.73842 C 260.05828 348.7157 257.77366 352.6768 257.77367 355.4151 C 257.77366 358.1534 260.0583 358.6319 262.73177 356.6546 C 265.40524 354.67735 267.68987 350.71623 267.68986 347.97794 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 272.64186 349.2252 L 272.64186 339.30905 C 269.9755 341.2904 267.7003 345.24082 267.7003 347.97347 C 267.7003 350.7061 269.9755 351.18828 272.64186 349.2252 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 242.91767 361.5945 L 242.91767 371.5106 C 245.58402 369.5293 247.85924 365.57885 247.85923 362.8462 C 247.85924 360.11357 245.58402 359.6314 242.91767 361.5945 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 257.78475 269.92764 L 257.78475 269.92764 C 257.78476 267.18935 255.50013 266.71084 252.82665 268.68812 C 250.15317 270.66538 247.86855 274.6265 247.86856 277.3648 C 247.86855 280.10307 250.1532 280.5816 252.82665 278.6043 C 255.50013 276.62704 257.78476 272.66593 257.78475 269.92764 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 267.68986 262.52098 L 267.68986 262.52098 C 267.68987 259.7827 265.40524 259.30418 262.73177 261.28145 C 260.05828 263.2587 257.77366 267.21983 257.77367 269.95812 C 257.77366 272.6964 260.0583 273.17492 262.73177 271.19764 C 265.40524 269.22038 267.68987 265.25926 267.68986 262.52098 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 272.64186 263.76822 L 272.64186 253.85208 C 269.9755 255.83342 267.7003 259.78386 267.7003 262.5165 C 267.7003 265.24914 269.9755 265.7313 272.64186 263.76822 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 242.91767 276.13752 L 242.91767 286.05365 C 245.58402 284.0723 247.85924 280.12188 247.85923 277.38924 C 247.85924 274.6566 245.58402 274.17443 242.91767 276.13752 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+            </g>
+            <g>
+               <g>
+                  <g>
+                     <path d="M 111.8209 282.26665 L 111.8209 282.26665 C 111.8209 279.52836 114.10553 279.04985 116.779 281.02712 C 119.45249 283.00438 121.7371 286.9655 121.7371 289.7038 C 121.7371 292.44208 119.45247 292.9206 116.779 290.9433 C 114.10553 288.96605 111.8209 285.00493 111.8209 282.26665 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 101.9169 274.84 L 101.9169 274.84 C 101.9169 272.10172 104.20153 271.6232 106.875 273.6005 C 109.54848 275.57774 111.8331 279.53887 111.8331 282.27715 C 111.8331 285.01544 109.54846 285.49396 106.875 283.51668 C 104.20153 281.5394 101.9169 277.5783 101.9169 274.84 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 92.0129 267.41337 L 92.0129 267.41337 C 92.0129 264.67508 94.29752 264.19657 96.971 266.17385 C 99.64448 268.1511 101.9291 272.11223 101.92909 274.8505 C 101.9291 277.5888 99.64446 278.06732 96.971 276.09004 C 94.29752 274.11277 92.0129 270.15166 92.0129 267.41337 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 106.87002 287.0723 L 106.87002 287.0723 C 106.87001 284.334 109.15464 283.8555 111.82811 285.83278 C 114.5016 287.81003 116.78621 291.77116 116.78621 294.50944 C 116.78621 297.24773 114.50158 297.72625 111.82811 295.74897 C 109.15464 293.7717 106.87001 289.8106 106.87002 287.0723 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 96.9649 279.66563 L 96.9649 279.66563 C 96.9649 276.92735 99.24953 276.44884 101.923 278.4261 C 104.59648 280.40337 106.8811 284.3645 106.8811 287.10278 C 106.8811 289.84107 104.59646 290.3196 101.923 288.3423 C 99.24953 286.36504 96.9649 282.40392 96.9649 279.66563 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 92.0129 280.91288 L 92.0129 270.99674 C 94.67926 272.97808 96.95447 276.9285 96.95447 279.66116 C 96.95447 282.3938 94.67926 282.87597 92.0129 280.91288 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 121.7371 293.28218 L 121.7371 303.1983 C 119.07074 301.21697 116.79553 297.26654 116.79553 294.5339 C 116.79553 291.80126 119.07074 291.3191 121.7371 293.28218 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 111.8209 299.3101 L 111.8209 299.3101 C 111.8209 296.57182 114.10553 296.0933 116.779 298.0706 C 119.45249 300.04784 121.7371 304.00897 121.7371 306.74725 C 121.7371 309.48554 119.45247 309.96406 116.779 307.98678 C 114.10553 306.0095 111.8209 302.0484 111.8209 299.3101 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 101.9169 291.88347 L 101.9169 291.88347 C 101.9169 289.14518 104.20153 288.66667 106.875 290.64395 C 109.54848 292.6212 111.8331 296.58233 111.8331 299.3206 C 111.8331 302.0589 109.54846 302.5374 106.875 300.56014 C 104.20153 298.58287 101.9169 294.62176 101.9169 291.88347 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 92.0129 284.45683 L 92.0129 284.45683 C 92.0129 281.71854 94.29752 281.24004 96.971 283.2173 C 99.64448 285.19457 101.9291 289.1557 101.92909 291.89398 C 101.9291 294.63227 99.64446 295.11078 96.971 293.1335 C 94.29752 291.15623 92.0129 287.19512 92.0129 284.45683 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 106.87002 304.11576 L 106.87002 304.11576 C 106.87001 301.37747 109.15464 300.89896 111.82811 302.87624 C 114.5016 304.8535 116.78621 308.8146 116.78621 311.5529 C 116.78621 314.2912 114.50158 314.7697 111.82811 312.79243 C 109.15464 310.81516 106.87001 306.85405 106.87002 304.11576 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 96.9649 296.7091 L 96.9649 296.7091 C 96.9649 293.9708 99.24953 293.4923 101.923 295.46957 C 104.59648 297.44683 106.8811 301.40795 106.8811 304.14624 C 106.8811 306.88453 104.59646 307.36304 101.923 305.38576 C 99.24953 303.4085 96.9649 299.4474 96.9649 296.7091 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 92.0129 297.95634 L 92.0129 288.0402 C 94.67926 290.02155 96.95447 293.97198 96.95447 296.70462 C 96.95447 299.43726 94.67926 299.91943 92.0129 297.95634 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 121.7371 310.32564 L 121.7371 320.24177 C 119.07074 318.26043 116.79553 314.31 116.79553 311.57736 C 116.79553 308.8447 119.07074 308.36255 121.7371 310.32564 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 111.8209 316.35357 L 111.8209 316.35357 C 111.8209 313.61528 114.10553 313.13678 116.779 315.11405 C 119.45249 317.0913 121.7371 321.05243 121.7371 323.7907 C 121.7371 326.529 119.45247 327.0075 116.779 325.03024 C 114.10553 323.05297 111.8209 319.09186 111.8209 316.35357 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 101.9169 308.92693 L 101.9169 308.92693 C 101.9169 306.18864 104.20153 305.71014 106.875 307.6874 C 109.54848 309.66467 111.8331 313.6258 111.8331 316.36408 C 111.8331 319.10237 109.54846 319.58088 106.875 317.6036 C 104.20153 315.62633 101.9169 311.66522 101.9169 308.92693 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 92.0129 301.5003 L 92.0129 301.5003 C 92.0129 298.762 94.29752 298.2835 96.971 300.26077 C 99.64448 302.23803 101.9291 306.19915 101.92909 308.93744 C 101.9291 311.67573 99.64446 312.15424 96.971 310.17696 C 94.29752 308.1997 92.0129 304.23858 92.0129 301.5003 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 106.87002 321.15922 L 106.87002 321.15922 C 106.87001 318.42093 109.15464 317.94243 111.82811 319.9197 C 114.5016 321.89696 116.78621 325.85808 116.78621 328.59637 C 116.78621 331.33466 114.50158 331.81317 111.82811 329.8359 C 109.15464 327.85862 106.87001 323.8975 106.87002 321.15922 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 96.9649 313.75256 L 96.9649 313.75256 C 96.9649 311.01427 99.24953 310.53576 101.923 312.51304 C 104.59648 314.4903 106.8811 318.4514 106.8811 321.1897 C 106.8811 323.928 104.59646 324.4065 101.923 322.42923 C 99.24953 320.45196 96.9649 316.49085 96.9649 313.75256 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 92.0129 314.9998 L 92.0129 305.08367 C 94.67926 307.065 96.95447 311.01544 96.95447 313.74808 C 96.95447 316.48072 94.67926 316.9629 92.0129 314.9998 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 121.7371 327.3691 L 121.7371 337.28523 C 119.07074 335.3039 116.79553 331.35346 116.79553 328.62082 C 116.79553 325.88818 119.07074 325.406 121.7371 327.3691 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 111.8209 333.39703 L 111.8209 333.39703 C 111.8209 330.65874 114.10553 330.18024 116.779 332.1575 C 119.45249 334.13477 121.7371 338.0959 121.7371 340.83418 C 121.7371 343.57247 119.45247 344.051 116.779 342.0737 C 114.10553 340.09643 111.8209 336.1353 111.8209 333.39703 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 101.9169 325.9704 L 101.9169 325.9704 C 101.9169 323.2321 104.20153 322.7536 106.875 324.73087 C 109.54848 326.70813 111.8331 330.66925 111.8331 333.40754 C 111.8331 336.14583 109.54846 336.62434 106.875 334.64706 C 104.20153 332.6698 101.9169 328.7087 101.9169 325.9704 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 92.0129 318.54375 L 92.0129 318.54375 C 92.0129 315.80547 94.29752 315.32696 96.971 317.30423 C 99.64448 319.2815 101.9291 323.2426 101.92909 325.9809 C 101.9291 328.7192 99.64446 329.1977 96.971 327.22042 C 94.29752 325.24316 92.0129 321.28204 92.0129 318.54375 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 106.87002 338.2027 L 106.87002 338.2027 C 106.87001 335.4644 109.15464 334.9859 111.82811 336.96316 C 114.5016 338.94042 116.78621 342.90154 116.78621 345.63983 C 116.78621 348.3781 114.50158 348.85663 111.82811 346.87935 C 109.15464 344.9021 106.87001 340.94097 106.87002 338.2027 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 96.9649 330.79602 L 96.9649 330.79602 C 96.9649 328.05773 99.24953 327.57923 101.923 329.5565 C 104.59648 331.53376 106.8811 335.49488 106.8811 338.23317 C 106.8811 340.97146 104.59646 341.44997 101.923 339.4727 C 99.24953 337.49542 96.9649 333.5343 96.9649 330.79602 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 92.0129 332.04326 L 92.0129 322.12713 C 94.67926 324.10847 96.95447 328.0589 96.95447 330.79154 C 96.95447 333.5242 94.67926 334.00635 92.0129 332.04326 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 121.7371 344.41256 L 121.7371 354.3287 C 119.07074 352.34736 116.79553 348.39693 116.79553 345.6643 C 116.79553 342.93164 119.07074 342.44947 121.7371 344.41256 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 111.8209 350.57896 L 111.8209 350.57896 C 111.8209 347.84067 114.10553 347.36216 116.779 349.33943 C 119.45249 351.3167 121.7371 355.2778 121.7371 358.0161 C 121.7371 360.7544 119.45247 361.2329 116.779 359.25562 C 114.10553 357.27836 111.8209 353.31724 111.8209 350.57896 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 101.9169 343.1523 L 101.9169 343.1523 C 101.9169 340.41403 104.20153 339.93552 106.875 341.9128 C 109.54848 343.89005 111.8331 347.85118 111.8331 350.58946 C 111.8331 353.32775 109.54846 353.80627 106.875 351.829 C 104.20153 349.8517 101.9169 345.8906 101.9169 343.1523 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 92.0129 335.72568 L 92.0129 335.72568 C 92.0129 332.9874 94.29752 332.5089 96.971 334.48616 C 99.64448 336.4634 101.9291 340.42454 101.92909 343.16283 C 101.9291 345.9011 99.64446 346.37963 96.971 344.40235 C 94.29752 342.4251 92.0129 338.46397 92.0129 335.72568 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 106.87002 355.3846 L 106.87002 355.3846 C 106.87001 352.6463 109.15464 352.1678 111.82811 354.1451 C 114.5016 356.12235 116.78621 360.08347 116.78621 362.82175 C 116.78621 365.56004 114.50158 366.03856 111.82811 364.06128 C 109.15464 362.084 106.87001 358.1229 106.87002 355.3846 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 96.9649 347.97794 L 96.9649 347.97794 C 96.9649 345.23966 99.24953 344.76115 101.923 346.73842 C 104.59648 348.7157 106.8811 352.6768 106.8811 355.4151 C 106.8811 358.1534 104.59646 358.6319 101.923 356.6546 C 99.24953 354.67735 96.9649 350.71623 96.9649 347.97794 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 92.0129 349.2252 L 92.0129 339.30905 C 94.67926 341.2904 96.95447 345.24082 96.95447 347.97347 C 96.95447 350.7061 94.67926 351.18828 92.0129 349.2252 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 121.7371 361.5945 L 121.7371 371.5106 C 119.07074 369.5293 116.79553 365.57885 116.79553 362.8462 C 116.79553 360.11357 119.07074 359.6314 121.7371 361.5945 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+               <g>
+                  <g>
+                     <path d="M 106.87002 269.92764 L 106.87002 269.92764 C 106.87001 267.18935 109.15464 266.71084 111.82811 268.68812 C 114.5016 270.66538 116.78621 274.6265 116.78621 277.3648 C 116.78621 280.10307 114.50158 280.5816 111.82811 278.6043 C 109.15464 276.62704 106.87001 272.66593 106.87002 269.92764 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 96.9649 262.52098 L 96.9649 262.52098 C 96.9649 259.7827 99.24953 259.30418 101.923 261.28145 C 104.59648 263.2587 106.8811 267.21983 106.8811 269.95812 C 106.8811 272.6964 104.59646 273.17492 101.923 271.19764 C 99.24953 269.22038 96.9649 265.25926 96.9649 262.52098 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 92.0129 263.76822 L 92.0129 253.85208 C 94.67926 255.83342 96.95447 259.78386 96.95447 262.5165 C 96.95447 265.24914 94.67926 265.7313 92.0129 263.76822 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+                  <g>
+                     <path d="M 121.7371 276.13752 L 121.7371 286.05365 C 119.07074 284.0723 116.79553 280.12188 116.79553 277.38924 C 116.79553 274.6566 119.07074 274.17443 121.7371 276.13752 Z"
+                           stroke="black"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width=".65"/>
+                  </g>
+               </g>
+            </g>
+         </g>
+      </g>
+   </g>
+</svg>
