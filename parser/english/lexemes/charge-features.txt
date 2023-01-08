@@ -9,7 +9,6 @@ seeded=
 barbed=
 gemmed=
 vested=habited
-cubit=
 acorned=
 laced=
 necked=

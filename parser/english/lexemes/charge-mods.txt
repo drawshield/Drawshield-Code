@@ -21,6 +21,7 @@ closed=
 accosted=
 ambulant=
 clawed=
+cubit=
 anime=
 annodated=
 arrondie=

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns:xl="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     viewBox="58.5 58.71797 108 359.78203"
+     width="108"
+     height="359.78203"
+     preserveAspectRatio="xMidYMid meet"
+     zoomAndPan="magnify"
+     contentScriptType="application/ecmascript"
+     contentStyleType="text/css">
+   <defs/>
+   <metadata  xmlns:svg="http://www.w3.org/2000/svg"
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:cc="http://creativecommons.org/ns#">
+      <rdf:RDF>
+         <cc:Work rdf:about="">
+            <dc:creator>
+               <cc:Agent>
+                  <dc:title>http://heraldicart.org Shovel.svg</dc:title>
+               </cc:Agent>
+            </dc:creator>
+         </cc:Work>
+      </rdf:RDF>
+   </metadata>
+   <g stroke-opacity="1" fill="#ffff00" fill-opacity="1" stroke="#505050"
+      stroke-dasharray="none">
+      <title>Shovel</title>
+      <g>
+         <title>Layer 2</title>
+         <g>
+            <g>
+               <g  id="feature-0">
+                  <path 
+                        d="M 103.14897 265.48768 L 121.85623 265.48768 L 121.85623 84.06624 L 151.35653 84.06624 C 151.35653 84.06624 153.85473 78.35014 153.85473 74.03058 C 153.85473 69.71102 151.35653 65.358984 151.35653 65.358984 L 73.643465 65.358984 C 73.643465 65.358984 71.00366 69.19137 71.00366 74.35536 C 71.00366 79.51934 73.643465 84.06624 73.643465 84.06624 L 103.14897 84.06624 Z"
+                        fill="#ff0000"/>
+               </g>
+               <path d="M 103.14897 265.48768 L 121.85623 265.48768 L 121.85623 84.06624 L 151.35653 84.06624 C 151.35653 84.06624 153.85473 78.35014 153.85473 74.03058 C 153.85473 69.71102 151.35653 65.358984 151.35653 65.358984 L 73.643465 65.358984 C 73.643465 65.358984 71.00366 69.19137 71.00366 74.35536 C 71.00366 79.51934 73.643465 84.06624 73.643465 84.06624 L 103.14897 84.06624 Z"
+                     stroke="black"
+                     stroke-linecap="butt"
+                     stroke-linejoin="round"
+                     stroke-width="3"/>
+            </g>
+            <g>
+               <path d="M 103.14897 264.96803 L 103.14897 300.9769 C 81 300.9769 65.52659 296.4769 65.52659 296.4769 L 76.37269 411.7135 C 107.74537 418.42697 148.62731 411.6823 148.62731 411.6823 L 159.4734 296.4769 C 159.4734 296.4769 144 301.5 121.85623 300.9769 L 121.85623 264.96803 Z"/>
+               <path d="M 103.14897 264.96803 L 103.14897 300.9769 C 81 300.9769 65.52659 296.4769 65.52659 296.4769 L 76.37269 411.7135 C 107.74537 418.42697 148.62731 411.6823 148.62731 411.6823 L 159.4734 296.4769 C 159.4734 296.4769 144 301.5 121.85623 300.9769 L 121.85623 264.96803 Z"
+                     stroke="black"
+                     stroke-linecap="butt"
+                     stroke-linejoin="round"
+                     stroke-width="3"/>
+            </g>
+         </g>
+      </g>
+   </g>
+</svg>
