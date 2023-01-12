@@ -783,7 +783,9 @@ c
       $left = $dist - ($reps * $len);
       // if space left, expand the pattern to fit exactly
       if ( $left > 0 ) {
-        $path = scalePath ( $path, (($dist/$reps)/$len), 1 );
+          $xScale = ($dist/$reps)/$len;
+          $yScale = $angle == 45 || $angle == 135 || $angle == 225 || $angle == 315 ? $xScale : 1;
+        $path = scalePath ( $path, $xScale, $yScale );
       }
     }
     // If necessary, rotate the path

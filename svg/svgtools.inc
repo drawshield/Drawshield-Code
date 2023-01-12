@@ -372,7 +372,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
       $fillSet = true;
       $visible = true;
     } elseif (substr($id, 0, 7) == 'outline') { // This is a path that is actually a stroke
-        $item .= ' fill="' . $strokeCol . '" ';
+        $item .= ' fill="' . $strokeCol . '" stroke="none" ';
         $fillSet = true;
     } elseif (array_key_exists('proper', $featureColours)) { // use proper for features not otherwise coloured
       if ($foundProper = getProper($chargeGroup, $chargeName, $id, false))
