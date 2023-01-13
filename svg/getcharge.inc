@@ -419,10 +419,43 @@ function makeSquareCharge(DOMElement $node ) {
   return $retval;
 }
 
-function getCharge( DOMElement $node, $layout ) {
-    global $chg_data_cache, $messages, $options;
+function getChargeDownload(DOMElement $node) {
     if (is_null($node))
         return null;
+    list($chargeGroup, $chargeName ) = explode('/', $node->getAttribute(blazonML::A_KEYTERM));
+    if ($chargeName == 'escutcheon') return; // not really a separate charge
+
+    $folder = __dir__ . "/charges/$chargeGroup/";
+
+    $modList = '';
+    // If there is a different tradition specified we put that first
+    if (($trad = getModifierByType($node,languageDB::TRADITION_PREFIX)) != null)
+        $modList .= '-' . $trad;
+    // Have to treat head feature as a mod as well sometimes, + other things
+    $modList .= featuresThatAreAlsoMods($node);
+    $ignoreMods = array("palewise", 'fesswise', 'bendwise', 'bendsinwise', 'haurient', 'conjoined', 'ensoleil');
+    $otherArray = array_diff(array_keys(getModifiersByTypeAsArray($node,'chargemod')), $ignoreMods);
+    if (existModifierWithKeyterm($node,'fancy')) $otherArray[] = 'fancy';
+    $otherMods = implode('-',$otherArray);
+    if ($otherMods) $modList .= '-' . $otherMods;
+    // look for .inc file
+    $incfile = $folder . $chargeName . '.inc';
+    if ( file_exists( $incfile )) {
+        $layout = null;
+        include($incfile);
+        // It is possible that some node attributes have been changed, so re-read them
+        list($group,$chargeName) = preg_split(':/:', $node->getAttribute('keyterm'));
+        $folder = __dir__ . "/charges/$group";
+    }
+    $file = getBestMatchFilename($folder, $chargeName, $modList, false);
+    if ($file != '')
+        return file_get_contents("$folder/$file");
+    // else
+    return null;
+ }
+
+function getCharge( DOMElement $node, $layout ) {
+    global $chg_data_cache, $messages, $options;
 
     $keyterm = $node->getAttribute('keyterm');
     if (strpos($keyterm, '/') === false) {

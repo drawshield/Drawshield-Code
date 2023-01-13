@@ -647,6 +647,25 @@ class englishGrammar extends grammar
             return null;
     }
 
+    public function getCommand()
+    {
+        $phrase = self::newPhrase();
+        if (!$phrase->add(self::findLex(languageDB::COMMANDS))) {
+            self::discardPhrase($phrase);
+            return null;
+        }
+        $node = $this->schema->makeNodeFromLexeme(blazonML::E_COMMAND, $phrase->create());
+        switch ($phrase->keyterm) {
+            case 'download':
+                $charge = $this->simpleCharge(true,false,false);
+                $node->appendChild($charge);
+                break;
+            default:
+                break;
+        }
+        return $node;
+    }
+
     public function getRoll() {
         $phrase = self::newPhrase();
 

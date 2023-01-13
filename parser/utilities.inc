@@ -132,6 +132,7 @@ class blazonML extends DOMDocument {
   const E_OBJECTS = 'objects';
   const E_ORDINARY = 'ordinary';
   const E_CHARGE = 'charge';
+    const E_COMMAND = 'command';
   const A_TYPE = 'type';
   const A_NUMBER = 'number';
   const E_MODIFIER = 'modifier';
