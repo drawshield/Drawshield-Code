@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="339.48"
-   height="250.54"
-   viewBox="0 0 89.82 66.29"
+   width="89.8221"
+   height="66.2904"
+   viewBox="0 0 89.8221 66.2904"
    version="1.1"
    id="svg96359"
    xmlns="http://www.w3.org/2000/svg"
@@ -11,28 +11,7 @@
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
-     id="defs96353">
-    <style
-       type="text/css"
-       id="style819"><![CDATA[
-    .str0 {stroke:black;stroke-width:0.15;stroke-miterlimit:22.9256}
-    .str1 {stroke:black;stroke-width:0.46;stroke-miterlimit:22.9256}
-    .fil1 {fill:#f8d000}
-    .fil3 {fill:none}
-    .fil4 {fill:black}
-    .fil5 {fill:none;fill-rule:nonzero}
-   ]]></style>
-    <style
-       type="text/css"
-       id="style819-2"><![CDATA[
-    .str0 {stroke:black;stroke-width:0.15;stroke-miterlimit:22.9256}
-    .str1 {stroke:black;stroke-width:0.46;stroke-miterlimit:22.9256}
-    .fil1 {fill:#f8d000}
-    .fil3 {fill:none}
-    .fil4 {fill:black}
-    .fil5 {fill:none;fill-rule:nonzero}
-   ]]></style>
-  </defs>
+     id="defs96353" />
   <metadata
      id="metadata96356">
     <rdf:RDF>
@@ -51,7 +30,7 @@
   </metadata>
   <g
      id="layer11"
-     transform="translate(496.28,-113.57)">
+     transform="translate(496.286,-113.568)">
     <g
        id="g2109">
       <path

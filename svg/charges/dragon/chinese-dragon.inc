@@ -15,4 +15,4 @@ This file is part of the DrawShield.net heraldry image creation program
     You should have received a copy of the GNU General Public License
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
-chargeInAnnulo($node, $charge, "chinese-dragon", __dir__);
+$charge = chargeInAnnulo($node, $charge, "chinese-dragon", __dir__);

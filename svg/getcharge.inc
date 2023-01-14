@@ -297,7 +297,7 @@ function read_chg_file(DOMElement $node) {
     if ( !array_key_exists('svgCode',$chg_data) and !array_key_exists('file',$chg_data) ) {
         // If there is a different tradition specified we put that first
         if (($trad = getModifierByType($node,languageDB::TRADITION_PREFIX)) != null)
-            $modList .= '-' . $trad;
+            $chargeKey = $trad . '-' . $chargeKey;
       // Have to treat head feature as a mod as well sometimes, + other things
       $modList .= featuresThatAreAlsoMods($node);
       $ignoreMods = array("palewise", 'fesswise', 'bendwise', 'bendsinwise', 'haurient', 'conjoined', 'ensoleil');
@@ -383,6 +383,7 @@ function chargeInAnnulo($node, $charge, $base_name, $dir)
         setRenderInfo($in_annulo, 'used');
         $charge['file'] = "$base_name-in-annulo.svg";
     }
+    return $charge;
 }
 
 // WARNINGS Accepted
@@ -430,7 +431,7 @@ function getChargeDownload(DOMElement $node) {
     $modList = '';
     // If there is a different tradition specified we put that first
     if (($trad = getModifierByType($node,languageDB::TRADITION_PREFIX)) != null)
-        $modList .= '-' . $trad;
+        $chargeName = $trad . '-' . $chargeName;
     // Have to treat head feature as a mod as well sometimes, + other things
     $modList .= featuresThatAreAlsoMods($node);
     $ignoreMods = array("palewise", 'fesswise', 'bendwise', 'bendsinwise', 'haurient', 'conjoined', 'ensoleil');

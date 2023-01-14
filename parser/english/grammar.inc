@@ -783,10 +783,11 @@ class englishGrammar extends grammar
         if (($keyterm = self::findLex(languageDB::CHARGE_PREFIX)) != null) {
             return ($this->schema->makeModFromLexeme($keyterm, languageDB::CHARGE_MODS));
         } elseif (($trad = $phrase->add(self::findLex(languageDB::TRADITION_PREFIX))) != null) {
-            if (is_null($phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION)))) {
-               self::discardPhrase($phrase);
-               return null;
-            }
+            // if (is_null($phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION)))) {
+              //  self::discardPhrase($phrase);
+               // return null;
+        //    }
+            $phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION));
             $phrase->add(self::findLex(languageDB::WORD_OF));
             return ($this->schema->makeModFromLexeme($phrase->create($trad->keyterm), languageDB::TRADITION_PREFIX));
         } elseif ($halfCharge = self::half_charge()) {

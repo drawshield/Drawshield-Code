@@ -12,30 +12,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <defs
-     id="defs4">
-    <linearGradient
-       id="linearGradient4929">
-      <stop
-         style="stop-color:#244b85;stop-opacity:1;"
-         offset="0"
-         id="stop4931" />
-      <stop
-         style="stop-color:#162d50;stop-opacity:1;"
-         offset="1"
-         id="stop4933" />
-    </linearGradient>
-    <radialGradient
-       xlink:href="#linearGradient4929"
-       id="radialGradient4345"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1,0,0,1.0217249,0,-4.6691595)"
-       cx="1075.0625"
-       cy="214.92188"
-       fx="1075.0625"
-       fy="214.92188"
-       r="3.5938001" />
-  </defs>
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -522,7 +498,6 @@
              id="path7565"
              d="m 1080.5184,214.92816 c 0,3.06772 -2.4483,5.55459 -5.4685,5.55459 -3.0201,0 -5.4684,-2.48687 -5.4684,-5.55459 0,-3.06771 2.4483,-5.55459 5.4684,-5.55459 3.0202,0 5.4685,2.48688 5.4685,5.55459 z" />
           <path
-             style="fill:url(#radialGradient4345);fill-opacity:1;fill-rule:evenodd;stroke:#162d50;stroke-width:0.625;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
              id="path7567"
              d="m 1075.0625,211.5625 c -1.8095,0 -3.2812,1.47717 -3.2813,3.375 0,1.89783 1.4567,3.34374 3.2813,3.34375 1.8246,0 3.2813,-1.44592 3.2813,-3.34375 0,-1.89783 -1.4718,-3.37499 -3.2813,-3.375 z"
              transform="translate(-0.9472944,-1.3778827)" />
