@@ -54,7 +54,10 @@ foreach ( $points as $p )
 }
 
 $builder->tag_segment(BezierSegmentFlags::PLAIN);
-$builder->line_to($layout->size->width+100, $bottom+100);
+if ($sinister)
+    $builder->line_to(-100, $bottom+100);
+else
+    $builder->line_to($layout->size->width+100, $bottom+100);
 $builder->close();
 
 $lineType = getModifierByType($node, 'linetype', false);

@@ -69,7 +69,9 @@ elseif (existModifierWithKeyterm($node,'compony2') )
 if ( !$fillet )
 {
     $on_size = new ShieldSize($width, $width);
+    $on2_size = new ShieldSize($width * 4, $width * 4);
     $on_center = new ShieldRect(clone $layout->cross_point, $on_size);
+    $on2_center = new ShieldRect(clone $layout->cross_point, $on2_size);
 
     $d = $width + 50/M_SQRT2;
     $d1 = ($width + 50)/M_SQRT2;
@@ -77,7 +79,10 @@ if ( !$fillet )
 
     $ordinary['chargesOn'] = array_to_placement([
         [$on_center],
-        "",
+        [
+            box_placement($on2_center, $angle),
+            box_placement($on2_center, -$angle),
+        ],
         "",
         "",
         [
