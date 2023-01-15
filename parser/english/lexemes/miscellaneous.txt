@@ -337,6 +337,7 @@ square=
 circle=
 sca=
 scutum=
+horsehead=
 swatch=
 pauldron=
 stamp=
