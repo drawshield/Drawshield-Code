@@ -144,6 +144,20 @@ function draw()
     global $version;
     global $messages;
 
+    $blazonNode = $dom->documentElement;
+    // Shortcuts for special commands
+    if ($blazonNode->hasChildNodes() && ($node = $blazonNode->firstChild) && $node->nodeName == blazonML::E_COMMAND) {
+        switch ($node->getAttribute(blazonML::A_KEYTERM)) {
+            case 'download':
+                if ($node->hasChildNodes() && $node->firstChild->nodeName == blazonML::E_CHARGE) {
+                    return getChargeDownload($node->firstChild);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
     $messages = new messageStore($dom);
 
     // Get all the charge data (once for each charge type)
@@ -192,13 +206,13 @@ function draw()
   </filter>';
     }
 
-    $blazonNode = $dom->documentElement;
     $body = '';
     foreach ($blazonNode->childNodes as $node) {
         switch ($node->nodeName) {
             case blazonML::E_COMPLEX:
                 $body .= makeAlongside($node, $layout);
                 break;
+
             case blazonML::E_ROLL:
                 $columns = $node->getAttribute(blazonML::A_COLS);
                 $title = $node->getAttribute(blazonML::A_TITLE);

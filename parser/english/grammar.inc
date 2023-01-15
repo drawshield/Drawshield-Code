@@ -56,7 +56,7 @@ class englishGrammar extends grammar
             if (is_null($alongside)) {
                 break;
             }
-            $complex = $this->schema->makeNodeFromLexeme(§blazonML::E_COMPLEX, $alongside);
+            $complex = $this->schema->makeNodeFromLexeme(blazonML::E_COMPLEX, $alongside);
         }
         // Found all the shields, now look for achievements (if any)
         while (($achievement = $this->achievement(true)) != null) {
@@ -647,6 +647,25 @@ class englishGrammar extends grammar
             return null;
     }
 
+    public function getCommand()
+    {
+        $phrase = self::newPhrase();
+        if (!$phrase->add(self::findLex(languageDB::COMMANDS))) {
+            self::discardPhrase($phrase);
+            return null;
+        }
+        $node = $this->schema->makeNodeFromLexeme(blazonML::E_COMMAND, $phrase->create());
+        switch ($phrase->keyterm) {
+            case 'download':
+                $charge = $this->simpleCharge(true,false,false);
+                $node->appendChild($charge);
+                break;
+            default:
+                break;
+        }
+        return $node;
+    }
+
     public function getRoll() {
         $phrase = self::newPhrase();
 
@@ -764,10 +783,11 @@ class englishGrammar extends grammar
         if (($keyterm = self::findLex(languageDB::CHARGE_PREFIX)) != null) {
             return ($this->schema->makeModFromLexeme($keyterm, languageDB::CHARGE_MODS));
         } elseif (($trad = $phrase->add(self::findLex(languageDB::TRADITION_PREFIX))) != null) {
-            if (is_null($phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION)))) {
-               self::discardPhrase($phrase);
-               return null;
-            }
+            // if (is_null($phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION)))) {
+              //  self::discardPhrase($phrase);
+               // return null;
+        //    }
+            $phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION));
             $phrase->add(self::findLex(languageDB::WORD_OF));
             return ($this->schema->makeModFromLexeme($phrase->create($trad->keyterm), languageDB::TRADITION_PREFIX));
         } elseif ($halfCharge = self::half_charge()) {

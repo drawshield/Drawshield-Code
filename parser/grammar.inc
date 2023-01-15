@@ -69,6 +69,7 @@ abstract class grammar
         $this->matcher = new matcher($tokenList, $this->patternDB);
 
         $shield = $this->getRoll();
+        if (is_null($shield)) $shield = $this->getCommand();
         if (is_null($shield)) $shield = $this->getShield();
         foreach ($this->matcher->getMatcherErrors() as $matchError) {
             $this->raiseError("blazon", $matchError);

@@ -1,0 +1,11 @@
+// as suggested by opshtray via discord
+
+or=#FFD000 //BCC 114 Gold
+azure=#3B4DA6 //BCC 196 Larkspur
+vert=#37CB7E //BCC 22 Apple
+gules=#FA3B1A //BCC 97 Poppy
+argent=#FFFFFF
+sable=#000000
+purpure=#4E2F4E //BCC 29 Plum
+murrey=#592E28 //BCC 135 Murrey
+tenne=#F58D3A //BCC 73 Mace (edited)

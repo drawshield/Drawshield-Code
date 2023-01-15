@@ -79,22 +79,10 @@
                      stroke-width="1.5"/>
             </g>
             <g>
-               <pattern patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="64"
-                        height="19"
-                        viewBox="0 0 64 19"
-                        xlink:type="simple"
-                        xlink:show="other"
-                        xlink:actuate="onLoad"
-                        preserveAspectRatio="xMidYMid meet">
-                  <image xl:href="image704.pdf" width="64" height="19" xlink:type="simple"
-                         xlink:show="embed"
-                         xlink:actuate="onLoad"
-                         preserveAspectRatio="xMidYMid meet"/>
-               </pattern>
+
                <path d="M 75.48571 86.11115 L 150.38253 86.11115 C 151.87989 72.29418 153.43412 62.96911 153.43412 62.96911 L 72.43412 62.96911 C 72.43412 62.96911 73.98835 72.29418 75.48571 86.11115 Z"/>
                <path d="M 3.051587 23.142042 L 77.94841 23.142042 C 79.44577 9.325069 81 0 81 0 L 0 0 C 0 0 1.5542329 9.325069 3.051587 23.142042 Z"
                      transform="translate(72.43412 62.96911)"
-                     fill="url(#tile)"
                      fill-opacity="1"/>
                <path d="M 75.48571 86.11115 L 150.38253 86.11115 C 151.87989 72.29418 153.43412 62.96911 153.43412 62.96911 L 72.43412 62.96911 C 72.43412 62.96911 73.98835 72.29418 75.48571 86.11115 Z"
                      stroke="black"

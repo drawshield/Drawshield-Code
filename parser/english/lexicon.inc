@@ -143,6 +143,7 @@ class languageDB extends lexicon
     const CAPTION = 'caption';
     const BACKGROUND = 'background';
     const TITLE = 'title';
+    const COMMANDS = 'commands';
  #   const DISPLACED = 'displaced';
  #
     const LEXEMEDIR = 'parser/english/lexemes';

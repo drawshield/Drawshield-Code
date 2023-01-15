@@ -3,6 +3,10 @@
 !test=
 !todo=
 
+=commands
+download=
+fetch=download
+
 =chglist
 and also=
 & also=
