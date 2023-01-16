@@ -220,7 +220,7 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
 function featuresThatAreAlsoMods($node) {
   $retval = '';
   static $features = array (
-    'head', 'habited',
+    'head', 'habited', 'vorant-a-child',
     'claw',
     'leg',
     'clasped',

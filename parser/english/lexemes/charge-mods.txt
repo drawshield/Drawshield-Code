@@ -114,7 +114,6 @@ of chain=of-chain
 of rope=of-rope
 of benediction=of-benediction
 busts?=bust
-vorant ?of ?a child(ren)?=vorant-of-child
 vorant ?of ?a fish(es)?=vorant-of-fish
 maintaining ?a towers? ?on ?(their|its) ?backs?=tower-back
 en arriere=en-arriere
