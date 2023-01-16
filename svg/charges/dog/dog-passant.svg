@@ -12,8 +12,8 @@
      contentStyleType="text/css">
    <defs/>
    <metadata  xmlns:svg="http://www.w3.org/2000/svg"
-
-             >
+              xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+              xmlns:cc="http://creativecommons.org/ns#">
       <rdf:RDF>
          <cc:Work rdf:about="">
             <dc:creator>
