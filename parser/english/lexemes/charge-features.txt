@@ -159,7 +159,6 @@ thereon=charged-with
 charged (at|on) each ?(point|corner|limb) ?with=charged-each
 surmounted (by|with|of)=charged-with
 (en)?circled (by|with|of)=encircled-by
-all within=encircled-by
 en(toured|vironed|vironee|veloped) (by|with|of)=encircled-by
 enfiled (by|with|of)=enfiled
 engoule (by|with|of)=engoule
