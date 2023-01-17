@@ -18,9 +18,9 @@ This file is part of the DrawShield.net heraldry image creation program
 function drawFrontSupporters($supportNode, $layout) {
     if ($supportNode == null) return '';
     $boundX = 300;
-    $boundY = 600;
-    $centreY = 900;
-    $dexterX = $boundX / 2;
+    $boundY = 700;
+    $centreY = 850;
+    $dexterX = ($boundX * 0.75) / 2;
     $sinisterX = 1000 - $dexterX;
 
     $supportCount = 0;
@@ -186,7 +186,7 @@ function drawMantling($mantlingNode)
             break;
         case 'leaves':
             $useRawSVG = false;
-            $yShift = 270; $scale = 0.65;
+            $yShift = 240; $scale = 0.65;
             $default1 = $default2 = rgb('vert');
             break;
         case 'ribbons':
@@ -800,7 +800,7 @@ function addParts($body, $parts, $layout) {
         $body = "$rearSupports<g transform=\"translate($rearSupportX,$rearSupportY) scale($rearSupportScale) \">$body</g>";
     }
     if (isset($frontSupports) && $frontSupports != '') {
-        $supportScale = 0.7 / $bodyScale; // modify internal scaling based on presence of a crest
+        $supportScale = 0.85 / $bodyScale; // modify internal scaling based on presence of a crest
         $supportX = (1000 * (1-$supportScale)) / 2;
         $body = "<g transform=\"translate($supportX,0) scale($supportScale) \">$body</g>$frontSupports";
         // But might need to scale down if there isn't a compartment

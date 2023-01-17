@@ -991,7 +991,7 @@ class englishGrammar extends grammar
                     $foundShown = true;
                     break;
                 case 'stroked':
-                    if (($colour = self::colour()) != null) {
+                    if (($colour = self::colour(false)) != null) {
                         $adjustments[] = $this->schema->makeModFromLexeme($shownLex, languageDB::SHOWN_MODS,
                             $colour->getAttribute(blazonML::A_KEYTERM));
                     } else {
@@ -1737,7 +1737,7 @@ class englishGrammar extends grammar
 
     }
 
-    protected function colour() // DONE
+    protected function colour($allowProper = true) // DONE
     {
         global $options;
 
@@ -1745,6 +1745,15 @@ class englishGrammar extends grammar
         $phrase->add(self::findLex(languageDB::WORD_OF));
         $heraldicOnly =  !is_null($phrase->add(self::findLex(languageDB::HERALDIC)));
         $colour = null;
+        // proper is also a valid colour
+        if ($phrase->add(self::findLex(languageDB::PROPER))) {
+            if ($allowProper) {
+                return $this->schema->makeNodeFromLexeme(blazonML::E_PROPER, $phrase->create() );
+            } else {
+                self::raiseError(self::ERROR_ORIGIN, "Proper not valid, specify colour", true);
+                return null;
+            }
+        }
         // if a colour set is enabled, those colours
         /// OVERRIDE heraldic colours
         if (!$heraldicOnly) {
@@ -1920,7 +1929,7 @@ class englishGrammar extends grammar
         while ($found) {
             if (self::semicolon()) break;
             $this->matcher->syncOver(languageDB::ANDD);
-            if (($colour = self::colour()) != null) {
+            if (($colour = self::colour(false)) != null) {
                 $size = null;
                 if (!self::semicolon())
                     $size = self::number();
@@ -2347,7 +2356,7 @@ class englishGrammar extends grammar
 
 
         while (self::moreInput()) {
-            if (($colour = self::colour()) != null) {
+            if (($colour = self::colour(false)) != null) {
                 $mottoNode->appendChild($colour);
             } elseif (($adjust = $this->getAdjustments()) != null) {
                 foreach ($adjust as $adj) {
@@ -2417,7 +2426,7 @@ class englishGrammar extends grammar
     $node = $this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
         blazonML::A_ORIGIN => 'given'));
 
-    if ( ($colourOrFur = self::colour())
+    if ( ($colourOrFur = self::colour(false))
         || ($colourOrFur = self::fur())
         || ($colourOrFur = self::tartan()) ) {
       // This could be [colour] [treatment] [colour],
