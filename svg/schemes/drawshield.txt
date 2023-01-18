@@ -42,4 +42,5 @@ white=#ffffff
 buff=#f0dc82
 red-ochre=#890520
 yellow-ochre=#ccaa2b
-crimson=#dc143c 
+crimson=#dc143c
+transparent=#FFFFFF

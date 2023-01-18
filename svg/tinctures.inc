@@ -283,6 +283,7 @@ class TinctureData
         $this->fill = null;
         $this->defs = [];
         $this->mask = null;
+        $this->opacity = null;
     }
 
     private function add_def($element, $content)
@@ -323,15 +324,17 @@ class TinctureData
         else
             $patTrans = '';
 
-        switch ( $this->type_name )
-        {
+        switch ( $this->type_name ) {
             case 'colour':
             case 'default': // don't think these two ever occur
             case 'proper':
-                if ( $this->type_node->hasAttribute('spec') )
+                if ($this->type_node->hasAttribute('spec')) {
                     $this->fill = $this->type_node->getAttribute('spec');
-                else
+                } else {
                     $this->fill = rgb($this->type_node->getAttribute('keyterm'));
+                    if ($this->type_node->getAttribute('keyterm') == 'transparent')
+                        $this->opacity = "0.0";
+                }
 
                 if ( $this->fill )
                 {
@@ -494,7 +497,8 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
                         $stroke = ($targetType == 'ordinary') ? 'stroke="' . rgb('sable') . '" stroke-width="5"' : '';
                         break;
                 }
-
+                if (!is_null($data->opacity))
+                    $stroke .= ' fill-opacity="' . $data->opacity . '" ';
                 $retval .= "<g $stroke fill=\"{$data->fill}\">$targetSVG</g>";
             }
             else

@@ -123,6 +123,14 @@ function splitStyle ( $styles, $attributeKeys, $strokeCol, $strokeWidth ) {
   return $retval;
 }
 
+function rewriteXlink($attributes){
+    $retval = '';
+
+    foreach ($attributes as $key => $data ) {
+        $retval .= $key . '="' . $data . '" ';
+    }
+    return $retval;
+}
 
 function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $fillSet = false) {
 //  global $messages;
@@ -136,6 +144,8 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
   }
   if ($fillSet) $existingAttributes[] = 'fill';
   $fill = '';
+  $opacityFound = false;
+  $opacityNeeded = false;
   $style = ''; // decide whether to use style or fill
   foreach ($attributes as $key => $data ) {
     switch ($key) {
@@ -165,6 +175,10 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
             }
         }
         break; // any other colour is left as it is
+       case 'fill-opacity':
+           $retval .= $key . '="' . $data . '" ';
+           $opacityFound = true;
+            break;
       case 'stroke':
           if ($strokeCol) { // only set stroke if told to
             if ($data != 'none'){
@@ -194,6 +208,8 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
   }
   if ( $class != '' ) $retval .= ' class="' . trim($class) . '" ';
   $retval .= $fill . ' ' . $style;
+  if (!$opacityFound && $fillSet)
+      $retval .= ' fill-opacity="0.999" ';
 
   return $retval;
 }
@@ -342,7 +358,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
     $class = '';
     //---------------------------------------------------
     // Handle invisible rectangles marking additional charge positions
-    // Special handling for extra items, e.g. crowns
+    // Special handling for extra items, e.g. crown
     if ( array_key_exists($id, $extras) )
     {
         if ( $name == 'rect' )
@@ -387,7 +403,7 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
     return '';
 
    $item .= rewriteAttributes($element->attributes(), $strokeCol, $strokeWidth, $class, $fillSet);
-    $item .= rewriteAttributes($element->attributes("xlink",true), $strokeCol, $strokeWidth );
+    $item .= rewriteXlink($element->attributes("xlink",true));
   $subitem = '';
   if ( $name == 'text' or $name == 'tspan' or $name == 'textPath' ) {
       // We need to preserve some of the important text related attributes
