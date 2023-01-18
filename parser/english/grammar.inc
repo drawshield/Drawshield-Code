@@ -2426,7 +2426,11 @@ class englishGrammar extends grammar
     $node = $this->schema->makeIDNode(blazonML::E_TINCTURE, array(blazonML::A_INDEX => '1',
         blazonML::A_ORIGIN => 'given'));
 
-    if ( ($colourOrFur = self::colour(false))
+      //  Look for a reference to proper
+    if ( $lexeme = self::findLex(languageDB::PROPER) ) {
+        $proper = $this->schema->makeIDNodeFromLexeme(blazonML::E_PROPER, $lexeme);
+        $node->appendChild($proper);
+    } elseif ( ($colourOrFur = self::colour(false))
         || ($colourOrFur = self::fur())
         || ($colourOrFur = self::tartan()) ) {
       // This could be [colour] [treatment] [colour],
@@ -2552,10 +2556,6 @@ class englishGrammar extends grammar
                   break;
         }
         $node->setAttribute( blazonML::A_ORIGIN, $backref->keyterm);
-      // Or a reference to proper
-    } elseif ( $lexeme = self::findLex(languageDB::PROPER) ) {
-      $proper = $this->schema->makeIDNodeFromLexeme(blazonML::E_PROPER,$lexeme);
-      $node->appendChild($proper);
       // Look for a colour or a fur
     } else { // Didn't find anything
       self::discardPhrase($phrase);
