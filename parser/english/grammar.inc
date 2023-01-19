@@ -2398,7 +2398,8 @@ class englishGrammar extends grammar
         if (!is_null($loc = self::achievementLocation())) {
             $locNode = $this->schema->makeNodeFromLexeme(blazonML::E_LOCATION, $loc);
             $found = true;
-        } else if (($tincNode = self::tincture()) != null) {
+        } else if (($tinc= self::tincture()) != null) {
+            $tincNode = $tinc;
             $found = true;
         } else if (($adjust = $this->getAdjustments()) != null) {
             foreach ($adjust as $adj) {

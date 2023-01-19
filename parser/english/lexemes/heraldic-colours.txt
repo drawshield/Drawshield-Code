@@ -54,3 +54,5 @@ gr[ae]y=gray
 pink=rose
 white=white
 transparent=
+adumbrated=transparent
+drawn without ?a field=transparent
