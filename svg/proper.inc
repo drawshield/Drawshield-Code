@@ -64,7 +64,6 @@ class properColour {
     // etc...
     self::$groups = array(
       'bear' => self::$brown,
-      'human' => self::$caucasian,
       'crown' => self::$yellow,
       'plant' => self::$green,
       'flower' => self::$green,
@@ -88,6 +87,7 @@ class properColour {
       'beaver' => self::$brown,
       'auk' => self::$white,
       'parachute' => self::$white,
+      'heart' => self::$red,
       'talbot' => self::$white,
       'skull' => self::$white,
       'molar' => self::$white,
