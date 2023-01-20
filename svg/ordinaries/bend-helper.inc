@@ -43,6 +43,28 @@ function build_bend_fracted($layout, $width = 200, $count = 2, $path_builder = n
         ;
 }
 
+
+function build_bend_sinister($layout, $width, $margin, $offset = 0, $path_builder = null)
+{
+    $base = min($layout->cross_point->x, $layout->cross_point->y) - $margin;
+    $length = $base * M_SQRT2 * 2;
+    $offset_comp = $offset / M_SQRT2;
+    if (!$layout->chief)
+        $offset_comp -= 50;
+
+    if ( $path_builder == null )
+        $path_builder = new PathBuilder();
+
+    return $path_builder
+        ->move($layout->cross_point->x + $base + $offset_comp, $layout->cross_point->y - $base - $offset_comp)
+        ->down_right_plain($width/2)
+        ->down_left($length)
+        ->up_left_plain($width)
+        ->up_right($length)
+        ->down_right_plain($width/2)
+        ;
+}
+
 function build_bend($layout, $width, $margin, $offset = 0, $path_builder = null)
 {
     $base = min($layout->cross_point->x, $layout->cross_point->y) - $margin;

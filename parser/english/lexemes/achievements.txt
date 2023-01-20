@@ -1,5 +1,6 @@
 =mantling
 mantling=
+mantle=mantling
 lambrequin=
 =mantles
 ribbons=ribbons

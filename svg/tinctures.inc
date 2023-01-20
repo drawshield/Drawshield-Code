@@ -409,7 +409,7 @@ class TinctureData
 
 
 function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, ShieldSize $chg_size = null,
-        $rot = '0', $rev = false, $inv = false ) {
+        $rot = '0', $rev = false, $inv = false, $yshift = '' ) {
     global $_SERVER, $messages, $xpath;
     $retval = '';
 
@@ -558,6 +558,9 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
             if ( $division->length ) {
                 $counterDiv = $division->item(($division->length)-1);
                 $div_data = makeDivision( $counterDiv, $layout, true );
+                if ($yshift) {
+                    $div_data = '<g transform="translate(0, ' . $yshift * -1 . ')">' . $div_data . '</g>';
+                }
                 $patt_id = add_def ( 'mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>' );
                 $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $div_data . '</g>';
             } else {

@@ -342,6 +342,14 @@ function makeOrdinary(DOMElement &$node, $layout)
      * @var DOMElement $voided
      */
     $voided = getModifierNodeWithKeyterm($node, 'voided');
+    $yshift = '';
+    if (getModifierNodeWithKeyterm($node, 'enhanced')) {
+        $yshift = $layout->size->height * -0.1666; // Adjust to change movement for enhanced (match in layout.inc)
+    }
+    if (getModifierNodeWithKeyterm($node, 'abased')) {
+        $yshift = $layout->size->height * -0.1666; // Adjust to change movement for enhanced (match in layout.inc)
+        $shift = ' translate(0,' . $yshift . ') ';
+    }
     $tinc1 = getTinctureNode($node, '1');
     $cotiseSVG = '';
 
@@ -395,7 +403,7 @@ function makeOrdinary(DOMElement &$node, $layout)
     $inverted = existModifierWithKeyterm($node, 'inverted');
 
     // Start to build return string
-    $retval = apply_tincture($tinc1, $bodySVG, $layout, null, $rot, $mirrored, $inverted);
+    $retval = apply_tincture($tinc1, $bodySVG, $layout, null, $rot, $mirrored, $inverted, $yshift);
 
     // Do we need to add a second tincture as an overlay?
     if (array_key_exists('body2', $ord_data)) {
@@ -539,19 +547,14 @@ function makeOrdinary(DOMElement &$node, $layout)
     if ($mirrored) {
         $transform .= "translate({$layout->size->width},0) scale(-1,1) ";
     }
-    if (existModifierWithKeyterm($node, 'enhanced')) {
-        $yshift = $layout->size->height * -0.1666; // Adjust to change movement for enhanced (match in layout.inc)
-        $transform .= 'translate(0,' . $yshift . ') ';
-    }
-    if (existModifierWithKeyterm($node, 'abased')) {
-        $yshift = $layout->size->height * 0.1666; // As above
-        $transform .= 'translate(0, ' . $yshift . ') ';
+    if ($yshift) {
+        $transform .= ' translate(0,' . $yshift . ') ';
     }
     if ($inverted) {
         $transform .= "translate(0,{$layout->size->height}) scale(1,-1) ";
     }
     if ($transform != '') {
-        $retval = '<g ' . trace(__FILE__, __LINE__) . ' transform="' . $transform . '">' . $retval . "</g>\n";
+        $retval = '<g transform="' . $transform . '">' . $retval . "</g>\n";
     }
     // have we been moved to a different position (or more than one)?
     // For ease of use in switch statemes we combine any "sinister" modifier
