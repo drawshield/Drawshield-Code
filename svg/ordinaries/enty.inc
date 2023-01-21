@@ -18,7 +18,7 @@ This file is part of the DrawShield.net heraldry image creation program
 
 
 $y = ($layout->size->height - 1200);
-$builder = SvgDParser::parse_d("M 888.70158,1124.8309 C 558.99143,923.1401 499.23001,705.74879 499.23001,705.74879 c 0,0 -59.76141,217.39131 -389.47156,419.08211 l 389.47156,112.6087 z");
+$builder = SvgDParser::parse_d("M 1008,1244.83 C 678.289,1043.14 500,705.749 500,705.749 c 0,0 -178.289,337.391 -508,539.081 l 99.2117,3.48 818.1603,3.07 z");
 $builder->translate(0, $y);
 $ordinary['shape_spec'] = $builder;
 $ordinary['chargesOn'] = '500,950,500,240/333.33,950,300,200:666.67,950/333.33,900,160,160:666.67,900:500,1050/x/x/x';
