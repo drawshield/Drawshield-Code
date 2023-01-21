@@ -2,7 +2,7 @@
 <svg
    id="svg2780"
    height="132.95"
-   width="132.95"
+   width="192.95"
    version="1.0"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"
@@ -33,6 +33,6 @@
     <path
        id="rect1895"
        style="opacity:1;fill:#ffff00;stroke:#808080"
-       d="m 58.823,834.07 h 131.95 V 966.02 H 58.823 Z" />
+       d="m 58.823,834.07 h 191.95 V 966.02 H 58.823 Z" />
   </g>
 </svg>

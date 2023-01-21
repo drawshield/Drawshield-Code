@@ -308,8 +308,8 @@ class englishGrammar extends grammar
                 }
                 $found = true;
                 $this->matcher->syncOver(languageDB::ANDD);
-            } elseif (($trad = $phrase->add(self::findLex(languageDB::TRADITION_PREFIX))) != null) {
-                if (is_null($phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION)))) {
+            } elseif (($trad = $phrase->add(self::findLex(languageDB::SHAPE_PREFIX))) != null) {
+                if (is_null($phrase->add(self::findLex(languageDB::SHAPE_DESCRIPTION)))) {
                     self::discardPhrase($phrase);
                     return null;
                 }
