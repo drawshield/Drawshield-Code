@@ -347,7 +347,7 @@ function makeOrdinary(DOMElement &$node, $layout)
         $yshift = $layout->size->height * -0.1666; // Adjust to change movement for enhanced (match in layout.inc)
     }
     if (getModifierNodeWithKeyterm($node, 'abased')) {
-        $yshift = $layout->size->height * -0.1666; // Adjust to change movement for enhanced (match in layout.inc)
+        $yshift = $layout->size->height * 0.1666; // Adjust to change movement for enhanced (match in layout.inc)
         $shift = ' translate(0,' . $yshift . ') ';
     }
     $tinc1 = getTinctureNode($node, '1');

@@ -2102,6 +2102,11 @@ class englishGrammar extends grammar
          self::raiseError(self::ERROR_ORIGIN,"Too many tinctures for division", $divLexeme);
        }
     }
+    if (!is_null($node) && !is_null($adjust = self::getAdjustments())) {
+        foreach ($adjust as $adj) {
+            $node->appendChild($adj);
+        }
+    }
     return $node;
   }
 

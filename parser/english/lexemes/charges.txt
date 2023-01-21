@@ -1388,6 +1388,7 @@ crowns? of oak lea(f|ves)=crown-of-oak-leaves?O
 oak lea(f|ves) crowns?=crown-of-oak-leaves?O
 crowns? of mullett?s?=crown-of-mullets?O
 crowns? of grass=crown-of-grass?O
+crowns? of (st|saint) stephen=royal-hungarian?P
 grass crowns?=crown-of-grass?O
 crowns? of myrtle=crown-of-myrtle?O
 myrtle crowns?=crown-of-myrtle?O

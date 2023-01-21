@@ -465,10 +465,11 @@ function PlaceCharge ( $node,  // images
           $angle = ($orientation == 'bendwise') ? "-45" : "45";
         }
 			  $X2 = $chargeX / 2; $Y2 = $chargeY / 2;
-				$chargeX = ($chargeX + $chargeY) * 0.707;
+			/*	$chargeX = ($chargeX + $chargeY) * 0.707;
 				$XY2 = $chargeX / 2;
-        $chargeY = $chargeX;
-        $retval = "<g transform=\"translate($XY2,$XY2) rotate($angle) translate(-$X2,-$Y2)\"><desc>bendwise</desc>$retval</g>\n";
+        $chargeY = $chargeX; */
+        // $retval = "<g transform=\"translate($XY2,$XY2) rotate($angle) translate(-$X2,-$Y2)\"><desc>bendwise</desc>$retval</g>\n";
+        $retval = "<g transform=\"rotate($angle,$X2,$Y2)\"><desc>bendwise</desc>$retval</g>\n";
         break;
       case 'palewise':
           $retval = "<g transform=\"translate($chargeY,0) rotate(90)\"><desc>palewise charge</desc>$retval</g>\n";
