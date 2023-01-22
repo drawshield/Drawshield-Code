@@ -932,6 +932,7 @@ class englishGrammar extends grammar
                     $tinc->setAttribute(blazonML::A_INDEX, $tincCount++);
                     $mods[] = $tinc;
                     $foundTinc -= 1;
+                    $this->matcher->syncOver(languageDB::ANDD);
                 }
             } elseif ($chargeFeatures = self::findLex(languageDB::CHARGE_FEATURES)) {
                 $feature = $this->schema->makeModFromLexeme($chargeFeatures, blazonML::V_FEATURE);

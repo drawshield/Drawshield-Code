@@ -611,7 +611,7 @@ function getCharge( DOMElement $node, $layout ) {
                                 case 'proper':
                                     $feat_cols[$featureName] = getProper($chargeGroup, $chargeName, $featureName);
                                     break;
-                                default:
+                                case 'colour':
                                     $feat_cols[$featureName] = rgb($tinctureType->getAttribute('keyterm'));
 
                                     $tincture_data = new TinctureData($featureTinc);
@@ -621,6 +621,8 @@ function getCharge( DOMElement $node, $layout ) {
                                         $feat_cols[$featureName] = $tincture_data->fill;
                                         $defs = array_merge($defs, $tincture_data->defs);
                                     }
+                                    break;
+                                default:
                                     break;
                             }
                         }
