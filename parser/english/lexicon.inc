@@ -86,7 +86,7 @@ class languageDB extends lexicon
     const TRADITION_PREFIX = 'tradition-prefix';
     const TRADITION_DESCRIPTION = 'tradition-desc';
     const SHAPE_PREFIX = 'shape-prefix';
-    const SHAPE_DESCRIPTION = 'shape-description';
+    const SHAPE_DESCRIPTION = 'shape-desc';
     const CHARGE_BETWEEN = 'chgbetween';
     const CHARGE_NEAR = 'chargenear';
     const CHARGE_FEATURES = 'chargefeat';

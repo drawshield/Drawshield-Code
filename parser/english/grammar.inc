@@ -787,8 +787,15 @@ class englishGrammar extends grammar
               //  self::discardPhrase($phrase);
                // return null;
         //    }
+            $phrase->add(self::findLex(languageDB::SHAPE_DESCRIPTION));
             $phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION));
             $phrase->add(self::findLex(languageDB::WORD_OF));
+            return ($this->schema->makeModFromLexeme($phrase->create($trad->keyterm), languageDB::TRADITION_PREFIX));
+        } elseif (($trad = $phrase->add(self::findLex(languageDB::SHAPE_PREFIX))) != null) {
+            if (is_null($phrase->add(self::findLex(languageDB::SHAPE_DESCRIPTION)))) {
+                self::discardPhrase($phrase);
+                return null;
+            }
             return ($this->schema->makeModFromLexeme($phrase->create($trad->keyterm), languageDB::TRADITION_PREFIX));
         } elseif ($halfCharge = self::half_charge()) {
             return ($this->schema->makeModFromLexeme($halfCharge, languageDB::CHARGE_MODS));
