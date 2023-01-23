@@ -308,8 +308,8 @@ class englishGrammar extends grammar
                 }
                 $found = true;
                 $this->matcher->syncOver(languageDB::ANDD);
-            } elseif (($trad = $phrase->add(self::findLex(languageDB::TRADITION_PREFIX))) != null) {
-                if (is_null($phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION)))) {
+            } elseif (($trad = $phrase->add(self::findLex(languageDB::SHAPE_PREFIX))) != null) {
+                if (is_null($phrase->add(self::findLex(languageDB::SHAPE_DESCRIPTION)))) {
                     self::discardPhrase($phrase);
                     return null;
                 }
@@ -932,6 +932,7 @@ class englishGrammar extends grammar
                     $tinc->setAttribute(blazonML::A_INDEX, $tincCount++);
                     $mods[] = $tinc;
                     $foundTinc -= 1;
+                    $this->matcher->syncOver(languageDB::ANDD);
                 }
             } elseif ($chargeFeatures = self::findLex(languageDB::CHARGE_FEATURES)) {
                 $feature = $this->schema->makeModFromLexeme($chargeFeatures, blazonML::V_FEATURE);
@@ -2101,6 +2102,11 @@ class englishGrammar extends grammar
        if ($tincCount > $maxTinc) {
          self::raiseError(self::ERROR_ORIGIN,"Too many tinctures for division", $divLexeme);
        }
+    }
+    if (!is_null($node) && !is_null($adjust = self::getAdjustments())) {
+        foreach ($adjust as $adj) {
+            $node->appendChild($adj);
+        }
     }
     return $node;
   }

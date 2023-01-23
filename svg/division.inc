@@ -120,5 +120,12 @@ function makeDivision( DOMElement $node, ShieldLayout $layout, $counter = false 
   if ( array_key_exists('divx',$division) ) { // Add any extra embellishment
     $retval .= $division['divx'];
   }
-  return '<g stroke-width="2" stroke="' . rgb('division-stroke') . '" >' . $retval . '</g>';
+  $strokeWidth = 4;
+  if ($stroke = getModifierNodeWithKeyterm($node,'stroked')) {
+      $strokeColour = rgb($stroke->getAttribute(blazonML::A_PARAM));
+      $strokeWidth = 6;
+  } else {
+      $strokeColour = rgb('division-stroke');
+  }
+  return '<g stroke-width="' . $strokeWidth . '" stroke="' . $strokeColour . '" >' . $retval . '</g>';
 }

@@ -317,8 +317,19 @@ grid(ded)?=grid
 =font
 in (a|the) * (font|face|style|script)=font
 
-
 =tradition-prefix
+swiss=swiss
+french=french
+english=english
+italian=italian
+polish=polish
+spanish=spanish
+german=german
+african=african
+persian=persian
+hungarian=hungarian
+
+=shape-prefix
 swiss=swiss
 french=french
 english=english
@@ -343,9 +354,12 @@ pauldron=
 stamp=
 roman=scutum
 flag=flag
-=tradition-desc
+
+=shape-desc
 shaped?=shape
 styled?=shape
+
+=tradition-desc
 tradition=
 origin=
 

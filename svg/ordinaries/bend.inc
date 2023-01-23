@@ -20,13 +20,27 @@ This file is part of the DrawShield.net heraldry image creation program
 require_once("bend-helper.inc");
 
 $width = 300;
+$sinister = false;
+$removeSinister = false;
 
+if ( existModifierWithKeyterm($node,'sinister') ) {
+    $sinister = true;
+}
 if ( existModifierWithKeyterm($node,'couped') ) {
     $width = 200;
-    $ordinary['shape_spec'] = (string)build_bend($layout, $width, 200);
+    if ($sinister) {
+        $ordinary['shape_spec'] = (string)build_bend_sinister($layout, $width, 200);
+        $removeSinister = true;
+    } else {
+        $ordinary['shape_spec'] = (string)build_bend($layout, $width, 200);
+    }
 } elseif ( existModifierWithKeyterm($node,'double-fracted') ) {
         $width = 250;
-        $ordinary['shape_spec'] = (string)build_bend_fracted($layout, $width, 2);
+        if ($sinister)
+            // TODO write bend fracted sinister (and set $removeSinister
+            $ordinary['shape_spec'] = (string)build_bend_fracted($layout, $width, 2);
+        else
+            $ordinary['shape_spec'] = (string)build_bend_fracted($layout, $width, 2);
 } elseif ( existModifierWithKeyterm($node, 'engouled')) {
   $ordinary['body'] = '<g
      transform="translate(0,540)"
@@ -88,7 +102,12 @@ if ( existModifierWithKeyterm($node,'couped') ) {
 } elseif ( existModifierWithKeyterm($node, 'quadrate')) { 
   $ordinary['body'] = '<path d="m -131.63,82.34 212.13,-212.13 347.48,347.49 70.71,-70.71 353.56,353.55 -70.71,70.71 448.86,448.95 -212.1,212.1 -448.89,-448.92 -70.72,70.71 -353.55,-353.55 70.71,-70.71 z" />';
 } else if ( $node->getAttribute('number') == '1' ) {
-    $ordinary['shape_spec'] = (string)build_bend($layout, 300, -100);
+        if ($sinister) {
+            $removeSinister = true;
+            $ordinary['shape_spec'] = (string)build_bend_sinister($layout, 300, -100);
+        } else {
+            $ordinary['shape_spec'] = (string)build_bend($layout, 300, -100);
+        }
 } else {
     $builder = new PathBuilder();
     $width = (200 + 156) * 2;
@@ -113,6 +132,9 @@ $ordinary['chargesOn'] = placement_in_bend($layout->rect_area(), false, 45);
 
 $ordinary['chargesWithin'] = bend_within($layout, $width);
 
+if ($removeSinister) {
+    $node->removeChild( getModifierNodeWithKeyterm($node, 'sinister'));
+}
 
 if ( existModifierWithKeyterm($node, 'riveted')) {
   include '_rivet.inc';

@@ -26,7 +26,7 @@ function getSvgTreatment ($filename) {
   $retval['height'] = floatval($svg['height']);
   $retval['width'] = floatval($svg['width']);
   $metadata = @$svg->xpath('//cc:Agent/dc:title');
-  if ( is_array($metadata) and count($metadata) > 0) {
+  if ( is_array($metadata) && count($metadata) > 0 ) {
     $messages->addMessage('licence', $metadata[0]);
   }
   $fragment = '';

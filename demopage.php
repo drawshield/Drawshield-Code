@@ -200,6 +200,9 @@ This file is part of the DrawShield.net heraldry image creation program
         ["CC3", "cc3"],
         ["Hatching", "hatching"],
         ["Outline", "outline"],
+        ["Flat", "flat"],
+        ["English", "english"],
+        ["Bajuvarian", "bajuvarian"],
     ]);
 
     table_cat("Shape", "shape", [
@@ -216,6 +219,10 @@ This file is part of the DrawShield.net heraldry image creation program
         ["Spanish", "spanish"],
         ["Circle", "circle"],
         ["SCA", "sca"],
+        ["Hungarian", "Hungarian"],
+        ["Scutum", "scutum"],
+        ["African", "african"],
+        ["Persian", "persian"],
         ["Swatch", "swatch"],
         ["Pauldron", "pauldron"],
         ["Stamp", "stamp"],

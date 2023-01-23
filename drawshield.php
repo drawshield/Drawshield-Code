@@ -219,7 +219,7 @@ function report_errors_svg($errno, $errstr, $errfile, $errline)
         $dirname = __dir__;
         if ( substr($errfile, 0, strlen($dirname)) == $dirname )
             $errfile = substr($errfile, strlen($dirname));
-
+        $reportError = true;
 
         switch ($errno)
         {
@@ -235,13 +235,15 @@ function report_errors_svg($errno, $errstr, $errfile, $errline)
             case E_WARNING:
             case E_USER_WARNING:
                 $err_type = "warning";
+                $reportError = false;
                 break;
             default:
                 $err_type = "notice";
                 break;
         }
 
-        $messages->addMessage("$err_type", "$errfile:$errline : $errstr\n");
+        if ($reportError)
+            $messages->addMessage("$err_type", "$errfile:$errline : $errstr\n");
     }
     return false;
 }
