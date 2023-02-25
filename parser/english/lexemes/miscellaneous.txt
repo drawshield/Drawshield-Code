@@ -215,6 +215,7 @@ counter rampant=facing-in
 confront(e|ing|y)=combattant
 combatt?ant=combattant
 (addorsed|adosse|endorsed)=facing-out
+?counter passant=counter-passant
 
 =inarrangement
 ann?ull?o=inannulo
