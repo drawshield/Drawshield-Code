@@ -112,6 +112,7 @@ naient=naissant
 (of|with) (three|3) arches=three-arches
 in lure=in-lure
 equal armed=equal-armed
+snake tail(s|ed)?=snake-tail
 of chain=of-chain
 of rope=of-rope
 of benediction=of-benediction

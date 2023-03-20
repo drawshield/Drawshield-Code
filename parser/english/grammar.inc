@@ -803,6 +803,32 @@ class englishGrammar extends grammar
         return null;
     }
 
+    protected function arrangeByRows()
+    {
+        $phrase = self::newPhrase();
+        $phrase->add(self::findLex(languageDB::ARRANGED));
+        if ($num = $phrase->add(self::findLex(languageDB::NUMBER))) {
+            // This might be rows, but must be >1 number
+            $this->matcher->syncOver(languageDB::ANDD);
+            $rows = array($num->keyterm);
+            $count = 1;
+            while (($num = $phrase->add(self::findLex(languageDB::NUMBER)))) {
+                $count += 1;
+                $rows[] = $num->keyterm;
+                if (self::semicolon(true)) break;
+                $this->matcher->syncOver(languageDB::ANDD);
+            }
+            if ($count == 1) {
+                self::discardPhrase($phrase);
+                return null;
+            } elseif ($count > 1) {
+                return ( $this->schema->makeModFromLexeme(
+                    ($phrase->create('arrange-by-rows')), 'rows',  implode(',', $rows)));
+            };
+        }
+        return null;
+    }
+
     protected function simpleCharge($assumeNum = false, $allowArr = false, $allowPos = false) // DONE
     {
         $phrase = self::newPhrase();
@@ -911,27 +937,12 @@ class englishGrammar extends grammar
                 $mods[] = $crowns;
             elseif ($allowPos and $positions = self::getPositions())
                 $mods = array_merge($mods, $positions);
+            // IMPORTANT note order, arranged 3,3,3 comes before arranged in fess etc.
+            elseif ($arrByRows = self::arrangeByRows())
+                $mods[] = $arrByRows;
             elseif ($allowArr and $arrangement = self::arranged())
                 $mods[] = $this->schema->makeModFromLexeme($arrangement, languageDB::ARRANGEMENT);
-            elseif ($num = $phrase4->add(self::findLex(languageDB::NUMBER))) {
-                // This might be rows, but must be >1 number
-                $this->matcher->syncOver(languageDB::ANDD);
-                $rows = array($num->keyterm);
-                $count = 1;
-                while (($num = $phrase4->add(self::findLex(languageDB::NUMBER)))) {
-                    $count += 1;
-                    $rows[] = $num->keyterm;
-                    if (self::semicolon(true)) break;
-                    $this->matcher->syncOver(languageDB::ANDD);
-                }
-                if ($count == 1) {
-                    self::discardPhrase($phrase4);
-                    break;
-                } elseif ($count > 1) {
-                    $mods[] = $this->schema->makeModFromLexeme(
-                        $phrase4->create('arrange-by-rows'), 'rows',  implode(',', $rows));
-                }
-            } elseif ($foundTinc > 0 && ($tinc = self::tincture())) {
+            elseif ($foundTinc > 0 && ($tinc = self::tincture())) {
                 $gotMainTincture = true;
                 if ($always_proper && is_object($tinc->firstChild) && $tinc->firstChild->nodeName != 'proper') {
                     self::raiseError(self::ERROR_ORIGIN, 'Charge is always proper', $phrase);
