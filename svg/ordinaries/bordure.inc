@@ -19,8 +19,8 @@ This file is part of the DrawShield.net heraldry image creation program
 
 require_once("shield_shape_utils.inc");
 
-$margin = -100;
-$width = 180;
+$margin = 0;
+$width = -180;
 
 if ( !is_null($layout->section) && strpos($layout->section, "quarter") !== false )
 {
@@ -36,6 +36,7 @@ $shape->svg_path($layout, $margin, false, $path_builder);
 $shape->svg_path($layout, $margin + $width, true, $path_builder);
 
 $ordinary['shape_spec'] = $path_builder;
+$ordinary['adjustment'] = ' scale(0.82) ';
 
 
 
