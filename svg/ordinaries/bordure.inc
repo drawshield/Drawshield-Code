@@ -19,8 +19,8 @@ This file is part of the DrawShield.net heraldry image creation program
 
 require_once("shield_shape_utils.inc");
 
-$margin = 0;
-$width = -180;
+$margin = -100;
+$width = 180;
 
 if ( !is_null($layout->section) && strpos($layout->section, "quarter") !== false )
 {
