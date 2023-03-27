@@ -390,6 +390,9 @@ function addChild(SimpleXMLElement $element, $featureColours, $chargeGroup, $cha
     } elseif (substr($id, 0, 7) == 'outline') { // This is a path that is actually a stroke
         $item .= ' fill="' . $strokeCol . '" stroke="none" ';
         $fillSet = true;
+    } elseif (substr($id, 0, 4) == 'eyes') { // no eye colour given, paint it black
+        $item .= ' fill="black" ';
+        $fillSet = true;
     } elseif (array_key_exists('proper', $featureColours)) { // use proper for features not otherwise coloured
       if ($foundProper = getProper($chargeGroup, $chargeName, $id, false))
       {
