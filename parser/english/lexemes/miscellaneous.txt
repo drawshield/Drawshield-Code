@@ -110,7 +110,8 @@ contourne?y=reversed
 
 
 =group
-(both|all|the|his|her|its)=group
+(both|all) ?of (his|her|its|the)=group
+(his|her|its)=group
 
 =proper
 (proper|ppr)=proper
