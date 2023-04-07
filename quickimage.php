@@ -88,7 +88,7 @@ $options['asFile'] = "1";
         $base = tempnam($dir, 'shield');
         rename($base, $base . '.svg');
         file_put_contents($base . '.svg', $output);
-        $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.png");
+        $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $base.png");
         unlink($base . '.svg');
         header('Content-Type: image/png');
         echo file_get_contents($base . '.png');

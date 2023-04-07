@@ -310,7 +310,7 @@ if ($options['asFile'] == '1') {
             file_put_contents($base . '.svg', $output);
             $width = $options['printSize'];
             $height = $width * $proportion;
-            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.jpg -q 0.9 -m image/jpeg -w $width -h $height");
+            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $base.jpg -q 0.9 -m image/jpeg -w $width -h $height");
             unlink($base . '.svg');
             if (substr($name, -4) != '.jpg') $name .= '.jpg';
             header("Content-type: application/force-download");
@@ -360,7 +360,7 @@ if ($options['asFile'] == '1') {
             file_put_contents($base . '.svg', $output);
             $width = $options['printSize'];
             $height = $width * $proportion;
-            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.png -w $width -h $height");
+            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $base.png -w $width -h $height");
             unlink($base . '.svg');
         if (substr($name, -4) != '.png') $name .= '.png';
         header("Content-type: application/force-download");
@@ -380,7 +380,7 @@ if ($options['asFile'] == '1') {
             $base = tempnam($dir, 'shield');
             rename($base, $base . '.svg');
             file_put_contents($base . '.svg', $output);
-            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.jpg -q 0.9 -m image/jpeg");
+            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $base.jpg -q 0.9 -m image/jpeg");
             unlink($base . '.svg');
             header('Content-Type: image/jpg');
             echo file_get_contents($base . '.jpg');
@@ -400,7 +400,7 @@ if ($options['asFile'] == '1') {
             $base = tempnam($dir, 'shield');
             rename($base, $base . '.svg');
             file_put_contents($base . '.svg', $output);
-            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.png");
+            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $base.png");
             unlink($base . '.svg');
             header('Content-Type: image/png');
             $json = [];
@@ -446,7 +446,7 @@ if ($options['asFile'] == '1') {
             $base = tempnam($dir, 'shield');
             rename($base, $base . '.svg');
             file_put_contents($base . '.svg', $output);
-            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.14.jar $base.svg -d $base.png");
+            $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $base.png");
             unlink($base . '.svg');
             header('Content-Type: image/png');
             echo file_get_contents($base . '.png');
