@@ -321,10 +321,10 @@ class PlacementHints
                 $this->scale_x *= 1.2;
                 break;
             case 'much-narrower':
-                $this->scale_x *= 0.8;
+                $this->scale_x *= 0.7;
                 break;
             case 'much-shorter':
-                $this->scale_y *= 0.8;
+                $this->scale_y *= 0.7;
                 break;
             case 'much-taller':
                 $this->scale_y *= 1.4;
@@ -369,6 +369,7 @@ function PlaceCharge ( $node,  // images
                             $rotation = 0,
                             $inverted = false,
                             $reversed = false ) {
+    global $messages;
 
   $charge = getCharge( $node, $layout );
   if ($charge == null) return '';
@@ -376,6 +377,9 @@ function PlaceCharge ( $node,  // images
   $tinctures = [];
   $Xflex = array_key_exists('wflex', $charge) ? $charge['wflex'] : 1;
   $Yflex = array_key_exists('hflex', $charge) ? $charge['hflex'] : 1;
+    $midX = array_key_exists('midX', $charge) ? $charge['midX'] : null;
+    $midY = array_key_exists('midY', $charge) ? $charge['midY'] : null;
+
   $inArrangement = false;
   $shownRotation = 0;
   $situation = $charge['situation'] ?? 'palewise';
@@ -464,12 +468,9 @@ function PlaceCharge ( $node,  // images
         } else {
           $angle = ($orientation == 'bendwise') ? "-45" : "45";
         }
-			  $X2 = $chargeX / 2; $Y2 = $chargeY / 2;
-			/*	$chargeX = ($chargeX + $chargeY) * 0.707;
-				$XY2 = $chargeX / 2;
-        $chargeY = $chargeX; */
-        // $retval = "<g transform=\"translate($XY2,$XY2) rotate($angle) translate(-$X2,-$Y2)\"><desc>bendwise</desc>$retval</g>\n";
-        $retval = "<g transform=\"rotate($angle,$X2,$Y2)\"><desc>bendwise</desc>$retval</g>\n";
+        $corX = $midX ?? $chargeX / 2; // cor = centre of rotation
+        $corY = $midY ?? $chargeY / 2;
+        $retval = "<g transform=\"rotate($angle,$corX,$corY)\"><desc>bendwise</desc>$retval</g>\n";
         break;
       case 'palewise':
           $retval = "<g transform=\"translate($chargeY,0) rotate(90)\"><desc>palewise charge</desc>$retval</g>\n";
@@ -541,6 +542,12 @@ function PlaceCharge ( $node,  // images
     $centreX += $hints->offset_x;
   $sizeX = $chargeX * $Xscale;
   $sizeY = $chargeY * $Yscale;
+    if (!is_null($midX)) {
+        $centreX += ($sizeX/2) - ($midX * $Xscale);
+    }
+    if (!is_null($midY)) {
+        $centreY += ($sizeY/2) - ($midY * $Yscale);
+    }
   $posX = $centreX - ($sizeX / 2);
   $posY = $centreY - ($sizeY / 2);
 
@@ -556,8 +563,6 @@ function PlaceCharge ( $node,  // images
   }
   $transform .= " translate($posX,$posY) scale($Xscale, $Yscale) $overrideRotation";
   if (!isset($charge['title'])) $charge['title'] = 'a charge';
-  // $retval = "<g transform=\"$transform\" >\n<title>" . htmlentities(transliterate($charge['title'])) . '</title>' . $retval . "</g>\n";
-  //$retval = "<g transform=\"$transform\" >\n<title>" . htmlentities($charge['title'], ENT_HTML5) . '</title>' . $retval . "</g>\n";
   $retval = "<g class=\"PlaceCharge\" transform=\"$transform\" >\n<title>" . $charge['title'] . '</title>' . $retval . "</g>\n";
 
   $retval = apply_tincture( $tincture, $retval, $layout, new ShieldSize($chargeX, $chargeY), $rotation, $reversed, $inverted );
