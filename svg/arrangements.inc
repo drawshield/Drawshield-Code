@@ -769,7 +769,7 @@ function get_placement(DOMElement $item, $layout) {
     $overall = ($item->parentNode != null && $item->parentNode->parentNode != null && $item->parentNode->parentNode->nodeName == 'overall');
     // Some charges which appear singly need to be aligned with the center of the shield, e.g. to
     // appear nicely on a cross todo there may be more to add here.
-    $forceCentre = false;
+    $forceCentre = existModifierWithKeyterm($item,'centered');
     if ($number == 1 && !($entire) && !count($pos) && ($layout->shape != 'pauldron') ) {
         if ($group == "quadrate" || $group == 'geometric' || $group == 'characters') {
             $forceCentre = true;
@@ -830,6 +830,16 @@ function get_placement(DOMElement $item, $layout) {
             $center,
             new ShieldSize($layout->size->width - 2 * $margin, $layout->size->height - 2 * $margin)
         );
+        if ( $forceCentre ) {
+            // We re-center the bounding box on the cross point, but also need to make
+            // sure that it still fits within the shield boundary (by checking the space
+            // available between the top of the shield and the bounding box, leaving
+            // a 20% margin) Issue 257 refers
+            $availableHeight = ($layout->cross_point->y) * 0.8;
+            // $boundingBox = $boundingBox->relative_box(0.9, 0.9, 0.9, 0.9);
+            // $boundingBox->pos = clone $layout->cross_point;
+            $boundingBox = new ShieldRect(clone $layout->cross_point, new ShieldSize($availableHeight * 2, $availableHeight * 2));
+        }
     }
 
     $adjustmentList = [];

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
    id="svg3449"
    version="1.1"
-   height="66"
-   width="100">
-
+   height="79.43998"
+   width="99.809204"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs8" />
   <metadata
      id="metadata3444">
     <rdf:RDF>
@@ -20,21 +21,22 @@
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
         <cc:license
            rdf:resource="" />
-        <dc:title></dc:title>
         <dc:creator>
           <cc:Agent>
             <dc:title>(Drawshield internal)</dc:title>
           </cc:Agent>
         </dc:creator>
+        <dc:description>midY=53,hflex=1,wflex=1</dc:description>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      id="body"
-     style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+     style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     transform="translate(0.89478221,12.939979)">
     <path
-       style="stroke-width:1;stroke:#808080"
+       style="stroke:#808080;stroke-width:1"
        id="path3446"
-       d="M0,66 L50,0 100,66z" />
+       d="M 0,66 50,-12 98,66 Z" />
   </g>
 </svg>
