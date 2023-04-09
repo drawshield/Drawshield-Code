@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
+   width="1000.868"
+   height="951.88202"
+   viewBox="0 0 1000.868 951.88202"
+   version="1.1"
+   id="svg61"
    xmlns="http://www.w3.org/2000/svg"
-   version="1.0"
-   width="92.606"
-   height="88.453"
-   id="svg2780">
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs58" />
+  <g
+     id="layer1"
+     transform="translate(0.43398826,0.187439)">
+    <path
+       id="path766"
+       style="fill:#ffff00;stroke:#808080;stroke-width:10"
+       d="M 500.43359 0 L 0 363.58594 L 191.14844 951.88281 L 809.71875 951.88281 L 1000.8672 363.58594 L 500.43359 0 z M 500.43359 374.20703 A 151.79204 151.79204 0 0 1 652.22656 526 A 151.79204 151.79204 0 0 1 500.43359 677.79297 A 151.79204 151.79204 0 0 1 348.64258 526 A 151.79204 151.79204 0 0 1 500.43359 374.20703 z "
+       transform="translate(-0.43398826,-0.187439)" />
+  </g>
   <metadata
-     id="metadata1874">
+     id="metadata1371">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
         <dc:creator>
           <cc:Agent>
-            <dc:title />
+            <dc:title>(DrawShield internal)</dc:title>
           </cc:Agent>
         </dc:creator>
+        <dc:description>midY=526,hflex=1,wflex=1</dc:description>
       </cc:Work>
     </rdf:RDF>
   </metadata>
-
-  <g
-     transform="translate(-55.469,-843.15)"
-     id="layer1">
-    <path
-       id="path5801"
-       transform="translate(55.469,843.15)"
-       d="M 45.861 0.61914 L 0.58984 34.439 L 18.766 87.949 L 75.271 87.199 L 92.021 33.23 L 45.861 0.61914 z M 45.99 34.08 A 9.9668 9.9668 0 0 1 55.961 44.051 A 9.9668 9.9668 0 0 1 45.99 54.02 A 9.9668 9.9668 0 0 1 36.023 44.051 A 9.9668 9.9668 0 0 1 45.99 34.08 z "
-       style="opacity:0.7;fill:#ffff00;fill-opacity:1;fill-rule:nonzero;stroke:#808080;stroke-width:1" />
-  </g>
 </svg>

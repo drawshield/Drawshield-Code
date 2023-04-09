@@ -557,8 +557,8 @@ function PlaceCharge ( $node,  // images
   }
   $overrideRotation = '';
   if ($shownRotation != 0) {
-      $rotateX = $chargeX / 2;
-      $rotateY = $chargeY / 2;
+      $rotateX = ($midX == 0) ? $chargeX / 2 : $midX;
+      $rotateY = ($midY == 0) ? $chargeY / 2 : $midY;
       $overrideRotation = "rotate($shownRotation,$rotateX,$rotateY)";
   }
   $transform .= " translate($posX,$posY) scale($Xscale, $Yscale) $overrideRotation";
