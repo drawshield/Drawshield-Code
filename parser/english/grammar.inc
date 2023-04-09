@@ -1266,6 +1266,7 @@ class englishGrammar extends grammar
         $phrase->add(self::findLex(languageDB::WITH));
 
         while (self::moreInput()) {
+            $phrase->add(self::findLex(languageDB::OBJECTS));
             if (self::findLex(languageDB::ANDD)) $assume_num = true;
             // We treat a counterchanged division a bit like an ordinary
             if ($counterchangedDivision = self::division(true)) {

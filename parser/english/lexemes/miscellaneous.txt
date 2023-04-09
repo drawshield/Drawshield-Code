@@ -19,6 +19,10 @@ the=
 a=
 an=
 
+=objects
+charges?=charge
+ordinar(y|ies)=ordinary
+
 =overall
 overall=
 sur le tout=
