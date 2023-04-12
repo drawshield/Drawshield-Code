@@ -12,6 +12,7 @@ cadent=
 counterpassant=
 statant=
 equipped=
+leaping=
 accrued=
 clymant=
 segreant=
