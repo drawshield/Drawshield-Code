@@ -51,6 +51,7 @@ class languageDB extends lexicon
     const ANDD = 'andd';
     const WITH = 'with';
     const QUARTERED = 'quartered';
+    const OBJECTS = 'objects';
     const COUNTERCHANGE = 'counterchange';
     const QUANTITY = 'amount';
     const NUMBER = 'number';

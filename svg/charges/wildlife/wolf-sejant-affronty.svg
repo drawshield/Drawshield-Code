@@ -10,15 +10,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <defs
-     id="defs1980">
-    <clipPath
-       id="artboard_clip_path">
-      <path
-         d="M 49.5 76.5 L 243 76.5 L 243 400.5 L 49.5 400.5 Z"
-         id="path1977" />
-    </clipPath>
-  </defs>
   <g
      id="Wolf_Sejant_Affronty"
      fill-opacity="1"
@@ -30,7 +21,7 @@
        id="title1982">Wolf Sejant Affronty</title>
     <g
        id="Wolf_Sejant_Affronty_Art"
-       clip-path="url(#artboard_clip_path)">
+>
       <title
          id="title1984">Art</title>
       <g

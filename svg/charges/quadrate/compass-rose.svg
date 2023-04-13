@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    version="1.1"
-   viewBox="33.75 60.74866 297 299.25134"
-   width="297"
-   height="299.25134"
-   id="svg1353"
+   viewBox="33.75 60.74866 294.49896 328.95547"
+   width="294.49896"
+   height="328.95547"
+   id="svg271"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
-     id="defs1357" />
+     id="defs275" />
   <metadata
-     id="metadata1084"> Produced by OmniGraffle 7.8 
+     id="metadata2"> Produced by OmniGraffle 7.8 
     <dc:date>2018-07-22 18:17:42 +0000</dc:date>
 <dc:title>Traceable heraldic art http://heraldicart.org/credits.html</dc:title>
+<rdf:RDF>
+  <cc:Work
+     rdf:about="">
+    <dc:creator>
+      <cc:Agent>
+        <dc:title>http://heraldicart.org/compass-rose/</dc:title>
+      </cc:Agent>
+    </dc:creator>
+    <dc:description>midY=180</dc:description>
+  </cc:Work>
+</rdf:RDF>
 </metadata>
   <g
      id="Compass_Rose_(1)"
@@ -22,141 +35,143 @@
      stroke="none"
      stroke-opacity="1"
      fill="#ffff00"
-     transform="translate(0,-32)">
+     transform="translate(-1.250515,-2.5848113)">
     <title
-       id="title1086">Compass Rose (1)</title>
+       id="title4">Compass Rose (1)</title>
     <g
        id="Compass_Rose_(1): Layer 2">
       <title
-         id="title1088">Layer 2</title>
+         id="title6">Layer 2</title>
       <g
          id="Group_3">
         <title
-           id="title1090">g8</title>
+           id="title8">g8</title>
         <g
            id="Group_4">
           <title
-             id="title1092">group1-1</title>
+             id="title10">group1-1</title>
           <g
              id="Group_60">
             <title
-               id="title1094">shape2-2</title>
+               id="title12">shape2-2</title>
             <g
                id="Graphic_61">
               <title
-                 id="title1096">path18</title>
+                 id="title14">path18</title>
               <path
                  d="m 57.43398,245.0406 c -0.26831,44.77006 23.46231,86.25458 62.19022,108.7174 38.72791,22.46286 86.52025,22.46286 125.24816,0 38.72791,-22.46282 62.45854,-63.94734 62.19024,-108.7174 -0.41138,-68.64111 -56.17198,-124.06854 -124.81432,-124.06854 -68.64234,0 -124.40294,55.42743 -124.8143,124.06854 z m 23.47459,0 c 0,-55.97045 45.37301,-101.34345 101.34345,-101.34345 55.97044,0 101.34345,45.373 101.34345,101.34345 0,55.97044 -45.37301,101.34344 -101.34345,101.34344 -55.97044,0 -101.34345,-45.373 -101.34345,-101.34344 z"
                  fill="#ff0000"
-                 id="path1098" />
+                 id="path16" />
               <path
                  d="m 57.43398,245.0406 c -0.26831,44.77006 23.46231,86.25458 62.19022,108.7174 38.72791,22.46286 86.52025,22.46286 125.24816,0 38.72791,-22.46282 62.45854,-63.94734 62.19024,-108.7174 -0.41138,-68.64111 -56.17198,-124.06854 -124.81432,-124.06854 -68.64234,0 -124.40294,55.42743 -124.8143,124.06854 z m 23.47459,0 c 0,-55.97045 45.37301,-101.34345 101.34345,-101.34345 55.97044,0 101.34345,45.373 101.34345,101.34345 0,55.97044 -45.37301,101.34344 -101.34345,101.34344 -55.97044,0 -101.34345,-45.373 -101.34345,-101.34344 z"
                  stroke="#cccccc"
                  stroke-linecap="round"
                  stroke-linejoin="round"
                  stroke-width="2"
-                 id="path1100" />
+                 id="path18" />
             </g>
           </g>
           <g
              id="Group_15">
             <title
-               id="title1104">group3-4</title>
+               id="title22">group3-4</title>
             <g
                id="Group_49">
               <title
-                 id="title1106">group4-5</title>
+                 id="title24">group4-5</title>
               <g
-                 id="Group_55">
+                 id="Group_55"
+                 transform="translate(4,-2)">
                 <title
-                   id="title1108">group5-6</title>
+                   id="title26">group5-6</title>
                 <g
                    id="Group_58">
                   <title
-                     id="title1110">shape6-7</title>
+                     id="title28">shape6-7</title>
                   <g
                      id="Graphic_59">
                     <title
-                       id="title1112">path32</title>
+                       id="title30">path32</title>
                     <path
                        d="m 134.9788,248.17596 h 44.1338 L 90.84499,159.90835 Z"
                        fill="#ff0000"
-                       id="path1114" />
+                       id="path32" />
                     <path
                        d="m 134.9788,248.17596 h 44.1338 L 90.84499,159.90835 Z"
                        stroke="#cccccc"
                        stroke-linecap="round"
                        stroke-linejoin="round"
                        stroke-width="2"
-                       id="path1116" />
+                       id="path34" />
                   </g>
                 </g>
                 <g
                    id="Group_56">
                   <title
-                     id="title1120">shape7-9</title>
+                     id="title38">shape7-9</title>
                   <g
                      id="Graphic_57">
                     <title
-                       id="title1122">path37</title>
+                       id="title40">path37</title>
                     <path
                        d="m 90.84541,159.90793 88.26761,88.26761 v -44.13381 z"
                        fill="#ff0000"
-                       id="path1124" />
+                       id="path42" />
                     <path
                        d="m 90.84541,159.90793 88.26761,88.26761 v -44.13381 z"
                        stroke="#cccccc"
                        stroke-linecap="round"
                        stroke-linejoin="round"
                        stroke-width="2"
-                       id="path1126" />
+                       id="path44" />
                   </g>
                 </g>
               </g>
               <g
-                 id="Group_50">
+                 id="Group_50"
+                 transform="translate(4,-2)">
                 <title
-                   id="title1131">group8-11</title>
+                   id="title49">group8-11</title>
                 <g
                    id="Group_53">
                   <title
-                     id="title1133">shape9-12</title>
+                     id="title51">shape9-12</title>
                   <g
                      id="Graphic_54">
                     <title
-                       id="title1135">path45</title>
+                       id="title53">path45</title>
                     <path
                        d="m 179.11366,292.31082 v -44.1338 l 88.2676,88.26761 z"
                        fill="#ff0000"
-                       id="path1137" />
+                       id="path55" />
                     <path
                        d="m 179.11366,292.31082 v -44.1338 l 88.2676,88.26761 z"
                        stroke="#cccccc"
                        stroke-linecap="round"
                        stroke-linejoin="round"
                        stroke-width="2"
-                       id="path1139" />
+                       id="path57" />
                   </g>
                 </g>
                 <g
                    id="Group_51">
                   <title
-                     id="title1143">shape10-14</title>
+                     id="title61">shape10-14</title>
                   <g
                      id="Graphic_52">
                     <title
-                       id="title1145">path50</title>
+                       id="title63">path50</title>
                     <path
                        d="m 267.3817,336.4442 -88.26762,-88.2676 h 44.1338 z"
                        fill="#ff0000"
-                       id="path1147" />
+                       id="path65" />
                     <path
                        d="m 267.3817,336.4442 -88.26762,-88.2676 h 44.1338 z"
                        stroke="#cccccc"
                        stroke-linecap="round"
                        stroke-linejoin="round"
                        stroke-width="2"
-                       id="path1149" />
+                       id="path67" />
                   </g>
                 </g>
               </g>
@@ -164,98 +179,98 @@
             <g
                id="Group_38">
               <title
-                 id="title1155">group11-16</title>
+                 id="title73">group11-16</title>
               <g
                  id="Group_44">
                 <title
-                   id="title1157">group12-17</title>
+                   id="title75">group12-17</title>
                 <g
                    id="Group_47">
                   <title
-                     id="title1159">shape13-18</title>
+                     id="title77">shape13-18</title>
                   <g
                      id="Graphic_48">
                     <title
-                       id="title1161">path61</title>
+                       id="title79">path61</title>
                     <path
                        d="m 182.25074,200.07966 v 44.1338 l 88.26761,-88.2676 z"
                        fill="#ff0000"
-                       id="path1163" />
+                       id="path81" />
                     <path
                        d="m 182.25074,200.07966 v 44.1338 l 88.26761,-88.2676 z"
                        stroke="#cccccc"
                        stroke-linecap="round"
                        stroke-linejoin="round"
                        stroke-width="2"
-                       id="path1165" />
+                       id="path83" />
                   </g>
                 </g>
                 <g
                    id="Group_45">
                   <title
-                     id="title1169">shape14-20</title>
+                     id="title87">shape14-20</title>
                   <g
                      id="Graphic_46">
                     <title
-                       id="title1171">path66</title>
+                       id="title89">path66</title>
                     <path
                        d="m 270.51877,155.94628 -88.26761,88.26762 h 44.13381 z"
                        fill="#ff0000"
-                       id="path1173" />
+                       id="path91" />
                     <path
                        d="m 270.51877,155.94628 -88.26761,88.26762 h 44.13381 z"
                        stroke="#cccccc"
                        stroke-linecap="round"
                        stroke-linejoin="round"
                        stroke-width="2"
-                       id="path1175" />
+                       id="path93" />
                   </g>
                 </g>
               </g>
               <g
                  id="Group_39">
                 <title
-                   id="title1180">group15-22</title>
+                   id="title98">group15-22</title>
                 <g
                    id="Group_42">
                   <title
-                     id="title1182">shape16-23</title>
+                     id="title100">shape16-23</title>
                   <g
                      id="Graphic_43">
                     <title
-                       id="title1184">path74</title>
+                       id="title102">path74</title>
                     <path
                        d="m 137.28996,245.8649 h 44.13381 l -88.26761,88.2676 z"
                        fill="#ff0000"
-                       id="path1186" />
+                       id="path104" />
                     <path
                        d="m 137.28996,245.8649 h 44.13381 l -88.26761,88.2676 z"
                        stroke="#cccccc"
                        stroke-linecap="round"
                        stroke-linejoin="round"
                        stroke-width="2"
-                       id="path1188" />
+                       id="path106" />
                   </g>
                 </g>
                 <g
                    id="Group_40">
                   <title
-                     id="title1192">shape17-25</title>
+                     id="title110">shape17-25</title>
                   <g
                      id="Graphic_41">
                     <title
-                       id="title1194">path79</title>
+                       id="title112">path79</title>
                     <path
                        d="m 93.15658,334.1329 88.26761,-88.2676 v 44.1338 z"
                        fill="#ff0000"
-                       id="path1196" />
+                       id="path114" />
                     <path
                        d="m 93.15658,334.1329 88.26761,-88.2676 v 44.1338 z"
                        stroke="#cccccc"
                        stroke-linecap="round"
                        stroke-linejoin="round"
                        stroke-width="2"
-                       id="path1198" />
+                       id="path116" />
                   </g>
                 </g>
               </g>
@@ -263,98 +278,98 @@
             <g
                id="Group_27">
               <title
-                 id="title1204">group18-27</title>
+                 id="title122">group18-27</title>
               <g
                  id="Group_33">
                 <title
-                   id="title1206">group19-28</title>
+                   id="title124">group19-28</title>
                 <g
                    id="Group_36">
                   <title
-                     id="title1208">shape20-29</title>
+                     id="title126">shape20-29</title>
                   <g
                      id="Graphic_37">
                     <title
-                       id="title1210">path90</title>
+                       id="title128">path90</title>
                     <path
                        d="m 145.68821,208.47455 36.56419,36.56418 V 98.78947 Z"
                        fill="#ff0000"
-                       id="path1212" />
+                       id="path130" />
                     <path
                        d="m 145.68821,208.47455 36.56419,36.56418 V 98.78947 Z"
                        stroke="#cccccc"
                        stroke-linecap="round"
                        stroke-linejoin="round"
                        stroke-width="2"
-                       id="path1214" />
+                       id="path132" />
                   </g>
                 </g>
                 <g
                    id="Group_34">
                   <title
-                     id="title1218">shape21-31</title>
+                     id="title136">shape21-31</title>
                   <g
                      id="Graphic_35">
                     <title
-                       id="title1220">path95</title>
+                       id="title138">path95</title>
                     <path
                        d="M 182.25052,98.78947 V 245.03873 L 218.8147,208.47455 Z"
                        fill="#ff0000"
-                       id="path1222" />
+                       id="path140" />
                     <path
                        d="M 182.25052,98.78947 V 245.03873 L 218.8147,208.47455 Z"
                        stroke="#cccccc"
                        stroke-linecap="round"
                        stroke-linejoin="round"
                        stroke-width="2"
-                       id="path1224" />
+                       id="path142" />
                   </g>
                 </g>
               </g>
               <g
                  id="Group_28">
                 <title
-                   id="title1229">group22-33</title>
+                   id="title147">group22-33</title>
                 <g
                    id="Group_31">
                   <title
-                     id="title1231">shape23-34</title>
+                     id="title149">shape23-34</title>
                   <g
                      id="Graphic_32">
                     <title
-                       id="title1233">path103</title>
+                       id="title151">path103</title>
                     <path
                        d="M 145.68821,281.6044 182.2524,245.04022 V 391.28947 Z"
                        fill="#ff0000"
-                       id="path1235" />
+                       id="path153" />
                     <path
                        d="M 145.68821,281.6044 182.2524,245.04022 V 391.28947 Z"
                        stroke="#cccccc"
                        stroke-linecap="round"
                        stroke-linejoin="round"
                        stroke-width="2"
-                       id="path1237" />
+                       id="path155" />
                   </g>
                 </g>
                 <g
                    id="Group_29">
                   <title
-                     id="title1241">shape24-36</title>
+                     id="title159">shape24-36</title>
                   <g
                      id="Graphic_30">
                     <title
-                       id="title1243">path108</title>
+                       id="title161">path108</title>
                     <path
                        d="M 182.25052,391.28947 V 245.04022 l 36.56418,36.56418 z"
                        fill="#ff0000"
-                       id="path1245" />
+                       id="path163" />
                     <path
                        d="M 182.25052,391.28947 V 245.04022 l 36.56418,36.56418 z"
                        stroke="#cccccc"
                        stroke-linecap="round"
                        stroke-linejoin="round"
                        stroke-width="2"
-                       id="path1247" />
+                       id="path165" />
                   </g>
                 </g>
               </g>
@@ -362,98 +377,98 @@
             <g
                id="Group_16">
               <title
-                 id="title1253">group25-38</title>
+                 id="title171">group25-38</title>
               <g
                  id="Group_22">
                 <title
-                   id="title1255">group26-39</title>
+                   id="title173">group26-39</title>
                 <g
                    id="Group_25">
                   <title
-                     id="title1257">shape27-40</title>
+                     id="title175">shape27-40</title>
                   <g
                      id="Graphic_26">
                     <title
-                       id="title1259">path119</title>
+                       id="title177">path119</title>
                     <path
                        d="m 145.68507,281.60216 36.56418,-36.56418 H 36 Z"
                        fill="#ff0000"
-                       id="path1261" />
+                       id="path179" />
                     <path
                        d="m 145.68507,281.60216 36.56418,-36.56418 H 36 Z"
                        stroke="#cccccc"
                        stroke-linecap="round"
                        stroke-linejoin="round"
                        stroke-width="2"
-                       id="path1263" />
+                       id="path181" />
                   </g>
                 </g>
                 <g
                    id="Group_23">
                   <title
-                     id="title1267">shape28-42</title>
+                     id="title185">shape28-42</title>
                   <g
                      id="Graphic_24">
                     <title
-                       id="title1269">path124</title>
+                       id="title187">path124</title>
                     <path
                        d="M 36,245.03985 H 182.24925 L 145.68507,208.47567 Z"
                        fill="#ff0000"
-                       id="path1271" />
+                       id="path189" />
                     <path
                        d="M 36,245.03985 H 182.24925 L 145.68507,208.47567 Z"
                        stroke="#cccccc"
                        stroke-linecap="round"
                        stroke-linejoin="round"
                        stroke-width="2"
-                       id="path1273" />
+                       id="path191" />
                   </g>
                 </g>
               </g>
               <g
                  id="Group_17">
                 <title
-                   id="title1278">group29-44</title>
+                   id="title196">group29-44</title>
                 <g
                    id="Group_20">
                   <title
-                     id="title1280">shape30-45</title>
+                     id="title198">shape30-45</title>
                   <g
                      id="Graphic_21">
                     <title
-                       id="title1282">path132</title>
+                       id="title200">path132</title>
                     <path
                        d="M 218.81493,281.60216 182.25075,245.03798 H 328.5 Z"
                        fill="#ff0000"
-                       id="path1284" />
+                       id="path202" />
                     <path
                        d="M 218.81493,281.60216 182.25075,245.03798 H 328.5 Z"
                        stroke="#cccccc"
                        stroke-linecap="round"
                        stroke-linejoin="round"
                        stroke-width="2"
-                       id="path1286" />
+                       id="path204" />
                   </g>
                 </g>
                 <g
                    id="Group_18">
                   <title
-                     id="title1290">shape31-47</title>
+                     id="title208">shape31-47</title>
                   <g
                      id="Graphic_19">
                     <title
-                       id="title1292">path137</title>
+                       id="title210">path137</title>
                     <path
                        d="M 328.5,245.03985 H 182.25075 l 36.56418,-36.56418 z"
                        fill="#ff0000"
-                       id="path1294" />
+                       id="path212" />
                     <path
                        d="M 328.5,245.03985 H 182.25075 l 36.56418,-36.56418 z"
                        stroke="#cccccc"
                        stroke-linecap="round"
                        stroke-linejoin="round"
                        stroke-width="2"
-                       id="path1296" />
+                       id="path214" />
                   </g>
                 </g>
               </g>
@@ -462,94 +477,94 @@
           <g
              id="Group_5">
             <title
-               id="title1303">group32-49</title>
+               id="title221">group32-49</title>
             <g
                id="Group_13">
               <title
-                 id="title1305">shape33-50</title>
+                 id="title223">shape33-50</title>
               <g
                  id="Graphic_14">
                 <title
-                   id="title1307">path145</title>
+                   id="title225">path145</title>
                 <path
                    d="m 182.2476,64.348276 -0.0149,-0.01495 v 0.02989 c -8.70785,7.12833 -11.6505,17.05622 -7.75514,26.16423 3.64678,9.29279 4.65597,19.028854 2.96608,28.614804 h 4.78906 0.0299 4.79653 c -1.6899,-9.58595 -0.6807,-19.322014 2.96608,-28.614804 3.89337,-9.10896 0.94784,-19.03696 -7.76261,-26.16423 v -0.02989 z"
                    fill="#ff0000"
-                   id="path1309" />
+                   id="path227" />
                 <path
                    d="m 182.2476,64.348276 -0.0149,-0.01495 v 0.02989 c -8.70785,7.12833 -11.6505,17.05622 -7.75514,26.16423 3.64678,9.29279 4.65597,19.028854 2.96608,28.614804 h 4.78906 0.0299 4.79653 c -1.6899,-9.58595 -0.6807,-19.322014 2.96608,-28.614804 3.89337,-9.10896 0.94784,-19.03696 -7.76261,-26.16423 v -0.02989 z"
                    stroke="#cccccc"
                    stroke-linecap="round"
                    stroke-linejoin="round"
                    stroke-width="2"
-                   id="path1311" />
+                   id="path229" />
               </g>
             </g>
             <g
                id="Group_8">
               <title
-                 id="title1315">group34-52</title>
+                 id="title233">group34-52</title>
               <g
                  id="Group_11">
                 <title
-                   id="title1317">shape35-53</title>
+                   id="title235">shape35-53</title>
                 <g
                    id="Graphic_12">
                   <title
-                     id="title1319">path153</title>
+                     id="title237">path153</title>
                   <path
                      d="m 189.3517,116.49826 c -0.3003,-7.3076 1.53802,-14.54405 5.28963,-20.82231 2.72835,-4.48635 8.0056,-6.74374 13.13441,-5.61836 3.09841,0.66474 5.57716,2.98491 6.44502,6.03266 0.86785,3.04776 -0.0168,6.32567 -2.30026,8.52291 -2.28345,2.19725 -5.59296,2.95521 -8.60508,1.97078 1.2695,-0.33357 2.21422,-1.39731 2.3955,-2.69732 0.18128,-1.30002 -0.43638,-2.58163 -1.56619,-3.24978 -0.91433,-0.55366 -2.05266,-0.58488 -2.99596,-0.0822 -1.2664,0.62576 -2.23729,1.7227 -2.70459,3.05573 -2.04478,4.00643 -3.22818,8.39654 -3.47412,12.88787 z"
                      fill="#ff0000"
-                     id="path1321" />
+                     id="path239" />
                   <path
                      d="m 189.3517,116.49826 c -0.3003,-7.3076 1.53802,-14.54405 5.28963,-20.82231 2.72835,-4.48635 8.0056,-6.74374 13.13441,-5.61836 3.09841,0.66474 5.57716,2.98491 6.44502,6.03266 0.86785,3.04776 -0.0168,6.32567 -2.30026,8.52291 -2.28345,2.19725 -5.59296,2.95521 -8.60508,1.97078 1.2695,-0.33357 2.21422,-1.39731 2.3955,-2.69732 0.18128,-1.30002 -0.43638,-2.58163 -1.56619,-3.24978 -0.91433,-0.55366 -2.05266,-0.58488 -2.99596,-0.0822 -1.2664,0.62576 -2.23729,1.7227 -2.70459,3.05573 -2.04478,4.00643 -3.22818,8.39654 -3.47412,12.88787 z"
                      stroke="#cccccc"
                      stroke-linecap="round"
                      stroke-linejoin="round"
                      stroke-width="2"
-                     id="path1323" />
+                     id="path241" />
                 </g>
               </g>
               <g
                  id="Group_9">
                 <title
-                   id="title1327">shape36-55</title>
+                   id="title245">shape36-55</title>
                 <g
                    id="Graphic_10">
                   <title
-                     id="title1329">path158</title>
+                     id="title247">path158</title>
                   <path
                      d="m 175.14927,116.49826 c 0.3003,-7.3076 -1.53802,-14.54405 -5.28963,-20.82231 -2.72834,-4.48635 -8.0056,-6.74374 -13.13441,-5.61836 -3.0984,0.66474 -5.57716,2.98491 -6.44501,6.03266 -0.86786,3.04776 0.0168,6.32567 2.30026,8.52291 2.28344,2.19725 5.59295,2.95521 8.60507,1.97078 -1.2695,-0.33357 -2.21422,-1.39731 -2.3955,-2.69732 -0.18128,-1.30002 0.43638,-2.58163 1.56619,-3.24978 0.91433,-0.55366 2.05266,-0.58488 2.99596,-0.0822 1.2664,0.62576 2.23729,1.7227 2.70459,3.05573 2.04477,4.00643 3.22819,8.39654 3.47411,12.88787 z"
                      fill="#ff0000"
-                     id="path1331" />
+                     id="path249" />
                   <path
                      d="m 175.14927,116.49826 c 0.3003,-7.3076 -1.53802,-14.54405 -5.28963,-20.82231 -2.72834,-4.48635 -8.0056,-6.74374 -13.13441,-5.61836 -3.0984,0.66474 -5.57716,2.98491 -6.44501,6.03266 -0.86786,3.04776 0.0168,6.32567 2.30026,8.52291 2.28344,2.19725 5.59295,2.95521 8.60507,1.97078 -1.2695,-0.33357 -2.21422,-1.39731 -2.3955,-2.69732 -0.18128,-1.30002 0.43638,-2.58163 1.56619,-3.24978 0.91433,-0.55366 2.05266,-0.58488 2.99596,-0.0822 1.2664,0.62576 2.23729,1.7227 2.70459,3.05573 2.04477,4.00643 3.22819,8.39654 3.47411,12.88787 z"
                      stroke="#cccccc"
                      stroke-linecap="round"
                      stroke-linejoin="round"
                      stroke-width="2"
-                     id="path1333" />
+                     id="path251" />
                 </g>
               </g>
             </g>
             <g
                id="Group_6">
               <title
-                 id="title1338">shape37-57</title>
+                 id="title256">shape37-57</title>
               <g
                  id="Graphic_7">
                 <title
-                   id="title1340">path163</title>
+                   id="title258">path163</title>
                 <path
                    d="m 192.79997,121.34557 c 2.66068,-0.002 4.81714,-2.15825 4.81893,-4.81894 0.001,-1.27909 -0.50598,-2.50623 -1.40974,-3.41138 -0.90376,-0.90515 -2.1301,-1.41417 -3.40919,-1.41503 h -21.09874 c -1.2791,8.6e-4 -2.50544,0.50988 -3.4092,1.41503 -0.90375,0.90515 -1.41086,2.13229 -1.40974,3.41138 0.002,2.66069 2.15825,4.81715 4.81894,4.81894 z"
                    fill="#ff0000"
-                   id="path1342" />
+                   id="path260" />
                 <path
                    d="m 192.79997,121.34557 c 2.66068,-0.002 4.81714,-2.15825 4.81893,-4.81894 0.001,-1.27909 -0.50598,-2.50623 -1.40974,-3.41138 -0.90376,-0.90515 -2.1301,-1.41417 -3.40919,-1.41503 h -21.09874 c -1.2791,8.6e-4 -2.50544,0.50988 -3.4092,1.41503 -0.90375,0.90515 -1.41086,2.13229 -1.40974,3.41138 0.002,2.66069 2.15825,4.81715 4.81894,4.81894 z"
                    stroke="#cccccc"
                    stroke-linecap="round"
                    stroke-linejoin="round"
                    stroke-width="2"
-                   id="path1344" />
+                   id="path262" />
               </g>
             </g>
           </g>

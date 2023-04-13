@@ -12,6 +12,7 @@ cadent=
 counterpassant=
 statant=
 equipped=
+leaping=
 accrued=
 clymant=
 segreant=
@@ -232,6 +233,9 @@ en soleil=ensoleil
 (gliding|glissant)=glissant
 bendw(ise|ays) sinister=bendsinwise
 bendw(ise|ays)=bendwise
+# Non-standard (position on cross centre)
+cente?red=centered
+(on|at) cross (point|center|centre)=centered
 fesse?w(ise|ays)=fesswise
 palew(ise|ays)=palewise
 lozengew(ise|ays)=lozengewise
