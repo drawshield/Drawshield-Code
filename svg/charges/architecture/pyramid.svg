@@ -1,67 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   id="svg2"
-   version="1.0"
-   width="188.79837"
-   height="90.118271">
-  <metadata
-     id="metadata49">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" width="310.35364" height="264.32434" viewBox="-300 -295 310.35364 264.32434" id="svg4758" version="1.1">
+  <metadata id="metadata4785">
     <rdf:RDF>
-      <cc:Work
-         rdf:about="">
+      <cc:Work rdf:about="">
         <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-        <dc:date>03-AUG-2006</dc:date>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Jérôme BLUM (wagner51)</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <cc:license
-           rdf:resource="http://web.resource.org/cc/PublicDomain" />
-        <dc:language>fr</dc:language>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>gabarit modèle blason projet wikipédia</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
       </cc:Work>
-      <cc:License
-         rdf:about="http://web.resource.org/cc/PublicDomain">
-        <cc:permits
-           rdf:resource="http://web.resource.org/cc/Reproduction" />
-        <cc:permits
-           rdf:resource="http://web.resource.org/cc/Distribution" />
-        <cc:permits
-           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
-      </cc:License>
     </rdf:RDF>
   </metadata>
-  <desc
-     id="desc4">Flag of Canton of Valais (Wallis)</desc>
-  <g
-     transform="translate(-21.26374,-58.789935)"
-     style="display:inline"
-     id="layer3">
-    <g
-       transform="matrix(2.939125,0,0,2.449929,-246.9384,-165.4502)"
-       id="g21922">
-      <path
-         style="fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 125.01281,92.246925 -32.625991,32.625995 45.187001,2.93634 16.96552,-4.24138 z"
-         id="path20719" />
-      <path
-         style="fill:none;fill-rule:evenodd;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 125.01281,92.246925 12.88727,35.562335 v 0 l -0.16313,-0.16313"
-         id="path20725" />
+  <defs id="defs4760" width="" height=""/>
+  <g id="g8895" transform="matrix(1.1875877,0,0,1.0887253,-321.69652,-10.470858)" style="display:inline;stroke-width:0.87944365;stroke:#000000;fill:#ffff00">
+    <g id="g26349" style="stroke-width:0.87944365;stroke:#000000;fill:#ffff00">
+      <path id="path2762" d="M 19.588494,-67.998856 167.33265,-19.877366 278.28143,-100.08944 145.02729,-260.02246 Z" style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:2.63833094;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:1.12479997;stroke-opacity:1"/>
     </g>
+    <path id="path26806-9-5-1-9-4-57-7" style="fill:#ffff00;stroke:#000000;stroke-width:2.63833094;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 163.502,-213.09769 14.39027,23.61388 m -15.13939,10.98983 5.21036,27.67585 m 15.20389,-41.69185 16.40256,19.41262 m -16.76177,12.31077 15.3323,21.9381 m -32.52174,-9.6377 5.50241,29.02435 m 10.48137,-6.52059 11.11398,25.34143 m 13.66624,-43.32174 17.2787,20.4403 m 10.59355,-7.09155 16.40726,19.41813 m -42.86576,-0.55128 13.25132,21.694808 m -40.71234,-1.428901 5.02804,26.833996 m 67.14439,-48.882033 16.40726,19.418134 m -45.56719,2.452954 13.25132,21.694808 m -34.2061,-6.288049 9.45558,25.656714 m -32.60003,-9.187081 5.25684,27.89045 m -45.44729,-26.003906 0.64054,27.82871 m -38.05042,-39.785719 -6.896841,24.87444 m -30.273282,-36.746387 -10.53305,24.08642 m 80.732353,-28.80502 0.64054,27.828709 M 99.67683,-97.251815 92.779986,-72.377377 M 64.551037,-109.21898 54.017991,-85.132563 m 88.252549,-30.222847 0.64054,31.479287 m -41.76942,-44.599807 -10.175433,28.22361 m 40.817473,-49.27106 0.64054,31.47929 m -35.07967,-42.61576 -12.128828,27.73219 m 40.486468,-47.94884 -7.6408,27.31204 m 7.81693,-58.23015 -11.68158,27.97049 m 61.95043,-38.69934 -25.14998,17.95642 m 43.78366,3.34316 -41.04251,29.47708 m 58.1487,-10.51459 -56.00348,40.32245 m 73.54893,-19.01672 -70.38559,50.7482 m 87.16103,-29.05806 -85.1047,61.418246 m 102.05773,-42.826236 -99.39097,71.774508 m -47.79646,-166.196428 34.07616,10.56167 m -51.284394,15.57651 54.365704,17.24943 M 49.986398,-113.85466 161.51205,-77.764419 M 81.232501,-165.4146 155.09066,-141.74015 M 36.166342,-91.142636 164.0629,-49.656277 m -97.512804,-89.880333 92.402054,29.78681 m -13.59795,-149.88448 21.92447,239.711967"/>
   </g>
 </svg>
