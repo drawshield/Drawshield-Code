@@ -101,9 +101,15 @@ if (isset($argc)) {
   if ( $argc > 1 ) { // run in debug mode, probably
       $myArgs = arguments($argv);
       foreach($myArgs['options'] as $option => $value) {
-        $options[$option] = $value;
+        $value = urldecode($value);
+        if ($option == 'webcols') $options['useWebColours'] = $value == 'yes';
+        elseif ($option == 'tartancols') $options['useTartanColours'] = $value == 'yes';
+        elseif ($option == 'whcols') $options['useWarhammerColours'] = $value == 'yes';
+        else $options[$option] = $value;
       }
-    $options['blazon'] = implode(' ', $myArgs['arguments']);
+      $options['commandLine'] = true;
+      if (!array_key_exists('blazon', $options))
+        $options['blazon'] = implode(' ', $myArgs['arguments']);
   } else {
   if (file_exists('debug.inc')) include 'debug.inc';
   }
@@ -321,21 +327,21 @@ if ($options['asFile'] == '1') {
             echo file_get_contents($base . '.jpg');
             unlink($base . '.jpg');
             break;
-/*            $im = new Imagick();
-            $im->readimageblob($output);
-            $im->setimageformat('jpeg');
-            $im->setimagecompressionquality(90);
-            $imageWidth = $options['printSize'];
-            $imageHeight = $imageWidth * $proportion;
-            $im->scaleimage($imageWidth, $imageHeight);
-            if (substr($name, -4) != '.jpg') $name .= '.jpg';
-            header("Content-type: application/force-download");
-            header('Content-Disposition: inline; filename="' . $name);
-            header("Content-Transfer-Encoding: binary");
-            header('Content-Disposition: attachment; filename="' . $name);
-            header('Content-Type: image/jpg');
-            echo $im->getimageblob();
-            break; */
+        /*            $im = new Imagick();
+                    $im->readimageblob($output);
+                    $im->setimageformat('jpeg');
+                    $im->setimagecompressionquality(90);
+                    $imageWidth = $options['printSize'];
+                    $imageHeight = $imageWidth * $proportion;
+                    $im->scaleimage($imageWidth, $imageHeight);
+                    if (substr($name, -4) != '.jpg') $name .= '.jpg';
+                    header("Content-type: application/force-download");
+                    header('Content-Disposition: inline; filename="' . $name);
+                    header("Content-Transfer-Encoding: binary");
+                    header('Content-Disposition: attachment; filename="' . $name);
+                    header('Content-Type: image/jpg');
+                    echo $im->getimageblob();
+                    break; */
         case 'png-old':
             $im = new Imagick();
             $im->setBackgroundColor(new ImagickPixel('transparent'));
@@ -362,8 +368,8 @@ if ($options['asFile'] == '1') {
             $height = $width * $proportion;
             $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $base.png -w $width -h $height");
             unlink($base . '.svg');
-        if (substr($name, -4) != '.png') $name .= '.png';
-        header("Content-type: application/force-download");
+            if (substr($name, -4) != '.png') $name .= '.png';
+            header("Content-type: application/force-download");
             header('Content-Disposition: inline; filename="' . $name);
             header("Content-Transfer-Encoding: binary");
             header('Content-Disposition: attachment; filename="' . $name);
@@ -371,9 +377,71 @@ if ($options['asFile'] == '1') {
             echo file_get_contents($base . '.png');
             unlink($base . '.png');
             break;
-
-    }
-} else {
+        }
+    // This only occurs if the file is run locally, and we don't specify "asFile" (i.e. HTTP download). We write the file locally.
+    } elseif (array_key_exists('commandLine', $options)) {
+        $name = $options['filename'];
+        if ($name == '') $name = 'shield';
+        $pageWidth = $pageHeight = false;
+        if ($options['units'] == 'in') {
+            $options['printSize'] *= 90;
+        } elseif ($options['units'] == 'cm') {
+            $options['printSize'] *= 35;
+        }
+        $proportion = 1.2;
+        $fileContent = '';
+        switch ($options['saveFormat']) {
+            case 'svg':
+                if (substr($name, -4) != '.svg') $name .= '.svg';
+                file_put_contents($name, $output);
+                break;
+            case 'pdfLtr':
+                $pageWidth = 765;
+                $pageHeight = 990;
+            // flowthrough
+            case 'pdfA4':
+                if (!$pageWidth) $pageWidth = 744;
+                if (!$pageHeight) $pageHeight = 1051;
+                $im = new Imagick();
+                $im->readimageblob($output);
+                $im->setimageformat('pdf');
+                $margin = 40; // bit less than 1/2"
+                $maxWidth = $pageWidth - $margin - $margin;
+                $imageWidth = $options['printSize'];
+                if ($imageWidth > $maxWidth) $imageWidth = $maxWidth;
+                $imageHeight = $imageWidth * $proportion;
+                $im->scaleImage($imageWidth, $imageHeight);
+                $fromBottom = $pageHeight - $margin - $margin - $imageHeight;
+                $fromSide = $margin + (($pageWidth - $margin - $margin - $imageWidth) / 2);
+                $im->setImagePage($pageWidth, $pageHeight, $fromSide * 0.9, $fromBottom * 0.9);
+                if (substr($name, -4) != '.pdf') $name .= '.pdf';
+                file_put_contents($name, $im->getimageblob());
+                break;
+            case 'jpg':
+                $dir = sys_get_temp_dir();
+                $base = tempnam($dir, 'shield');
+                rename($base, $base . '.svg');
+                file_put_contents($base . '.svg', $output);
+                $width = $options['printSize'];
+                $height = $width * $proportion;
+                if (substr($name, -4) != '.jpg') $name .= '.jpg';
+                $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $name -q 0.9 -m image/jpeg -w $width -h $height");
+                unlink($base . '.svg');
+                break;
+            case 'png':
+            default:
+                $dir = sys_get_temp_dir();
+                $base = tempnam($dir, 'shield');
+                rename($base, $base . '.svg');
+                file_put_contents($base . '.svg', $output);
+                $width = $options['printSize'];
+                $height = $width * $proportion;
+                if (substr($name, -4) != '.png') $name .= '.png';
+                $result = shell_exec("java -jar /var/www/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $name -w $width -h $height");
+                unlink($base . '.svg');
+                break;
+        }
+    } else {
     switch ($options['outputFormat']) {
         case 'jpg':
             $dir = sys_get_temp_dir();

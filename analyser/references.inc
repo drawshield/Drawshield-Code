@@ -180,6 +180,43 @@ class references {
       $modifierNode->parentNode->appendChild($new_mod);
     }
 
+    // make armed and horned synonyms, unless both are given
+    $nodeList = $this->xpath->query('//modifier[@keyterm="horned"]');
+    $addArmed = true;
+    foreach ( $nodeList as $item ) {
+      // look for an existing armed modifier
+      $parent = $item->parentNode;
+      foreach($parent->childNodes as $child) {
+        if ($child->nodeName == 'modifier' && $child->getAttribute('keyterm') == 'armed') {
+          $addArmed = false;
+          break;
+        }
+      }
+      if ($addArmed) {
+        $armed = $item->cloneNode(true);
+        $armed->setAttribute('keyterm','armed');
+        $parent->appendChild($armed);
+      }
+    }
+    $nodeList = $this->xpath->query('//modifier[@keyterm="armed"]');
+    $addHorned = true;
+    foreach ( $nodeList as $item ) {
+      // look for an existing armed modifier
+      $parent = $item->parentNode;
+      foreach($parent->childNodes as $child) {
+        if ($child->nodeName == 'modifier' && $child->getAttribute('keyterm') == 'horned') {
+          $addHorned = false;
+          break;
+        }
+      }
+      if ($addHorned) {
+        $armed = $item->cloneNode(true);
+        $armed->setAttribute('keyterm','horned');
+        $parent->appendChild($armed);
+      }
+    }
+
+
     // Replace missing shields with plain grey
     $nodeList = $this->xpath->query('//missing[parent::shield]');
     foreach ( $nodeList as $item ) {

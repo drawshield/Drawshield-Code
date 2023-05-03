@@ -20,7 +20,7 @@ class lexicon {
    public $patterns = array(); // of objects
    protected $language;
     
-   public function getPatterns($key) {
+  /*  public function getPatterns($key) {
     //if ( !array_key_exists ( $key, $this->patterns ) and file_exists("$this->language/$key.inc") )
     //  include "$this->language/$key.inc";
     if ( array_key_exists ( $key, $this->patterns )) {
@@ -47,11 +47,11 @@ class lexicon {
     if (array_key_exists($key,$this->patterns))
       unset($this->patterns[$key]);
   }
-
+*/
     /**
      * \brief Returns an array of unique values for the patterns in the given key
      */
-    function patternValues($key)
+ /*   function patternValues($key)
     {
         $all = [];
         foreach ( $this->patterns[$key] as $pat )
@@ -63,8 +63,7 @@ class lexicon {
         }
         sort($all);
         return array_unique($all);
-    }
-
+    } */
 /*  
   public function listKeyterms() {
     $keyterms = array();
