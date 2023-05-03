@@ -49,6 +49,7 @@ domed=
 tasselled=
 mortared=
 shelled=
+beard(s|ed)?=bearded
 tied=
 headed=
 drooping=
