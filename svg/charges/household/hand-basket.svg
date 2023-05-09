@@ -40,14 +40,6 @@
             </g>
             <g>
                <ellipse cx="182.25" cy="218.86514" rx="92.1583992999295" ry="18.8924718564856"/>
-               <g>
-                  <image xl:href="image701.pdf" width="422" height="290" opacity=".51772203"
-                         transform="matrix(.43676897 0 0 .1302927 90.09175 199.9727)"
-                         xlink:type="simple"
-                         xlink:show="embed"
-                         xlink:actuate="onLoad"
-                         preserveAspectRatio="xMidYMid meet"/>
-               </g>
                <ellipse cx="182.25" cy="218.86514" rx="92.1583992999295" ry="18.8924718564856"
                         stroke="black"
                         stroke-linecap="round"
