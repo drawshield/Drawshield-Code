@@ -10,15 +10,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <defs
-     id="defs5">
-    <clipPath
-       id="artboard_clip_path">
-      <path
-         d="M 33.75 60.75 L 330.75 60.75 L 330.75 346.5 L 313.875 357.75 L 33.75 357.75 Z"
-         id="path2" />
-    </clipPath>
-  </defs>
   <g
      id="Roundel_Pierced_of_a_Delf"
      fill-opacity="1"
@@ -29,9 +20,8 @@
     <title
        id="title7">Roundel Pierced of a Delf</title>
     <g
-       id="Roundel_Pierced_of_a_Delf_Art"
-       clip-path="url(#artboard_clip_path)">
-      <title
+         id="Roundel_Pierced_of_a_Delf_Art">
+       <title
          id="title9">Art</title>
       <g
          id="Group_113">

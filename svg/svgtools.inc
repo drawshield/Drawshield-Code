@@ -54,7 +54,7 @@ function add_def($element = '', $content = '', $name = '', $title = '', $desc = 
 }
 
 $targetColours = array (
-  '#ff0000', '#00ff00', 
+  '#ff0000', '#00ff00', '#008000', '#800080',
   '#0000ff', '#ffff00',
   '#00ffff', '#ff00ff',
   'rgb(255,0,0)', 'rgb(0,255,0)', 
