@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" viewBox="81 63 202.5 351" width="202.5" height="351" id="svg24">
-  <defs id="defs5" width="" height="">
-    <clipPath id="artboard_clip_path">
-      <path d="M 81 63 L 283.5 63 L 283.5 360 L 255.46154 414 L 81 414 Z" id="path2"/>
-    </clipPath>
   </defs>
   <g id="Olive" stroke-opacity="1" stroke="none" stroke-dasharray="none" fill="none" fill-opacity="1" style="fill:none;stroke:#000000">
     <title id="title7">Olive</title>
-    <g id="Olive_Art" clip-path="url(#artboard_clip_path)" style="fill:none;stroke:#000000">
+    <g id="Olive_Art" style="fill:none;stroke:#000000">
       <title id="title9">Art</title>
       <g id="Group_53" style="fill:none;stroke:#000000">
         <g id="Graphic_55" style="fill:none;stroke:#000000">
