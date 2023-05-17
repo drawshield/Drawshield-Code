@@ -6,13 +6,13 @@
    height="425.01"
    id="svg2"
    version="1.1"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
-
+  <defs
+     id="defs46" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -69,38 +69,54 @@
                  d="m 479.34,327.94 -30.87,30.88 -4.6,1.43 32,-32.03 z"
                  style="color:#000000;-inkscape-font-specification:Sans;fill:#ffffff;stroke-width:2" />
             </g>
-            <use
-               x="0"
-               y="0"
-               xlink:href="#g3897"
+            <g
                id="use3919"
-               transform="translate(22.501)"
-               width="744.09"
-               height="1052.4" />
-            <use
-               height="1052.4"
-               width="744.09"
-               transform="translate(45.002)"
+               transform="translate(22.501)">
+              <path
+                 style="color:#000000;-inkscape-font-specification:Sans;fill:#999999;stroke-width:2"
+                 d="m 474.47,326.82 -32,32 1.4,1.43 32,-32.03 z"
+                 id="path206" />
+              <path
+                 id="path208"
+                 d="m 479.34,327.94 -30.87,30.88 -4.6,1.43 32,-32.03 z"
+                 style="color:#000000;-inkscape-font-specification:Sans;fill:#ffffff;stroke-width:2" />
+            </g>
+            <g
                id="use3921"
-               xlink:href="#g3897"
-               y="0"
-               x="0" />
-            <use
-               x="0"
-               y="0"
-               xlink:href="#g3897"
+               transform="translate(45.002)">
+              <path
+                 style="color:#000000;-inkscape-font-specification:Sans;fill:#999999;stroke-width:2"
+                 d="m 474.47,326.82 -32,32 1.4,1.43 32,-32.03 z"
+                 id="path212" />
+              <path
+                 id="path214"
+                 d="m 479.34,327.94 -30.87,30.88 -4.6,1.43 32,-32.03 z"
+                 style="color:#000000;-inkscape-font-specification:Sans;fill:#ffffff;stroke-width:2" />
+            </g>
+            <g
                id="use3923"
-               transform="translate(67.503)"
-               width="744.09"
-               height="1052.4" />
-            <use
-               height="1052.4"
-               width="744.09"
-               transform="translate(90.004)"
+               transform="translate(67.503)">
+              <path
+                 style="color:#000000;-inkscape-font-specification:Sans;fill:#999999;stroke-width:2"
+                 d="m 474.47,326.82 -32,32 1.4,1.43 32,-32.03 z"
+                 id="path218" />
+              <path
+                 id="path220"
+                 d="m 479.34,327.94 -30.87,30.88 -4.6,1.43 32,-32.03 z"
+                 style="color:#000000;-inkscape-font-specification:Sans;fill:#ffffff;stroke-width:2" />
+            </g>
+            <g
                id="use3925"
-               xlink:href="#g3897"
-               y="0"
-               x="0" />
+               transform="translate(90.004)">
+              <path
+                 style="color:#000000;-inkscape-font-specification:Sans;fill:#999999;stroke-width:2"
+                 d="m 474.47,326.82 -32,32 1.4,1.43 32,-32.03 z"
+                 id="path224" />
+              <path
+                 id="path226"
+                 d="m 479.34,327.94 -30.87,30.88 -4.6,1.43 32,-32.03 z"
+                 style="color:#000000;-inkscape-font-specification:Sans;fill:#ffffff;stroke-width:2" />
+            </g>
           </g>
         </g>
         <g
@@ -113,22 +129,14 @@
                d="m 419.91,360.31 34.02,-34.02 h 133.79 c 0,0 0.93,1.34 -0.19,2.68 -1.12,1.34 -29.83,29.83 -29.83,29.83 z"
                id="path3960" />
           </g>
-          <use
-             height="1052.4"
-             width="744.09"
-             transform="translate(-67.617,0.25399)"
+          <path
              id="use4020"
-             xlink:href="#path4014"
-             y="0"
-             x="0" />
-          <use
-             height="1052.4"
-             width="744.09"
-             transform="translate(-110.23,0.25399)"
+             d="m 488.993,357.46399 c 0,0 -11.65,0 -14.47,0 -2.81,0 -4.95,-1.07 -4.95,-1.07 l -2.82,2.55 21.7,0.13 z"
+             style="color:#000000;fill:#999999" />
+          <path
              id="use4024"
-             xlink:href="#path4014"
-             y="0"
-             x="0" />
+             d="m 446.38,357.46399 c 0,0 -11.65,0 -14.47,0 -2.81,0 -4.95,-1.07 -4.95,-1.07 l -2.82,2.55 21.7,0.13 z"
+             style="color:#000000;fill:#999999" />
           <path
              transform="matrix(1,0,0,-1,0,739.12)"
              id="path3997"
@@ -143,34 +151,22 @@
              transform="matrix(1,0,0,-1,0,739.12)"
              d="m 555.75,378.87 -1.41,1.44 29.75,29.75 H 455.94 l -2,2.19 h 133.78 c 0,0 0.38,-1.2 -0.18,-1.66 0,0 -31.79,-31.72 -31.79,-31.72 z"
              style="color:#000000;-inkscape-font-specification:Sans;fill:#999999;stroke-width:2" />
-          <use
-             x="0"
-             y="0"
-             xlink:href="#path4014"
+          <path
              id="use4022"
-             transform="translate(-89.967,0.25399)"
-             width="744.09"
-             height="1052.4" />
+             d="m 466.643,357.46399 c 0,0 -11.65,0 -14.47,0 -2.81,0 -4.95,-1.07 -4.95,-1.07 l -2.82,2.55 21.7,0.13 z"
+             style="color:#000000;fill:#999999" />
           <path
              id="path4014"
              d="m 556.61,357.21 c 0,0 -11.65,0 -14.47,0 -2.81,0 -4.95,-1.07 -4.95,-1.07 l -2.82,2.55 21.7,0.13 z"
              style="color:#000000;fill:#999999" />
-          <use
-             height="1052.4"
-             width="744.09"
-             transform="translate(-22.35,0.25399)"
+          <path
              id="use4016"
-             xlink:href="#path4014"
-             y="0"
-             x="0" />
-          <use
-             x="0"
-             y="0"
-             xlink:href="#path4014"
+             d="m 534.26,357.46399 c 0,0 -11.65,0 -14.47,0 -2.81,0 -4.95,-1.07 -4.95,-1.07 l -2.82,2.55 21.7,0.13 z"
+             style="color:#000000;fill:#999999" />
+          <path
              id="use4018"
-             transform="translate(-45.078,0.25399)"
-             width="744.09"
-             height="1052.4" />
+             d="m 511.532,357.46399 c 0,0 -11.65,0 -14.47,0 -2.81,0 -4.95,-1.07 -4.95,-1.07 l -2.82,2.55 21.7,0.13 z"
+             style="color:#000000;fill:#999999" />
           <g
              id="g3964">
             <g
@@ -184,38 +180,54 @@
                  d="m 479.34,327.94 -30.87,30.88 -4.6,1.43 32,-32.03 z"
                  id="path3970" />
             </g>
-            <use
-               height="1052.4"
-               width="744.09"
-               transform="translate(22.501)"
+            <g
                id="use3972"
-               xlink:href="#g3897"
-               y="0"
-               x="0" />
-            <use
-               x="0"
-               y="0"
-               xlink:href="#g3897"
+               transform="translate(22.501)">
+              <path
+                 style="color:#000000;-inkscape-font-specification:Sans;fill:#999999;stroke-width:2"
+                 d="m 474.47,326.82 -32,32 1.4,1.43 32,-32.03 z"
+                 id="path240" />
+              <path
+                 id="path242"
+                 d="m 479.34,327.94 -30.87,30.88 -4.6,1.43 32,-32.03 z"
+                 style="color:#000000;-inkscape-font-specification:Sans;fill:#ffffff;stroke-width:2" />
+            </g>
+            <g
                id="use3974"
-               transform="translate(45.002)"
-               width="744.09"
-               height="1052.4" />
-            <use
-               height="1052.4"
-               width="744.09"
-               transform="translate(67.503)"
+               transform="translate(45.002)">
+              <path
+                 style="color:#000000;-inkscape-font-specification:Sans;fill:#999999;stroke-width:2"
+                 d="m 474.47,326.82 -32,32 1.4,1.43 32,-32.03 z"
+                 id="path246" />
+              <path
+                 id="path248"
+                 d="m 479.34,327.94 -30.87,30.88 -4.6,1.43 32,-32.03 z"
+                 style="color:#000000;-inkscape-font-specification:Sans;fill:#ffffff;stroke-width:2" />
+            </g>
+            <g
                id="use3976"
-               xlink:href="#g3897"
-               y="0"
-               x="0" />
-            <use
-               x="0"
-               y="0"
-               xlink:href="#g3897"
+               transform="translate(67.503)">
+              <path
+                 style="color:#000000;-inkscape-font-specification:Sans;fill:#999999;stroke-width:2"
+                 d="m 474.47,326.82 -32,32 1.4,1.43 32,-32.03 z"
+                 id="path252" />
+              <path
+                 id="path254"
+                 d="m 479.34,327.94 -30.87,30.88 -4.6,1.43 32,-32.03 z"
+                 style="color:#000000;-inkscape-font-specification:Sans;fill:#ffffff;stroke-width:2" />
+            </g>
+            <g
                id="use3978"
-               transform="translate(90.004)"
-               width="744.09"
-               height="1052.4" />
+               transform="translate(90.004)">
+              <path
+                 style="color:#000000;-inkscape-font-specification:Sans;fill:#999999;stroke-width:2"
+                 d="m 474.47,326.82 -32,32 1.4,1.43 32,-32.03 z"
+                 id="path258" />
+              <path
+                 id="path260"
+                 d="m 479.34,327.94 -30.87,30.88 -4.6,1.43 32,-32.03 z"
+                 style="color:#000000;-inkscape-font-specification:Sans;fill:#ffffff;stroke-width:2" />
+            </g>
           </g>
         </g>
       </g>
