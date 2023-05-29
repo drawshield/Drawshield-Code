@@ -3,6 +3,7 @@
 =charge/cross/
 calvary cross(es)?=calvary
 =charge/quadrate/
+knotwork cross(es)?=knotwork-cross
 ?(saint|st) florians? cross(es)?=cross-florian
 =charge/cross/
 marian cross(es)?=marian-cross
