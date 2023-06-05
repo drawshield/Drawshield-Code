@@ -23,5 +23,5 @@
     </rdf:RDF>
   </metadata>
 <g style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" id="body"><path fill-rule="evenodd" d="M0,0h100v100h-100zM15,15h70v70h-70z" />
-                  <text x="50" y="65" font-size="30" text-anchor="middle">^%NUM%^</text></g>
+                  <text font-family="monospace" x="50" y="75" font-size="90" text-anchor="middle">%NUM%</text></g>
 </svg>
