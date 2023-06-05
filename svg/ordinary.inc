@@ -196,6 +196,34 @@ function includeOrdinary(DOMElement &$node, $layout)
     return $ordinary;
 }
 
+function getBordurePlacements($shape, $chargeNode) {
+    // Positions if on a bordure, default value (not very good) first
+    $retval = 'x';
+    // More specific ones (better)
+    $chargePositions = array (
+        'heater-12' => '40,40,55,55:500,40:960,40:960,300:960,600:960,900:750,1080:500,1150:250,1080:40,900:40,600:40,300',
+        'heater-11' => '40,40,55,55:500,40:960,40:960,300:960,600:960,900:750,1080:250,1080:40,900:40,600:40,300',
+        'heater-10' => '40,40,55,55:500,40:960,40:960,300:960,600:960,900:500,1150:40,900:40,600:40,300',
+        'heater-9' => '40,40,55,55:500,40:960,40:960,300:960,600:750,1080:250,1080:40,600:40,300',
+        'heater-8' => '40,40,55,55:500,40:960,40:960,500:850,1010:500,1150:150,1010:40,500',
+        'heater-7' => '40,40,55,55:500,40:960,40:960,500:850,1010:150,1010:40,500',
+        'heater-6' => '150,40,55,55:850,40:960,500:850,1010:150,1010:40,500',
+        'heater-5' => '500,40,55,55:960,500,55,55:850,1010:150,1010:40,500',
+        'heater-4' => '500,40,55,55:960,500:500,1150:40,500',
+        'heater-3' => '500,40,600,55:960,500,55,600:40,500,55,600',
+        'heater-2' => '960,500,55,600:40,500,55,600',
+        'heater-1' => '500,40,600,55',
+
+    );
+
+    $number = $chargeNode->getAttribute(blazonML::A_NUMBER);
+    $key = $shape . '-' . $number;
+    if (array_key_exists($key, $chargePositions)) {
+        $retval = str_repeat('x/',$number - 1) . $chargePositions[$key];
+    }
+    return $retval;
+}
+
 function getSpecial($type, $node, $layout)
 {
     global $options, $messages;
@@ -281,7 +309,6 @@ function getSpecial($type, $node, $layout)
 
     $special['chargesWithin'] = $layout->rect_area()->margin(250, 0, 250, 350);
 
-    $special['chargesOn'] = 'x///////////500,30,55,55:250,30:750,30:500,1150:35,500:965,500:35,200:965,200:35,800:965,800:200,1050:800,1050';
 
     return ($special);
 
@@ -491,6 +518,9 @@ function makeOrdinary(DOMElement &$node, $layout)
                             $onObject->removeChild($sin);
                         else
                             $onObject->appendChild(createModifierNode('chargemod', 'reversed'));
+                    }
+                    if ($subtype == 'bordure') {
+                        $ord_data['chargesOn'] = getBordurePlacements($layout->shape, $onObject);
                     }
                     if (array_key_exists('chargesOn', $ord_data)) {
                         $onPlacement = $ord_data['chargesOn'];

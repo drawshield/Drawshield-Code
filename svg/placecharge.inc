@@ -436,6 +436,9 @@ function PlaceCharge ( $node,  // images
     $BoundAR = $boundX / $boundY;
   }
   $retval = $charge['body'];
+  if ($charge['name'] == 'bbox') { // add the charge number to a bounding box debugging charge
+    $retval = preg_replace('/%NUM%/', $index, $retval);
+  }
   $chargeX = max(1,$charge['width']); // protect against zero
   $chargeY = max(1,$charge['height']);
 
