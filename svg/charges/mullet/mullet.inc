@@ -16,6 +16,9 @@ This file is part of the DrawShield.net heraldry image creation program
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
 $num_of = getModifierValueByKeyterm($node, 'ofnum', true);
+if (is_null($num_of)) {
+    $num_of = 5;
+}
 
 if ( !existModifierWithKeyterm($node, "interlaced") ) {
     if ($num_of < 3)
