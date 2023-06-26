@@ -16,10 +16,13 @@ This file is part of the DrawShield.net heraldry image creation program
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
 $num_of = getModifierValueByKeyterm($node, 'ofnum', true);
+if (is_null($num_of)) {
+    $num_of = 5;
+}
 
 if ( !existModifierWithKeyterm($node, "interlaced") ) {
-    if ($num_of < 4)
-        $num_of = 5;
+    if ($num_of < 3)
+        $num_of = 3;
 
     $size = 400;
     $cx = $size / 2;
@@ -27,6 +30,12 @@ if ( !existModifierWithKeyterm($node, "interlaced") ) {
     $stroke = 3;
     $r1 = $size / 2 - $stroke;
     switch ($num_of) {
+        case 3:
+            $r_scale = 0.3;
+            break;
+        case 4:
+            $r_scale = 0.4;
+            break;
         case 5:
             $r_scale = 0.3815;
             break;
@@ -37,6 +46,9 @@ if ( !existModifierWithKeyterm($node, "interlaced") ) {
             $r_scale = min(($num_of - 5) / (64 - 5) * .2 + .5, 0.7);
             break;
         }
+    if ( existModifierWithKeyterm($node, "sharper") ) {
+        $r_scale *= 0.6;
+    }
     $r2 = $r1 * $r_scale;
     $d = "M $cx " . ($cy - $r1) . " L ";
     $angle = M_PI * 2 / $num_of;
