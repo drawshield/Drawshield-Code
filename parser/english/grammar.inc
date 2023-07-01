@@ -2373,7 +2373,7 @@ class englishGrammar extends grammar
 
         $textLex = $phrase->add(self::findLex(languageDB::MOTTO_TEXT)); // get the next word
 
-        $mottoNode = $this->schema->makeNodeFromLexeme(blazonML::E_MOTTO, $phrase->create($mottoLex->keyterm),
+        $mottoNode = $this->schema->makeNodeFromLexeme(blazonML::E_MOTTO, $phrase->create("motto"),
                 // override some attributes
             array ( blazonML::A_KEYTERM => $keyterm, blazonML::A_TEXT => $textLex->value)
         );
