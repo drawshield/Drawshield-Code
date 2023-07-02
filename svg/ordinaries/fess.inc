@@ -48,7 +48,7 @@ if ( existModifierWithKeyterm($node,'fracted') ) {
 } else {
     $margin = 100;
     $start = -$margin;
-    $width = $layout->size->width + $margin;
+    $width = $layout->size->width + $margin + $margin;
 
     $couped_size = $layout->size->width / 10;
 
