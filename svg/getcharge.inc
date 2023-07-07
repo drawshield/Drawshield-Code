@@ -237,6 +237,7 @@ function featuresThatAreAlsoMods($node) {
     'winged',
       'wreathed',
       'spouting',
+      'kleestengel',
   );
 
   foreach ($features as $feature) {
