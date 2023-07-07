@@ -4,6 +4,7 @@
 calvary cross(es)?=calvary
 =charge/quadrate/
 knotwork cross(es)?=knotwork-cross
+knot work cross(es)?=knotwork-cross
 ?(saint|st) florians? cross(es)?=cross-florian
 =charge/cross/
 marian cross(es)?=marian-cross
@@ -297,6 +298,7 @@ ducks? f(oo|ee)t=duck-foot
 sparrow hawks?=falcon
 imperial eagles?=imperial-eagle
 eagles?=eagle
+eagles? kleestengels?=eagle-kleestengel
 eagles? f(oo|ee)t=eagle-foot
 napole[ao]n(ic|s)? eagles?=napoleonic-eagle?P
 eagles? ?of napole[ao]n =napoleonic-eagle?P
