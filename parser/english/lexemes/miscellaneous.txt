@@ -334,6 +334,7 @@ german=german
 african=african
 persian=persian
 hungarian=hungarian
+japanese=japanese
 
 =shape-prefix
 swiss=swiss
