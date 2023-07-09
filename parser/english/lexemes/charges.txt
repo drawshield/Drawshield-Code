@@ -1445,6 +1445,7 @@ viscounts? (crown|coronet)s?=viscount?O
 (royal|regal|kings) crowns?=royal?P
 (imperial|empire) crowns?=imperial?P
 celestial crowns?=celestial?P
+tudor crowns?=tudor?P
 napolean(s|ic) crowns?=napoleanic?P
 crowns? of napolean=napoleanic?P
 ducal (crown|coronet)s?=ducal?P

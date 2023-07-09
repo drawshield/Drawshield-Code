@@ -335,6 +335,8 @@ african=african
 persian=persian
 hungarian=hungarian
 japanese=japanese
+scottish=scottish
+scots=scottish
 
 =shape-prefix
 swiss=swiss

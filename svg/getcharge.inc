@@ -136,6 +136,10 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
   $requiredNotPresentPenalty = 20;
   $positionWeight = 2;
 
+  if (!is_dir($folder)) {
+    return $bestFilename;
+  }
+
   $dh = opendir($folder);
   if ($dh === false) {
     $messages->addMessage('internal',"Cannot open charge folder - $folder");
@@ -258,78 +262,105 @@ function read_chg_file(DOMElement $node) {
 
   $title = '???';
   $chg_data = array();
+  // Test for missing charge information
   if ( is_null($node) or $node->nodeName == 'missing' ) {
-    $title = 'missing';
     $chg_data['svgCode'] = '<svg height="100" width="100"><g stroke="none"><path fill-rule="evenodd" d="M0,0h100v100h-100zM10,10h80v80h-80z" />' .
-        '<text x="50" y="55" font-size="15" text-anchor="middle">' . $title . '</text></g></svg>';
-  } else {
-    $splitArray = preg_split(':/:', $node->getAttribute('keyterm'));
-    if (count($splitArray) != 2) {
-      $messages->addMessage('internal',"Problem reading charge with keyterm " . $node->getAttribute('keyterm'));
-      $chg_data['svgCode'] = '<svg height="100" width="100"><g stroke="none"><path fill-rule="evenodd" d="M0,0h100v100h-100zM10,10h80v80h-80z" />' .
-        '<text x="50" y="55" font-size="15" text-anchor="middle">' . $title . '</text></g></svg>';
+        '<text x="50" y="55" font-size="15" text-anchor="middle">Missing</text></g></svg>';
+    return $chg_data;
+  }
+
+  // test for broken charge information
+  $splitArray = preg_split(':/:', $node->getAttribute('keyterm'));
+  if (count($splitArray) != 2) {
+    $messages->addMessage('internal',"Problem reading charge with keyterm " . $node->getAttribute('keyterm'));
+    $chg_data['svgCode'] = '<svg height="100" width="100"><g stroke="none"><path fill-rule="evenodd" d="M0,0h100v100h-100zM10,10h80v80h-80z" />' .
+      '<text x="50" y="55" font-size="15" text-anchor="middle">keyterm?</text></g></svg>';
+    return $chg_data;
+  }
+  $group = $splitArray[0];
+  $chargeKey = $splitArray[1];
+
+  // Is this a special, built-on-the-fly charge?
+  if ( $group == "custom" ) {
+      $chg_data = SmartChargeGroup::instance()->charge_data($node, $chg_data, $chargeKey);
       return $chg_data;
-    }
-    list($group,$chargeKey) = $splitArray;
-    $folder = __dir__ . "/charges/$group/";
-    $subfolder = '';
-    if (($title = $node->getAttribute('tokens')) == null ) $title = $chargeKey;
-    $tincture = getTinctureNode($node);
-    if (!is_null($tincture) && !is_null($tincture->firstChild) && $tincture->firstChild->nodeName == blazonML::E_PROPER) {
-        // Charge is proper let's see if there is a special version for this
-        if (file_exists($folder . "proper/" . $chargeKey . '.svg')) {
-            $subfolder .= "proper/";
-        }
-    }
+  }
 
-    // look for .inc file
-    $file = $folder . $subfolder . $chargeKey . '.inc';
-    if ( $group == "custom" ) {
-        $chg_data = SmartChargeGroup::instance()->charge_data($node, $chg_data, $chargeKey);
-    } else if ( file_exists( $file )) {
-      $chg_data = includeCharge( $node, $file, $chg_data, $folder, $chargeKey );
-    }
-    // TODO check if this still happens???
-      // It is possible that some node attributes have been changed, so re-read them
+  // If there is a different tradition specified we put that first
+  if (($trad = getModifierByType($node,languageDB::TRADITION_PREFIX)) != null)
+      $chargeKey = $trad . '-' . $chargeKey;
+
+  $folder = __dir__ . "/charges/$group/";
+
+  // First, look for .inc file
+  $incFile = $folder . $chargeKey . '.inc';
+  if ( file_exists( $incFile )) {
+    $chg_data = includeCharge( $node, $incFile, $chg_data, $folder, $chargeKey );
+    // It is possible that some node attributes have been changed, so re-read them
     list($group,$chargeKey) = preg_split(':/:', $node->getAttribute('keyterm'));
-    $folder = __dir__ . "/charges/$group/$subfolder";
+    // If there is a different tradition specified we put that first
+    if (($trad = getModifierByType($node,languageDB::TRADITION_PREFIX)) != null)
+        $chargeKey = $trad . '-' . $chargeKey;
+  }
 
+  if (($title = $node->getAttribute('tokens')) == null ) $title = $chargeKey;
+  $tincture = getTinctureNode($node);
+  // Is this charge proper?
+  $proper =  (!is_null($tincture) && !is_null($tincture->firstChild) && $tincture->firstChild->nodeName == blazonML::E_PROPER);
+
+  // Get a list of modifiers (and features that are also modifiers)
     $modList = '';
+    // (unless either of these were set by the include file above)
     if ( !array_key_exists('svgCode',$chg_data) and !array_key_exists('file',$chg_data) ) {
-        // If there is a different tradition specified we put that first
-        if (($trad = getModifierByType($node,languageDB::TRADITION_PREFIX)) != null)
-            $chargeKey = $trad . '-' . $chargeKey;
-      // Have to treat head feature as a mod as well sometimes, + other things
       $modList .= featuresThatAreAlsoMods($node);
       $ignoreMods = array("palewise", 'fesswise', 'bendwise', 'bendsinwise', 'haurient', 'conjoined', 'ensoleil', 'centered');
       $otherArray = array_diff(array_keys(getModifiersByTypeAsArray($node,'chargemod')), $ignoreMods);
       if (existModifierWithKeyterm($node,'fancy')) $otherArray[] = 'fancy';
       $otherMods = implode('-',$otherArray);
       if ($otherMods) $modList .= '-' . $otherMods;
-      $file = getBestMatchFilename($folder, $chargeKey, $modList);
-      if ($file != '')
-        $chg_data['file'] = $file;
-    }
-    // if we have a file, read it in, or leave existing code
-    if ( !array_key_exists('svgCode',$chg_data) and array_key_exists('file', $chg_data) and file_exists( $folder . $chg_data['file'])) {
-        $chg_data['svgCode'] = file_get_contents($folder . $chg_data['file']);
+      // if proper, look for that first (but not necessarily an error if not found)
+      if ($proper) {
+        $file = getBestMatchFilename($folder . 'proper/', $chargeKey, $modList);
+        if ($file != '') { // found one
+          $chg_data['file'] = $file;
+          $folder .= '/proper/';
+        } else {
+          $proper = false; // no, use metadata for proper colouring
+        }
+      }
+      // if not found one yet,
+      if (!array_key_exists('file', $chg_data)) {
+        $file = getBestMatchFilename($folder, $chargeKey, $modList);
+        if ($file != '') {
+          $chg_data['file'] = $file;
+        } else {
+          // try again for a proper only version
+          $folder .= 'proper/';
+          $file = getBestMatchFilename($folder, $chargeKey, $modList, false);
+          if ($file != '') {
+            $messages->addMessage('warning',"$chargeKey is only available as proper");
+            $chg_data['file'] = $file;
+            $proper = true;
+          }
+        }
+      }
+      $chg_data['svgCode'] = file_get_contents($folder . $chg_data['file']);
     }
 
-
+    // If we had problems getting the SVG...
     if ( !array_key_exists('svgCode',$chg_data)) {
       $messages->addMessage('warning',"Cannot draw $title");
       $chg_data['svgCode'] = '<svg height="100" width="100"><g stroke="none"><path fill-rule="evenodd" d="M0,0h100v100h-100zM10,10h80v80h-80z" />' .
-              '<text x="50" y="55" font-size="15" text-anchor="middle">' . $title . '</text></g></svg>';
+              '<text x="50" y="55" font-size="15" text-anchor="middle">Bad SVG</text></g></svg>';
+    } else {
+      // Get additional metadata, but allow existing entries (picked up from the charge itself)
+      // to have priority
+      $chg_data = array_merge(getMetadata($group, $chargeKey), $chg_data);
     }
-    // Get additional metadata, but allow existing entries (picked up from the charge itself)
-    // to have priority
-    $chg_data = array_merge(getMetadata($group, $chargeKey), $chg_data);
-  }
+
   $chg_data['title'] = $title;
-  $chg_data['verbatim'] = false;
-  if ($subfolder) { // must be proper, so don't try to colour in
-    $chg_data['verbatim'] = true;
-  }
+  $chg_data['verbatim'] = $proper; // proper, so don't try to colour in
+
   if (array_key_exists('licence',$chg_data))
     $messages->addMessage('licence',$node->getAttribute('keyterm') . ' - ' . $chg_data['licence']);
   return $chg_data;
@@ -572,6 +603,7 @@ function getCharge( DOMElement $node, $layout ) {
                     <text x="50" y="65" font-size="30" text-anchor="middle">????</text></g>
                     </svg>'
             );
+            $chg_data['width'] = $chg_data['height'] = 100;
         }
         libxml_clear_errors();
         //------------------------------------------------------------
