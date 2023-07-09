@@ -136,6 +136,8 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
   $requiredNotPresentPenalty = 20;
   $positionWeight = 2;
 
+  $doNotUseInMatch = array ('badge', 'of', 'the'); // ignore these words, no value for matching
+
   if (!is_dir($folder)) {
     return $bestFilename;
   }
@@ -148,7 +150,11 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
   }
   $base .= $mods;
   // error_log("Testing for $base");
-  $requiredParts = explode('-', $base);
+  $baseParts = explode('-', $base);
+  $requiredParts = [];
+  for($i = 0; $i < count($baseParts); $i++) {
+    if (!in_array($baseParts[$i], $doNotUseInMatch))  $requiredParts[] = $baseParts[$i];
+  }
   $numRequiredParts = count($requiredParts);
 
   while (false !== ($entry = readdir($dh))) {
@@ -156,8 +162,12 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
     $currentRNPPenalty = $requiredNotPresentPenalty;
     $missing = '';
     $extra = '';
+    $filenameParts = [];
     if (substr($entry,-4) != '.svg') { continue; } // ignore non-svg files
-    $filenameParts = preg_split('/(\.|-)/', $entry);
+    $allFilenameParts = preg_split('/(\.|-)/', $entry);
+    for($i = 0; $i < count($allFilenameParts); $i++) {
+      if (!in_array($allFilenameParts[$i], $doNotUseInMatch)) $filenameParts[] = $allFilenameParts[$i];
+    }
     $numFilenameParts = count($filenameParts) - 1; // last entry is 'svg', so ignore it
       // if the final part is something like (1), (2) etc. ignore that too
       if (preg_match("/([0-9])/",$filenameParts[$numFilenameParts])) $numFilenameParts -= 1;
@@ -296,71 +306,74 @@ function read_chg_file(DOMElement $node) {
   $incFile = $folder . $chargeKey . '.inc';
   if ( file_exists( $incFile )) {
     $chg_data = includeCharge( $node, $incFile, $chg_data, $folder, $chargeKey );
-    // It is possible that some node attributes have been changed, so re-read them
-    list($group,$chargeKey) = preg_split(':/:', $node->getAttribute('keyterm'));
-    // If there is a different tradition specified we put that first
-    if (($trad = getModifierByType($node,languageDB::TRADITION_PREFIX)) != null)
-        $chargeKey = $trad . '-' . $chargeKey;
+    // The include file may have done one of 3 things:
+    // 1) If it gave use some SVG code then we can just return it
+    if (array_key_exists('svgCode', $chg_data)) return $chg_data;
+    // 2) If it gave us a filename, then fine, just use that
+    // 3) or it could have modified the keyterm of the charge, so check it again
+    if (!array_key_exists('file', $chg_data)) {
+      // It is possible that some node attributes have been changed, so re-read them
+      list($group,$chargeKey) = preg_split(':/:', $node->getAttribute('keyterm'));
+      // If there is a different tradition specified we put that first
+      if (($trad = getModifierByType($node,languageDB::TRADITION_PREFIX)) != null)
+          $chargeKey = $trad . '-' . $chargeKey;
+    }
+  }
+
+
+  // Nothing came from the inc file
+  if (!array_key_exists('file', $chg_data)) {
+    // Is this charge proper?
+    $tincture = getTinctureNode($node);
+    $proper =  (!is_null($tincture) && !is_null($tincture->firstChild) && $tincture->firstChild->nodeName == blazonML::E_PROPER);
+    // Get a list of modifiers (and features that are also modifiers)
+    $modList = '';
+    $modList .= featuresThatAreAlsoMods($node);
+    $ignoreMods = array("palewise", 'fesswise', 'bendwise', 'bendsinwise', 'haurient', 'conjoined', 'ensoleil', 'centered');
+    $otherArray = array_diff(array_keys(getModifiersByTypeAsArray($node,'chargemod')), $ignoreMods);
+    if (existModifierWithKeyterm($node,'fancy')) $otherArray[] = 'fancy';
+    $otherMods = implode('-',$otherArray);
+    if ($otherMods) $modList .= '-' . $otherMods;
+    // if proper, look for that first (but not necessarily an error if not found)
+    if ($proper) {
+      $file = getBestMatchFilename($folder . 'proper/', $chargeKey, $modList);
+      if ($file != '') { // found one
+        $chg_data['file'] = $file;
+        $chg_data['verbatim'] = true;
+        $folder .= '/proper/';
+      } 
+    }
+    // if not found one yet,
+    if (!array_key_exists('file', $chg_data)) {
+      $file = getBestMatchFilename($folder, $chargeKey, $modList);
+      if ($file != '') {
+        $chg_data['file'] = $file;
+      } else {
+        // try again for a proper only version
+        $folder .= 'proper/';
+        $file = getBestMatchFilename($folder, $chargeKey, $modList, false);
+        if ($file != '') {
+          $messages->addMessage('warning',"$chargeKey is only available as proper");
+          $chg_data['file'] = $file;
+          $chg_data['verbatim'] = true;
+        }
+      }
+    }
   }
 
   if (($title = $node->getAttribute('tokens')) == null ) $title = $chargeKey;
-  $tincture = getTinctureNode($node);
-  // Is this charge proper?
-  $proper =  (!is_null($tincture) && !is_null($tincture->firstChild) && $tincture->firstChild->nodeName == blazonML::E_PROPER);
-
-  // Get a list of modifiers (and features that are also modifiers)
-    $modList = '';
-    // (unless either of these were set by the include file above)
-    if ( !array_key_exists('svgCode',$chg_data) and !array_key_exists('file',$chg_data) ) {
-      $modList .= featuresThatAreAlsoMods($node);
-      $ignoreMods = array("palewise", 'fesswise', 'bendwise', 'bendsinwise', 'haurient', 'conjoined', 'ensoleil', 'centered');
-      $otherArray = array_diff(array_keys(getModifiersByTypeAsArray($node,'chargemod')), $ignoreMods);
-      if (existModifierWithKeyterm($node,'fancy')) $otherArray[] = 'fancy';
-      $otherMods = implode('-',$otherArray);
-      if ($otherMods) $modList .= '-' . $otherMods;
-      // if proper, look for that first (but not necessarily an error if not found)
-      if ($proper) {
-        $file = getBestMatchFilename($folder . 'proper/', $chargeKey, $modList);
-        if ($file != '') { // found one
-          $chg_data['file'] = $file;
-          $folder .= '/proper/';
-        } else {
-          $proper = false; // no, use metadata for proper colouring
-        }
-      }
-      // if not found one yet,
-      if (!array_key_exists('file', $chg_data)) {
-        $file = getBestMatchFilename($folder, $chargeKey, $modList);
-        if ($file != '') {
-          $chg_data['file'] = $file;
-        } else {
-          // try again for a proper only version
-          $folder .= 'proper/';
-          $file = getBestMatchFilename($folder, $chargeKey, $modList, false);
-          if ($file != '') {
-            $messages->addMessage('warning',"$chargeKey is only available as proper");
-            $chg_data['file'] = $file;
-            $proper = true;
-          }
-        }
-      }
-      $chg_data['svgCode'] = file_get_contents($folder . $chg_data['file']);
-    }
-
-    // If we had problems getting the SVG...
-    if ( !array_key_exists('svgCode',$chg_data)) {
+  if (array_key_exists('file', $chg_data)) {
+    $chg_data['svgCode'] = file_get_contents($folder . $chg_data['file']);
+    // Get additional metadata, but allow existing entries (picked up from the charge itself)
+    // to have priority
+    $chg_data = array_merge(getMetadata($group, $chargeKey), $chg_data);
+  } else { // still not found a file
       $messages->addMessage('warning',"Cannot draw $title");
       $chg_data['svgCode'] = '<svg height="100" width="100"><g stroke="none"><path fill-rule="evenodd" d="M0,0h100v100h-100zM10,10h80v80h-80z" />' .
               '<text x="50" y="55" font-size="15" text-anchor="middle">Bad SVG</text></g></svg>';
-    } else {
-      // Get additional metadata, but allow existing entries (picked up from the charge itself)
-      // to have priority
-      $chg_data = array_merge(getMetadata($group, $chargeKey), $chg_data);
-    }
+  }
 
   $chg_data['title'] = $title;
-  $chg_data['verbatim'] = $proper; // proper, so don't try to colour in
-
   if (array_key_exists('licence',$chg_data))
     $messages->addMessage('licence',$node->getAttribute('keyterm') . ' - ' . $chg_data['licence']);
   return $chg_data;
@@ -695,7 +708,7 @@ function getCharge( DOMElement $node, $layout ) {
                             $body_col = rgb($chg_data['proper']);
                         }
                     } else {
-                        $body_col = getProper($chargeGroup, $chargeName, null, !$chg_data['verbatim']);
+                        $body_col = getProper($chargeGroup, $chargeName, null, !array_key_exists('verbatim', $chg_data));
                     }
                     $col_type->setAttribute('spec', $body_col);
                     $feat_cols['proper'] = true; // Also use proper for any features not coloured explicitly
@@ -704,7 +717,7 @@ function getCharge( DOMElement $node, $layout ) {
         }
         //------------------------------------------------------------------------------
         // set a default stroke colour based on whether the body colour is light or dark
-        if (!$chg_data['verbatim'] && !$strokeCol)
+        if (!array_key_exists('verbatim',$chg_data) && !$strokeCol)
             $strokeCol = getStroke($charge_col, array_key_exists('fixStroke', $chg_data));
 
         //------------------------------------------------------------------------------
@@ -786,18 +799,18 @@ HERE;
 
     //---------------------------------------------------------
     // So we now have $charge_col set to a valid tincture node and the feat_cols array set, apply this to the svg Data
-    if ($chg_data['verbatim']) {
+    if (array_key_exists('verbatim', $chg_data)) {
         $body = preg_replace('/<\?xml.*?>/i','', $chg_data['svgCode']);
         if ( $options['palette'] == 'outline' || $options['palette'] == 'hatching') {
             $body = "<g filter=\"url('#grayscale')\">" . $body . '</g>';
         }
-        $chg_data = array_merge($chg_data, getSvgFragment($svg, $feat_cols, $chargeGroup, $chargeName, $extras, $strokeCol, null, $chg_data['verbatim'] ));
+        $chg_data = array_merge($chg_data, getSvgFragment($svg, $feat_cols, $chargeGroup, $chargeName, $extras, $strokeCol, null, true));
      } else {
         $chg_data = array_merge($chg_data, getSvgFragment($svg, $feat_cols, $chargeGroup, $chargeName, $extras, $strokeCol));
         $body = $chg_data['body'];
     }
-        $height = $chg_data['height'];
-        $width = $chg_data['width'];
+    $height = $chg_data['height'];
+    $width = $chg_data['width'];
 
     //----------------------------------------------------------
   }

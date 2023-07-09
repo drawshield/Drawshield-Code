@@ -945,8 +945,8 @@ class englishGrammar extends grammar
             elseif ($foundTinc > 0 && ($tinc = self::tincture())) {
                 $gotMainTincture = true;
                 if ($always_proper && is_object($tinc->firstChild) && $tinc->firstChild->nodeName != 'proper') {
-                    self::raiseError(self::ERROR_ORIGIN, 'Charge is always proper', $phrase);
-                } else {
+                    self::raiseError(self::ERROR_WARNING, 'Charge is always proper', $phrase);
+                } else { 
                     $tinc->setAttribute(blazonML::A_INDEX, $tincCount++);
                     $mods[] = $tinc;
                     $foundTinc -= 1;
@@ -978,7 +978,7 @@ class englishGrammar extends grammar
         }
 
         if ($tincCount == 1) { // i.e. none found
-            if ($always_proper || $optional_tincture) {
+            if ( $always_proper ||  $optional_tincture) {
                 $tinc = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'given',
                     blazonML::A_INDEX => '1'));
                 $tinc->appendChild($this->schema->makeNode(blazonML::E_PROPER));

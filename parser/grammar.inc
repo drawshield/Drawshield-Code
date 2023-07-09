@@ -18,6 +18,7 @@ This file is part of the DrawShield.net heraldry image creation program
 abstract class grammar
 {
     const ERROR_ORIGIN = 'parser';
+    const ERROR_WARNING = 'warning';
     const PRIORWORDS = 6;
 
     /**
