@@ -168,7 +168,7 @@ class englishGrammar extends grammar
             } elseif (($torse = self::torse()) != null) {
                 $found = true;
                 if (!is_null($thisTorse)) {
-                    self::raiseError(self::ERROR_ORIGIN, "Only one torse per crest", $torse);
+                    self::raiseError(self::ERROR_WARNING, "Only one torse per crest, others ignored", $torse);
                 } else {
                    $thisTorse = $torse;
                 }
@@ -251,7 +251,7 @@ class englishGrammar extends grammar
             if ($node == null) $node = $this->schema->makeNodeFromLexeme(blazonML::E_OVERALL, $overall, array('keyterm' => 'overall'));
             $this->matcher->syncOver();
             if (($over = self::objects()) == null) {
-                self::raiseError(self::ERROR_ORIGIN, 'Nothing to go "overall"', true);
+                self::raiseError(self::ERROR_WARNING, 'Nothing to go "overall", ignored', true);
                 return null;
             }
             $node->appendChild($over);
@@ -945,7 +945,7 @@ class englishGrammar extends grammar
             elseif ($foundTinc > 0 && ($tinc = self::tincture())) {
                 $gotMainTincture = true;
                 if ($always_proper && is_object($tinc->firstChild) && $tinc->firstChild->nodeName != 'proper') {
-                    self::raiseError(self::ERROR_WARNING, 'Charge is always proper', $phrase);
+                    self::raiseError(self::ERROR_WARNING, "Charge $keyterm is always proper", $phrase);
                 } else { 
                     $tinc->setAttribute(blazonML::A_INDEX, $tincCount++);
                     $mods[] = $tinc;
