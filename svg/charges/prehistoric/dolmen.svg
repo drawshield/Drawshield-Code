@@ -28,67 +28,6 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <defs
-     id="defs4">
-    <radialGradient
-       id="Gradient1"
-       gradientUnits="userSpaceOnUse"
-       cx="-80"
-       cy="-80"
-       r="405">
-      <stop
-         style="stop-color:#fff;stop-opacity:0.31"
-         offset="0"
-         id="stop7" />
-      <stop
-         style="stop-color:#fff;stop-opacity:0.25"
-         offset="0.19"
-         id="stop9" />
-      <stop
-         style="stop-color:#6b6b6b;stop-opacity:0.125"
-         offset="0.6"
-         id="stop11" />
-      <stop
-         style="stop-color:#000;stop-opacity:0.125"
-         offset="1"
-         id="stop13" />
-    </radialGradient>
-    <clipPath
-       id="shield_cut">
-      <path
-         id="shield"
-         d="m -298.5,-298.5 h 597 V -40 C 298.5,246.31 0,358.5 0,358.5 0,358.5 -298.5,246.31 -298.5,-40 Z" />
-    </clipPath>
-    <radialGradient
-       r="300"
-       fy="226.33101"
-       fx="221.44487"
-       cy="226.33101"
-       cx="221.44487"
-       gradientTransform="matrix(1.353218,0,0,1.348928,-77.62935,-85.74693)"
-       gradientUnits="userSpaceOnUse"
-       id="radialGradient3163"
-       xlink:href="#linearGradient2893" />
-    <linearGradient
-       id="linearGradient2893">
-      <stop
-         id="stop2895"
-         offset="0"
-         style="stop-color:white;stop-opacity:0.3137255;" />
-      <stop
-         style="stop-color:white;stop-opacity:0.25098041;"
-         offset="0.19"
-         id="stop2897" />
-      <stop
-         id="stop2901"
-         offset="0.60000002"
-         style="stop-color:#6b6b6b;stop-opacity:0.1254902;" />
-      <stop
-         id="stop2899"
-         offset="1"
-         style="stop-color:black;stop-opacity:0.1254902;" />
-    </linearGradient>
-  </defs>
   <g
      id="layer3"
      transform="translate(157.45173,274.72622)">

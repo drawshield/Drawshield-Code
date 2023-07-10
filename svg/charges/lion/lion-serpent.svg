@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" viewBox="45 85.5 274.5 247.5" width="274.5" height="247.5" id="svg29">
-  <defs id="defs5" width="" height="">
-    <clipPath id="artboard_clip_path">
-      <path d="M 45 85.5 L 319.5 85.5 L 319.5 333 L 45 333 Z" id="path2"/>
-    </clipPath>
-  </defs>
   <g id="Lion-Serpent" fill-opacity="1" stroke-dasharray="none" stroke="none" fill="none" stroke-opacity="1" style="stroke:#000000">
     <title id="title7">Lion-Serpent</title>
-    <g id="Lion-Serpent_Art" clip-path="url(#artboard_clip_path)" style="stroke:#000000">
+    <g id="Lion-Serpent_Art" style="stroke:#000000">
       <title id="title9">Art</title>
       <g id="Group_111" style="stroke:#000000">
         <g id="Graphic_114" style="stroke:#000000">
