@@ -120,7 +120,7 @@
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
         <dc:creator>
           <cc:Agent>
-            <dc:title>vlk2020 from https://commons.wikimedia.org/wiki/File:Harpy_Eagle.svg</dc:title>
+            <dc:title>comet from https://commons.wikimedia.org/wiki/File:Harpy_Eagle.svg</dc:title>
           </cc:Agent>
         </dc:creator>
       </cc:Work>
