@@ -5,12 +5,13 @@
    viewBox="0 0 203.61 96.678"
    version="1.1"
    id="svg9672"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs2723" />
   <metadata
      id="metadata9669">
     <rdf:RDF>
@@ -1628,102 +1629,121 @@
         </g>
         <g
            id="g21304"
-           style="fill:#79fffd">
+           style="fill:#cccccc">
           <path
              d="m 174.66,226.39 c 0,0 -6.83,-1.84 -6.56,-0.35 0.26,1.48 5.98,1.92 5.98,1.95"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16217" />
+             id="path16217"
+             style="fill:#cccccc" />
           <path
              d="m 170.03,230.78 c 0,0 -5.3,3.81 -4.25,4.87 1.05,1.07 4.83,-3.07 4.85,-3.04 z"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16223" />
+             id="path16223"
+             style="fill:#cccccc" />
           <path
              d="m 174.08,227.99 c 0,0 -6.79,-2.26 -6.65,-0.79 0.14,1.46 5.93,2.28 5.92,2.31"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16229" />
+             id="path16229"
+             style="fill:#cccccc" />
           <path
              d="m 173.53,228.82 c 0,0 -6.82,-1.34 -6.41,0.16 0.4,1.49 6.01,1.49 6.01,1.52"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16235" />
+             id="path16235"
+             style="fill:#cccccc" />
           <path
              d="m 176.31,229.88 c -0.39,-1.15 -2.11,-1.53 -3.38,-1.26 -3.13,0.64 -5.42,5.22 -3.93,7.12 l 4.15,-1.33 z"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16241" />
+             id="path16241"
+             style="fill:#cccccc" />
           <path
              d="m 171.31,242.12 c 0,0 -0.87,0.2 -1.6,-0.1 -0.88,-0.35 -1.51,-1.45 -0.27,-2.71 l 0.95,-0.27 c 0,0 1.65,1.1 1.65,1.35 0,0.24 -0.73,1.73 -0.73,1.73 z"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16243" />
+             id="path16243"
+             style="fill:#cccccc" />
           <path
              d="m 173.93,245.23 c -0.76,2.35 4.43,4.32 5.14,2.9 l 0.1,-2.44 -4.15,-1.09 z"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16245" />
+             id="path16245"
+             style="fill:#cccccc" />
           <path
              d="m 171.68,240.17 c -2.64,1.75 0.44,6.47 3.19,5.22 l -0.33,-2.93 -1.52,-2.56 z"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16251" />
+             id="path16251"
+             style="fill:#cccccc" />
           <path
              d="m 168.9,238.71 c -0.85,-1.3 -0.97,-3.62 2.45,-4.64 l 0.93,0.88 0.36,5.49 c -0.84,-0.1 -2.9,-0.45 -3.74,-1.73 z"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16257" />
+             id="path16257"
+             style="fill:#cccccc" />
           <path
              d="m 172.15,239.84 c -1.62,-0.88 -2.63,-3.41 -1.58,-4.91 0.47,-0.64 1.08,-0.92 1.69,-1.11 l 1.39,1.27 c 0,0 0,2.8 0,2.95 0,0.14 -1.46,1.8 -1.46,1.8 z"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16261" />
+             id="path16261"
+             style="fill:#cccccc" />
           <path
              d="m 174.13,231.03 c -0.74,-0.32 -1.35,-0.65 -2.32,0 -0.96,0.69 -1.26,2.97 0.56,3.4 z"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16265" />
+             id="path16265"
+             style="fill:#cccccc" />
           <path
              d="m 178.11,223.79 c -2.49,-1.67 -6.95,-3.25 -4.98,-0.11 0.62,0.98 1.45,1.96 1.72,3.25 l 1.89,0.71 1.92,-2.09 z"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16271" />
+             id="path16271"
+             style="fill:#cccccc" />
           <path
              d="m 177.75,227.97 c -2.53,-1.53 -6.33,-2.77 -4.71,-0.21 0.63,1 1.14,1.53 2.44,2.54 l 2.48,-0.13 z"
              stroke="#000000"
              stroke-width="0.344"
-             id="path16277" />
+             id="path16277"
+             style="fill:#cccccc" />
           <path
              d="m 184.68,226.48 c -1.63,-2.47 -4.54,-5.21 -4.17,-2.2 0.14,1.16 0.38,1.87 1.12,3.34 l 1.82,0.34 z"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16279" />
+             id="path16279"
+             style="fill:#cccccc" />
           <path
              d="m 181.82,226.37 c -1.91,-2.26 -5.11,-4.66 -4.4,-1.71 0.28,1.14 0.59,1.81 1.5,3.19 l 3.15,0.92 1.02,-0.9 z"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16285" />
+             id="path16285"
+             style="fill:#cccccc" />
           <path
              d="m 186.07,250.19 c 1.56,2.46 4.74,2.84 2.93,-0.23 l -1.83,-0.79 z"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16293" />
+             id="path16293"
+             style="fill:#cccccc" />
           <path
              d="m 182.2,249.72 c 0.82,1.31 5.54,3.56 4.48,0 l -3.72,-1.19 z"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16297" />
+             id="path16297"
+             style="fill:#cccccc" />
           <path
              d="m 178.39,246.07 c 0.1,2.29 2.03,4.16 3.95,4.2 0.49,0 0.83,-0.38 0.74,-1.19 l -1.15,-2.22 z"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16301" />
+             id="path16301"
+             style="fill:#cccccc" />
           <path
              d="m 180.53,227.5 c -2.34,-1.81 -5.97,-3.48 -4.66,-0.74 0.51,1.05 0.96,1.64 2.14,2.8 l 1.35,0.51 1.15,-0.87 z"
              stroke="#000000"
              stroke-width="0.47"
-             id="path16319" />
+             id="path16319"
+             style="fill:#cccccc" />
         </g>
         <g
            id="g20776"
