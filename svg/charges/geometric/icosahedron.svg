@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" version="1.1" viewBox="54 67.5 256.5 283.5" width="256.5" height="283.5" id="svg56" sodipodi:docname="icosahedron.svg" inkscape:version="1.2.2 (732a01da63, 2022-12-09)">
   <sodipodi:namedview id="namedview58" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:showpageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:deskcolor="#d1d1d1" showgrid="false" inkscape:zoom="1.4179894" inkscape:cx="157.61754" inkscape:cy="119.18284" inkscape:window-width="1920" inkscape:window-height="991" inkscape:window-x="-9" inkscape:window-y="-9" inkscape:window-maximized="1" inkscape:current-layer="svg56"/>
-  <defs id="defs5" width="" height="">
-    <clipPath id="artboard_clip_path">
-      <path d="M 54 67.5 L 310.5 67.5 L 310.5 340.26136 L 295.92614 351 L 54 351 Z" id="path2"/>
-    </clipPath>
-  </defs>
   <g id="Icosahedron" fill-opacity="1" fill="none" stroke="none" stroke-opacity="1" stroke-dasharray="none">
     <title id="title7">Icosahedron</title>
-    <g id="Icosahedron_Art" clip-path="url(#artboard_clip_path)">
+    <g id="Icosahedron_Art" >
       <title id="title9">Art</title>
       <g id="Group_113">
         <title id="title11">layer1</title>

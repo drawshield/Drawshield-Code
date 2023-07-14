@@ -168,7 +168,7 @@ class englishGrammar extends grammar
             } elseif (($torse = self::torse()) != null) {
                 $found = true;
                 if (!is_null($thisTorse)) {
-                    self::raiseError(self::ERROR_ORIGIN, "Only one torse per crest", $torse);
+                    self::raiseError(self::ERROR_WARNING, "Only one torse per crest, others ignored", $torse);
                 } else {
                    $thisTorse = $torse;
                 }
@@ -251,7 +251,7 @@ class englishGrammar extends grammar
             if ($node == null) $node = $this->schema->makeNodeFromLexeme(blazonML::E_OVERALL, $overall, array('keyterm' => 'overall'));
             $this->matcher->syncOver();
             if (($over = self::objects()) == null) {
-                self::raiseError(self::ERROR_ORIGIN, 'Nothing to go "overall"', true);
+                self::raiseError(self::ERROR_WARNING, 'Nothing to go "overall", ignored', true);
                 return null;
             }
             $node->appendChild($over);
@@ -945,8 +945,8 @@ class englishGrammar extends grammar
             elseif ($foundTinc > 0 && ($tinc = self::tincture())) {
                 $gotMainTincture = true;
                 if ($always_proper && is_object($tinc->firstChild) && $tinc->firstChild->nodeName != 'proper') {
-                    self::raiseError(self::ERROR_ORIGIN, 'Charge is always proper', $phrase);
-                } else {
+                    self::raiseError(self::ERROR_WARNING, "Charge $keyterm is always proper", $phrase);
+                } else { 
                     $tinc->setAttribute(blazonML::A_INDEX, $tincCount++);
                     $mods[] = $tinc;
                     $foundTinc -= 1;
@@ -978,7 +978,7 @@ class englishGrammar extends grammar
         }
 
         if ($tincCount == 1) { // i.e. none found
-            if ($always_proper || $optional_tincture) {
+            if ( $always_proper ||  $optional_tincture) {
                 $tinc = $this->schema->makeNode(blazonML::E_TINCTURE, array(blazonML::A_ORIGIN => 'given',
                     blazonML::A_INDEX => '1'));
                 $tinc->appendChild($this->schema->makeNode(blazonML::E_PROPER));
@@ -2229,47 +2229,37 @@ class englishGrammar extends grammar
 
         // Got the mantling, now get the colours and any adjustments
 
-        $tinctures = [];
+        $locations = [];
         $locNode = null;
         $tincture = null;
         $adjust = null;
         $allowTincture = ($type == 'ribbons' || substr($type, 0, 5) == 'cloak' || $type == 'leaves');  // have complex colour scheme
         // Look for any combination of tinctures, adjustments and locations
-        while (!is_null($lexeme = self::achievementLocation())
-                    || (!is_null($tincture = self::tincture()))
-                    || (!is_null($adjust = $this->getAdjustments()))) {
-            if (!is_null($tincture)) {
+        do {
+            $found = false;
+            if (!is_null($adjust = $this->getAdjustments())) {
+                $mantlingNode->appendChild($adjust);
+                $found = true;
+            } elseif (!is_null($location = self::achievementLocation())) {
+                $locations[] =  $this->schema->makeNodeFromLexeme(blazonML::E_LOCATION, $location);
+                $found = true;
+            } elseif (!is_null($tincture = self::tincture())) {
                 if (!$allowTincture) {
                     // Parse all colours and put in the AST but provide an error message
                     self::raiseError(self::ERROR_ORIGIN, "$type mantling has fixed colours", true);
                     $allowTincture = true; // suppress further errors
                 }
-                $tinctures[] = $tincture;
+                if (count($locations) == 0) { // no location given, use default
+                    $locations[] = $this->schema->makeNode(blazonML::E_LOCATION, array(
+                        blazonML::A_KEYTERM => 'default'));
+                }
+                $locations[count($locations) - 1]->appendChild($tincture);
                 $this->matcher->syncOver(languageDB::ANDD);
-            } elseif (!is_null($adjust)) {
-                foreach ( $adjust as $adjustment)
-                    $mantlingNode->appendChild($adjustment);
-            } elseif ($lexeme->category == languageDB::ACHIEVEMENT_LOC) {
-                // Did we previously find another location?
-                if (!is_null($locNode)) {
-                    foreach ($tinctures as $tincture)
-                        $locNode->appendChild($tincture);
-                    $mantlingNode->appendChild($locNode);
-                    $tinctures = [];
-                } // save it for later
-                $locNode = $this->schema->makeNodeFromLexeme(blazonML::E_LOCATION, $lexeme);
+                $found = true;
             }
-        }
-        // Do we have any tinctures left over?
-        if (count($tinctures)) { // Yes,
-            if ($locNode == null) { // use a default location
-                $locNode = $this->schema->makeNode(blazonML::E_LOCATION, array(
-                    blazonML::A_KEYTERM => 'default'));
-            }
-            foreach ($tinctures as $tincture)
-                $locNode->appendChild($tincture);
+        } while ($found);
+        foreach ($locations as $locNode)
             $mantlingNode->appendChild($locNode);
-        }
 
         return $mantlingNode;
     }

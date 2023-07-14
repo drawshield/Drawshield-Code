@@ -53,7 +53,31 @@ function add_def($element = '', $content = '', $name = '', $title = '', $desc = 
   return $myid; // and return an id unique to this SVG file
 }
 
-$targetColours = array (
+function replaceableColour($colourSpec) {
+  $allow = array ('ff', '00', '80', '66', '33', '255', '0', 'f');
+
+  if ($colourSpec[0] == 'r') {
+    @list($r,$g,$b) = preg_split('/[, ]+/', substr($colourSpec,4,-1));
+  } elseif ($colourSpec[0] == '#') {
+    if (strlen($colourSpec) == 4) {
+      $r = $colourSpec[1];
+      $g = $colourSpec[2];
+      $b = $colourSpec[3];
+    } elseif (strlen($colourSpec) == 7) {
+      $r = $colourSpec[1] . $colourSpec[2];
+      $g = $colourSpec[3] . $colourSpec[4];
+      $b = $colourSpec[5] . $colourSpec[6];
+    } else {
+      return false;
+    }
+  }else {
+    return false;
+  }
+  if ($r == $g && $r == $b) return false; // leave black, white, grey as they are
+  return (in_array($r, $allow, true) && in_array($g, $allow, true) && in_array($b, $allow, true));
+}
+
+/* $targetColours = array (
   '#ff0000', '#00ff00', '#008000', '#800080',
   '#0000ff', '#ffff00',
   '#00ffff', '#ff00ff',
@@ -66,14 +90,14 @@ $targetColours = array (
   '#f00', '#0f0',
   '#00f', '#ff0',
   '#0ff', '#f0f'
-);
+); */
 
 $strokeColours = array (
     '#cccccc',
 );
 
 function splitStyle ( $styles, $attributeKeys, $strokeCol, $strokeWidth ) {
-  global $targetColours, $options, $strokeColours;
+  global $options, $strokeColours;
   $retval = '';
 
   $styleArray = explode(';', $styles . ';');
@@ -91,7 +115,7 @@ function splitStyle ( $styles, $attributeKeys, $strokeCol, $strokeWidth ) {
             if ($strokeColours && in_array(strtolower($value), $strokeColours)) {
                 $retval .= 'fill="' . $strokeCol . '" ';
           // Any of the "primary" colours are just placeholders, to be replaced by the charge colour
-            } elseif (!in_array( $value, $targetColours )) {
+            } elseif (!replaceableColour($value)) {
                 $retval .= 'fill="' . $value . '" ';
             }
         }
@@ -134,7 +158,7 @@ function rewriteXlink($attributes){
 
 function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $fillSet = false) {
 //  global $messages;
-  global $targetColours, $options, $strokeColours;
+  global $options, $strokeColours;
   $retval = '';
 
   // Collect names of all the attributes
@@ -169,7 +193,7 @@ function rewriteAttributes($attributes, $strokeCol, $strokeWidth, $class = '', $
         } else {
             if (in_array(strtolower($data), $strokeColours)) {
                 $fill = ' fill="' . $strokeCol . '" ';
-            } elseif ($data == 'none' || (!$fillSet && !in_array( strtolower($data), $targetColours) )) {
+            } elseif ($data == 'none' || (!$fillSet && !replaceableColour( strtolower($data)) )) {
           // Any of the "primary" colours are just placeholders, so we ignore them (will be replaced by the charge colour)
                 $fill = ' fill="' . $data . '" ';
             }
