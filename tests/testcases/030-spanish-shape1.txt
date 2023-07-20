@@ -1,3 +1,0 @@
-# change shield shape from URL argument
-blazon=vert
-shape=spanish

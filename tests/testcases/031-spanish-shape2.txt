@@ -1,2 +1,0 @@
-# change shield shape from blazon
-blazon=vert drawn using a spanish shape

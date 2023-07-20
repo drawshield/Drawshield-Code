@@ -1,3 +1,0 @@
-# So like this is a comment
-blazon=
-
