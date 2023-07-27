@@ -61,7 +61,7 @@ function arguments($args) {
         // Is it a command? (prefixed with --)
         if (substr($arg, 0, 2) === '--') {
             // is it the end of options flag?
-            if (!isset($arg[3])) {
+            if (!isset($arg[2])) {
                 $endofoptions = true;; // end of options;
                 continue;
             }

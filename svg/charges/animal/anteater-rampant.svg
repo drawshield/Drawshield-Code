@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/"
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
    style="font-size:12px;overflow:visible;color-interpolation-filters:sRGB;fill:none;fill-rule:evenodd;stroke-linecap:square;stroke-miterlimit:3"
    version="1.1"
    id="svg2"
@@ -13,7 +7,14 @@
    xml:space="preserve"
    viewBox="0 0 539.16492 550.05054"
    height="550.05054"
-   width="539.16492"><title
+   width="539.16492"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/"><defs
+     id="defs161" /><title
      id="title3245">New World Anteater Rampant</title><metadata
      id="metadata268"><rdf:RDF><cc:Work
          rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
@@ -160,7 +161,7 @@
            id="path73"
            style="fill:#ffff00;stroke:#808080;stroke-width:2.16000009;stroke-linecap:round;stroke-linejoin:round" /></g><g
          style="fill:#0000ff"
-         id="group17-25"
+         id="armed-1"
          transform="translate(0,-77.7412)"
          v:mID="17"
          v:groupContext="group"><title

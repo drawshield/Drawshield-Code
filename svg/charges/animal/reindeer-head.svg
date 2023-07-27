@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
    id="svg4166"
    height="129.69"
    width="108.39"
-   version="1.0">
-
+   version="1.0"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs17" />
   <metadata
      id="metadata1880">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
-        <dc:title></dc:title>
         <dc:date>10-10-2007</dc:date>
         <dc:creator>
           <cc:Agent>
@@ -70,13 +70,13 @@
        id="Ear"
        d="m 137.2,177.87 c -2.51,-0.65 -4.62,-1.83 -4.77,-2.66 -0.23,-1.23 1.15,-1.51 7.63,-1.55 7.11,0 8.28,-0.33 11.64,-2.89 2.58,-1.97 5.85,-3.21 10.55,-4.01 6.73,-1.14 8.95,-0.34 2.68,0.97 -1.78,0.37 -4.58,1.85 -6.55,2.57 -5.85,2.15 -9.42,6.13 -9.63,6.4 -1.07,0.83 -2.49,1.51 -3.17,1.51 -2.87,0.66 -5.51,0.34 -8.38,-0.34 z" />
     <path
-       style="fill:#003d8f"
+       style="fill:#666666"
        id="Nose"
        d="m 48.789,220.62 c -0.286,-1.43 0,-2.4 0.928,-3.18 0.736,-0.62 1.545,-1.71 1.798,-2.44 0.252,-0.72 0.975,-1.31 1.606,-1.31 1.954,0 1.472,4.99 -0.691,7.15 -2.364,2.37 -3.134,2.32 -3.641,-0.22 z" />
     <g
        id="Eye">
       <path
-         style="fill:#003d8f"
+         style="fill:#b3b3b3"
          id="path2025"
          d="m 90.19,194.31 c 0,-0.49 0.641,-1.14 1.425,-1.44 0.783,-0.3 2.165,-2.1 3.071,-4.01 5.374,-5.16 7.044,-5.67 14.004,-1.65 1.65,1.09 2.36,1.99 1.58,1.99 -0.78,0 -2.25,0.76 -3.27,1.67 -1.13,1.03 -4.18,3.28 -7.534,2.01 -3.442,-1.3 -6.141,0.79 -6.686,1.34 -1.232,1.23 -2.59,1.28 -2.59,0.1 z" />
       <path
