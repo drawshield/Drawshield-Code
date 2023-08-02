@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   viewBox="0 0 210 210"
+   id="svg6"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs10" />
+  <path
+     stroke-linejoin="round"
+     d="m160 8l-8 14h20l-37 37a79 79 0 1 0 16 16l37-37v20l14-8v-42h-42zm-72 57a57 57 0 1 1 0 114 57 57 0 1 1 0 -114z"
+     stroke="#000000"
+     stroke-width="6"
+     id="path2"
+     style="fill:#ffff00;stroke-linejoin:round;stroke-width:1.632;stroke:#000000" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:date>2007-03-30T13:44:32</dc:date>
+        <dc:description />
+        <dc:source>https://openclipart.org/detail/3698/male-symbol-by-kumar35885</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>kumar35885</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>externalsource</rdf:li>
+            <rdf:li>male symbol</rdf:li>
+            <rdf:li>man</rdf:li>
+            <rdf:li>men</rdf:li>
+            <rdf:li>symbol</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>

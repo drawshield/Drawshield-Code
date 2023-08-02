@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/"
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
    style="font-size:12px;overflow:visible;color-interpolation-filters:sRGB;fill:none;fill-rule:evenodd;stroke-linecap:square;stroke-miterlimit:3"
    id="svg217"
    version="1.1"
@@ -13,7 +7,14 @@
    xml:space="preserve"
    viewBox="0 0 273.59912 286.85827"
    height="286.85828"
-   width="273.59912"><metadata
+   width="273.59912"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/"><defs
+     id="defs1" /><metadata
      id="metadata223"><rdf:RDF><cc:Work
          rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title>Bear's Head Cabossed</dc:title><dc:creator><cc:Agent><dc:title>http://www.vikinganswerlady.com</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata><title
@@ -83,7 +84,7 @@
              v:mID="65"
              id="shape65-8"><title
                id="title24">Sheet.65</title><path
-               style="fill:#b3b3b3;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"
+               style="fill:#ffff00;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"
                id="path26"
                class="st3"
                d="m 95.89,222.41 a 31.3215,25.6121 -180 0 1 -4.8,41.2 l -33.6,1.94 -33.59,-1.94 a 31.3215,25.6121 -180 0 1 -4.8,-41.2 45.2451,36.9977 -180 0 0 18.79,66.7 h 19.6 v -0.45 l 0.01,0.45 h 19.59 a 45.2451,36.9977 0 0 0 18.8,-66.7 z" /></g><g
@@ -247,7 +248,7 @@
          v:mID="86"
          id="shape86-43"><title
            id="title117">Sheet.86</title><path
-           style="fill:#999999;stroke:#808080;stroke-width:3;stroke-linecap:round;stroke-linejoin:round"
+           style="fill:#ffff00;stroke:#808080;stroke-width:3;stroke-linecap:round;stroke-linejoin:round"
            id="path119"
            class="st1"
            d="m 45.49,282.49 a 79.4294,79.4294 0 0 1 24.31,5.25 14.8601,14.8601 -180 0 0 21.02,-15.01 L 90.44,259.97 A 21.8984,21.8984 -180 0 0 78.81,238.95 1181.15,1181.15 0 0 1 64.55,201.42 26.3548,26.3548 -180 0 0 45.49,191.67 0.0918727,0.0918727 -90 0 0 45.45115,191.668 L 45.41,191.67 a 26.3789,26.3789 -90 0 0 -19.06,9.75 1181.15,1181.15 90 0 1 -14.26,37.53 21.8984,21.8984 -90 0 0 -11.64,21.02 l -0.37,12.76 a 14.8601,14.8601 -90 0 0 21.01,15.01 79.4294,79.4294 90 0 1 24.32,-5.25 h 0.04 z" /></g><g

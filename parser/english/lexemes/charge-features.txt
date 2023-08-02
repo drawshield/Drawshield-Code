@@ -3,6 +3,7 @@ feature=
 crossed=
 fructed=
 beaked=
+bridle[ds]?=bridled
 hooped=
 plumed=
 seeded=
