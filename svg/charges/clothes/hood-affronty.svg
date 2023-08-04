@@ -9,46 +9,9 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <defs
-     id="defs10181">
-    <radialGradient
-       id="rg"
-       gradientUnits="userSpaceOnUse"
-       cx="220"
-       cy="220"
-       r="405">
-      <stop
-         style="stop-color:#ffffff;stop-opacity:0.3"
-         offset="0"
-         id="stop10169" />
-      <stop
-         style="stop-color:#ffffff;stop-opacity:0.2"
-         offset=".2"
-         id="stop10171" />
-      <stop
-         style="stop-color:#666666;stop-opacity:0.1"
-         offset=".6"
-         id="stop10173" />
-      <stop
-         style="stop-color:#000000;stop-opacity:0.13"
-         offset="1"
-         id="stop10175" />
-    </radialGradient>
-    <path
-       id="shield"
-       d="m 2,2 v 257 c 0,286 298,398 298,398 0,0 298,-112 298,-398 V 2 Z" />
-    <clipPath
-       id="clip-inner">
-      <path
-         id="inner"
-         style="fill:#888888"
-         d="M 100,100 H 500 V 259 C 500,424.4 365.1,515 300,549.2 234.9,515 100,424.4 100,259 Z" />
-    </clipPath>
-  </defs>
   <g
      id="hooded-figure"
      style="stroke:#444444;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
-     clip-path="url(#clip-inner)"
      transform="translate(-100,-119.45)">
     <path
        style="fill:#ff0000;stroke:#000000;stroke-width:0.3"

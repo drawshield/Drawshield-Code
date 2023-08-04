@@ -304,7 +304,8 @@ class Tokeniser {
             if ( !$comment ) { $words[] = new Token($part_word, "$lineNo:$wordStart"); }
             $part_word = ''; $wordStart = $charCount + 1;
           }
-        if ( !$comment ) { $words[] = new Token($curChar, "$lineNo:$wordStart", null, languageDB::PERIOD); }
+          // ignore colon, but include period if not in a comment
+          if ( !$comment && $curChar == '.' ) { $words[] = new Token($curChar, "$lineNo:$wordStart", null, languageDB::PERIOD); }
           break;
         case ';':
           if ( $incAll ) {
