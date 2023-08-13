@@ -180,8 +180,8 @@ class references {
       $modifierNode->parentNode->appendChild($new_mod);
     }
 
-    // make armed and horned synonyms, unless both are given
-    $nodeList = $this->xpath->query('//modifier[@keyterm="horned"]');
+    // make armed, clawed and horned synonyms, unless both are given
+    $nodeList = $this->xpath->query('//modifier[@keyterm="horned" or @keyterm="clawed"]');
     $addArmed = true;
     foreach ( $nodeList as $item ) {
       // look for an existing armed modifier
@@ -212,6 +212,9 @@ class references {
       if ($addHorned) {
         $armed = $item->cloneNode(true);
         $armed->setAttribute('keyterm','horned');
+        $parent->appendChild($armed);
+        $armed = $item->cloneNode(true);
+        $armed->setAttribute('keyterm','clawed');
         $parent->appendChild($armed);
       }
     }
