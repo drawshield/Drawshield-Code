@@ -34,7 +34,7 @@ $path_spec = makePath($shape_spec, getModifierByType($node,'linetype', false), $
 
 if ( existModifierWithKeyterm($node, 'sinister')) {
     $div_path = rotatePath($path_spec,rad2deg($theta)*-1);
-    $div_path = translatePath($div_path,0,$h + 100);
+    $div_path = translatePath($div_path,0,$h + (200 * sin($theta)));
 
 } else {
     $div_path = rotatePath($path_spec,rad2deg($theta));

@@ -14,5 +14,6 @@ ds-code.code-workspace
 /tests/results.txt
 *.swp
 *.swo
+php.tags
 
 svg/charges/custom
