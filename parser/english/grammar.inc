@@ -2238,7 +2238,10 @@ class englishGrammar extends grammar
         do {
             $found = false;
             if (!is_null($adjust = $this->getAdjustments())) {
-                $mantlingNode->appendChild($adjust);
+                // if (!is_array($adjust)) $adjust = [$adust];
+                foreach($adjust as $adj) {
+                    $mantlingNode->appendChild($adj);
+                }
                 $found = true;
             } elseif (!is_null($location = self::achievementLocation())) {
                 $locations[] =  $this->schema->makeNodeFromLexeme(blazonML::E_LOCATION, $location);
@@ -2362,6 +2365,10 @@ class englishGrammar extends grammar
         $keyterm = $type . '-' . $position;
 
         $textLex = $phrase->add(self::findLex(languageDB::MOTTO_TEXT)); // get the next word
+        if (is_null($textLex)) {
+            self::raiseError(self::ERROR_ORIGIN, 'No text found for motto', true);
+            return null;
+        }
 
         $mottoNode = $this->schema->makeNodeFromLexeme(blazonML::E_MOTTO, $phrase->create("motto"),
                 // override some attributes

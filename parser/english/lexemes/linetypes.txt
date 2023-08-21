@@ -51,6 +51,6 @@ fir tree topped=fir-tree-topped
 trefl[ey] counter trefl[ey]=trefle-counter-trefle
 trefl[ey] countertrefl[ey]=trefle-counter-trefle
 trefl[ey]=trefle
-fl(o|eu)ry=flory
+#fl(o|eu)ry=flory
 fl(o|eu)ry counter fl(o|eu)ry=flory-counter-flory
 fl(o|eu)ry counterfl(o|eu)ry=flory-counter-flory
