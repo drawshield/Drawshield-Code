@@ -1,0 +1,53 @@
+# Testing for bordure placement
+a roll of 2 columns
+title "Bordure Placement Tests"
+consisting of
+argent on a bordure grey 1 box gules 
+The word "1" sable
+a grid sable
+then
+argent on a bordure grey 2 box gules 
+The word "2" sable
+a grid sable
+then
+argent on a bordure grey 3 box gules 
+The word "3" sable
+a grid sable
+then
+argent on a bordure grey 4 box gules 
+The word "4" sable
+a grid sable
+then
+argent on a bordure grey 5 box gules 
+The word "5" sable
+a grid sable
+then
+argent on a bordure grey 6 box gules 
+The word "6" sable
+a grid sable
+then
+argent on a bordure grey 7 box gules 
+The word "7" sable
+a grid sable
+then
+argent on a bordure grey 8 box gules 
+The word "8" sable
+a grid sable
+then
+argent on a bordure grey 9 box gules 
+The word "9" sable
+a grid sable
+then
+argent on a bordure grey 10 box gules 
+The word "10" sable
+a grid sable
+then
+argent on a bordure grey 11 box gules 
+The word "11" sable
+a grid sable
+then
+argent on a bordure grey 12 box gules 
+The word "12" sable
+a grid sable
+
+

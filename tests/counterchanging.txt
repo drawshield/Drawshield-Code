@@ -1,0 +1,91 @@
+# Counterchange, various scenarios
+a roll of 4 columns 
+title "Counterchange Regression Test"
+consisting of
+per fess purpure and vert a box counterchanged
+caption "Charge on division"
+then
+checky sable and argent a box counterchanged
+caption "charge on treatment"
+then
+ermine a box counterchanged
+caption "Charge on fur"
+then
+quarterly first
+per bend azure and or
+second
+per fess gules and argent a box counterchanged
+third ermine
+fourth gules
+caption "Correct field choice?"
+then
+per fess purpure and vert a box inverted counterchanged
+caption "chg inv on div"
+then
+checky sable and argent a box inverted counterchanged
+caption "chg inv on treat"
+then
+ermine a box inverted counterchanged
+caption "chg inv on fur"
+then
+quarterly first
+per bend azure and or
+second
+per fess gules and argent a box inverted counterchanged
+third ermine
+fourth gules
+caption "Correct field choice?"
+
+then
+per fess purpure and vert a chevron counterchanged
+caption "ordinary on div"
+then
+checky sable and argent a chevron counterchanged
+caption "ordinary on treat"
+then
+ermine a chevron counterchanged
+caption "ordinary on fur"
+then
+quarterly first
+per bend azure and or
+second
+per fess gules and argent a chevron counterchanged
+third ermine
+fourth gules
+caption "Correct field choice?"
+
+then
+per fess purpure and vert a chevron inverted counterchanged
+caption "ord inv on div"
+then
+checky sable and argent a chevron inverted counterchanged
+caption "ord inv on treat"
+then
+ermine a chevron inverted counterchanged
+caption "ord inv on fur"
+then
+quarterly first
+per bend azure and or
+second
+per fess gules and argent a chevron inverted counterchanged
+third ermine
+fourth gules
+caption "Correct field choice?"
+
+then
+per fess purpure and vert a chevron enhanced inverted counterchanged
+caption "ord inv enhanced on div"
+then
+checky sable and argent a chevron enhanced inverted counterchanged
+caption "ord inv enhanced on treat"
+then
+ermine a chevron enhanced inverted counterchanged
+caption "ord inv enhanced on fur"
+then
+quarterly first
+per bend azure and or
+second
+per fess gules and argent a chevron enhanced inverted counterchanged
+third ermine
+fourth gules
+caption "Correct field choice?"
