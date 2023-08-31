@@ -410,6 +410,7 @@ function makeOrdinary(DOMElement &$node, $layout)
      * @var DOMElement $voided
      */
     $voided = getModifierNodeWithKeyterm($node, 'voided');
+    $inverted = existModifierWithKeyterm($node, 'inverted');
     $yshift = '';
     if (getModifierNodeWithKeyterm($node, 'enhanced')) {
         $yshift = $layout->size->height * -0.1666; // Adjust to change movement for enhanced (match in layout.inc)
@@ -427,7 +428,7 @@ function makeOrdinary(DOMElement &$node, $layout)
         $shape_spec = $ord_data['shape_spec'];
         if ($voided != null) {
             if (($void_col = $voided->firstChild) != null)
-                $bodySVG .= apply_tincture($void_col, createBody($shape_spec, 'none', 40, $layout), $layout);
+                $bodySVG .= apply_tincture($void_col, createBody($shape_spec, 'none', 40, $layout), $layout, inv: $inverted);
             $bodySVG .= createVoid($shape_spec, getModifierByType($node, 'linetype', false), $feature_size, $layout);
         } else {
             $bodySVG .= createBody($shape_spec, getModifierByType($node, 'linetype', false), $feature_size, $layout);
@@ -443,7 +444,7 @@ function makeOrdinary(DOMElement &$node, $layout)
                 $cot_tinc = $tinc1;
             $numberCottices = $cot_node->getAttribute('value');
             $cotiseSVG .= createCottices($shape_spec, $numberCottices, $cot_linetype, $layout);
-            $cotiseSVG = apply_tincture($cot_tinc, $cotiseSVG, $layout);
+            $cotiseSVG = apply_tincture($cot_tinc, $cotiseSVG, $layout, inv: $inverted);
             existModifierWithKeyterm($node, 'cotticing'); // mark as used
         }
     } else { // we are given direct SVG data
@@ -453,7 +454,7 @@ function makeOrdinary(DOMElement &$node, $layout)
                 $bodySVG .= subPercent($ord_data['body'], $layout);
             } else {
                 if (($void_col = $voided->firstChild) != null)
-                    $bodySVG .= apply_tincture($void_col, subPercent($ord_data['body']), $layout);
+                    $bodySVG .= apply_tincture($void_col, subPercent($ord_data['body']), $layout, inv: $inverted);
                 $bodySVG .= subPercent($ord_data['voided'], $layout);
             }
         } else {
@@ -468,7 +469,6 @@ function makeOrdinary(DOMElement &$node, $layout)
     else
         $rot = 0;
     $mirrored = existModifierWithKeyterm($node, 'sinister') || $subtype == 'scarpe';
-    $inverted = existModifierWithKeyterm($node, 'inverted');
 
     // Start to build return string
     $retval = apply_tincture($tinc1, $bodySVG, $layout, null, $rot, $mirrored, $inverted, $yshift);

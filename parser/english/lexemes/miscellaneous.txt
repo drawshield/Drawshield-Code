@@ -211,6 +211,7 @@ salti(er|re)w(ays|ise)=insaltire
 salti(er|re) w(ays|ise)=insaltire
 in ?a shea(f|ves)=insheaf
 pilewise=pilewise
+accosted=
 bar(wise|ways)=inbar
 chevronwise=chevronwise
 respecting each other=facing-in

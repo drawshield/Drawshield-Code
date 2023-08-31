@@ -553,52 +553,53 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
             $retval .= '<g fill="url(#' . $patt_id . ')"  >' . $targetSVG . '</g>';
             break;
         case 'counterchanged': // Never change anything, just fill with this pattern
-            // Try to find a field division
-            $division = $xpath->query('preceding::field/tincture/division', $data->node);
-            if ( $division->length ) {
-                $counterDiv = $division->item(($division->length)-1);
-                $div_data = makeDivision( $counterDiv, $layout, true );
+            // Some things flip themselves around, so don't invert (horrible, inconsistent fudge)
+            if ($targetType == 'charge') $inv = false;
+            // Try to find a two colour field
+            $shieldNode = $xpath->query('ancestor::shield', $data->node); // should always be one of these...
+            $candidates = $xpath->query('simple/field/tincture/division | simple/field/tincture/fur | simple/field/tincture/treatment', $shieldNode->item($shieldNode->length-1));
+            if ($candidates->length < 1) {
+                $messages->addMessage('error', 'Counterchange requires two colour field');
+                $retval = '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $targetSVG . '</g>';
+                break;
+            }
+            $counterChangeSource = $candidates->item(($candidates->length)-1);
+            if ( $counterChangeSource->nodeName == blazonML::E_DIVISION ) {
+                $div_data = makeDivision( $counterChangeSource, $layout, true );
                 if ($yshift) {
                     $div_data = '<g transform="translate(0, ' . $yshift * -1 . ')">' . $div_data . '</g>';
                 }
+                if ($inv) {
+                    $div_data = '<g transform="translate(0,' . $layout->size->height . ') scale(1, -1)">'
+                    . '<desc>Inverted division</desc>' . $div_data .  '</g>';
+                }
                 $patt_id = add_def ( 'mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>' );
                 $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $div_data . '</g>';
-            } else {
-                $treatment = $xpath->query('preceding::field/tincture/treatment',$data->node);
-                if ( $treatment->length ) {
-                    $counterTreatment = $treatment->item(($treatment->length) - 1);
-                    $treat_data = makeTreatment($counterTreatment, $layout, true);
-                    if ( $inv ) $treat_data['body'] = "<g transform=\"translate(0,{$treat_data['height']}) scale(1,-1)\">{$treat_data['body']}</g>";
-                    //do we need to offset the pattern to center it?
-                    $offset = 0;
-                    if (array_key_exists('offset', $treat_data)) {
-                        $offset = $treat_data['offset'];
-                    }
-                    $treatPatt_id = add_def ( 'pattern ' . $data->pattern_transform .
-                        ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="' . $offset . '" y="0" width="' .
-                        $treat_data['width'] . '" height="' . $treat_data['height'] . '"',
-                        '<g class="treatment">' . $treat_data['body'] . '</g>' );
-                    $fill = '<g fill="url(#' . $treatPatt_id . ')"  ><path d="M0,0 h1000 v' . $layout->size->height . ' h-1000 z" /></g>';
+            } elseif ( $counterChangeSource->nodeName == blazonML::E_TREATMENT) {
+                $treat_data = makeTreatment($counterChangeSource, $layout, true);
+                if ( $targetType != 'ordinary' && $inv ) $treat_data['body'] = "<g transform=\"translate(0,{$treat_data['height']}) scale(1,-1)\">{$treat_data['body']}</g>";
+                //do we need to offset the pattern to center it?
+                $offset = 0;
+                if (array_key_exists('offset', $treat_data)) {
+                    $offset = $treat_data['offset'];
+                }
+                $treatPatt_id = add_def ( 'pattern ' . $data->pattern_transform .
+                    ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="' . $offset . '" y="' . $yshift . '" width="' .
+                    $treat_data['width'] . '" height="' . $treat_data['height'] . '"',
+                    '<g class="treatment">' . $treat_data['body'] . '</g>' );
+                $fill = '<g fill="url(#' . $treatPatt_id . ')"  ><path d="M0,0 h1000 v' . $layout->size->height . ' h-1000 z" /></g>';
                     $patt_id = add_def('mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>');
                     $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $fill . '</g>';
-                } else {
-                    $fur = $xpath->query('preceding::field/tincture/fur',$data->node);
-                    if ($fur->length) {
-                        $counterFur = $fur->item(($fur->length) - 1);
-                        $fur_data = makeFur($counterFur->getAttribute(blazonML::A_KEYTERM), true);
-                        $furPatt_id = add_def ( 'pattern ' . $data->pattern_transform .
-                            ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="0" y="0" width="' .
-                            $fur_data['width'] . '" height="' . $fur_data['height'] . '"',
-                            '<g class="fur">' . $fur_data['body'] . '</g>' );
-                        $fill = '<g fill="url(#' . $furPatt_id . ')"  ><path d="M0,0 h1000 v' . $layout->size->height. ' h-1000 z" /></g>';
-                        $patt_id = add_def('mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>');
-                        $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $fill . '</g>';
-                        } else {
-                            $messages->addMessage('error', 'Counterchange requires two colour field');
-                            return '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $targetSVG . '</g>';
-                        }
-
-                }
+            } elseif ($counterChangeSource->nodeName == blazonML::E_FUR) {
+                $fur_data = makeFur($counterChangeSource->getAttribute(blazonML::A_KEYTERM), true);
+                if ( $targetType == 'ordinary' && $inv ) $fur_data['body'] = "<g transform=\"translate(0,{$fur_data['height']}) scale(1,-1)\">{$fur_data['body']}</g>";
+                $furPatt_id = add_def ( 'pattern ' . $data->pattern_transform .
+                    ' patternContentUnits="userSpaceOnUse" patternUnits="userSpaceOnUse" x="0" y="' . $yshift . '" width="' .
+                    $fur_data['width'] . '" height="' . $fur_data['height'] . '"',
+                    '<g class="fur">' . $fur_data['body'] . '</g>' );
+                $fill = '<g fill="url(#' . $furPatt_id . ')"  ><path d="M0,0 h1000 v' . $layout->size->height. ' h-1000 z" /></g>';
+                $patt_id = add_def('mask', '<g style="fill:#ffffff;">' . $targetSVG . '</g>');
+                $retval = add_def() . '<g mask="url(#' . $patt_id . ')"  >' . $fill . '</g>';
             }
             break;
         // END of switch
