@@ -1269,7 +1269,7 @@ class englishGrammar extends grammar
             $phrase->add(self::findLex(languageDB::OBJECTS));
             if (self::findLex(languageDB::ANDD)) $assume_num = true;
             // We treat a counterchanged division a bit like an ordinary
-            if ($counterchangedDivision = self::division(true)) {
+            if ($counterchangedDivision = self::division("require")) {
                 $node->appendChild($counterchangedDivision);
                 $this->matcher->syncOver();
                 $found = true;
@@ -2049,7 +2049,11 @@ class englishGrammar extends grammar
         return $phrase->create('ofnum', $number->keyterm);
   }
 
-  protected function division( $onlyCounterchanged = false ) { // DONE
+  protected function division( $counterchange = "allow" ) { // DONE
+    // 3 possible values for counterchange:
+        // "allow", can occur
+        // "require", only value allowed
+        // "disallow",, anything except
     $need3Tinc = array ( 'per-pall', 'per-pall-arrondi', 'tierced-in-pale',
     'tierced-in-fess', 'tierced-in-bend', 'tierced-in-bend', 'tierced-in-chevron' );
     $opt3Tinc = array ( 'per-pile', );
@@ -2096,7 +2100,7 @@ class englishGrammar extends grammar
             $node->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::DIVISION_MODS));
         } elseif ($lexeme = self::findLex(languageDB::ORIENTATION)) {
           $node->appendChild($this->schema->makeModFromLexeme($lexeme, languageDB::ORIENTATION));
-        } elseif ( $tinc = self::tincture(false) ) {
+        } elseif ( $tinc = self::tincture(false, $tincCount < 2 ? "allow" : "disallow") ) {
           $tincCount++;
           $tinc->setAttribute(blazonML::A_INDEX,"$tincCount");
           $node->appendChild($tinc);
@@ -2108,7 +2112,11 @@ class englishGrammar extends grammar
         } else
           $found = false;
       }
-      if ($onlyCounterchanged && !$foundCounterchange) {
+      if ($counterchange == "require" && !$foundCounterchange) {
+          self::discardPhrase($phrase);
+        return null;
+      }
+      if ($counterchange == "disallow" && $foundCounterchange) {
           self::discardPhrase($phrase);
         return null;
       }
@@ -2441,7 +2449,7 @@ class englishGrammar extends grammar
   }
 
   // Look for a tincture, return a pending tincture if not found
-  protected function tincture($required=false) { // DONE
+  protected function tincture($required=false, $counterchange = "allow") { // DONE
 
     $found = true;
     $colourOrFur = null;
@@ -2532,9 +2540,7 @@ class englishGrammar extends grammar
       $counter = $this->schema->makeNodeFromLexeme(blazonML::E_COUNTERCHANGED, $lexeme);
       $node->appendChild($counter);
       // Look for division
-    } elseif ( ($div1 = self::division()) ) {
-      // Look for a second (normally counterchanged) division
-      // if ( ( $div2 = self::division(true) ) ) $div1->appendChild($div2);
+    } elseif ( ($div1 = self::division($counterchange)) ) {
       $node->appendChild($div1);
       // Look for a back reference
     } elseif ( ($backref = self::findLex(languageDB::BACKREF)) ) {
