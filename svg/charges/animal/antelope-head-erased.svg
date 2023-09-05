@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg:svg
+<svg
    version="1.1"
    viewBox="49.5 67.5 265.5 337.5"
    width="265.5"
@@ -13,7 +13,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <svg:defs
+  <defs
      id="defs2" />
   <metadata>
     <rdf:RDF>
@@ -27,7 +27,7 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <svg:g
+  <g
      stroke-opacity="1"
      stroke-dasharray="none"
      stroke="#505050"
@@ -35,799 +35,799 @@
      fill-opacity="1"
      id="g397"
      style="stroke-width:0.2">
-    <svg:title
-       id="title4">Antelope's Head Erased</svg:title>
-    <svg:g
+    <title
+       id="title4">Antelope's Head Erased</title>
+    <g
        id="g395">
-      <svg:title
-         id="title6">Layer 2</svg:title>
-      <svg:g
+      <title
+         id="title6">Layer 2</title>
+      <g
          id="g8" />
-      <svg:g
+      <g
          id="g10" />
-      <svg:g
+      <g
          id="g393">
-        <svg:g
+        <g
            id="g14">
-          <svg:path
+          <path
              d="m 312.31,120.62 c -2.44,2 -0.82,-3.09 0,0 z"
              id="path12" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g19">
-          <svg:g
+          <g
              id="outline-0">
-            <svg:path
+            <path
                d="m 155.91,242.29 c -7.85,2.9 -23.19,4.99 -32.35,12.16 -7.21,8.84 -10.61,0.1 -7.78,-6.35 7.04,1.73 8.24,0.31 7.14,-3.83 11.3,0.85 21.9,-3.5 32.99,-2 z m 39.3,-74.7 c -8.38,5.66 -13.92,12.29 -20.95,12.8 0.96,-10.91 21.61,-10.21 19.43,-15.82 -8.9,-10.31 11.45,-10.02 17.52,-13.74 5.82,-0.14 25.4,-6.6 9.16,-7.86 -18.68,-0.76 8.56,-7.56 14.68,-8.06 6.3,-2.72 21.86,-1.35 22.88,-6 -8.73,-2.37 -19.46,-1.88 -7.37,-10.44 12.25,-13.41 21.87,-30.095 24.16,-48.193 -7.97,6.991 -11.16,25.309 -22.82,32.763 -19.48,18.2 -46.66,24.89 -67.39,41.13 -9.98,7.02 -16.6,21.8 -25.95,26.57 -3.46,9.41 -13.97,22.81 -20.86,13.19 -6.4,0 -18,8.87 -10.53,13.38 -2.51,8.1 2.12,7.77 6.43,3.78 5.39,16.64 -23.2,14.97 -34.095,18.79 -15.731,1.11 -25.643,14.71 -34.274,26.03 -4.661,7.69 7.612,33.99 8.016,13.68 0.984,-8.26 12.976,-18.34 14.407,-4.17 6.382,2.2 26.176,-4.6 19.546,8.93 -12.337,8.1 -25.934,19.31 -41.553,17.06 -9.305,-0.77 -2.014,-21.36 -10.74,-9.27 -10.617,16.16 13.329,25.24 24.707,16.4 10.239,-4.93 20.217,-10.41 29.766,-16.57 4.93,8.66 -13.065,23.75 6.01,23.02 11.18,6.68 -10.74,14.99 3.4,17.58 7.75,-2.8 10.36,-10.2 19.12,-9.97 5.08,-5.39 -7.49,-9.86 0.1,-17.09 7.53,-12.54 26.6,-4.41 36.3,-4.01 0.22,8.16 -11.71,15.19 -5.09,18.12 -0.76,8.75 -16.87,23.65 -5.87,26.38 0.1,11.68 0.5,30.43 -14.7,31.17 3.48,6.86 15.47,4.56 10.28,15.63 3.28,9.52 -4.89,33.76 13.02,22.03 8.26,-17.72 13.26,19.25 21.33,2.81 6.31,-4.66 5.43,-32.35 15.65,-19.43 -0.45,7.72 -0.51,12.63 3.96,2.81 5.83,-13.83 9.8,16.12 12.33,-2.25 3.85,-12.63 11.36,24.35 12.2,6.21 3.65,-8.4 8.16,-16.46 15.42,-6.64 5.66,0.55 -1.81,-12.33 5.35,-16.1 2.44,-7.78 1.11,-11.85 9.73,-6.66 6.3,-2.21 8.11,-8.42 1.05,-7.21 -2.54,-8.5 -6.07,-24.98 7.73,-23.28 6.84,-6.58 -9.12,-4.06 -5.65,-14.14 -7.15,-8.07 6.99,-14.38 4.13,-19.29 -12.82,-2.69 -18.1,-15.43 -22.23,-26.38 -5.94,-5.97 6.18,-12.22 -5.88,-14.77 -7.07,-7.46 -5.22,-17.07 -6.47,-24.6 -10.06,2.69 -14.56,-16.56 -0.1,-11.98 10.55,-0.48 18.68,-20.31 29.22,-8.33 4.16,-14.06 -20.2,-16.23 -29.33,-22.25 -10.13,1.6 -33.41,8.36 -34.97,-2.23 3.96,-6.5 29.91,-2.8 20.17,-11.26 -17.22,-4.37 16.09,-10.49 23.23,-10.24 5.86,1.34 20.84,0.83 8.09,-4.77 -16.01,-2.92 1.26,-7.76 8.04,-8.88 6.43,-3.95 25.39,3.85 23.97,-4.49 -21.47,-4.32 7.45,-15.89 9.61,-26.82 5.38,-5 7.03,-13.68 -0.49,-3.92 -14.36,13.54 -33.16,21.92 -51.12,30.05 -16.12,5.86 -30.57,15.37 -46.26,22.09 -8.52,-2.76 -14.8,-7.01 -7.26,1.71 0.61,1 1.21,2 1.82,3 z"
                fill="black"
                id="path16"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g31">
-          <svg:path
+          <path
              d="m 250.5,190.43 c 18.46,6.43 -10.89,9.03 -16.85,4.93 -10.85,-1.93 15.77,10.2 -0.64,5.49 -8.17,1.88 -18.44,-3.87 -23.31,-3.25 4.6,5.28 11.56,5.93 0.1,6.85 -6.62,2.11 -15.89,-6.55 -12.66,2.7 -6.62,-1.07 -23.69,13.38 -9.26,5.1 6.14,-3.58 20.85,10.93 7.05,3.34 -5.99,-3.93 -20.07,8.85 -6.24,1.88 7.99,-4.24 11.44,8.87 3.69,1.54 -9.55,1.07 -7.85,3.03 0.26,2.44 1.99,7.86 16.7,-2.36 9.13,8.54 -5.59,6.8 -3.71,9.68 1.26,1.65 12.27,-8.21 -7.66,21.32 5.03,10.44 5.28,5.58 -18.32,13.75 -2.37,11.91 6.23,6.5 -23.76,6.22 -7.43,8.88 5.51,1.83 -13.17,8.23 -15.72,2.43 5.71,11.19 -16.99,1.62 -8.22,11.16 -8.5,3.64 -24.33,-0.48 -28.74,-2.05 5.84,-3.03 -2.35,-2.37 0.69,-7.03 -6.76,1.55 -4.1,13.39 -10.16,19.02 -6.77,4.5 0.34,15.19 -2.32,15.53 -6.58,-0.79 -4.76,-19.25 -6.55,-4.28 4.21,6.89 -12.81,18.68 -4.43,6.51 2.34,-5.85 0.95,-17.75 0,-3.98 -4.04,14.06 -0.98,-12.37 -10.77,-9.62 -0,-6.15 19.21,-13.03 4.51,-8.73 -4.73,1.87 -12.14,15.72 -6.85,2.08 4.7,-5.96 12.45,-3.68 14.72,-13.38 10.54,-0.26 20.93,-9.99 32.17,-16.26 11.85,-13.7 -8.47,-18.1 -17.93,-14.97 -8.65,-8.15 -2.16,-1.75 0.73,-4.82 -10.39,-7.95 -10.26,13.45 -21.94,5.22 -3.05,4.15 -9.24,-5.28 -7.6,5.4 -1.55,5.52 -10.836,2.88 -14.183,9.17 -16.454,1.86 5.353,-18.39 -9.292,-24.03 -8.339,-6.9 16.565,-8.22 21.855,-10.41 10.65,-2.11 32.67,-3.22 28.12,-19.05 -4.93,-2.35 -11.73,-1.38 -2.22,-3.64 9.48,0.12 -16.8,-7.18 -0.43,-4.94 10.67,6.62 -8.11,-11.16 5,-1.68 4.48,10.68 0.76,-9.55 6.26,3.91 0.34,-2.21 9.47,-14.85 12.96,-15.1 -2.64,6.97 -13.38,19.07 1.03,10.87 6.53,-1.76 -6.37,7.11 3.62,5.53 4.78,1.51 23.01,-3.04 14.34,-7.2 -3.03,6.8 -23.37,6.52 -8.73,1.22 7.67,-3.52 15.56,-9.92 19.84,-2.81 10.43,-7.36 6.53,7.6 -1.02,7.83 -7.27,9.57 0.93,1.69 4.81,1.27 0.58,8.01 8.67,-11.58 16.5,-6.54 14.44,2.86 29.4,-9.68 42.16,0.93 z"
              id="path29"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g35">
-          <svg:path
+          <path
              d="m 167.1,168.42 c -6.39,6.98 5.94,-11.76 0,0 z"
              id="path33"
              style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g39">
-          <svg:path
+          <path
              d="m 193.56,177.46 c -10.76,5.69 9.71,-8 0,0 z"
              id="path37"
              style="fill:#aa4400;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g43">
-          <svg:path
+          <path
              d="m 168.28,169.76 c -2.88,0.66 2.85,-2.92 0,0 z"
              id="path41"
              style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g47">
-          <svg:path
+          <path
              d="m 256.78,200.35 c -8.57,11.99 -23.69,11.98 -36.82,14.34 -8.2,1.93 -25.68,-10.45 -7.94,-3.79 6.23,3.07 13.77,2.72 7.72,-2.46 6,-0.49 24.04,1.91 8.81,-2.4 -5.68,-5.31 13.5,4.38 15.02,-3.15 1.73,-1.23 16.7,-9.02 13.21,-2.54 z"
              id="path45"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g51">
-          <svg:path
+          <path
              d="m 175.67,174 c -3.6,2.16 3.46,-4.29 0,0 z"
              id="path49"
              style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g55">
-          <svg:path
+          <path
              d="m 165.27,178.58 c 2.56,2.38 11.49,2.79 3.45,8.54 -1.23,-6.38 -4.1,7.18 -7.14,0.6 -10.23,5.82 -6.03,-2.72 1.21,-2.91 -8.45,-0.79 1.55,-11.75 2.48,-6.23 z"
              id="path53"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g59">
-          <svg:path
+          <path
              d="m 199.71,188.22 c -2,2 -1.45,-1.7 0,0 z"
              id="path57"
              style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g63">
-          <svg:path
+          <path
              d="m 218.47,207.58 c -2,2 -1.45,-1.7 0,0 z"
              id="path61"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g67">
-          <svg:path
+          <path
              d="m 226.12,219.42 c 2.65,6.1 18.97,16.24 4.14,11.3 -2.41,-3.71 -16.31,-18.35 -4.14,-11.3 z"
              id="path65"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g71">
-          <svg:path
+          <path
              d="m 198.78,211.5 c -1.88,1.99 -2.89,-2.6 0,0 z"
              id="path69"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g75">
-          <svg:path
+          <path
              d="m 209.13,217.07 c 4.63,6.87 -19.67,-9.5 -4.28,-2.63 l 1.61,0.87 z"
              id="path73"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g79">
-          <svg:path
+          <path
              d="m 222.99,224.3 c -5.18,-6.44 -12.95,-7.92 -3.56,0.76 4.7,4.26 9.05,12.32 0.81,4.54 -14.71,-8.38 8.36,9.68 -4.12,2.24 -16.22,-3.75 8.4,7.94 11.12,13.31 6.34,6.99 9.57,25.04 9.12,28.92 -2.05,-11.71 -6.93,-34.08 -20.67,-32.73 11.8,9.09 -11.13,-5.07 -0.86,5.02 4.35,3.29 12.17,14.25 2.89,4.85 -4.92,-7.42 -12.41,-3.39 -3.29,2.16 6.8,7.81 10.84,21.01 10.49,29.69 -0.45,-7.7 -6.98,-26.56 -11.38,-25.88 2.52,11.32 1.01,5.09 -3.73,0 -5.68,-0.26 6.08,23.67 1.04,16.99 2.33,-7.42 -11.71,-20.65 -5.07,-7.56 -2.71,4.21 0.56,12.78 -3.74,2.63 -8.89,-7.52 2.26,17.14 -2.26,18.48 3.2,-6.7 -8.1,-29.6 -5.6,-11.5 -0.36,6.57 -4,-13.38 -4.78,-1.52 1.79,5.81 0.19,25.49 -0.1,8.46 1.45,-6.79 -6.43,-15.33 -4.34,-3.95 -0.7,8.22 -4.33,-14.25 -4.38,1.23 0.21,8.36 -1.69,13.24 -1.1,1.54 -5.23,-8.89 -4.94,11.01 -2.75,6.5 -5.03,8.17 -9.43,16.72 -12.05,28.43 11.62,-10.46 -6.85,5.89 2.25,6.4 -6.12,7.52 2.12,16.31 -1.69,23.39 -7.48,17.03 6.39,-1.44 7.63,-9.09 1.51,-3.06 -4.19,15.24 -8.83,18 -4.27,7.59 0,19.46 -0.54,29.37 -1.58,10.17 6.35,-3.55 0.75,7.7 -2.63,11.4 10.53,-10.12 8.74,-15.4 2.22,-16.05 0.12,13.73 -4.99,17.28 3.32,5.17 9.35,-19.59 12.48,-5 10.68,14.12 2.31,-4.12 1.32,-10.71 3.07,10.09 10.53,22.41 9.19,11.83 4.49,0.54 -4.04,-17.01 -0.68,-20.56 -1.23,5.47 6.04,29.58 5.18,12.15 -1.27,-12.24 2.34,7.61 4.03,-6.56 5.37,-12.66 13.82,10.36 12.74,-4.36 1.45,-18.25 -0.89,18.78 4.13,-0.31 0.91,-5.94 3.64,-14.96 2.55,-3.55 -4.16,7.68 4.65,14.5 2.75,2.86 2.28,-16.08 -1.43,19.29 4.61,3 4.01,-4.11 0.73,-23.13 4.05,-8.98 -2.88,6.21 3.68,28.08 4.26,10.12 1.49,14.77 5.01,-16.48 5.52,-22.08 3.27,6.4 -5.56,24.54 -0.61,25 6.85,-3.97 0.42,-24.75 5.89,-9.16 6.15,14.7 4.2,-7.67 4.59,-14.49 1.89,-12.05 0.29,-24.54 -4.19,-35.85 8.42,15.05 4.89,32.8 5.01,49.15 4.4,11.58 7.35,-20.51 8.58,-19.53 7.18,7.34 -1,-15.46 1.81,-21.18 -0.7,-6.2 -4.12,-26.63 -0.28,-9.22 3.31,6.44 -0.94,24.02 3.74,23.78 2.57,-6.83 -2.09,-20.91 7.07,-16.75 -8.37,-7.57 2.33,-15 -6.46,-24.71 13.56,-5.8 -9.33,-2.72 -10.34,-12.5 -5.62,-5.66 -12.88,-31.3 -5.35,-12.37 2.79,6.77 11.5,22.11 18.58,17.76 -12,-6.17 -12.52,-22.83 -22.09,-31.15 8.49,-4.72 -9.22,-3.73 1.59,-5.58 -4.22,-4.71 -9.12,-21.86 -14.07,-19.51 1.11,4.68 -8.67,-11.56 -10.63,-11.8 z"
              id="path77"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g83">
-          <svg:path
+          <path
              d="m 213.34,222.93 c 2.95,4.53 -11.18,-2.3 -2.3,-1.55 z"
              id="path81"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g87">
-          <svg:path
+          <path
              d="m 201.38,221.63 c -11.79,3.67 7.67,-4.77 0,0 z"
              id="path85"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g91">
-          <svg:path
+          <path
              d="m 218.93,226.59 c 1.28,3.24 -4.26,-3.88 0,0 z"
              id="path89"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g95">
-          <svg:path
+          <path
              d="m 208.36,226.47 c -7.25,1.18 3.46,-2.96 0,0 z"
              id="path93"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g99">
-          <svg:path
+          <path
              d="m 213.37,235.54 c 8.12,6.82 -13.37,0.1 -2.39,-1.07 z"
              id="path97"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g103">
-          <svg:path
+          <path
              d="m 212.75,253.1 c -4.15,3.95 -10.53,-7.61 0,0 z"
              id="path101"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g119">
-          <svg:path
+          <path
              d="m 84.458,232.27 c -3.365,1.84 -1.652,-3.43 0,0 z"
              id="path117"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g127">
-          <svg:path
+          <path
              d="m 88.25,235.56 c 5.041,4.74 -3.219,17.96 0.991,5.66 -0.772,-2.05 -5.64,-12.92 -0.991,-5.66 z"
              id="path125"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="horned">
-          <svg:g
+          <g
              id="g23">
-            <svg:path
+            <path
                d="m 267.43,90.935 c 0.72,-8.485 -7.79,10.225 -12.12,11.115 -19.35,20.41 -47.78,27.15 -69.68,43.86 -7.99,5.92 -18.37,18.65 -15.43,23.38 -10.07,16.39 14.41,-12.36 3.4,1.01 -7.75,12.1 -0,0 4.44,1.43 5.54,-4.63 25.53,-10.7 6.56,-9.37 -7.39,-1.84 12.12,-9.24 16.79,-10.73 5.61,-2.61 27.32,-6.42 9.67,-6.76 -7.02,2.33 -14.22,1.13 -3.86,-3.76 11.57,-7.67 26.14,-7.71 39.37,-11.11 16.15,-4.2 -21.89,4.6 -6.71,-5.38 10.97,-6.26 17.46,-18.08 24.39,-28.262 0.61,2.5 3.19,-7.602 3.18,-5.423 z"
                id="path21"
                style="fill:#aa4400;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-          <svg:g
+          </g>
+          <g
              id="g27">
-            <svg:path
+            <path
                d="m 291.44,121.36 c -3.81,8.03 -29.35,19.34 -8.43,19.8 -1.72,4.08 -22.99,0.49 -30.78,6.49 -5.81,0.52 -17.31,7.99 -3.89,6.28 16.26,5.69 -11.94,2.99 -17.31,6.67 -5.92,-0.21 -29.16,11.04 -13.12,10.15 17.74,0.46 -10.8,6.65 -13.06,5.72 -15.52,8.85 16.18,-12.41 0.17,-2.53 -4.56,3 -21.34,14.3 -9.18,3.27 2.43,-5 10.72,-10.62 0.83,-4.59 -15.42,8.28 8.36,-9.34 13.1,-11.42 25.93,-15.29 55.16,-24.06 80.3,-40.83 5.8,-3.12 1.35,-0.93 1.37,0.99 z"
                id="path25"
                style="fill:#aa4400;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-          <svg:g
+          </g>
+          <g
              id="g131">
-            <svg:path
+            <path
                d="m 79.675,235.65 c -6.818,1.7 -14.662,14.98 -9.112,18.38 -3.482,-9.45 16.947,-24.52 15.709,-10.56 -4.793,-1.29 -10.229,2.84 -13.76,9.01 -2.728,20.6 -9.785,-7.86 -0.982,-12.63 1.731,-1.44 6.533,-6.15 8.145,-4.2 z"
                id="path129"
                style="fill:#aa4400;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g135">
-          <svg:path
+          <path
              d="m 147.44,258.4 c -5.32,3.83 -17.43,8.24 -10.83,0.4 3.32,-1.88 7.57,-3.02 10.83,-0.4 z"
              id="path133"
              style="fill:#800000;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g147">
-          <svg:path
+          <path
              d="m 128.29,263.6 c -1.04,7.77 -14.16,8.15 -8.17,1.77 1.78,-0.25 12.81,-8.37 8.17,-1.77 z"
              id="path145"
              style="fill:#800000;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="armed">
-          <svg:g
+          <g
              id="g107">
-            <svg:path
+            <path
                d="m 135.79,238.7 c -5.05,7.79 -5.45,-4.09 0,0 z"
                id="path105"
                style="fill:#0000ff;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-          <svg:g
+          </g>
+          <g
              id="g115">
-            <svg:path
+            <path
                d="m 118.86,245.43 c -5.07,0.73 2.46,-7.02 0,0 z"
                id="path113"
                style="fill:#0000ff;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-          <svg:g
+          </g>
+          <g
              id="g123">
-            <svg:path
+            <path
                d="m 150.87,254.65 c -9.61,4.47 -4.15,-5.2 0,0 z"
                id="path121"
                style="fill:#0000ff;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-          <svg:g
+          </g>
+          <g
              id="g139">
-            <svg:path
+            <path
                d="m 106.57,251.98 c 1.95,8.95 -7.387,-5.86 0,0 z"
                id="path137"
                style="fill:#0000ff;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-          <svg:g
+          </g>
+          <g
              id="g143">
-            <svg:path
+            <path
                d="m 112.78,255.76 c -0.83,5.73 11.68,29.1 -0.48,18.3 -2.39,-1.04 -1.63,-30.39 0.48,-18.3 z"
                id="path141"
                style="fill:#0000ff;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-          <svg:g
+          </g>
+          <g
              id="g151">
-            <svg:path
+            <path
                d="m 131.43,268.67 c -6.56,-0.92 3.52,-9.68 0,0 z"
                id="path149"
                style="fill:#0000ff;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="langued">
-          <svg:g
+          <g
              id="g111">
-            <svg:path
+            <path
                d="m 152.54,248.13 c -10.56,3.14 -27.07,15.46 -35.43,13.21 9.53,-8.28 22.21,-13.53 34.89,-14.49 z"
                id="path109"
                style="fill:#ff0000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-          <svg:g
+          </g>
+          <g
              id="g155">
-            <svg:path
+            <path
                d="m 108.51,268.89 c -11.205,10.12 -26.021,16.99 -40.586,21.04 -10.571,6.56 -17.888,-18.29 -9.677,-13.28 8.41,14.48 27.154,2.96 38.083,-2.76 2.797,-0.17 12.12,-11.4 12.18,-5 z"
                id="path153"
                style="fill:#ff0000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g159">
-          <svg:path
+          <path
              d="m 159.75,356.57 c -4.46,3.98 -1.61,-3.89 0,0 z"
              id="path157"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g163">
-          <svg:path
+          <path
              d="m 159.23,360.45 c -6.47,0.71 1.8,-2.6 0,0 z"
              id="path161"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g168">
-          <svg:g
+          <g
              id="outline-1">
-            <svg:path
+            <path
                d="m 180.42,194.77 c -1.98,7.01 5.51,-3.72 0,0 z"
                fill="black"
                id="path165"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g173">
-          <svg:g
+          <g
              id="outline-2">
-            <svg:path
+            <path
                d="m 170.83,198.44 c -13.3,0.1 1.15,4.25 4.13,1.43 -0.97,-1.15 -2.98,-1.24 -4.13,-1.43 z"
                fill="black"
                id="path170"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g178">
-          <svg:g
+          <g
              id="outline-3">
-            <svg:path
+            <path
                d="m 177.98,204.08 c -4.72,5.06 -4.43,-6.28 -9.5,1.9 -8.21,1.83 -21.92,-11.24 -25.64,-4.85 3.81,8.15 -9.87,17.81 5.06,13.44 7.43,0.57 16.67,-0.68 8.44,8.77 4.57,1.93 7.86,-19.78 8.74,-4.68 -5.82,15.07 4.25,0.61 2.07,-6.37 5.11,4.4 -0.47,-7.27 6.87,-3.4 3.35,-0.65 12.43,-10.87 3.96,-4.81 z"
                fill="black"
                id="path175"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g182">
-          <svg:path
+          <path
              d="m 152.5,204.27 c -3.15,2.48 -1.7,-5.41 0,0 z"
              id="path180"
              style="fill:#ffffff;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g186">
-          <svg:path
+          <path
              d="m 161.29,208.53 c -0.64,10.28 -26.33,-1.53 -8.6,2.88 4.11,0.76 4.4,-7.74 8.6,-2.88 z"
              id="path184"
              style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-        </svg:g>
-        <svg:g
+        </g>
+        <g
            id="g191">
-          <svg:g
+          <g
              id="outline-4">
-            <svg:path
+            <path
                d="m 183.63,206.21 c -7.15,2.33 -10.21,9.21 -1.31,2.32 3.21,0.55 8.33,-5.72 1.31,-2.32 z"
                fill="black"
                id="path188"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g196">
-          <svg:g
+          <g
              id="outline-5">
-            <svg:path
+            <path
                d="m 189.67,225.48 c -7.54,6.39 9.05,-2.15 0,0 z"
                fill="black"
                id="path193"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g201">
-          <svg:g
+          <g
              id="outline-6">
-            <svg:path
+            <path
                d="m 131.22,221.45 c -4.23,5.62 6.17,0.1 0,0 z"
                fill="black"
                id="path198"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g206">
-          <svg:g
+          <g
              id="outline-7">
-            <svg:path
+            <path
                d="m 127.23,224.43 c -2.36,7.06 3.38,-0.34 0,0 z"
                fill="black"
                id="path203"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g211">
-          <svg:g
+          <g
              id="outline-8">
-            <svg:path
+            <path
                d="m 154.96,232.99 c -7.44,1.67 15.03,6.54 8.91,15.87 1.84,7.45 -24.11,21.13 -8.93,14.62 11.99,-7.05 17.26,-26.08 0,-30.49 z"
                fill="black"
                id="path208"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g216">
-          <svg:g
+          <g
              id="outline-9">
-            <svg:path
+            <path
                d="m 123.9,226.52 c 0.91,3.89 2.67,-0.59 0,0 z"
                fill="black"
                id="path213"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g221">
-          <svg:g
+          <g
              id="outline-10">
-            <svg:path
+            <path
                d="m 168.53,240.87 c 3.52,7.14 -12.95,24.94 1.84,17.66 8.15,0.94 9.34,-1.49 2.56,-4.89 -3.19,-3.67 0.17,-9.89 -4.4,-12.77 z"
                fill="black"
                id="path218"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g226">
-          <svg:g
+          <g
              id="outline-11">
-            <svg:path
+            <path
                d="m 121.16,227.47 c -0.39,7.36 4.53,-0.17 0,0 z"
                fill="black"
                id="path223"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g231">
-          <svg:g
+          <g
              id="outline-12">
-            <svg:path
+            <path
                d="m 116.32,228.55 c 0.79,5.34 -0.53,13.49 5.53,8.12 -4.69,-0.53 -1.1,-9.15 -5.53,-8.12 z"
                fill="black"
                id="path228"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g236">
-          <svg:g
+          <g
              id="outline-13">
-            <svg:path
+            <path
                d="m 109.98,230.83 c 1.41,11.52 7.39,1.11 0,0 z"
                fill="black"
                id="path233"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g241">
-          <svg:g
+          <g
              id="outline-14">
-            <svg:path
+            <path
                d="m 103.62,231.12 c 0.9,3.89 3.43,16.16 3.66,3.97 -0.39,-0.98 -1.6,-5.57 -3.66,-3.97 z"
                fill="black"
                id="path238"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g246">
-          <svg:g
+          <g
              id="outline-15">
-            <svg:path
+            <path
                d="m 98.29,232.78 c 0.155,7.47 4.23,16.84 3.16,3.65 -0.1,-1.27 -1.531,-4.72 -3.16,-3.65 z"
                fill="black"
                id="path243"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g251">
-          <svg:g
+          <g
              id="outline-16">
-            <svg:path
+            <path
                d="m 93.447,234.08 c 3.921,6.13 -2.563,26.02 3.705,9.02 -0.361,-2.36 -0.277,-9.16 -3.705,-9.02 z"
                fill="black"
                id="path248"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g256">
-          <svg:g
+          <g
              id="outline-17">
-            <svg:path
+            <path
                d="m 105.05,244.85 c -11.491,3.41 8.32,0.96 0,0 z"
                fill="black"
                id="path253"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g261">
-          <svg:g
+          <g
              id="outline-18">
-            <svg:path
+            <path
                d="m 134.59,271.4 c -11.47,0.49 -4.66,5.68 1.95,0.19 3.11,-1.56 -1.49,-2.44 -1.95,-0.19 z"
                fill="black"
                id="path258"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g266">
-          <svg:g
+          <g
              id="outline-19">
-            <svg:path
+            <path
                d="m 134.13,280.53 c -2.21,6.86 4.26,-0.99 0,0 z"
                fill="black"
                id="path263"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g271">
-          <svg:g
+          <g
              id="outline-20">
-            <svg:path
+            <path
                d="m 129.86,284.82 c -5.6,7.83 5.52,-1.58 0,0 z"
                fill="black"
                id="path268"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g276">
-          <svg:g
+          <g
              id="outline-21">
-            <svg:path
+            <path
                d="m 124.59,287.89 c 0.1,8.07 3.62,-1.5 0,0 z"
                fill="black"
                id="path273"
                style="fill:#000000;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g281">
-          <svg:g
+          <g
              id="outline-22">
-            <svg:path
+            <path
                d="m 236.55,279.18 c -0.16,2.69 1.17,-2.87 0,0 z"
                fill="black"
                id="path278"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g286">
-          <svg:g
+          <g
              id="outline-23">
-            <svg:path
+            <path
                d="m 212.33,282.29 c 1.2,15.28 -0.85,31.31 5.71,45.69 -3.85,-12.63 -4.17,-26.68 -4.35,-40.13 0.74,-1.64 -2.27,-14.51 -1.36,-5.56 z"
                fill="black"
                id="path283"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g291">
-          <svg:g
+          <g
              id="outline-24">
-            <svg:path
+            <path
                d="m 253.87,293.65 c 0.87,5.11 7.42,22.4 3.05,7.21 -0.84,-2.47 -1.57,-5.02 -3.05,-7.21 z"
                fill="black"
                id="path288"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g296">
-          <svg:g
+          <g
              id="outline-25">
-            <svg:path
+            <path
                d="m 224.6,287.38 c -0.26,11 1.59,-7.7 0,0 z"
                fill="black"
                id="path293"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g301">
-          <svg:g
+          <g
              id="outline-26">
-            <svg:path
+            <path
                d="m 238.45,301.68 c 2.42,6.8 10.34,21.17 3.69,6.57 -0.42,-1.87 -6.46,-15.74 -3.69,-6.57 z"
                fill="black"
                id="path298"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g306">
-          <svg:g
+          <g
              id="outline-27">
-            <svg:path
+            <path
                d="m 199.79,292.29 c -1.08,17.5 -5.16,35.47 -1.39,52.82 0.94,-8.14 -0.63,-25.02 1.06,-36.37 0.1,-4.92 1.26,-12.91 0.33,-16.45 z"
                fill="black"
                id="path303"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g311">
-          <svg:g
+          <g
              id="outline-28">
-            <svg:path
+            <path
                d="m 233.63,320.82 c 2.63,7.3 -0.79,-5.49 0,0 z"
                fill="black"
                id="path308"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g316">
-          <svg:g
+          <g
              id="outline-29">
-            <svg:path
+            <path
                d="m 235.45,327.67 c 2.34,7.73 -0.31,-5.38 0,0 z"
                fill="black"
                id="path313"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g321">
-          <svg:g
+          <g
              id="outline-30">
-            <svg:path
+            <path
                d="m 237.03,334.15 c 1.72,5.83 -0.3,-5.28 0,0 z"
                fill="black"
                id="path318"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g326">
-          <svg:g
+          <g
              id="outline-31">
-            <svg:path
+            <path
                d="m 237.3,336.97 c 1.14,5.65 3.95,20.87 2.21,7.01 -0.1,-0.67 -1.67,-8.99 -2.21,-7.01 z"
                fill="black"
                id="path323"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g331">
-          <svg:g
+          <g
              id="outline-32">
-            <svg:path
+            <path
                d="m 175.03,320.42 c 0.4,4.92 1.16,-4.93 0,0 z"
                fill="black"
                id="path328"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g336">
-          <svg:g
+          <g
              id="outline-33">
-            <svg:path
+            <path
                d="m 174.83,325.36 c -1.13,10.17 1.7,-6.62 0,0 z"
                fill="black"
                id="path333"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g341">
-          <svg:g
+          <g
              id="outline-34">
-            <svg:path
+            <path
                d="m 214.58,339.75 c -0.1,6.88 1.77,-0.38 0,0 z"
                fill="black"
                id="path338"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g346">
-          <svg:g
+          <g
              id="outline-35">
-            <svg:path
+            <path
                d="m 173.98,331.35 c -0.63,3.76 1.49,-3.51 0,0 z"
                fill="black"
                id="path343"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g351">
-          <svg:g
+          <g
              id="outline-36">
-            <svg:path
+            <path
                d="m 214.83,343.52 c -0.1,6.84 1.76,-0.38 0,0 z"
                fill="black"
                id="path348"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g356">
-          <svg:g
+          <g
              id="outline-37">
-            <svg:path
+            <path
                d="m 215.05,349.63 c -0.94,6.65 1.52,20.63 0.74,6.34 -0.32,-1 0.66,-7.6 -0.74,-6.34 z"
                fill="black"
                id="path353"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g361">
-          <svg:g
+          <g
              id="outline-38">
-            <svg:path
+            <path
                d="m 175.02,350.4 c -0.12,5.04 1.88,-3.1 0,0 z"
                fill="black"
                id="path358"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g366">
-          <svg:g
+          <g
              id="outline-39">
-            <svg:path
+            <path
                d="m 174.29,357.61 c -1.74,7.97 1.15,3.35 0.37,-1.35 l -0.22,0.82 z"
                fill="black"
                id="path363"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g371">
-          <svg:g
+          <g
              id="outline-40">
-            <svg:path
+            <path
                d="m 189.72,363.21 c 1.46,4.01 -0,-3.31 0,0 z"
                fill="black"
                id="path368"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g376">
-          <svg:g
+          <g
              id="outline-41">
-            <svg:path
+            <path
                d="m 179.96,362.4 c -0.1,6.84 1.76,-0.38 0,0 z"
                fill="black"
                id="path373"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g381">
-          <svg:g
+          <g
              id="outline-42">
-            <svg:path
+            <path
                d="m 173.59,364.09 c -0.16,2.68 1.18,-2.87 0,0 z"
                fill="black"
                id="path378"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g386">
-          <svg:g
+          <g
              id="outline-43">
-            <svg:path
+            <path
                d="m 173.63,366.24 c -1.36,5.15 2.44,1.49 0,0 z"
                fill="black"
                id="path383"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-        <svg:g
+          </g>
+        </g>
+        <g
            id="g391">
-          <svg:g
+          <g
              id="outline-44">
-            <svg:path
+            <path
                d="m 180.25,370.82 c 0.34,11.35 2.02,6.71 0,0 z"
                fill="black"
                id="path388"
                style="fill:#ffff00;stroke:#000000;stroke-linejoin:round" />
-          </svg:g>
-        </svg:g>
-      </svg:g>
-    </svg:g>
-  </svg:g>
-  <svg:path
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <path
      style="fill:#0000ff;stroke:#000000;stroke-width:0.0035941;stroke-linejoin:round"
      d="m 189.88,158.71 c -3.25,1.22 2.44,1.8 0,0 z"
      id="path3208" />
-</svg:svg>
+</svg>
