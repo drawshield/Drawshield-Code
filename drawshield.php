@@ -310,6 +310,18 @@ if ($options['asFile'] == '1') {
             echo $im->getimageblob();
             break;
         case 'jpg':
+            if (file_exists("cpulimit.txt")) {
+                $limit = intval(file("cpulimit.txt"));
+                if ($limit > 0) {
+                    if (!testCpuUsage($limit)) {
+                        header('Content-type: text/text');
+                        echo "Sorry, the server does not sufficient resources to complete your request to create a JPG download.\n";
+                        echo "Please try later, or download the SVG version and convert it yourself using Inkscape.\n";
+                        echo "Your blazon was: " . $options['blazon'];
+                        exit(0);
+                    }
+                }
+            }
             $dir = sys_get_temp_dir();
             $base = tempnam($dir, 'shield');
             rename($base, $base . '.svg');
@@ -360,6 +372,18 @@ if ($options['asFile'] == '1') {
             break;
         case 'png':
         default:
+            if (file_exists("cpulimit.txt")) {
+                $limit = intval(file_get_contents("cpulimit.txt"));
+                if ($limit > 0) {
+                    if (!testCpuUsage($limit)) {
+                        header('Content-type: text/text');
+                        echo "Sorry, the server does not sufficient resources to complete your request to create a PNG download.\n";
+                        echo "Please try later, or download the SVG version and convert it yourself using Inkscape.\n";
+                        echo "Your blazon was: " . $options['blazon'];
+                        exit(0);
+                    }
+                }
+            }
             $dir = sys_get_temp_dir();
             $base = tempnam($dir, 'shield');
             rename($base, $base . '.svg');
@@ -444,6 +468,18 @@ if ($options['asFile'] == '1') {
     } else {
     switch ($options['outputFormat']) {
         case 'jpg':
+            if (file_exists("cpulimit.txt")) {
+                $limit = intval(file("cpulimit.txt"));
+                if ($limit > 0) {
+                    if (!testCpuUsage($limit)) {
+                        header('Content-type: text/text');
+                        echo "Sorry, the server does not sufficient resources to complete your request to create a JPG download.\n";
+                        echo "Please try later, or download the SVG version and convert it yourself using Inkscape.\n";
+                        echo "Your blazon was: " . $options['blazon'];
+                        exit(0);
+                    }
+                }
+            }
             $dir = sys_get_temp_dir();
             $base = tempnam($dir, 'shield');
             rename($base, $base . '.svg');
@@ -510,6 +546,18 @@ if ($options['asFile'] == '1') {
             echo $im->getimageblob();
             break;
         case 'png':
+            if (file_exists("cpulimit.txt")) {
+                $limit = intval(file("cpulimit.txt"));
+                if ($limit > 0) {
+                    if (!testCpuUsage($limit)) {
+                        header('Content-type: text/text');
+                        echo "Sorry, the server does not sufficient resources to complete your request to create a PNG download.\n";
+                        echo "Please try later, or download the SVG version and convert it yourself using Inkscape.\n";
+                        echo "Your blazon was: " . $options['blazon'];
+                        exit(0);
+                    }
+                }
+            }
             $dir = sys_get_temp_dir();
             $base = tempnam($dir, 'shield');
             rename($base, $base . '.svg');
