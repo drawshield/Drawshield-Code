@@ -697,7 +697,11 @@ function addParts($body, $parts, $layout) {
     // If there is some mantling, the type is available in $mantlingType as some things need to be scaled
     // and positioned differently
 
-    if ($shieldStroke != '') $body .= $shieldStroke;
+    if ($shieldStroke != '') { // If the shield is stroked we need to make it a tiny bit smaller so the stroke
+                                // not clipped by the shape mask.
+        $body .= $shieldStroke;
+        $body = '<g transform="translate(4,4) scale(0.992)">' . $body . '</g>';
+    }
 
     $bodyScale = 1;
     if (count($crests)) {
