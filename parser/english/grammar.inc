@@ -296,7 +296,7 @@ class englishGrammar extends grammar
                         break;
                     case 'aspect':
                         // only need the ratio
-                        continue 2;
+                        break;
                     case 'ratio':
                         $elementName = blazonML::E_ASPECT;
                         $value = $option->tokens;
