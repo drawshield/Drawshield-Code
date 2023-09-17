@@ -19,18 +19,23 @@ This file is part of the DrawShield.net heraldry image creation program
 require_once("chevron-helper.inc");
 
 
-if ( existModifierWithKeyterm($node,'throughout') )
-{
+if ( existModifierWithKeyterm($node,'throughout') ) {
     $delta_y = $layout->size->height * 0.28;
     $ordinary['shape_spec'] = (new MutableShape())
-        ->move_to($layout->size->width/2, 0)
+        ->move_to($layout->size->width / 2, 0)
         ->line_to($layout->size->width, $layout->size->height - $delta_y)
         ->line_to($layout->size->width, $layout->size->height)
-        ->line_to($layout->size->width/2, $delta_y)
+        ->line_to($layout->size->width / 2, $delta_y)
         ->line_to(0, $layout->size->height)
         ->line_to(0, $layout->size->height - $delta_y)
-        ->close()
-    ;
+        ->close();
+     $ordinary['chargesOn'] =
+         /*  1 */      '500,200,120,120/' .
+         /*  2 */      '300,500,120,120,33:700,500,120,120,-33/' .
+         /*  3 */      '300,500,120,120,33:500,200,120,120,0:700,500,120,120,-33/' .
+         /*  4 */      '200,700,120,120,33:350,400:650,400,120,120,-33:800,700,120,120,-33/' .
+         /*  5 */      '200,700,120,120,33:350,400:500,200,120,120,0:650,400,120,120,-33:800,700,120,120,-33/' .
+         /*  6 */      '190,720,120,120,33:280,550:380,370:620,370,120,120,-33:720,550:810,700';
 }
 elseif ( existModifierWithKeyterm($node,'rompu') )
 {
@@ -124,7 +129,7 @@ $chevron_width = 200;
 
 $ordinary['rotate_pattern'] = 'translate(4,5) rotate(-45) scale(0.6) ';
 
-$ordinary['chargesOn'] = placement_chevron($layout, $chevron_width, 0.6, $node);
+if (!array_key_exists('chargesOn', $ordinary)) $ordinary['chargesOn'] = placement_chevron($layout, $chevron_width, 0.6, $node);
 
 $within_margin = 80;
 
