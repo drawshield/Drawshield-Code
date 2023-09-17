@@ -2009,7 +2009,7 @@ class englishGrammar extends grammar
 
     $numLexeme = $phrase->add(self::ofNumber(languageDB::POINTS));
     if (!is_null($numLexeme)) {
-        $ofNum = $numLexeme->keyterm;
+        $ofNum = $numLexeme->value;
     }
     if ($treatment->keyterm == 'mulletty') {
         if ($ofNum == null || $ofNum < 5)
@@ -2020,9 +2020,9 @@ class englishGrammar extends grammar
     }
     if ($treatment->keyterm == 'checky') {
         if ($ofNum == 9) {
-            $keyterm = 'checky9';
-     /*   } elseif ($ofNum == 3) {
-            $keyterm = 'checky3'; */
+            $treatment->keyterm = 'checky9';
+        } elseif ($ofNum == 3) {
+            $treatment->keyterm = 'checky3';
         }
     }
     $node = $this->schema->makeNodeFromLexeme(blazonML::E_TREATMENT, $phrase->create($treatment->keyterm));
