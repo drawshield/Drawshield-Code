@@ -243,6 +243,7 @@ function hold_charge($element, $held, ShieldRect &$bounding_box)
     $dest = new ShieldPos(floatval($element["cx"]), floatval($element["cy"]));
     $anchor_radius = floatval($element["r"] ?? $element["rx"]);
     $hold_point = $held["hold_point"];
+    if (is_null($hold_point)) return '';
     $anchor_transform = $element['transform'] ?? "";
     $xpath = new DomXPath($held["node"]->ownerDocument);
 

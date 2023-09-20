@@ -63,10 +63,11 @@ class matcher
         $this->tokenList = $tokenList;
         $this->patternDB = $patternDB;
         $this->stateStore = new persistentStore();
-        $this->numTokens = count($tokenList);
+        if (is_array($tokenList))
+            $this->numTokens = count($tokenList);
+        else
+            $this->numTokens = 1;
         $this->getAllMatches();
-        // var_dump($this->allMatches);
-        // exit();
     }
 
     public function getState()

@@ -82,7 +82,7 @@ function place_charges ( DOMElement $node, $placement, $layout ) {
     $retval .= place_charges( $child->firstChild, get_placement($child->firstChild, $layout), $layout);
   }
   $splitArray = preg_split(':/:', $node->getAttribute('keyterm'));
-  list($group,$chargeKey) = $splitArray;
+  $group = $splitArray[0];
 
   $cx = 500; // default values
   $cy = 500;

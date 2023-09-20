@@ -17,7 +17,8 @@ This file is part of the DrawShield.net heraldry image creation program
  */
 
 
-if ( ($num_of = getModifierValueByKeyterm($node, 'ofnum', false)) == null ) $num_of = 8;
+$num_of = intval(getModifierValueByKeyterm($node, 'ofnum', false));
+if ($num_of <=0) $num_of = 8;
 
 $NC = '';
 $CH = '';

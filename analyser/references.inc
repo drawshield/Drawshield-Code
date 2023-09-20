@@ -355,10 +355,13 @@ class references {
             $child = $subShield->firstChild;
             if ($child != null && $child->nodeName == blazonML::E_PENDING && isset($existingIDs[$currentID])) {
                 $refNode = $existingIDs[$currentID];
+                if (is_null($refNode)) {
+                    error_log('Null ref node in subshield');
+                    continue;
+                }
                 $newNode = $existingNodes[$refNode]->cloneNode(true);
                 $newNode->setAttribute('ID',unique('clone'));
                 $newNode->setAttribute('index',$j + 1);
-              // error_log($refNode . ' '. $existingNodes[$refNode]->nodeName);
                 $node->replaceChild( $newNode, $subShield);
                 if (++$currentID >= count($existingIDs))
                     $currentID = 0;

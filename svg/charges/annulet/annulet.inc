@@ -18,18 +18,27 @@ This file is part of the DrawShield.net heraldry image creation program
 
 // annulet
 
-$annuletMods = array('concentric', 'interlaced', 'braced', 'conjunct',);
+// Data structure here is 'name-of-modifer' => (min number, max number)
+$annuletMods = array('concentric' => array(2,10), 'interlaced' => array(2,3), 'braced' => array(2,2), 'conjunct' => array(2,2),);
 $num = $node->getAttribute('number');
-if ( $num > 10 ) $num = 10;
 
 $modded = '';
-foreach($annuletMods as $aMod) {
+foreach(array_keys($annuletMods) as $aMod) {
   if (existModifierWithKeyterm($node, $aMod)) {
     if ($modded) {
       $messages->addMessage('parser',"Can only apply one modifier to annulets");
       break;
     }
     $modded = "-$aMod"; // only use first mod
+      // fix up numbering
+      list($minNum, $maxNum) = $annuletMods[$aMod];
+      if ($num < $minNum) {
+          $messages->addMessage('parser',"$num annulets $aMod not available");
+          $num = $minNum;
+      } elseif ($num > $maxNum) {
+          $messages->addMessage('parser',"$num annulets $aMod not available");
+          $num = $maxNum;
+      }
   }   
 }
 
