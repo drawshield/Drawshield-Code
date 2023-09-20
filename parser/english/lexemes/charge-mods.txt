@@ -167,6 +167,7 @@ without ?the head=headless
 thrust through with a sword=throughsword
 with ?a sword=with-sword
 triple towered=triple-towered
+?small towered=towered
 app(aume|almed)=appalmed
 ?in folia(ge|ted)=foliated
 ?in ?(his|their) (glory|splendou?r)=in-glory
