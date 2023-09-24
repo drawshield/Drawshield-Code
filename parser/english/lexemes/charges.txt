@@ -2,6 +2,7 @@
      # cross=
 =charge/cross/
 calvary cross(es)?=calvary
+juncyk cross(es)?=juncyk-cross
 =charge/quadrate/
 knotwork cross(es)?=knotwork-cross
 knot work cross(es)?=knotwork-cross

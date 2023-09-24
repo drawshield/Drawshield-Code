@@ -138,6 +138,7 @@ class matcher
         $terms = $this->patternDB->patterns;
         while ($this->curToken < $this->numTokens) {
             // If the tokeniser has already identified this category, use that
+            if (!is_array($this->tokenList)) $this->tokenList = array($this->tokenList);
             $givenCategory = $this->tokenList[$this->curToken]->category;
             if ($givenCategory != null) {
                 $this->allMatches[] = array( $this->lexemeFromTokens($givenCategory, $givenCategory, $this->curToken, null, $this->tokenList[$this->curToken]->text));

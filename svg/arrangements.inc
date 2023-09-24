@@ -181,6 +181,9 @@ function inAnnulo($number, $box, $layout, $arc = "full")
     $cy = $box->pos->y;
 
     $radius = min($box->size->height, $box->size->width) / 2;
+    if ($number == 1) {
+        return("$cx,$cy,$radius,$radius");
+    }
 
     $sizeLimit = 160;
     $turn = 180 / ($number -1);
