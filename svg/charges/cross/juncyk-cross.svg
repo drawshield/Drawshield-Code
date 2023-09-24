@@ -4,26 +4,14 @@
    height="557.999"
    version="1.1"
    id="svg4"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
-     id="defs1">
-    <path
-       id="trim"
-       d="M 0,0 V 300 C 0,512.3 101.5,702 350,800 598.5,702 700,512.3 700,300 V 0 Z" />
-    <clipPath
-       id="trim_out">
-      <use
-         xlink:href="#trim"
-         id="use1" />
-    </clipPath>
-  </defs>
+     id="defs1" />
   <g
-     clip-path="url(#trim_out)"
      id="g2"
      transform="translate(-115.001,-68)">
     <path
@@ -34,10 +22,6 @@
        id="path2"
        style="fill:#ffff00" />
   </g>
-  <g
-     clip-path="url(#trim_out)"
-     id="g4"
-     transform="translate(-115.001,-68)" />
   <metadata
      id="metadata4">
     <rdf:RDF>
