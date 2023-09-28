@@ -1,4 +1,4 @@
-<?php  /* Copyright 2010-2021 Karl Wilcox, Mattias Basaglia
+<?php /* Copyright 2010-2021 Karl Wilcox, Mattias Basaglia
 
 This file is part of the DrawShield.net heraldry image creation program
 
@@ -16,114 +16,53 @@ This file is part of the DrawShield.net heraldry image creation program
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/.
  */
 
-//
-// Global Variables
-//
-$startTime = microtime(true);
+include 'utils/general.inc';  // general utilities, duh.
+$timings = array('start' => microtime(true));
+
+//////////////////////////////////////////////
+// Stage 1a - Set default and fallback options
+/////////////////////////////////////////////
 $options = array();
-include 'version.inc';
-include 'parser/utilities.inc';
-include "analyser/utilities.inc";
-/**
- * @var DOMDocument $dom
- */
-$dom = null;
-/**
- * @var DOMXpath $xpath
- */
-$xpath = null;
-/**
- * @var messageStore $messages
- */
-$messages = null;
+$version = array();
+include 'version.inc';  // sets default and fallback options
 
-
-//
-// Argument processing
-//
-
-function arguments($args) {
-    array_shift($args);
-    $endofoptions = false;
-    $ret = array(
-        // 'commands' => array(),
-        'options' => array(),
-        'flags' => array(),
-        'arguments' => array(),
-    );
-    while ($arg = array_shift($args)) {
-        // if we have reached end of options,
-        //we cast all remaining argvs as arguments
-        if ($endofoptions) {
-            $ret['arguments'][] = $arg;
-            continue;
-        }
-        // Is it a command? (prefixed with --)
-        if (substr($arg, 0, 2) === '--') {
-            // is it the end of options flag?
-            if (!isset($arg[2])) {
-                $endofoptions = true;; // end of options;
-                continue;
-            }
-            $value = "";
-            $com = substr($arg, 2);
-            // is it the syntax '--option=argument'?
-            if (strpos($com, '='))
-                list($com, $value) = explode("=", $com, 2);
-            // is the option not followed by another option but by arguments
-            elseif(strpos($args[0], '-') !== 0) {
-                while (strpos($args[0], '-') !== 0)
-                    $value .= array_shift($args) . ' ';
-                $value = rtrim($value, ' ');
-            }
-            $ret['options'][$com] = !empty($value) ? $value : true;
-            continue;
-        }
-        // Is it a flag or a serial of flags? (prefixed with -)
-        if (substr($arg, 0, 1) === '-') {
-            for ($i = 1; isset($arg[$i]); $i++)
-                $ret['flags'][] = $arg[$i];
-            continue;
-        }
-        // finally, it is not option, nor flag, nor argument
-        //$ret['commands'][] = $arg;
-        $ret['arguments'][] = $arg;
-        continue;
-    }
-    //if (!count($ret['options']) && !count($ret['flags'])) {
-      //  $ret['arguments'] = array_merge($ret['commands'], $ret['arguments']);
-      //  $ret['commands'] = array();
-    //}
-    return $ret;
-}
-
+//////////////////////////////////////////////
+// Stage 1b - command line arguments (if any)
+/////////////////////////////////////////////
 if (isset($argc)) {
-  if ( $argc > 1 ) { // run in debug mode, probably
-      $myArgs = arguments($argv);
-      foreach($myArgs['options'] as $option => $value) {
-        $value = urldecode($value);
-        if ($option == 'webcols') $options['useWebColours'] = $value == 'yes';
-        elseif ($option == 'tartancols') $options['useTartanColours'] = $value == 'yes';
-        elseif ($option == 'whcols') $options['useWarhammerColours'] = $value == 'yes';
-        else $options[$option] = $value;
-      }
-      $options['commandLine'] = true;
-      if (!array_key_exists('blazon', $options))
-        $options['blazon'] = implode(' ', $myArgs['arguments']);
-  } else {
-  if (file_exists('debug.inc')) include 'debug.inc';
-  }
+    if ($argc > 1) { // run in debug mode, probably
+        // Do we have any command line arguments? If so, incorporate into options array
+        $myArgs = arguments($argv);
+        foreach ($myArgs['options'] as $option => $value) {
+            $value = urldecode($value);
+            if ($option == 'webcols') $options['useWebColours'] = $value == 'yes';
+            elseif ($option == 'tartancols') $options['useTartanColours'] = $value == 'yes';
+            elseif ($option == 'whcols') $options['useWarhammerColours'] = $value == 'yes';
+            else $options[$option] = $value;
+        }
+        $options['commandLine'] = true;
+        if (!array_key_exists('blazon', $options))
+            $options['blazon'] = implode(' ', $myArgs['arguments']);
+    } else { // otherwise, run anything in the debug script
+        // This NEVER HAPPENS ON THE SERVER (as $argc is never set)
+        // so it is safe (but useless) to copy debug.inc to the server
+        if (file_exists('debug.inc')) include 'debug.inc';
+    }
 }
 
-// Process arguments
+//////////////////////////////////////////////
+// Stage 1c -process any arguments from the superglobals? SERVER ONLY (probably)
+/////////////////////////////////////////////
 $ar = null;
 $request = array_merge($_GET, $_POST);
+$svgOutput = null;
 
-// For backwards compatibility we support argument in GET, but prefer POST
+// We do support sending the blazon in an uploaded file but this is not currently implemented
+// on the site anywhere, we always use POST fields
 if (isset($_FILES['blazonfile']) && ($_FILES['blazonfile']['name'] != "")) {
     $fileName = $_FILES['blazonfile']['name'];
     $fileSize = $_FILES['blazonfile']['size'];
-    $fileTmpName  = $_FILES['blazonfile']['tmp_name'];
+    $fileTmpName = $_FILES['blazonfile']['tmp_name'];
     // $fileType = $_FILES['blazonfile']['type']; // not currently used
     if (preg_match('/.txt$/i', $fileName) && $fileSize < 1000000) {
         $options['blazon'] = file_get_contents($fileTmpName);
@@ -132,8 +71,9 @@ if (isset($_FILES['blazonfile']) && ($_FILES['blazonfile']['name'] != "")) {
     if (isset($request['blazon'])) $options['blazon'] = strip_tags($request['blazon']);
 }
 
-if (isset($request['outputformat'])) $options['outputFormat'] = strip_tags ($request['outputformat']);
-if (isset($request['saveformat'])) $options['saveFormat'] = strip_tags ($request['saveformat']);
+// Process superglobal settings into the options array
+if (isset($request['outputformat'])) $options['outputFormat'] = strip_tags($request['outputformat']);
+if (isset($request['saveformat'])) $options['saveFormat'] = strip_tags($request['saveformat']);
 if (isset($request['asfile']) && $request['asfile'] != '0') $options['asFile'] = strip_tags($request['asfile']);
 if (isset($request['palette'])) $options['palette'] = strip_tags($request['palette']);
 if (isset($request['shape'])) {
@@ -142,136 +82,150 @@ if (isset($request['shape'])) {
 }
 if (isset($request['stage'])) $options['stage'] = strip_tags($request['stage']);
 if (isset($request['filename'])) $options['filename'] = strip_tags($request['filename']);
-//  if (isset($request['printable'])) $options['printable'] = ($request['printable'] == "1");
 if (isset($request['effect'])) $options['effect'] = strip_tags($request['effect']);
-if (isset($request['size'])) $options['size']= strip_tags ($request['size']);
-if (isset($request['units'])) $options['units']= strip_tags ($request['units']);
-if (isset($request['ar'])) $ar = strip_tags ($request['ar']);
+if (isset($request['size'])) $options['size'] = strip_tags($request['size']);
+if (isset($request['units'])) $options['units'] = strip_tags($request['units']);
+if (isset($request['ar'])) $ar = strip_tags($request['ar']);
 if (isset($request['webcols'])) $options['useWebColours'] = $request['webcols'] == 'yes';
 if (isset($request['tartancols'])) $options['useTartanColours'] = $request['tartancols'] == 'yes';
 if (isset($request['whcols'])) $options['useWarhammerColours'] = $request['whcols'] == 'yes';
 if (isset($request['customPalette']) && is_array($request['customPalette'])) $options['customPalette'] = $request['customPalette'];
-
-$options['blazon'] = preg_replace("/&#?[a-z0-9]{2,8};/i","",$options['blazon']); // strip all entities.
-$options['blazon'] = preg_replace("/\\x[0-9-a-f]{2}/i","",$options['blazon']); // strip all entities.
-
-// Quick response for empty blazon
-if ( $options['blazon'] == '' ) {
-  $dom = new DOMDocument('1.0');
-  $dom->loadXML('<blazon ID="N1-0" blazonText="argent" blazonTokens="argent" creatorName="drawshield.net" ><shield ID="N1-6"><simple ID="N1-4"><field ID="N1-3"><tincture ID="N1-1" index="1" origin="given"><colour ID="N1-2" keyterm="argent" tokens="argent" linenumber="1" link="https://drawshield.net/reference/parker/a/argent.html"></colour></tincture></field></simple></shield><messages></messages></blazon>');
-} else {
-  // log the blazon for research... (unless told not too)
-  if ( $options['logBlazon']) error_log($options['blazon']);
-  include "parser/parser.inc";
-  $p = new parser('english');
-  $dom = $p->parse($options['blazon'],'dom');
-  $p = null; // destroy parser
-  if ( $options['stage'] == 'parser') { 
-      $note = $dom->createComment("Debug information - parser stage.\n(Did you do SHIFT + 'Save as File' by accident?)");
-      $dom->insertBefore($note,$dom->firstChild);
-      header('Content-Type: text/xml; charset=utf-8');
-      $dom->formatOutput = true;
-      echo $dom->saveXML();
-      echo  "Execution time: " . microtime(true) - $startTime;
-      exit;
-  }
-  // filter blazon (if present)
-  if (file_exists("/opt/bitnami/apache/etc/filter.inc")) {
-      include "/opt/bitnami/apache/etc/filter.inc";
-      $filter = new filter($dom);
-      $dom = $filter->runFilter();
-  }
-
-  // Resolve references
-  include "analyser/references.inc";
-  $references = new references($dom);
-  $dom = $references->setReferences();
-  $references = null; // destroy references
-  if ( $options['stage'] == 'references') { 
-      $note = $dom->createComment("Debug information - references stage.\n(Did you do SHIFT + 'Save as File' by accident?)");
-      $dom->insertBefore($note,$dom->firstChild);
-      header('Content-Type: text/xml; charset=utf-8');
-      $dom->formatOutput = true;
-      echo $dom->saveXML(); 
-      exit; 
-  }
-}
-// Make the blazonML searchable
-$xpath = new DOMXPath($dom);
-
-/*
- * General options tidy-up
- */
-if ($options['asFile']) {
-    $options['printSize'] = $options['size'];
-    $options['size'] = 1000;
-}
-// Minimum sensible size
-if ( $options['size'] < 100 ) $options['size'] = 100;
-if ($ar != null) {
-    $options['aspectRatio'] = calculateAR($ar);
-}
-tidyOptions();;
-  // Read in the drawing code  ( All formats start out as SVG )
+// We might be given the SVG to convert to another format, so do a basic sense check
+if (isset($request['svg']) && strlen($request['svg']) > 20) $svgOutput = $request['svg'];
 
 
-include "svg/draw.inc";
+if (is_null($svgOutput)) { // not given SVG, so generate it from the blazon
 
-function report_errors_svg($errno, $errstr, $errfile, $errline)
-{
-    global $messages;
-    if ( $messages )
-    {
-        $dirname = __dir__;
-        if ( substr($errfile, 0, strlen($dirname)) == $dirname )
-            $errfile = substr($errfile, strlen($dirname));
-        $reportError = true;
+    //////////////////////////////////////////////
+    // Stage 2a - blazon preparation
+    /////////////////////////////////////////////
 
-        switch ($errno)
-        {
-            case E_ERROR:
-            case E_PARSE:
-            case E_CORE_ERROR:
-            case E_COMPILE_ERROR:
-            case E_USER_ERROR:
-            case E_RECOVERABLE_ERROR:
-                $err_type = "error";
-                break;
-            case E_COMPILE_WARNING:
-            case E_WARNING:
-            case E_USER_WARNING:
-                $err_type = "warning";
-                $reportError = false;
-                break;
-            default:
-                $err_type = "notice";
-                break;
+    $dom = null;
+    // If blazon is null assume 'argent', but skip parsing as we already know the outcome
+    if ($options['blazon'] == '') {
+        $dom = new DOMDocument('1.0');
+        $dom->loadXML($version['dummyAST']);
+    } else {
+        $options['blazon'] = preg_replace("/&#?[a-z0-9]{2,8};/i", "", $options['blazon']); // strip all entities.
+        $options['blazon'] = preg_replace("/\\x[0-9-a-f]{2}/i", "", $options['blazon']); // strip all entities.
+        // log the blazon for research... (unless told not too)
+        if ($options['logBlazon']) error_log($options['blazon']);
+    }
+
+
+    include 'parser/utilities.inc';
+    include "analyser/utilities.inc";
+    if (is_null($dom)) {
+        //////////////////////////////////////////////
+        // Stage 2b - Parsing into XML AST
+        /////////////////////////////////////////////
+        include "parser/parser.inc";
+
+        $p = new parser('english');
+        $dom = $p->parse($options['blazon'], 'dom');
+        $p = null; // destroy parser to save memory
+        $timings['parser'] = microtime(true);
+
+        //////////////////////////////////////////////
+        // Stage 2c - Filtering out stuff we don't like (code not in repo)
+        /////////////////////////////////////////////
+        if (file_exists("/opt/bitnami/apache/etc/filter.inc")) {
+            include "/opt/bitnami/apache/etc/filter.inc";
+            $filter = new filter($dom);
+            $dom = $filter->runFilter();
         }
 
-        if ($reportError)
-            $messages->addMessage("$err_type", "$errfile:$errline : $errstr\n");
-    }
-    return false;
-}
+        //////////////////////////////////////////////
+        // Stage 2d - Additional Options may have been in blazon, tidy them up
+        /////////////////////////////////////////////
+        if ($options['asFile']) {
+            $options['printSize'] = $options['size'];
+            $options['size'] = 1000;
+        }
+        // Minimum sensible size
+        if ($options['size'] < 100) $options['size'] = 100;
+        if ($ar != null) {
+            $options['aspectRatio'] = calculateAR($ar);
+        }
+        tidyOptions();;
 
-// if (array_key_exists('HTTP_REFERER',$_SERVER) && strpos($_SERVER["HTTP_REFERER"], "demopage.php") !== false )
+
+        //////////////////////////////////////////////
+        // Stage 2e - resolve cross references & other fixups
+        /////////////////////////////////////////////
+        include "analyser/references.inc";
+        $references = new references($dom);
+        $dom = $references->setReferences();
+        $references = null; // destroy references to save memory
+        $timings['fixups'] = microtime(true);
+    }
+
+
+    //////////////////////////////////////////////
+    // Stage 3a - preparation for drawing
+    /////////////////////////////////////////////
+    $xpath = new DOMXPath($dom);
+    include 'utils/messages.inc';
+    $messages = new messageStore($dom);
+    include "svg/draw.inc";
     set_error_handler("report_errors_svg");
 
-$output = draw();
+
+    //////////////////////////////////////////////
+    // Stage 3b - create SVG version (all formats start as SVG)
+    /////////////////////////////////////////////
+    $svgOutput = draw();
+}
+
+// At this point we should have some valid SVG in $svgOutput, now what?
+$target = $options['outputFormat'];
+if ($target == 'json') {
+    $target = 'png';
+} elseif ($options['asFile'] == 'printable') {
+    $target = 'svg';
+} elseif ($options['asFile'] || $options['commandLine']) {
+    $target = $options['saveFormat'];
+}
+// (Sorry about the above mess, needed for historic reasons and to preserve API arguments)
 
 
-// Output content header
-if ($options['asFile'] == '1') {
+//////////////////////////////////////////////
+// Stage 3c - Change image format if required
+/////////////////////////////////////////////
+
+if ($target == 'svg') {
+    $targetImage = $svgOutput;
+} else {
+    include 'utils/render.inc';
+    $targetImage = convertImageFormat($svgOutput, $target);
+    $timings['conversion'] = microtime(true);
+}
+
+//////////////////////////////////////////////
+// Stage 4 - output image as per option request
+/////////////////////////////////////////////
+if ($options['asFile'] == 'printable') {
+    //////////////////////////////////////////////
+    // Stage 4 option 1 - a printable HTML page
+    /////////////////////////////////////////////
+    $xpath = new DOMXPath($dom); // re-build xpath with new messages
+    header('Content-Type: text/html; charset=utf-8');
+    echo "<!doctype html>\n\n<html lang=\"en\">\n<head>\n<title>Shield</title>\n";
+    echo "<style>\nsvg { margin-left:auto; margin-right:auto; display:block;}</style>\n</head>\n<body>\n";
+    echo "<div>\n$targetImage</div>\n";
+    echo "<h2>Blazon</h2>\n";
+    echo "<p class=\"blazon\">${options['blazon']}</p>\n";
+    echo "<h2>Image Credits</h2>\n";
+    echo "<p>This work is licensed under a <em>Creative Commons Attribution-ShareAlike 4.0 International License</em>.";
+    echo " It is a derivative work based on the following source images:</p>";
+    echo $messages->getCredits();
+    echo "</body>\n</html>\n";
+    //////////////////////////////////////////////
+    // Stage 4 option 2 - An image file downloaded over HTTP
+    /////////////////////////////////////////////
+} elseif ($options['asFile']) {
     $name = $options['filename'];
     if ($name == '') $name = 'shield';
-    $pageWidth = $pageHeight = false;
-    if ($options['units'] == 'in') {
-        $options['printSize'] *= 90;
-    } elseif ($options['units'] == 'cm') {
-        $options['printSize'] *= 35;
-    }
-    // $proportion = ($options['shape'] == 'flag') ? $options['aspectRatio'] : 1.2;
-    $proportion = 1.2;
     switch ($options['saveFormat']) {
         case 'svg':
             if (substr($name, -4) != '.svg') $name .= '.svg';
@@ -280,236 +234,81 @@ if ($options['asFile'] == '1') {
             header("Content-Transfer-Encoding: text");
             header('Content-Disposition: attachment; filename="' . $name);
             header('Content-Type: image/svg+xml');
-            echo $output;
             break;
         case 'pdfLtr':
-            $pageWidth = 765;
-            $pageHeight = 990;
-        // flowthrough
         case 'pdfA4':
-            if (!$pageWidth) $pageWidth = 744;
-            if (!$pageHeight) $pageHeight = 1051;
-            $im = new Imagick();
-            $im->readimageblob($output);
-            $im->setimageformat('pdf');
-            $margin = 40; // bit less than 1/2"
-            $maxWidth = $pageWidth - $margin - $margin;
-            $imageWidth = $options['printSize'];
-            if ($imageWidth > $maxWidth) $imageWidth = $maxWidth;
-            $imageHeight = $imageWidth * $proportion;
-            $im->scaleImage($imageWidth, $imageHeight);
-            $fromBottom = $pageHeight - $margin - $margin - $imageHeight;
-            $fromSide = $margin + (($pageWidth - $margin - $margin - $imageWidth) / 2);
-            $im->setImagePage($pageWidth, $pageHeight, $fromSide * 0.9, $fromBottom * 0.9);
             if (substr($name, -4) != '.pdf') $name .= '.pdf';
             header("Content-type: application/force-download");
             header('Content-Disposition: inline; filename="' . $name);
             header("Content-Transfer-Encoding: 8bit");
             header('Content-Disposition: attachment; filename="' . $name);
             header('Content-Type: application/pdf');
-            echo $im->getimageblob();
             break;
         case 'jpg':
-            if (file_exists("cpulimit.txt")) {
-                $limit = intval(file("cpulimit.txt"));
-                if ($limit > 0) {
-                    if (!testCpuUsage($limit)) {
-                        header('Content-type: text/text');
-                        echo "Sorry, the server does not sufficient resources to complete your request to create a JPG download.\n";
-                        echo "Please try later, or download the SVG version and convert it yourself using Inkscape.\n";
-                        echo "Your blazon was: " . $options['blazon'];
-                        exit(0);
-                    }
-                }
-            }
-            $dir = sys_get_temp_dir();
-            $base = tempnam($dir, 'shield');
-            rename($base, $base . '.svg');
-            file_put_contents($base . '.svg', $output);
-            $width = $options['printSize'];
-            $height = $width * $proportion;
-            $result = shell_exec("java -jar /opt/bitnami/apache/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $base.jpg -q 0.9 -m image/jpeg -w $width -h $height");
-            unlink($base . '.svg');
+        case 'jpeg':
             if (substr($name, -4) != '.jpg') $name .= '.jpg';
             header("Content-type: application/force-download");
             header('Content-Disposition: inline; filename="' . $name);
             header("Content-Transfer-Encoding: binary");
             header('Content-Disposition: attachment; filename="' . $name);
             header('Content-Type: image/jpg');
-            echo file_get_contents($base . '.jpg');
-            unlink($base . '.jpg');
-            break;
-        /*            $im = new Imagick();
-                    $im->readimageblob($output);
-                    $im->setimageformat('jpeg');
-                    $im->setimagecompressionquality(90);
-                    $imageWidth = $options['printSize'];
-                    $imageHeight = $imageWidth * $proportion;
-                    $im->scaleimage($imageWidth, $imageHeight);
-                    if (substr($name, -4) != '.jpg') $name .= '.jpg';
-                    header("Content-type: application/force-download");
-                    header('Content-Disposition: inline; filename="' . $name);
-                    header("Content-Transfer-Encoding: binary");
-                    header('Content-Disposition: attachment; filename="' . $name);
-                    header('Content-Type: image/jpg');
-                    echo $im->getimageblob();
-                    break; */
-        case 'png-old':
-            $im = new Imagick();
-            $im->setBackgroundColor(new ImagickPixel('transparent'));
-            $im->readimageblob($output);
-            $im->setimageformat('png32');
-            $imageWidth = $options['printSize'];
-            $imageHeight = $imageWidth * $proportion;
-            $im->scaleimage($imageWidth, $imageHeight);
-            if (substr($name, -4) != '.png') $name .= '.png';
-            header("Content-type: application/force-download");
-            header('Content-Disposition: inline; filename="' . $name);
-            header("Content-Transfer-Encoding: binary");
-            header('Content-Disposition: attachment; filename="' . $name);
-            header('Content-Type: image/png');
-            echo $im->getimageblob();
             break;
         case 'png':
-        default:
-            if (file_exists("cpulimit.txt")) {
-                $limit = intval(file_get_contents("cpulimit.txt"));
-                if ($limit > 0) {
-                    if (!testCpuUsage($limit)) {
-                        header('Content-type: text/text');
-                        echo "Sorry, the server does not sufficient resources to complete your request to create a PNG download.\n";
-                        echo "Please try later, or download the SVG version and convert it yourself using Inkscape.\n";
-                        echo "Your blazon was: " . $options['blazon'];
-                        exit(0);
-                    }
-                }
-            }
-            $dir = sys_get_temp_dir();
-            $base = tempnam($dir, 'shield');
-            rename($base, $base . '.svg');
-            file_put_contents($base . '.svg', $output);
-            $width = $options['printSize'];
-            $height = $width * $proportion;
-            $result = shell_exec("java -jar /opt/bitnami/apache/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $base.png -w $width -h $height");
-            unlink($base . '.svg');
             if (substr($name, -4) != '.png') $name .= '.png';
             header("Content-type: application/force-download");
             header('Content-Disposition: inline; filename="' . $name);
             header("Content-Transfer-Encoding: binary");
             header('Content-Disposition: attachment; filename="' . $name);
             header('Content-Type: image/png');
-            echo file_get_contents($base . '.png');
-            unlink($base . '.png');
             break;
-        }
+        case 'webp':
+            if (substr($name, -4) != '.webp') $name .= '.webp';
+            header("Content-type: application/force-download");
+            header('Content-Disposition: inline; filename="' . $name);
+            header("Content-Transfer-Encoding: binary");
+            header('Content-Disposition: attachment; filename="' . $name);
+            header('Content-Type: image/webp');
+            break;
+    }
+    echo $targetImage;
+    //////////////////////////////////////////////
+    // Stage 4 option 3 - file saved locally in file system
+    /////////////////////////////////////////////
+} elseif ($options['commandLine']) {
     // This only occurs if the file is run locally, and we don't specify "asFile" (i.e. HTTP download). We write the file locally.
-    } elseif (array_key_exists('commandLine', $options)) {
-        $name = $options['filename'];
-        if ($name == '') $name = 'shield';
-        $pageWidth = $pageHeight = false;
-        if ($options['units'] == 'in') {
-            $options['printSize'] *= 90;
-        } elseif ($options['units'] == 'cm') {
-            $options['printSize'] *= 35;
-        }
-        $proportion = 1.2;
-        $fileContent = '';
-        switch ($options['saveFormat']) {
-            case 'svg':
-                if (substr($name, -4) != '.svg') $name .= '.svg';
-                file_put_contents($name, $output);
-                break;
-            case 'pdfLtr':
-                $pageWidth = 765;
-                $pageHeight = 990;
-            // flowthrough
-            case 'pdfA4':
-                if (!$pageWidth) $pageWidth = 744;
-                if (!$pageHeight) $pageHeight = 1051;
-                $im = new Imagick();
-                $im->readimageblob($output);
-                $im->setimageformat('pdf');
-                $margin = 40; // bit less than 1/2"
-                $maxWidth = $pageWidth - $margin - $margin;
-                $imageWidth = $options['printSize'];
-                if ($imageWidth > $maxWidth) $imageWidth = $maxWidth;
-                $imageHeight = $imageWidth * $proportion;
-                $im->scaleImage($imageWidth, $imageHeight);
-                $fromBottom = $pageHeight - $margin - $margin - $imageHeight;
-                $fromSide = $margin + (($pageWidth - $margin - $margin - $imageWidth) / 2);
-                $im->setImagePage($pageWidth, $pageHeight, $fromSide * 0.9, $fromBottom * 0.9);
-                if (substr($name, -4) != '.pdf') $name .= '.pdf';
-                file_put_contents($name, $im->getimageblob());
-                break;
-            case 'jpg':
-                $dir = sys_get_temp_dir();
-                $base = tempnam($dir, 'shield');
-                rename($base, $base . '.svg');
-                file_put_contents($base . '.svg', $output);
-                $width = $options['printSize'];
-                $height = $width * $proportion;
-                if (substr($name, -4) != '.jpg') $name .= '.jpg';
-                $result = shell_exec("java -jar /opt/bitnami/apache/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $name -q 0.9 -m image/jpeg -w $width -h $height");
-                unlink($base . '.svg');
-                break;
-            case 'png':
-            default:
-                $dir = sys_get_temp_dir();
-                $base = tempnam($dir, 'shield');
-                rename($base, $base . '.svg');
-                file_put_contents($base . '.svg', $output);
-                $width = $options['printSize'];
-                $height = $width * $proportion;
-                if (substr($name, -4) != '.png') $name .= '.png';
-                $result = shell_exec("java -jar /opt/bitnami/apache/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $name -w $width -h $height");
-                unlink($base . '.svg');
-                break;
-        }
-    } else {
+    $name = $options['filename'];
+    if ($name == '') $name = 'shield';
+    $fileContent = '';
+    switch ($options['saveFormat']) {
+        case 'svg':
+            if (substr($name, -4) != '.svg') $name .= '.svg';
+            break;
+        case 'pdfLtr':
+        case 'pdfA4':
+            if (substr($name, -4) != '.pdf') $name .= '.pdf';
+            break;
+        case 'jpg':
+            if (substr($name, -4) != '.jpg') $name .= '.jpg';
+            break;
+        case 'png':
+            if (substr($name, -4) != '.png') $name .= '.png';
+        default:
+            break;
+    }
+    file_put_contents($name, $targetImage);
+    //////////////////////////////////////////////
+    // Stage 4 option 4 - image returned over HTTP
+    /////////////////////////////////////////////
+} else {
     switch ($options['outputFormat']) {
         case 'jpg':
-            if (file_exists("cpulimit.txt")) {
-                $limit = intval(file("cpulimit.txt"));
-                if ($limit > 0) {
-                    if (!testCpuUsage($limit)) {
-                        header('Content-type: text/text');
-                        echo "Sorry, the server does not sufficient resources to complete your request to create a JPG download.\n";
-                        echo "Please try later, or download the SVG version and convert it yourself using Inkscape.\n";
-                        echo "Your blazon was: " . $options['blazon'];
-                        exit(0);
-                    }
-                }
-            }
-            $dir = sys_get_temp_dir();
-            $base = tempnam($dir, 'shield');
-            rename($base, $base . '.svg');
-            file_put_contents($base . '.svg', $output);
-            $result = shell_exec("java -jar /opt/bitnami/apache/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $base.jpg -q 0.9 -m image/jpeg");
-            unlink($base . '.svg');
             header('Content-Type: image/jpg');
-            echo file_get_contents($base . '.jpg');
-            unlink($base . '.jpg');
-/*            $im = new Imagick();
-            $im->readimageblob($output);
-            $im->setimageformat('jpeg');
-            $im->setimagecompressionquality(90);
-            // $im->scaleimage(1000,1200);
-            header('Content-Type: image/jpg');
-            echo $im->getimageblob(); */
             break;
-        case 'json':
+        case 'json': // A PNG image + other data all wrapped up in JSON
             $newDom = new DOMDocument();
-            $newDom->loadXML($output);
-            $dir = sys_get_temp_dir();
-            $base = tempnam($dir, 'shield');
-            rename($base, $base . '.svg');
-            file_put_contents($base . '.svg', $output);
-            $result = shell_exec("java -jar /opt/bitnami/apache/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $base.png");
-            unlink($base . '.svg');
-            header('Content-Type: image/png');
+            $newDom->loadXML($svgOutput);
             $json = [];
-            $json['image'] = base64_encode(file_get_contents($base . '.png'));
-            unlink($base . '.png');
+            $json['image'] = base64_encode($targetImage);
             $json['options'] = $options;
             $allMessages = $newDom->getElementsByTagNameNS('http://drawshield.net/blazonML', 'message');
             $messageArray = [];
@@ -533,62 +332,22 @@ if ($options['asFile'] == '1') {
             $minTree = preg_replace('/<\/?blazon.*>\n/', '', $minTree);
             $minTree = preg_replace('/[<>"]/', '', $minTree);
             $json['mintree'] = $minTree;
+            $json['timings'] = showTimings();
             header('Content-Type: application/json');
-            echo json_encode($json);
+            $targetImage = json_encode($json);
             break;
-        case 'png-old':
-            $im = new Imagick();
-            $im->setBackgroundColor(new ImagickPixel('transparent'));
-            $im->readimageblob($output);
-            $im->setimageformat('png32');
-            // $im->scaleimage(1000,1200);
-            header('Content-Type: image/png');
-            echo $im->getimageblob();
+        case 'webp':
+            header('Content-Type: image/webp');
             break;
         case 'png':
-            if (file_exists("cpulimit.txt")) {
-                $limit = intval(file("cpulimit.txt"));
-                if ($limit > 0) {
-                    if (!testCpuUsage($limit)) {
-                        header('Content-type: text/text');
-                        echo "Sorry, the server does not sufficient resources to complete your request to create a PNG download.\n";
-                        echo "Please try later, or download the SVG version and convert it yourself using Inkscape.\n";
-                        echo "Your blazon was: " . $options['blazon'];
-                        exit(0);
-                    }
-                }
-            }
-            $dir = sys_get_temp_dir();
-            $base = tempnam($dir, 'shield');
-            rename($base, $base . '.svg');
-            file_put_contents($base . '.svg', $output);
-            $result = shell_exec("java -jar /opt/bitnami/apache/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $base.png");
-            unlink($base . '.svg');
             header('Content-Type: image/png');
-            echo file_get_contents($base . '.png');
-            unlink($base . '.png');
             break;
         default:
         case 'svg':
-            if ($options['asFile'] == 'printable') {
-                $xpath = new DOMXPath($dom); // re-build xpath with new messages
-                header('Content-Type: text/html; charset=utf-8');
-                echo "<!doctype html>\n\n<html lang=\"en\">\n<head>\n<title>Shield</title>\n";
-                echo "<style>\nsvg { margin-left:auto; margin-right:auto; display:block;}</style>\n</head>\n<body>\n";
-                echo "<div>\n$output</div>\n";
-                echo "<h2>Blazon</h2>\n";
-                echo "<p class=\"blazon\">${options['blazon']}</p>\n";
-                echo "<h2>Image Credits</h2>\n";
-                echo "<p>This work is licensed under a <em>Creative Commons Attribution-ShareAlike 4.0 International License</em>.";
-                echo " It is a derivative work based on the following source images:</p>";
-                echo $messages->getCredits();
-                echo "</body>\n</html>\n";
-            } else {
-                header('Content-Type: text/xml; charset=utf-8');
-                echo $output;
-            }
+            header('Content-Type: text/xml; charset=utf-8');
             break;
     }
+    echo $targetImage;
 }
 
 

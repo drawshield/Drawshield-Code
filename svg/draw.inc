@@ -18,7 +18,6 @@ This file is part of the DrawShield.net heraldry image creation program
 include 'getcharge.inc';
 include 'division.inc';
 include 'effects.inc';
-include "messages.inc";
 include "furs.inc";
 include "svgtools.inc";
 include "placecharge.inc";
@@ -141,8 +140,9 @@ function draw()
 {
     global $dom;
     global $options;
-    global $version;
+    // global $version;
     global $messages;
+    global $timings;
 
     $blazonNode = $dom->documentElement;
     // Shortcuts for special commands
@@ -157,8 +157,6 @@ function draw()
                 break;
         }
     }
-
-    $messages = new messageStore($dom);
 
     // Get all the charge data (once for each charge type)
     get_chg_data();
@@ -330,29 +328,8 @@ function draw()
             $outline = getShape($layout);
             $body .= '<path fill="none" stroke="' . rgb('gray') . '" stroke-width="4" d="' . $outline . '" />';
         }
-        // Rest depends on output format
-        if ($options['asFile'] != '1' ) { // minimal decoration, no metadata
-            if ($layout->shape == 'flag') {
-                if (count($partsList)) $extraSpace = 120; // should really check for fringe being present
-            }
-            if ($options['outputFormat'] == 'svg' || $options['outputFormat'] == 'json') {
-                $messages->addMessage('legal', "Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.");
-                $messages->addMessage('legal', "{$version['website']} Version {$version['release']} {$version['email']}");
-                $messages->insertMessages();
-                $xpath = new DOMXPath($dom);
-                $nodes = array_reverse(iterator_to_array($xpath->evaluate('//*')));
-                foreach ($nodes as $node) {
-                    $replacement = $dom->createElementNS('http://drawshield.net/blazonML', 'blazonML:' . $node->localName);
-                    foreach ($xpath->evaluate('node()|@*', $node) as $childNode) {
-                        $replacement->appendChild($childNode);
-                    }
-                    $node->parentNode->replaceChild($replacement, $node);
-                }
-                $dom->formatOutput = true;
-                $blazonMLText = $dom->saveXml(); // Need to remove the processing instruction
-                $blazonMLText = preg_replace('/<\?xml version="1\.0"( encoding="utf-8")?\?>/i', '', $blazonMLText);
-                $meta = "\n<metadata>\n" . $rdf . $blazonMLText . "\n</metadata>\n";
-            }
+        if ($layout->shape == 'flag') {
+            if (count($partsList)) $extraSpace = 120; // should really check for fringe being present
         }
     }
     if (count($partsList)) {
@@ -407,5 +384,23 @@ function draw()
         'preserveAspectRatio="xMidYMid meet" height="' . $svgHeight . '" width="' . $svgWidth;
     $header .= '" viewBox="' . getEffect($effect, 'viewbox' , 1000, $vbHeight ) . ' ">';
     $defs = '<defs>' . getEffect($effect, 'defs') . $extraDefs . $extraHeader . '</defs>';
+    // Now insert the metadata
+    $messages->addMessage('legal', "Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.");
+    $timings['svg draw'] = microtime(true);
+    $messages->addMessage('legal', 'Execution time: ' . showTimings());
+    $messages->insertMessages();
+    $xpath = new DOMXPath($dom);
+    $nodes = array_reverse(iterator_to_array($xpath->evaluate('//*')));
+    foreach ($nodes as $node) {
+        $replacement = $dom->createElementNS('http://drawshield.net/blazonML', 'blazonML:' . $node->localName);
+        foreach ($xpath->evaluate('node()|@*', $node) as $childNode) {
+            $replacement->appendChild($childNode);
+        }
+        $node->parentNode->replaceChild($replacement, $node);
+    }
+    $dom->formatOutput = true;
+    $blazonMLText = $dom->saveXml(); // Need to remove the processing instruction
+    $blazonMLText = preg_replace('/<\?xml version="1\.0"( encoding="utf-8")?\?>/i', '', $blazonMLText);
+    $meta = "\n<metadata>\n" . $rdf . $blazonMLText . "\n</metadata>\n";
     return $header . $meta . $defs . $body . $trailer;
 }

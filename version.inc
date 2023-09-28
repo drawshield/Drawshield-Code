@@ -21,7 +21,10 @@ $version = array (
   'website' => 'drawshield.net',
   'author' => 'Karl R. Wilcox',
   'email' => 'contact@drawshield.net',
+  'dummyAST' => '<blazon><shield keyterm="onfieldof" tokens="" linenumber="-" ID="N1-1"><simple><field><tincture index="1" origin="given" ID="N1-0"><colour keyterm="argent" tokens="argent" linenumber="1:1-1:6"></colour></tincture></field></simple></shield><input blazonText="argent"><token>1:1 argent=colour:argent   </token></input></blazon>',
 );
+
+
 
 if (file_exists('release.txt'))
   $version['release'] = @(trim(file_get_contents('release.txt')));
@@ -33,15 +36,15 @@ $options = array(
   // These options are potentially set by URL arguments
   'blazon' => '',
   'palette' => 'drawshield',
-  'printable' => false,
   'filename' => 'shield',
   'size' => 500,
   'saveFormat' => 'png',
   'outputFormat' => 'svg',
   'asFile' => false,
   'effect' => 'none',
-  'stage' => 'render',
+//   'stage' => 'render',
   'shapeSet' => false,
+    'commandLine' => false,
   'shape' => 'heater',
     'printSize' => 450, // 5 inches at 90ppi
     'units' => 'px',

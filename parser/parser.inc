@@ -51,7 +51,7 @@ class parser {
     // set things up
     $tokeniser = new Tokeniser();
     $tokenList = $tokeniser->tokenise($blazon);
-    if ($options["stage"] == "tokens") {
+    /* if ($options["stage"] == "tokens") {
         echo $blazon . "\n";
         echo "         11111111112222222222333333333344444444445555555555666666666677777777778888888888\n";
         echo "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789\n";
@@ -59,20 +59,11 @@ class parser {
             echo $token . "\n";
         }
         exit(0);
-    }
+    } */
     $topNode = $this->xmlMaker->createElementNS('http://drawshield.net/blazonML',blazonML::E_BLAZON);
     $topNode->setAttribute("creatorName", $version['website']);
     $topNode->setAttribute("creatorVersion", $version['release']);
     $topNode->setAttribute("timestamp", time());
-    /* $inputNode = $this->xmlMaker->createElement(blazonML::E_INPUT);
-    $inputNode->setAttribute("blazonText",$blazon);
-     for($i = 0; $i < count($tokenList); $i++) {
-      $tokenNode = $this->xmlMaker->createElement(blazonML::E_TOKEN);
-      $tokenNode->setAttribute(blazonML::A_INDEX,$i);
-      $tokenNode->appendChild($this->xmlMaker->createTextNode($tokenList[$i]->text));
-      $inputNode->appendChild($tokenNode);
-    }
-    $topNode->appendChild($inputNode); */
     $this->xmlMaker->appendChild($topNode);
 
     // Do the parsing

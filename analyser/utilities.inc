@@ -15,58 +15,6 @@ This file is part of the DrawShield.net heraldry image creation program
     You should have received a copy of the GNU General Public License
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
-function tidyOptions() {
-    global $options;
-
-    // Tidy up options
-    if (!array_key_exists('shape',$options) || $options['shape'] == 'default') {
-        $options['shape'] = 'heater';
-    } elseif (in_array($options['shape'],array('circular','round'))) {
-        // Synonyms for circle shape
-        $options['shape'] = 'circle';
-    } elseif ($options['shape'] == 'flag') {
-        $options['flagHeight'] = (int)(round($options['aspectRatio'] * 1000));
-    }
-    if ($options['palette'] == 'default') $options['palette'] = 'drawshield';
-}
-
-function testCpuUsage($limit) {
-    $counts = [
-        [0,0,0,0],
-        [0,0,0,0],
-        [0,0,0,0],
-        [0,0,0,0],
-        ];
-    if (is_readable("/proc/stat")) {
-        for ($i = 0; $i < 6; $i++) {
-            $stats = file("/proc/stat", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-            foreach ($stats as $stat) {
-                $terms = preg_split('/\s+/', $stat);
-                if ($terms[0] == 'cpu') {
-                    $counts[$i][0] = $terms[1];
-                    $counts[$i][1] = $terms[2];
-                    $counts[$i][2] = $terms[3];
-                    $counts[$i][3] = $terms[4];
-                    break;
-                }
-            }
-            sleep(1);
-            if ($i > 1) {
-                $cputime = ($counts[$i][0] - $counts[$i-1][0]) +
-                            ($counts[$i][1] - $counts[$i-1][1]) +
-                            ($counts[$i][2] - $counts[$i-1][2]) +
-                            ($counts[$i][3] - $counts[$i-1][3]);
-                $load = 100 - (($counts[$i][3] - $counts[$i-1][3]) * 100 / $cputime);
-                // error_log("Testing limit $limit against $load%\n");
-                if ($load < $limit) return true;
-            }
-        }
-        // Waited 5 seconds, still busy
-        error_log("PNG generation limited at load $load%");
-        return false;
-    }
-    return true; // if we can't read /proc then just say it is all ok
-}
 
 function createModifierNode($type, $keyterm, $value = null ) {
   global $dom;

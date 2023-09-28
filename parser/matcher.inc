@@ -207,7 +207,7 @@ class matcher
         }
         $this->currentMatch = 0; // reset counter for future search_match
         $this->patternDB->patterns = array(); // don't need this anymore, save the space
-        if ($options['stage'] == 'lexemes') {
+       /* if ($options['stage'] == 'lexemes') {
             foreach ($this->allMatches as $myMatch) {
                 echo $myMatch[0]->tokens . "=";
                 foreach ($myMatch as $possible) {
@@ -222,7 +222,7 @@ class matcher
             }
             echo "Execution time: " . microtime(true) - $startTime;
             exit(0);
-        }
+        } */
     }
 
     public function listLexemes() {
