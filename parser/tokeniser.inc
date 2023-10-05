@@ -20,7 +20,7 @@ class Token {
   public $text;     // this is original set of characters from the blazon
   public $match;    // this is a length limited, lowercase version of the above for use in comparisons
   public $startPos;     // this is a string in the form line:character giving the position of the START of the token
-    public $endPos;  // as above for the end, if null, just add the length of the tex
+  public $endPos;  // as above for the end, if null, just add the length of the tex
   public $category; // if not null this is the category to assign to the token, as determined by the tokeniser
 
   public function __construct($text, $start = null, $end = null, $category = null) {
@@ -36,7 +36,11 @@ class Token {
   }
 
   public function __toString() {
-      $retval = "{$this->text} ({$this->startPos}-{$this->endPos})";
+      $retval = "$this->text ";
+      if ($this->match != $this->text) {
+          $retval .= '{' . $this->match . '} ';
+      }
+      $retval .= "({$this->startPos}-{$this->endPos})";
       if (!is_null($this->category)) {
           $retval .= " [{$this->category}]";
       }

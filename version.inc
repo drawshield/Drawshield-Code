@@ -21,6 +21,7 @@ $version = array (
   'website' => 'drawshield.net',
   'author' => 'Karl R. Wilcox',
   'email' => 'contact@drawshield.net',
+  'logBlazon' => false,
   'dummyAST' => '<blazon><shield keyterm="onfieldof" tokens="" linenumber="-" ID="N1-1"><simple><field><tincture index="1" origin="given" ID="N1-0"><colour keyterm="argent" tokens="argent" linenumber="1:1-1:6"></colour></tincture></field></simple></shield><input blazonText="argent"><token>1:1 argent=colour:argent   </token></input></blazon>',
 );
 
@@ -42,17 +43,12 @@ $options = array(
   'outputFormat' => 'svg',
   'asFile' => false,
   'effect' => 'none',
-//   'stage' => 'render',
-  'shapeSet' => false,
-    'commandLine' => false,
+  'requestSource' => $_SERVER['REQUEST_METHOD'] ?? "???",
   'shape' => 'heater',
-    'printSize' => 450, // 5 inches at 90ppi
-    'units' => 'px',
+  'printSize' => 450, // 5 inches at 90ppi
+  'units' => 'px',
   'aspectRatio' => 0.5,
-  // These options can only be set here, or are set later by the program
-  'logBlazon' => false,
-  'notify' => false,
   'useWebColours' => false,
   'useWarhammerColours' => false,
-    'useTartanColours' => false,
+  'useTartanColours' => false,
 );

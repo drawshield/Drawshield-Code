@@ -47,19 +47,17 @@ class parser {
   }
   
   public function parse($blazon, $format = 'xml' ) {
-    global $version, $options;
+    global $version, $jsonData;
     // set things up
     $tokeniser = new Tokeniser();
     $tokenList = $tokeniser->tokenise($blazon);
-    /* if ($options["stage"] == "tokens") {
-        echo $blazon . "\n";
-        echo "         11111111112222222222333333333344444444445555555555666666666677777777778888888888\n";
-        echo "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789\n";
-        foreach($tokenList as $token) {
-            echo $token . "\n";
+    if (!is_null($jsonData)) {
+        $tokenData = [];
+        foreach ($tokenList as $token) {
+            $tokenData[] = $token->__toString();
         }
-        exit(0);
-    } */
+        $jsonData['tokens'] = $tokenData;
+    }
     $topNode = $this->xmlMaker->createElementNS('http://drawshield.net/blazonML',blazonML::E_BLAZON);
     $topNode->setAttribute("creatorName", $version['website']);
     $topNode->setAttribute("creatorVersion", $version['release']);

@@ -175,7 +175,7 @@ function draw()
     $layout = ShieldLayout::from_options($options);
     if ($options['palette'] == 'hatching') $options['addHatching'] = $layout->size->height;
 
-    $rdf = '<rdf:RDF>
+    $rdfTemplate = '<rdf:RDF>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
@@ -186,6 +186,11 @@ function draw()
             <dc:title>This work is licensed under a &lt;a rel=&quot;license&quot; href=&quot;http://creativecommons.org/licenses/by-nc-sa/4.0/&quot;&gt;Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License&lt;/a&gt;.</dc:title>
           </cc:Agent>
         </dc:rights>
+         <dc:creator>
+           <cc:Agent>
+              <dc:title>%CREDITS%</dc:title>
+           </cc:Agent>
+        </dc:creator>
       </cc:Work>
       </rdf:RDF>';
 
@@ -380,16 +385,16 @@ function draw()
          xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
          xmlns:cc="http://creativecommons.org/ns#"
          xmlns:dc="http://purl.org/dc/elements/1.1/" 
-        xmlns:blazonML="http://drawshield.net/blazonML" ' .
-        'preserveAspectRatio="xMidYMid meet" height="' . $svgHeight . '" width="' . $svgWidth;
-    $header .= '" viewBox="' . getEffect($effect, 'viewbox' , 1000, $vbHeight ) . ' ">';
+        preserveAspectRatio="xMidYMid meet" ';
+    $header .= 'height="' . $svgHeight . '" width="' . $svgWidth . '"';
+    // $header .= ' height="' . $vbHeight . '" width="1000" ';
+    $header .= ' viewBox="' . getEffect($effect, 'viewbox' , 1000, $vbHeight ) . ' ">';
     $defs = '<defs>' . getEffect($effect, 'defs') . $extraDefs . $extraHeader . '</defs>';
     // Now insert the metadata
     $messages->addMessage('legal', "Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.");
     $timings['svg draw'] = microtime(true);
-    $messages->addMessage('legal', 'Execution time: ' . showTimings());
-    $messages->insertMessages();
-    $xpath = new DOMXPath($dom);
+    // $messages->insertMessages();
+ /*   $xpath = new DOMXPath($dom);
     $nodes = array_reverse(iterator_to_array($xpath->evaluate('//*')));
     foreach ($nodes as $node) {
         $replacement = $dom->createElementNS('http://drawshield.net/blazonML', 'blazonML:' . $node->localName);
@@ -401,6 +406,8 @@ function draw()
     $dom->formatOutput = true;
     $blazonMLText = $dom->saveXml(); // Need to remove the processing instruction
     $blazonMLText = preg_replace('/<\?xml version="1\.0"( encoding="utf-8")?\?>/i', '', $blazonMLText);
-    $meta = "\n<metadata>\n" . $rdf . $blazonMLText . "\n</metadata>\n";
+    $meta = "\n<metadata>\n" . $rdf . $blazonMLText . "\n</metadata>\n"; */
+    $rdf = preg_replace('/%CREDITS%/', htmlentities($messages->getCredits('text')), $rdfTemplate);
+    $meta = "\n<metadata>\n" . $rdf . "\n</metadata>\n";
     return $header . $meta . $defs . $body . $trailer;
 }

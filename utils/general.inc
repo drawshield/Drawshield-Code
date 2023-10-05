@@ -172,7 +172,7 @@ function report_errors_svg($errno, $errstr, $errfile, $errline)
 function showTimings() {
     global $timings;
 
-    $output = '';
+    $output = 'Execution time- ';
     asort($timings);
     $keys = array_keys($timings);
     for($i = 1; $i < count($keys); $i++) {
@@ -180,5 +180,60 @@ function showTimings() {
         $diff = $timings[$keys[$i]] - $timings[$keys[$i -1]];
         $output .= sprintf("%.4fs ", $diff);
     }
+    $total = microtime(true) - $timings[$keys[0]];
+    $output .= sprintf("total: %.4fs ", $total);
     return $output;
+}
+
+function showMemory() {
+    global $memory;
+
+    $output = 'Memory use-';
+    foreach($memory as $key => $size) {
+        $output .= " $key: ";
+        $output .= sprintf("%.2fmb", $size / 1000000);
+    }
+    $size = memory_get_peak_usage(true);
+    $output .= " Peak: " . sprintf("%.2fmb", $size / 1000000);
+    return $output;
+}
+
+function makeJsonArray($prettyPrint = false) {
+    global $dom, $messages, $targetImage, $target, $jsonData;
+
+    if (!is_null($dom)) {
+        $allMessages = $dom->getElementsByTagName('message');
+        foreach ($allMessages as $node) {
+            $messages->addMessage($node->getAttribute('category'),$node->nodeValue);
+        }
+        if ($prettyPrint) {
+            $dom->preserveWhiteSpace = true;
+            $dom->formatOutput = true;
+        }
+        $domText = $dom->saveXML();
+        $jsonData['tree'] = $domText;
+        $baggage = $dom->getElementsByTagName('input')->item(0);
+        $baggage->parentNode->removeChild($baggage);
+        $baggage = $dom->getElementsByTagName('messages')->item(0);
+        $baggage->parentNode->removeChild($baggage);
+        $minTree = $domText;
+        $minTree = preg_replace('/blazonML:/', '', $minTree);
+        $minTree = preg_replace('/<\?xml.*\?>\n/', '', $minTree);
+        $minTree = preg_replace('/<\/?blazon.*>\n/', '', $minTree);
+        $minTree = preg_replace('/[<>"]/', '', $minTree);
+        $jsonData['mintree'] = $minTree;
+    }
+    $jsonData['messages'] = $messages->getMessages(null, 'array');
+    if ($target == 'svg') {
+        $jsonData['image'] = $targetImage;
+    } else {
+        $jsonData['image'] = base64_encode($targetImage);
+    }
+    $flags = JSON_PARTIAL_OUTPUT_ON_ERROR;
+    if ($prettyPrint) $flags |= JSON_PRETTY_PRINT;
+    $jsonData['memory'] = showMemory();
+    $jsonData['timing'] = showTimings();
+    // This is about the last point that we can take timings, so make sure to complete as
+    // quickly as possible after this point.
+    return json_encode($jsonData, $flags);
 }

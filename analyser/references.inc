@@ -383,10 +383,6 @@ class references {
         $node->parentNode->appendChild($clone);
     }
 
-    // If there are lots of quarterings, force a squarish shape
-    $nodeList = $this->xpath->query("//shield");
-    if (!$options['shapeSet'] && $nodeList->length > 8) $options['shape'] = 'french';
-
     return $this->dom;
   }
 }

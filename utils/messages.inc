@@ -39,14 +39,6 @@ class messageStore {
   $this->messages[$category][] = $message;
   }
 
-  // public function getMessages( $category ) {
-  //   if ( array_key_exists($category,$this->messages)) {
-  //     return $this->messages[$category];
-  //   } else {
-  //     return array();
-  //   }
-  // }
-
   public function getMessageArray() {
       return $this->messages;
   }
@@ -70,7 +62,50 @@ class messageStore {
   public function getCredits($format = 'html') {
       $retval = '';
       foreach($this->messages['licence'] as $message) {
-         $retval .= "<p>" . $message . "</p>\n";
+          switch ($format) {
+              case 'html':
+                  $retval .= "<p>" . $message . "</p>\n";
+                  break;
+              default:
+                  $retval .= "$message\n";
+                  break;
+          }
+      }
+      return $retval;
+  }
+
+  public function getMessages($category = null, $format = 'html')
+  {
+      $retval = $format == 'array' ? [] : '';
+      foreach ($this->messages as $categoryName => $messageSet) {
+          if (!is_null($category) && $category != $categoryName) continue;
+          switch ($format) {
+              case 'html':
+                  $retval .= "<h3 class='ds-msg-heading'>" . ucfirst($categoryName). "</h3>\n<ul class='ds-msg-list'>";
+                  break;
+              default:
+                  break;
+          }
+          foreach ($messageSet as $message) {
+              switch ($format) {
+                  case 'html':
+                      $retval .= "<li class='ds-msg-item ds-msg-$categoryName'>$message</li>\n";
+                      break;
+                  case 'array':
+                      $retval[] = array('category' => $categoryName, 'content' => $message );
+                      break;
+                  default:
+                      $retval .= ucfirst($categoryName) . ": $message\n";
+                      break;
+              }
+          }
+          switch ($format) {
+              case 'html':
+                  $retval .= "</ul>\n";
+                  break;
+              default:
+                  break;
+          }
       }
       return $retval;
   }
