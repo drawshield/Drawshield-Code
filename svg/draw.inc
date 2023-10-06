@@ -407,7 +407,7 @@ function draw()
     $blazonMLText = $dom->saveXml(); // Need to remove the processing instruction
     $blazonMLText = preg_replace('/<\?xml version="1\.0"( encoding="utf-8")?\?>/i', '', $blazonMLText);
     $meta = "\n<metadata>\n" . $rdf . $blazonMLText . "\n</metadata>\n"; */
-    $rdf = preg_replace('/%CREDITS%/', htmlentities($messages->getCredits('text')), $rdfTemplate);
+    $rdf = preg_replace('/%CREDITS%/', htmlspecialchars($messages->getCredits('text')), $rdfTemplate);
     $meta = "\n<metadata>\n" . $rdf . "\n</metadata>\n";
     return $header . $meta . $defs . $body . $trailer;
 }

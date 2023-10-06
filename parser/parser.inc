@@ -56,7 +56,7 @@ class parser {
         foreach ($tokenList as $token) {
             $tokenData[] = $token->__toString();
         }
-        $jsonData['tokens'] = $tokenData;
+        $jsonData['words'] = $tokenData;
     }
     $topNode = $this->xmlMaker->createElementNS('http://drawshield.net/blazonML',blazonML::E_BLAZON);
     $topNode->setAttribute("creatorName", $version['website']);

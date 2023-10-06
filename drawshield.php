@@ -25,37 +25,36 @@ $memory = array('start' => memory_get_usage(true));
 /////////////////////////////////////////////
 $options = array();
 $version = array();
+$request = array();
 include 'version.inc';  // sets default and fallback options
 
 //////////////////////////////////////////////
 // Stage 1b - command line arguments (if any)
 /////////////////////////////////////////////
 if (isset($argc)) {
+    $options['requestSource'] = 'shell';
     if ($argc > 1) { // run in debug mode, probably
         // Do we have any command line arguments? If so, incorporate into options array
         $myArgs = arguments($argv);
         foreach ($myArgs['options'] as $option => $value) {
             $value = urldecode($value);
-            if ($option == 'webcols') $options['useWebColours'] = $value == 'yes';
-            elseif ($option == 'tartancols') $options['useTartanColours'] = $value == 'yes';
-            elseif ($option == 'whcols') $options['useWarhammerColours'] = $value == 'yes';
-            else $options[$option] = $value;
+            $request[$option] = $value;
         }
-        $options['requestSource'] = 'shell';
-        if (!array_key_exists('blazon', $options))
-            $options['blazon'] = implode(' ', $myArgs['arguments']);
+        if (!array_key_exists('blazon', $request))
+            $request['blazon'] = implode(' ', $myArgs['arguments']);
     } else { // otherwise, run anything in the debug script
         // This NEVER HAPPENS ON THE SERVER (as $argc is never set)
         // so it is safe (but useless) to copy debug.inc to the server
         if (file_exists('debug.inc')) include 'debug.inc';
     }
+} else {
+    $request = array_merge($_GET, $_POST);
 }
 
 //////////////////////////////////////////////
 // Stage 1c -process any arguments from the superglobals? SERVER ONLY (probably)
 /////////////////////////////////////////////
 $ar = null;
-$request = array_merge($_GET, $_POST);
 $svgOutput = null;
 $dom = null;
 $messages = null;
@@ -236,7 +235,7 @@ if ($options['asFile'] == 'printable') {
     //////////////////////////////////////////////
     // Stage 4 option 2 - file saved locally in file system
     /////////////////////////////////////////////
-} elseif ($options['requestSource'] == 'shell') {
+} elseif ($options['asFile'] && $options['requestSource'] == 'shell') {
     // We always just write the file locally.
     $name = $options['filename'];
     if ($name == '') $name = 'shield';
