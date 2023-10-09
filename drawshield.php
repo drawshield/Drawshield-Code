@@ -98,7 +98,7 @@ if (isset($_FILES['blazonfile']) && ($_FILES['blazonfile']['name'] != "")) {
 }
 
 // If blazon is null assume 'argent', but skip parsing as we already know the outcome
-if ($options['blazon'] == '') {
+if (!array_key_exists('blazon', $request) || $request['blazon'] == '') {
     $dom = new DOMDocument('1.0');
     $dom->loadXML($version['dummyAST']);
 } else {
