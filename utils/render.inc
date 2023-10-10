@@ -1,11 +1,14 @@
 <?php
 
 function callSharp($sourceSVG, $format = 'png', $width = 500, $height = 600) {
+    global $messages;
+
     $ch = curl_init();
     $post = array(
         'format' => $format,
         'width' => $width,
         'height' => $height,
+        'copyright' => $messages->getCredits('copyright'),
         'svg' => $sourceSVG
     );
     curl_setopt($ch, CURLOPT_URL, "http://localhost:3000/convert");

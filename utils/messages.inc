@@ -66,10 +66,16 @@ class messageStore {
               case 'html':
                   $retval .= "<p>" . $message . "</p>\n";
                   break;
+              case 'copyright':
+                  $retval .= $message. ', ';
+                  break;
               default:
                   $retval .= "$message\n";
                   break;
           }
+      }
+      if ($format == "copyright") {
+          $retval = "CC-BY-SA " . rtrim($retval,", ");
       }
       return $retval;
   }

@@ -199,7 +199,7 @@ function showMemory() {
 }
 
 function makeJsonArray($prettyPrint = false) {
-    global $dom, $messages, $targetImage, $target, $jsonData;
+    global $dom, $messages, $targetImage, $target, $jsonData, $version;
 
     if (!is_null($dom)) {
         $allMessages = $dom->getElementsByTagName('message');
@@ -224,6 +224,8 @@ function makeJsonArray($prettyPrint = false) {
         $jsonData['mintree'] = $minTree;
     }
     $jsonData['messages'] = $messages->getMessages(null, 'array');
+    $jsonData['release'] = $version['release'];
+    $jsonData['reldate'] = $version['date'];
     if ($target == 'svg') {
         $jsonData['image'] = $targetImage;
     } else {

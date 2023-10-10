@@ -16,8 +16,8 @@ This file is part of the DrawShield.net heraldry image creation program
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
 $version = array (
-  'release' => '(development)',
-  'date' => '(unkown)',
+  'release' => "R.1335",
+  'date' => "10th October 2023",
   'website' => 'drawshield.net',
   'author' => 'Karl R. Wilcox',
   'email' => 'contact@drawshield.net',
