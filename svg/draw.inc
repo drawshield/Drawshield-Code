@@ -347,16 +347,6 @@ function draw()
         $body = getEffect($effect, 'below') . '<g ' . getEffect($effect, 'filter') . '>' . $body . getEffect($effect, 'above') . '</g>';
     }
 
-    if (array_key_exists('debug', $options) && strpos($options['debug'], 'grid') !== false) {
-        $ordinary = [];
-        include "ordinaries/grid.inc";
-        $body .= '<g fill="#555555">' . $ordinary['body'] . '</g>';
-    }
-    $extraDefs = '';
-    if (array_key_exists('addHatching', $options)) {
-        require("hatching.inc");
-        $extraDefs = mkHatches($options['addHatching']);
-    }
     if (is_null($vbHeight)) {
         $vbHeight = 1200;
         if ($options['shape'] == 'flag') { // need to scale tall flags to fit
@@ -372,11 +362,45 @@ function draw()
             }
         }
     }
-    /*   if ($options['shape'] == "flag") {
-           $svgWidth = $options['printSize'];
-           $svgHeight = $svgWidth * $options['aspectRatio'];
-       } */
 
+    $margin = $options['margin'];
+    if ($margin > 0) {
+        $shrink = (1 - ($margin * 2 / $svgWidth));
+        $body = '<g transform="translate(' . $margin . ',' . $margin . ') scale(' . $shrink . ')">' .
+            $body . "</g>\n";
+    }
+
+    // Add a background or margin
+    if ($options['background'] != 'transparent') {
+        $fill = "none";
+        switch ($options['background']) {
+            case 'black':
+                $fill = "#000000";
+                break;
+            case 'white':
+                $filll = "#FFFFFF";
+                break;
+            case 'grey':
+            case 'gray':
+                $fill = "#808080";
+                break;
+            case 'bisque':
+                $fill = "#F1E2BE";
+                break;
+        }
+        $body = '<rect x="0" y="0" height="' . $vbHeight . '" width="1000" fill="' . $fill . "\"/>\n" . $body;
+    }
+
+    if (array_key_exists('debug', $options) && strpos($options['debug'], 'grid') !== false) {
+        $ordinary = [];
+        include "ordinaries/grid.inc";
+        $body .= '<g fill="#555555">' . $ordinary['body'] . '</g>';
+    }
+    $extraDefs = '';
+    if (array_key_exists('addHatching', $options)) {
+        require("hatching.inc");
+        $extraDefs = mkHatches($options['addHatching']);
+    }
     $header = '<?xml version="1.0" encoding="utf-8" ?>
     <svg version="1.1"
         baseProfile="full"
@@ -392,22 +416,8 @@ function draw()
     $defs = '<defs>' . getEffect($effect, 'defs') . $extraDefs . $extraHeader . '</defs>';
     // Now insert the metadata
     $messages->addMessage('legal', "Heraldic images provided on this site are for education and information only. The use of heraldic devices is restricted in many countries, independently of copyright. The granting of a Coat of Arms is solely the right of the appropriate Heraldic Authority for your nationality and country of residence.");
-    $timings['svg draw'] = microtime(true);
-    // $messages->insertMessages();
- /*   $xpath = new DOMXPath($dom);
-    $nodes = array_reverse(iterator_to_array($xpath->evaluate('//*')));
-    foreach ($nodes as $node) {
-        $replacement = $dom->createElementNS('http://drawshield.net/blazonML', 'blazonML:' . $node->localName);
-        foreach ($xpath->evaluate('node()|@*', $node) as $childNode) {
-            $replacement->appendChild($childNode);
-        }
-        $node->parentNode->replaceChild($replacement, $node);
-    }
-    $dom->formatOutput = true;
-    $blazonMLText = $dom->saveXml(); // Need to remove the processing instruction
-    $blazonMLText = preg_replace('/<\?xml version="1\.0"( encoding="utf-8")?\?>/i', '', $blazonMLText);
-    $meta = "\n<metadata>\n" . $rdf . $blazonMLText . "\n</metadata>\n"; */
     $rdf = preg_replace('/%CREDITS%/', htmlspecialchars($messages->getCredits('text')), $rdfTemplate);
+    $timings['svg draw'] = microtime(true);
     $meta = "\n<metadata>\n" . $rdf . "\n</metadata>\n";
     return $header . $meta . $defs . $body . $trailer;
 }

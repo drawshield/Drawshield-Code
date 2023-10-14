@@ -181,8 +181,8 @@ abstract class ShieldShape
         if ( count($points) == 0 )
             return "x";
         $plac = [];
-        $padding = $width / 5;
-        $size = new ShieldSize($width-$padding, $width-$padding);
+        $margin = $width / 5;
+        $size = new ShieldSize($width-$margin, $width-$margin);
         foreach ( $points as $point )
             $plac[] = new ShieldRect($point, $size);
         return str_repeat("/", count($points)-1) . implode(":", $plac);

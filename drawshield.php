@@ -70,7 +70,9 @@ if (isset($request['shape'])) $options['shape'] = strip_tags($request['shape']);
 if (isset($request['stage'])) $options['stage'] = strip_tags($request['stage']);
 if (isset($request['filename'])) $options['filename'] = strip_tags($request['filename']);
 if (isset($request['effect'])) $options['effect'] = strip_tags($request['effect']);
-if (isset($request['size'])) $options['size'] = strip_tags($request['size']);
+if (isset($request['background'])) $options['background'] = strip_tags($request['background']);
+if (isset($request['size'])) $options['size'] = intval($request['size']);
+if (isset($request['margin'])) $options['margin'] = intval($request['margin']);
 if (isset($request['units'])) $options['units'] = strip_tags($request['units']);
 if (isset($request['ar'])) $ar = strip_tags($request['ar']);
 if (isset($request['webcols'])) $options['useWebColours'] = $request['webcols'] == 'yes';
@@ -152,6 +154,10 @@ if (is_null($dom)) {
     if ($options['size'] < 100) $options['size'] = 100;
     if ($ar != null) {
         $options['aspectRatio'] = calculateAR($ar);
+    }
+    // Same for margin, don't pad more than 25% of width
+    if ($options['margin'] > $options['size'] / 4) {
+        $options['margin'] = intval($options['size'] / 4);
     }
     tidyOptions();;
 
