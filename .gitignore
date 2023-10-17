@@ -1,6 +1,5 @@
 .vscode/*
 .idea/*
-.gitignore
 debug.inc
 .htaccess
 /test/.htaccess
