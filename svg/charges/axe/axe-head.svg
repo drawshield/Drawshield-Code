@@ -30,15 +30,6 @@
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg9558" />
-  <defs
-     id="defs9526">
-    <clipPath
-       id="artboard_clip_path">
-      <path
-         d="M 58.5 63 L 306 63 L 306 373.5 L 58.5 373.5 Z"
-         id="path9523" />
-    </clipPath>
-  </defs>
   <g
      id="Axe-Head_(1)"
      fill-opacity="1"
@@ -51,7 +42,6 @@
        id="title9528">Axe-Head (1)</title>
     <g
        id="Axe-Head_(1)_Layer_2"
-       clip-path="url(#artboard_clip_path)"
        style="stroke:#000000">
       <title
          id="title9530">Layer 2</title>
