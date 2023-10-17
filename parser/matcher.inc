@@ -148,7 +148,7 @@ class matcher
             $category = '';
             $start = $end = $this->curToken;
             $matches = array();
-            $this->matchedvalue = null;
+            $this->matchedValue = null;
 
             $first_token = $this->curToken;
             if ($first_token >= $this->numTokens) return null;

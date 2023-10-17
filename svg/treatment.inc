@@ -71,7 +71,7 @@ function makeTreatment ( $node, $layout, $counter = false ) {
         if (file_exists($filename))
             $treatment_data = getSvgTreatment($filename);
         else {
-            $treatment_data = getSvgTreatment("${folder}checky.svg");
+            $treatment_data = getSvgTreatment("{$folder}checky.svg");
             $messages->addMessage('warning', "Checky substituted for treatment $name");
         }
         $treatment = $treatment_data['body'];
@@ -190,6 +190,6 @@ function makeGrady( $node ) {
       $direction = ' x1="100%" y1="0%" x2="0%" y2="100%"';
       break;
   }
-  $gradient = add_def("${gradientType}Gradient$direction", $stop, "gradient");
+  $gradient = add_def("{$gradientType}Gradient$direction", $stop, "gradient");
   return $gradient;
 }

@@ -738,16 +738,16 @@ function addParts($body, $parts, $layout) {
                 break; // nothing to do
             case 1:
                 $crestOffsetX = (1000 * (1 - $crestScale)) / 2;
-                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> ${crests[0]}</g>";
+                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> {$crests[0]}</g>";
                 // TODO add crown if present
                 break;
             case 2:
                 $w = 1000 * $crestScale;
                 $gap = ($bodyWidth - $w - $w) / 3;
                 $crestOffsetX = $bodyOffsetX + $gap;
-                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> ${crests[0]}</g>";
+                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> {$crests[0]}</g>";
                 $crestOffsetX = $bodyOffsetX + $gap + $w + $gap;
-                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> ${crests[1]}</g>";
+                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> {$crests[1]}</g>";
                 // TODO add crown if present
                 break;
             default:
@@ -757,11 +757,11 @@ function addParts($body, $parts, $layout) {
                 $w = 1000 * $crestScale;
                 $gap = ($bodyWidth - $w - $w - $w) / 4;
                 $crestOffsetX = $bodyOffsetX + $gap;
-                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> ${crests[0]}</g>";
+                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> {$crests[0]}</g>";
                 $crestOffsetX = $bodyOffsetX + $gap + $w + $gap;
-                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> ${crests[1]}</g>";
+                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> {$crests[1]}</g>";
                 $crestOffsetX = $bodyOffsetX + $gap + $w + $gap + $w + $gap;
-                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> ${crests[2]}</g>";
+                $body .= "<g transform=\"translate($crestOffsetX,$crestOffsetY) scale($crestScale) \"> {$crests[2]}</g>";
                 // TODO add crown if present
                 break;
         }

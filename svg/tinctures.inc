@@ -266,6 +266,8 @@ function mixRGB($hex1, $hex2) {
     return $retval;
 }
 
+
+#[AllowDynamicProperties]
 class TinctureData
 {
     function __construct($tinctureNode, $rev = false, $inv = false)

@@ -232,7 +232,7 @@ if ($options['asFile'] == 'printable') {
     echo "<style>\nsvg { margin-left:auto; margin-right:auto; display:block;}</style>\n</head>\n<body>\n";
     echo "<div>\n$targetImage</div>\n";
     echo "<h2>Blazon</h2>\n";
-    echo "<p class=\"blazon\">${options['blazon']}</p>\n";
+    echo "<p class=\"blazon\">{$options['blazon']}</p>\n";
     echo "<h2>Image Credits</h2>\n";
     echo "<p>This work is licensed under a <em>Creative Commons Attribution-ShareAlike 4.0 International License</em>.";
     echo " It is a derivative work based on the following source images:</p>";

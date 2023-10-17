@@ -15,6 +15,7 @@ This file is part of the DrawShield.net heraldry image creation program
     You should have received a copy of the GNU General Public License
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
+#[AllowDynamicProperties]
 class ShieldSize
 {
     function __construct($width, $height)
@@ -42,6 +43,7 @@ function lerp($a, $b, $factor)
     return $a * (1-$factor) + $b * $factor;
 }
 
+#[AllowDynamicProperties]
 class ShieldPos
 {
     function __construct($x, $y)
@@ -107,6 +109,7 @@ class ShieldPos
     }
 }
 
+#[AllowDynamicProperties]
 class ShieldRect
 {
     function __construct(ShieldPos $pos, ShieldSize $size)
@@ -214,6 +217,7 @@ class ShieldRect
     }
 }
 
+#[AllowDynamicProperties]
 class ShieldLayout
 {
     private static $custom_size = [
