@@ -1,0 +1,7 @@
+CONTRIBUTORS
+rakefile
+examples/*
+py/*
+.run/*
+tests/*
+.gitignore
