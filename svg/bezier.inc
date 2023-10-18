@@ -398,7 +398,7 @@ class PolyBezier
         return $this->points[0] ?? null;
     }
 
-    function finish() : BezierPoint
+    function finish() : ?BezierPoint
     {
         return $this->points[count($this->points)-1] ?? null;
     }

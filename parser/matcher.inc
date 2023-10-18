@@ -43,7 +43,7 @@ class matcher
     protected $tokenList;
     protected $stateStore;
     /**
-     * @var lexicon $patternDB
+     * @var Lexicon $patternDB
      */
     protected $patternDB;
     protected $errors = array();

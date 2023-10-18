@@ -52,12 +52,6 @@ function testCpuUsage($limit) {
     return true; // if we can't read /proc then just say it is all ok
 }
 
-
-function transliterate($string) {
-    return preg_replace(array('/è/','/é/','/ê/','/ç/','/à/','/á/','/â/','/È/','/É/','/Ê/','/Ç/','/À/','/Á/','/Â/'),
-        array('e','e','e','c','a','a','a','e','e','e','c','a','a','a'), $string);
-}
-
 function calculateAR($ar) {
     if (strpos($ar, ':') > 0) {
         $arParts = explode(':', $ar);
@@ -213,9 +207,9 @@ function makeJsonArray($prettyPrint = false) {
         $domText = $dom->saveXML();
         $jsonData['tree'] = $domText;
         $baggage = $dom->getElementsByTagName('input')->item(0);
-        $baggage->parentNode->removeChild($baggage);
+        if (!is_null($baggage)) $baggage->parentNode->removeChild($baggage);
         $baggage = $dom->getElementsByTagName('messages')->item(0);
-        $baggage->parentNode->removeChild($baggage);
+        if (!is_null($baggage)) $baggage->parentNode->removeChild($baggage);
         $minTree = $domText;
         $minTree = preg_replace('/blazonML:/', '', $minTree);
         $minTree = preg_replace('/<\?xml.*\?>\n/', '', $minTree);

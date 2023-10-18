@@ -267,7 +267,7 @@ Class WordBuilder
     private function longestWord() {
         $longestLength = 0;
         for ($i = 0; $i < count($this->words); $i++) {
-            $wordLen = mb_strlen($words[$i]);
+            $wordLen = mb_strlen($this->words[$i]);
             if ($wordLen > $longestLength) {
                 $longestLength = $wordLen;
                 $this->longest = $i;
@@ -481,7 +481,7 @@ Class WordBuilder
             $glyph = $glyphs[$i];
             $halfGlyph = $glyph['x'] / 2;
             $f += $halfGlyph * $scale;
-            if ($f > $compiledPath->sub_paths()[$currentSubPath]->length() && !is_null($compiledPath->sub_paths()[$currentSubPath + 1])) {
+            if ($f > $compiledPath->sub_paths()[$currentSubPath]->length() && array_key_exists($currentSubPath + 1, $compiledPath->sub_paths()) && !is_null($compiledPath->sub_paths()[$currentSubPath + 1])) {
                 $currentSubPath += 1;
                 $f = $glyph['x'] * $scale;
             }

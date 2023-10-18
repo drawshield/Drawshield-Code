@@ -17,7 +17,7 @@ This file is part of the DrawShield.net heraldry image creation program
 
 // require_once ('../../lexicon.inc');
 
-class languageDB extends lexicon
+class languageDB extends Lexicon
 {
     // These constants acts as keys into the pattern database
     // Some are also used to indicate the type of modifier
