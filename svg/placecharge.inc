@@ -419,7 +419,10 @@ function PlaceCharge ( $node,  // images
     }
   }
   // Now try to map the index we are given to the list of tinctures provided
-    if (isset($tinctures[$index])) { // exact match
+    if (count($tinctures) < 1) {
+        $tincture = null;
+    }
+    elseif (isset($tinctures[$index])) { // exact match
         $tincture = $tinctures[$index];
     } else {
        $indexes = array_keys($tinctures);

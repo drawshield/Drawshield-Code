@@ -23,9 +23,16 @@ class Token {
   public $endPos;  // as above for the end, if null, just add the length of the tex
   public $category; // if not null this is the category to assign to the token, as determined by the tokeniser
 
-  public function __construct($text, $start = null, $end = null, $category = null) {
+    protected function transliterate($string) {
+        return preg_replace(array('/è/','/é/','/ê/','/ç/','/à/','/á/','/â/','/È/','/É/','/Ê/','/Ç/','/À/','/Á/','/Â/'),
+            array('e','e','e','c','a','a','a','e','e','e','c','a','a','a'), $string);
+    }
+
+
+
+    public function __construct($text, $start = null, $end = null, $category = null) {
     $this->text = $text;
-    $this->match = transliterate(mb_strtolower(mb_substr($text, 0, 192, "UTF-8")));
+    $this->match = $this->transliterate(mb_strtolower(mb_substr($text, 0, 192, "UTF-8")));
     $this->startPos = $start;
     if (is_null($end)) {
         list($line,$char) = preg_split('/:/', $start);
@@ -364,7 +371,7 @@ class Tokeniser {
           if ( $in_string ) { // If we are inside normal quotes just add to the word
             if ($anyEndQuote) {
               if ($part_word != '') {
-                $words = new Token($part_word, "$lineNo:$wordStart", null, "string");
+                $words[] = new Token($part_word, "$lineNo:$wordStart", null, "string");
               }
               $part_word = ''; $wordStart = $charCount + 1;
               $in_string = false;

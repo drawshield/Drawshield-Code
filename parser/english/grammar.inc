@@ -722,7 +722,7 @@ class englishGrammar extends grammar
                         $node->appendChild($this->schema->makeNode(blazonML::E_MISSING));
                     }
                 }
-                while (self::findLex(languageDB::NEXT)) {};
+                while (self::findLex(languageDB::NEXT)) {}
             }
         }
         $this->matcher->syncTo(array('NOT_A_CATEGORY'));
@@ -1716,7 +1716,7 @@ class englishGrammar extends grammar
 
         $node = null;
         if (($lexeme = self::findLex(languageDB::SPLITS)) != null) {
-            $half = $this->schema->makeNodeFromLexem(blazonML::E_COMPLEX, $lexeme);
+            $half = $this->schema->makeNodeFromLexeme(blazonML::E_COMPLEX, $lexeme);
             if (($shield1 = self::shield()) == null) {
                 self::raiseError(self::ERROR_ORIGIN, 'Expected 1st shield description (replaced by blank)', $lexeme);
                 $shield1 = $this->schema->makeNode(blazonML::E_MISSING);

@@ -770,6 +770,7 @@ c
     $subArg = $dist;
     $path = preg_replace_callback('/{D.*?}/', 'subFunc', $spec);
     $len = preg_replace_callback('/{D.*?}/', 'subFunc', $length);
+    if ($len < 0) continue; // shouldn't happen, but does...
     $angle = dir2angle($dir);
     if ($len > $dist ) { // straight, or cannot fit this path into distance
       $dir = strtolower($dir);
