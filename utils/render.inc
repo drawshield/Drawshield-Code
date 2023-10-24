@@ -59,7 +59,7 @@ function convertImageFormat($sourceSVG, $targetFormat) {
         case 'jpeg':
         case 'webp':
             $imageWidth = $options['printSize'];
-            $imageHeight = $imageWidth * $proportion;
+            $imageHeight = round($imageWidth * $proportion);
             return callSharp($sourceSVG, $targetFormat, $imageWidth, $imageHeight);
         case 'png-old':   // Deprecated, will be withdrawn soon I hope
             if (file_exists("cpulimit.txt")) {
