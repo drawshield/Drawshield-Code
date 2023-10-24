@@ -127,7 +127,7 @@ function show_preview(DomDocument $doc, $path)
         $options["asFile"] = "0";
         require_once("$root/parser/parser.inc");
         $p = new parser('english');
-        $dom = $p->parse($options["blazon"], 'dom');
+        $dom = $p->parse($options["blazon"]);
         unset($p);
         require_once("$root/analyser/utilities.inc");
         require_once("$root/analyser/references.inc");

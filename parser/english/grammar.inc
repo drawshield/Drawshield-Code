@@ -1624,7 +1624,7 @@ class englishGrammar extends grammar
             $this->matcher->syncOver();
             if ($lexeme = self::ofNumber(languageDB::PIECES)) { // like "quarterly of 4"
                 $numberStated = $lexeme->value;
-                $this->matcher->syncOver();
+                $this->matcher->syncOver(languageDB::SEMICOLON);
             }
 
             $foundQuarter = false;
@@ -2314,6 +2314,9 @@ class englishGrammar extends grammar
                 }
                 $locNode->appendChild($charge);
             }
+            if (($arrangement = $this->arranged()) != null)  {
+                $locNode->appendChild(($this->schema->makeModFromLexeme( $arrangement, languageDB::ARRANGEMENT)));  // Parsed, but ignored for now
+            }   // e.g. "respecting each other" (which is the default)
             if (($adjust = $this->getAdjustments()) != null) {
                 foreach ($adjust as $adj) {
                     $locNode->appendChild($adj);
