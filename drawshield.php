@@ -100,7 +100,7 @@ if (isset($_FILES['blazonfile']) && ($_FILES['blazonfile']['name'] != "")) {
 }
 
 // If blazon is null assume 'argent', but skip parsing as we already know the outcome
-if (!array_key_exists('blazon', $request) || $request['blazon'] == '') {
+if (!array_key_exists('blazon', $options) || $options['blazon'] == '') {
     $dom = new DOMDocument('1.0');
     $dom->loadXML($version['dummyAST']);
 } else {
@@ -129,7 +129,7 @@ if (is_null($dom)) {
     include "parser/parser.inc";
 
     $p = new parser('english');
-    $dom = $p->parse($options['blazon'], 'dom');
+    $dom = $p->parse($options['blazon']);
     $memory['parser'] = memory_get_usage(true);
     $p = null; // destroy parser to save memory
     $timings['parser'] = microtime(true);
@@ -255,9 +255,12 @@ if ($options['asFile'] == 'printable') {
             break;
         case 'pdfLtr':
         case 'pdfA4':
+        case 'pdfltr':
+        case 'pdfa4':
             if (substr($name, -4) != '.pdf') $name .= '.pdf';
             break;
         case 'jpg':
+        case 'jpeg':
             if (substr($name, -4) != '.jpg') $name .= '.jpg';
             break;
         case 'png':
@@ -328,6 +331,7 @@ if ($options['asFile'] == 'printable') {
 } else {
     switch ($options['outputFormat']) {
         case 'jpg':
+        case 'jpeg':
             header('Content-Type: image/jpg');
             break;
         case 'json': // A PNG image + other data all wrapped up in JSON

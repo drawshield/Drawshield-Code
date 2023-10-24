@@ -127,9 +127,8 @@ function rgb($keyterm) {
 }
 
 function lightnessValue($hex) {
-  $prefix = '';
+    if (empty($hex)) return(0);
   if ($hex[0] == '#') {
-    $prefix = '#';
     $hex = substr($hex,1);
   }
   $red = intval('0x' . substr($hex,0,2),16);
