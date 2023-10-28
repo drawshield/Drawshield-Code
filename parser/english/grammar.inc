@@ -1685,7 +1685,7 @@ class englishGrammar extends grammar
                     self::raiseError(self::ERROR_ORIGIN, "Quarter given higher than stated", true);
                 }
             }
-            for ($i = 1; $i <= $highest; $i++) {
+            for ($i = 1; $i <= $highest && $i <= 64; $i++) {
                 if ($subshields[$i] == null) {
                     $pendingShield = $this->schema->makeIDNode(blazonML::E_SHIELD);
                     $pendingShield->setAttribute('index', $i);
