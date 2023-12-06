@@ -28,11 +28,21 @@ if ( existModifierWithKeyterm($node, 'inverted') )
     $div_data = path_builder($layout->cross_point->x, $y)->chevron();
     $div_data->up_right($extent)->down_plain(2000)->left_plain($extent*M_SQRT2)->up_plain(2000)->down_right($extent);
 }
+elseif ( existModifierWithKeyterm($node, 'throughout') && existModifierWithKeyterm($node, 'inverted')) {
+    $y = $layout->size->height;
+    $div_data = path_builder($layout->cross_point->x, $y)->chevron();
+    $div_data->up_right($extent)->down_plain(2000)->left_plain($extent*M_SQRT2)->up_plain(2000)->down_right($extent);
+}
+elseif ( existModifierWithKeyterm($node, 'throughout')) {
+    $y = 0;
+    $div_data = path_builder($layout->cross_point->x, $y)->chevron();
+    $div_data->down_right($extent)->down($layout->size->height - 500)->left_plain($extent * M_SQRT2)->up($layout->size->height - 500)->up_right($extent);
+}
 else
 {
     $y = $layout->cross_point->y - 150 / M_SQRT2;
     $div_data = path_builder($layout->cross_point->x, $y)->chevron();
-    $div_data->down_right($extent)->left_plain($extent*M_SQRT2)->up_right($extent);
+    $div_data->down_right($extent)->left_plain($extent * M_SQRT2)->up_right($extent);
 }
 
 
