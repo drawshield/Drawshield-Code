@@ -26,6 +26,7 @@
             <dc:title>http://heraldicart.org Fireball.svg</dc:title>
           </cc:Agent>
         </dc:creator>
+        <dc:description>{"proper":{"body":"sable","inflamed":"gules"}}</dc:description>
       </cc:Work>
     </rdf:RDF>
   </metadata>

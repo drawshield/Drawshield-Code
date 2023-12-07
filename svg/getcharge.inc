@@ -698,6 +698,9 @@ function getCharge( DOMElement $node, $layout ) {
                     if (isset($chg_data['proper'])) { // TODO handle proper as an array, with this one as 'body'
                         if (is_array($chg_data['proper'])) {
                             foreach ($chg_data['proper'] as $feature => $value) {
+                                if ($value[0] != '#') {
+                                    $value = rgb($value);
+                                }
                                 if ($feature == 'body') {
                                     $body_col = $value;
                                 } else {
