@@ -450,6 +450,7 @@ trebuchets?=heraldic-catapult
 hand cannons?=hand-cannon
 lances?=lance
 flails?=flail
+morningstars?=flail
 lances? fracted=lance-fracted
 scaling ladders?=scaling-ladder
 (field|chamber) pieces?=cannon
