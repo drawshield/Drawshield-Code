@@ -311,7 +311,7 @@ Class WordBuilder
             if ($notdef)
                 $glyph = $notdef;
             else
-               return Array($x => 0, $svg => '');
+               return Array('x' => 0, 'svg' => '');
         }
         $d = $glyph['d'];
         $x = $glyph['horiz-adv-x'] ?? $this->defaultXSize;

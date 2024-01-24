@@ -101,6 +101,7 @@ class blazonML extends DOMDocument {
   const E_ASPECT = 'aspect';
   const A_INDEX = 'index';
   const A_CAPTION = 'caption';
+    const A_CAPTIONPOS = 'captionpos';
   const A_TITLE = 'title';
   const A_TOKENS = 'tokens';
   const A_LINENUMBER = 'linenumber';

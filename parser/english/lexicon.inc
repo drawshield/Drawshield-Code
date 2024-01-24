@@ -144,6 +144,7 @@ class languageDB extends Lexicon
     const ALONGSIDE = 'alongside';
     const PIECES = 'pieces';
     const CAPTION = 'caption';
+    const CAPTIONPOS = 'captionpos';
     const BACKGROUND = 'background';
     const TITLE = 'title';
     const COMMANDS = 'commands';

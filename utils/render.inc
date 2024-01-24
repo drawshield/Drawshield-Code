@@ -30,7 +30,7 @@ function convertImageFormat($sourceSVG, $targetFormat) {
     } elseif ($options['units'] == 'cm') {
         $options['printSize'] *= 35;
     }
-    $proportion = ($options['shape'] == 'flag') ? $options['aspectRatio'] : 1.2;
+    $proportion = ($options['shape'] == 'flag' || $options['shape'] == 'roll') ? $options['aspectRatio'] : 1.2;
     $pageWidth = $pageHeight = false;
     switch ($targetFormat) {
         case 'pdfLtr':

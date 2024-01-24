@@ -4,13 +4,13 @@ Heraldry is the ancient art of creating recognisable and distinctive colours and
 
 The code in the DrawShield repository is a PHP program that will take as input a heraldic blazon and create the corresponding graphical image of the shield. It forms the core of the functionality provided by the https://drawshield.net website.
 
-It is primarily intended to work as a server side service via a simple stateless API call, either as a POST or GET request (although there is a limited command line interface that can be used locally, for debugging or batch creation). The default image format returned is SVG, although if ImageMagick and the corresponding PHP libraries are installed on the server then PNG and JPG are also supported.
+It is primarily intended to work as a server side service via a simple stateless API call, either as a POST or GET request (although there is a limited command line interface that can be used locally, for debugging or batch creation). The default image format returned is SVG, although the code includes hooks to call out to an external program to convert to other formats such as PNGor jpeg.
 
-The program code is of highly variable quality, some of it dates back over 7 years and was my first major PHP project, using PHP 5. The program was subsequently ported to PHP 7 and newer features tend to have a more Object Oriented approach. I intend to provide at least some overview documentation in the Wiki of this repository.
+The program code is of highly variable quality, some of it dates back over 7 years and was my first major PHP project, using PHP 5. The program was subsequently ported to later versions of PHP and newer features tend to have a more Object Oriented approach. There is documentation of equally variable quality in the wiki of this repository.
 
 ## Example Use
 
-Install the code on a web server supporting PHP 7, for example in a directory ```/include/drawshield``` and invoke it with a GET API call in the following format:
+Install the code on a web server supporting PHP 8.1, for example in a directory ```/include/drawshield``` and invoke it with a GET API call in the following format:
 
 ```http://<your-server->/include/drawshield/drawshield.php?blazon=<URL-encoded-text-blazon>```
 
@@ -22,7 +22,7 @@ This will return an SVG file of a blue shield with a yellow diagonal band from t
 
 ![Azure a bend or](/examples/azure-a-bend-or.png)
 
-Blazonry however has much greater expressive power and literally billions of different images can be created. There are over 1,500 example images, each complete with the blazon on the [DrawShield Gallery Page](https://drawshield.net/gallery/index.html):
+Blazonry however has much greater expressive power and literally billions of different images can be created. There are over 12,000 example images, each complete with the blazon on the [DrawShield Gallery Page](https://drawshield.net/gallery/index.html):
 
 ![DrawShield Gallery](/examples/gallery.png)
 

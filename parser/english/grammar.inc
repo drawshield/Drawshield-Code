@@ -67,7 +67,9 @@ class englishGrammar extends grammar
 
         // and finally look for a caption
         $caption = null;
+        $captionpos = null;
         if (self::findLex(languageDB::CAPTION)) {
+            $captionpos = self::findLex(languageDB::CAPTIONPOS);
             $caption = self::findLex(languageDB::VALUE);
         }
 
@@ -85,6 +87,11 @@ class englishGrammar extends grammar
             }
             if (!is_null($caption)) {
                 $node->setAttribute(blazonML::A_CAPTION, $caption->value);
+                if (is_null($captionpos)) {
+                    $node->setAttribute(blazonML::A_CAPTIONPOS, "below");
+                } else {
+                    $node->setAttribute(blazonML::A_CAPTIONPOS, $captionpos->keyterm);
+                }
             }
             return $node;
         } else {

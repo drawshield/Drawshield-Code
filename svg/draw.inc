@@ -259,18 +259,13 @@ function draw()
                         $rowCount += 1;
                         $offset += 100 * $scale;
                     }
-                    $xShift = $colCount * (1000 * $scale);
-                    $yShift = $offset + $rowCount * (1200 * $scale);
                     if ($childNode->nodeName != blazonML::E_MISSING) {
-                        $rollEntry = "<g transform=\"translate($xShift,$yShift) scale($scale)\">";
-                        $entry = drawShield($childNode, $layout);
-                        $rollEntry .= $entry['body'];
-                        if (count($partsList)) {
-                            foreach ($partsList as $parts) {
-                                $rollEntry .= addParts($rollEntry, $parts, $layout);
-                            }
-                        }
+                        $captionSVG = '';
+                        $captionAboveShift = 0;
+                        // first create a caption if it is given
                         if ($caption = $childNode->getAttribute(blazonML::A_CAPTION)) {
+                            $captionAboveShift = 0;
+                            $position = $childNode->getAttribute(blazonML::A_CAPTIONPOS);
                             $builder = new WordBuilder();
                             $builder->setOption(WordBuilder::TEXT1, $caption);
                             $builder->setOption(WordBuilder::ALIGN, WordBuilder::CENTRE);
@@ -279,7 +274,7 @@ function draw()
                             $result = $builder->getSVG(true);
                             $capWidth = $result['width'];
                             $capHeight = $result['height'];
-                            // work out how to scale & place it - it needs to go into a box 100 * 1000 at 0,1200
+                            // work out how to scale & place it - it needs to go into a box 99 * 1000 at 0,1200
                             // first, will it fit if we just scale the height?
                             $capScale = ($gap * 0.8) / $capHeight;
                             $newWidth = $capWidth * $capScale;
@@ -287,13 +282,32 @@ function draw()
                                 $capScale = 940 / $capWidth;
                                 $newWidth = 940;
                             }
-                            $xShift = (1000 - $newWidth) / 2;
-                            $yShift = 1200 + ($gap * 0.1);
-                            $rollEntry .= "<g transform=\"translate($xShift,$yShift) scale($capScale)\">{$result['svg']}</g>";
+                            // figure out where it will go
+                            $xPos = (1000 - $newWidth) / 2;
+                            if ($position == 'below') {
+                                $yPos = 1200 + ($gap * 0.1);
+                            } else { // i.e. "above" - use swith if others
+                                $yPos = ($gap * 0.1);
+                                $captionAboveShift = 100;
+                            }
+                            $captionSVG = "<g transform=\"translate($xPos,$yPos) scale($capScale)\">{$result['svg']}</g>";
                         }
-                        $rollEntry .= '</g>';
+                        $xShift = $colCount * (1000 * $scale);
+                        $yShift = $offset + $rowCount * (1200 * $scale);
+                        $entry = drawShield($childNode, $layout);
+                        $rollEntry = $entry['body'];
+                        if (count($partsList)) {
+                            foreach ($partsList as $parts) {
+                                $rollEntry .= addParts($rollEntry, $parts, $layout);
+                            }
+                        }
+                        if ($captionAboveShift) {
+                            $rollEntry = "<g transform=\"translate(0,$captionAboveShift)\">$rollEntry</g>";
+                        }
+                        $rollEntry = "<g transform=\"translate($xShift,$yShift) scale($scale)\">$captionSVG$rollEntry</g>";
                         $body .= $rollEntry;
                     }
+
                 }
                 $vbHeight =  ($gap /2) + (($rowCount + 1) * ($gap + 1200)) * $scale;
                 if (!is_null($title)) {
@@ -302,6 +316,8 @@ function draw()
                 if (!is_null($background)) {
                     $body = apply_tincture($background, "<path d=\"m0 0 h1000 v$vbHeight h-1000 z\"/>", $layout) . $body;
                 }
+                $options['shape'] = 'roll';
+                $options['aspectRatio'] = $vbHeight / 1000;
                 break;
             case blazonML::E_SHIELD:
                 $body .= makeshield($node, $layout);
