@@ -67,7 +67,10 @@ abstract class grammar
 
     public function getAST($tokenList)
     {
+        global $timings;
+
         $this->matcher = new matcher($tokenList, $this->patternDB);
+        $timings['tokeniser'] = microtime(true);
 
         $shield = $this->getRoll();
         if (is_null($shield)) $shield = $this->getCommand();

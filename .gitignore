@@ -18,6 +18,8 @@ php.tags
 svg/charges/custom
 py/venv/
 
+*.dat
+
 release.txt
 date.txt
 

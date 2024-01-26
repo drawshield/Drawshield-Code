@@ -154,14 +154,46 @@ class languageDB extends Lexicon
 
     public function __construct()
     {
-        $this->patterns = [];
-        $lexDir = scandir(self::LEXEMEDIR);
-        foreach ($lexDir as $lexFile) {
-            if (substr($lexFile, 0,1) == '.') continue;
-            if (substr($lexFile, -4) != '.txt') continue;
-            $lexemes = file(self::LEXEMEDIR . '/' . $lexFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-            $this->patterns = array_merge ($this->patterns, $lexemes);
+        global $options;
+
+        if (!file_exists(self::LEXEMEDIR . "/lexemes.dat")) {
+            $this->patterns = [];
+            $lexDir = scandir(self::LEXEMEDIR);
+            $category = "none";
+            $group = '';
+            foreach ($lexDir as $lexFile) {
+                if (str_starts_with($lexFile, '.')) continue;
+                if (!str_ends_with($lexFile, '.txt')) continue;
+                $lexical_specifications = file(self::LEXEMEDIR . '/'
+                    . $lexFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                foreach ($lexical_specifications as $lex_spec) {
+                    $lex_spec = ltrim($lex_spec);
+                    if ($lex_spec == '' || $lex_spec[0] == '#') continue;
+                    if ($lex_spec[0] == '=') { // new category
+                        if (str_contains($lex_spec, '/')) { // there is a group here
+                            list($category, $group) = preg_split(':/:', $lex_spec);
+                            $group .= '/';
+                        } else {
+                            $group = '';
+                            $category = $lex_spec;
+                        }
+                        $category = substr($category, 1);
+                        continue;
+                    }
+                    // else
+                    list($searchTerm, $keyTerm) = preg_split('/=/', $lex_spec);
+                    if ($keyTerm == '') $keyTerm = $searchTerm;
+                    $new_entry = array($category, $group . $keyTerm);
+                    $regexs = explode(" ", $searchTerm);
+                    $this->patterns[] = array_merge($new_entry, $regexs);
+                }
+            } // only save the file if we are run locally to avoid race conditions when
+            // run possibly in parallel by the web server
+            if ($options['requestSource'] == 'shell') {
+                file_put_contents(self::LEXEMEDIR . "/lexemes.dat", serialize($this->patterns));
+            }
+        } else {
+            $this->patterns = unserialize(file_get_contents(self::LEXEMEDIR . "/lexemes.dat"));
         }
     }
-
 }

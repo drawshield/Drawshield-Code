@@ -128,7 +128,7 @@ class matcher
 
     protected function getAllMatches()
     {
-        global $options, $startTime;
+        global $options, $memory;
         $group = '';
         $partString = '';
         $partStart = 0;
@@ -136,6 +136,8 @@ class matcher
         $this->curToken = 0;
 
         $terms = $this->patternDB->patterns;
+        $memory['matcher'] = memory_get_usage(true);
+
         while ($this->curToken < $this->numTokens) {
             // If the tokeniser has already identified this category, use that
             if (!is_array($this->tokenList)) $this->tokenList = array($this->tokenList);
@@ -154,25 +156,10 @@ class matcher
             if ($first_token >= $this->numTokens) return null;
             $max_match = 0;
             foreach ($terms as $term) {
-                $term = ltrim($term);
-                if ($term == '' || $term[0] == '#') continue;
-                if ($term[0] == '=') { // this is a new category
-                    if (strpos($term, '/') !== false) { // there is a group here
-                        list($category, $group) = preg_split(':/:', $term);
-                        $group .= '/';
-                    } else {
-                        $group = '';
-                        $category = $term;
-                    }
-                    $category = substr($category, 1);
-                    continue;
-                }
-                list($searchTerm, $keyTerm) = preg_split('/=/', $term);
-                if ($keyTerm == '') $keyTerm = $searchTerm;
-                if (($count = self::check_match($searchTerm))) {
+                if (($count = self::check_match(array_slice($term,2)))) {
                     // check_match updates cur_word on a successful match
                     $end = $this->furthestWord - 1;
-                    $lexeme = $this->lexemeFromTokens($category, $group . $keyTerm, $start, $end, $this->value);
+                    $lexeme = $this->lexemeFromTokens($term[0], $term[1], $start, $end, $this->value);
                     if ($count > 0 && $count == $max_match) {
                         $matches[] = $lexeme;
                     } elseif ($count > $max_match) {
@@ -246,15 +233,9 @@ class matcher
     // with words in the input. Return 0 on fail, number of input
     // words matched on success
     // An initial '?' indicates match is optional
-    protected function check_match($match_string)
+    protected function check_match($regexs)
     {
-        if (!$match_string) {
-            $this->errors[] = 'null match string';
-            return false;
-        }
         $this->value = null;
-
-        $regexs = explode(' ', $match_string);
 
         $t_word = $this->curToken;
         foreach ($regexs as $regex) {
@@ -282,8 +263,8 @@ class matcher
             if (strlen($regex) < 1) {
                 continue;
             }
-            while (($t_word < $this->numTokens) && mb_substr($this->tokenList[$t_word]->match, 0, 1) == '[')
-                $t_word++;
+            // while (($t_word < $this->numTokens) && mb_substr($this->tokenList[$t_word]->match, 0, 1) == '[')
+            //   $t_word++;
             if ($t_word >= $this->numTokens) { // no more input
                 if ($optional or $negative) {
                     continue;
