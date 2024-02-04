@@ -66,7 +66,7 @@ function createColourNode($colour, $index='1') {
 }
 
 function existModifierWithKeyterm(?DOMElement $node, $keyterm, $markUsed = true) {
-// FIX sometimes we seem to call this with a DOMNodeList (from error_log on 18/7/14)
+// FIX sometimes we seem to call this with a DOMNodeList (from ds_error_log on 18/7/14)
   if ( $node != null and get_class($node) <> 'DOMNodeList' and $node->hasChildNodes()) {
     /**
      * @var DOMElement $child
@@ -93,7 +93,7 @@ function getModifierNodeByType(DOMElement $node, $type) {
 }
 
 function getModifierByType(DOMElement $node, $type, $markUsed = true) { // Also means don't get if already used
-// FIX sometimes we seem to call this with a DOMNodeList (from error_log on 18/7/14)
+// FIX sometimes we seem to call this with a DOMNodeList (from ds_error_log on 18/7/14)
   if ( $node != null and get_class($node) <> 'DOMNodeList' and $node->hasChildNodes()) {
     /**
      * @var DOMElement $child
@@ -113,7 +113,7 @@ function getModifierByType(DOMElement $node, $type, $markUsed = true) { // Also 
 
 
 function getModifierValueByKeyterm(DOMElement $node, $name, $markUsed = false) {
-// FIX sometimes we seem to call this with a DOMNodeList (from error_log on 18/7/14)
+// FIX sometimes we seem to call this with a DOMNodeList (from ds_error_log on 18/7/14)
   if ( $node != null and get_class($node) <> 'DOMNodeList' and $node->hasChildNodes()) {
     /**
      * @var DOMElement $child

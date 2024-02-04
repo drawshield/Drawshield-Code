@@ -320,7 +320,7 @@ class references {
                     $existingIDs[] = $thisID;
                     $existingNodes[$thisID] = $subShield;
                 }
-            // error_log("Noting existing ID $thisID");
+            // ds_error_log("Noting existing ID $thisID");
             }
         }
         // Idiot check no quarterings given at all
@@ -340,7 +340,7 @@ class references {
         // Add any additional quarterings that are needed, as pending
         // (There may already been some pending nodes from the parser)
         for($i = $children->length; $i < $newOrder; $i++ ) {
-            //error_log("Setting quarter $i to pending");
+            //ds_error_log("Setting quarter $i to pending");
             $shield = $this->dom->createElement(blazonML::E_SHIELD);
             $shield->setAttribute('index',$i + 1);
             $shield->setAttribute('ID',unique('P1-'));
@@ -356,7 +356,11 @@ class references {
             if ($child != null && $child->nodeName == blazonML::E_PENDING && isset($existingIDs[$currentID])) {
                 $refNode = $existingIDs[$currentID];
                 if (is_null($refNode)) {
-                    error_log('Null ref node in subshield');
+                    ds_error_log('Null ref node in subshield', true);
+                    continue;
+                }
+                if (!array_key_exists($refNode, $existingNodes)) {
+                    ds_error_log('Reference node missing', true);
                     continue;
                 }
                 $newNode = $existingNodes[$refNode]->cloneNode(true);

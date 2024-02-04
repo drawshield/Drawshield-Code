@@ -418,7 +418,7 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
         return $targetSVG; // Maybe an error? Sometimes get here from makeOrdinary()
 
     if ( !is_object($tinctureNode) || is_null($tinctureNode->parentNode) ) {
-        // error_log("bad tincture in " . $options['blazon']);
+        // ds_error_log("bad tincture in " . $options['blazon']);
         return $targetSVG;
     }
 

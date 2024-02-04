@@ -41,12 +41,12 @@ function testCpuUsage($limit) {
                     ($counts[$i][2] - $counts[$i-1][2]) +
                     ($counts[$i][3] - $counts[$i-1][3]);
                 $load = 100 - (($counts[$i][3] - $counts[$i-1][3]) * 100 / $cputime);
-                // error_log("Testing limit $limit against $load%\n");
+                // ds_error_log("Testing limit $limit against $load%\n");
                 if ($load < $limit) return true;
             }
         }
         // Waited 5 seconds, still busy
-        error_log("PNG generation limited at load $load%");
+        ds_error_log("PNG generation limited at load $load%");
         return false;
     }
     return true; // if we can't read /proc then just say it is all ok

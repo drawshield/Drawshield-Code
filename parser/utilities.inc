@@ -220,3 +220,13 @@ class unique {
     return $prefix . $this->myInstance . '-' . $this->counter++;
   }
 }
+
+function ds_error_log($message, $addBlazon = false) {
+    global $options;
+
+    error_log($message);
+    if ($addBlazon && !$options['logged']) {
+        error_log($options['blazon']);
+        $options['logged'] = true;
+    }
+}

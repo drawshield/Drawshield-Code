@@ -57,7 +57,7 @@ function getPropertyValuePairs($string) {
         } else {
           $state = PREPROPERTY;
           $retval[$property] = $value;
-//          error_log("Found $property as $value");
+//          ds_error_log("Found $property as $value");
           $property = '';
           $value = '';
         }
@@ -66,7 +66,7 @@ function getPropertyValuePairs($string) {
   }
   if ($property && $value) {
     $retval[$property] = $value;
-//     error_log("Found $property as $value");
+//     ds_error_log("Found $property as $value");
   }
   return $retval;
 }
@@ -149,7 +149,7 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
     return null;
   }
   $base .= $mods;
-  // error_log("Testing for $base");
+  // ds_error_log("Testing for $base");
   $baseParts = explode('-', $base);
   $requiredParts = [];
   for($i = 0; $i < count($baseParts); $i++) {
@@ -209,7 +209,7 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
         $extra .= $filenameParts[$j] . ' ';
       }
     }
-    // error_log("$entry scores $penalty");
+    // ds_error_log("$entry scores $penalty");
     // compare to previous best fit
     if ( $penalty < $lowestPenalty ) {
       $lowestPenalty = $penalty;
@@ -505,7 +505,7 @@ function getCharge( DOMElement $node, $layout ) {
 
     $keyterm = $node->getAttribute('keyterm');
     if (strpos($keyterm, '/') === false) {
-        error_log("bad charge keyterm - $keyterm");
+        ds_error_log("bad charge keyterm - $keyterm");
         return null;
     }
     list($chargeGroup, $chargeName ) = explode('/', $keyterm);
@@ -604,7 +604,7 @@ function getCharge( DOMElement $node, $layout ) {
         libxml_use_internal_errors(true);
         if (($svg = @simplexml_load_string($chg_data['svgCode'], null, LIBXML_NOENT)) == null) {
             $messages->addMessage('internal', "XML error reading charge data");
-            error_log("XML error reading charge data - " . $chargeGroup . '/' . $chargeName);
+            ds_error_log("XML error reading charge data - " . $chargeGroup . '/' . $chargeName);
             // Fallback item
             $svg = simplexml_load_string('<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                     <svg

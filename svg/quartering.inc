@@ -109,7 +109,7 @@ class Quartering
             // error check
             if (!isset($this->quarters[$index]))
             {
-                error_log("bad quarter index in " . $options['blazon'] );
+                ds_error_log("bad quarter index in " . $options['blazon'] );
                 continue;
             }
 
