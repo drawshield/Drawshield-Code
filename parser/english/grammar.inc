@@ -2188,9 +2188,9 @@ class englishGrammar extends grammar
 
         // try some actual hits now
         if (($churchRole = $phrase->add(self::findLex(languageDB::ECCLESIASTIC))) != null) {
-            if (!$tradition->keyterm) $tradition->keyterm = 'catholic';
+            $traditionKeyword = is_null($tradition) ? 'catholic' : $tradition->keyword;
             $ornamentNode = $this->schema->makeNodeFromLexeme(blazonML::E_ORNAMENT, $phrase->create(), array (
-                blazonML::A_KEYTERM => "{$tradition->keyterm}/{$churchRole->keyterm}"));
+                blazonML::A_KEYTERM => "{$traditionKeyword}/{$churchRole->keyterm}"));
             if (($tincNode = self::tincture()) != null) {
                 self::raiseError(self::ERROR_ORIGIN,"Ecclesiastic ornaments have fixed colours", true);
                 $ornamentNode->appendChild($tincNode);

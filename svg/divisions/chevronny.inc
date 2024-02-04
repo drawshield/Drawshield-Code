@@ -17,7 +17,7 @@ This file is part of the DrawShield.net heraldry image creation program
  */
 
 $num_of = getModifierValueByKeyterm($node, 'ofnum', false);
-if ( $num_of < 1 ) $num_of = 8;
+if ( $num_of <= 1 ) $num_of = 8;
 // Each chevron is counted, not just the coloured ones
 $num = $num_of / 2;
 
