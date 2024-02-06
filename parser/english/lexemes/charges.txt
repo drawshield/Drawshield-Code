@@ -348,6 +348,7 @@ lapwings?=lapwing
 merlettes?=merlette
 (sky)?larks?=lark
 quails?=quail
+partridges?=partridge
 bats?=bat
 emus?=emu
 (rere|flitter)(mouse|mice)=bat
