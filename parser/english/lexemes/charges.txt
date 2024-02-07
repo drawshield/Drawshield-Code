@@ -955,6 +955,7 @@ rosar(y|ies)=rosary
 seraphs?=seraph
 paternosters?=rosary
 tombstones?=tombstone
+papal tiaras?=papal-tiara?P
 arks? of the covenant=ark-of-the-covenant
 cherub(im)?s?=cherub
 sleeping cherub(im)?s?=sleeping-cherub

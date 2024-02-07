@@ -618,6 +618,10 @@ function makeOrdinary(DOMElement &$node, $layout)
      */
     foreach (getModifiersByTypeAsArray($node, 'between', true) as $chargesWithin) {
         $chargesWithin = (object)$chargesWithin->firstChild;
+        if ($chargesWithin->nodeName != blazonML::E_CHARGE) {
+            $messages->addMessage('blazon',"Only charges can go 'within' an odinary");
+            continue;
+        }
         // If the underlying ordinary is mirrored, we need to mirror the "on" item so it ends up back the right way
         if ($mirrored) {
             if (($sin = getModifierNodeWithKeyterm($chargesWithin, 'reversed')) != null)
