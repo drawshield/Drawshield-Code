@@ -201,7 +201,6 @@ doubl(ed|ing)=doubled
 (em)?(flexed|bent|bowed)=embowed
 gu?ardant=guardant
 double nowed=double-nowed
-[ei]mbrued=embrued
 (rais|elevat)ed=elevated
 (dechausse|mutile)=dismembered
 (de|in)famed=defamed

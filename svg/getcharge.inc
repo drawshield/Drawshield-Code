@@ -236,7 +236,7 @@ function featuresThatAreAlsoMods($node) {
   static $features = array (
     'head', 'habited', 'vorant-a-child',
     'clawed', 'stemmed',
-    'leg',
+    'leg', 'imbrued',
     'clasped',
     'slipped',
     'leaved',

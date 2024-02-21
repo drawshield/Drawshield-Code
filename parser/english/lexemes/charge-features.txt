@@ -32,6 +32,7 @@ rooves=roofed
 maned=
 nerved=
 striped=
+[ei]mbrued=imbrued
 penned=
 stringed=
 aulned=
