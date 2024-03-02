@@ -17,6 +17,7 @@ This file is part of the DrawShield.net heraldry image creation program
  */
 
 include 'utils/general.inc';  // general utilities, duh.
+set_exception_handler('display_bug');
 $timings = array('start' => microtime(true));
 $memory = array('start' => memory_get_usage(true));
 
@@ -59,7 +60,6 @@ $svgOutput = null;
 $dom = null;
 $messages = null;
 $jsonData = [];
-
 
 // Process superglobal settings into the options array
 if (isset($request['outputformat'])) $options['outputFormat'] = strip_tags($request['outputformat']);

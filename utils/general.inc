@@ -128,6 +128,11 @@ function arguments($args) {
     return $ret;
 }
 
+function display_bug(Throwable $exception) {
+    echo file_get_contents("bug.svg");
+    exit();
+}
+
 function report_errors_svg($errno, $errstr, $errfile, $errline)
 {
     global $messages;

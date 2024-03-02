@@ -466,6 +466,7 @@ class englishGrammar extends grammar
         $this->matcher->syncOver();
         if (($split = self::findLex(languageDB::SPLITS)) != null) {
             // As above, this loop is fairly aggressive about finding a field
+            $node2 = null;
             while (self::moreInput()) {
                 $node2 = null;
                 if ($node2 == null) $node2 = self::quartered();
