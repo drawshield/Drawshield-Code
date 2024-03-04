@@ -130,6 +130,7 @@ function arguments($args) {
 
 function display_bug(Throwable $exception) {
     echo file_get_contents("bug.svg");
+    ds_error_log($exception->getMessage());
     exit();
 }
 
@@ -238,3 +239,19 @@ function makeJsonArray($prettyPrint = false) {
     // quickly as possible after this point.
     return json_encode($jsonData, $flags);
 }
+
+class unique {
+    protected $counter = 1;
+    protected $myInstance;
+    protected static $instance = 1;
+
+    public function __construct(){
+        $this->myInstance = self::$instance;
+        self::$instance += 1;
+    }
+
+    public function getRef($prefix = '') {
+        return $prefix . $this->myInstance . '-' . $this->counter++;
+    }
+}
+

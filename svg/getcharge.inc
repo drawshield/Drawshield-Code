@@ -113,13 +113,14 @@ function getMetaDataFromSVG($svg, $chargeGroup = '', $chargeName = '') {
  function get_chg_data() {
    global $xpath;
    global $chg_data_cache;
+   $unique = new unique();
    
    /**
     * @var DOMElement $chg
     */
    foreach ( $xpath->query("//charge") as $chg ) { // TODO change this to use the ID as key
     if (substr($chg->getAttribute('keyterm'), 0, 8) == 'special/') continue;
-     $chg_ref = unique('chg');
+     $chg_ref = $unique->getRef('chg');
      $chg_data_cache[$chg_ref] = read_chg_file($chg);
      // Add a modifier to link to the cached charge data
      $chg->appendChild(createModifierNode(languageDB::CHARGE_MODS, 'chg_data', $chg_ref ));

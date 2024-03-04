@@ -212,11 +212,12 @@ function makedimidiated($children, $layout)
 function makeshield(DOMElement &$node, $layout)
 {
     global $messages, $options;
+    $unique = new unique();
 
     if ($node->hasAttribute('IDREF')) { // shouldn't happen, but just in case
         $dom = $node->ownerDocument;
         $node = $dom->getElementById($node->getAttribute('IDREF'))->cloneNode(true);
-        $node->setAttribute('ID', unique('clone'));
+        $node->setAttribute('ID', $unique->getRef('clone'));
     }
 
     $retval = '<g>';

@@ -18,11 +18,12 @@ This file is part of the DrawShield.net heraldry image creation program
 
 function createModifierNode($type, $keyterm, $value = null ) {
   global $dom;
+  $unique = new unique();
 
   $mod = $dom->createElement('modifier');
   $mod->setAttribute('type', $type);
   $mod->setAttribute('keyterm', $keyterm);
-  $mod->setAttribute('ID',unique('S1-'));
+  $mod->setAttribute('ID',$unique->getRef('S1-'));
   $mod->setIdAttribute('ID', true);
   if ( $value ) $mod->setAttribute('value', $value);
   return $mod;
@@ -30,35 +31,38 @@ function createModifierNode($type, $keyterm, $value = null ) {
 
 function createChargeNode($keyterm, $number = 1) {
   global $dom;
+    $unique = new unique();
 
   $charge = $dom->createElement('charge');
   $charge->setAttribute('keyterm', $keyterm);
   $charge->setAttribute('number', $number);
-  $charge->setAttribute('ID',unique('S1-'));
+  $charge->setAttribute('ID',$unique->getRef('S1-'));
   $charge->setIdAttribute('ID', true);
   return $charge;
 }
 
 function createTinctureNode($index = 1) {
   global $dom;
+    $unique = new unique();
 
   $tincture = $dom->createElement('tincture');
   $tincture->setAttribute('index', $index);
   $tincture->setAttribute('origin', 'implied'); // or should it be 'internal'?
-  $tincture->setAttribute('ID',unique('S1-'));
+  $tincture->setAttribute('ID',$unique->getRef('S1-'));
   $tincture->setIdAttribute('ID', true);
   return $tincture;
 }
 
 function createColourNode($colour, $index='1') {
   global $dom;
+    $unique = new unique();
 
   $tinc = $dom->createElement('tincture');
-  $tinc->setAttribute('ID',unique('S1-'));
+  $tinc->setAttribute('ID',$unique->getRef('S1-'));
   $tinc->setIdAttribute('ID', true);
   $col = $dom->createElement('colour');
   $col->setAttribute('keyterm',$colour);
-  $col->setAttribute('ID',unique('S1-'));
+  $col->setAttribute('ID',$unique->getRef('S1-'));
   $col->setIdAttribute('ID', true);
   $tinc->setAttribute('index',$index);
   $tinc->appendChild($col);
