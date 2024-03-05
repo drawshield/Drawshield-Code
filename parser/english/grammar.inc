@@ -1711,7 +1711,7 @@ class englishGrammar extends grammar
                 $quartered->setAttribute("keyterm", $marshall->keyterm);
             }
             $quartered->setAttribute('order', $order);
-            for ($i = 1; $i <= $highest; $i++)
+            for ($i = 1; $i <= $highest && $i <= 64; $i++)
                 $quartered->appendChild($subshields[$i]);
             $node = $this->schema->makeIDNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
             $node->appendChild($quartered);

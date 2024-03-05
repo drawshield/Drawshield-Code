@@ -19,6 +19,7 @@ This file is part of the DrawShield.net heraldry image creation program
 
 require_once("shield_shape_utils.inc");
 
+$shape = ShieldShape::from_layout($layout);
 
 if ( existModifierWithKeyterm($node,'flory-counter-flory')) {
     $messages->addMessage('licence','Tressure flory - http://commons.wikimedia.org/wiki/User:Balmung0731');
@@ -79,7 +80,6 @@ else
         $margin *= 2;
     }
 
-    $shape = ShieldShape::from_layout($layout);
 
     $path_builder = new MutableShape();
 

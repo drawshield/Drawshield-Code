@@ -130,7 +130,8 @@ function arguments($args) {
 
 function display_bug(Throwable $exception) {
     echo file_get_contents("bug.svg");
-    ds_error_log($exception->getMessage());
+    flush();
+    ds_error_log($exception->getMessage() . ' ' . $exception->getFile() . ' ' . $exception->getLine());
     exit();
 }
 
