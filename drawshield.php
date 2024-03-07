@@ -20,6 +20,14 @@ include 'utils/general.inc';  // general utilities, duh.
 set_exception_handler('display_bug');
 $timings = array('start' => microtime(true));
 $memory = array('start' => memory_get_usage(true));
+register_shutdown_function(function(){
+    global $options;
+    $error = error_get_last();
+    if (null !== $error && $error['type'] == "1") {
+        error_log($options['blazon'] . ' causes ' . $error['type'] . ' '  . $error['message'] .
+          " at " . $error['file'] . ':' . $error['line']);
+    }
+});
 
 //////////////////////////////////////////////
 // Stage 1a - Set default and fallback options
