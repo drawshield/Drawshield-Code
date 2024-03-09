@@ -21,7 +21,7 @@ require_once("shield_shape_utils.inc");
 
 $margin = 200;
 
-if ($node->parentNode->parentNode->nodeName == 'overall')
+if (!is_null($node->parentNode->parentNode) && $node->parentNode->parentNode->nodeName == 'overall')
     $margin  = 300;
 
 $shape = ShieldShape::from_layout($layout);
