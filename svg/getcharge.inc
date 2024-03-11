@@ -365,6 +365,12 @@ function read_chg_file(DOMElement $node) {
   if (($title = $node->getAttribute('tokens')) == null ) $title = $chargeKey;
   if (array_key_exists('file', $chg_data)) {
     $chg_data['svgCode'] = file_get_contents($folder . $chg_data['file']);
+    if (intval($node->getAttribute(blazonML::A_NUMBER)) > 12) {
+        if (strlen($chg_data['svgCode']) > 1024 * 1024) {
+            $messages->addMessage('warning',"$chargeKey is very large, only 12 instances possible, sorry");
+            $node->setAttribute(blazonML::A_NUMBER, 12);
+        }
+    }
     // Get additional metadata, but allow existing entries (picked up from the charge itself)
     // to have priority
     $chg_data = array_merge(getMetadata($group, $chargeKey), $chg_data);
