@@ -23,7 +23,7 @@ $subtype = $node->getAttribute('keyterm');
 $bend_length = 1600; // future - adjust for flag height???
 // if ($layout->shape == 'flag') {
   $height = $layout->size->height;
-//  error_log("height is $height");
+//  ds_error_log("height is $height");
   $palet_length = sprintf("%d", $height + 200);
 //}
 if ($layout->shape != 'flag' && $height == 1200) $height = 1000;

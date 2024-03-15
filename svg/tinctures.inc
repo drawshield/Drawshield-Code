@@ -418,7 +418,7 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
         return $targetSVG; // Maybe an error? Sometimes get here from makeOrdinary()
 
     if ( !is_object($tinctureNode) || is_null($tinctureNode->parentNode) ) {
-        // error_log("bad tincture in " . $options['blazon']);
+        // ds_error_log("bad tincture in " . $options['blazon']);
         return $targetSVG;
     }
 
@@ -560,11 +560,19 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
             $shieldNode = $xpath->query('ancestor::shield', $data->node); // should always be one of these...
             $candidates = $xpath->query('simple/field/tincture/division | simple/field/tincture/fur | simple/field/tincture/treatment', $shieldNode->item($shieldNode->length-1));
             if ($candidates->length < 1) {
-                $messages->addMessage('error', 'Counterchange requires two colour field');
+                $messages->addMessage('blazon', 'Counterchange requires two colour field');
                 $retval = '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $targetSVG . '</g>';
                 break;
             }
             $counterChangeSource = $candidates->item(($candidates->length)-1);
+            $counterCount = $counterChangeSource->getAttribute('counter');
+            if (is_null($counterCount)) $counterCount = 0;
+            if ($counterCount > 14) {
+                $messages->addMessage('blazon', "Loop in counterchange detected, please re-phrase" );
+                $retval = '<g fill="#050505"><title>Counterchange</title><desc>Not possible</desc>' . $targetSVG . '</g>';
+                break;
+            }
+            $counterChangeSource->setAttribute('counter',intval($counterCount) + 1);
             if ( $counterChangeSource->nodeName == blazonML::E_DIVISION ) {
                 $div_data = makeDivision( $counterChangeSource, $layout, true );
                 if ($yshift) {

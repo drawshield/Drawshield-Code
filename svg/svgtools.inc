@@ -19,11 +19,13 @@ require_once("transform.inc");
 
 function make_def($element, $content, $name = '', $title = '', $desc = '')
 {
+    $unique = new unique();
+
     $element_words = explode(' ', $element);
     $type = $element_words[0];
     if ( $name == '' )
         $name = $type;
-    $myid = unique($name);
+    $myid = $unique->getRef($name);
     $def = '<' . $element . ' id="' . $myid . '" >' . "\n";
     if ($title != '' )
         $def .= '<title>' . $title . "</title>\n";

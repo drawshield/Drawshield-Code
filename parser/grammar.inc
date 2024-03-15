@@ -19,8 +19,8 @@ abstract class grammar
 {
     const ERROR_ORIGIN = 'parser';
     const ERROR_WARNING = 'warning';
-    const PRIORWORDS = 6;
 
+    protected $unique;
     /**
      * @var BlazonML $schema
      */
@@ -55,6 +55,7 @@ abstract class grammar
         }
         $this->patternDB = new languageDB();
         $this->schema = $schema;
+        $this->unique  = new unique();
     }
 
     /**

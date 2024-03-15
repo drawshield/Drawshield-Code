@@ -17,14 +17,6 @@ This file is part of the DrawShield.net heraldry image creation program
  */
 
 
-function unique($prefix = 'item') {
-  static $uni_num = 0;
-
-  $uni_num += 1;
-  return "$prefix$uni_num";
-}
-
-  
 interface checkpoint {
   public function save();
   public function restore($state);
@@ -206,17 +198,12 @@ class blazonML extends DOMDocument {
       return $this->makeNodeFromLexeme(self::E_MODIFIER, $lexeme, $overrides);
   }
 }
+function ds_error_log($message, $addBlazon = false) {
+    global $options;
 
-class unique {
-  protected $counter = 0;
-  protected $myInstance;
-  protected static $instance = 0;
-
-  public function __construct(){
-    $this->myInstance = ++self::$instance;
-  }
-  
-  public function getRef($prefix = '') {
-    return $prefix . $this->myInstance . '-' . $this->counter++;
-  }
+    error_log($message);
+    if ($addBlazon && !$options['logged']) {
+        error_log($options['blazon']);
+        $options['logged'] = true;
+    }
 }

@@ -466,6 +466,7 @@ class englishGrammar extends grammar
         $this->matcher->syncOver();
         if (($split = self::findLex(languageDB::SPLITS)) != null) {
             // As above, this loop is fairly aggressive about finding a field
+            $node2 = null;
             while (self::moreInput()) {
                 $node2 = null;
                 if ($node2 == null) $node2 = self::quartered();
@@ -1670,7 +1671,7 @@ class englishGrammar extends grammar
                     for ($i = 1; $i < count($indices); $i++) {
                         // $reference = $this->schema->makeIDNode(blazonML::E_SHIELD, array(blazonML::A_IDREF => $ID)); // Set other quarters to point to this one
                         $reference = $quarter->cloneNode(true);
-                        $reference->setAttribute('ID',unique('clone'));
+                        $reference->setAttribute('ID',$this->unique->getRef('clone'));
                         if ($subshields[$indices[$i]] != null)
                             self::raiseError(self::ERROR_ORIGIN, 'Duplicate quarter', true);
                         else
@@ -1710,7 +1711,7 @@ class englishGrammar extends grammar
                 $quartered->setAttribute("keyterm", $marshall->keyterm);
             }
             $quartered->setAttribute('order', $order);
-            for ($i = 1; $i <= $highest; $i++)
+            for ($i = 1; $i <= $highest && $i <= 64; $i++)
                 $quartered->appendChild($subshields[$i]);
             $node = $this->schema->makeIDNode(blazonML::E_SHIELD, array(blazonML::A_INDEX => '0'));
             $node->appendChild($quartered);
@@ -2188,9 +2189,9 @@ class englishGrammar extends grammar
 
         // try some actual hits now
         if (($churchRole = $phrase->add(self::findLex(languageDB::ECCLESIASTIC))) != null) {
-            if (!$tradition->keyterm) $tradition->keyterm = 'catholic';
+            $traditionKeyword = is_null($tradition) ? 'catholic' : $tradition->keyterm;
             $ornamentNode = $this->schema->makeNodeFromLexeme(blazonML::E_ORNAMENT, $phrase->create(), array (
-                blazonML::A_KEYTERM => "{$tradition->keyterm}/{$churchRole->keyterm}"));
+                blazonML::A_KEYTERM => "{$traditionKeyword}/{$churchRole->keyterm}"));
             if (($tincNode = self::tincture()) != null) {
                 self::raiseError(self::ERROR_ORIGIN,"Ecclesiastic ornaments have fixed colours", true);
                 $ornamentNode->appendChild($tincNode);

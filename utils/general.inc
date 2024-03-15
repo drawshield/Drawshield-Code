@@ -41,12 +41,12 @@ function testCpuUsage($limit) {
                     ($counts[$i][2] - $counts[$i-1][2]) +
                     ($counts[$i][3] - $counts[$i-1][3]);
                 $load = 100 - (($counts[$i][3] - $counts[$i-1][3]) * 100 / $cputime);
-                // error_log("Testing limit $limit against $load%\n");
+                // ds_error_log("Testing limit $limit against $load%\n");
                 if ($load < $limit) return true;
             }
         }
         // Waited 5 seconds, still busy
-        error_log("PNG generation limited at load $load%");
+        ds_error_log("PNG generation limited at load $load%");
         return false;
     }
     return true; // if we can't read /proc then just say it is all ok
@@ -126,6 +126,13 @@ function arguments($args) {
     //  $ret['commands'] = array();
     //}
     return $ret;
+}
+
+function display_bug(Throwable $exception) {
+    echo file_get_contents("bug.svg");
+    flush();
+    ds_error_log($exception->getMessage() . ' ' . $exception->getFile() . ' ' . $exception->getLine());
+    exit();
 }
 
 function report_errors_svg($errno, $errstr, $errfile, $errline)
@@ -233,3 +240,19 @@ function makeJsonArray($prettyPrint = false) {
     // quickly as possible after this point.
     return json_encode($jsonData, $flags);
 }
+
+class unique {
+    protected $counter = 1;
+    protected $myInstance;
+    protected static $instance = 1;
+
+    public function __construct(){
+        $this->myInstance = self::$instance;
+        self::$instance += 1;
+    }
+
+    public function getRef($prefix = '') {
+        return $prefix . $this->myInstance . '-' . $this->counter++;
+    }
+}
+

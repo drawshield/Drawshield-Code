@@ -40,7 +40,7 @@ if ( existModifierWithKeyterm($node,'throughout') ) {
 elseif ( existModifierWithKeyterm($node,'rompu') )
 {
     $y = max(0, $layout->size->height - 1000);
-    $ordinary['shape_spec'] = "V1X500Y{$y}B100c282B800d200F600g282f100d100c282D600f200H800g282H100";
+    $ordinary['shape_spec'] = "V1X500Y{$y}b100c282B800d200F600g282f100d100c282D600f200H800g282h100";
 }
 elseif ( existModifierWithKeyterm($node,'burst') )
 {

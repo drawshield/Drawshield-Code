@@ -55,9 +55,9 @@ function place_charges ( DOMElement $node, $placement, $layout ) {
       $messages->addMessage('warning','Not meaningful placement' );
       return '';
   }
-//  error_log("Using placement: " . $placement);
+//  ds_error_log("Using placement: " . $placement);
   $placement = subPercent($placement, $layout);
-//  error_log("Converted to: " . $placement);
+//  ds_error_log("Converted to: " . $placement);
   $num_of = $node->getAttribute('number');
   if ( $num_of < 1 ) $num_of = 1; // Just in case...
   $between = null;

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   preserveAspectRatio="xMidYMid meet"
+   height="1200"
+   width="1000"
+   viewBox="0,0,1000,1200 "
+   id="svg4"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <metadata
+     id="metadata1">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>This work is licensed under a &lt;a rel=&quot;license&quot; href=&quot;http://creativecommons.org/licenses/by-nc-sa/4.0/&quot;&gt;Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License&lt;/a&gt;.</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>heater shape - https://commons.wikimedia.org/wiki/User:MG
+bug - https://commons.wikimedia.org/wiki/File:Bug_(CoreUI_Icons_v1.0.0).svg
+</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1" />
+  <g
+     id="g4">
+    <g
+       mask="url(#mask1)"
+       id="g3">
+      <g
+         id="g2">
+        <g
+           fill="#ffffff"
+           id="g1">
+          <rect
+             x="0"
+             y="0"
+             width="1000"
+             height="1200"
+             id="rect1">
+            <title
+               id="title1">Field</title>
+          </rect>
+        </g>
+      </g>
+      <path
+         d="m 649.35479,558.36504 75.07191,-26.93863 -0.02,-66.32586 -30.02076,0.02 0.02,45.19125 -62.183,22.31543 h -42.90967 v -29.04008 c 0,-0.02 0,-0.06 0,-0.0801 0,-21.99521 -7.82541,-42.14914 -20.87443,-57.83999 l 0.12008,0.1401 40.46799,-40.72817 h 40.18778 v -30.02075 h -52.67642 l -50.65503,50.97524 c -13.52935,-8.44584 -29.96071,-13.4493 -47.57289,-13.4493 -17.25193,0 -33.38308,4.80333 -47.11258,13.16911 l 0.40028,-0.22015 -49.77442,-50.51493 -52.67642,0.04 0.02,30.02075 40.10774,-0.04 39.42726,40.00766 c -13.28919,15.67084 -21.37478,36.10497 -21.37478,58.46042 0,0.02 0,0.0601 0,0.0801 v 0 29.08011 H 366.75939 L 304.09606,510.35184 V 465.16059 H 274.0753 v 66.36589 l 75.09192,26.73849 v 79.47495 h -75.05189 v 30.02076 h 75.05189 v 7.5252 c 0,0.04 0,0.10007 0,0.16011 0,18.45276 3.34231,36.12498 9.44654,52.45627 l -0.34024,-1.04072 -84.15819,32.44244 v 66.08569 h 30.02076 v -45.47144 l 67.28652,-25.93793 c 26.81855,43.18986 73.99116,71.50944 127.78836,71.50944 41.56875,0 79.19476,-16.93171 106.35354,-44.2506 v 0 c 8.04556,-8.04556 15.1905,-17.01176 21.2547,-26.71847 l 0.38026,-0.64044 67.20647,26.01799 v 45.49145 h 30.02076 v -66.06568 l -84.07814,-32.5425 c 5.70395,-15.21052 9.02624,-32.78267 9.02624,-51.11535 0,-0.20013 0,-0.40027 0,-0.60041 v 0.04 -7.30505 h 75.0519 V 637.77995 H 649.3748 Z M 437.32818,503.58716 c 0,-33.68329 27.29888,-60.98217 60.98217,-60.98217 33.68329,0 60.98217,27.29888 60.98217,60.98217 v 0 29.06009 l -121.96434,0.02 z M 379.16797,675.26587 V 562.66801 H 484.20059 V 794.52833 C 425.07971,787.22328 379.16797,736.52823 379.16797,675.26587 Z m 240.16606,-0.16011 c 0,0 0,0 0,0 0,61.08223 -45.51147,111.55713 -104.49225,119.3225 l -0.60041,0.06 V 562.68802 l 105.09266,-0.04 z"
+         id="path1"
+         style="stroke-width:20.0138" />
+      <text
+         xml:space="preserve"
+         style="font-size:37.3333px;text-align:center;text-anchor:middle;opacity:1;fill:#000000"
+         x="496.78354"
+         y="181.65672"
+         id="text4"><tspan
+           x="496.78354"
+           y="181.65672"
+           style="font-size:37.3333px"
+           id="tspan6">Sorry, something went wrong </tspan><tspan
+           x="496.78354"
+           y="228.32335"
+           style="font-size:37.3333px"
+           id="tspan7">in my code.</tspan><tspan
+           x="496.78354"
+           y="274.98999"
+           id="tspan5"
+           style="font-size:37.3333px">Please try a different blazon.</tspan></text>
+    </g>
+    <defs
+       id="defs3">
+      <mask
+         id="mask1">
+        <path
+           fill="#FFFFFF"
+           d="m 0,0 v 800 c -2.5063876,43.11115 1.2341419,84.33503 21.489586,125.13639 20.255443,40.80137 53.477613,79.98631 98.039434,115.63581 44.56181,35.6494 100.44867,67.7517 164.92346,94.7345 64.47479,26.9828 137.51639,48.8374 215.54752,64.4933 78.03113,-15.6559 151.07273,-37.5105 215.54752,-64.4933 64.47479,-26.9828 120.36165,-59.0851 164.92346,-94.7345 44.56182,-35.6495 77.78399,-74.83444 98.03943,-115.63581 C 998.76586,884.33503 1000.1453,841.93063 1000,800 V 0 Z"
+           id="path3" />
+      </mask>
+    </defs>
+  </g>
+</svg>

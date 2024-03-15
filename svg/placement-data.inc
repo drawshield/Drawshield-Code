@@ -85,7 +85,7 @@ function getBestMatchPlacement($target, $item) {
           $extra .= $entryParts[$j] . ' ';
         }
       }
-      // error_log("$entry scores $penalty");
+      // ds_error_log("$entry scores $penalty");
       // compare to previous best fit
       if ( $penalty < $lowestPenalty ) {
         $lowestPenalty = $penalty;
