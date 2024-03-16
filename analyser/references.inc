@@ -25,17 +25,35 @@ class references {
    * @var DOMXPath $xpath
    */
   private $xpath;
-  
+
+  private $messages;
+
+
+  private $unique;
+
   function __construct($xml) {
       $this->dom = $xml;
       $this->xpath = new DOMXPath($this->dom);
+      $this->unique = new unique();
+      $this->messages = $this->xpath->query('//messages');
+      if ( $this->messages->length == 0 ) {
+          $this->messages = $this->dom->createElement('messages');
+          $this->dom->firstChild->appendChild($this->messages);
+      } else
+          $this->messages = $this->messages->item(0);
+  }
+
+  protected function message($text, $category = "blazon") {
+      $messageItem = $this->dom->createElement('message',$text);
+      $messageItem->setAttribute('category', $category);
+      $this->messages->appendChild($messageItem);
   }
 
   protected function greyShield() {
       $simple = $this->dom->createElement(blazonML::E_PLAIN);
-      $simple->setAttribute('ID',unique('N1-'));
+      $simple->setAttribute('ID',$this->unique->getRef("N"));
       $field = $this->dom->createElement(blazonML::E_FIELD);
-      $field->setAttribute('ID',unique('N1-'));
+      $field->setAttribute('ID',$this->unique->getRef("N"));
       $colour = createColourNode('cendree');
       $field->appendChild($colour);
       $simple->appendChild($field);  
@@ -57,12 +75,6 @@ class references {
       // array ( '//tincture[@origin="ofthird"]','(//tincture[colour])[3]', true ),// of the third
       // array ( '//tincture[@origin="offourth"]','(//tincture[colour])[4]', true ),// of the fourth
       );
-    $messages = $this->xpath->query('//messages');
-    if ( $messages->length == 0 ) {
-      $messages = $this->dom->createElement('messages');
-      $this->dom->firstChild->appendChild($messages);
-    } else
-      $messages = $messages->item(0);
     foreach ( $refList as $ref ) {
       /**
        * @var DOMNodeList $nodeList
@@ -85,7 +97,7 @@ class references {
           $sourceNode->setAttribute('IDREF',$targetID);
         } else { // Error reporting
           $sourceTokens = $sourceNode->getAttribute('tokens');
-          $messages->appendChild($this->dom->createElement('message',"Cannot find what \"$sourceTokens\" refers to"));
+          $this->message("Cannot find what \"$sourceTokens\" refers to");
         }
       }
     }
@@ -100,7 +112,7 @@ class references {
         $target = $refNodes->item(0);
         $sourceNode->setAttribute('number',$target->getAttribute('number'));
       } else {
-        $messages->appendChild($this->dom->createElement('message',"Cannot find number for \"as many\" (using \"2\")"));
+        $this->message("Cannot find number for \"as many\" (using \"2\")");
         $sourceNode->setAttribute('number','2');
       }
     }
@@ -141,7 +153,7 @@ class references {
           $sourceNode->parentNode->appendChild($refNode->cloneNode());
         }
       }  else { // else leave as likewise, it will be ignored
-        $messages->appendChild($this->dom->createElement('message',"No previous adjustments for likewise"));
+        $this->message("No previous adjustments for likewise");
       }
     }
 
@@ -154,7 +166,7 @@ class references {
         $adjacentCharge = $prevCharges->item($prevCharges->length - 1);
         $modifierNode->replaceChild($adjacentCharge,$modifierNode->firstChild); 
       } else {
-            $messages->appendChild($this->dom->createElement('message',"Expected charge for within/inside"));
+            $this->message("Expected charge for within/inside");
       }
     }
 
@@ -235,7 +247,7 @@ class references {
         $prevCharge = $prevCharges->item($prevCharges->length - 1);
         $item->setAttribute('keyterm', $prevCharge->getAttribute('keyterm'));
       } else {
-        $messages->appendChild($this->dom->createElement('message','No previous charge for "another"'));  
+        $this->message('No previous charge for "another"');
         $item->setAttribute('keyterm', 'characters/question');
       }
     }
@@ -320,7 +332,6 @@ class references {
                     $existingIDs[] = $thisID;
                     $existingNodes[$thisID] = $subShield;
                 }
-            // error_log("Noting existing ID $thisID");
             }
         }
         // Idiot check no quarterings given at all
@@ -328,7 +339,7 @@ class references {
             $simple = $this->greyShield();
             $firstChild = $node->firstChild; // the shield element
             if ($firstChild != null) {
-            $theID = unique('N1-');
+            $theID = $this->unique->getRef("N");
             $firstChild->setAttribute('ID', $theID);
             $existingIDs[] = $theID;
             $pending = $firstChild->firstChild;
@@ -340,15 +351,15 @@ class references {
         // Add any additional quarterings that are needed, as pending
         // (There may already been some pending nodes from the parser)
         for($i = $children->length; $i < $newOrder; $i++ ) {
-            //error_log("Setting quarter $i to pending");
             $shield = $this->dom->createElement(blazonML::E_SHIELD);
             $shield->setAttribute('index',$i + 1);
-            $shield->setAttribute('ID',unique('P1-'));
+            $shield->setAttribute('ID',$this->unique->getRef("P"));
             $shield->appendChild($this->dom->createElement(blazonML::E_PENDING));
             $node->appendChild($shield);
         }
         // Now go through the children, replacing any pending nodes with copies of
         // existing subshields
+        $missingReported = false;
         for ($j = 0; $j < $children->count(); $j++) {
             $subShield = $children->item($j);
         // foreach ($children as $subShield) {
@@ -356,11 +367,18 @@ class references {
             if ($child != null && $child->nodeName == blazonML::E_PENDING && isset($existingIDs[$currentID])) {
                 $refNode = $existingIDs[$currentID];
                 if (is_null($refNode)) {
-                    error_log('Null ref node in subshield');
+                    ds_error_log('Null ref node in subshield', true);
+                    continue;
+                }
+                if (!array_key_exists($refNode, $existingNodes)) {
+                    if (!$missingReported) {
+                        $this->message( 'No quarter description found');
+                        $missingReported = true;
+                    }
                     continue;
                 }
                 $newNode = $existingNodes[$refNode]->cloneNode(true);
-                $newNode->setAttribute('ID',unique('clone'));
+                $newNode->setAttribute('ID',$this->unique->getRef("clone"));
                 $newNode->setAttribute('index',$j + 1);
                 $node->replaceChild( $newNode, $subShield);
                 if (++$currentID >= count($existingIDs))

@@ -17,8 +17,17 @@ This file is part of the DrawShield.net heraldry image creation program
  */
 
 include 'utils/general.inc';  // general utilities, duh.
+set_exception_handler('display_bug');
 $timings = array('start' => microtime(true));
 $memory = array('start' => memory_get_usage(true));
+register_shutdown_function(function(){
+    global $options;
+    $error = error_get_last();
+    if (null !== $error && $error['type'] == "1") {
+        error_log($options['blazon'] . ' causes ' . $error['type'] . ' '  . $error['message'] .
+          " at " . $error['file'] . ':' . $error['line']);
+    }
+});
 
 //////////////////////////////////////////////
 // Stage 1a - Set default and fallback options
@@ -59,7 +68,6 @@ $svgOutput = null;
 $dom = null;
 $messages = null;
 $jsonData = [];
-
 
 // Process superglobal settings into the options array
 if (isset($request['outputformat'])) $options['outputFormat'] = strip_tags($request['outputformat']);
@@ -116,7 +124,7 @@ if (!array_key_exists('blazon', $options) || $options['blazon'] == '') {
     $options['blazon'] = preg_replace("/&#?[a-z0-9]{2,8};/i", "", $options['blazon']); // strip all entities.
     $options['blazon'] = preg_replace("/\\x[0-9-a-f]{2}/i", "", $options['blazon']); // strip all entities.
     // log the blazon for research... (unless told not too)
-    if ($version['logBlazon']) error_log($options['blazon']);
+    if ($version['logBlazon']) ds_error_log($options['blazon']);
 }
 
 

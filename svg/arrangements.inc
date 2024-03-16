@@ -27,13 +27,13 @@ require_once('ordinaries/bend-helper.inc');
      $numberGroups = explode('/',$placement);
      $bbElements = explode(',',$boundingBox);
      if (count($bbElements) < 4) {
-       error_log("bad BB - $boundingBox");
+       ds_error_log("bad BB - $boundingBox");
        return $placement;
      }
-     $bbx = $bbElements[0];
-     $bby = $bbElements[1];
-     $bbw = $bbElements[2];
-     $bbh = $bbElements[3];
+     $bbx = intval($bbElements[0]);
+     $bby = intval($bbElements[1]);
+     $bbw = intval($bbElements[2]);
+     $bbh = intval($bbElements[3]);
      // list($bbx,$bby,$bbw,$bbh) = explode(',',$boundingBox); // replaced for error tracking
      $xScale = $bbw / 1000;
      $yScale = $bbh / 1000;
@@ -45,9 +45,9 @@ require_once('ordinaries/bend-helper.inc');
        $numbers = explode(':',$numberGroup);
        foreach ( $numbers as $number ) {
          list ( $x,$y,$w,$h,$rot,$inv,$rev ) = explode ( ',', $number . ',,,,,,,');
-         $newPlacement .= sprintf("%.2f",$bbx + ($x * $xScale)); // new x
+         $newPlacement .= sprintf("%.2f",$bbx + (intval($x) * $xScale)); // new x
          $newPlacement .= ',';
-         if ( $y != '' ) $newPlacement .= sprintf("%.2f", $bby + ( $y * $yScale));
+         if ( $y != '' ) $newPlacement .= sprintf("%.2f", $bby + ( intval($y) * $yScale));
          $newPlacement .= ',';
          if ( $w != '' ) $newPlacement .= $scaleSize ? sprintf("%.2f", $w * $xScale) : $w;
          $newPlacement .= ',';
@@ -1226,7 +1226,7 @@ function calcPlace( $node, $aspect, $bb = '100,100,800,900'  ) {
   }
   else if (is_null($bb) || strpos( $bb, ',') === false)
   {
-      error_log("Bad bounding box - $bb");
+      ds_error_log("Bad bounding box - $bb");
       $bb_x = $bb_y = 100;
       $bb_h = 800;
       $bb_w = 900;

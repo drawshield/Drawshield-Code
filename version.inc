@@ -36,6 +36,7 @@ if (file_exists('date.txt'))
 $options = array(
   // These options are potentially set by URL arguments
   'blazon' => '',
+  'logged' => false,
   'palette' => 'drawshield',
   'filename' => 'shield',
   'size' => 500,

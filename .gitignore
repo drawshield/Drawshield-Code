@@ -19,6 +19,7 @@ svg/charges/custom
 py/venv/
 
 *.dat
+._*
 
 release.txt
 date.txt

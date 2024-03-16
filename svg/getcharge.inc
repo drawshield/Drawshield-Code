@@ -57,7 +57,7 @@ function getPropertyValuePairs($string) {
         } else {
           $state = PREPROPERTY;
           $retval[$property] = $value;
-//          error_log("Found $property as $value");
+//          ds_error_log("Found $property as $value");
           $property = '';
           $value = '';
         }
@@ -66,7 +66,7 @@ function getPropertyValuePairs($string) {
   }
   if ($property && $value) {
     $retval[$property] = $value;
-//     error_log("Found $property as $value");
+//     ds_error_log("Found $property as $value");
   }
   return $retval;
 }
@@ -113,13 +113,14 @@ function getMetaDataFromSVG($svg, $chargeGroup = '', $chargeName = '') {
  function get_chg_data() {
    global $xpath;
    global $chg_data_cache;
+   $unique = new unique();
    
    /**
     * @var DOMElement $chg
     */
    foreach ( $xpath->query("//charge") as $chg ) { // TODO change this to use the ID as key
     if (substr($chg->getAttribute('keyterm'), 0, 8) == 'special/') continue;
-     $chg_ref = unique('chg');
+     $chg_ref = $unique->getRef('chg');
      $chg_data_cache[$chg_ref] = read_chg_file($chg);
      // Add a modifier to link to the cached charge data
      $chg->appendChild(createModifierNode(languageDB::CHARGE_MODS, 'chg_data', $chg_ref ));
@@ -149,7 +150,7 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
     return null;
   }
   $base .= $mods;
-  // error_log("Testing for $base");
+  // ds_error_log("Testing for $base");
   $baseParts = explode('-', $base);
   $requiredParts = [];
   for($i = 0; $i < count($baseParts); $i++) {
@@ -209,7 +210,7 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
         $extra .= $filenameParts[$j] . ' ';
       }
     }
-    // error_log("$entry scores $penalty");
+    // ds_error_log("$entry scores $penalty");
     // compare to previous best fit
     if ( $penalty < $lowestPenalty ) {
       $lowestPenalty = $penalty;
@@ -236,7 +237,7 @@ function featuresThatAreAlsoMods($node) {
   static $features = array (
     'head', 'habited', 'vorant-a-child',
     'clawed', 'stemmed',
-    'leg',
+    'leg', 'imbrued',
     'clasped',
     'slipped',
     'leaved',
@@ -364,6 +365,12 @@ function read_chg_file(DOMElement $node) {
   if (($title = $node->getAttribute('tokens')) == null ) $title = $chargeKey;
   if (array_key_exists('file', $chg_data)) {
     $chg_data['svgCode'] = file_get_contents($folder . $chg_data['file']);
+    if (intval($node->getAttribute(blazonML::A_NUMBER)) > 12) {
+        if (strlen($chg_data['svgCode']) > 1024 * 1024) {
+            $messages->addMessage('warning',"$chargeKey is very large, only 12 instances possible, sorry");
+            $node->setAttribute(blazonML::A_NUMBER, 12);
+        }
+    }
     // Get additional metadata, but allow existing entries (picked up from the charge itself)
     // to have priority
     $chg_data = array_merge(getMetadata($group, $chargeKey), $chg_data);
@@ -505,7 +512,7 @@ function getCharge( DOMElement $node, $layout ) {
 
     $keyterm = $node->getAttribute('keyterm');
     if (strpos($keyterm, '/') === false) {
-        error_log("bad charge keyterm - $keyterm");
+        ds_error_log("bad charge keyterm - $keyterm");
         return null;
     }
     list($chargeGroup, $chargeName ) = explode('/', $keyterm);
@@ -604,7 +611,7 @@ function getCharge( DOMElement $node, $layout ) {
         libxml_use_internal_errors(true);
         if (($svg = @simplexml_load_string($chg_data['svgCode'], null, LIBXML_NOENT)) == null) {
             $messages->addMessage('internal', "XML error reading charge data");
-            error_log("XML error reading charge data - " . $chargeGroup . '/' . $chargeName);
+            ds_error_log("XML error reading charge data - " . $chargeGroup . '/' . $chargeName);
             // Fallback item
             $svg = simplexml_load_string('<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                     <svg

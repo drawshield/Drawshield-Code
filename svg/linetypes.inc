@@ -670,10 +670,10 @@ c
   // Size is fixed for this path, so can substitute now
   $subArg = $size;
   $lineSpec = preg_replace_callback('/{S.*?}/', 'subFunc', $lineSpec);
-  list($repeat,$length,$defaultStart,$defaultEnd,$spec,$options) = explode(':',$lineSpec . ': ' ); // options are optional(!)
+  list($repeat,$length,$defaultStart,$defaultEnd,$spec,$flags) = explode(':',$lineSpec . ': ' ); // flags are optional(!)
   // Process any flags for this lineSpec
-  foreach ( str_split($options,2) as $option ) {
-    switch ( $option[0] ) {
+  foreach ( str_split($flags,2) as $flag ) {
+    switch ( $flag[0] ) {
       case 'R':
         $whenRotated = 'reflected';
         break;
@@ -741,6 +741,10 @@ c
   // We now have all the edge directions and lengths in an array, we calculate any
   // adjustments to the lengths to take account of how they meet (inner to outer or whatever)
   $numEdges = count($edges);
+  if ($numEdges < 1 or $numEdges > 100) {
+      ds_error_log("strange edge count", true);
+      return '';
+  }
   for ( $i = 0; $i < $numEdges; $i++ ) {
     $next = ($i+1)%$numEdges;
     $adjust = meetEdges($edges[$i]['dir'], $edges[$i]['end'], $edges[$next]['dir'], $edges[$next]['start'], $size );
@@ -780,11 +784,11 @@ c
     if ( $doMirror )
       $path = mirrorPath($path,'x');
     // Stretch if required to fit
-    if ( $repeat == '*' ) {
+    if ( $repeat == '*' && $dist > $len ) {
       $reps = (int)($dist/$len);
       $left = $dist - ($reps * $len);
       // if space left, expand the pattern to fit exactly
-      if ( $left > 0 ) {
+      if ( $left > 0 && $len > 0) {
           $xScale = ($dist/$reps)/$len;
           $yScale = $angle == 45 || $angle == 135 || $angle == 225 || $angle == 315 ? $xScale : 1;
         $path = scalePath ( $path, $xScale, $yScale );
