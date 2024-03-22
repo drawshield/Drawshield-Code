@@ -1,6 +1,8 @@
 =charge
      # cross=
 =charge/cross/
+cossack cross(es)?=cossack
+cross(es)? cossack=cossack
 calvary cross(es)?=calvary
 juncyk cross(es)?=juncyk-cross
 =charge/quadrate/
