@@ -412,6 +412,7 @@ seaxe?s?=seax
 hilts?=hilt
 swords? of (st|saint) paul=swordstpaul
 (2|two) handed swords?=arming-sword
+shamshirs?=shamshir
 # default sword=
 ?arming swords?=arming-sword
 broken swords?=broken-sword
