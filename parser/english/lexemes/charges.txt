@@ -39,6 +39,7 @@ serbian cross(es)?=serbian-cross
 couped saltires?=saltire
 celtic cross(es)?=celtic
 russian cross(es)?=russian
+orthodox cross(es)?=russian
 egyptian cross(es)?=egyptian
 christogram ?cross(es)?=christogram
 =charge/quadrate/
