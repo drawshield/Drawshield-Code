@@ -1715,6 +1715,7 @@ labyrinths?=labyrinth
 nesselblatt(s|er)?s?=nesselblatt
 bashk(ir|iria|ortostan) (q|k)(u|o)ra(y|i) flowers? stemmed=bashkir-quray-flower-stemmed
 bashk(ir|iria|ortostan) (q|k)(u|o)ra(y|i) flowers?=bashkir-quray-flower
+khandas?=khanda
      # playing cards=
 =charge/playing-card/
 playing cards? backs?=card-back
