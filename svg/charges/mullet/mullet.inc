@@ -16,7 +16,7 @@ This file is part of the DrawShield.net heraldry image creation program
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
 $num_of = intval(getModifierValueByKeyterm($node, 'ofnum', true));
-if (is_null($num_of)) {
+if ($num_of < 3) {
     $num_of = 5;
 }
 
