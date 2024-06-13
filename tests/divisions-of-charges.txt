@@ -1,0 +1,15 @@
+# Testing for divisions of charges
+a roll of 2 columns
+title "Divided Charges"
+consisting of
+argent a lozenge per pale vert and purpure
+caption "A charge with a single SVG path"
+then
+argent a fleur de lys per pale vert and purpure
+caption "A charge with multuiple SVG paths"
+then
+argent a lion per pale vert and purpure
+caption "A complex SVG (per pale)"
+then
+argent a lion per bend vert and purpure
+caption "A complex SVG (per bend)"
