@@ -905,12 +905,16 @@ class englishGrammar extends grammar
             $mods[] = $this->schema->makeMod('chargemod', null, 'shape-flag');
             $phrase3 = self::newPhrase();
             $phrase3->add(self::findLex(languageDB::USING));
-            if ( $option = $phrase3->add(self::findLex(LanguageDB::DRAWN_MODS) )) {
-                $value = strtolower($option->value);
-                if ( $option->keyterm == "aspect" ) {
-                    $mods[] = $this->schema->makeNodeFromLexeme(blazonML::E_ASPECT, $phrase3->create('aspect'), array(
-                        blazonML::A_KEYTERM => $value)
-                    );
+            $found = true;
+            while ($found) {
+                $found = false;
+                if ($option = $phrase3->add(self::findLex(LanguageDB::DRAWN_MODS))) {
+                    $found = true;
+                    if ($option->keyterm == "ratio") {
+                        $mods[] = $this->schema->makeNodeFromLexeme(blazonML::E_ASPECT, $phrase3->create('aspect'), array(
+                                blazonML::A_KEYTERM => $option->tokens)
+                        );
+                    }
                 }
             }
         }

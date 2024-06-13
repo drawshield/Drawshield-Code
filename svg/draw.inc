@@ -217,6 +217,8 @@ function draw()
                 break;
 
             case blazonML::E_ROLL:
+                // Rolls can take a long time to build, increase the timeout
+                set_time_limit(60);
                 $columns = $node->getAttribute(blazonML::A_COLS);
                 $title = $node->getAttribute(blazonML::A_TITLE);
                 $scale = 1 / $columns;

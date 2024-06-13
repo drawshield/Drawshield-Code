@@ -784,6 +784,7 @@ c
     if ( $doMirror )
       $path = mirrorPath($path,'x');
     // Stretch if required to fit
+    $reps = 0;
     if ( $repeat == '*' && $dist > $len ) {
       $reps = (int)($dist/$len);
       $left = $dist - ($reps * $len);
