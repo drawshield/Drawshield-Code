@@ -626,6 +626,7 @@ polypuse?s?=polypus
 sea urchins?=urchin-sea
 sea tortoises?=sea-tortoise
 turtles?=turtle
+sea turtles?=sea-turtle
 sword fish(es)?=swordfish
 swordfish(es)?=swordfish
      # mythical sea life=
