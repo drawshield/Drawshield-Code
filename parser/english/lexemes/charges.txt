@@ -1121,6 +1121,7 @@ teardrop=teardrop
 increscents?=moon-todexter
 decrescents?=moon-tosinister
 es?toill?e?s?=estoile
+es?toill?e?s? inflamed=estoile-inflamed
 ?% pointed (star|es?toile?)s?=estoile
 suns?=sun
 suns? rays?=sun-rays
