@@ -339,6 +339,7 @@ hungarian=hungarian
 japanese=japanese
 scottish=scottish
 scots=scottish
+austrian=austrian
 
 =shape-prefix
 swiss=swiss
