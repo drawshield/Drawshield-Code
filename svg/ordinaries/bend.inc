@@ -128,7 +128,11 @@ $ordinary['rotate_pattern'] = 45;
 // Below is the transform for checky of 3 rows
 // $ordinary['rotate_pattern'] = 'translate(54,-16) rotate(-45) scale(0.6) ';
 
-$ordinary['chargesOn'] = placement_in_bend($layout->rect_area(), false, 45);
+if ($sinister) {
+    $ordinary['chargesOn'] = placement_in_bend($layout->rect_area(), true, 45);
+} else {
+    $ordinary['chargesOn'] = placement_in_bend($layout->rect_area(), false, 45);
+}
 
 $ordinary['chargesWithin'] = bend_within($layout, $width);
 

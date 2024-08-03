@@ -22,4 +22,4 @@ foreach ( $node->childNodes as $child ) {
   }
 }
 
-$charge['file'] = 'roundel.svg';
+$charge['file'] = 'bezant.svg';
