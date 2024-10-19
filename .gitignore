@@ -24,3 +24,5 @@ py/venv/
 release.txt
 date.txt
 
+.history/
+
