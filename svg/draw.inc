@@ -297,11 +297,15 @@ function draw()
                         $xShift = $colCount * (1000 * $scale);
                         $yShift = $offset + $rowCount * (1200 * $scale);
                         $entry = drawShield($childNode, $layout);
-                        $rollEntry = $entry['body'];
+                        $currentBody = $entry['body'];
+                        $partsList = $entry['parts'];
+                        $rollEntry = '';
                         if (count($partsList)) {
                             foreach ($partsList as $parts) {
-                                $rollEntry .= addParts($rollEntry, $parts, $layout);
+                                $rollEntry .= addParts($currentBody, $parts, $layout);
                             }
+                        } else {
+                            $rollEntry = $currentBody;
                         }
                         if ($captionAboveShift) {
                             $rollEntry = "<g transform=\"translate(0,$captionAboveShift)\">$rollEntry</g>";
