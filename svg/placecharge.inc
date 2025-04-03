@@ -179,6 +179,9 @@ class PlacementHints
         switch ( $keyterm )
         {
             // the "shown" mods
+            case 'inverted':
+                $this->angle = 180;
+                break;
             case 'rotated-dexter':
                 $this->angle = -18;
                 break;
