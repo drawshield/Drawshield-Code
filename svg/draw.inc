@@ -303,6 +303,7 @@ function draw()
                         if (count($partsList)) {
                             foreach ($partsList as $parts) {
                                 $rollEntry .= addParts($currentBody, $parts, $layout);
+                                $partsList = []; // stop drawing them again
                             }
                         } else {
                             $rollEntry = $currentBody;
