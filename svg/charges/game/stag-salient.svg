@@ -17,6 +17,11 @@
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>https://commons.wikimedia.org/wiki/User:Bibar</dc:title>
+          </cc:Agent>
+        </dc:creator>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
       </cc:Work>
