@@ -153,7 +153,7 @@ if (isset($request['whcols'])) $options['useWarhammerColours'] = $request['whcol
 if (isset($request['customPalette']) && is_array($request['customPalette'])) $options['customPalette'] = $request['customPalette'];
 
 $options['blazon'] = preg_replace("/&#?[a-z0-9]{2,8};/i","",$options['blazon']); // strip all entities.
-$options['blazon'] = preg_replace("/\\x[0-9-a-f]{2}/i","",$options['blazon']); // strip all entities.
+$options['blazon'] = preg_replace("/\\\\x[0-9-a-f]{2}/i","",$options['blazon']); // strip all entities.
 
 // Quick response for empty blazon
 if ( $options['blazon'] == '' ) {

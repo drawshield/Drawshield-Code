@@ -149,7 +149,7 @@ class languageDB extends lexicon
     const COMMANDS = 'commands';
  #   const DISPLACED = 'displaced';
  #
-    const LEXEMEDIR = 'parser/english/lexemes';
+    const LEXEMEDIR = __DIR__ . '/lexemes';
 
     public function __construct()
     {
