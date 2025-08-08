@@ -122,7 +122,7 @@ if (!array_key_exists('blazon', $options) || $options['blazon'] == '') {
     }
     $options['blazon'] = strip_tags($options['blazon']);
     $options['blazon'] = preg_replace("/&#?[a-z0-9]{2,8};/i", "", $options['blazon']); // strip all entities.
-    $options['blazon'] = preg_replace("/\\x[0-9-a-f]{2}/i", "", $options['blazon']); // strip all entities.
+    $options['blazon'] = preg_replace('/\\\x[0-9a-f]{2}/i', "", $options['blazon']); // strip all entities.
     // log the blazon for research... (unless told not too)
     if ($version['logBlazon']) ds_error_log($options['blazon']);
 }
@@ -145,8 +145,8 @@ if (is_null($dom)) {
     //////////////////////////////////////////////
     // Stage 2c - Filtering out stuff we don't like (code not in repo)
     /////////////////////////////////////////////
-    if (file_exists("/opt/bitnami/apache/etc/filter.inc")) {
-        include "/opt/bitnami/apache/etc/filter.inc";
+    if (file_exists("../../etc/filter.inc")) {
+        include "../../etc/filter.inc";
         $filter = new filter($dom);
         $dom = $filter->runFilter();
     }

@@ -14,7 +14,7 @@ function callSharp($sourceSVG, $format = 'png', $width = 500, $height = 600) {
     if ($options['requestSource'] == 'shell') {
         curl_setopt($ch, CURLOPT_URL, "http://192.168.1.10:3000/convert");
     } else {
-        curl_setopt($ch, CURLOPT_URL, "http://localhost:3000/convert");
+        curl_setopt($ch, CURLOPT_URL, "https://karlwilcox.com/convert");
     }
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -64,30 +64,6 @@ function convertImageFormat($sourceSVG, $targetFormat) {
             $imageWidth = $options['printSize'];
             $imageHeight = round($imageWidth * $proportion);
             return callSharp($sourceSVG, $targetFormat, $imageWidth, $imageHeight);
-        case 'png-old':   // Deprecated, will be withdrawn soon I hope
-            if (file_exists("cpulimit.txt")) {
-                $limit = intval(file_get_contents("cpulimit.txt"));
-                if ($limit > 0) {
-                    if (!testCpuUsage($limit)) {
-                        header('Content-type: text/text');
-                        echo "Sorry, the server does not sufficient resources to complete your request to create a PNG download.\n";
-                        echo "Please try later, or download the SVG version and convert it yourself using Inkscape.\n";
-                        echo "Your blazon was: " . $options['blazon'];
-                        exit(0);
-                    }
-                }
-            }
-            $dir = sys_get_temp_dir();
-            $base = tempnam($dir, 'shield');
-            rename($base, $base . '.svg');
-            file_put_contents($base . '.svg', $sourceSVG);
-            $width = $options['printSize'];
-            $height = $width * $proportion;
-            $result = shell_exec("java -jar /opt/bitnami/apache/etc/batik/batik-rasterizer-1.16.jar $base.svg -d $base.png -w $width -h $height");
-            unlink($base . '.svg');
-            $content = file_get_contents($base . '.png');
-            unlink($base . '.png');
-            return $content;
         default:
         case 'svg': // already there
             return $sourceSVG;
