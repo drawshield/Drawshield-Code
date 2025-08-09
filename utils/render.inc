@@ -14,7 +14,7 @@ function callSharp($sourceSVG, $format = 'png', $width = 500, $height = 600) {
     if ($options['requestSource'] == 'shell') {
         curl_setopt($ch, CURLOPT_URL, "http://192.168.1.10:3000/convert");
     } else {
-        curl_setopt($ch, CURLOPT_URL, "https://karlwilcox.com/convert");
+        curl_setopt($ch, CURLOPT_URL, "http://localhost:3000/convert");
     }
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
