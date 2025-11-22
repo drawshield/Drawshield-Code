@@ -116,6 +116,7 @@ stocks?=stock
 (stave?|hilt)(s|ed)?=hilt
 (pom?mell?s?|pomm?ell?ed)=pomell
 (tongu|langu)(es|ed)=langued
+lampasse=langued
 bladed?s?=blade
 h(andl|elv)ed?s?=handle
 leaves?d?=leaved

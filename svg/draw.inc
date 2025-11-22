@@ -219,6 +219,7 @@ function draw()
             case blazonML::E_ROLL:
                 // Rolls can take a long time to build, increase the timeout
                 set_time_limit(60);
+                $options['roll'] = true;
                 $columns = $node->getAttribute(blazonML::A_COLS);
                 $title = $node->getAttribute(blazonML::A_TITLE);
                 $scale = 1 / $columns;
@@ -352,7 +353,7 @@ function draw()
             $body = getEffect($effect, 'below') . '<g ' . getEffect($effect, 'filter') . '>' . $body . getEffect($effect, 'above') . '</g>';
         }
         // Add outline of shield shape, only if required
-        if ($options['palette'] == 'outline' || $options['asFile'] == 'printable') {
+        if ($options['palette'] == 'outline' || ($options['asFile'] == 'printable' && !($options['roll']))) {
             $outline = getShape($layout);
             $body .= '<path fill="none" stroke="' . rgb('gray') . '" stroke-width="4" d="' . $outline . '" />';
         }

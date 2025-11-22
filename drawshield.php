@@ -120,6 +120,7 @@ if (!array_key_exists('blazon', $options) || $options['blazon'] == '') {
         $jsonData['options'] = $options;
         unset($jsonData['options']['blazon']); // already have this
     }
+    $options['original'] = $options['blazon'];
     $options['blazon'] = strip_tags($options['blazon']);
     $options['blazon'] = preg_replace("/&#?[a-z0-9]{2,8};/i", "", $options['blazon']); // strip all entities.
     $options['blazon'] = preg_replace('/\\\x[0-9a-f]{2}/i', "", $options['blazon']); // strip all entities.
@@ -240,7 +241,7 @@ if ($options['asFile'] == 'printable') {
     echo "<style>\nsvg { margin-left:auto; margin-right:auto; display:block;}</style>\n</head>\n<body>\n";
     echo "<div>\n$targetImage</div>\n";
     echo "<h2>Blazon</h2>\n";
-    echo "<p class=\"blazon\">{$options['blazon']}</p>\n";
+    echo "<pre class=\"blazon\">{$options['original']}</pre>\n";
     echo "<h2>Image Credits</h2>\n";
     echo "<p>This work is licensed under a <em>Creative Commons Attribution-ShareAlike 4.0 International License</em>.";
     echo " It is a derivative work based on the following source images:</p>";

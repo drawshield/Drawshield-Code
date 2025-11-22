@@ -90,7 +90,7 @@ Class WordBuilder
                         break;
                     case 'bold':
                     case 'italic':
-                        $messages->addMessage('blazon', 'Bold and italic are now longer supported');
+                        $messages->addMessage('blazon', 'Bold and italic are no longer supported');
                         break;
                     case 'font':
                         $this->setOption(self::FONT, getModifierValueByKeyterm($node, 'font'));
@@ -221,6 +221,7 @@ Class WordBuilder
                 $fontName = 'lisbon-cursive';
                 break;
             case 'carved':
+            case 'carven':
                 $fontName = 'merrycle-carved';
                 break;
             case 'serif':

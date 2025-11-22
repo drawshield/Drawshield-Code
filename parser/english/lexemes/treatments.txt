@@ -34,6 +34,7 @@ escaille=scaly
 sem(ee?|y) de l(i|y)s=seme-de-lys
 fl(o|eu)ry=seme-de-lys
 vair(e|y)=vairy
+vair(e|y) [ei]n point=vairy-en-point
 potent(e|y)=potenty
 ai?[qg]ui?lated=aquilated
 ferrated=ferrated

@@ -1,0 +1,7 @@
+<svg width="250" height="480" ><g class="treatment" >
+            <polygon  points="125,0 193,40 193,200 250,240 0,240 66,200 66,40"/>
+            <polygon transform="scale(1,-1) translate(125,-480)"
+                points="125,0 193,40 193,200 250,240 0,240 66,200 66,40"/>
+            <polygon transform="scale(1,-1) translate(-125,-480)"
+                points="125,0 193,40 193,200 250,240 0,240 66,200 66,40"/>
+        </g></svg>

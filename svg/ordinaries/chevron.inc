@@ -140,14 +140,22 @@ $within_top = new ShieldRect(
     new ShieldSize($layout->size->width * 0.3, $within_top_height - $within_top_margin)
 );
 
-$within_bottom_height = ($layout->size->height - $layout->cross_point->y - $within_margin) * 2/3;
-$within_bottom = new ShieldRect(
-    new ShieldPos($layout->cross_point->x, $layout->cross_point->y + $within_bottom_height),
-    new ShieldSize($within_bottom_height, $within_bottom_height)
-);
 $side_off = $chevron_width / M_SQRT2 + $within_margin / 2 / M_SQRT2;
 $within_left = ShieldRect::from_corners($within_margin, $within_margin, $layout->cross_point->x - $side_off, $layout->cross_point->y - $side_off);
 $within_right = ShieldRect::from_corners($layout->cross_point->x + $side_off, $within_margin, $layout->size->width - $within_margin, $layout->cross_point->y - $side_off);
+
+// $within_bottom_height = ($layout->size->height - $layout->cross_point->y - $within_margin) * 2/3;
+$bottom_size = ($layout->cross_point->x - $side_off - $within_margin);
+$within_bottom = ShieldRect::from_corners(
+    $layout->cross_point->x - ($bottom_size / 2), 
+    $layout->cross_point->y + ($within_margin * 2), 
+    $layout->cross_point->x + ($bottom_size / 2),
+    $layout->cross_point->y + ($within_margin * 2) + $bottom_size);
+
+// $within_bottom = new ShieldRect(
+//     new ShieldPos($layout->cross_point->x, $layout->cross_point->y + (1.5 * $within_bottom_height) ),
+//     new ShieldSize($within_bottom_height, $within_bottom_height)
+// );
 
 $ordinary['chargesWithin'] = array_to_placement([
     [],
