@@ -16,6 +16,7 @@ This file is part of the DrawShield.net heraldry image creation program
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 require_once('size.inc');
 
+#[\AllowDynamicProperties]
 class Quarter
 {
     function __construct($pos, $size, $scale, $rel_size, $shape, $charge_hint = null, $section = "quarter")

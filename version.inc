@@ -54,4 +54,5 @@ $options = array(
   'useWebColours' => false,
   'useWarhammerColours' => false,
   'useTartanColours' => false,
+  'roll' => false,
 );

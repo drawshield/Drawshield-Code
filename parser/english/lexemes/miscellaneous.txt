@@ -177,9 +177,9 @@ frets?=geometric/fret
 salta?ires?=cross/saltire
 
 =ordinaryconf
-salta?ire ?double parted ?and fretty=saltire-2fretty
-cross ?double parted ?and fretty=cross-2fretty
-cross tripartite ?and fretty=cross-3fretty
+salta?ire ?double part(ite|ed) ?and frett(y|ed)=saltire-2fretty
+cross ?double part(ite|ed) ?and frett(y|ed)=cross-2fretty
+cross tripart(ite|ed) ?and frett(y|ed)=cross-3fretty
 cross quarter pierced?=cross-pierced
 cross quarterpierced?=cross-pierced
 fillet cross=fillet-cross

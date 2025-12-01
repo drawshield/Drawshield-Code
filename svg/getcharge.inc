@@ -281,7 +281,7 @@ function read_chg_file(DOMElement $node) {
   }
 
   // test for broken charge information
-  $splitArray = preg_split(':/:', $node->getAttribute('keyterm'));
+  $splitArray = explode('/', $node->getAttribute('keyterm'), 2);
   if (count($splitArray) != 2) {
     $messages->addMessage('internal',"Problem reading charge with keyterm " . $node->getAttribute('keyterm'));
     $chg_data['svgCode'] = '<svg height="100" width="100"><g stroke="none"><path fill-rule="evenodd" d="M0,0h100v100h-100zM10,10h80v80h-80z" />' .
@@ -302,6 +302,21 @@ function read_chg_file(DOMElement $node) {
       $chargeKey = $trad . '-' . $chargeKey;
 
   $folder = __dir__ . "/charges/$group/";
+
+  $context = null;
+  // Is this a remote SVG file (e.g. wikimedia?)
+  if (str_starts_with($chargeKey, "http")) {
+    $chg_data['file'] = $chargeKey;
+    $folder = '';
+    $chg_data['licence'] = "(external resource)";
+    $opts = [
+      'http' => [
+        'method' => 'GET',
+        'header' => "User-Agent: DrawShieldBot/1.0 (https://drawshield.net;contact@drawshield.net)"
+      ]
+    ];
+    $context = stream_context_create($opts);
+  }
 
   // First, look for .inc file
   $incFile = $folder . $chargeKey . '.inc';
@@ -364,7 +379,7 @@ function read_chg_file(DOMElement $node) {
 
   if (($title = $node->getAttribute('tokens')) == null ) $title = $chargeKey;
   if (array_key_exists('file', $chg_data)) {
-    $chg_data['svgCode'] = file_get_contents($folder . $chg_data['file']);
+    $chg_data['svgCode'] = file_get_contents($folder . $chg_data['file'], false, $context);
     if (intval($node->getAttribute(blazonML::A_NUMBER)) > 12) {
         if (strlen($chg_data['svgCode']) > 1024 * 1024) {
             $messages->addMessage('warning',"$chargeKey is very large, only 12 instances possible, sorry");
@@ -610,7 +625,7 @@ function getCharge( DOMElement $node, $layout ) {
         // Turn the svg_code into a SimpleXML object
         libxml_use_internal_errors(true);
         if (($svg = @simplexml_load_string($chg_data['svgCode'], null, LIBXML_NOENT)) == null) {
-            $messages->addMessage('internal', "XML error reading charge data");
+            $messages->addMessage('internal', "XML error reading charge data" . $chargeName);
             ds_error_log("XML error reading charge data - " . $chargeGroup . '/' . $chargeName);
             // Fallback item
             $svg = simplexml_load_string('<?xml version="1.0" encoding="UTF-8" standalone="no"?>

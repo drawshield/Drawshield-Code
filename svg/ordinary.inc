@@ -316,7 +316,7 @@ function getSpecial($type, $node, $layout)
     $subfile = getBestMatchFilename($folder, $filename, null, false);
 
     if ($subfile == null)
-        return includeOrdinary($node, $layout);;
+        return null;
 
     $basename = basename($subfile, ".svg");
     if (strpos($basename, "-") !== false && (strpos($filename, "-") === false || $basename != $filename))
@@ -391,10 +391,9 @@ function makeOrdinary(DOMElement &$node, $layout)
     // Get information about the shapes to be drawn
     // We do this first in case the ordinary code changes any of the modifiers, e.g. a bend quarterly
     $subtype = $node->getAttribute('keyterm');
-    // special handling for bordures (as lots of options)
-    if ($subtype == 'bordure') {
-        $ord_data = getSpecial('bordures', $node, $layout);
-    } else {
+    // Do we have a hand-created version of this ordinary?
+    $ord_data = getSpecial($subtype, $node, $layout);
+    if ($ord_data == null) {
         $ord_data = includeOrdinary($node, $layout);
     }
     /**

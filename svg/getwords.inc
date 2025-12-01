@@ -15,6 +15,7 @@ This file is part of the DrawShield.net heraldry image creation program
     You should have received a copy of the GNU General Public License
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
+#[\AllowDynamicProperties]
 Class WordBuilder
 {
     private $textOptions;

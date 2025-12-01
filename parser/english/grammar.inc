@@ -134,14 +134,17 @@ class englishGrammar extends grammar
         do { // Order is important here - look for charge LAST so as not to confuse with helmet or torse
             $found = false;
             if (!in_array('mantling', $singleItems) && ($mantle = self::mantling()) != null) {
+                $this->matcher->syncOver(languageDB::SEMICOLON);
                 $found = true;
                 $singleItems[] = 'mantling';
                 $achievement->appendChild($mantle);
             } elseif (!in_array('supports', $singleItems) && ($support = self::supporters()) != null) {
+                $this->matcher->syncOver(languageDB::SEMICOLON);
                 $found = true;
                 $achievement->appendChild($support);
                 $singleItems[] = 'supports';
             } elseif (($motto = self::motto()) != null) {
+                $this->matcher->syncOver(languageDB::SEMICOLON);
                 $found = true;
                 $achievement->appendChild($motto);
             } elseif (!in_array('ornament', $singleItems) && (($ornament = self::ornaments()) != null)) {
@@ -166,13 +169,16 @@ class englishGrammar extends grammar
                         array(blazonML::A_KEYTERM => 'group'));
                 }
             } elseif (!in_array('compartment', $singleItems) && ($compartment = self::compartment()) != null) {
+                $this->matcher->syncOver(languageDB::SEMICOLON);
                 $found = true;
                 $achievement->appendChild($compartment);
                 $singleItems[] = 'compartment';
             } elseif (($fringe = self::fringe()) != null) {
+                $this->matcher->syncOver(languageDB::SEMICOLON);
                 $found = true;
                 $achievement->appendChild($fringe);
             } elseif (($torse = self::torse()) != null) {
+                $this->matcher->syncOver(languageDB::SEMICOLON);
                 $found = true;
                 if (!is_null($thisTorse)) {
                     self::raiseError(self::ERROR_WARNING, "Only one torse per crest, others ignored", $torse);
