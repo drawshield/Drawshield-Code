@@ -474,8 +474,7 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
         case 'default': // don't think these two ever occur
         case 'proper':
         case 'fur':
-        case 'treatment':
-        case 'semyde':
+        case 'treatment': case 'semyde':
             $data->parse_fill($layout);
 
             if ( $data->mask )
@@ -523,7 +522,16 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
                     $retval = '<g>' . $title . '<desc>Division used to fill field</desc>' . makeDivision( $data->type_node, $layout ) . '</g>';
                     break;
                 case 'ordinary':
-                    if ( strpos($targetKeyterm, 'cross') !== false || strpos($targetKeyterm, 'bend') !== false || strpos($targetKeyterm, 'saltire') !== false ) {
+                    $fullSizeOrdinaries = ['cross', 'bend', 'orle', 'saltire',
+                    'bordure', 'tressure', 'throughout', 'escutcheon'];
+                    $fullSize = false;
+                    foreach ($fullSizeOrdinaries as $needle) {
+                        if (strpos($targetKeyterm, $needle) !== false) {
+                            $fullSize = true;
+                            break;
+                        }
+                    }
+                    if ( $fullSize ) {
                         $new_div = makeDivision( $data->type_node, $layout );
                         $mask_id = add_def ( 'mask width="1200" height="' . ($layout->size->height + 200) . '" maskUnits="userSpaceOnUse"',
                             $title . "<desc>Division used to fill $targetKeyterm</desc>" .
