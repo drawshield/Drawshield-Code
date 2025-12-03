@@ -949,16 +949,8 @@ HERE;
     $chargeOnTop = false;
     switch ( $chargeWithType ) {
       case 'encircled-by':
-        switch ( $chargeToAddType ) {
-          case 'characters/word': // TODO move this logic to a separate function
-            $chargeToAdd->appendChild(createModifierNode(languageDB::CHARGE_FEATURES,'encircled'));
-            break;
-          case 'symbol/laurel-wreath':
-            // These are OK, but no further action required (already not on top)
-            break;
-          default:
-           // $messages->addMessage('warning','charge inside another may not work properly');
-            $chargeOnTop = true;
+        if ($chargeToAddType != 'characters/word' && $chargeToAddType != 'symbol/laurel-wreath') {
+          $chargeOnTop = true;
         }
         $charges = makeSquareCharge($chargeToAdd);
         // $charges contains 1000x1000 text circle

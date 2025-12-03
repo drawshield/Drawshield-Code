@@ -174,9 +174,9 @@ if (is_null($dom)) {
     //////////////////////////////////////////////
     // Stage 2e - resolve cross references & other fixups
     /////////////////////////////////////////////
-    include "analyser/references.inc";
+    include "analyser/fixups.inc";
     $references = new references($dom);
-    $dom = $references->setReferences();
+    $dom = $references->doFixups();
     $memory['fixups'] = memory_get_usage(true);
     $references = null; // destroy references to save memory
     $timings['fixups'] = microtime(true);

@@ -22,6 +22,7 @@ require_once("size.inc");
  * @brief A cubic bezier with precompiled lengths
  * @note This should be treated as a read-only object
  */
+#[\AllowDynamicProperties]
 class CubicBezier
 {
     /// @var ShieldPos
@@ -341,6 +342,7 @@ class CubicBezier
 /**
  * @brief PolyBezier point
  */
+#[\AllowDynamicProperties]
 class BezierPoint
 {
     /// @var ShieldPos
@@ -387,6 +389,7 @@ class BezierPoint
 /**
  * @brief A continuous sequence of bezier data, which might be closed to loop along itself
  */
+#[\AllowDynamicProperties]
 class PolyBezier
 {
     public $points = [];
@@ -777,6 +780,7 @@ class PolyBezier
 /**
  * @brief A bezier shape, which might contain multiple disconnected beziers
  */
+#[\AllowDynamicProperties]
 abstract class ShapeInterface
 {
     /**
@@ -818,6 +822,7 @@ abstract class ShapeInterface
 /**
  * @brief A shape made up of PolyBezier objects
  */
+#[\AllowDynamicProperties]
 class MutableShape extends ShapeInterface
 {
     private $sub_paths = [];
@@ -1062,6 +1067,7 @@ class MutableShape extends ShapeInterface
 /**
  * @brief Minimal parser for the SVG path d attribute
  */
+#[\AllowDynamicProperties]
 class SvgDParser
 {
     private $tokens, $tokpos, $letter, $relative;
@@ -1185,6 +1191,7 @@ class BezierSegmentFlags
     const MIRROR        = 0x40;
 }
 
+#[\AllowDynamicProperties]
 class SegmentAtData
 {
     function __construct($index, CubicBezier $segment, $t, CompiledBezierSegment $parent)
@@ -1230,6 +1237,7 @@ class SegmentAtData
 /**
  * @brief A continuous sequence of compiled bezier data
  */
+#[\AllowDynamicProperties]
 class CompiledBezierSegment
 {
     /// @var CubicBezier[]
@@ -1380,6 +1388,7 @@ class CompiledBezierSegment
     }
 }
 
+#[\AllowDynamicProperties]
 class CompiledPolyBezier
 {
     private $closed = false;
@@ -1489,6 +1498,8 @@ class CompiledPolyBezier
 /**
  * @brief A shape made up of CompiledPolyBezier objects
  */
+#[\AllowDynamicProperties]
+
 class CompiledShape extends ShapeInterface
 {
     private $sub_paths = [];
