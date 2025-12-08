@@ -130,17 +130,18 @@ function getMetaDataFromSVG($svg, $chargeGroup = '', $chargeName = '') {
 function getBestMatchFilename($folder, $base, $mods, $warn = true) {
   global $messages;
   $lowestPenalty = 9999;
-  $bestFilename = '';
+  $bestFilename = null;
   $bestMissing = '';
   $bestExtra = '';
   $presentNotRequiredPenalty = 10;
   $requiredNotPresentPenalty = 20;
+  // $wildcardMatchPenalty = 5;
   $positionWeight = 2;
 
   $doNotUseInMatch = array ('badge', 'of', 'the'); // ignore these words, no value for matching
 
   if (!is_dir($folder)) {
-    return $bestFilename;
+    return null;
   }
 
   $dh = opendir($folder);
@@ -172,8 +173,14 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
     $numFilenameParts = count($filenameParts) - 1; // last entry is 'svg', so ignore it
       // if the final part is something like (1), (2) etc. ignore that too
       if (preg_match("/([0-9])/",$filenameParts[$numFilenameParts])) $numFilenameParts -= 1;
-    // Base name of the item MUST match
-    if ($requiredParts[0] != $filenameParts[0]) { continue; }
+    // Base name of the item MUST match (or be "any")
+    if ($requiredParts[0] != $filenameParts[0]) {
+    //  if ($filenameParts[0] == 'any') {
+    //    $penalty += $wildcardMatchPenalty; // try it, but with a small penalty
+    //  } else { 
+        continue; // really not found, just move on
+    //  }
+    }
 
     // check for required, not present
     for ($i = 1; $i < $numRequiredParts; $i++) {
@@ -210,7 +217,6 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
         $extra .= $filenameParts[$j] . ' ';
       }
     }
-    // ds_error_log("$entry scores $penalty");
     // compare to previous best fit
     if ( $penalty < $lowestPenalty ) {
       $lowestPenalty = $penalty;

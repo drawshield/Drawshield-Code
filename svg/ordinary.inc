@@ -296,31 +296,39 @@ function getSpecial($type, $node, $layout)
     global $options, $messages;
     $special = [];
 
-    $filename = $layout->shape;
+    $basename = $layout->shape;
+    $extras = '';
 
     $linetype = getModifierByType($node, 'linetype', false);
 
     if ($linetype != null)
-        $filename .= '-' . $linetype;
+        $extras .= '-' . $linetype;
 
     if ($layout->size->height < 1000)
-        $filename .= '-chief';
+        $extras .= '-chief';
 
-    $compony = getModifierByType($node, 'compony');
-
-    if ($compony != null)
-        $filename .= '-compony1-of16';
+    $ordmods = getModifiersByTypeAsArray($node, 'ordmods', false);
+    foreach($ordmods as $ordmod => $value) {
+        $extras .= "-$ordmod";
+    }
 
     $folder = __dir__ . "/ordinaries/$type/";
 
-    $subfile = getBestMatchFilename($folder, $filename, null, false);
+    $subfile = getBestMatchFilename($folder, $basename, $extras, false);
 
-    if ($subfile == null)
+    if ($subfile == null) { // look for a wildcard instead
+        // which must be an exact match, so just look for it
+        if (file_exists($folder . '/' . 'any' . $extras . '.svg' )) {
+            $subfile = 'any' . $extras . '.svg';
+        }
+    }
+    if ($subfile == null) { // still not found
         return null;
+    }
 
-    $basename = basename($subfile, ".svg");
-    if (strpos($basename, "-") !== false && (strpos($filename, "-") === false || $basename != $filename))
-        return includeOrdinary($node, $layout);;
+    // $basename = basename($subfile, ".svg");
+    // if (strpos($basename, "-") !== false && (strpos($filename, "-") === false || $basename != $filename))
+     //   return includeOrdinary($node, $layout);;
 
     $svg = simplexml_load_file($folder . $subfile);
 

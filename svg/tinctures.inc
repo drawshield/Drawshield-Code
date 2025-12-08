@@ -524,9 +524,15 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
                 case 'ordinary':
                     $fullSizeOrdinaries = ['cross', 'bend', 'orle', 'saltire',
                     'bordure', 'tressure', 'throughout', 'escutcheon'];
+                    $butNotThese = ['bendy'];
                     $fullSize = false;
                     foreach ($fullSizeOrdinaries as $needle) {
                         if (strpos($targetKeyterm, $needle) !== false) {
+                            foreach ($butNotThese as $notThisOne) {
+                                if (strpos($targetKeyterm, $notThisOne) > 0) {
+                                    break 2;
+                                }
+                            }
                             $fullSize = true;
                             break;
                         }

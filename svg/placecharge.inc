@@ -373,21 +373,20 @@ function PlaceCharge ( $node,  // images
                             $inverted = false,
                             $reversed = false ) {
     global $messages;
-
   $charge = getCharge( $node, $layout );
   if ($charge == null) return '';
   $orientation = null;
   $tinctures = [];
   $Xflex = array_key_exists('wflex', $charge) ? $charge['wflex'] : 1;
   $Yflex = array_key_exists('hflex', $charge) ? $charge['hflex'] : 1;
-    $midX = array_key_exists('midX', $charge) ? $charge['midX'] : null;
-    $midY = array_key_exists('midY', $charge) ? $charge['midY'] : null;
+  $midX = array_key_exists('midX', $charge) ? $charge['midX'] : null;
+  $midY = array_key_exists('midY', $charge) ? $charge['midY'] : null;
 
   $inArrangement = false;
   $shownRotation = 0;
   $situation = $charge['situation'] ?? 'palewise';
 
-    $hints = new PlacementHints();
+  $hints = new PlacementHints();
   foreach ( $node->childNodes as $child ) {
     if ( $child->nodeName == 'modifier' ) {
       if ($child->getAttribute('type') == 'arrangement') {
@@ -545,10 +544,10 @@ function PlaceCharge ( $node,  // images
       }
     }
   }
-    $Xscale *= $hints->scale_x;
-    $Yscale *= $hints->scale_y;
-    $centreY += $hints->offset_y;
-    $centreX += $hints->offset_x;
+  $Xscale *= $hints->scale_x;
+  $Yscale *= $hints->scale_y;
+  $centreY += $hints->offset_y;
+  $centreX += $hints->offset_x;
   $sizeX = $chargeX * $Xscale;
   $sizeY = $chargeY * $Yscale;
     if (!is_null($midX)) {
