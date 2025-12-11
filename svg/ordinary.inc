@@ -314,23 +314,15 @@ function getSpecial($type, $node, $layout)
 
     $folder = __dir__ . "/ordinaries/$type/";
 
-    $subfile = getBestMatchFilename($folder, $basename, $extras, false);
-
-    if ($subfile == null) { // look for a wildcard instead
-        // which must be an exact match, so just look for it
-        if (file_exists($folder . '/' . 'any' . $extras . '.svg' )) {
-            $subfile = 'any' . $extras . '.svg';
+    $overrideFilename = "$folder/$basename$extras.svg";
+    if (!file_exists($overrideFilename)) {
+        $overrideFilename = "$folder/any$extras.svg";
+        if (!file_exists($overrideFilename)) {
+            return null;
         }
     }
-    if ($subfile == null) { // still not found
-        return null;
-    }
 
-    // $basename = basename($subfile, ".svg");
-    // if (strpos($basename, "-") !== false && (strpos($filename, "-") === false || $basename != $filename))
-     //   return includeOrdinary($node, $layout);;
-
-    $svg = simplexml_load_file($folder . $subfile);
+    $svg = simplexml_load_file($overrideFilename);
 
     $paths = $svg->xpath('//svg:path');
     $tempBody = '';
