@@ -18,6 +18,7 @@ This file is part of the DrawShield.net heraldry image creation program
 require_once(__dir__."/../bezier.inc");
 
 
+#[\AllowDynamicProperties]
 abstract class EdgeType
 {
     abstract function apply_bezier_segment(CompiledBezierSegment $source, MutableShape $target, $feature_width, $feature_height);
@@ -216,6 +217,7 @@ abstract class EdgeTypeBezier extends EdgeType
     }
 }
 
+#[\AllowDynamicProperties]
 class EdgeTypeRepeating extends EdgeTypeBezier
 {
     const REVERSE_NORMAL = "normal";
@@ -524,6 +526,7 @@ class EdgeTypeFull extends EdgeTypeBezier
     }
 }
 
+#[\AllowDynamicProperties]
 class EdgeTypeOnce extends EdgeTypeBezier
 {
     /*

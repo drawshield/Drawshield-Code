@@ -307,9 +307,25 @@ function getSpecial($type, $node, $layout)
     if ($layout->size->height < 1000)
         $extras .= '-chief';
 
+    $pathHeader = '';
+    $pathTrailer = '';
+
     $ordmods = getModifiersByTypeAsArray($node, 'ordmods', false);
     foreach($ordmods as $ordmod => $value) {
-        $extras .= "-$ordmod";
+        switch ($ordmod) {
+            case 'inverted':
+                // don't need to do anything about this one
+                break;
+            case 'throughout':
+                if ($type == 'pile') {
+                    $pathHeader .= '<g transform="scale(1,1.2)">';
+                    $pathTrailer .= '</g>';
+                }
+                break;
+            default:
+                $extras .= "-$ordmod";
+                break;
+        }
     }
 
     $folder = __dir__ . "/ordinaries/$type/";
@@ -325,10 +341,11 @@ function getSpecial($type, $node, $layout)
     $svg = simplexml_load_file($overrideFilename);
 
     $paths = $svg->xpath('//svg:path');
-    $tempBody = '';
+    $tempBody = $pathHeader;
     foreach ($paths as $path) {
         $tempBody .= $path->asXML();
     }
+    $tempBody .= $pathTrailer;
     $special['body'] = $tempBody;
 
     $paths = $svg->xpath('//svg:g[@id="body2"]/*');
@@ -392,8 +409,11 @@ function makeOrdinary(DOMElement &$node, $layout)
     // We do this first in case the ordinary code changes any of the modifiers, e.g. a bend quarterly
     $subtype = $node->getAttribute('keyterm');
     // Do we have a hand-created version of this ordinary?
-    $ord_data = getSpecial($subtype, $node, $layout);
-    if ($ord_data == null) {
+    if (($special_data = getSpecial($subtype, $node, $layout)) != null) {
+        $temp_data = includeOrdinary($node, $layout);
+        unset($temp_data['shape_spec']); // chuck that away, don't need it
+        $ord_data = array_merge($temp_data, $special_data); // overwrite the original with special_data
+    } else {
         $ord_data = includeOrdinary($node, $layout);
     }
     /**

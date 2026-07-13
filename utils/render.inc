@@ -61,6 +61,13 @@ function convertImageFormat($sourceSVG, $targetFormat) {
         case 'jpg':
         case 'jpeg':
         case 'webp':
+            // $im = new Imagick();
+            // $im->readimageblob($sourceSVG);
+            // $im->setimageformat($targetFormat);
+            // $imageWidth = $options['printSize'];
+            // $imageHeight = round($imageWidth * $proportion);
+            // $im->resizeImage($imageWidth, $imageHeight, \Imagick::FILTER_LANCZOS, 1 );
+            // return $im->getimageblob();
             $imageWidth = $options['printSize'];
             $imageHeight = round($imageWidth * $proportion);
             return callSharp($sourceSVG, $targetFormat, $imageWidth, $imageHeight);

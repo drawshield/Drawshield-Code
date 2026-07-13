@@ -17,6 +17,7 @@ chevronn?(ell)?y=chevronny
 quarterly quartered=gyronny
 ?part(y|ed) ?per g(i|y)ronny=gyronny
 bendy=bendy
+orly=
 ?part(y|ed) per fesse?=per-fess
 parted fesse?wise=per-fess
 ?part(y|ed) per pale=per-pale
