@@ -244,7 +244,7 @@ function getNumberOfCharges(DOMElement $node) { // Find total number of charges,
      * @var DOMElement $between
      */
     if ( $between = getModifierNodeWithKeyterm($node,'between')) {
-      $number += (integer)$between->firstChild->getAttribute('number');
+      $number += (int)$between->firstChild->getAttribute('number');
     }
   }
   return $number;

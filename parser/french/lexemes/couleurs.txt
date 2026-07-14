@@ -1,0 +1,14 @@
+=couleur
+argent=
+azur=azure
+gueules=gules
+or=
+sable=
+sinople=vert
+carnation=
+cendree=
+mure=murrey
+pourpre=purpure
+orange=
+sanguine=
+t[ae]nne=tenne

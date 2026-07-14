@@ -1,0 +1,5 @@
+=fourrure
+hermine=ermine
+vair=
+contre hermine=ermines
+contre vair=counter-vair

@@ -55,4 +55,5 @@ $options = array(
   'useWarhammerColours' => false,
   'useTartanColours' => false,
   'roll' => false,
+  'language' => 'english',
 );

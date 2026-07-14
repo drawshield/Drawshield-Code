@@ -87,6 +87,7 @@ if (isset($request['webcols'])) $options['useWebColours'] = $request['webcols'] 
 if (isset($request['tartancols'])) $options['useTartanColours'] = $request['tartancols'] == 'yes';
 if (isset($request['whcols'])) $options['useWarhammerColours'] = $request['whcols'] == 'yes';
 if (isset($request['customPalette']) && is_array($request['customPalette'])) $options['customPalette'] = $request['customPalette'];
+if (isset($request['language'])) $options['language'] = strip_tags($request['language']);
 
 //////////////////////////////////////////////
 // Stage 2a - blazon preparation
@@ -137,7 +138,7 @@ if (is_null($dom)) {
     /////////////////////////////////////////////
     include "parser/parser.inc";
 
-    $p = new parser('english');
+    $p = new parser($options['language']);
     $dom = $p->parse($options['blazon']);
     $memory['parser'] = memory_get_usage(true);
     $p = null; // destroy parser to save memory

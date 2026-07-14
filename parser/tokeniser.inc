@@ -101,15 +101,17 @@ class Phrase {
 }
 
 class Tokeniser {
+  protected string $language;
 
   // Constructor
   // Fill the words array with words from the blazon
   // Punctuation and spaces ignored
-  function __construct() {
+  function __construct($language = 'english') {
+    $this->language = $language;
       // set any options here
   }
 
-  function tokenise($blazon) {
+  function tokenise(string $blazon) {
 
     #$blazon = iconv("UTF-8", "ASCII//TRANSLIT", $blazonText);
     #$blazon = preg_replace(array('/è/','/é/','/ê/','/ç/','/à/','/á/','/â/','/È/','/É/','/Ê/','/Ç/','/À/','/Á/','/Â/'),
@@ -351,12 +353,28 @@ class Tokeniser {
           }
           if ( !$comment ) { $words[] = new Token($curChar, "$lineNo:$wordStart", null, languageDB::COMMA); }
           break;
-          case "'": // single quotes are always apostrophes, just ignore unless part of a string
-          case "`":
+          case "'": // in English single quotes are always apostrophes, just ignore unless part of a string
+          case "`": // in French they indicate missing 'e' so is treated like a space
           case "’":
           case "‛":
-              if ( $incAll ) {
-                  $part_word .= "'";
+              if ($this->language == 'english') {
+                if ( $incAll ) {
+                    $part_word .= "'";
+                }
+              } elseif ($this->language == 'french') {
+                if ( $incAll )
+                  $part_word .= ' ';
+                elseif ( $part_word != '' ) {
+                  if ( !$comment ) { $words[] = new Token($part_word, "$lineNo:$wordStart"); }
+                  $part_word = ''; $wordStart = $charCount + 1;
+                } else {
+                    $wordStart = $charCount + 1;
+                } // else ignore it
+                if ($curChar == "\n") {
+                  $lineNo += 1;
+                  $charCount = 0;
+                  $wordStart = 1;
+                }
               }
               break;
         case "«": // list of quote chars from https://stackoverflow.com/questions/20025030/convert-all-types-of-smart-quotes-with-php

@@ -1,0 +1,11 @@
+=charge
+=charge/insect/
+abeilles?=bee
+=charge/eagle/
+aigles?=eagle
+aiglets?=alerion
+alerions?=alerion
+=charge/ship/
+ancres?=anchor
+
+

@@ -24,6 +24,7 @@ require_once "grammar.inc";
    
 class parser {
   protected $lexer;
+  protected $language;
   /**
    * @var blazonML $xmlMaker
    */
@@ -35,10 +36,15 @@ class parser {
 
   public function __construct( $language = 'english' ) {
     $this->xmlMaker = new blazonML('1.0',"utf-8");
+    $this->language = $language;
     switch ( $language ) {
       case 'english':
         include_once "english/grammar.inc";
         $this->grammar = new englishGrammar( $this->xmlMaker, $language);
+        break;
+      case 'french':
+        include_once "french/grammar.inc";
+        $this->grammar = new frenchGrammar( $this->xmlMaker, $language);
         break;
       default:
         echo 'Wah! No language found in parser';
@@ -50,7 +56,7 @@ class parser {
   {
       global $version, $jsonData;
       // set things up
-      $tokeniser = new Tokeniser();
+      $tokeniser = new Tokeniser($this->language);
       $tokenList = $tokeniser->tokenise($blazon);
       if (!is_null($jsonData)) {
           $tokenData = [];

@@ -1,0 +1,5 @@
+=ordinaire
+croix=cross
+bande=bend
+chef=chief
+chevron=

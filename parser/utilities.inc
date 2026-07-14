@@ -140,14 +140,14 @@ class blazonML extends DOMDocument {
     $this->uid = new unique();
     parent::__construct($version, $encoding);
   }
-    public function makeIDNodeFromLexeme ( string $element, Lexeme $lexeme, array $params = null ) {
+    public function makeIDNodeFromLexeme ( string $element, Lexeme $lexeme, ?array $params = null ) {
       $node = $this->makeNodeFromLexeme( $element, $lexeme, $params);
         $node->setAttribute(self::A_ID, $this->uid->getRef("N"));
         $node->setIdAttribute(self::A_ID, true);
         return $node;
     }
 
-    public function makeNodeFromLexeme ( string $element, Lexeme $lexeme, array $params = null )
+    public function makeNodeFromLexeme ( string $element, Lexeme $lexeme, ?array $params = null )
     {
         $node = parent::createElement($element);
         $node->setAttribute(self::A_KEYTERM, $lexeme->keyterm);

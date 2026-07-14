@@ -49,6 +49,9 @@ abstract class grammar
             case 'english':
                 include_once "english/lexicon.inc";
                 break;
+            case 'french':
+                include_once "french/lexicon.inc";
+                break;
             default:
                 echo 'Urgh! No language ' . $language;
                 break;
