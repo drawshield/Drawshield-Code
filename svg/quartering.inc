@@ -105,16 +105,15 @@ class Quartering
         foreach ( $children as $kid )
         {
             $index = $kid->getAttribute('index');
-            $index -= 1; // Arrays are zero based
 
             // error check
-            if (!isset($this->quarters[$index]))
+            if (!isset($this->quarters[$index - 1])) // Arrays are zero based
             {
                 ds_error_log("bad quarter index in " . $options['blazon'] );
                 continue;
             }
 
-            $quarter = $this->quarters[$index];
+            $quarter = $this->quarters[$index - 1];
             $width = $quarter->size->width;
             $height = $quarter->size->height;
 
@@ -134,7 +133,7 @@ class Quartering
                 $clipdef = add_def( 'clipPath', "<path d=\"M0,0 h$width v$height h-$width v-$height Z\" />");
                 $retval .=
                     "<g clip-path='url(#$clipdef)' $transform >"
-                    . makeshield($kid, $layout)
+                    . makeshield($kid, $layout, $index . "of" . $kid->parentNode->getAttribute("order"))
                     . "</g>\n";
             }
         }

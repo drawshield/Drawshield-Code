@@ -46,13 +46,13 @@ function getLine($node)
 }
 
 
-function makeOrdChgs($node, $layout)
+function makeOrdChgs($node, $layout, $quarter = null)
 {
     $retval = '';
     foreach ($node->childNodes as $child) {
         switch ($child->nodeName) {
             case 'ordinary':
-                $retval .= makeOrdinary($child, $layout);
+                $retval .= makeOrdinary($child, $layout, $quarter);
                 break;
             case 'division':
                 $retval .= makeDivision($child, $layout);

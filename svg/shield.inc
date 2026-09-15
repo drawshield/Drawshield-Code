@@ -15,7 +15,7 @@ This file is part of the DrawShield.net heraldry image creation program
     You should have received a copy of the GNU General Public License
     along with  DrawShield.  If not, see https://www.gnu.org/licenses/. */
 
-function makePlain(&$children, $layout)
+function makePlain(&$children, $layout, $quarter = null)
 {
     global $options;
     $retval = '';
@@ -76,7 +76,7 @@ function makePlain(&$children, $layout)
 
     if ($objects) {
         // process ordinaries and charges
-        $retval .= "<g transform='translate(0,$off)'$clip_attr>" . makeOrdChgs($objects, $layout_objects) . "</g>";
+        $retval .= "<g transform='translate(0,$off)'$clip_attr>" . makeOrdChgs($objects, $layout_objects, $quarter) . "</g>";
     }
 
 
@@ -209,7 +209,7 @@ function makedimidiated($children, $layout)
     return $retval . "<path stroke-width=\"3\" stroke=\"" . rgb('marshalling-stroke') . "\" d=\"M 499 0 v 1200\" />\n";
 }
 
-function makeshield(DOMElement &$node, $layout)
+function makeshield(DOMElement &$node, $layout, $quarter = null)
 {
     global $messages, $options;
     $unique = new unique();
@@ -247,7 +247,7 @@ function makeshield(DOMElement &$node, $layout)
         $children = $child->childNodes;
         switch ($child->nodeName) {
             case 'simple':
-                $retval .= makePlain($children, $layout);
+                $retval .= makePlain($children, $layout, $quarter);
                 break;
             case 'complex':
                 switch ($child->getAttribute('keyterm')) {

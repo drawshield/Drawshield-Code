@@ -196,10 +196,10 @@ function includeOrdinary(DOMElement &$node, $layout)
     return $ordinary;
 }
 
-function getBordurePlacements($shape, $chargeNode) {
+function getBordurePlacements($shape, $chargeNode, $quarter = null) {
     // Positions if on a bordure, default value (not very good) first
     $retval = 'x';
-    // More specific ones (better)
+    $mirror = false;
     $chargePositions = array (
         'heater-12' => '40,40,55,55:500,40:960,40:960,300:960,600:950,900:750,1080:500,1150:250,1080:50,900:40,600:40,300',
         'heater-11' => '40,40,55,55:500,40:960,40:960,300:960,600:950,900:750,1080:250,1080:50,900:40,600:40,300',
@@ -214,7 +214,33 @@ function getBordurePlacements($shape, $chargeNode) {
         'heater-2' => '960,500,55,600:40,500,55,600',
         'heater-1' => '500,40,600,55',
 
-        'french-12' => '32,32,50,50:350,32:650,30:968,32:968,300:968,600:968,900:650,1040:350,1040:32,900:32,600:32,300',
+    // More specific ones (better)
+
+        'square-12' => '40,40,55,55:346,40:654,40:960,40:960,346:960,654:960,960:654,960:346,960:40,960:40,654:40,346',
+        'square-11' => '40,40,55,55:346,40:654,40:960,40:960,346:960,654:960,960:500,960:40,960:40,654:40,346',
+        'square-10' => '40,40,55,55:346,40:654,40:960,40:960,500:960,960:654,960:346,960:40,960:40,500',
+        'square-9' =>  '40,40,55,55:346,40:654,40:960,40:960,500:960,960:500,960:40,960:40,500',
+        'square-8' => '40,40,55,55:500,40:960,40:960,500:960,960:500,960:40,960:40,500',
+        'square-7' => '40,40,55,55:500,40:960,40:960,500:960,960:40,960:40,500',
+        'square-6' => '40,40,55,55:960,40:960,500:960,960:40,1260:40,500',
+        'square-5' => '500,40,55,55:960,500,55,55:960,960:40,960:40,500',
+        'square-4' => '500,40,55,55:960,500:500,960:40,500',
+        'square-3' => '500,40,600,55:960,500,55,600:40,500,55,600',
+        'square-2' => '960,500,55,600:40,500,55,600',
+        'square-1' => '500,40,600,55',
+
+        'rightLower-12' => '346,40,55,55:654,40:960,40:960,500:900,850:600,1122:330,1257:40,1320:40,1020:40,700:40,400:40,40',
+        'rightLower-11' => '346,40,55,55:654,40:960,40:960,500:900,850:600,1122:330,1257:40,1320:40,500:40,920:40,40',
+        'rightLower-9' => '500,40,55,55:960,40:960,500:740,1042:360,1237:40,1320:40,500:40,920:40,40',
+        'rightLower-8' => '500,40,55,55:960,40:960,500:740,1042:360,1237:40,1320:40,500:40,40',
+        'rightLower-7' => '500,40,55,55:960,40:960,500:500,1182:40,1320:40,500:40,40',
+        'rightLower-6' => '960,40,55,55:960,500:500,1182:40,1320:40,500:40,40',
+        'rightLower-5' => '960,40,55,55:960,500:500,1182:40,500:40,40',
+        'rightLower-4' => '500,40,55,55:960,500:500,1182:40,500',
+        'rightLower-3' => '500,40,600,55:960,500,55,600:40,500,55,600',
+        'rightLower-2' => '960,500,55,600:40,500,55,600',
+        'rightLower-1' => '500,40,600,55',
+        
         'french-11' => '32,32,50,50:500,32:968,32:968,300:968,600:968,900:650,1040:350,1040:32,900:32,600:32,300',
         'french-10' => '350,32,50,50:650,30:968,300:968,600:968,900:650,1040:350,1040:32,900:32,600:32,300',
         'french-9' => '500,32,50,50:968,300:968,600:968,900:650,1040:350,1040:32,900:32,600:32,300',
@@ -284,9 +310,35 @@ function getBordurePlacements($shape, $chargeNode) {
 
 
     $number = $chargeNode->getAttribute(blazonML::A_NUMBER);
+    // Are we inside a quartering?
+    if (!is_null($quarter)) {
+        switch($quarter) {
+            case "4of4":
+                $shape = "rightLower";
+                break;
+            case "3of4":
+                $shape = "rightLower";
+                $mirror = true;
+                break;
+            default:
+                $shape = "square";
+                break;
+        }
+    }
     $key = $shape . '-' . $number;
     if (array_key_exists($key, $chargePositions)) {
-        $retval = str_repeat('x/',$number - 1) . $chargePositions[$key];
+        $positions = $chargePositions[$key];
+        if ($mirror) {
+            $parts = explode(":", $positions);
+            $newParts = [];
+            foreach($parts as $part) {
+                $coords = explode(',', $part);
+                $coords[0] = 1000 - $coords[0];
+                $newParts[] = implode(',', $coords);
+            }
+            $positions = implode(':', $newParts);
+        }
+        $retval = str_repeat('x/',$number - 1) . $positions;
     }
     return $retval;
 }
@@ -398,7 +450,7 @@ function getSpecial($type, $node, $layout)
 
 }
 
-function makeOrdinary(DOMElement &$node, $layout)
+function makeOrdinary(DOMElement &$node, $layout, $quarter = null)
 {
     /**
      * @var
@@ -613,7 +665,7 @@ function makeOrdinary(DOMElement &$node, $layout)
                             $onObject->appendChild(createModifierNode('chargemod', 'reversed'));
                     }
                     if ($subtype == 'bordure') {
-                        $ord_data['chargesOn'] = getBordurePlacements($layout->shape, $onObject);
+                        $ord_data['chargesOn'] = getBordurePlacements($layout->shape, $onObject, $quarter);
                     }
                     if (array_key_exists('chargesOn', $ord_data)) {
                         $onPlacement = $ord_data['chargesOn'];
