@@ -16,7 +16,6 @@ class englishGrammar extends grammar
         $achievementList = [];
         // Try to find complete shield
         $this->matcher->syncOver();
-        self::findLex(languageDB::BOT_COMMAND);
         while (true) { // This is the loop for >1 shield per achievement
             $this->matcher->syncOver();
             $preInstructions = self::drawn(); // allow shapes etc. to be given first, if required
@@ -779,7 +778,9 @@ class englishGrammar extends grammar
     {
         $phrase = self::newPhrase();
         $phrase->add(self::findLex(languageDB::SIGNIFIER));
-        if (($keyterm = self::findLex(languageDB::CHARGE_PREFIX)) != null) {
+        if ($halfCharge = self::half_charge()) {
+            return ($this->schema->makeModFromLexeme($halfCharge, languageDB::CHARGE_MODS));
+        } elseif (($keyterm = self::findLex(languageDB::CHARGE_PREFIX)) != null) {
             return ($this->schema->makeModFromLexeme($keyterm, languageDB::CHARGE_MODS));
         } elseif (($trad = $phrase->add(self::findLex(languageDB::TRADITION_PREFIX))) != null) {
             // if (is_null($phrase->add(self::findLex(languageDB::TRADITION_DESCRIPTION)))) {
@@ -796,8 +797,6 @@ class englishGrammar extends grammar
                 return null;
             }
             return ($this->schema->makeModFromLexeme($phrase->create($trad->keyterm), languageDB::TRADITION_PREFIX));
-        } elseif ($halfCharge = self::half_charge()) {
-            return ($this->schema->makeModFromLexeme($halfCharge, languageDB::CHARGE_MODS));
         }
         return null;
     }
@@ -1027,12 +1026,53 @@ class englishGrammar extends grammar
                     $foundMuch = $shownLex->keyterm;
                     break;
                 default:
-                    if ($foundMuch) $shownLex->keyterm = "$foundMuch-$keyterm";
-                    $adjustments[] = $this->schema->makeModFromLexeme($shownLex, languageDB::SHOWN_MODS, null);
+                    if (self::findLex(languageDB::SHOWN_BY)) {
+                        $number = 1;
+                        if (!self::findLex(languageDB::SIGNIFIER)) {
+                            $number = self::number();
+                        }
+                        if ($units = self::findLex(languageDB::SHOWN_UNITS)) {
+                            switch ($units->keyterm) {
+                                case "tenths":
+                                    $number /= 10;
+                                    break;
+                                case "twelths":
+                                    $number /= 12;
+                                    break;
+                                case "half":
+                                    $number /= 2;
+                                    break;
+                                case "quarters":
+                                    $number /= 4;;
+                                    break;
+                                case "thirds":
+                                    $number /= 3;
+                                    break;
+                                case "pixels":
+                                    $number /= 1000;
+                                    break;
+                                case "degrees":
+                                    // No scaling needed
+                                    break;
+                                // Other units as required - add to lexemes/artist-hints.txt
+                                default:
+                                    if ($keyterm != "rotated-dexter" && $keyterm != "rotated-sinister") {
+                                        $number /= 100;
+                                    }
+                                    break;
+                            }
+                        } else { // no units given, assume percent
+                            $number /= 100;
+                        }
+                        $adjustments[] = $this->schema->makeModFromLexeme($shownLex, languageDB::SHOWN_MODS, $number);
+                    } else {
+                        if ($foundMuch) $shownLex->keyterm = "$foundMuch-$keyterm";
+                        $adjustments[] = $this->schema->makeModFromLexeme($shownLex, languageDB::SHOWN_MODS, null);
+                    }
                     $foundMuch = false;
                     $foundShown = true;
                     break;
-            }
+                }
             $this->matcher->syncOver(languageDB::ANDD);
         }
         if (count($adjustments))

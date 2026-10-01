@@ -196,6 +196,7 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
         // Some things we don't really care about
           // english is the default tradition, so no worries if it is not found
         if (!in_array($requiredParts[$i], array('english', 'voided', 'upper', 'lower', 'half', 'demi', 'clawed',
+            'dexter', 'sinister',
             'winged', 'entire', 'head', 'leg', 'reversed', 'inverted', 'slipped', 'leaved', 'crown' ))) {
           $missing .= $requiredParts[$i] . ' ';
         }
@@ -876,7 +877,7 @@ HERE;
         $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
         $height = $half;
     }
-    else if ( existModifierWithKeyterm($node,'dexter-half') )
+    if ( existModifierWithKeyterm($node,'dexter-half') )
     {
         $half = $width / 2;
         $bounding_box->size->width -= $half;
@@ -884,7 +885,7 @@ HERE;
         $body = '<g clip-path="url(#' . $clip . ')">' . $body . '</g>';
         $width = $half;
     }
-    else if ( existModifierWithKeyterm($node,'sinister-half') )
+    if ( existModifierWithKeyterm($node,'sinister-half') )
     {
         $half = $width / 2;
         if ( $hold_point )
@@ -895,7 +896,7 @@ HERE;
         $body = '<g transform="translate(-' .  $half . ',0)" clip-path="url(#' . $clip . ')">' . $body . '</g>';
         $width = $half;
     }
-    else if ( existModifierWithKeyterm($node,'lower-half') )
+    if ( existModifierWithKeyterm($node,'lower-half') )
     {
         $half = $height / 2;
         if ( $hold_point )

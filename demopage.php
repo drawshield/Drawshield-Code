@@ -245,7 +245,7 @@ This file is part of the DrawShield.net heraldry image creation program
     echo "<input id='tincture_color' type='color' />";
     echo "<button onclick='tincture_add()'>Add</button>";
     echo "<datalist id='tincture_values'>";
-    $tinctures = load_tincures("drawshield", true, true, true, []);
+    $tinctures = loadTinctures("drawshield", true, true, true, []);
     foreach ( $tinctures as $name => $val )
         echo "<option value='$name' data-color='$val'>$name</option>";
     echo "</datalist>";

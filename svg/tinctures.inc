@@ -40,7 +40,7 @@ function readTinctureFile($filename, $prefix) {
     return $retval;
 }
 
-function load_tincures($palette, $web, $warhammer, $tartan, $custom)
+function loadTinctures($palette, $named, $warhammer, $tartan, $custom)
 {
     global $messages;
 
@@ -52,8 +52,8 @@ function load_tincures($palette, $web, $warhammer, $tartan, $custom)
     else
         $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/' . $palette . '.txt', 'heraldic'));
 
-    if ( $web )
-        $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/web.txt','web'));
+    if ( $named )
+        $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/named.txt','web'));
 
     if ( $warhammer )
         $tinctures = array_merge($tinctures, readTinctureFile(__dir__ . '/schemes/warhammer.txt', 'wh'));
@@ -76,7 +76,7 @@ function rgb($keyterm) {
 
     if (!$loaded) {
         // always read in the drawshield colours as these are the defaults for any not given
-        $tinctures = load_tincures(
+        $tinctures = loadTinctures(
             $options['palette'],
             $options['useWebColours'] == true || $options['shape'] == 'flag',
             $options['useWarhammerColours'] == true || $options['shape'] == 'pauldron',
@@ -522,7 +522,7 @@ function apply_tincture ($tinctureNode, $targetSVG, ShieldLayout $layout, Shield
                     $retval = '<g>' . $title . '<desc>Division used to fill field</desc>' . makeDivision( $data->type_node, $layout ) . '</g>';
                     break;
                 case 'ordinary':
-                    $fullSizeOrdinaries = ['cross', 'bend', 'orle', 'saltire',
+                    $fullSizeOrdinaries = ['cross', 'bend', 'orle', 'saltire', 'tierce',
                     'bordure', 'tressure', 'throughout', 'escutcheon'];
                     $butNotThese = ['bendy'];
                     $fullSize = false;

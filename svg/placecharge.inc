@@ -174,8 +174,11 @@ class PlacementHints
     public $scale_x = 1;
     public $scale_y = 1;
 
-    function adjust($keyterm)
+    function adjust($keyterm, $value = "")
     {
+        if (!empty($value)) {
+          $value = floatval($value);
+        }
         switch ( $keyterm )
         {
             // the "shown" mods
@@ -183,10 +186,14 @@ class PlacementHints
                 $this->angle = 180;
                 break;
             case 'rotated-dexter':
-                $this->angle = -18;
-                break;
             case 'rotated-sinister':
-                $this->angle = 18;
+                if (empty($value)) {
+                  $value = 18;
+                }
+                if ($keyterm == "rotated-dexter") {
+                  $value *= -1;
+                }
+                $this->angle += $value;
                 break;
             case 'slightly-rotated-dexter':
                 $this->angle = -9;
@@ -232,24 +239,40 @@ class PlacementHints
                 break;
 
             case 'smaller':
-                $this->scale_x *= 0.8;
-                $this->scale_y *= 0.8;
+                if (empty($value) || $value > 1) { 
+                  $value = 0.8;
+                }
+                $this->scale_x *= (1 - $value);
+                $this->scale_y *= (1 - $value);
                 break;
             case 'larger':
-                $this->scale_x *= 1.2;
-                $this->scale_y *= 1.2;
+                if (empty($value)) { 
+                  $value = 1.2;
+                } else {
+                  $value += 1;
+                }
+                $this->scale_x *= $value;
+                $this->scale_y *= $value;
                 break;
             case 'raised':
-                $this->offset_y -= 60;
-                break;
             case 'lowered':
-                $this->offset_y += 60;
+                if (empty($value)) {
+                  $value = 60;
+                } else {
+                  $value *= 1000;
+                }
+                if ($keyterm == "raised") { $value *= -1; }
+                $this->offset_y += $value;
                 break;
             case 'dexter':
-                $this->offset_x -= 50;
-                break;
             case 'sinister':
-                $this->offset_x += 50;
+                if (empty($value)) {
+                  $value = 50;
+                } else {
+                  $value *= 1000;
+                }
+                if ($keyterm == "dexter") { $value *= -1; }
+                $this->offset_x += $value;
                 break;
             case 'slightly-smaller':
                 $this->scale_x *= 0.9;
@@ -312,16 +335,36 @@ class PlacementHints
                 $this->offset_x += 200;
                 break;
             case 'narrower':
-                $this->scale_x *= 0.8;
+                if (empty($value)) {
+                  $value = 0.8;
+                } else {
+                  $value += 1;
+                }
+                $this->scale_x *= $value;
                 break;
             case 'shorter':
-                $this->scale_y *= 0.8;
+                if (empty($value)) {
+                  $value = 0.8;
+                } else {
+                  $value = 1 - $value;
+                }
+                $this->scale_y *= $value;
                 break;
             case 'taller':
-                $this->scale_y *= 1.2;
+                if (empty($value)) {
+                  $value = 1.2;
+                } else {
+                  $value += 1;
+                }
+                $this->scale_y *= $value;
                 break;
             case 'wider':
-                $this->scale_x *= 1.2;
+                if (empty($value)) {
+                  $value = 1.2;
+                } else {
+                  $value += 1;
+                }
+                $this->scale_x *= $value;
                 break;
             case 'much-narrower':
                 $this->scale_x *= 0.7;
@@ -393,6 +436,7 @@ function PlaceCharge ( $node,  // images
         $inArrangement = true;
       }
       $keyterm = $child->getAttribute('keyterm');
+      $value = $child->getAttribute('value');
       switch ( $keyterm ) {
         case 'inverted':
             $inverted = !$inverted;
@@ -413,7 +457,7 @@ function PlaceCharge ( $node,  // images
             break;
         // the "shown" mods
         default:
-            $hints->adjust($keyterm);
+            $hints->adjust($keyterm, $value);
             break;
       }
     } elseif ( $child->nodeName == 'tincture' ) {
@@ -583,7 +627,7 @@ function quickPlace($svg, $chargeX, $chargeY, $boundX, $boundY, $centreX, $centr
     if ($adjustments != null && count($adjustments)) {
         $hints = new PlacementHints();
         foreach ($adjustments as $adjustment) {
-            $hints->adjust($adjustment);
+            $hints->adjust($adjustment->getAttribute(blazonML::A_KEYTERM), $adjustment->getAttribute(blazonML::A_PARAM));
         }
         $boundX *= $hints->scale_x;
         $boundY *= $hints->scale_y;

@@ -84,6 +84,7 @@ if (isset($request['margin'])) $options['margin'] = intval($request['margin']);
 if (isset($request['units'])) $options['units'] = strip_tags($request['units']);
 if (isset($request['ar'])) $ar = strip_tags($request['ar']);
 if (isset($request['webcols'])) $options['useWebColours'] = $request['webcols'] == 'yes';
+if (isset($request['namedcols'])) $options['useWebColours'] = $request['namedcols'] == 'yes';
 if (isset($request['tartancols'])) $options['useTartanColours'] = $request['tartancols'] == 'yes';
 if (isset($request['whcols'])) $options['useWarhammerColours'] = $request['whcols'] == 'yes';
 if (isset($request['customPalette']) && is_array($request['customPalette'])) $options['customPalette'] = $request['customPalette'];

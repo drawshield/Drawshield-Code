@@ -105,6 +105,7 @@ class properColour {
       'chough' => self::$black,
       'crow' => self::$black,
       'pig' => self::$pink,
+      'salmon' => self::$silver,
         'tophat' => self::$black,
         'cap-of-maintenance' => self::$red,
       'raven' => self::$black,

@@ -26,7 +26,6 @@ class languageDB extends Lexicon
     const CONSISTING = 'consisting';
     const SKIP = 'skip';
     const OVERALL = 'overall';
-    const BOT_COMMAND = 'bot_command';
     const METAOVERALL = 'metaoverall';
     const SPLITS = 'splits';
     const ONFIELDOF = 'onfieldof';
@@ -96,8 +95,9 @@ class languageDB extends Lexicon
     const POINTS = 'points';
     const HALF = 'half';
     // const SUPPLEMENTARY = 'supplementary';
-    const SHOWN_EXTRA = 'shownextra';
     const SHOWN_MODS = 'shown';
+    const SHOWN_BY = 'shownby';
+    const SHOWN_UNITS = 'shownunits';
     const DRAWN_MODS = 'drawnmods';
     const DRAWN = 'drawn';
     const FONT = 'font';

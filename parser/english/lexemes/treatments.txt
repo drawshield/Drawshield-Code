@@ -36,6 +36,7 @@ fl(o|eu)ry=seme-de-lys
 vair(e|y)=vairy
 vair(e|y) [ei]n point=vairy-en-point
 potent(e|y)=potenty
+counter potent(e|y)=counter-potenty
 ai?[qg]ui?lated=aquilated
 ferrated=ferrated
 verd(e|oy)=verdy

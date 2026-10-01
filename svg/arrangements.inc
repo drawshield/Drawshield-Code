@@ -70,9 +70,18 @@ require_once('ordinaries/bend-helper.inc');
 function adjustDistance($item, $placement) {
   foreach ( $item->childNodes as $child ) {
     if ( $child->nodeName == 'modifier' ) {
+      $value = $child->getAttribute('value');
       switch ( $child->getAttribute('keyterm') ) {
         case 'further-apart':
-          $placement = adjustPlacement($placement,'-100,-100,1200,1200', false);
+          if (!empty($value)) {
+            $factor = $value * 800;
+            $topLeft = 0 - $factor;
+            $bottomRight = 1000 + $factor + $factor;
+            $limits = sprintf("%d,%d,%d,%d",$topLeft,$topLeft,$bottomRight,$bottomRight);
+          } else {
+            $limits = '-100,-100,1200,1200';
+          }
+          $placement = adjustPlacement($placement, $limits, false);
           break;
         case 'much-further-apart':
           $placement = adjustPlacement($placement,'-200,-200,1400,1400', false);
@@ -81,7 +90,15 @@ function adjustDistance($item, $placement) {
           $placement = adjustPlacement($placement,'-300,-300,1600,1600', false);
           break;
         case 'closer-together':
-           $placement = adjustPlacement($placement,'50,50,900,900', false);
+          if (!empty($value)) {
+            $factor = $value * 800;
+            $topLeft = $factor;
+            $bottomRight = 1000 - $factor - $factor;
+            $limits = sprintf("%d,%d,%d,%d",$topLeft,$topLeft,$bottomRight,$bottomRight);
+          } else {
+            $limits = '50,50,900,900';
+          }
+          $placement = adjustPlacement($placement, $limits, false);
            break;
         case 'much-closer-together':
            $placement = adjustPlacement($placement,'100,100,800,800', false);

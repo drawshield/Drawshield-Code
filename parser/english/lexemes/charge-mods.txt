@@ -1,5 +1,6 @@
 =chargemod
 # animal positions=
+abbais?se=abbaisse
 couchant=
 courant=
 coward=

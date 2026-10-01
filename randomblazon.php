@@ -312,7 +312,7 @@ $lexicon = [
     // Crowns
     "crown" => ["Open", "Antique", "Astral", "Eastern", "King of Arms'", "Mural", "Naval", "Royal",
                 "Saxon", "Vallary"],
-    "coronet" => ["Baron's", "Ducal", "Duke's", "Earl's", "Marquis'",  "Viscount's"],
+    "coronet" => ["Baron's", "Duke's", "Earl's", "Marquis'",  "Viscount's"],
     "jewels" => ["crystals", "orbs", "torques"],
     "jewel" => ["crystal", "orb", "torque"],
     "chg-crown" => [ "a {crown} Crown {base-tincture}",

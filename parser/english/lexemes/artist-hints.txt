@@ -52,3 +52,18 @@ stroke[sd]=stroked
 fancy=fancy
 in ?a fancy style=fancy
 embellished=fancy
+
+=shownby
+by=
+
+=shownunits
+points?=points
+percent=points
+tenths?=tenths
+twelths?=twelths
+hundredths?=points
+hal(f|ves)=half
+quarters?=quarters
+thirds?=thirds
+pixels?=pixels
+degrees?=degrees

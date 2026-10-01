@@ -82,7 +82,7 @@ function drawOrnament($ornamentNode)
     }
     foreach ( $ornamentNode->childNodes as $child) {
         if ($child->nodeName == blazonML::E_MODIFIER) {
-            $adjustments[] = $child->getAttribute(blazonML::A_KEYTERM);
+            $adjustments[] = $child;
         }
     }
     $rawFile = file_get_contents("svg/components/ornaments/$type.svg");
@@ -282,7 +282,7 @@ function drawMantling($mantlingNode)
         $retval['body'] = "<defs>" . implode("", $defs) . "</defs>" . $retval['body'];
     foreach ( $mantlingNode->childNodes as $child) {
         if ($child->nodeName == blazonML::E_MODIFIER) {
-            $adjustments[] = $child->getAttribute(blazonML::A_KEYTERM);
+            $adjustments[] = $child;
         }
     }
     $retval['adjustments'] = $adjustments;
@@ -319,7 +319,7 @@ function drawTorse($torseNode)
                     $colours[] = $child->firstChild->getAttribute('keyterm');
                 }
             } elseif ($child->nodeName == blazonML::E_MODIFIER) {
-                $adjustments[] = $child->getAttribute(blazonML::A_KEYTERM);
+                $adjustments[] = $child;
             }
         }
         switch (count($colours)) {
@@ -358,7 +358,7 @@ function drawMotto($mottoNode, $layout) {
     foreach($mottoNode->childNodes as $child) {
         switch($child->nodeName) {
             case 'modifier':
-                $adjustments[] = $child->getAttribute(blazonML::A_KEYTERM);
+                $adjustments[] = $child;
                 break;
             case 'colour':
                 $colour = rgb($child->getAttribute(blazonML::A_KEYTERM));
@@ -470,7 +470,7 @@ function drawCompartment($compartmentNode) {
                 }
                 break;
             case blazonML::E_MODIFIER:
-                $adjustments[] = $child->getAttribute(blazonML::A_KEYTERM);
+                $adjustments[] = $child;
                 break;
         }
     }
@@ -550,7 +550,7 @@ function drawHelmet($helmetNode) {
                     }
                     break;
                 case 'modifier':
-                    $adjustments[] = $child->getAttribute('keyterm');
+                    $adjustments[] = $child;
                     break;
                 default:
                     break;
@@ -611,7 +611,7 @@ function getAchievementParts($node, $layout) {
                         if ($colour == '') $colour = 'gray';
                         $shieldStroke = '<path fill="none" stroke-width="8" stroke="' . rgb($colour) . '" d="' . getShape($layout) . '" ></path>';
                     } else {
-                        $adjustments[] = $child->getAttribute(blazonML::A_KEYTERM);
+                        $adjustments[] = $child;
                     }
                 }
                 break;
