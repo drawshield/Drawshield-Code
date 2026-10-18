@@ -26,7 +26,7 @@ $suffix = '-of' . $num_of;
 
 
 
-$file = getBestMatchFilename(__dir__, 'estoile', $suffix);
+list($file, $penalty) = getBestMatchFilename(__dir__, 'estoile', $suffix);
 if ($file != '')
     $charge['file'] = $file;
 

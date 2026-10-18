@@ -92,6 +92,7 @@ class properColour {
       'skull' => self::$white,
       'molar' => self::$white,
       'bone' => self::$white,
+      'albatross' => self::$white,
       'snowflake' => self::$white,
       'crystal' => self::$white,
       'badger' => self::$grey,

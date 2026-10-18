@@ -228,6 +228,8 @@ cross=incross
 bar=inbar
 chief throughout=inchiefthrough
 quadrangle=quadrangle
+inward quadrangle=inward-quadrangle
+outward quadrangle=outward-quadrangle
 point=pilewise
 triangle=triangle
 

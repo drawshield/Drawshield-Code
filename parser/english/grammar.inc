@@ -769,6 +769,7 @@ class englishGrammar extends grammar
                 return null;
             } // else
             $phrase->add(self::findLex(languageDB::WORD_OF));
+            $phrase->add(self::findLex(languageDB::SIGNIFIER));
             return $phrase->create($spec->keyterm . '-' . $half->keyterm);
         }
         return null;
@@ -798,6 +799,7 @@ class englishGrammar extends grammar
             }
             return ($this->schema->makeModFromLexeme($phrase->create($trad->keyterm), languageDB::TRADITION_PREFIX));
         }
+        self::discardPhrase($phrase); // in case we ate a signifier earlier on
         return null;
     }
 
@@ -842,21 +844,23 @@ class englishGrammar extends grammar
                 return null;
             }
         }
-        $phrase2 = self::newPhrase();
+        $phrase = self::newPhrase(); // reset phrase past consumed items
         // Look for words indicating a multiple charge (e.g. "2 bundles of arrows")
-        if ($bundle = $phrase2->add(self::findLex(languageDB::BUNDLE))) {
+        if ($bundle = $phrase->add(self::findLex(languageDB::BUNDLE))) {
             // Is the number made explicit?
-            $number = $phrase2->add(self::findLex(languageDB::NUMBER));
+            $number = $phrase->add(self::findLex(languageDB::NUMBER));
             if (is_null($number)) {
                 $num = ($bundle->keyterm == 'pair') ? '2' : '3';
             } else {
                 $num = $number->keyterm;
             }
-            $mods[] = $this->schema->makeModFromLexeme($phrase2->create(languageDB::BUNDLE), languageDB::BUNDLE, $num);
+            $mods[] = $this->schema->makeModFromLexeme($phrase->create(languageDB::BUNDLE), languageDB::BUNDLE, $num);
         }
         // Look for prefixes, (e.g. "a demi-lion")
-        while (($mod = $this->charge_prefix()) != null)
+        while (($mod = $this->charge_prefix()) != null) {
             $mods[] = $mod;
+            $phrase = self::newPhrase(); // reset phrase as we consumed some input
+        }
         // Look for ordinaries that we might confuse with charges
         if (self::findLex(languageDB::ORDINARY_NOT_CHARGE)) {
             self::discardPhrase($phrase);

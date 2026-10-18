@@ -1,4 +1,5 @@
 <?php /* Copyright 2010-2021 Karl Wilcox, Mattias Basaglia
+mullet
 
 This file is part of the DrawShield.net heraldry image creation program
 
@@ -114,7 +115,7 @@ else
 
     $suffix = '-of' . $num_of . '-voided-interlaced';
 
-    $file = getBestMatchFilename(__dir__, 'mullet', rtrim($suffix,'-'));
+    list($file, $penalty) = getBestMatchFilename(__dir__, 'mullet', rtrim($suffix,'-'));
     if ($file != '')
         $charge['file'] = $file;
 }

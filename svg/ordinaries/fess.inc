@@ -52,12 +52,15 @@ if ( existModifierWithKeyterm($node,'fracted') ) {
 
     $couped_size = $layout->size->width / 10;
 
-    $couped = existModifierWithKeyterm($node,'couped');
-    if ( $couped || existModifierWithKeyterm($node, 'couped-dexter'))
+    if (existModifierWithKeyterm($node,'couped')) {
         $start = $couped_size;
-
-    if ( $couped || existModifierWithKeyterm($node, 'couped-sinister'))
-        $right = $layout->size->width - $couped_size;
+        $width = $layout->size->width - $couped_size - $couped_size;
+    } elseif ( existModifierWithKeyterm($node, 'couped-dexter')) {
+        $start = $couped_size;
+        $width = $layout->size->width - $couped_size;
+    } elseif ( existModifierWithKeyterm($node, 'couped-sinister')) {
+        $width = $width - $couped_size - $margin;
+    }
 
     $height = $layout->size->height * 0.3;
     $path_builder = new PathBuilder();

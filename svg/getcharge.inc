@@ -141,14 +141,14 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
   $doNotUseInMatch = array ('badge', 'of', 'the'); // ignore these words, no value for matching
 
   if (!is_dir($folder)) {
-    return null;
+    return array(null, 9999);
   }
 
   $dh = opendir($folder);
   if ($dh === false) {
     $messages->addMessage('internal',"Cannot open charge folder - $folder");
     $messages->addMessage('internal',"Current working dir - " . getcwd());
-    return null;
+    return array(null, 9999);
   }
   $base .= $mods;
   // ds_error_log("Testing for $base");
@@ -236,7 +236,7 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
       $messages->addMessage('warning', ' try salient instead of rampant?');
     }
   // if ($bestExtra) $messages->addMessage('other', $base . ' is also ' . $bestExtra);
-  return $bestFilename;
+  return array($bestFilename, $lowestPenalty);
 }
 
 function featuresThatAreAlsoMods($node) {
@@ -347,6 +347,10 @@ function read_chg_file(DOMElement $node) {
   // Nothing came from the inc file
   if (!array_key_exists('file', $chg_data)) {
     // Is this charge proper?
+    $file = null;
+    $penalty = 0;
+    $altFile = null;
+    $altPenalty = 0;
     $tincture = getTinctureNode($node);
     $proper =  (!is_null($tincture) && !is_null($tincture->firstChild) && $tincture->firstChild->nodeName == blazonML::E_PROPER);
     // Get a list of modifiers (and features that are also modifiers)
@@ -359,22 +363,33 @@ function read_chg_file(DOMElement $node) {
     if ($otherMods) $modList .= '-' . $otherMods;
     // if proper, look for that first (but not necessarily an error if not found)
     if ($proper) {
-      $file = getBestMatchFilename($folder . 'proper/', $chargeKey, $modList);
+      list($file, $penalty) = getBestMatchFilename($folder . 'proper/', $chargeKey, $modList);
       if ($file != '') { // found one
-        $chg_data['file'] = $file;
-        $chg_data['verbatim'] = true;
-        $folder .= '/proper/';
+        if ($penalty > 0) { // is it better to find a non-proper version?
+          list($altFile, $altPenalty) = getBestMatchFilename($folder, $chargeKey, $modList);
+          if ($penalty < $altPenalty) {
+            $chg_data['file'] = $file;
+            $chg_data['verbatim'] = true;
+            $folder .= '/proper/';
+          } else { // use the narmal file
+            $chg_data['file'] = $altFile;
+          }
+        } else {
+            $chg_data['file'] = $file;
+            $chg_data['verbatim'] = true;
+            $folder .= '/proper/';
+        }
       } 
     }
     // if not found one yet,
     if (!array_key_exists('file', $chg_data)) {
-      $file = getBestMatchFilename($folder, $chargeKey, $modList);
+      list($file, $penalty) = getBestMatchFilename($folder, $chargeKey, $modList);
       if ($file != '') {
         $chg_data['file'] = $file;
       } else {
         // try again for a proper only version
         $folder .= 'proper/';
-        $file = getBestMatchFilename($folder, $chargeKey, $modList, false);
+        list($file, $penalty) = getBestMatchFilename($folder, $chargeKey, $modList, false);
         if ($file != '') {
           $messages->addMessage('warning',"$chargeKey is only available as proper");
           $chg_data['file'] = $file;
@@ -522,7 +537,7 @@ function getChargeDownload(DOMElement $node) {
         list($group,$chargeName) = preg_split(':/:', $node->getAttribute('keyterm'));
         $folder = __dir__ . "/charges/$group";
     }
-    $file = getBestMatchFilename($folder, $chargeName, $modList, false);
+    list($file, $penalty) = getBestMatchFilename($folder, $chargeName, $modList, false);
     if ($file != '')
         return file_get_contents("$folder/$file");
     // else

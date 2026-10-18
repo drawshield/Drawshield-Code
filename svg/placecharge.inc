@@ -240,7 +240,7 @@ class PlacementHints
 
             case 'smaller':
                 if (empty($value) || $value > 1) { 
-                  $value = 0.8;
+                  $value = 0.2;
                 }
                 $this->scale_x *= (1 - $value);
                 $this->scale_y *= (1 - $value);
@@ -476,7 +476,7 @@ function PlaceCharge ( $node,  // images
     }
 
   // sometimes we can ignore the orientation as we are already "that way up"
-  if ($charge['group'] != 'quadrate' && $orientation == $situation) $orientation = null;
+  if ($charge['group'] != 'square-cross' && $orientation == $situation) $orientation = null;
 
     $shownRotation = $hints->angle;
 

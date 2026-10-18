@@ -434,6 +434,30 @@ function placement_quadruplet($boundingBox, $layout)
     ]);
 }
 
+function placement_inner_quadrangle($boundingBox, $layout)
+{
+    $center = $layout->cross_point;
+
+
+    $size = $boundingBox->size->scaled(.4);
+    $dx = $size->width / 2 + 50;
+    $dy = $size->height / 2 + 50;
+
+    $cross = [
+        new ShieldRect($center->translated(-$dx, -$dy)->rotated(45), $size),
+        new ShieldRect($center->translated($dx, -$dy), $size),
+        new ShieldRect($center->translated(-$dx, $dy), $size),
+        new ShieldRect($center->translated($dx, $dy), $size),
+    ];
+
+    return array_to_placement([
+        [],
+        [],
+        [],
+        $cross,
+        [],
+    ]);
+}
 function placement_quadrangle($boundingBox, $layout)
 {
     $center = $layout->cross_point;
@@ -800,9 +824,9 @@ function get_placement(DOMElement $item, $layout) {
     // appear nicely on a cross todo there may be more to add here.
     $forceCentre = existModifierWithKeyterm($item,'centered');
     if ($number == 1 && !($entire) && !count($pos) && ($layout->shape != 'pauldron') ) {
-        if ($group == "quadrate" || $group == 'geometric' || $group == 'characters') {
+        if ($group == "cross-square" || $group == 'geometric' || $group == 'characters') {
             $forceCentre = true;
-        } elseif ($group == "cross") {
+        } elseif ($group == "cross-long") {
             switch ($name) {
                 case "couped":
                 case "saltire":
@@ -965,7 +989,7 @@ function get_placement(DOMElement $item, $layout) {
           } elseif ( $xpath->evaluate("boolean(parent::modifier/parent::charge/modifier[@keyterm='arrangement'])",$item) ) {
             $placement = 'i';        
           } else { // Arrange on an open field
-            if ( substr($item->parentNode->parentNode->getAttribute('keyterm'),0,8) == 'quadrate' ) {// Special placement for items around a quadrate cross
+            if ( substr($item->parentNode->parentNode->getAttribute('keyterm'),0,8) == 'cross-square' ) {// Special placement for items around a square cross
                 $placement = '////300,380,160,160:700,380,160,160:300,750:700,750:500,980/';
             } else {
                 if (existModifierWithKeyterm($item,'facing-out')) {
@@ -1067,6 +1091,9 @@ function get_placement(DOMElement $item, $layout) {
             case 'quadrangle':
                 $placement = placement_quadrangle($boundingBox, $layout);
                 break;
+            case 'inward-quadrangle':
+                $placement = placement_inward_quadrangle($boundingBox, $layout);
+                break;
             default:
                 $placement = 'i';
                 break; // internal error, no placement
@@ -1074,7 +1101,7 @@ function get_placement(DOMElement $item, $layout) {
         }
 
             // If we have other charges around us (i.e. charge between charges), shrink a bit to make room
-        if ( $xpath->evaluate("boolean(modifier[@keyterm='between']/charge)",$item ) && $item->getAttribute('type') != 'quadrate' ) {
+        if ( $xpath->evaluate("boolean(modifier[@keyterm='between']/charge)",$item ) && $item->getAttribute('type') != 'cross-square' ) {
             if ( $placement == '' )
                 $placement = adjustplacement(calcPlace($item, 'w', $boundingBox), '150,150,700,700');
             else
@@ -1101,7 +1128,7 @@ function get_placement(DOMElement $item, $layout) {
             $placement = adjustplacement($placement,'400,400,200,200');
         } elseif ( $overall && !($name == 'label' && $entire)) { // like cadency, but a bit bigger, fudge for label overall, already moved
             $placement = calcPlace($item,'w',$boundingBox);
-            if ( $group == "quadrate" ) {
+            if ( $group == "cross-square" ) {
                 $placement = adjustplacement($placement,'100,66,800,800');
             }
             else {
