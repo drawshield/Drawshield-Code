@@ -138,7 +138,7 @@ function getBestMatchFilename($folder, $base, $mods, $warn = true) {
   // $wildcardMatchPenalty = 5;
   $positionWeight = 2;
 
-  $doNotUseInMatch = array ('badge', 'of', 'the'); // ignore these words, no value for matching
+  $doNotUseInMatch = array ('of', 'the', 'a', 'an', 'as', 'for', 'to'); // ignore these words, no value for matching
 
   if (!is_dir($folder)) {
     return array(null, 9999);
@@ -353,6 +353,9 @@ function read_chg_file(DOMElement $node) {
     $altPenalty = 0;
     $tincture = getTinctureNode($node);
     $proper =  (!is_null($tincture) && !is_null($tincture->firstChild) && $tincture->firstChild->nodeName == blazonML::E_PROPER);
+    if (!$proper && $group == "crown" && is_null($tincture)) { // most crowns are proper, so try that first
+      $proper = true;
+    }
     // Get a list of modifiers (and features that are also modifiers)
     $modList = '';
     $modList .= featuresThatAreAlsoMods($node);

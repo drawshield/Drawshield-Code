@@ -645,24 +645,48 @@ class englishGrammar extends grammar
             return null;
     }
 
-    public function getCommand()
-    {
+    public function getCrownCharge() {
         $phrase = self::newPhrase();
-        if (!$phrase->add(self::findLex(languageDB::COMMANDS))) {
-            self::discardPhrase($phrase);
+        $crownLex = null;
+        $crownMods = [];
+        $foundSomething = true;
+        while ( $foundSomething ) {
+            $this->matcher->syncOver(languageDB::CROWN_CONJ);
+            if ($crown = self::findLex(languageDB::CROWN_WORDS)) {
+                $crown->keyterm = "crown/" . $crown->keyterm;
+                $crown->category = languageDB::CHARGE;
+                $crownLex = $crown;
+            } elseif ($mod = self::findLex(languageDB::CROWN_TYPES)) {
+                $crownMods[] = $this->schema->makeModFromLexeme($phrase->create($mod->keyterm), languageDB::CHARGE_MODS);
+            } else {
+                $foundSomething = false;
+            }
+        }
+        if (is_null($crownLex)) {
+            self::discardPhrase($phrase);    
             return null;
-        }
-        $node = $this->schema->makeNodeFromLexeme(blazonML::E_COMMAND, $phrase->create());
-        switch ($phrase->keyterm) {
-            case 'download':
-                $charge = $this->simpleCharge(true,false,false);
-                $node->appendChild($charge);
-                break;
-            default:
-                break;
-        }
-        return $node;
+        } // else
+        return (array($crownLex, $crownMods));
     }
+
+    /* public function getCommand() */
+    /* { */
+    /*     $phrase = self::newPhrase(); */
+    /*     if (!$phrase->add(self::findLex(languageDB::COMMANDS))) { */
+    /*         self::discardPhrase($phrase); */
+    /*         return null; */
+    /*     } */
+    /*     $node = $this->schema->makeNodeFromLexeme(blazonML::E_COMMAND, $phrase->create()); */
+    /*     switch ($phrase->keyterm) { */
+    /*         case 'download': */
+    /*             $charge = $this->simpleCharge(true,false,false); */
+    /*             $node->appendChild($charge); */
+    /*             break; */
+    /*         default: */
+    /*             break; */
+    /*     } */
+    /*     return $node; */
+    /* } */
 
     public function getRoll() {
         $phrase = self::newPhrase();
@@ -871,6 +895,13 @@ class englishGrammar extends grammar
         $chargeLex = $phrase->add(self::findLex(languageDB::CHARGE_NOT_ORDINARY));
         if (is_null($chargeLex) && $chgNum->keyterm > 1) {
             $chargeLex = $phrase->add(self::findLex(languageDB::ORDINARY_OR_CHARGE));
+        }
+        if (is_null($chargeLex)) {
+            $crownCharge = self::getCrownCharge();
+            if (!is_null($crownCharge)) {
+                $mods = array_merge($mods, $crownCharge[1]);
+                $chargeLex = $phrase->add($crownCharge[0]);
+            }
         }
         if (is_null($chargeLex)) {
             $chargeLex = $phrase->add(self::findLex(languageDB::CHARGE));

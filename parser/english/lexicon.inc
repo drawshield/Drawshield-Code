@@ -148,6 +148,9 @@ class languageDB extends Lexicon
     const BACKGROUND = 'background';
     const TITLE = 'title';
     const COMMANDS = 'commands';
+    const CROWN_WORDS = 'crown-word';
+    const CROWN_TYPES = 'crown-types';
+    const CROWN_CONJ = 'crown-conj';
  #   const DISPLACED = 'displaced';
  #
     const LEXEMEDIR = 'parser/english/lexemes';

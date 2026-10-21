@@ -53,10 +53,10 @@ if ( existModifierWithKeyterm($node,'fracted') ) {
     if (existModifierWithKeyterm($node,'couped')) {
         $start = $couped_size;
         $width = $layout->size->width - $couped_size - $couped_size;
-    } elseif ( $couped || existModifierWithKeyterm($node, 'couped-dexter')) {
+    } elseif ( existModifierWithKeyterm($node, 'couped-dexter')) {
         $start = $couped_size;
         $width = $layout->size->width - $couped_size;
-    } elseif ( $couped || existModifierWithKeyterm($node, 'couped-sinister')) {
+    } elseif ( existModifierWithKeyterm($node, 'couped-sinister')) {
         $width = $width - $couped_size - $margin;
     }
 

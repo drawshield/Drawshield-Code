@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="484.52966" height="218.79938">
+  <defs>
+    <radialGradient xlink:href="#a" id="t" cx="234.72029" cy="256.17709" r="197.21098" fx="234.72029" fy="256.17709" gradientTransform="matrix(.83762 .35743 -.05423 .15071 -3.8181746 46.698286)" gradientUnits="userSpaceOnUse"/>
+    <radialGradient xlink:href="#b" id="r" cx="234.72029" cy="256.17709" r="197.21098" fx="234.72029" fy="256.17709" gradientTransform="matrix(.8791 .34448 -.05692 .14525 -17.803478 16.172344)" gradientUnits="userSpaceOnUse"/>
+    <radialGradient xlink:href="#c" id="k" cx="56.050148" cy="112.07863" r="45.931774" fx="56.050148" fy="112.07863" gradientTransform="matrix(.19174 .90472 -.34841 .07384 84.352426 52.758936)" gradientUnits="userSpaceOnUse"/>
+    <radialGradient xlink:href="#c" id="l" cx="56.050148" cy="112.07863" r="45.931774" fx="56.050148" fy="112.07863" gradientTransform="matrix(.19174 .90472 -.34841 .07384 84.352426 52.758936)" gradientUnits="userSpaceOnUse"/>
+    <radialGradient xlink:href="#c" id="j" cx="56.050148" cy="112.07863" r="45.931774" fx="56.050148" fy="112.07863" gradientTransform="matrix(.19174 .90472 -.34841 .07384 84.352426 52.758936)" gradientUnits="userSpaceOnUse"/>
+    <radialGradient xlink:href="#d" id="p" cx="483.32901" cy="114.81145" r="44.360596" fx="483.32901" fy="114.81145" gradientTransform="matrix(.24168 .2328 -.8537 .82235 464.53406 -92.486307)" gradientUnits="userSpaceOnUse"/>
+    <radialGradient xlink:href="#d" id="q" cx="483.32901" cy="114.81145" r="44.360596" fx="483.32901" fy="114.81145" gradientTransform="matrix(.24168 .2328 -.8537 .82235 464.53406 -92.486307)" gradientUnits="userSpaceOnUse"/>
+    <radialGradient xlink:href="#d" id="o" cx="483.32901" cy="114.81145" r="44.360596" fx="483.32901" fy="114.81145" gradientTransform="matrix(.24168 .2328 -.8537 .82235 464.53406 -92.486307)" gradientUnits="userSpaceOnUse"/>
+    <radialGradient xlink:href="#e" id="n" cx="383.15216" cy="95.292839" r="56.25103" fx="383.15216" fy="95.292839" gradientTransform="matrix(.36714 -.06763 .20028 1.08724 196.81118 .566479)" gradientUnits="userSpaceOnUse"/>
+    <radialGradient xlink:href="#f" id="m" cx="273.91306" cy="82.411423" r="57.393028" fx="273.91306" fy="82.411423" gradientTransform="matrix(.48836 .23674 -.45014 .9633 150.73426 -78.471255)" gradientUnits="userSpaceOnUse"/>
+    <radialGradient xlink:href="#g" id="i" cx="153.80435" cy="92.179962" r="59.674664" fx="153.80435" fy="92.179962" gradientTransform="matrix(-.27322 .03643 -.14363 -1.0772 182.48266 168.69219)" gradientUnits="userSpaceOnUse"/>
+    <linearGradient id="c">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#f2f2f2"/>
+    </linearGradient>
+    <linearGradient id="g">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#f2f2f2"/>
+    </linearGradient>
+    <linearGradient id="d">
+      <stop offset="0" stop-color="#f9f9f9"/>
+      <stop offset="1" stop-color="#f2f2f2"/>
+    </linearGradient>
+    <linearGradient id="e">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#f2f2f2"/>
+    </linearGradient>
+    <linearGradient id="f">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#f2f2f2"/>
+    </linearGradient>
+    <linearGradient id="h">
+      <stop offset="0" stop-color="red"/>
+      <stop offset=".39705935" stop-color="#f59090"/>
+      <stop offset="1" stop-color="red"/>
+    </linearGradient>
+    <linearGradient id="b">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#ececec"/>
+    </linearGradient>
+    <linearGradient id="a">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#ececec"/>
+    </linearGradient>
+    <linearGradient xlink:href="#h" id="s" x1="119.02174" x2="377.71741" y1="194.10869" y2="133.23914" gradientTransform="translate(-26.583712 -18.566286)" gradientUnits="userSpaceOnUse"/>
+  </defs>
+  <path fill="url(#i)" stroke="gray" stroke-width="2" d="M75.384658 69.256583C110.21216 60.6572 110.21216 61.08717 110.21216 61.08717l11.60916-46.866635 26.65809 38.267252 44.25458-5.589598-30.92554 31.817714 28.51554 45.600787-49.58403-20.66258-40.41709 38.26726 6.01956-51.166331z"/>
+  <g fill="url(#j)" stroke-width="2" transform="translate(-23.938209 -7.941142)">
+    <path fill="url(#k)" stroke="gray" d="m24.938209 56.989176 2.149846 69.225024 44.584214 43.62515-2.447241-35.8857 45.576732 19.54687-35.257473-41.04533 18.918642-34.827496-40.847067 15.908857z"/>
+    <path fill="url(#l)" stroke="#dcd9d9" d="m68.238563 133.52997-25.67162-9.03564"/>
+  </g>
+  <path fill="url(#m)" stroke="gray" stroke-width="2" d="m200.58454 122.14279 46.23711-27.483001 48.19051 29.113431-18.90068-50.288929 30.24178-26.586102-38.98906-2.896275L249.374 1l-17.14351 42.874028-38.6593 3.198261 28.99592 26.412002z"/>
+  <path fill="url(#n)" stroke="gray" stroke-width="2" d="m308.42792 46.898189 39.98713 4.72966 23.21833-33.537592 5.15963 38.697221L415.9202 70.54649l-32.67765 16.768799 5.53136 55.302621-37.34908-41.97358-47.09365 23.44535 25.5952-44.513838z"/>
+  <g fill="url(#o)" stroke-width="2" transform="matrix(.96317 0 0 .9999 -6.7860936 -7.3717891)">
+    <path fill="url(#p)" stroke="gray" d="m439.85841 78.487632 39.12719 14.188981 30.09784-26.228116-1.28991 71.374873-46.24818 29.80575 3.68124-25.07609-44.60249 9.27603 38.15295-36.36408z"/>
+    <path fill="url(#q)" stroke="#dcd9d9" d="m465.48681 142.5591 17.79848-4.30576"/>
+  </g>
+  <g fill-rule="evenodd" stroke="gray">
+    <path fill="url(#r)" stroke-width="2" d="M212.60681 123.40442c-31.67979 2.47193-63.483 6.44782-94.21492 14.52672-24.042506 6.32036-69.767182 26.35227-69.767182 26.35227s-1.574343 6.46537-1.252366 9.90284c.297303 3.17463 3.700167 6.79076 3.700167 6.79076s44.532595-19.41562 67.932941-25.5639c30.53742-8.02349 62.12435-12.05359 93.60136-14.52505 19.86169-1.55947 39.8983-1.61557 59.76824-.16491 31.47301 2.29777 63.13883 5.87022 93.62816 14.00844 23.69253 6.32402 68.50324 26.81937 68.50316 26.81937 0 0 3.25531-5.26307 3.53484-8.70371.28697-3.53282.48994-10.17117.48994-10.17117s-47.23972-19.29424-71.91436-25.42985c-30.82042-7.66382-62.56595-11.7096-94.24174-14.00672-19.87064-1.44102-39.90579-1.38493-59.76824.16491z"/>
+    <path fill="url(#s)" stroke-width="2" d="M215.71051 139.62331c-31.02676 2.50054-62.01641 7.25661-92.17684 14.95475-24.500801 6.25358-71.542324 25.22429-71.542324 25.22429s3.000441 8.0853 4.233019 11.48676c2.296131 6.33649 4.391771 8.82989 3.62012 7.67242 0 0 42.025685-19.81171 64.289485-26.0567 29.78048-8.35341 60.74793-12.45412 91.57654-14.95477 19.42796-1.57589 39.04732-1.57545 58.47532 0 30.83726 2.50064 61.8256 6.5577 91.60276 14.95477 22.10138 6.23252 63.77224 26.0567 63.77216 26.0567 0 0 1.54273-2.16638 1.81617-5.77214.28076-3.70234 2.18032-11.75661 2.18032-11.75661s-43.93298-20.40991-67.16836-26.85472c-30.00323-8.32202-61.16763-12.45421-92.20305-14.95475-19.42881-1.56539-39.04654-1.56582-58.47532 0z"/>
+    <path fill="url(#t)" stroke-width="2.20099998" d="M215.71959 157.96181c-30.2332 2.56628-60.59461 6.73746-89.76914 15.07287-23.03778 6.58208-66.475028 27.34299-66.475028 27.34299s-1.500054 6.70844-1.19327 10.27515c.283274 3.29398 3.525565 7.04606 3.525565 7.04606s42.306483-20.12231 64.727343-26.52499c28.99074-8.27883 59.14424-12.50532 89.18453-15.07113 18.91386-1.61548 38.02478-1.67399 56.94792-.17111 30.03424 2.38532 60.2314 6.29 89.21007 14.5351 22.84085 6.49875 65.81421 27.27537 65.81413 27.27537 0 0 2.55822-4.90865 2.82456-8.47864.27343-3.66564-.62014-10.55356-.62014-10.55356s-44.14993-20.02413-67.43393-26.3859c-29.24897-7.99155-59.56754-12.14869-89.79469-14.53332-18.92393-1.49291-38.03321-1.43443-56.94792.17111z"/>
+  </g>
+
+<metadata>
+<rdf:RDF>
+<cc:Work rdf:about="">
+<dc:format>image/svg+xml</dc:format>
+<dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+<dc:creator>
+<cc:Agent>
+<dc:title>WikiMedia Commons, file ./Coronet_of_the_College_of_Arms_Foundation_(United_States).svg</dc:title>
+</cc:Agent>
+</dc:creator>
+</cc:Work>
+</rdf:RDF>
+</metadata></svg>
