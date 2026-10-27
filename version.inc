@@ -56,4 +56,5 @@ $options = array(
   'useTartanColours' => false,
   'roll' => false,
   'language' => 'english',
+  'convert' => 'live',
 );

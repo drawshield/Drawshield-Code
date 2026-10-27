@@ -11,13 +11,14 @@ function callSharp($sourceSVG, $format = 'png', $width = 500, $height = 600) {
         'copyright' => $messages->getCredits('copyright'),
         'svg' => $sourceSVG
     );
-    if ($options['requestSource'] == 'shell') {
+    if ($options['convert'] == 'dev') {
         curl_setopt($ch, CURLOPT_URL, "http://192.168.1.10:3000/convert");
-    } else {
-        curl_setopt($ch, CURLOPT_URL, "http://localhost:3000/convert");
+    } else { // default
+        curl_setopt($ch, CURLOPT_URL, "http://drawshield.net/convert");
     }
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: multipart/form-data'));
     curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
     // curl_setopt($ch, CURLINFO_HEADER_OUT, true);
@@ -61,16 +62,25 @@ function convertImageFormat($sourceSVG, $targetFormat) {
         case 'jpg':
         case 'jpeg':
         case 'webp':
-            // $im = new Imagick();
-            // $im->readimageblob($sourceSVG);
-            // $im->setimageformat($targetFormat);
-            // $imageWidth = $options['printSize'];
-            // $imageHeight = round($imageWidth * $proportion);
-            // $im->resizeImage($imageWidth, $imageHeight, \Imagick::FILTER_LANCZOS, 1 );
-            // return $im->getimageblob();
-            $imageWidth = $options['printSize'];
-            $imageHeight = round($imageWidth * $proportion);
-            return callSharp($sourceSVG, $targetFormat, $imageWidth, $imageHeight);
+            if ($options['convert'] == 'imagick') {
+    //        if (PHP_MINOR_VERSION > 1) {
+                $im = new Imagick();
+                $im->setBackgroundColor(new ImagickPixel('transparent'));
+                $im->readimageblob($sourceSVG);
+                $imageWidth = $options['printSize'];
+                $imageHeight = round($imageWidth * $proportion);
+                $im->resizeImage($imageWidth, $imageHeight, \Imagick::FILTER_LANCZOS, 1 );
+                if ($targetFormat == 'png') {
+                    $im->setImageFormat('png32');
+                } else {
+                    $im->setImageFormat($targetFormat);
+                }
+                return $im->getimageblob();
+            } else {
+                $imageWidth = $options['printSize'];
+                $imageHeight = round($imageWidth * $proportion);
+                return callSharp($sourceSVG, $targetFormat, $imageWidth, $imageHeight);
+            }
         default:
         case 'svg': // already there
             return $sourceSVG;
